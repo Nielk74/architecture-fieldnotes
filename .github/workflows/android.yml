@@ -25,6 +25,7 @@ jobs:
       - run: node scripts/check-public.mjs
       - run: TEST_BUILT=1 npm test -- --workers=2
   android:
+    timeout-minutes: 30
     if: github.event_name != 'pull_request'
     needs: web
     runs-on: ubuntu-latest
@@ -66,9 +67,11 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
       - name: Verify native save, restart and in-place release update
+        timeout-minutes: 12
         uses: ReactiveCircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d
         with:
-          api-level: 35
+          api-level: 36
+          target: google_apis
           arch: x86_64
           profile: pixel_6
           disable-animations: true

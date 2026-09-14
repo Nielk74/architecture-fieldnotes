@@ -7,10 +7,7 @@ class="$pkg.ProgressPersistenceTest"
 adb install -r android/app/build/outputs/apk/debug/app-debug.apk
 adb install -r android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 run_test() {
-  local output
-  output=$(adb shell am instrument -w -r -e class "$class#$1" "$runner")
-  printf '%s\n' "$output"
-  if ! [[ "$output" == *"OK (1 test)"* ]]; then return 1; fi
+  python3 scripts/run-android-instrumentation.py "$1"
 }
 run_test seedProgressThroughUI
 adb shell am force-stop "$pkg"
