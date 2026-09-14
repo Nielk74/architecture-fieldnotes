@@ -1,0 +1,185 @@
+{
+  "number": 9,
+  "title": "Validation and Measurement",
+  "part": "Evaluation",
+  "subtitle": "Evaluate both the result and the path taken to produce it",
+  "summary": "Agent evaluation needs an explicit definition of success that covers the intended outcome and the constraints on obtaining it. Component tests reveal local failures, while complete conversations and tool trajectories expose mistakes that a plausible final answer can hide. The support-agent examples show why simple refunds, ambiguous requests, and multistep changes belong in a representative evaluation set. Error analysis turns failures into targeted improvements and regression cases. Cost and latency remain relevant alongside quality and safety. Integrating these checks into development and release gates gives teams evidence for promotion, with human review where automated judgments cannot resolve important ambiguity.",
+  "source": {
+    "startLine": 8458,
+    "endLine": 9144,
+    "reference": "text lines 8458–9144"
+  },
+  "concepts": [
+    {
+      "title": "Measurement goals",
+      "body": "Evaluation starts with explicit metrics tied to the task. For language agents, exact-match answers often fail to capture usefulness, so teams measure quality, safety, cost, latency, and successful completion.",
+      "example": "Teaching extension: A refund evaluation separately scores the authorized amount, successful transaction, response time, and cost. A polite confirmation does not earn task success when no refund occurred.",
+      "source": "text lines 8458-9144"
+    },
+    {
+      "title": "Trajectory metrics",
+      "body": "A trajectory includes model decisions, tool calls, observations, and final outcome. Inspecting the path can reveal a wrong tool, unnecessary loop, or unsupported step hidden by a plausible final answer.",
+      "example": "Teaching extension: An agent returns the right delivery date after calling the same paid lookup seven times. Trajectory review catches waste that an answer-only score would miss.",
+      "source": "text lines 8458-9144"
+    },
+    {
+      "title": "Evaluation sets",
+      "body": "A living set contains ordinary, ambiguous, adversarial, and edge cases. Model-generated cases can expand coverage, but humans review and refine them so the set remains a trustworthy specification.",
+      "example": "Teaching extension: The evaluation set includes straightforward refunds, ambiguous order references, canceled orders, and attempts to request another customer’s records. Reviewers check expected behavior for each category.",
+      "source": "text lines 8458-9144"
+    },
+    {
+      "title": "Lifecycle integration",
+      "body": "Evaluation belongs in development and release workflows. Baselines, regression checks, and targeted generation let teams compare changes and learn whether an improvement generalizes.",
+      "example": "Teaching extension: A new orchestration version must pass the stored multistep cancellation cases before release. A recently diagnosed production failure is added so later changes cannot silently reintroduce it.",
+      "source": "text lines 8458-9144"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Measurement goals is provided automatically by a more capable model.",
+      "correction": "Evaluation starts with explicit metrics tied to the task. For language agents, exact-match answers often fail to capture usefulness, so teams measure quality, safety, cost, latency, and successful completion."
+    },
+    {
+      "claim": "Trajectory metrics removes the need for evaluation or human judgment.",
+      "correction": "A trajectory includes model decisions, tool calls, observations, and final outcome. Inspecting the path can reveal a wrong tool, unnecessary loop, or unsupported step hidden by a plausible final answer. Evaluation and appropriate oversight remain necessary."
+    }
+  ],
+  "scenario": {
+    "title": "Support evaluation launch",
+    "context": "A new agent has a strong demo but little coverage for cancellations and ambiguous requests.",
+    "options": [
+      {
+        "label": "Build a reviewed living evaluation set before rollout",
+        "benefit": "Defines expected behavior and catches edge cases.",
+        "cost": "Launch is delayed while cases are curated.",
+        "consequence": "A cancellation case exposes an unsafe tool path before users see it."
+      },
+      {
+        "label": "Ship and use complaints as evaluation",
+        "benefit": "Gets real usage sooner.",
+        "cost": "Users bear discovery costs and feedback is uneven.",
+        "consequence": "The team cannot tell whether a later change improved quality."
+      }
+    ],
+    "debrief": "Both choices can fit different constraints. The decision should state stakes, reversibility, evidence, and who owns correction."
+  },
+  "quiz": [
+    {
+      "question": "An agent reaches a correct answer after an unauthorized action. How should it be evaluated?",
+      "options": [
+        "The trajectory fails an important constraint despite its final answer.",
+        "It is fully successful because the answer is correct.",
+        "Only the response length needs to be checked."
+      ],
+      "answer": 0,
+      "explanation": "Evaluation must examine actions and constraints, not only terminal text."
+    },
+    {
+      "question": "Why include edge cases in an evaluation set?",
+      "options": [
+        "They guarantee coverage of every possible production input.",
+        "They expose failures that average-case examples can hide.",
+        "They make representative ordinary cases unnecessary."
+      ],
+      "answer": 1,
+      "explanation": "A useful set includes expected work and consequential failure modes while acknowledging incomplete coverage."
+    },
+    {
+      "question": "What should happen when a production failure is understood?",
+      "options": [
+        "Remove similar cases from evaluation to restore the score.",
+        "Change the metric without investigating the behavior.",
+        "Add a relevant regression case and rerun it for future changes."
+      ],
+      "answer": 2,
+      "explanation": "A failure becomes useful feedback when it can prevent the same defect from silently returning."
+    }
+  ],
+  "exercise": {
+    "title": "Evaluation plan",
+    "prompt": "Create a concise artifact for the chapter workflow that makes the agent decision inspectable.",
+    "fields": [
+      {
+        "label": "Task metrics",
+        "placeholder": "Task metrics"
+      },
+      {
+        "label": "Trajectory case",
+        "placeholder": "Trajectory case"
+      },
+      {
+        "label": "Living-set update",
+        "placeholder": "Living-set update"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "n0",
+        "label": "TASKS",
+        "kind": "whiteboard",
+        "tone": "sage",
+        "x": 100,
+        "y": 80
+      },
+      {
+        "id": "n1",
+        "label": "TRAJECTORY",
+        "kind": "trace",
+        "tone": "peach",
+        "x": 270,
+        "y": 80
+      },
+      {
+        "id": "n2",
+        "label": "CASES",
+        "kind": "document",
+        "tone": "lilac",
+        "x": 100,
+        "y": 210
+      },
+      {
+        "id": "n3",
+        "label": "METRIC",
+        "kind": "gauge",
+        "tone": "honey",
+        "x": 270,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "n0",
+        "to": "n1"
+      },
+      {
+        "from": "n1",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "to": "n3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "n0",
+        "text": "Inspect tasks in the chapter workflow."
+      },
+      {
+        "node": "n1",
+        "text": "Inspect trajectory in the chapter workflow."
+      },
+      {
+        "node": "n2",
+        "text": "Inspect cases in the chapter workflow."
+      },
+      {
+        "node": "n3",
+        "text": "Inspect metric in the chapter workflow."
+      }
+    ]
+  }
+}

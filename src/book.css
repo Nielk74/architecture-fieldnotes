@@ -17,3 +17,5 @@
 .path-home{white-space:nowrap}.book-mode .course-header-tools{gap:12px}.hard-parts-path .library-hero .primary{background:#8e70a3;box-shadow:0 4px 0 #69547a}.hard-parts-path .chapter-number{background:#eee2f3;border-color:#d4bfe0;color:#9165a6}.hard-parts-path .chapter-prose .teaching-note{line-height:1.8}.hard-parts-path .book-quiz .chapter-scene{display:none}
 @media(max-width:680px){.book-mode .course-header-tools{gap:5px}.book-mode .path-home{padding:8px 5px;font-size:10px}.guided-chapter .path-home span{display:none}.book-mode .book-xp{max-width:90px}.book-mode .book-avatar{width:28px}.hard-parts-path .nav .brand{font-size:13px}.hard-parts-path .course-progress-label{font-size:9px}}
 @media(max-width:360px){.book-mode .book-avatar{display:none}.book-mode .nav{gap:5px;padding:0 9px}.book-mode .brand{font-size:14px}.guided-chapter .book-nav-button{font-size:8px}.guided-chapter .brand{font-size:12px}}
+/* Let the explanation start with its animated model on a phone. */
+@media(max-width:680px){.book-intro .book-split>.chapter-scene{grid-row:1}.book-intro .book-split>.chapter-prose{grid-row:2}}

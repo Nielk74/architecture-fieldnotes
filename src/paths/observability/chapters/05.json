@@ -1,0 +1,185 @@
+{
+  "number": 5,
+  "title": "Structured Events Are the Building Blocks of Observability",
+  "part": "Fundamentals of Observability",
+  "subtitle": "Keep one request’s context together",
+  "summary": "Structured events make later investigation possible by preserving the details of a meaningful unit of work. The chapter proposes collecting context as a request enters, executes, and exits a service, then emitting a record that associates those details with its outcome. This differs from scattering pieces across independent log lines or reducing them immediately into separate totals. Named fields enable filtering and comparison, while sufficiently wide records preserve combinations the instrumenter did not know would matter. The goal is not simply to make text look like JSON. The event must retain coherent request context at useful granularity, so an engineer can compare unusual behavior with normal behavior without reconstructing the story from disconnected fragments.",
+  "source": {
+    "startLine": 2386,
+    "endLine": 2716,
+    "reference": "text lines 2386–2716"
+  },
+  "concepts": [
+    {
+      "title": "An event represents a unit of work",
+      "body": "For the chapter’s model, an event records one request’s interaction with a service. Begin collecting context when that work starts, add relevant details as they become known, and record the outcome when it ends. This scope associates the input, execution circumstances, and result rather than leaving their relationship for a later investigator to guess.",
+      "example": "A request record holds route, tenant, selected backend, duration, and final status.",
+      "source": "text lines 2386–2716"
+    },
+    {
+      "title": "Structure enables comparison",
+      "body": "Named fields give machines stable places to find values. A duration field can be compared numerically, while a tenant field can be grouped without parsing changing message prose. Merely encoding a sentence in JSON leaves most of its useful meaning unstructured; the attributes needed for investigation must themselves be represented as fields.",
+      "example": "Use duration_ms: 820 rather than only message: request took 820 milliseconds.",
+      "source": "text lines 2386–2716"
+    },
+    {
+      "title": "Wide records retain combinations",
+      "body": "A wide event includes many attributes that describe the same request. Their joint presence lets an investigator ask whether failures depend on a particular build, user group, and backend together. If each attribute is recorded in a separate aggregate, that association may be lost even when all the individual totals are available.",
+      "example": "A rare build-region combination explains an error pattern absent from either overall breakdown.",
+      "source": "text lines 2386–2716"
+    },
+    {
+      "title": "Enrich during execution",
+      "body": "Not every useful detail is known at request entry. Authentication may discover an account, routing may select a shard, and execution may encounter a retry or error. Accumulating these facts into the event lets the final record capture what actually happened, including outcome information unavailable when the request began.",
+      "example": "The chosen shard and retry count are appended before the event is emitted.",
+      "source": "text lines 2386–2716"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Any JSON log is automatically a useful structured event.",
+      "correction": "A JSON wrapper around prose can still omit queryable fields and coherent request context."
+    },
+    {
+      "claim": "Separate counters for tenant and build preserve their relationship.",
+      "correction": "Their independent totals do not reveal which tenant and build occurred together on each request."
+    }
+  ],
+  "scenario": {
+    "title": "A pile of disconnected logs",
+    "context": "A service logs tenant, backend choice, and failure on separate lines without request identity.",
+    "options": [
+      {
+        "label": "Emit one enriched request event",
+        "benefit": "Preserves the relationship among context and outcome.",
+        "cost": "Requires collecting attributes through the request lifecycle.",
+        "consequence": "Concurrent requests remain distinguishable because each record holds its own context."
+      },
+      {
+        "label": "Add more descriptive text to each line",
+        "benefit": "Can improve readability for an individual message.",
+        "cost": "Still leaves concurrent requests difficult to correlate.",
+        "consequence": "The investigator must still guess which messages describe the same request."
+      }
+    ],
+    "debrief": "The missing information is the relationship among facts, not the volume of prose."
+  },
+  "quiz": [
+    {
+      "question": "Which event design best supports explaining a tenant-specific failure?",
+      "options": [
+        "A counter for all errors and a separate list of tenants",
+        "One prose message with a timestamp",
+        "A request record joining tenant, route, build, duration, and outcome"
+      ],
+      "answer": 2,
+      "explanation": "The joined attributes preserve the combinations needed for later investigation."
+    },
+    {
+      "question": "Why continue enriching an event after request entry?",
+      "options": [
+        "Execution reveals routing choices and outcomes that were not yet known",
+        "An exit-time record should replace the original routing context with final status",
+        "Later enrichment is mainly for reformatting the original message as readable text"
+      ],
+      "answer": 0,
+      "explanation": "A coherent record combines initial context with facts discovered during the work."
+    },
+    {
+      "question": "Which structured field supports meaningful numeric latency filtering?",
+      "options": [
+        "message: slow request",
+        "duration_ms: 820",
+        "severity: warning"
+      ],
+      "answer": 1,
+      "explanation": "A typed duration retains a value that can be compared and aggregated directly."
+    }
+  ],
+  "exercise": {
+    "title": "Sketch a wide event",
+    "prompt": "Design the record for one request from entry through completion.",
+    "fields": [
+      {
+        "label": "Known on entry",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Learned during execution",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Outcome and typed measurements",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "REQUEST",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "FIELDS",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "COMBINATIONS",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "OUTCOME",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "A request record holds route, tenant, selected backend, duration, and final status."
+      },
+      {
+        "node": "step-1",
+        "text": "Use duration_ms: 820 rather than only message: request took 820 milliseconds."
+      },
+      {
+        "node": "step-2",
+        "text": "A rare build-region combination explains an error pattern absent from either overall breakdown."
+      },
+      {
+        "node": "step-3",
+        "text": "The chosen shard and retry count are appended before the event is emitted."
+      }
+    ]
+  }
+}

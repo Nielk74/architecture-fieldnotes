@@ -1,0 +1,185 @@
+{
+  "number": 22,
+  "title": "Where to Go from Here",
+  "part": "Spreading Observability Culture",
+  "subtitle": "Carry the analysis habit into the next system",
+  "summary": "The closing chapter returns to the central capability: using rich, high-cardinality context and iterative comparison to explain unfamiliar behavior. It then points toward deeper learning in SRE, SLOs, OpenTelemetry, and distributed tracing, each covering work the book introduces but cannot exhaust. Its forward-looking discussion links portable instrumentation, richer frontend visibility, and faster developer feedback. Those predictions were written in March 2022 and should be read as historical expectations rather than verified claims about today’s tools. The enduring lesson is practical: connect code changes with their effects on real users, retain the context needed to investigate surprises, and make custom instrumentation and production learning part of ordinary development as systems and practices evolve.",
+  "source": {
+    "startLine": 9949,
+    "endLine": 10212,
+    "reference": "text lines 9949–10212"
+  },
+  "concepts": [
+    {
+      "title": "Keep the definition operational",
+      "body": "The closing definition joins data properties with a debugging practice. High cardinality and many dimensions are useful because they permit arbitrary comparisons during an unfamiliar investigation. A team should test this capability on real questions, rather than conclude that a tool name, signal inventory, or large volume of telemetry establishes observability by itself.",
+      "example": "An engineer explains an unexpected customer failure without deploying new diagnostic code first.",
+      "source": "text lines 9949–10212"
+    },
+    {
+      "title": "Choose the next depth deliberately",
+      "body": "The chapter recommends further study because observability intersects several substantial disciplines. SRE develops reliability practice, SLO material deepens measurement and alerting, and instrumentation and tracing resources explore data collection in greater detail. Select learning that addresses a current limitation so additional knowledge connects with the team’s actual operational or development work.",
+      "example": "A team with useful traces but noisy reliability alerts studies SLO design more deeply.",
+      "source": "text lines 9949–10212"
+    },
+    {
+      "title": "Frontend evidence serves different purposes",
+      "body": "Real-user monitoring observes actual interactions, while synthetic monitoring exercises scripted paths under selected conditions. Neither covers every possible user journey by itself. The chapter anticipates richer frontend observability connecting detailed experiences with exploratory investigation; distinguish that aspiration from a claim that one technique already eliminates the specific strengths and limits of the others.",
+      "example": "A synthetic checkout succeeds while a rare browser version fails for real users.",
+      "source": "text lines 9949–10212"
+    },
+    {
+      "title": "Read forecasts as dated hypotheses",
+      "body": "The authors’ March 2022 forecasts concern OpenTelemetry adoption, automatic instrumentation, frontend use, and tighter development feedback loops. These are predictions from the book’s publication context, not current product guarantees. Their durable direction is to reduce the gap between writing code and understanding its effects, with domain-specific instrumentation still necessary alongside automated coverage.",
+      "example": "Assess current capabilities separately before relying on an old forecast about automatic instrumentation.",
+      "source": "text lines 9949–10212"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "The chapter’s three-year predictions are verified descriptions of current tools.",
+      "correction": "They were written in March 2022 and require separate current verification before operational reliance."
+    },
+    {
+      "claim": "Better automatic instrumentation removes the need for custom context.",
+      "correction": "The chapter explicitly expects domain-specific instrumentation to remain essential for business logic."
+    }
+  ],
+  "scenario": {
+    "title": "A roadmap based on an old prediction",
+    "context": "A team assumes an automatic-instrumentation capability exists because the book expected it within three years.",
+    "options": [
+      {
+        "label": "Check the required capability and keep domain context explicit",
+        "benefit": "Turns a dated forecast into a testable implementation decision.",
+        "cost": "Requires evaluating the current tools and the team’s actual questions.",
+        "consequence": "The roadmap reflects demonstrated capabilities and explicit gaps in required context."
+      },
+      {
+        "label": "Treat the forecast as a product guarantee",
+        "benefit": "Avoids an initial evaluation step.",
+        "cost": "May produce missing telemetry or unsupported assumptions.",
+        "consequence": "Implementation may reach a dead end when an assumed capability is absent or incomplete."
+      }
+    ],
+    "debrief": "The historical forecast provides direction, while present capability must be demonstrated separately."
+  },
+  "quiz": [
+    {
+      "question": "How should a prediction written in March 2022 be presented today?",
+      "options": [
+        "As a capability commitment from every tool that follows the predicted standard",
+        "As a dated expectation requiring current verification",
+        "As evidence that the forecast itself establishes implementation maturity"
+      ],
+      "answer": 1,
+      "explanation": "Publication-time forecasts do not establish present capabilities."
+    },
+    {
+      "question": "A scripted checkout works but real users on a niche browser fail. What explains the difference?",
+      "options": [
+        "The synthetic result establishes the same reliability for every browser cohort",
+        "A passing script rules out application code and isolates the user’s network",
+        "The controlled path does not cover all real-world combinations"
+      ],
+      "answer": 2,
+      "explanation": "Synthetic and real-user measurements observe different populations and conditions."
+    },
+    {
+      "question": "What remains necessary even as automatic coverage improves?",
+      "options": [
+        "Context about application-specific decisions and outcomes",
+        "Only framework timing, because library hooks can infer the business decisions",
+        "More generic spans in place of attributes describing domain outcomes"
+      ],
+      "answer": 0,
+      "explanation": "Generic framework hooks cannot infer all of the business meaning needed for investigation."
+    }
+  ],
+  "exercise": {
+    "title": "Choose your next observability step",
+    "prompt": "Identify one current question you cannot answer and the skill or capability that would close that gap.",
+    "fields": [
+      {
+        "label": "Unanswered production question",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Relevant next learning area",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Evidence that the improvement worked",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "CAPABILITY",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "NEXT LEARNING",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "FRONTEND",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "2022 FORECASTS",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "An engineer explains an unexpected customer failure without deploying new diagnostic code first."
+      },
+      {
+        "node": "step-1",
+        "text": "A team with useful traces but noisy reliability alerts studies SLO design more deeply."
+      },
+      {
+        "node": "step-2",
+        "text": "A synthetic checkout succeeds while a rare browser version fails for real users."
+      },
+      {
+        "node": "step-3",
+        "text": "Assess current capabilities separately before relying on an old forecast about automatic instrumentation."
+      }
+    ]
+  }
+}

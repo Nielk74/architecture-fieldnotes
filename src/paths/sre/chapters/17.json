@@ -1,0 +1,195 @@
+{
+  "number": 17,
+  "title": "Testing for Reliability",
+  "part": "Operations",
+  "subtitle": "Use complementary tests to reduce uncertainty before and after deployment",
+  "summary": "Testing provides evidence that selected behavior remains correct after change; passing tests cannot prove that every production condition is safe. Unit, integration, and system tests cover different scopes and have different costs. Production adds configurations, dependencies, traffic, and mixed software versions that isolated tests may never exercise. Stress tests reveal limits, configuration tests detect mismatches, and canaries bound exposure while real traffic supplies additional evidence. Operational and recovery tools need testing too, particularly when they bypass normal interfaces or interact with each other. Fast feedback makes failures easier to associate with a change, while flaky tests weaken that signal. A strong strategy starts with high-value coverage, converts incidents into regressions, and treats configuration and emergency changes as part of the same reliability problem.",
+  "source": {
+    "startLine": 6433,
+    "endLine": 7220,
+    "reference": "text lines 6433–7220"
+  },
+  "concepts": [
+    {
+      "title": "Tests reduce uncertainty rather than prove perfection",
+      "body": "A test checks a particular behavior under particular conditions. Passing before and after a change provides evidence of equivalence for that case, while a failure reveals behavior needing explanation. Catching a defect before deployment can prevent any user-visible recovery interval. Coverage should reflect the importance and risk of the behavior, with fast smoke tests and incident-derived regressions offering practical starting points.",
+      "example": "Teaching extension: A release test catches a broken login path and blocks deployment before users encounter it.",
+      "source": "text lines 6433–7220"
+    },
+    {
+      "title": "Different test scopes reveal different failures",
+      "body": "Unit tests isolate small pieces, integration tests exercise component interactions, and system tests assemble larger end-to-end behavior. Production configuration tests compare intended and running state, while stress tests find resource and load limits. These scopes complement one another because mocks and isolated environments cannot represent every production dependency, resource condition, or combination of deployed binaries and configuration.",
+      "example": "Teaching extension: A function passes its unit test but a system test reveals that its serialized response is incompatible with the caller.",
+      "source": "text lines 6433–7220"
+    },
+    {
+      "title": "Canaries and probes cover deployment combinations",
+      "body": "A canary exposes a limited part of production to a new version and observes real traffic before expanding. It is controlled exposure, not a deterministic proof that all faults are absent. Production probes exercise known behaviors through actual frontends and backends. During rolling updates, old and new callers may meet old and new servers, so compatibility across those combinations matters.",
+      "example": "Teaching extension: An old probe fails against a new backend, so rollout stops before all callers encounter the incompatible behavior.",
+      "source": "text lines 6433–7220"
+    },
+    {
+      "title": "Operational tools and test feedback need engineering",
+      "body": "Automation, repair tools, and configuration changes can damage reliability even when application code is unchanged. Test their boundaries, restart behavior, and interactions; isolate risky maintenance behind barriers that prevent serving users until validation succeeds. Fast, dependable feedback helps engineers associate faults with changes. Emergency deployment can precede test completion, but tests should continue so a bad emergency change is identified quickly.",
+      "example": "Teaching extension: A repair tool refuses to modify a replica until it is isolated, and independent validation gates its return to serving.",
+      "source": "text lines 6433–7220"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A passing canary proves the release has no bugs.",
+      "correction": "It only observes limited real traffic and may miss rare inputs, timing, or version interactions."
+    },
+    {
+      "claim": "Tests can stop once an emergency change bypasses the release gate.",
+      "correction": "Continuing tests can quickly reveal mistakes in the emergency change and support another corrective action."
+    }
+  ],
+  "scenario": {
+    "title": "Expose failure before launch",
+    "context": "A storage client has never been tested against a slow disk or partial write. The next release changes retry behavior and has a large customer blast radius.",
+    "options": [
+      {
+        "label": "Inject faults in a staging environment",
+        "benefit": "The team observes recovery behavior before customers are exposed.",
+        "cost": "Fault experiments need isolation and realistic assumptions.",
+        "consequence": "A controlled partial-write test reveals a missing idempotency guard."
+      },
+      {
+        "label": "Rely on unit tests and production observation",
+        "benefit": "The release path remains fast and unit tests catch regressions.",
+        "cost": "Unseen interactions may corrupt or delay production traffic.",
+        "consequence": "Production monitoring detects the issue only after user impact."
+      }
+    ],
+    "debrief": "A controlled system-level fault test can reveal behavior that unit tests with simpler dependencies miss. Keep the experiment isolated, make failure observable, and preserve the discovered case as a regression before increasing production exposure."
+  },
+  "quiz": [
+    {
+      "question": "Why run production probes when the same request passed an isolated release test?",
+      "options": [
+        "Production may combine different frontend, backend, and configuration versions",
+        "Repeating the request guarantees complete code coverage",
+        "The isolated test result must be false"
+      ],
+      "answer": 0,
+      "explanation": "The deployed dependency combination may not be the combination used by the hermetic test."
+    },
+    {
+      "question": "A canary shows no failures. What does this establish?",
+      "options": [
+        "Every rare input is safe",
+        "The observed traffic has not exposed a fault in that limited deployment",
+        "All old clients are compatible with every future version"
+      ],
+      "answer": 1,
+      "explanation": "Canaries provide useful bounded evidence, not a proof of universal correctness."
+    },
+    {
+      "question": "A risky repair bypasses normal database operations. Which design improves safety?",
+      "options": [
+        "Let it modify any healthy replica",
+        "Skip validation to minimize repair time",
+        "Require an isolation barrier and validate before restoring service"
+      ],
+      "answer": 2,
+      "explanation": "Barriers and independent validation keep risky maintenance away from user-serving replicas."
+    }
+  ],
+  "exercise": {
+    "title": "Choose tests for a rolling migration",
+    "prompt": "A backend changes its response format while old clients remain deployed. Propose tests and a rollout gate that expose incompatible combinations before broad impact.",
+    "fields": [
+      {
+        "label": "Compatibility matrix",
+        "placeholder": "How will old and new callers exercise old and new backends?"
+      },
+      {
+        "label": "Production evidence",
+        "placeholder": "Which probes and canary observations decide whether rollout expands?"
+      },
+      {
+        "label": "Recovery tooling",
+        "placeholder": "What tests show that rollback or repair preserves data and returns a validated service?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Testing for Reliability: Fault -> Test -> Guard -> Release",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "Fault",
+        "caption": "name the condition",
+        "kind": "experiment",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "Test",
+        "caption": "choose the bounded action",
+        "kind": "shield",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "Guard",
+        "caption": "observe the consequence",
+        "kind": "gauge",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "Release",
+        "caption": "record the recovery lesson",
+        "kind": "deployment",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      },
+      {
+        "from": "learn",
+        "to": "observe",
+        "dashed": true
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "name the condition"
+      },
+      {
+        "node": "decide",
+        "text": "choose the bounded action"
+      },
+      {
+        "node": "act",
+        "text": "observe the consequence"
+      },
+      {
+        "node": "learn",
+        "text": "record the recovery lesson"
+      }
+    ]
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "number": 4,
+  "title": "How Observability Relates to DevOps, SRE, and Cloud Native",
+  "part": "The Path to Observability",
+  "subtitle": "Connect ownership, reliability, and production feedback",
+  "summary": "DevOps, SRE, and cloud-native development help explain both the need for observability and the practices that make it useful. Distributed, replaceable components make host-oriented reasoning insufficient for understanding a customer’s request. Shared responsibility for running software requires developers to see what their changes actually do. Reliability objectives then help teams decide which symptoms deserve attention, while exploration helps explain them. These relationships make observability an ongoing property of a sociotechnical system: instrumentation, access, ownership, and habits must develop together. Installing a tool does not transfer responsibility or create confidence by itself. The useful outcome is that engineers can ship, recognize customer impact, investigate unfamiliar failures, and adjust their work using production evidence.",
+  "source": {
+    "startLine": 2170,
+    "endLine": 2385,
+    "reference": "text lines 2170–2385"
+  },
+  "concepts": [
+    {
+      "title": "DevOps needs a feedback path",
+      "body": "Shared development and operational responsibility requires more than giving developers access to an alert channel. Engineers need to connect a code change with its behavior after deployment. Observability supplies that feedback, helping the people who wrote a feature investigate its real effects and incorporate what they learn into the next development decision.",
+      "example": "The feature owner compares requests before and after enabling a flag.",
+      "source": "text lines 2170–2385"
+    },
+    {
+      "title": "SRE connects symptoms to objectives",
+      "body": "Service-level objectives frame reliability in terms of outcomes the business and its users need. A symptom can justify investigation without naming its cause in advance. Observability complements this approach by allowing responders to explore affected requests and identify a mitigation, instead of requiring a separate predicted alert for every possible dependency failure.",
+      "example": "A checkout success objective triggers investigation even while every host remains reachable.",
+      "source": "text lines 2170–2385"
+    },
+    {
+      "title": "Cloud-native boundaries change diagnosis",
+      "body": "Requests in a distributed application may cross ephemeral containers, managed services, and infrastructure owned by other teams. A machine’s identity no longer provides a complete account of the user experience. Telemetry must preserve request relationships and relevant context across those boundaries so the investigation can follow work even when individual instances have disappeared.",
+      "example": "A failed request passes through three services, including a managed queue.",
+      "source": "text lines 2170–2385"
+    },
+    {
+      "title": "Practice and tooling reinforce each other",
+      "body": "Teams gain little from rich telemetry when engineers cannot use it or feel unsafe investigating production. Conversely, shared ownership without useful evidence leaves people responsible for systems they cannot explain. Observability develops through recurring investment in instrumentation and team habits, with technical capabilities and social permission supporting the same customer-facing outcome.",
+      "example": "A team pairs production investigations with access and instrumentation improvements.",
+      "source": "text lines 2170–2385"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Observability is a replacement name for SRE.",
+      "correction": "SRE includes reliability practices; observability supplies a capability those practices can use."
+    },
+    {
+      "claim": "Cloud-native observability means tracking every container individually.",
+      "correction": "Instance data can help, but request context must survive changing instances and ownership boundaries."
+    }
+  ],
+  "scenario": {
+    "title": "Ownership without visibility",
+    "context": "Developers must support a new service but depend on operations for every production query.",
+    "options": [
+      {
+        "label": "Provide scoped access and practice shared investigations",
+        "benefit": "Lets owners connect code decisions to production outcomes.",
+        "cost": "Requires training and useful instrumentation.",
+        "consequence": "Developers can follow their own changes into production and bring findings back to implementation."
+      },
+      {
+        "label": "Route every question through operations",
+        "benefit": "Uses existing expertise immediately.",
+        "cost": "Creates a bottleneck between responsibility and evidence.",
+        "consequence": "Operational questions queue behind a second team, delaying the owners’ learning."
+      }
+    ],
+    "debrief": "The team needs a feedback path that makes its operational responsibility actionable."
+  },
+  "quiz": [
+    {
+      "question": "A team pages on customer failures without predicting the failed component. What capability completes this approach?",
+      "options": [
+        "More cause-specific pages for every dependency",
+        "Exploration from affected requests to their causes",
+        "An inventory of container names alone"
+      ],
+      "answer": 1,
+      "explanation": "Symptom-based alerting depends on a way to diagnose causes after impact is detected."
+    },
+    {
+      "question": "Developers own deployments but cannot query production telemetry. What is missing?",
+      "options": [
+        "A slower release calendar",
+        "A larger on-call rotation",
+        "A practical feedback path for the responsibility they hold"
+      ],
+      "answer": 2,
+      "explanation": "Ownership is harder to exercise without evidence about production behavior."
+    },
+    {
+      "question": "Which survives the disappearance of a container most usefully?",
+      "options": [
+        "Recorded request context and relationships across services",
+        "Only its most recent CPU reading",
+        "A naming convention for replacement containers"
+      ],
+      "answer": 0,
+      "explanation": "Persisted request evidence can reconstruct behavior after ephemeral resources are gone."
+    }
+  ],
+  "exercise": {
+    "title": "Close an ownership gap",
+    "prompt": "Choose a service boundary where responsibility and visibility do not match.",
+    "fields": [
+      {
+        "label": "Who owns the user outcome",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Evidence currently inaccessible",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Change that enables investigation",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "DEVOPS",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "SRE",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "BOUNDARIES",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "TEAM PRACTICE",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "The feature owner compares requests before and after enabling a flag."
+      },
+      {
+        "node": "step-1",
+        "text": "A checkout success objective triggers investigation even while every host remains reachable."
+      },
+      {
+        "node": "step-2",
+        "text": "A failed request passes through three services, including a managed queue."
+      },
+      {
+        "node": "step-3",
+        "text": "A team pairs production investigations with access and instrumentation improvements."
+      }
+    ]
+  }
+}

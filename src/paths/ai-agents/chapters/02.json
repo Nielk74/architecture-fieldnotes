@@ -1,0 +1,185 @@
+{
+  "number": 2,
+  "title": "Designing Agent Systems",
+  "part": "Design",
+  "subtitle": "Build a narrow, measurable workflow before expanding the system",
+  "summary": "The ecommerce support example starts with a small useful task: interpret a customer request, inspect order information, choose the appropriate action, and report the result. This provides a concrete way to connect model selection, tools, context, and orchestration instead of designing an unlimited assistant. Capability must be weighed against cost, latency, and deployment constraints. Evaluation supplies feedback about whether the assembled system actually performs the intended workflow. Iterative changes and phased exposure to real users reveal ambiguity and integration failures that a demonstration can miss. Expand only after the initial slice has clear success criteria and evidence from representative cases.",
+  "source": {
+    "startLine": 1195,
+    "endLine": 2066,
+    "reference": "text lines 1195–2066"
+  },
+  "concepts": [
+    {
+      "title": "System components",
+      "body": "The chapter’s design view combines a foundation model with instructions, context, tools, memory, orchestration, and evaluation. A useful agent is therefore a system assembled around the model, not a prompt alone.",
+      "example": "Teaching extension: An order assistant combines a language model, an order lookup, a cancellation tool, and stored conversation state. Its orchestrator waits for the cancellation result before confirming success.",
+      "source": "text lines 1195-2066"
+    },
+    {
+      "title": "Model selection",
+      "body": "Choosing a model weighs capability, latency, cost, context length, modality, and deployment constraints. General pretrained models offer breadth; specialized or smaller models may be cheaper and easier to control for a narrow task.",
+      "example": "Teaching extension: Two models answer the same set of cancellation requests. The team compares incorrect actions, end-to-end latency, and cost before choosing the smaller model for the narrow workflow.",
+      "source": "text lines 1195-2066"
+    },
+    {
+      "title": "Context engineering",
+      "body": "The system must assemble relevant user input, retrieved facts, tool results, and instructions in a form the model can use. Irrelevant or conflicting context consumes limits and can steer the agent away from the task.",
+      "example": "Teaching extension: Before proposing a refund, the system supplies the current order, the applicable policy passage, and the customer’s request, leaving unrelated earlier purchases out of the context.",
+      "source": "text lines 1195-2066"
+    },
+    {
+      "title": "Evaluation loop",
+      "body": "The example agent is tested with an evaluation script and representative cases. Design proceeds by observing failures, changing one part, and rerunning checks, rather than assuming a successful demo generalizes.",
+      "example": "Teaching extension: A prompt change fixes cancellation requests but starts mishandling address changes. Rerunning both case groups exposes the regression before rollout.",
+      "source": "text lines 1195-2066"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "System components is provided automatically by a more capable model.",
+      "correction": "The chapter’s design view combines a foundation model with instructions, context, tools, memory, orchestration, and evaluation. A useful agent is therefore a system assembled around the model, not a prompt alone."
+    },
+    {
+      "claim": "Model selection removes the need for evaluation or human judgment.",
+      "correction": "Choosing a model weighs capability, latency, cost, context length, modality, and deployment constraints. General pretrained models offer breadth; specialized or smaller models may be cheaper and easier to control for a narrow task. Evaluation and appropriate oversight remain necessary."
+    }
+  ],
+  "scenario": {
+    "title": "Support architecture under budget",
+    "context": "A support agent must answer policy questions and update tickets, but model cost is capped.",
+    "options": [
+      {
+        "label": "Use a smaller executor with retrieval and evaluation",
+        "benefit": "Controls cost while grounding a narrow workflow.",
+        "cost": "More components require integration work.",
+        "consequence": "Evaluation shows the small model handles routine cases and hands edge cases to a reviewer."
+      },
+      {
+        "label": "Use one largest model for everything",
+        "benefit": "Simplifies initial assembly.",
+        "cost": "Cost and latency rise and failures remain hard to localize.",
+        "consequence": "A demo succeeds but production volume exceeds the budget."
+      }
+    ],
+    "debrief": "Both choices can fit different constraints. The decision should state stakes, reversibility, evidence, and who owns correction."
+  },
+  "quiz": [
+    {
+      "question": "A prototype’s largest model is accurate but too slow for the workflow. What should the team compare?",
+      "options": [
+        "Only the highest public benchmark score.",
+        "Only the number of parameters.",
+        "Candidate models on representative tasks, quality, latency, and cost."
+      ],
+      "answer": 2,
+      "explanation": "Model choice is a system decision: the actual task and operating constraints matter."
+    },
+    {
+      "question": "Which combination describes the core agent system?",
+      "options": [
+        "A model, tools, memory/context, and orchestration.",
+        "A prompt and an unlimited output budget.",
+        "A chat screen and a database with no action loop."
+      ],
+      "answer": 0,
+      "explanation": "The components together determine what the agent knows, can do, and how it proceeds."
+    },
+    {
+      "question": "Why define an evaluation loop while designing the prototype?",
+      "options": [
+        "It removes the need to decide what success means.",
+        "It exposes whether changes improve the intended behavior.",
+        "It guarantees that later production traffic will match the examples."
+      ],
+      "answer": 1,
+      "explanation": "Representative evaluation gives design changes a feedback signal; it is not a guarantee about unseen conditions."
+    }
+  ],
+  "exercise": {
+    "title": "System design brief",
+    "prompt": "Create a concise artifact for the chapter workflow that makes the agent decision inspectable.",
+    "fields": [
+      {
+        "label": "Components and responsibilities",
+        "placeholder": "Components and responsibilities"
+      },
+      {
+        "label": "Model choice trade-off",
+        "placeholder": "Model choice trade-off"
+      },
+      {
+        "label": "Evaluation case",
+        "placeholder": "Evaluation case"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "n0",
+        "label": "MODEL",
+        "kind": "agent",
+        "tone": "sage",
+        "x": 100,
+        "y": 80
+      },
+      {
+        "id": "n1",
+        "label": "CONTEXT",
+        "kind": "document",
+        "tone": "peach",
+        "x": 270,
+        "y": 80
+      },
+      {
+        "id": "n2",
+        "label": "TOOLS",
+        "kind": "api",
+        "tone": "lilac",
+        "x": 100,
+        "y": 210
+      },
+      {
+        "id": "n3",
+        "label": "EVAL",
+        "kind": "experiment",
+        "tone": "honey",
+        "x": 270,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "n0",
+        "to": "n1"
+      },
+      {
+        "from": "n1",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "to": "n3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "n0",
+        "text": "Inspect model in the chapter workflow."
+      },
+      {
+        "node": "n1",
+        "text": "Inspect context in the chapter workflow."
+      },
+      {
+        "node": "n2",
+        "text": "Inspect tools in the chapter workflow."
+      },
+      {
+        "node": "n3",
+        "text": "Inspect eval in the chapter workflow."
+      }
+    ]
+  }
+}

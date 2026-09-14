@@ -1,0 +1,185 @@
+{
+  "number": 5,
+  "title": "Securing and Respecting Users’ Privacy",
+  "part": "Privacy",
+  "subtitle": "Design collection, consent, retention, and deletion around user expectations",
+  "summary": "Privacy is experienced through understandable collection, meaningful consent, transparency, and control. The internal-search example demonstrates that removing names does not make sensitive queries harmless to share. Minimization reduces the amount of information exposed, while retention and deletion decisions determine how long that exposure persists. Anonymization techniques have limits when other data can reconnect records to people; stronger methods also require careful design and trade-offs. The exposure-notification case shows how architecture can reduce centralized access to sensitive information. Privacy choices must be made together with stakeholders and relevant expertise, treating protection as part of the product rather than an afterthought once data has accumulated.",
+  "source": {
+    "startLine": 3087,
+    "endLine": 3947,
+    "reference": "text lines 3087–3947"
+  },
+  "concepts": [
+    {
+      "title": "Privacy pillars",
+      "body": "From a user perspective privacy means no surprises, transparency, meaningful consent, and control. These are promises about what a person experiences, not merely properties of a database.",
+      "example": "Teaching extension: An employee-search page explains what query information is retained before collection begins and provides meaningful choices. Employees can inspect the applicable retention period without reading an internal engineering document.",
+      "source": "text lines 3087-3947"
+    },
+    {
+      "title": "Data minimization",
+      "body": "Minimization collects only data needed for a stated purpose. Less collection reduces exposure and breach impact, but may limit personalization or future analysis; the team should resist collecting “just in case.”",
+      "example": "Teaching extension: A delivery service asks for the address needed to fulfill the order but does not collect an unrelated birth date merely because it might be useful for future marketing.",
+      "source": "text lines 3087-3947"
+    },
+    {
+      "title": "Retention and deletion",
+      "body": "Retention keeps data only as long as necessary and communicates that period. Control includes deletion features and, where applicable, rights such as erasure; old copies, backups, and derived data complicate the promise.",
+      "example": "Teaching extension: A user deletes a saved search history. The team tracks deletion through replicas and documents how backup retention affects the timing of complete removal.",
+      "source": "text lines 3087-3947"
+    },
+    {
+      "title": "Anonymization limits",
+      "body": "Generalization and k-anonymity reduce identifiability by making records less unique, but auxiliary information can re-identify people, as the Netflix example illustrates. Differential privacy adds carefully calibrated noise and protects against broader attacks.",
+      "example": "Teaching extension: A dataset removes names but retains unusually precise locations and timestamps. Reviewers test whether publicly available information could reconnect those records to individuals before treating the dataset as anonymous.",
+      "source": "text lines 3087-3947"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Privacy pillars is equivalent to ordinary functional correctness.",
+      "correction": "The chapter separates this concern from “works as coded”: From a user perspective privacy means no surprises, transparency, meaningful consent, and control."
+    },
+    {
+      "claim": "A single review proves the product will remain responsible.",
+      "correction": "Users, contexts, and dependencies change; feedback, monitoring, and revision are required."
+    }
+  ],
+  "scenario": {
+    "title": "Retention for workplace search",
+    "context": "An internal search feature stores employee queries to improve ranking. Convenience is valuable, but queries can reveal health, organizing, or personal concerns.",
+    "options": [
+      {
+        "label": "Minimize and expire query data with transparency",
+        "benefit": "Reduces exposure and gives employees a clear expectation and control.",
+        "cost": "Ranking may improve more slowly and analytics lose historical detail.",
+        "consequence": "The team keeps short-lived aggregate signals, explains retention, and deletes raw queries."
+      },
+      {
+        "label": "Keep indefinite raw history",
+        "benefit": "Enables richer ranking experiments and easy forensic analysis.",
+        "cost": "A broad internal audience can infer sensitive matters from searches.",
+        "consequence": "Employees discover the feature and trust falls, forcing deletion and a difficult explanation."
+      }
+    ],
+    "debrief": "Both choices are defensible under different constraints; the responsible decision states the accepted consequence and the evidence that could change it."
+  },
+  "quiz": [
+    {
+      "question": "Which is a user-facing privacy pillar?",
+      "options": [
+        "Invisible collection",
+        "Maximum retention",
+        "No surprises"
+      ],
+      "answer": 2,
+      "explanation": "The chapter names no surprises, transparency, consent, and control."
+    },
+    {
+      "question": "What does data minimization mean?",
+      "options": [
+        "Collect only information necessary for the stated purpose.",
+        "Collect everything in case it becomes useful.",
+        "Delete the user interface after collection."
+      ],
+      "answer": 0,
+      "explanation": "Minimization reduces exposure by limiting collection to a need."
+    },
+    {
+      "question": "Why is k-anonymity not an absolute privacy guarantee?",
+      "options": [
+        "It encrypts every database automatically.",
+        "Auxiliary information can re-identify records even when direct identifiers are removed.",
+        "It prevents all statistical analysis."
+      ],
+      "answer": 1,
+      "explanation": "The Netflix example illustrates re-identification from supposedly anonymized data."
+    }
+  ],
+  "exercise": {
+    "title": "Design privacy controls",
+    "prompt": "Choose collected data and its purpose.",
+    "fields": [
+      {
+        "label": "User expectation and consent",
+        "placeholder": "User expectation and consent"
+      },
+      {
+        "label": "Minimized fields",
+        "placeholder": "Minimized fields"
+      },
+      {
+        "label": "Retention or anonymization rule",
+        "placeholder": "Retention or anonymization rule"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "n0",
+        "label": "CONSENT",
+        "kind": "listening",
+        "tone": "sage",
+        "x": 100,
+        "y": 80
+      },
+      {
+        "id": "n1",
+        "label": "MINIMIZE",
+        "kind": "database",
+        "tone": "peach",
+        "x": 270,
+        "y": 80
+      },
+      {
+        "id": "n2",
+        "label": "RETAIN",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 100,
+        "y": 210
+      },
+      {
+        "id": "n3",
+        "label": "CONTROL",
+        "kind": "shield",
+        "tone": "honey",
+        "x": 270,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "n0",
+        "to": "n1"
+      },
+      {
+        "from": "n1",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "to": "n3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "n0",
+        "text": "Examine consent using the chapter evidence."
+      },
+      {
+        "node": "n1",
+        "text": "Examine minimize using the chapter evidence."
+      },
+      {
+        "node": "n2",
+        "text": "Examine retain using the chapter evidence."
+      },
+      {
+        "node": "n3",
+        "text": "Examine control using the chapter evidence."
+      }
+    ]
+  }
+}

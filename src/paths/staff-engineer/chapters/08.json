@@ -1,0 +1,185 @@
+{
+  "number": 8,
+  "title": "Good Influence at Scale",
+  "part": "Leveling Up",
+  "subtitle": "Help others succeed beyond your immediate team",
+  "summary": "Influence at scale comes from relationships, teaching, writing, and structures that let good decisions travel. Staff engineers build bridges across teams, form coalitions, and adapt a message to stakeholders rather than relying on authority they do not possess.",
+  "source": {
+    "startLine": 8703,
+    "endLine": 9789,
+    "reference": "text lines 8703–9789"
+  },
+  "concepts": [
+    {
+      "title": "Influence",
+      "body": "Influence changes decisions through trust, evidence, and relationships when formal authority is absent. Advice works better when you understand what the other person is trying to accomplish and whether they want advice. Ask before prescribing. Trust and relevant context make a recommendation usable; seniority alone does not make it the right answer.",
+      "example": "Teaching extension: A support report and a design note persuade through evidence rather than rank.",
+      "source": "text lines 8703–9789"
+    },
+    {
+      "title": "Stakeholders",
+      "body": "Stakeholders experience different consequences and hold information needed for a workable decision. Listen for the constraints behind a position rather than treating disagreement as ignorance. Different teams may have legitimate goals that the proposed change affects differently. Understanding those needs helps you find an intervention that people can actually sustain.",
+      "example": "Teaching extension: Support, product, and engineering name different consequences of the same outage.",
+      "source": "text lines 8703–9789"
+    },
+    {
+      "title": "Teaching",
+      "body": "Teaching scales judgment by giving groups models, examples, and practice they can apply independently. Repeated individual advice can become a shared guide, workshop, or other teaching opportunity. Choose a format that lets people practice and ask questions. The purpose is to help them apply judgment later, rather than requiring your presence for each repeat problem.",
+      "example": "Teaching extension: A brown-bag session lets teams practice the new review technique.",
+      "source": "text lines 8703–9789"
+    },
+    {
+      "title": "Bridge",
+      "body": "A bridge translates between teams or disciplines while preserving the important meaning on both sides. Connect people who have complementary knowledge, and translate the context each side is missing. Often the highest-value contribution is enabling a conversation or removing an obstacle. A catalyst helps useful work happen without needing to own its eventual credit.",
+      "example": "Teaching extension: The staff engineer translates customer language into a decision the owning team can act on.",
+      "source": "text lines 8703–9789"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "a staff-plus role is mainly about applying a universal formula.",
+      "correction": "The chapter treats judgment as contextual: identify forces, listen to evidence, and adapt the response to the actual system and people."
+    },
+    {
+      "claim": "A visible activity or artifact proves the work is complete.",
+      "correction": "Completion requires a useful outcome, shared understanding, and a way to notice whether the decision worked over time."
+    }
+  ],
+  "scenario": {
+    "title": "Build influence",
+    "context": "Support reports recurring customer pain, but the owning team distrusts architecture proposals. You have no authority to mandate a redesign.",
+    "options": [
+      {
+        "label": "Listen and bridge",
+        "benefit": "Clarifies the decision and creates a workable path through the stated constraint.",
+        "cost": "Listening may reveal that the proposed technical fix is not the customer’s highest-cost problem.",
+        "consequence": "You collect support examples, invite the team into the diagnosis, and co-author a small experiment."
+      },
+      {
+        "label": "Publish a mandate",
+        "benefit": "Feels faster or safer in the immediate moment and preserves a familiar habit.",
+        "cost": "A mandate spends relationship capital and invites quiet resistance.",
+        "consequence": "The proposal may be technically sound, but the team lacks ownership and quietly routes around it."
+      }
+    ],
+    "debrief": "Both options respond to a real constraint. The stronger choice makes ownership and consequences visible, then creates a point to learn and adjust."
+  },
+  "quiz": [
+    {
+      "question": "Before giving unsolicited advice, what is a useful first step?",
+      "options": [
+        "List your most relevant achievements",
+        "Ask what the person needs and whether advice would help",
+        "Explain why their approach is wrong"
+      ],
+      "answer": 1,
+      "explanation": "Understanding the need and obtaining an opening makes advice more useful."
+    },
+    {
+      "question": "The same question repeatedly reaches you from different teams. What may scale your help?",
+      "options": [
+        "A shared teaching session with practice and examples",
+        "Answering privately forever",
+        "Requiring your approval for the task"
+      ],
+      "answer": 0,
+      "explanation": "Teaching can help many people apply the idea independently."
+    },
+    {
+      "question": "What does acting as a catalyst emphasize?",
+      "options": [
+        "Owning every resulting project",
+        "Receiving visible credit for every improvement",
+        "Connecting people or removing obstacles so useful work can happen"
+      ],
+      "answer": 2,
+      "explanation": "Influence can enable an outcome without retaining ownership of it."
+    }
+  ],
+  "exercise": {
+    "title": "Make the next move legible",
+    "prompt": "Describe a staff-level decision, the people and terrain involved, and the route by which you will learn whether it worked.",
+    "fields": [
+      {
+        "label": "Who has missing context?",
+        "placeholder": "Write the concrete facts, people, and constraint."
+      },
+      {
+        "label": "What would listening change?",
+        "placeholder": "State the choice and its trade-off."
+      },
+      {
+        "label": "How can the group own the experiment?",
+        "placeholder": "Name the evidence or conversation that will revisit it."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "listening",
+        "label": "LISTENING",
+        "kind": "listening",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "stakeholders",
+        "label": "STAKEHOLDERS",
+        "kind": "stakeholders",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "whiteboard",
+        "label": "WHITEBOARD",
+        "kind": "whiteboard",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "colleague",
+        "label": "COLLEAGUE",
+        "kind": "colleague",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "listening",
+        "to": "stakeholders"
+      },
+      {
+        "from": "stakeholders",
+        "to": "whiteboard"
+      },
+      {
+        "from": "whiteboard",
+        "to": "colleague"
+      }
+    ],
+    "steps": [
+      {
+        "node": "listening",
+        "text": "Use this listening view to make the next decision visible."
+      },
+      {
+        "node": "stakeholders",
+        "text": "Use this stakeholders view to make the next decision visible."
+      },
+      {
+        "node": "whiteboard",
+        "text": "Use this whiteboard view to make the next decision visible."
+      },
+      {
+        "node": "colleague",
+        "text": "Use this colleague view to make the next decision visible."
+      }
+    ]
+  }
+}

@@ -1,5 +1,5 @@
-Two software architecture learning paths: 24 Fundamentals chapters and 15 Hard Parts chapters, with animated illustrations, practical activities, and Pip.
+Seven learning paths, 124 chapters, and 38 animated illustration primitives, including mentoring, listening, handoffs, investigation, and agent workflows. The original Fundamentals and Hard Parts progress is retained.
 
-The APK works offline. Both paths save XP and reflections in native Android preferences. Home-page progress backups can transfer browser progress into Android.
+New paths: The Staff Engineer’s Path, Responsible Software Engineering, Site Reliability Engineering, Observability Engineering, and Building Applications with AI Agents. Compare every book in the illustrated course library, with visible XP, completion bars, topic and progress filters, and a shortcut to resume your latest lesson. Pip gains four later evolutions while keeping all original thresholds.
 
-Install this APK over a previous CI release to retain progress. Do not uninstall first. The build tests native storage restoration and an in-place upgrade before publishing. Purchased book files are excluded.
+The APK works offline and saves XP and reflections in native Android preferences. Export/import on the home page can transfer browser progress. Install updates over the existing app to retain progress. CI checks web behavior and native persistence before publishing. Purchased book files are excluded.

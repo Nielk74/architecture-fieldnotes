@@ -1,0 +1,185 @@
+{
+  "number": 7,
+  "title": "Building a Culture of Responsible Software Engineering",
+  "part": "Culture",
+  "subtitle": "Make responsible choices part of education, decisions, and incentives",
+  "summary": "Principles have little effect unless people can apply them under delivery pressure. Building responsible engineering culture combines explicit policy, practical education, a review process, and incentives that support raising concerns. Reviews need to examine benefits and harms, make adjustments, and reach a decision with accountable ownership. Measurement and feedback reveal whether these practices improve outcomes or merely add ceremony. The RESIN Challenge shows a complementary route: games and onboarding activities can make principles familiar before engineers begin projects. Bottom-up initiative can grow with leadership support, but lasting change also requires resources and ordinary workflows that turn a concern into engineering action.",
+  "source": {
+    "startLine": 4488,
+    "endLine": 5044,
+    "reference": "text lines 4488-5044"
+  },
+  "concepts": [
+    {
+      "title": "Policy and principles",
+      "body": "Policy names the values that the review must protect; a benefits classifier therefore records fairness, privacy, safety, and accountability as requirements.",
+      "example": "Teaching extension: a launch review for a benefits classifier names applicants, reviewers, and appeal owners before approving release.",
+      "source": "text lines 4488-5044"
+    },
+    {
+      "title": "Education and process",
+      "body": "Education and process make responsibility repeatable: intake, analysis, adjustment, and decision give reviewers a path through an ambiguous launch.",
+      "example": "Teaching extension: the team turns the review into an intake card, an affected-group consultation, and a documented go/no-go gate.",
+      "source": "text lines 4488-5044"
+    },
+    {
+      "title": "Incentives and ownership",
+      "body": "Incentives and ownership determine whether concerns become engineering work; leaders must assign resources and an escalation path instead of relying on slogans.",
+      "example": "Teaching extension: an engineering lead funds a privacy review and recognizes the person who found a harmful proxy feature.",
+      "source": "text lines 4488-5044"
+    },
+    {
+      "title": "Learning and measurement",
+      "body": "Learning and measurement close the loop through postmortems, consultations, user feedback, and outcome indicators that reveal whether safeguards worked.",
+      "example": "Teaching extension: a failure library records a rejected launch, its contributing conditions, and the outcome after the safeguard ships.",
+      "source": "text lines 4488-5044"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Policy and principles is equivalent to ordinary functional correctness.",
+      "correction": "The chapter separates this concern from “works as coded”: Culture begins with explicit principles such as social benefit, avoiding unfair bias, accountability, privacy, safety, and scientific excellence."
+    },
+    {
+      "claim": "A single review proves the product will remain responsible.",
+      "correction": "Users, contexts, and dependencies change; feedback, monitoring, and revision are required."
+    }
+  ],
+  "scenario": {
+    "title": "Responsible review and incentives",
+    "context": "A product group faces a deadline while its responsibility review identifies unresolved privacy and safety questions. Leaders want delivery, and engineers need a process that rewards raising concerns.",
+    "options": [
+      {
+        "label": "Fund a staged review and recognize risk work",
+        "benefit": "Creates ownership, evidence, and incentives to address issues before launch.",
+        "cost": "The launch may narrow and leadership must spend scarce attention.",
+        "consequence": "The group resolves a high-risk question, records the decision, and reuses the process for onboarding."
+      },
+      {
+        "label": "Rely on individual champions",
+        "benefit": "Keeps formal process light and may work for a small pilot.",
+        "cost": "Practice depends on personal power and can disappear when people move teams.",
+        "consequence": "The champion leaves; lessons are lost and a later team repeats the same failure."
+      }
+    ],
+    "debrief": "Both choices are defensible under different constraints; the responsible decision states the accepted consequence and the evidence that could change it."
+  },
+  "quiz": [
+    {
+      "question": "What is the purpose of a responsible review process?",
+      "options": [
+        "To investigate benefits and harms, adjust the product, and make a launch decision.",
+        "To prevent any product from ever shipping.",
+        "To transfer ownership to the review team permanently."
+      ],
+      "answer": 0,
+      "explanation": "The review connects stated principles to a product decision by investigating consequences, making changes, and deciding whether the remaining risks are acceptable."
+    },
+    {
+      "question": "What did the RESIN Challenge use to spread Google’s AI Principles?",
+      "options": [
+        "A requirement that engineers memorize source code.",
+        "Only confidential bug tickets.",
+        "Games, quizzes, and onboarding activities."
+      ],
+      "answer": 2,
+      "explanation": "The RESIN Challenge used games and onboarding activities to help employees recognize and apply Google’s AI Principles before starting projects."
+    },
+    {
+      "question": "Which measure can help assess responsible culture?",
+      "options": [
+        "Only the number of features shipped.",
+        "Proactive consultations, postmortems, user feedback, and relevant outcome indicators.",
+        "A single annual slogan survey with no follow-up."
+      ],
+      "answer": 1,
+      "explanation": "Consultations, incident learning, user reports, and outcome measures show whether responsible practices affect real work; delivery volume alone cannot establish that."
+    }
+  ],
+  "exercise": {
+    "title": "Build culture into process",
+    "prompt": "Choose a team practice for responsible engineering.",
+    "fields": [
+      {
+        "label": "Owner and review stage",
+        "placeholder": "Owner and review stage"
+      },
+      {
+        "label": "Incentive or resource",
+        "placeholder": "Incentive or resource"
+      },
+      {
+        "label": "Learning and outcome measure",
+        "placeholder": "Learning and outcome measure"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "n0",
+        "label": "POLICY",
+        "kind": "document",
+        "tone": "sage",
+        "x": 100,
+        "y": 80
+      },
+      {
+        "id": "n1",
+        "label": "TRAINING",
+        "kind": "colleague",
+        "tone": "peach",
+        "x": 270,
+        "y": 80
+      },
+      {
+        "id": "n2",
+        "label": "PROCESS",
+        "kind": "whiteboard",
+        "tone": "lilac",
+        "x": 100,
+        "y": 210
+      },
+      {
+        "id": "n3",
+        "label": "LEARNING",
+        "kind": "experiment",
+        "tone": "honey",
+        "x": 270,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "n0",
+        "to": "n1"
+      },
+      {
+        "from": "n1",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "to": "n3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "n0",
+        "text": "The policy node names the values and affected people before a product decision."
+      },
+      {
+        "node": "n1",
+        "text": "The process node turns those values into intake, analysis, adjustment, and a decision."
+      },
+      {
+        "node": "n2",
+        "text": "The learning node records failures, feedback, and measures for the next review."
+      },
+      {
+        "node": "n3",
+        "text": "The ownership node assigns resources and escalation so concerns become action."
+      }
+    ]
+  }
+}

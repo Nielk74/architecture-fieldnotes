@@ -1,0 +1,190 @@
+{
+  "number": 27,
+  "title": "Reliable Product Launches at Scale",
+  "part": "Data systems",
+  "subtitle": "Coordinate launch risks before exposing users to them",
+  "summary": "A reliable launch requires more than production code: traffic spikes, client behavior, dependencies, rollout order, and hard external deadlines can combine into unfamiliar risks. Google’s Launch Coordination Engineers bring experience across products, connect stakeholders, and turn common failure lessons into practical review questions. The checklist must remain short enough to use, concrete enough to act on, and adaptable to novel products. Architecture and capacity reviews include downstream demand, while load tests establish behavior beyond ordinary traffic. Gradual rollouts, feature flags, and rollback plans make exposure controllable. Shared infrastructure simplifies common requirements. Launch coordination helps teams change safely, but it cannot by itself solve long-term architectural limits, growing toil, or disruptive infrastructure churn after launch.",
+  "source": {
+    "startLine": 12623,
+    "endLine": 13347,
+    "reference": "text lines 12623–13347"
+  },
+  "concepts": [
+    {
+      "title": "Launch coordination as technical integration",
+      "body": "A launch coordinator connects teams whose individual plans interact: product development, SRE, infrastructure owners, and other stakeholders. Cross-product experience helps identify overlooked dependencies and make reliability risks explicit. The role combines technical review, follow-through, education, and a decision about readiness. Its value comes from helping a launch converge safely, not simply collecting approvals at the end of development.",
+      "example": "Teaching extension: A public event’s expected traffic is translated into requests to an imagery dependency whose owners were not initially on the launch plan.",
+      "source": "text lines 12623–13347"
+    },
+    {
+      "title": "A curated, actionable checklist",
+      "body": "A useful launch checklist records consequential questions and directs teams toward practical actions or established infrastructure. Each item needs a reason to exist, ideally grounded in an observed failure. Reviewers remove obsolete requirements and adapt the underlying intent for unfamiliar products. Common low-risk launches can take a shorter path, preserving attention for launches whose architecture or exposure creates greater uncertainty.",
+      "example": "Teaching extension: A question about abuse protection links to the supported quota system instead of requiring each team to invent one.",
+      "source": "text lines 12623–13347"
+    },
+    {
+      "title": "Staged exposure and feature controls",
+      "body": "Gradual rollout exposes a limited population first, observes behavior, and expands only after validation. Feature flags can separate code delivery from feature activation and permit independent reversal of a problematic feature. This is particularly useful for installed clients that cannot be replaced instantly. Rollout planning still needs clear owners, ordering, observation periods, and contingencies for an external deadline.",
+      "example": "Teaching extension: An app ships dormant functionality, then a server-controlled flag enables it for a small population while backend demand is observed.",
+      "source": "text lines 12623–13347"
+    },
+    {
+      "title": "Launch load and client behavior",
+      "body": "Publicity can produce traffic far above normal demand, and automated clients can multiply backend load without an increase in user count. Capacity planning should include request fan-out, redundancy, dependency capacity, and acquisition lead times. Load tests must examine overload behavior. Jittered schedules and bounded, backed-off retries prevent synchronized clients from turning a short service disruption into repeated traffic spikes.",
+      "example": "Teaching extension: Changing a mobile sync interval from ten minutes to one minute increases its periodic request load tenfold.",
+      "source": "text lines 12623–13347"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A complete launch checklist makes ongoing reliability work unnecessary.",
+      "correction": "Scaling limits, operational load, and infrastructure churn still require sustained engineering after release."
+    },
+    {
+      "claim": "Deploying the binary and enabling the feature must happen together.",
+      "correction": "Feature controls can separate delivery from activation and allow narrower exposure or reversal."
+    }
+  ],
+  "scenario": {
+    "title": "Launch a feature with evidence",
+    "context": "A new checkout flow has unknown traffic mix and a hard capacity limit. Marketing has announced a launch date, while support needs a rollback path.",
+    "options": [
+      {
+        "label": "Canary by cohort with capacity gates",
+        "benefit": "Exposure grows only after user and capacity signals are healthy.",
+        "cost": "Cohort setup and monitoring add release work.",
+        "consequence": "The team pauses at the gate when tail latency rises and fixes the bottleneck."
+      },
+      {
+        "label": "Enable for everyone at the announced time",
+        "benefit": "The launch is simple and reaches the whole market immediately.",
+        "cost": "A bad assumption creates a broad incident before rollback.",
+        "consequence": "The global launch saturates the service and support handles a surge."
+      }
+    ],
+    "debrief": "A cohort limits the first exposure and supplies evidence about the real traffic mix. Expansion requires capacity headroom and healthy user outcomes, while named owners and a tested reversal path keep a deadline from becoming an uncontrolled global launch."
+  },
+  "quiz": [
+    {
+      "question": "What makes a launch checklist item useful?",
+      "options": [
+        "Its ability to cover every imaginable incident",
+        "A consequential risk paired with a concrete feasible action",
+        "Its preservation of the same requirements across every product type"
+      ],
+      "answer": 1,
+      "explanation": "Checklist curation balances demonstrated value with developer effort."
+    },
+    {
+      "question": "Why can a client release overload a backend without attracting new users?",
+      "options": [
+        "It may increase automatic request frequency or retry volume",
+        "Installed clients can only generate requests when users click",
+        "Feature flags require all clients to reconnect continuously"
+      ],
+      "answer": 0,
+      "explanation": "Client behavior can change request demand independently of population size."
+    },
+    {
+      "question": "Which technique allows a problematic feature to be disabled without replacing every installed client immediately?",
+      "options": [
+        "A rollback package prepared for the next app-store release",
+        "A staged server rollout with no client-side activation control",
+        "A previously designed server-controlled feature flag"
+      ],
+      "answer": 2,
+      "explanation": "The control must already be built into the client and launch design."
+    }
+  ],
+  "exercise": {
+    "title": "Specify a launch gate",
+    "prompt": "Prepare a staged launch for a feature with uncertain demand and a public deadline.",
+    "fields": [
+      {
+        "label": "Dependencies",
+        "placeholder": "What does each user action demand from every critical downstream service?"
+      },
+      {
+        "label": "Exposure and gates",
+        "placeholder": "Which cohort goes first, what is observed, and what permits expansion?"
+      },
+      {
+        "label": "Contingency",
+        "placeholder": "Who can stop or reverse the launch, and what happens if the deadline cannot be met safely?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Specify a launch gate",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "Review",
+        "caption": "Launch risks",
+        "kind": "document",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "Canary",
+        "caption": "Limited exposure",
+        "kind": "deployment",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "Gate",
+        "caption": "Capacity evidence",
+        "kind": "gauge",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "Rollout",
+        "caption": "Staged expansion",
+        "kind": "router",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "Identify architecture, dependency, capacity, and client risks."
+      },
+      {
+        "node": "decide",
+        "text": "Expose a small cohort and observe real behavior."
+      },
+      {
+        "node": "act",
+        "text": "Compare user outcomes and resource headroom with launch criteria."
+      },
+      {
+        "node": "learn",
+        "text": "Expand in stages or reverse the feature when criteria fail."
+      }
+    ]
+  }
+}

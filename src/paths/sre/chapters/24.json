@@ -1,0 +1,190 @@
+{
+  "number": 24,
+  "title": "Distributed Periodic Scheduling with Cron",
+  "part": "Distributed systems",
+  "subtitle": "Make each scheduled launch identifiable and recoverable",
+  "summary": "Moving cron from one machine to a distributed service introduces a difficult question: after a failure, did a scheduled job actually launch? Different jobs tolerate missed or duplicate launches differently, and irreversible side effects make duplication especially dangerous. Google’s design uses replicated scheduler state and one elected leader, which records launch boundaries synchronously before and after contacting the datacenter scheduler. Each occurrence has an identity including its scheduled time. A successor can reconcile unfinished launches only if external operations are idempotent or their outcomes can be inspected reliably. Replication and snapshots preserve scheduling state, while limited dependencies support availability. Reliable scheduling therefore requires more than a calendar and failover; it requires explicit semantics for partially completed work.",
+  "source": {
+    "startLine": 10802,
+    "endLine": 11198,
+    "reference": "text lines 10802–11198"
+  },
+  "concepts": [
+    {
+      "title": "Launch semantics and idempotency",
+      "body": "An idempotent operation can be repeated without changing the intended result beyond its first successful execution. Some periodic jobs tolerate both repetition and an occasional omission; others, such as sending a newsletter, cannot safely run twice. The scheduler must understand which risk matters. The chapter generally prefers a missed launch over an ambiguous duplicate, with job owners monitoring outcomes and choosing appropriate recovery.",
+      "example": "Teaching extension: A repeated cleanup is harmless, but a second newsletter send reaches every recipient again.",
+      "source": "text lines 10802–11198"
+    },
+    {
+      "title": "Synchronous replicated launch state",
+      "body": "Only the elected leader launches jobs. Before contacting the external scheduler, it synchronously records the beginning of a particular launch through consensus; afterward it records completion of the launch attempt. Followers retain enough state to identify unfinished work after failover. The old leader must stop interacting with the scheduler when leadership ends, or two leaders could act on the same occurrence.",
+      "example": "Teaching extension: A replacement leader sees that the 09:00 launch started but never received a completion record.",
+      "source": "text lines 10802–11198"
+    },
+    {
+      "title": "Reconciling partial external operations",
+      "body": "Replicating an intention does not make its external side effect atomic. A leader can crash after submitting a job but before recording success. Recovery therefore needs idempotent operations or a reliable way to inspect their outcomes. Precomputed job names containing the scheduled occurrence allow the successor to find completed or running work and launch only the missing pieces.",
+      "example": "Teaching extension: The new leader looks up report-0900 before submitting it, distinguishing that occurrence from yesterday’s completed report.",
+      "source": "text lines 10802–11198"
+    },
+    {
+      "title": "State durability and dependency design",
+      "body": "A replicated operation log preserves recent scheduler decisions, while snapshots compact accumulated history and make reconstruction practical. The design stores small critical state with the cron service and protects snapshots separately, reducing reliance on general-purpose storage during normal operation. Replica placement must cover relevant failure domains, and recovery speed matters because a technically successful but late failover can still miss frequent schedules.",
+      "example": "Teaching extension: A scheduler snapshot plus later log entries reconstructs pending launches without replaying the service’s entire lifetime.",
+      "source": "text lines 10802–11198"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Consensus alone guarantees every external job executes exactly once.",
+      "correction": "External submission can fail partway; recovery still needs idempotency or unambiguous outcome lookup."
+    },
+    {
+      "claim": "The job name alone uniquely identifies a cron launch.",
+      "correction": "A recurring job has many occurrences, so its scheduled time or equivalent occurrence identifier must be included."
+    }
+  ],
+  "scenario": {
+    "title": "Reconcile a billing launch",
+    "context": "A scheduler leader submits the 09:00 billing job, then fails before recording completion. The external scheduler can look up jobs by a unique occurrence identifier.",
+    "options": [
+      {
+        "label": "Look up the recorded occurrence before continuing",
+        "benefit": "The successor can distinguish existing work from a missing submission.",
+        "cost": "External outcome lookup must be reliable and include completed jobs.",
+        "consequence": "The new leader finds billing-0900 and avoids submitting that occurrence again."
+      },
+      {
+        "label": "Submit again whenever completion is missing",
+        "benefit": "This quickly covers submissions that genuinely never happened.",
+        "cost": "A missing local completion record does not prove no external job ran.",
+        "consequence": "The same billing occurrence may execute twice and produce duplicate effects."
+      }
+    ],
+    "debrief": "A durable schedule is insufficient when submission can succeed just before the leader fails. Identify each occurrence and reconcile the external result; a concurrency lock alone does not prevent a completed billing run from being charged again later."
+  },
+  "quiz": [
+    {
+      "question": "Why must launch intent reach a quorum before the external submission?",
+      "options": [
+        "To ensure a successor knows the attempt may already have occurred",
+        "To ensure the external job finishes before the scheduled launch is acknowledged",
+        "To let any follower submit the job without first becoming leader"
+      ],
+      "answer": 0,
+      "explanation": "Otherwise failover can repeat an invisible launch."
+    },
+    {
+      "question": "A leader crashes after submission but before recording completion. What enables safe reconciliation?",
+      "options": [
+        "Assuming every timeout means no submission happened",
+        "Waiting exactly one scheduling interval",
+        "An idempotent submission or reliable lookup of that occurrence"
+      ],
+      "answer": 2,
+      "explanation": "The scheduler needs evidence about the external effect, not merely its own log."
+    },
+    {
+      "question": "Why include scheduled time in a launched job’s identity?",
+      "options": [
+        "To require the external scheduler to execute all jobs in time order",
+        "To distinguish separate occurrences of the same recurring job",
+        "To prevent duplicate application effects without outcome lookup"
+      ],
+      "answer": 1,
+      "explanation": "Occurrence identity prevents confusion between an earlier completion and an unfinished current launch."
+    }
+  ],
+  "exercise": {
+    "title": "Recover an ambiguous launch",
+    "prompt": "A scheduler leader fails after submitting a recurring job but before logging completion. Describe the evidence its successor needs before acting.",
+    "fields": [
+      {
+        "label": "Occurrence ID",
+        "placeholder": "How does the identifier distinguish this scheduled run from earlier runs?"
+      },
+      {
+        "label": "Replicated state",
+        "placeholder": "What launch boundaries were recorded before and after external submission?"
+      },
+      {
+        "label": "Reconciliation",
+        "placeholder": "Is resubmission idempotent, or can the successor reliably look up the outcome?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Recover an ambiguous launch",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "Occurrence",
+        "caption": "Unique launch ID",
+        "kind": "clock",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "Intent",
+        "caption": "Replicated intent",
+        "kind": "document",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "Scheduler",
+        "caption": "External submission",
+        "kind": "service",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "Outcome",
+        "caption": "Reconciled outcome",
+        "kind": "database",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "Identify the job and its scheduled time."
+      },
+      {
+        "node": "decide",
+        "text": "Record the beginning of the launch through consensus."
+      },
+      {
+        "node": "act",
+        "text": "Submit the job using an identifiable external operation."
+      },
+      {
+        "node": "learn",
+        "text": "Record completion or reconcile the unfinished operation after failover."
+      }
+    ]
+  }
+}

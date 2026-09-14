@@ -1,0 +1,185 @@
+{
+  "number": 14,
+  "title": "Observability and the Software Supply Chain",
+  "part": "Observability for Teams",
+  "subtitle": "Trace the build system as a distributed service",
+  "summary": "Slack’s software supply-chain case applies observability to the path from code change through testing and deployment. At scale, this path contains interacting services, runners, queues, and test workloads, so unexplained build delays and flaky failures resemble production debugging problems. Shared instrumentation libraries and rich span dimensions make those interactions searchable. Engineers can distinguish queueing from execution, associate failures with commits or test suites, and investigate what changed instead of treating a red CI result as a complete explanation. Links from familiar workflow surfaces help people reach the relevant evidence. The chapter’s contribution is operational visibility into delivery infrastructure: teams can test hypotheses, apply changes, and verify recovery using the same exploratory practices employed for customer-facing systems.",
+  "source": {
+    "startLine": 5812,
+    "endLine": 6225,
+    "reference": "text lines 5812–6225"
+  },
+  "concepts": [
+    {
+      "title": "CI is also a distributed system",
+      "body": "A build may coordinate webhooks, schedulers, worker fleets, test services, and deployment machinery. Its final status compresses many interactions and cannot explain every delay or failure. Instrumenting this path as connected operations reveals where work waited or failed, giving developers a way to investigate the delivery system rather than repeatedly rerun it.",
+      "example": "A slow build spends most of its time waiting for a runner, not executing tests.",
+      "source": "text lines 5812–6225"
+    },
+    {
+      "title": "Shared clients spread useful context",
+      "body": "Slack’s case uses shared instrumentation libraries to make trace emission and common dimensions easier to adopt across its CI services. Consistent context lets engineers connect activity across boundaries and compare runs. Useful attributes reflect this domain, such as the relevant commit, test suite, or execution environment, rather than only generic host measurements.",
+      "example": "A failing test span can be grouped with other runs of the same suite and revision.",
+      "source": "text lines 5812–6225"
+    },
+    {
+      "title": "Bring evidence into the workflow",
+      "body": "Telemetry becomes more useful when the interfaces people already use provide a route into relevant traces and queries. A CI failure or operational alert should connect its recipient to the affected run and dimensions. This reduces the effort of reconstructing context and helps engineers who are not build-system specialists investigate their own failures.",
+      "example": "A build result links directly to its trace and the affected test-suite query.",
+      "source": "text lines 5812–6225"
+    },
+    {
+      "title": "Compare changes and validate recovery",
+      "body": "When build behavior changes, compare cohorts and revisions to identify what is different, then inspect fresh telemetry after an intervention. Slack’s examples show investigation as a sequence of hypotheses and observed results. A revert or configuration change is therefore an experiment whose effect must be checked, rather than evidence by itself that the incident is resolved.",
+      "example": "After reverting a suspected change, compare new runs for the affected failure pattern.",
+      "source": "text lines 5812–6225"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "This chapter is primarily about dependency vulnerability inventories.",
+      "correction": "Its case concerns tracing and debugging CI/CD execution, including bottlenecks, failures, and changing behavior."
+    },
+    {
+      "claim": "A successful rerun explains why the original build failed.",
+      "correction": "A rerun may restore progress while leaving the triggering condition and its recurrence risk unexplained."
+    }
+  ],
+  "scenario": {
+    "title": "Reruns hide a queue problem",
+    "context": "Developers repeatedly rerun slow CI jobs, but most elapsed time precedes test execution.",
+    "options": [
+      {
+        "label": "Trace scheduling and runner allocation",
+        "benefit": "Can distinguish queue delay from test runtime.",
+        "cost": "Needs instrumentation across CI service boundaries.",
+        "consequence": "The improvement effort can target scheduling capacity or coordination rather than the assertions."
+      },
+      {
+        "label": "Optimize individual tests first",
+        "benefit": "May shorten execution for those tests.",
+        "cost": "May barely affect total build time if waiting dominates.",
+        "consequence": "Faster tests can leave developers waiting nearly as long for the build."
+      }
+    ],
+    "debrief": "Measure where elapsed time is actually spent before choosing the optimization target."
+  },
+  "quiz": [
+    {
+      "question": "A 20-minute build has two minutes of test execution. What should be investigated?",
+      "options": [
+        "Only the slowest assertion",
+        "The application’s production latency, treating CI elapsed time as equivalent",
+        "Queueing and coordination along the build trace"
+      ],
+      "answer": 2,
+      "explanation": "The unexplained time may lie outside test execution in the distributed delivery system."
+    },
+    {
+      "question": "Which field supports comparing a regression across build runs?",
+      "options": [
+        "Commit or revision identifier attached to relevant operations",
+        "A unique run ID without any reference to the source revision",
+        "The total number of tests across all revisions, without cohort dimensions"
+      ],
+      "answer": 0,
+      "explanation": "Revision context allows meaningful comparisons of changed code and resulting behavior."
+    },
+    {
+      "question": "A suspected change is reverted. What confirms the intervention helped?",
+      "options": [
+        "The existence of the revert commit",
+        "Fresh affected runs no longer exhibit the observed failure pattern",
+        "A green unrelated test suite"
+      ],
+      "answer": 1,
+      "explanation": "Verification needs the same relevant outcome and population that motivated the intervention."
+    }
+  ],
+  "exercise": {
+    "title": "Instrument the delivery path",
+    "prompt": "Map one code change from CI trigger to test completion and identify where unexplained time could accumulate.",
+    "fields": [
+      {
+        "label": "Operations and boundaries",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Commit and test dimensions",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Evidence that verifies an improvement",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "CI TRACE",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "DIMENSIONS",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "RUN LINK",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "VERIFY",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "A slow build spends most of its time waiting for a runner, not executing tests."
+      },
+      {
+        "node": "step-1",
+        "text": "A failing test span can be grouped with other runs of the same suite and revision."
+      },
+      {
+        "node": "step-2",
+        "text": "A build result links directly to its trace and the affected test-suite query."
+      },
+      {
+        "node": "step-3",
+        "text": "After reverting a suspected change, compare new runs for the affected failure pattern."
+      }
+    ]
+  }
+}

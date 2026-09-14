@@ -1,0 +1,185 @@
+{
+  "number": 11,
+  "title": "Improvement Loops",
+  "part": "Iteration",
+  "subtitle": "Turn observed failures into prioritized experiments and verified changes",
+  "summary": "An improvement loop begins by collecting and organizing evidence from production, evaluation, and user reports. Diagnosis and categorization turn that evidence into candidate changes, while prioritization directs limited effort toward consequential recurring problems. Shadow deployments observe candidates without letting them control live outcomes; controlled comparisons test whether a proposed improvement actually helps. Changes can affect context, prompts, orchestration, or trained model behavior, so regression evaluation must cover more than the original failing case. Human review remains useful for ambiguous judgments. Recording decisions and results connects feedback, experimentation, and learning, allowing the next team member to understand why the system changed.",
+  "source": {
+    "startLine": 9934,
+    "endLine": 10987,
+    "reference": "text lines 9934–10987"
+  },
+  "concepts": [
+    {
+      "title": "Feedback pipelines",
+      "body": "Feedback collects outcomes, user reports, traces, and evaluation results, then routes them to analysis and improvement. Automation helps handle volume, but human review is needed for ambiguous or high-impact cases.",
+      "example": "Teaching extension: User reports about incorrect refund amounts are linked to corresponding traces and grouped by failure cause. Reviewed cases become candidates for a policy-context fix rather than an undifferentiated complaint count.",
+      "source": "text lines 9934-10987"
+    },
+    {
+      "title": "Shadow experiments",
+      "body": "Shadow mode runs a candidate system alongside the baseline without exposing its actions. Comparing outcomes estimates whether a change helps before it receives real authority.",
+      "example": "Teaching extension: A candidate agent reads copies of real cancellation requests and proposes actions to an isolated test endpoint. Its output is compared with the baseline, but it cannot cancel live orders.",
+      "source": "text lines 9934-10987"
+    },
+    {
+      "title": "Prioritization",
+      "body": "Improvements compete for limited engineering attention. Teams weigh frequency, severity, user value, confidence, and cost rather than optimizing a single metric.",
+      "example": "Teaching extension: A team prioritizes frequent incorrect order selections over a rare cosmetic phrasing issue, considering user harm, occurrence rate, and the effort required to fix each.",
+      "source": "text lines 9934-10987"
+    },
+    {
+      "title": "Continuous evaluation",
+      "body": "Every change can introduce regression or overfit to the last failure. A stable benchmark plus newly discovered cases keeps the loop honest and provides evidence for release decisions.",
+      "example": "Teaching extension: A revised policy prompt improves returns but also changes address-modification behavior. The full regression set is rerun before deciding whether the overall change is acceptable.",
+      "source": "text lines 9934-10987"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Feedback pipelines is provided automatically by a more capable model.",
+      "correction": "Feedback collects outcomes, user reports, traces, and evaluation results, then routes them to analysis and improvement. Automation helps handle volume, but human review is needed for ambiguous or high-impact cases."
+    },
+    {
+      "claim": "Shadow experiments removes the need for evaluation or human judgment.",
+      "correction": "Shadow mode runs a candidate system alongside the baseline without exposing its actions. Comparing outcomes estimates whether a change helps before it receives real authority. Evaluation and appropriate oversight remain necessary."
+    }
+  ],
+  "scenario": {
+    "title": "Candidate improvement risk",
+    "context": "A routing change appears better on a small offline sample.",
+    "options": [
+      {
+        "label": "Run it in shadow mode against the baseline",
+        "benefit": "Measures real traffic without granting new authority.",
+        "cost": "Shadow execution consumes extra compute and analysis time.",
+        "consequence": "The candidate improves routine cases but worsens a rare high-impact case before rollout."
+      },
+      {
+        "label": "Expose it to all users",
+        "benefit": "Collects direct feedback quickly.",
+        "cost": "A regression reaches users before it is understood.",
+        "consequence": "Rollback restores service but trust and data are lost."
+      }
+    ],
+    "debrief": "Both choices can fit different constraints. The decision should state stakes, reversibility, evidence, and who owns correction."
+  },
+  "quiz": [
+    {
+      "question": "What is the defining protection in a shadow experiment?",
+      "options": [
+        "The candidate silently performs the real external actions.",
+        "No production-like inputs are used.",
+        "Candidate behavior is observed without controlling live user outcomes."
+      ],
+      "answer": 2,
+      "explanation": "Shadowing compares behavior with reduced exposure; side effects must actually remain isolated."
+    },
+    {
+      "question": "How should a team prioritize improvement work?",
+      "options": [
+        "Consider impact, frequency, and feasibility of the failure being addressed.",
+        "Choose whichever metric is easiest to make look better.",
+        "Treat every logged event as an equally urgent defect."
+      ],
+      "answer": 0,
+      "explanation": "A feedback pipeline needs prioritization so effort addresses meaningful constraints."
+    },
+    {
+      "question": "Why rerun evaluation after a model or orchestration change?",
+      "options": [
+        "Only changes to interface colors require regression checks.",
+        "A local improvement may regress other tasks or constraints.",
+        "Once one case improves, the whole system is proven better."
+      ],
+      "answer": 1,
+      "explanation": "Changes interact across the workflow; regression evaluation tests the broader consequences."
+    }
+  ],
+  "exercise": {
+    "title": "Improvement proposal",
+    "prompt": "Create a concise artifact for the chapter workflow that makes the agent decision inspectable.",
+    "fields": [
+      {
+        "label": "Observed failure",
+        "placeholder": "Observed failure"
+      },
+      {
+        "label": "Experiment design",
+        "placeholder": "Experiment design"
+      },
+      {
+        "label": "Decision threshold",
+        "placeholder": "Decision threshold"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "n0",
+        "label": "FEEDBACK",
+        "kind": "listening",
+        "tone": "sage",
+        "x": 100,
+        "y": 80
+      },
+      {
+        "id": "n1",
+        "label": "SHADOW",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 270,
+        "y": 80
+      },
+      {
+        "id": "n2",
+        "label": "BASELINE",
+        "kind": "trace",
+        "tone": "lilac",
+        "x": 100,
+        "y": 210
+      },
+      {
+        "id": "n3",
+        "label": "RELEASE",
+        "kind": "shield",
+        "tone": "honey",
+        "x": 270,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "n0",
+        "to": "n1"
+      },
+      {
+        "from": "n1",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "to": "n3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "n0",
+        "text": "Inspect feedback in the chapter workflow."
+      },
+      {
+        "node": "n1",
+        "text": "Inspect shadow in the chapter workflow."
+      },
+      {
+        "node": "n2",
+        "text": "Inspect baseline in the chapter workflow."
+      },
+      {
+        "node": "n3",
+        "text": "Inspect release in the chapter workflow."
+      }
+    ]
+  }
+}

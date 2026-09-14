@@ -1,0 +1,185 @@
+{
+  "number": 7,
+  "title": "You’re a Role Model Now (Sorry)",
+  "part": "Leveling Up",
+  "subtitle": "Make your influence safe to learn from",
+  "summary": "A role model sets standards through repeated behavior: taking ownership, communicating clearly, making room for others, and acting with technical and ethical judgment. The chapter distinguishes being an exemplar from becoming a gatekeeper or bottleneck.",
+  "source": {
+    "startLine": 7680,
+    "endLine": 8702,
+    "reference": "text lines 7680–8702"
+  },
+  "concepts": [
+    {
+      "title": "Exemplar",
+      "body": "An exemplar demonstrates standards in visible choices and makes the behavior reproducible for others. People notice what senior engineers reward, ignore, and excuse. Your reactions in a review or incident can establish a stronger norm than a written policy. Model the behavior you want others to repeat, including how you handle being wrong.",
+      "example": "Teaching extension: A senior engineer explains a rollback decision in the same forum used by others.",
+      "source": "text lines 7680–8702"
+    },
+    {
+      "title": "Ownership",
+      "body": "Ownership means noticing consequential gaps and helping close them without claiming every task. Take responsibility for an outcome without making yourself the only person allowed to solve it. Help establish ownership, share context, and follow through on the gap. This makes the organization stronger rather than expanding a private collection of indispensable tasks.",
+      "example": "Teaching extension: The role model takes responsibility for a gap without collecting every task.",
+      "source": "text lines 7680–8702"
+    },
+    {
+      "title": "Mentoring",
+      "body": "Mentoring creates space for another engineer to reason and grow rather than supplying every answer. Make room for another person's reasoning and choices. Ask questions, offer context, and provide support appropriate to the stakes. If your intervention always ends with you doing the work, the immediate result may improve while the learner's independence does not.",
+      "example": "Teaching extension: A mentor asks the mentee to propose rollout guardrails before offering advice.",
+      "source": "text lines 7680–8702"
+    },
+    {
+      "title": "Bottleneck",
+      "body": "A bottleneck forms when progress depends on one expert’s approval, availability, or hidden knowledge. Sharing knowledge and decision context reduces dependence on your availability. Delegating a task while retaining every approval can simply move the queue. Build other people's confidence and authority so that useful work continues when you are away.",
+      "example": "Teaching extension: A checklist lets the team ship without waiting for one expert’s approval.",
+      "source": "text lines 7680–8702"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "a staff-plus role is mainly about applying a universal formula.",
+      "correction": "The chapter treats judgment as contextual: identify forces, listen to evidence, and adapt the response to the actual system and people."
+    },
+    {
+      "claim": "A visible activity or artifact proves the work is complete.",
+      "correction": "Completion requires a useful outcome, shared understanding, and a way to notice whether the decision worked over time."
+    }
+  ],
+  "scenario": {
+    "title": "Mentor without bottleneck",
+    "context": "A newer engineer is taking ownership of a risky rollout. You can review every change or create a guardrail and coaching check-in.",
+    "options": [
+      {
+        "label": "Coach with guardrails",
+        "benefit": "Clarifies the decision and creates a workable path through the stated constraint.",
+        "cost": "Coaching takes patience and accepts that the learner may choose a different safe path.",
+        "consequence": "The engineer makes decisions with a safety boundary and grows judgment while you remain available for escalation."
+      },
+      {
+        "label": "Approve every change",
+        "benefit": "Feels faster or safer in the immediate moment and preserves a familiar habit.",
+        "cost": "Central approval prevents the learner from developing independent judgment.",
+        "consequence": "Risk may feel controlled, but your queue becomes the release bottleneck and learning stays tacit."
+      }
+    ],
+    "debrief": "Both options respond to a real constraint. The stronger choice makes ownership and consequences visible, then creates a point to learn and adjust."
+  },
+  "quiz": [
+    {
+      "question": "Why does a staff engineer need care when thinking aloud?",
+      "options": [
+        "Only managers can suggest ideas",
+        "Others may interpret a senior person’s idea as a decision",
+        "Every statement must be a formal document"
+      ],
+      "answer": 1,
+      "explanation": "Visible senior behavior has influence beyond the speaker’s intended certainty."
+    },
+    {
+      "question": "How can taking ownership avoid creating dependency on one expert?",
+      "options": [
+        "Share context and grow other decision makers",
+        "Reserve every important approval",
+        "Keep recovery knowledge private"
+      ],
+      "answer": 0,
+      "explanation": "Ownership strengthens the outcome and the team’s ability to continue independently."
+    },
+    {
+      "question": "What is a warning sign that mentoring is becoming a bottleneck?",
+      "options": [
+        "The learner asks a question",
+        "The mentor offers feedback",
+        "Progress always waits for the mentor to make the decision"
+      ],
+      "answer": 2,
+      "explanation": "Helping should build the learner’s judgment rather than retain all authority."
+    }
+  ],
+  "exercise": {
+    "title": "Make the next move legible",
+    "prompt": "Describe a staff-level decision, the people and terrain involved, and the route by which you will learn whether it worked.",
+    "fields": [
+      {
+        "label": "What decision should the mentee own?",
+        "placeholder": "Write the concrete facts, people, and constraint."
+      },
+      {
+        "label": "Which guardrail protects users?",
+        "placeholder": "State the choice and its trade-off."
+      },
+      {
+        "label": "Where must I avoid becoming a gatekeeper?",
+        "placeholder": "Name the evidence or conversation that will revisit it."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "mentor",
+        "label": "MENTOR",
+        "kind": "mentor",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "shield",
+        "label": "SHIELD",
+        "kind": "shield",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "colleague",
+        "label": "COLLEAGUE",
+        "kind": "colleague",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "handoff",
+        "label": "HANDOFF",
+        "kind": "handoff",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "mentor",
+        "to": "shield"
+      },
+      {
+        "from": "shield",
+        "to": "colleague"
+      },
+      {
+        "from": "colleague",
+        "to": "handoff"
+      }
+    ],
+    "steps": [
+      {
+        "node": "mentor",
+        "text": "Use this mentor view to make the next decision visible."
+      },
+      {
+        "node": "shield",
+        "text": "Use this shield view to make the next decision visible."
+      },
+      {
+        "node": "colleague",
+        "text": "Use this colleague view to make the next decision visible."
+      },
+      {
+        "node": "handoff",
+        "text": "Use this handoff view to make the next decision visible."
+      }
+    ]
+  }
+}

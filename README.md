@@ -4,7 +4,12 @@ A playful, offline-capable software architecture learning app. Choose a book, ex
 
 - **Fundamentals of Software Architecture:** 24 chapters, including the original custom first chapter and playable pipeline lab.
 - **Software Architecture: The Hard Parts:** all 15 chapters of the supplied August 2021 early-release text.
-- Shared isometric illustration framework with 24 semantic shapes, animated flows, gentle activity effects, and motion controls.
+- **The Staff Engineer’s Path:** 9 chapters.
+- **Responsible Software Engineering:** 7 chapters.
+- **Site Reliability Engineering:** 34 chapters.
+- **Observability Engineering:** 22 chapters.
+- **Building Applications with AI Agents:** 13 chapters.
+- Shared isometric illustration framework with 38 semantic shapes, animated flows, gentle activity effects, and motion controls.
 - Mobile layouts, freely accessible chapter maps, Back/Skip, progress backup/import, and an Android APK.
 
 ## Run locally
@@ -16,7 +21,7 @@ npm ci
 npm run dev
 ```
 
-Open `http://localhost:5173`. The home page selects a path; `/fundamentals.html` and `/hard-parts.html` open their chapter libraries. Old `/#chapter/...` and `/#lesson/...` bookmarks still work. `/illustrations.html` is the reusable illustration studio.
+Open `http://localhost:5173`. The searchable home page selects among seven paths (124 chapters); `/fundamentals.html` and `/hard-parts.html` open their chapter libraries. Old `/#chapter/...` and `/#lesson/...` bookmarks still work. `/illustrations.html` is the reusable illustration studio.
 
 ```sh
 npm test
@@ -53,9 +58,9 @@ Android builds require Java 21 and Android SDK 36. Debug builds from a personal 
 The GitHub workflow validates the web app, audits public files, builds a signed release APK, and runs emulator tests that:
 
 1. Earn real progress and save a reflection through the WebView UI.
-2. Confirm both books are written to native preferences.
+2. Confirm all seven books are written to native preferences.
 3. Clear WebView localStorage and verify native restoration.
-4. Force-stop the app, install the release APK over the existing app, and verify both XP and the reflection survive.
+4. Force-stop the app, install the release APK over the existing app, and verify XP and reflections from every path survive.
 
 Each successful main-branch run provides an `ArchitectureFieldnotes-Android` artifact. Tags matching `v*` publish the tested APK and SHA-256 checksum as a GitHub release.
 
@@ -70,6 +75,6 @@ Keep the signing key permanently backed up outside the repository. Never regener
 
 ## Extend the app
 
-See [the illustration framework](docs/illustrations.md) and [learning paths](docs/paths.md). Book metadata lives in `src/paths/catalog.js`; shared screens live in `src/book.js`. The Hard Parts content is in `src/paths/hard-parts/chapters/` and its notes in `public/notes/hard-parts/`.
+See [the illustration framework](docs/illustrations.md) and [learning paths](docs/paths.md). Book metadata lives in `src/paths/registry.js`; shared screens live in `src/book.js`. The Hard Parts content is in `src/paths/hard-parts/chapters/` and its notes in `public/notes/hard-parts/`.
 
 Independent learning companion; not affiliated with O’Reilly or the authors. Book titles and source content remain the property of their respective owners. The software license does not grant rights to redistribute purchased books.

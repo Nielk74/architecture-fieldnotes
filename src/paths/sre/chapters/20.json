@@ -1,0 +1,190 @@
+{
+  "number": 20,
+  "title": "Load Balancing in the Datacenter",
+  "part": "Distributed systems",
+  "subtitle": "Balance actual backend capability within a datacenter",
+  "summary": "A datacenter can have spare aggregate CPU while its busiest backend limits usable capacity. This chapter explains why distributing equal request counts does not reliably distribute equal work. Client traffic rates, query costs, machine performance, and neighboring workloads all vary. Health management must also distinguish an unavailable server from one that is draining requests before shutdown. Subsetting limits the cost of persistent client connections, but choosing subsets randomly can create substantial imbalance; deterministic assignment improves coverage. Least-loaded routing uses active requests as a proxy and can accidentally favor a server that fails quickly. Weighted round robin instead incorporates backend reports of successful work, errors, and utilization to adjust routing toward demonstrated capability.",
+  "source": {
+    "startLine": 8107,
+    "endLine": 8603,
+    "reference": "text lines 8107–8603"
+  },
+  "concepts": [
+    {
+      "title": "Lame-duck draining",
+      "body": "A server in lame-duck state can still finish requests but asks clients to stop assigning new work. Publishing that state before shutdown gives clients time to redirect traffic while existing requests drain. This is more informative than merely refusing connections or reaching an outstanding-request limit, which may reflect slow legitimate work rather than a failed process.",
+      "example": "Teaching extension: A deployment marks a backend as draining, lets its current requests finish, and only then terminates it.",
+      "source": "text lines 8107–8603"
+    },
+    {
+      "title": "Deterministic connection subsetting",
+      "body": "Connecting every client to every backend consumes memory, health-check work, and connection setup capacity. Subsetting bounds those costs by selecting a smaller backend pool per client. Independent random choices can overpopulate some backends and leave others lightly used. Deterministic subsetting distributes assignments across coordinated rounds, improving coverage while making the connection pool practical to operate at scale.",
+      "example": "Teaching extension: Twelve backends are divided into groups of three so each client in a four-client round receives a distinct group.",
+      "source": "text lines 8107–8603"
+    },
+    {
+      "title": "Limits of counting outstanding requests",
+      "body": "Least-loaded routing favors backends with fewer active requests, but each client sees only its own traffic and request count is an imperfect proxy for resource usage. A server that returns errors immediately can appear especially idle and attract more traffic. Accounting for recent failures avoids that sinkhole, although it does not solve differences in request cost or machine capability.",
+      "example": "Teaching extension: A broken backend returns errors in one millisecond; the client penalizes those errors instead of interpreting speed as spare capacity.",
+      "source": "text lines 8107–8603"
+    },
+    {
+      "title": "Weighted round robin from backend feedback",
+      "body": "Weighted round robin assigns each backend a capability score and sends traffic in proportion to that score. Backends report observed query rates, error rates, and utilization, giving clients a broader picture than their own outstanding requests. Successful throughput relative to resource consumption raises useful capacity, while errors reduce preference. Periodic updates let the distribution adapt to changing performance and heterogeneous machines.",
+      "example": "Teaching extension: A backend completing twice the useful work at comparable utilization receives a larger share of subsequent requests.",
+      "source": "text lines 8107–8603"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Equal request counts imply equal CPU consumption.",
+      "correction": "Queries can differ drastically in cost, and servers differ in performance and neighboring load."
+    },
+    {
+      "claim": "The fastest responding backend is always the best destination.",
+      "correction": "An unhealthy backend can fail quickly and attract traffic unless error responses affect its routing score."
+    }
+  ],
+  "scenario": {
+    "title": "Equal requests, unequal work",
+    "context": "Two backend pools receive equal request counts, but one has much higher CPU utilization. Query costs vary and machines have different performance.",
+    "options": [
+      {
+        "label": "Use backend capability reports",
+        "benefit": "Success, error, and utilization signals reflect actual serving work.",
+        "cost": "Scores require reliable telemetry and periodic updates.",
+        "consequence": "Clients adjust weights while separately avoiding unhealthy or draining tasks."
+      },
+      {
+        "label": "Keep equal request shares",
+        "benefit": "The policy is simple and requires little feedback.",
+        "cost": "Equal counts cannot account for unequal query cost or machine performance.",
+        "consequence": "The busiest backend limits usable capacity while others retain headroom."
+      }
+    ],
+    "debrief": "Equal request counts can conceal unequal work. Backend-reported success rates, errors, and utilization inform routing better than count alone; health filtering and draining remain separate necessities."
+  },
+  "quiz": [
+    {
+      "question": "Why advertise lame-duck state before stopping a process?",
+      "options": [
+        "To immediately reject its in-flight requests",
+        "To make every client establish a new connection to it",
+        "To stop new assignments while existing requests finish"
+      ],
+      "answer": 2,
+      "explanation": "The intermediate state enables graceful draining."
+    },
+    {
+      "question": "What is a central drawback of independent random subsetting?",
+      "options": [
+        "It requires every client to connect to every backend",
+        "It can assign markedly different client populations to different backends",
+        "It prevents replacement of failed backends"
+      ],
+      "answer": 1,
+      "explanation": "Random coverage can be uneven enough to force excess provisioning."
+    },
+    {
+      "question": "Which feedback distinguishes weighted round robin from counting only active requests?",
+      "options": [
+        "Backend success rates, errors, and utilization",
+        "A fixed weight derived only from each machine’s advertised CPU model",
+        "Only the number of requests issued by this client"
+      ],
+      "answer": 0,
+      "explanation": "Backend feedback estimates actual capability and accounts for work from other clients."
+    }
+  ],
+  "exercise": {
+    "title": "Compare backend capability",
+    "prompt": "Two backends receive equal request counts but have different CPU utilization and error rates. Design a routing adjustment and a graceful shutdown procedure.",
+    "fields": [
+      {
+        "label": "Evidence",
+        "placeholder": "Which success, error, and utilization measurements explain the apparent imbalance?"
+      },
+      {
+        "label": "Routing",
+        "placeholder": "How should backend capability affect request weights?"
+      },
+      {
+        "label": "Draining",
+        "placeholder": "How will clients stop new requests while existing work completes?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Compare backend capability",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "Clients",
+        "caption": "Bounded subsets",
+        "kind": "team",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "Reports",
+        "caption": "Observed capability",
+        "kind": "gauge",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "Weights",
+        "caption": "Adaptive routing",
+        "kind": "router",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "Backends",
+        "caption": "Healthy capacity",
+        "kind": "service",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "Clients maintain bounded subsets of backend connections."
+      },
+      {
+        "node": "decide",
+        "text": "Backends report successes, errors, and utilization."
+      },
+      {
+        "node": "act",
+        "text": "Clients update capability scores and request shares."
+      },
+      {
+        "node": "learn",
+        "text": "Healthy backends process work; draining ones finish existing requests."
+      }
+    ]
+  }
+}

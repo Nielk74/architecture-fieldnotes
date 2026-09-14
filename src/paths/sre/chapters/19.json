@@ -1,0 +1,190 @@
+{
+  "number": 19,
+  "title": "Load Balancing at the Frontend",
+  "part": "Distributed systems",
+  "subtitle": "Route users across regions, then preserve their connections",
+  "summary": "Frontend load balancing operates at several levels because location choice and packet forwarding solve different problems. A latency-sensitive request usually benefits from a nearby healthy datacenter, while a large upload may benefit more from available bandwidth. DNS can steer traffic before a connection begins, but recursive resolvers hide user locations, aggregate many users, and cache answers. Capacity and network health therefore matter alongside distance. A virtual IP then distributes connections among backends while presenting one stable address. Connection tracking or consistent hashing preserves affinity as packets arrive and backend membership changes. Direct server response and packet encapsulation reduce forwarding constraints, with encapsulation adding packet overhead that must fit the network’s MTU.",
+  "source": {
+    "startLine": 7876,
+    "endLine": 8106,
+    "reference": "text lines 7876–8106"
+  },
+  "concepts": [
+    {
+      "title": "Global routing objectives",
+      "body": "The best destination depends on the request and the layer making the decision. Low round-trip latency matters for interactive queries, whereas throughput can dominate a large upload. Global routing must also account for available serving capacity, link congestion, and infrastructure health. Choosing the geographically nearest site alone can therefore send traffic to a destination that cannot serve it well.",
+      "example": "Teaching extension: A nearby region is congested, so an upload takes a less busy path even though its round-trip time is longer.",
+      "source": "text lines 7876–8106"
+    },
+    {
+      "title": "DNS steering and resolver uncertainty",
+      "body": "Authoritative DNS responses can select a destination before the client opens a connection. Usually the query comes through a recursive resolver, so the observed address may represent many geographically dispersed users. Cached answers delay routing changes and make each response’s traffic impact uncertain. Resolver population estimates, client-subnet information where available, and capacity signals improve decisions without removing these limitations.",
+      "example": "Teaching extension: Changing a DNS answer does not immediately move clients whose resolver still holds the previous answer.",
+      "source": "text lines 7876–8106"
+    },
+    {
+      "title": "VIP affinity and consistent hashing",
+      "body": "A virtual IP hides a backend pool behind one client-visible destination. Stateful connections need their packets to reach the same backend. A simple hash modulo the backend count remaps many connections when membership changes. Consistent hashing limits this remapping, while connection tracking can retain existing assignments. These mechanisms address connection continuity; they do not themselves prove that every backend has equal load.",
+      "example": "Teaching extension: Removing one of ten servers should disturb the connections assigned to that server rather than nearly the whole pool.",
+      "source": "text lines 7876–8106"
+    },
+    {
+      "title": "Direct replies and encapsulation",
+      "body": "Direct server response lets a backend reply to the client without sending the response through the load balancer, reducing forwarding work for response-heavy traffic. Forwarding by changing a destination MAC address restricts the backend pool to a shared layer-two domain. IP encapsulation removes that locality constraint by tunneling the packet to its backend, but the additional headers consume MTU space and can cause fragmentation.",
+      "example": "Teaching extension: A tunneled packet that fits on the public link may need a larger internal MTU after its outer headers are added.",
+      "source": "text lines 7876–8106"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A low DNS TTL guarantees immediate failover.",
+      "correction": "Resolvers and clients can retain answers; DNS steering has delayed and uneven effects."
+    },
+    {
+      "claim": "Hashing a connection ID modulo the pool size preserves connections during resize.",
+      "correction": "Changing the divisor remaps many IDs. Consistent hashing is designed to reduce that disruption."
+    }
+  ],
+  "scenario": {
+    "title": "Distribute requests across frontends",
+    "context": "A global service has users near three points of presence, but one point is at capacity. DNS answers can steer new clients while existing connections remain local.",
+    "options": [
+      {
+        "label": "Advertise capacity-aware frontend routes",
+        "benefit": "Routing reflects saturation and protects the overloaded point.",
+        "cost": "Capacity signals can lag and make routing less stable.",
+        "consequence": "The team withdraws capacity gradually and measures user latency by region."
+      },
+      {
+        "label": "Send all users to the nearest point",
+        "benefit": "Nearest routing usually lowers network latency.",
+        "cost": "Proximity alone sends too much work to the saturated point.",
+        "consequence": "The nearest point fails during peak while another point has headroom."
+      }
+    ],
+    "debrief": "Distance is only one routing input. Steer new clients toward healthy capacity, then measure the regional user experience while cached DNS answers and existing connections delay the traffic shift."
+  },
+  "quiz": [
+    {
+      "question": "Why can one authoritative DNS answer redirect far more traffic than expected?",
+      "options": [
+        "The resolver may reuse the cached answer for many users",
+        "The authoritative server opens a separate connection for every request",
+        "Each DNS record always corresponds to exactly one client"
+      ],
+      "answer": 0,
+      "explanation": "Recursive caching means one answer can influence a large user population."
+    },
+    {
+      "question": "What problem does consistent hashing address at a VIP?",
+      "options": [
+        "Choosing the lowest-latency continent",
+        "Eliminating all backend connection state",
+        "Limiting connection remapping when the backend pool changes"
+      ],
+      "answer": 2,
+      "explanation": "It keeps most assignments stable when membership changes."
+    },
+    {
+      "question": "What new constraint accompanies GRE packet encapsulation?",
+      "options": [
+        "All servers must share a broadcast domain",
+        "Outer headers can push packets beyond the MTU",
+        "Responses must traverse the same load balancer"
+      ],
+      "answer": 1,
+      "explanation": "Encapsulation expands the packet and therefore requires attention to internal MTU and fragmentation."
+    }
+  ],
+  "exercise": {
+    "title": "Plan a frontend traffic shift",
+    "prompt": "A nearby region is saturated. Describe how DNS steering and VIP connection handling affect a move to another region.",
+    "fields": [
+      {
+        "label": "Destination",
+        "placeholder": "Which healthy region has sufficient capacity, and what latency or bandwidth cost does it add?"
+      },
+      {
+        "label": "Propagation",
+        "placeholder": "How will resolver caching and existing connections delay the shift?"
+      },
+      {
+        "label": "Verification",
+        "placeholder": "Which regional traffic and user-latency measurements confirm the change?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Plan a frontend traffic shift",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "Client",
+        "caption": "User connection",
+        "kind": "person",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "DNS",
+        "caption": "Regional steering",
+        "kind": "router",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "VIP",
+        "caption": "Connection affinity",
+        "kind": "gateway",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "Backend",
+        "caption": "Request processing",
+        "kind": "service",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "A user needs a reachable destination before connecting."
+      },
+      {
+        "node": "decide",
+        "text": "Choose a healthy region while accounting for resolver caching."
+      },
+      {
+        "node": "act",
+        "text": "Map packets to a backend while preserving connection affinity."
+      },
+      {
+        "node": "learn",
+        "text": "Serve the request; direct replies can avoid the balancer."
+      }
+    ]
+  }
+}

@@ -1,0 +1,240 @@
+[
+  {
+    "number": 1,
+    "title": "Introduction",
+    "part": "Foundations",
+    "startLine": 785,
+    "endLine": 1146
+  },
+  {
+    "number": 2,
+    "title": "The Production Environment at Google, from the Viewpoint of an SRE",
+    "part": "Foundations",
+    "startLine": 1147,
+    "endLine": 1484
+  },
+  {
+    "number": 3,
+    "title": "Embracing Risk",
+    "part": "Foundations",
+    "startLine": 1485,
+    "endLine": 1904
+  },
+  {
+    "number": 4,
+    "title": "Service Level Objectives",
+    "part": "Foundations",
+    "startLine": 1905,
+    "endLine": 2265
+  },
+  {
+    "number": 5,
+    "title": "Eliminating Toil",
+    "part": "Foundations",
+    "startLine": 2266,
+    "endLine": 2451
+  },
+  {
+    "number": 6,
+    "title": "Monitoring Distributed Systems",
+    "part": "Operations",
+    "startLine": 2452,
+    "endLine": 2891
+  },
+  {
+    "number": 7,
+    "title": "The Evolution of Automation at Google",
+    "part": "Operations",
+    "startLine": 2892,
+    "endLine": 3536
+  },
+  {
+    "number": 8,
+    "title": "Release Engineering",
+    "part": "Operations",
+    "startLine": 3537,
+    "endLine": 3852
+  },
+  {
+    "number": 9,
+    "title": "Simplicity",
+    "part": "Operations",
+    "startLine": 3853,
+    "endLine": 4118
+  },
+  {
+    "number": 10,
+    "title": "Practical Alerting from Time-Series Data",
+    "part": "Operations",
+    "startLine": 4119,
+    "endLine": 4664
+  },
+  {
+    "number": 11,
+    "title": "Being On-Call",
+    "part": "Operations",
+    "startLine": 4665,
+    "endLine": 4943
+  },
+  {
+    "number": 12,
+    "title": "Effective Troubleshooting",
+    "part": "Operations",
+    "startLine": 4944,
+    "endLine": 5519
+  },
+  {
+    "number": 13,
+    "title": "Emergency Response",
+    "part": "Operations",
+    "startLine": 5520,
+    "endLine": 5837
+  },
+  {
+    "number": 14,
+    "title": "Managing Incidents",
+    "part": "Operations",
+    "startLine": 5838,
+    "endLine": 6052
+  },
+  {
+    "number": 15,
+    "title": "Postmortem Culture: Learning from Failure",
+    "part": "Operations",
+    "startLine": 6053,
+    "endLine": 6267
+  },
+  {
+    "number": 16,
+    "title": "Tracking Outages",
+    "part": "Operations",
+    "startLine": 6268,
+    "endLine": 6432
+  },
+  {
+    "number": 17,
+    "title": "Testing for Reliability",
+    "part": "Operations",
+    "startLine": 6433,
+    "endLine": 7220
+  },
+  {
+    "number": 18,
+    "title": "Software Engineering in SRE",
+    "part": "Engineering",
+    "startLine": 7221,
+    "endLine": 7875
+  },
+  {
+    "number": 19,
+    "title": "Load Balancing at the Frontend",
+    "part": "Distributed systems",
+    "startLine": 7876,
+    "endLine": 8106
+  },
+  {
+    "number": 20,
+    "title": "Load Balancing in the Datacenter",
+    "part": "Distributed systems",
+    "startLine": 8107,
+    "endLine": 8603
+  },
+  {
+    "number": 21,
+    "title": "Handling Overload",
+    "part": "Distributed systems",
+    "startLine": 8604,
+    "endLine": 9019
+  },
+  {
+    "number": 22,
+    "title": "Addressing Cascading Failures",
+    "part": "Distributed systems",
+    "startLine": 9020,
+    "endLine": 9888
+  },
+  {
+    "number": 23,
+    "title": "Managing Critical State: Distributed Consensus for Reliability",
+    "part": "Distributed systems",
+    "startLine": 9889,
+    "endLine": 10801
+  },
+  {
+    "number": 24,
+    "title": "Distributed Periodic Scheduling with Cron",
+    "part": "Distributed systems",
+    "startLine": 10802,
+    "endLine": 11198
+  },
+  {
+    "number": 25,
+    "title": "Data Processing Pipelines",
+    "part": "Data systems",
+    "startLine": 11199,
+    "endLine": 11531
+  },
+  {
+    "number": 26,
+    "title": "Data Integrity: What You Read Is What You Wrote",
+    "part": "Data systems",
+    "startLine": 11532,
+    "endLine": 12622
+  },
+  {
+    "number": 27,
+    "title": "Reliable Product Launches at Scale",
+    "part": "Data systems",
+    "startLine": 12623,
+    "endLine": 13347
+  },
+  {
+    "number": 28,
+    "title": "Accelerating SREs to On-Call and Beyond",
+    "part": "People and practice",
+    "startLine": 13348,
+    "endLine": 13941
+  },
+  {
+    "number": 29,
+    "title": "Dealing with Interrupts",
+    "part": "People and practice",
+    "startLine": 13942,
+    "endLine": 14247
+  },
+  {
+    "number": 30,
+    "title": "Embedding an SRE to Recover from Operational Overload",
+    "part": "People and practice",
+    "startLine": 14248,
+    "endLine": 14493
+  },
+  {
+    "number": 31,
+    "title": "Communication and Collaboration in SRE",
+    "part": "People and practice",
+    "startLine": 14494,
+    "endLine": 15052
+  },
+  {
+    "number": 32,
+    "title": "The Evolving SRE Engagement Model",
+    "part": "People and practice",
+    "startLine": 15053,
+    "endLine": 15595
+  },
+  {
+    "number": 33,
+    "title": "Lessons Learned from Other Industries",
+    "part": "People and practice",
+    "startLine": 15596,
+    "endLine": 16039
+  },
+  {
+    "number": 34,
+    "title": "Conclusion",
+    "part": "Synthesis",
+    "startLine": 16040,
+    "endLine": 16131
+  }
+]

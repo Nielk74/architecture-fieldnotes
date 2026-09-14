@@ -1,0 +1,190 @@
+{
+  "number": 30,
+  "title": "Embedding an SRE to Recover from Operational Overload",
+  "part": "People and practice",
+  "subtitle": "Help an overloaded team regain the ability to improve itself",
+  "summary": "An embedded SRE helps an overloaded team change how it works rather than becoming another permanent ticket handler. The engagement starts with learning the service, observing daily work, and identifying both current stress and future trouble such as knowledge gaps, weak capacity planning, and unexplained alerts. Sharing context includes writing a strong blameless postmortem and distinguishing removable toil from necessary operational work. SLOs supply a quantitative basis for choosing changes and defending engineering time. The embedded engineer guides team members through a few durable fixes, reviews their work, and explains the reasoning behind decisions. An after-action report and continued follow-up help the team sustain progress after the temporary assignment ends.",
+  "source": {
+    "startLine": 14248,
+    "endLine": 14493,
+    "reference": "text lines 14248–14493"
+  },
+  "concepts": [
+    {
+      "title": "Observe before prescribing",
+      "body": "An outsider first needs enough service and team context to understand why operational habits developed. Shadowing on-call reveals where time and stress accumulate, including small issues with disproportionate emotional impact. The goal is to identify how recurring work scales with service growth and what prevents reliability improvements. Simply increasing ticket-handling capacity leaves those underlying mechanisms intact.",
+      "example": "Teaching extension: An embedded engineer watches the shift and discovers that a supposedly rare manual repair happens several times every day.",
+      "source": "text lines 14248–14493"
+    },
+    {
+      "title": "Find latent sources of overload",
+      "body": "The chapter calls future operational trouble kindling: neglected knowledge, growing internal tools, unexamined alerts, and capacity plans based only on yesterday’s emergency. Waiting for a promised replacement can also postpone useful fixes indefinitely. Identifying these conditions makes prevention concrete. A component’s developer ownership does not excuse an on-call team from understanding the impact and urgency of its failure.",
+      "example": "Teaching extension: A serving-critical service has no shared failure model, so every incident requires locating its single knowledgeable developer.",
+      "source": "text lines 14248–14493"
+    },
+    {
+      "title": "Use SLOs and postmortems to share reasoning",
+      "body": "A service objective connects operational decisions to measured user impact and helps distinguish necessary response from distracting noise. A well-written blameless postmortem shows how system conditions and available information shaped decisions, then identifies durable improvements. Demonstrating this process collaboratively is more useful than criticizing old documents, especially when the team has experienced postmortems as punishment.",
+      "example": "Teaching extension: The embedded SRE and responder trace a recurring alert to no user-visible impact and review the alert’s purpose against the SLO.",
+      "source": "text lines 14248–14493"
+    },
+    {
+      "title": "Coach changes the team can sustain",
+      "body": "The embedded engineer should help team members implement a few manageable, lasting fixes, acting as a reviewer and explaining the underlying principles. Doing all the repairs personally teaches dependence rather than ownership. Clear explanations let the team apply the same reasoning to later choices. An after-action report records successful decisions and remaining work, followed by availability for reviews as improvement continues.",
+      "example": "Teaching extension: A teammate automates a repeated repair with review support, then uses the same reasoning to propose the next reduction in toil.",
+      "source": "text lines 14248–14493"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "The embedded SRE’s main output is a temporarily empty ticket queue.",
+      "correction": "The intended output is a team capable of reducing recurring work and making sustainable reliability decisions."
+    },
+    {
+      "claim": "An expert should personally implement every obvious fix while embedded.",
+      "correction": "Guiding and reviewing local ownership makes improvements more likely to survive the expert’s departure."
+    }
+  ],
+  "scenario": {
+    "title": "Recover a team from operational overload",
+    "context": "A service team spends 80% of its week on manual repairs and pages. Leadership can embed an SRE temporarily or ask the team to continue while hiring later.",
+    "options": [
+      {
+        "label": "Embed an SRE with a time-boxed recovery plan",
+        "benefit": "The embedded engineer can measure overload and leave behind automation.",
+        "cost": "Embedding displaces another project and needs explicit exit criteria.",
+        "consequence": "The pair removes the top repair source, measures load, and exits after agreed criteria."
+      },
+      {
+        "label": "Add more permanent on-call shifts",
+        "benefit": "More shifts distribute immediate duty.",
+        "cost": "Shifts spread fatigue without removing the causes.",
+        "consequence": "The rota grows while repair volume remains unchanged."
+      }
+    ],
+    "debrief": "The embedded engineer should learn the team’s pressures, connect decisions to an SLO, and coach local engineers through lasting improvements. Success means the team can continue reducing overload after the visitor leaves."
+  },
+  "quiz": [
+    {
+      "question": "What should an embedded SRE do first?",
+      "options": [
+        "Rewrite every runbook before meeting responders",
+        "Learn the service and observe the team’s actual work",
+        "Take ownership of every incoming ticket indefinitely"
+      ],
+      "answer": 1,
+      "explanation": "Context is necessary to identify both stress and the habits that sustain overload."
+    },
+    {
+      "question": "Why establish an SLO early in the engagement?",
+      "options": [
+        "It gives decisions a quantitative connection to user impact",
+        "It makes all recurring operational work qualify as avoidable toil",
+        "It guarantees the same alert thresholds are appropriate for every service"
+      ],
+      "answer": 0,
+      "explanation": "An SLO provides a basis for evaluating incidents and proposed changes."
+    },
+    {
+      "question": "Which outcome best indicates a sustainable embedding?",
+      "options": [
+        "The visiting engineer becomes the only person able to release",
+        "The old team stops reviewing reliability decisions",
+        "Team members implement durable fixes and can explain the principles behind them"
+      ],
+      "answer": 2,
+      "explanation": "Local capability and reasoning must remain after the temporary engineer leaves."
+    }
+  ],
+  "exercise": {
+    "title": "Plan a team recovery engagement",
+    "prompt": "Outline a temporary embedding for a team dominated by manual repairs. Focus on capability and habits that remain after the engagement.",
+    "fields": [
+      {
+        "label": "Diagnosis",
+        "placeholder": "What will shadowing reveal about current stress and future sources of overload?"
+      },
+      {
+        "label": "Local ownership",
+        "placeholder": "Which two fixes can team members implement with the embedded engineer reviewing?"
+      },
+      {
+        "label": "Follow-through",
+        "placeholder": "What reasoning, after-action record, and subsequent reviews will sustain progress?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Plan a team recovery engagement",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "Observe",
+        "caption": "Team context",
+        "kind": "gauge",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "Explain",
+        "caption": "Shared reasoning",
+        "kind": "document",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "Coach",
+        "caption": "Local implementation",
+        "kind": "mentor",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "Sustain",
+        "caption": "Lasting capability",
+        "kind": "team",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "Learn the service, stressors, and recurring work."
+      },
+      {
+        "node": "decide",
+        "text": "Use SLOs and a blameless postmortem to share the reasons for change."
+      },
+      {
+        "node": "act",
+        "text": "Team members implement durable fixes with review support."
+      },
+      {
+        "node": "learn",
+        "text": "The team applies the principles after the embedding ends."
+      }
+    ]
+  }
+}

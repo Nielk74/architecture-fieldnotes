@@ -1,0 +1,190 @@
+{
+  "number": 23,
+  "title": "Managing Critical State: Distributed Consensus for Reliability",
+  "part": "Distributed systems",
+  "subtitle": "Use proven agreement protocols to preserve critical state",
+  "summary": "Critical shared state needs agreement despite crashes, delayed messages, and partitions. Heartbeats alone cannot distinguish a failed peer from an unreachable one, so informal failover can create competing leaders and corrupt data. Consensus protocols preserve safety while progress depends on enough communicating replicas. Replicated state machines turn agreement into useful services by executing deterministic operations in the same order. Paxos establishes agreement; Multi-Paxos uses a stable leader to reduce repeated coordination. Replicated stores, leases, queues, and leader election build on these foundations. Deployment then becomes a trade-off among quorum survival, geographical latency, resource cost, and client requirements. Monitor leadership, replica lag, committed progress, and durable-write latency, and retain independent backups because replication also reproduces operator mistakes.",
+  "source": {
+    "startLine": 9889,
+    "endLine": 10801,
+    "reference": "text lines 9889–10801"
+  },
+  "concepts": [
+    {
+      "title": "CAP, safety, and availability",
+      "body": "During a network partition, a distributed system cannot both serve every node’s requests and guarantee one consistent view of critical state. Consensus chooses to preserve agreement, potentially pausing operations where a quorum is unavailable. Safety means conflicting decisions are not committed; liveness means decisions eventually advance. An asynchronous network cannot guarantee bounded progress, so operational redundancy and eventual communication are essential alongside protocol correctness.",
+      "example": "Teaching extension: The minority side of a partition stops changing lock ownership instead of declaring its own independent owner.",
+      "source": "text lines 9889–10801"
+    },
+    {
+      "title": "Replicated state machines and ordered operations",
+      "body": "A replicated state machine applies the same deterministic operations in the same order at multiple replicas. Consensus establishes that order; execution turns it into a datastore, queue, configuration service, or coordination primitive. Replicas that missed decisions must catch up. Read semantics still matter: reading any replica may return stale state, while a strongly consistent read requires a mechanism establishing that its view is current.",
+      "example": "Teaching extension: Two replicas processing the same ordered sequence of balance updates reach the same balance; merely receiving the same unordered set is insufficient.",
+      "source": "text lines 9889–10801"
+    },
+    {
+      "title": "Paxos and stable-leader Multi-Paxos",
+      "body": "Paxos reaches agreement through numbered proposals, persistent acceptor commitments, and overlapping majorities. Its protocol rules preserve previously accepted decisions as proposals advance. A single agreement becomes an ordered sequence through a higher-level replicated log. Multi-Paxos lets an established leader reuse its prepared leadership across operations, reducing normal coordination. Competing proposers can delay progress, so election timing, randomized backoff, and leadership stability affect availability.",
+      "example": "Teaching extension: A stable leader proposes the next operation without repeating leadership establishment; after failure, a successor must safely establish a new term.",
+      "source": "text lines 9889–10801"
+    },
+    {
+      "title": "Quorum placement and operational trade-offs",
+      "body": "A majority system with five replicas can proceed with three, tolerating two unavailable replicas if the survivors communicate and have sufficient capacity. Placing replicas in independent failure domains improves resilience but increases coordination latency. Stable leaders can bottleneck bandwidth, and losing a fast quorum member can increase latency even without losing availability. Track replica health, lag, leadership changes, and committed progress rather than assuming running processes imply a functioning service.",
+      "example": "Teaching extension: A five-replica deployment spread across sites survives two failures, but its remaining quorum may require a slower intercontinental round trip.",
+      "source": "text lines 9889–10801"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A missed heartbeat proves the old leader has stopped writing.",
+      "correction": "A timeout can indicate a partition or delay; safe leadership needs a proven agreement mechanism and its enforced ownership rules."
+    },
+    {
+      "claim": "Adding one replica always improves availability.",
+      "correction": "Increasing a majority group from five to six raises the quorum from three to four without increasing the number of tolerated failures."
+    }
+  ],
+  "scenario": {
+    "title": "Choose coordination for critical state",
+    "context": "A leader election service loses a node during a zone network partition. Clients must avoid two writers accepting conflicting configuration.",
+    "options": [
+      {
+        "label": "Use a consensus protocol with explicit failure assumptions",
+        "benefit": "A quorum rule protects consistency during node loss.",
+        "cost": "Unavailable writes are a deliberate availability cost.",
+        "consequence": "The system rejects writes without quorum and repairs membership after the partition."
+      },
+      {
+        "label": "Let each zone continue writing independently",
+        "benefit": "Each zone keeps serving without waiting for quorum.",
+        "cost": "Divergent state requires difficult reconciliation and may corrupt consumers.",
+        "consequence": "Both zones progress, then disagree about the authoritative value."
+      }
+    ],
+    "debrief": "Preserving one configuration history requires a quorum and safe leadership, not independent writers in each partition. The side without a quorum pauses writes; restored replicas catch up before participating normally."
+  },
+  "quiz": [
+    {
+      "question": "What distinguishes a replicated state machine from replicas merely receiving the same operations?",
+      "options": [
+        "Each replica may choose any execution order",
+        "Replicas must finish each operation at exactly the same wall-clock time",
+        "They execute deterministic operations in the same agreed order"
+      ],
+      "answer": 2,
+      "explanation": "Order is part of the state-machine guarantee; different orders can produce different results."
+    },
+    {
+      "question": "What is the normal-case benefit of a stable Multi-Paxos leader?",
+      "options": [
+        "It removes durable logging from acceptors after the leader is elected",
+        "It avoids repeating the preparation phase for every operation",
+        "It lets the leader commit without a majority while its process is healthy"
+      ],
+      "answer": 1,
+      "explanation": "Established leadership reduces coordination while retaining quorum-based acceptance."
+    },
+    {
+      "question": "A five-replica majority group loses contact with three replicas. What is the safe default for new commits?",
+      "options": [
+        "Pause because the remaining two cannot form a quorum",
+        "Commit locally and reconcile conflicting ownership later",
+        "Treat an operator’s timeout as proof the missing replicas are empty"
+      ],
+      "answer": 0,
+      "explanation": "Without a quorum, the survivors cannot safely establish new decisions under the existing membership."
+    }
+  ],
+  "exercise": {
+    "title": "Place a consensus quorum",
+    "prompt": "Plan a five-replica configuration service across failure domains. Explain which failures preserve progress and what clients observe when no quorum is reachable.",
+    "fields": [
+      {
+        "label": "Placement",
+        "placeholder": "Where are replicas, which failures are correlated, and which three can form a quorum?"
+      },
+      {
+        "label": "Client semantics",
+        "placeholder": "Which reads must be current, and what happens to writes without a quorum?"
+      },
+      {
+        "label": "Operational evidence",
+        "placeholder": "How will you observe leadership, replica lag, committed progress, and latency?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Place a consensus quorum",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "Operation",
+        "caption": "Requested change",
+        "kind": "document",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "Leader",
+        "caption": "Stable proposer",
+        "kind": "service",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "Quorum",
+        "caption": "Durable agreement",
+        "kind": "team",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "State",
+        "caption": "Ordered execution",
+        "kind": "database",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "A client requests a change to critical shared state."
+      },
+      {
+        "node": "decide",
+        "text": "An established leader proposes the operation."
+      },
+      {
+        "node": "act",
+        "text": "Overlapping majorities preserve agreement through durable commitments."
+      },
+      {
+        "node": "learn",
+        "text": "Replicas apply agreed deterministic operations in order."
+      }
+    ]
+  }
+}

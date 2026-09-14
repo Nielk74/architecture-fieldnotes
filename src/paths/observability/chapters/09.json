@@ -1,0 +1,185 @@
+{
+  "number": 9,
+  "title": "How Observability and Monitoring Come Together",
+  "part": "Fundamentals of Observability",
+  "subtitle": "Use aggregates to notice, events to investigate",
+  "summary": "Monitoring remains useful in an observable system. Compact measurements can track expected conditions, trends, and service health without retaining every contributing detail. Their limitation appears when an investigation asks a question that the aggregation did not preserve. Events and traces provide the finer context needed to examine a specific request or unexpected cohort. The chapter brings these approaches together through their purposes rather than treating one data type as a universal replacement for another. Teams should understand which information a summary discards and preserve a route from a concerning aggregate to relevant examples. This combination supports efficient detection while reducing the guesswork involved in explaining partial failures and unfamiliar behavior.",
+  "source": {
+    "startLine": 3797,
+    "endLine": 4158,
+    "reference": "text lines 3797–4158"
+  },
+  "concepts": [
+    {
+      "title": "Metrics trade detail for efficiency",
+      "body": "A metric compresses observations into a measurement with a chosen set of labels and an interval. Reusing those combinations can make collection and querying economical. That efficiency comes from deciding what to retain; if an omitted attribute later matters, the aggregate cannot reconstruct the individual requests that contributed to it.",
+      "example": "A fleet error counter reveals a rise but omits the failing customers.",
+      "source": "text lines 3797–4158"
+    },
+    {
+      "title": "Events retain the investigation unit",
+      "body": "An event keeps attributes together at the request or operation level. It can support new groupings when an unexpected question appears, provided the relevant fields were recorded. This costs more than keeping only a total, but preserves a path to discovering whether a broad symptom comes from one cohort or many unrelated situations.",
+      "example": "Compare errors by build and tenant using the original request records.",
+      "source": "text lines 3797–4158"
+    },
+    {
+      "title": "Different signals serve different questions",
+      "body": "Monitoring can answer whether a known condition needs attention, while exploration asks what is happening inside the affected population. Both can coexist around the same service. Choosing a signal should begin with its job: a capacity trend, an actionable reliability alert, and a specific customer investigation need different levels of detail.",
+      "example": "Use a utilization trend for capacity planning and traces to explain one slow checkout.",
+      "source": "text lines 3797–4158"
+    },
+    {
+      "title": "Connect summaries to retained context",
+      "body": "An alert or graph is a stronger starting point when the responder can inspect relevant events with its time range and scope preserved. Without that connection, responders may search unrelated logs or trace samples and infer a relationship from timing alone. The handoff should retain enough context to keep the investigation focused on the actual symptom.",
+      "example": "An error-rate graph opens the corresponding failing endpoint requests.",
+      "source": "text lines 3797–4158"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Observability makes every metric obsolete.",
+      "correction": "Metrics remain efficient for known measurements and trends; detailed exploration has different requirements."
+    },
+    {
+      "claim": "A more detailed graph can recover dimensions discarded during aggregation.",
+      "correction": "Presentation cannot restore request attributes that the stored summary never retained."
+    }
+  ],
+  "scenario": {
+    "title": "The aggregate has no tenant field",
+    "context": "An error graph spikes, but its labels contain only service and status.",
+    "options": [
+      {
+        "label": "Investigate matching request events",
+        "benefit": "Can identify which tenants and builds contribute to the spike.",
+        "cost": "Requires a retained event source and aligned time range.",
+        "consequence": "The team can estimate impact and locate the affected customer population."
+      },
+      {
+        "label": "Add tenant labels to the metric for future traffic",
+        "benefit": "May support a specific recurring tenant-level measurement.",
+        "cost": "Cannot recover past context and may greatly expand time-series cardinality.",
+        "consequence": "Future metrics change, but the current incident still requires another evidence source."
+      }
+    ],
+    "debrief": "Use the retained event evidence for this incident and choose future metric labels for their intended measurement."
+  },
+  "quiz": [
+    {
+      "question": "A metric omits tenant identity. Can its graph later show the exact failing tenants?",
+      "options": [
+        "No; it needs another data source retaining that context",
+        "Yes, by reducing the graph interval",
+        "Yes, by changing the aggregate from average to maximum"
+      ],
+      "answer": 0,
+      "explanation": "The stored information limits the questions; a display cannot recreate omitted attributes."
+    },
+    {
+      "question": "Which pairing fits the chapter?",
+      "options": [
+        "Metrics for both detection and exact reconstruction of omitted request details",
+        "Metrics for known signals, events for exploratory diagnosis",
+        "Events for finding known failures, metrics for arbitrary new dimensions"
+      ],
+      "answer": 1,
+      "explanation": "The approaches complement each other when their respective detail and cost are understood."
+    },
+    {
+      "question": "An alert opens a trace viewer with no filters. What would improve the handoff?",
+      "options": [
+        "Showing the newest trace regardless of scope",
+        "Opening a week of all service traces to provide maximum context",
+        "Preserving the affected time range and request population"
+      ],
+      "answer": 2,
+      "explanation": "The responder needs examples relevant to the signal, not merely access to another tool."
+    }
+  ],
+  "exercise": {
+    "title": "Connect detection to explanation",
+    "prompt": "Pair one useful aggregate with the event evidence needed to explain a change.",
+    "fields": [
+      {
+        "label": "Metric and its retained labels",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Question the aggregate cannot answer",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Context-preserving investigation link",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "METRIC",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "EVENT",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "PURPOSE",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "DRILL DOWN",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "A fleet error counter reveals a rise but omits the failing customers."
+      },
+      {
+        "node": "step-1",
+        "text": "Compare errors by build and tenant using the original request records."
+      },
+      {
+        "node": "step-2",
+        "text": "Use a utilization trend for capacity planning and traces to explain one slow checkout."
+      },
+      {
+        "node": "step-3",
+        "text": "An error-rate graph opens the corresponding failing endpoint requests."
+      }
+    ]
+  }
+}

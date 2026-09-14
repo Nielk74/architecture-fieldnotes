@@ -1,0 +1,195 @@
+{
+  "number": 14,
+  "title": "Managing Incidents",
+  "part": "Operations",
+  "subtitle": "Separate command, operations, communication, and planning during an incident",
+  "summary": "A technically capable team can prolong an outage when everyone changes production independently and nobody maintains the overall picture. Incident management makes responsibilities explicit so technical response and coordination can proceed together. The commander assigns roles and tracks priorities; operations controls production changes; communication keeps stakeholders informed; planning handles continuity and longer-term needs. A recognized coordination channel and a live incident document let new participants understand what has happened without interrupting the responder repeatedly. Command transfers require explicit acknowledgment, particularly across time zones. Declare an incident early when impact, duration, or cross-team work justifies coordination. Practicing these roles during exercises and substantial operational changes makes the process familiar before an emergency, reducing confusion without requiring the commander to solve every technical problem.",
+  "source": {
+    "startLine": 5838,
+    "endLine": 6052,
+    "reference": "text lines 5838–6052"
+  },
+  "concepts": [
+    {
+      "title": "The commander holds the overall picture",
+      "body": "The incident commander coordinates the response, assigns responsibilities, tracks priorities, and removes obstacles. They initially hold any role not yet delegated, but should delegate as workload grows. Separating command from detailed troubleshooting protects attention for the incident’s overall state, needed help, and recovery direction. Authority becomes clear enough that each participant can work independently within an assigned scope.",
+      "example": "Teaching extension: A commander recruits a database specialist while the operations lead continues a traffic mitigation.",
+      "source": "text lines 5838–6052"
+    },
+    {
+      "title": "Only coordinated operations change production",
+      "body": "The operations lead directs technical work and is the focal point for changes to the affected system. Other participants provide expertise through that structure rather than independently deploying promising fixes. This prevents conflicting interventions and preserves understanding of the system’s state. Communication and planning roles remove status requests and continuity tasks from the people making operational changes.",
+      "example": "Teaching extension: A developer proposes a configuration fix to the operations lead instead of applying it from a separate terminal.",
+      "source": "text lines 5838–6052"
+    },
+    {
+      "title": "Maintain a common operational record",
+      "body": "A recognized communication channel and live incident document expose the current impact, roles, actions, and unresolved questions. The record lets arriving responders catch up and preserves failed attempts so they are not repeated blindly. Keep essential information easy to find and choose tools that remain available during the incident; relying exclusively on the service being repaired creates a circular dependency.",
+      "example": "Teaching extension: The document records that the old binary did not resolve the outage, preventing the next shift from repeating that rollback.",
+      "source": "text lines 5838–6052"
+    },
+    {
+      "title": "Declare early and hand off explicitly",
+      "body": "An incident process is easier to start before coordination becomes chaotic. The chapter suggests triggers including customer visibility, a second team’s involvement, or a prolonged unresolved investigation. At handoff, the outgoing commander briefs the replacement, obtains explicit acceptance, and informs participants. Practicing the process during drills or cross-team work keeps these habits available when pressure is high.",
+      "example": "Teaching extension: A replacement commander acknowledges the transfer before the outgoing lead leaves the response channel.",
+      "source": "text lines 5838–6052"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "The incident commander must personally execute the technical fix.",
+      "correction": "Command coordinates the whole response; operations owns technical interventions."
+    },
+    {
+      "claim": "A helpful expert can safely deploy a fix without coordinating.",
+      "correction": "Uncoordinated changes can conflict, worsen the outage, and make the production state unclear."
+    }
+  ],
+  "scenario": {
+    "title": "Coordinate experts during a regional outage",
+    "context": "Two teams are diagnosing a growing outage. One developer wants to change retry settings while another prepares a database restart. Stakeholders are repeatedly asking the on-call engineer for updates.",
+    "options": [
+      {
+        "label": "Assign command, operations, and communication roles",
+        "benefit": "Technical changes can be coordinated while stakeholders receive regular updates.",
+        "cost": "Participants must briefly establish ownership and a shared record.",
+        "consequence": "The operations lead evaluates proposed changes; the commander obtains help and keeps the overall picture."
+      },
+      {
+        "label": "Let each expert pursue their proposed fix independently",
+        "benefit": "Several hypotheses can be investigated in parallel.",
+        "cost": "Independent production changes can interact and make results uninterpretable.",
+        "consequence": "Parallel diagnosis may help, but production interventions need an agreed operations owner."
+      }
+    ],
+    "debrief": "Role separation permits parallel work without conflicting changes. The commander coordinates; operations changes production; communication handles updates; planning maintains continuity."
+  },
+  "quiz": [
+    {
+      "question": "Who should coordinate changes to the production system during an incident?",
+      "options": [
+        "Any engineer with a promising idea",
+        "The communications lead",
+        "The operations lead and assigned operations responders"
+      ],
+      "answer": 2,
+      "explanation": "Concentrating operational changes in a coordinated group prevents freelancing."
+    },
+    {
+      "question": "What makes an incident-command handoff complete?",
+      "options": [
+        "The replacement explicitly accepts after being briefed, and participants are informed",
+        "The outgoing lead silently edits a name in a document",
+        "The next time zone reaches office hours"
+      ],
+      "answer": 0,
+      "explanation": "A live acknowledged transfer avoids a gap or ambiguity in command."
+    },
+    {
+      "question": "A failure now needs help from a second team. Which response follows the chapter’s guidance?",
+      "options": [
+        "Wait until every service is down",
+        "Consider declaring an incident early to establish coordination",
+        "Keep the issue private until a root cause is certain"
+      ],
+      "answer": 1,
+      "explanation": "Cross-team response is one of the suggested triggers for activating the incident process."
+    }
+  ],
+  "exercise": {
+    "title": "Assign roles before changing production",
+    "prompt": "A two-region outage needs application and database teams. Assign command, operations, communication, and planning, then describe a shift handoff.",
+    "fields": [
+      {
+        "label": "Role ownership",
+        "placeholder": "Who coordinates changes, stakeholder updates, and replacement staffing?"
+      },
+      {
+        "label": "Live state",
+        "placeholder": "What impact, attempted fixes, and open questions must the common record show?"
+      },
+      {
+        "label": "Handoff",
+        "placeholder": "How will the replacement accept command and notify everyone involved?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Clear incident roles support coordinated action",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "COMMAND",
+        "caption": "assign priorities and ownership",
+        "kind": "person",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "OPERATIONS",
+        "caption": "coordinate production changes",
+        "kind": "colleague",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "COMMUNICATION",
+        "caption": "publish status and impact",
+        "kind": "person",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "PLANNING",
+        "caption": "prepare handoffs and recovery work",
+        "kind": "document",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      },
+      {
+        "from": "learn",
+        "to": "observe",
+        "dashed": true
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "assign priorities and ownership"
+      },
+      {
+        "node": "decide",
+        "text": "coordinate production changes"
+      },
+      {
+        "node": "act",
+        "text": "publish status and impact"
+      },
+      {
+        "node": "learn",
+        "text": "prepare handoffs and recovery work"
+      }
+    ]
+  }
+}

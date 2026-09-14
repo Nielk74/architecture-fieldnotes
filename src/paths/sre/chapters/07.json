@@ -1,0 +1,195 @@
+{
+  "number": 7,
+  "title": "The Evolution of Automation at Google",
+  "part": "Operations",
+  "subtitle": "Move from scripts toward owned, observable, autonomous systems",
+  "summary": "Automation offers consistency, faster recovery, reusable interfaces, and measurable operations as well as saving time. Its value depends on the design of the action being amplified. Google’s examples move from hand-operated scripts toward service-owned APIs and systems that manage their own lifecycle. The MySQL migration required rapid automatic failover because human recovery could not keep pace with routine task movement. Cluster turnup exposed a different problem: separating automation ownership from service expertise allowed scripts to decay as services changed. Idempotent operations help resume work, but unreliable checks and hidden assumptions can still create inconsistent states. The disk-erasure incident shows the stakes of scope errors. Automation needs explicit targets, bounded effects, inspection, and recovery paths that operators can actually use when ordinary mechanisms fail.",
+  "source": {
+    "startLine": 2892,
+    "endLine": 3536,
+    "reference": "text lines 2892–3536"
+  },
+  "concepts": [
+    {
+      "title": "Automation provides more than saved minutes",
+      "body": "A well-defined procedure executed by software is more consistent than repeated human execution. It can run frequently, react quickly, expose measurements, and make the same capability available to many operators. Centralizing the implementation also centralizes both fixes and defects. Evaluation must therefore include reduced recovery time and repeatability alongside development cost and the risk of applying a mistake at scale.",
+      "example": "Teaching extension: One tested failover operation replaces several engineers’ slightly different manual procedures.",
+      "source": "text lines 2892–3536"
+    },
+    {
+      "title": "Autonomy changes the system boundary",
+      "body": "A manually started script automates steps but still depends on someone recognizing when to use it. An autonomous system detects conditions and performs the necessary lifecycle action itself. Borg illustrates a larger architectural move: applications request resources instead of permanently owning machines, so replacement and scheduling become system behavior rather than an external collection of machine-specific repair scripts.",
+      "example": "Teaching extension: A scheduler replaces a failed replica without waiting for a person to start the replacement script.",
+      "source": "text lines 2892–3536"
+    },
+    {
+      "title": "Service ownership keeps automation relevant",
+      "body": "Automation decays when its maintainers are separated from the people changing and operating the underlying service. Cluster turnup improved when service teams owned management APIs and the orchestration layer called those contracts. This preserved domain knowledge and let implementation evolve behind a stable interface. A fast central turnup team alone could not compensate for obsolete assumptions in other teams’ scripts.",
+      "example": "Teaching extension: The storage team maintains its own turnup API when storage configuration changes.",
+      "source": "text lines 2892–3536"
+    },
+    {
+      "title": "Resumability and bounded effects",
+      "body": "An idempotent operation can be repeated without adding unintended effects, which helps a workflow resume after partial completion. That property is insufficient if checks are stale or target selection is ambiguous. The disk-erasure failure arose when an empty target selection meant all machines. Explicit scope validation, limits on change rate, and visible state help prevent automation from turning a local error into fleet-wide damage.",
+      "example": "Teaching extension: A destructive workflow rejects an empty target list and stops if its selected scope exceeds the expected rack.",
+      "source": "text lines 2892–3536"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "An idempotent fix makes any surrounding workflow safe.",
+      "correction": "Stale observations, dependencies, and ambiguous target selection can still make the workflow unsafe."
+    },
+    {
+      "claim": "A central automation team can permanently replace service-team ownership.",
+      "correction": "Without service expertise and maintenance incentives, automation can drift away from the system it controls."
+    }
+  ],
+  "scenario": {
+    "title": "Replace hand-run deployment steps",
+    "context": "A release requires copying artifacts, editing configuration, and restarting three services in order. One step was skipped last month. The release team has one afternoon to improve it.",
+    "options": [
+      {
+        "label": "Automate the sequence with checkpoints",
+        "benefit": "The repeatable path reduces omission risk and leaves evidence of each step.",
+        "cost": "Automation must handle partial completion and rollback.",
+        "consequence": "A staged tool validates artifacts and stops safely between services."
+      },
+      {
+        "label": "Add a longer runbook",
+        "benefit": "The runbook can clarify unusual recovery without code changes.",
+        "cost": "Human execution remains error-prone under time pressure.",
+        "consequence": "The runbook helps today, but the same manual toil returns next release."
+      }
+    ],
+    "debrief": "A checkpoint records partial progress but does not by itself make retries safe. Validate each transition, make repeated operations safe, and expose the state needed to recover when the workflow stops."
+  },
+  "quiz": [
+    {
+      "question": "What architectural change made Borg more than a collection of host scripts?",
+      "options": [
+        "It treated the cluster as schedulable resources behind a management interface",
+        "It assigned each service a permanent host",
+        "It required operators to approve every restart"
+      ],
+      "answer": 0,
+      "explanation": "Scheduling and lifecycle management became intrinsic platform behavior."
+    },
+    {
+      "question": "Why did separating cluster turnup from service-owning teams eventually hurt automation?",
+      "options": [
+        "It made every operation too idempotent",
+        "It prevented any reuse of code",
+        "Service changes stopped being reflected reliably in the automation"
+      ],
+      "answer": 2,
+      "explanation": "The team feeling turnup failures no longer had the relevant ownership and expertise."
+    },
+    {
+      "question": "A retry produces an empty list of machines to erase. What is the safe interpretation?",
+      "options": [
+        "Erase every machine because the filter is absent",
+        "Perform no erasure and validate the intended scope",
+        "Reuse the largest previously seen list"
+      ],
+      "answer": 1,
+      "explanation": "Empty must not silently expand destructive scope; the chapter’s incident demonstrates that failure mode."
+    }
+  ],
+  "exercise": {
+    "title": "Make a partial workflow safe to resume",
+    "prompt": "Design a service-turnup operation that may stop after configuration is created but before the service is ready. Specify ownership and retry behavior.",
+    "fields": [
+      {
+        "label": "State and dependencies",
+        "placeholder": "How will the operation distinguish completed, pending, and blocked work?"
+      },
+      {
+        "label": "Retry semantics",
+        "placeholder": "Which repeated actions leave already-correct state unchanged?"
+      },
+      {
+        "label": "Scope and visibility",
+        "placeholder": "What target limit and status output help stop an incorrect fleet-wide action?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "The Evolution of Automation at Google: PIPELINE to CHECKPOINT to ROLLBACK to AUDIT",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "PIPELINE",
+        "caption": "inputs and constraints",
+        "kind": "terminal",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "CHECKPOINT",
+        "caption": "choose the operating rule",
+        "kind": "deployment",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "ROLLBACK",
+        "caption": "observe the effect",
+        "kind": "shield",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "AUDIT",
+        "caption": "feed learning back",
+        "kind": "document",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      },
+      {
+        "from": "learn",
+        "to": "observe",
+        "dashed": true
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "inputs and constraints"
+      },
+      {
+        "node": "decide",
+        "text": "choose the operating rule"
+      },
+      {
+        "node": "act",
+        "text": "observe the effect"
+      },
+      {
+        "node": "learn",
+        "text": "feed learning back"
+      }
+    ]
+  }
+}

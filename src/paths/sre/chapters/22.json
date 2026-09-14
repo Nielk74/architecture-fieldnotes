@@ -1,0 +1,190 @@
+{
+  "number": 22,
+  "title": "Addressing Cascading Failures",
+  "part": "Distributed systems",
+  "subtitle": "Break the feedback loops that turn overload into collapse",
+  "summary": "Cascading failures grow through positive feedback: a failing replica shifts work to survivors, which then fail and reduce capacity further. CPU pressure, memory growth, garbage collection, queues, and retries can reinforce one another, so the visible symptom may be far from the initiating problem. Capacity planning reduces exposure but cannot replace tested overload behavior. Servers should reject excess work cheaply or produce cheaper useful results, and callers should bound retries and propagate deadlines. Cold caches and slow startup make recovery capacity smaller than steady-state capacity. Test both overload and the return from overload, including unresponsive optional dependencies. During an incident, restoring stability may require sharply reducing traffic, correcting the trigger, and then warming capacity gradually.",
+  "source": {
+    "startLine": 9020,
+    "endLine": 9888,
+    "reference": "text lines 9020–9888"
+  },
+  "concepts": [
+    {
+      "title": "Positive feedback and reduced recovery capacity",
+      "body": "A cascade occurs when failure increases the conditions that cause further failure. Removing an overloaded replica sends more requests to its peers; slower completion also retains memory and threads longer. Once many replicas are restarting, the service has less capacity than before the incident. Returning traffic to its former normal level may therefore sustain the collapse instead of ending it.",
+      "example": "Teaching extension: A fleet once serving ten thousand requests per second cannot recover at nine thousand while only a tenth of its replicas are healthy.",
+      "source": "text lines 9020–9888"
+    },
+    {
+      "title": "Load shedding, degradation, and deadlines",
+      "body": "Load shedding rejects some work before resource exhaustion, while graceful degradation reduces the work needed to produce a useful response. Small, appropriate queues prevent requests from waiting past usefulness. Propagating the original deadline and cancellation down the dependency tree prevents servers from spending scarce resources on work whose caller has already stopped waiting. These paths need testing because normal traffic may rarely exercise them.",
+      "example": "Teaching extension: An overloaded search server skips optional enrichment and cancels downstream work when the user’s remaining deadline expires.",
+      "source": "text lines 9020–9888"
+    },
+    {
+      "title": "Retry budgets and randomized backoff",
+      "body": "A retry budget limits additional attempts, either for one logical request or across a process, so errors cannot generate unlimited new load. Exponential backoff spaces attempts farther apart, and jitter prevents many clients from retrying simultaneously. These mechanisms serve different purposes and should work together. Retrying at several dependency layers multiplies attempts, so retry ownership and nonretryable error signals must be explicit.",
+      "example": "Teaching extension: Three layers allowing four attempts each can turn one user action into sixty-four attempts at an overloaded database.",
+      "source": "text lines 9020–9888"
+    },
+    {
+      "title": "Testing and recovering beyond the breaking point",
+      "body": "Load tests should cross the failure threshold and then observe recovery, using both gradual and sudden traffic increases. Cold caches, restarted processes, and blackholed optional backends can expose hidden capacity dependencies. During a cascade, fix or contain the trigger, reduce traffic enough for surviving capacity, and restore load gradually. Restarting everything indiscriminately can worsen the incident by discarding warm caches and usable capacity.",
+      "example": "Teaching extension: After a cache-related collapse, a small admitted traffic stream warms recovering servers before the operator raises the limit.",
+      "source": "text lines 9020–9888"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Restoring the old request rate always restores service.",
+      "correction": "Restart loops and cold caches can leave far less effective capacity, requiring a deeper temporary traffic reduction."
+    },
+    {
+      "claim": "Adding retries makes failure handling safer by default.",
+      "correction": "Retries can be a positive feedback loop; limits, jitter, backoff, and ownership across layers are necessary."
+    }
+  ],
+  "scenario": {
+    "title": "Stop a retry cascade",
+    "context": "A profile service slows, and three clients retry failed calls. CPU is rising from retries even though incoming traffic is flat.",
+    "options": [
+      {
+        "label": "Add jitter, limits, and a retry budget",
+        "benefit": "Retry pressure becomes bounded and less synchronized.",
+        "cost": "Some requests fail sooner and need a fallback.",
+        "consequence": "The team caps retries per request and uses a process budget while repairing the dependency."
+      },
+      {
+        "label": "Increase every client timeout and retry count",
+        "benefit": "Longer timeouts may tolerate a brief dependency pause.",
+        "cost": "The cascade consumes more capacity and delays recovery.",
+        "consequence": "The added retries deepen the overload and widen the outage."
+      }
+    ],
+    "debrief": "The retries are adding load even though original demand is flat. Bound total retry traffic, add randomized backoff, and address the dependency’s trigger. Recovery may require temporarily reducing demand below its former safe level."
+  },
+  "quiz": [
+    {
+      "question": "Why can a service remain unstable after demand returns below its former safe rate?",
+      "options": [
+        "The original safe rate included all retries even during a crash loop",
+        "Failed and warming replicas leave less usable capacity than before",
+        "The configured capacity is unchanged, so recovery depends only on elapsed time"
+      ],
+      "answer": 1,
+      "explanation": "Recovery capacity can be much smaller than normal capacity."
+    },
+    {
+      "question": "What does a process-wide retry budget limit?",
+      "options": [
+        "The total extra retry traffic generated by that process",
+        "The number of concurrent first attempts admitted to each backend",
+        "The maximum deadline for one failed logical request"
+      ],
+      "answer": 0,
+      "explanation": "An aggregate retry budget bounds amplification across many failing requests."
+    },
+    {
+      "question": "What should an overload test examine after crossing the breaking point?",
+      "options": [
+        "Only the highest observed CPU value",
+        "Whether the request generator can send more traffic",
+        "Whether the service recovers as load falls and what reduction is required"
+      ],
+      "answer": 2,
+      "explanation": "Recovery can follow a different path from the initial rise in load."
+    }
+  ],
+  "exercise": {
+    "title": "Trace a cascade",
+    "prompt": "Draw a feedback chain from one slow dependency to resource exhaustion. Specify how to break it and how to demonstrate recovery.",
+    "fields": [
+      {
+        "label": "Feedback",
+        "placeholder": "Which resources, retries, and replica failures amplify the original slowdown?"
+      },
+      {
+        "label": "Limits",
+        "placeholder": "Where are retry budgets, deadlines, and load-shedding decisions enforced?"
+      },
+      {
+        "label": "Recovery test",
+        "placeholder": "How far must demand fall, and how will caches warm before traffic returns?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Trace a cascade",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "Slowdown",
+        "caption": "Retained resources",
+        "kind": "service",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "Retries",
+        "caption": "Amplified demand",
+        "kind": "queue",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "Budget",
+        "caption": "Bounded attempts",
+        "kind": "gauge",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "Recovery",
+        "caption": "Gradual recovery",
+        "kind": "shield",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "Longer requests retain threads and memory."
+      },
+      {
+        "node": "decide",
+        "text": "Additional attempts increase pressure on the same dependency."
+      },
+      {
+        "node": "act",
+        "text": "Limit amplification and space retries with jittered backoff."
+      },
+      {
+        "node": "learn",
+        "text": "Reduce demand enough for surviving capacity to stabilize."
+      }
+    ]
+  }
+}

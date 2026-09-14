@@ -1,0 +1,185 @@
+{
+  "number": 13,
+  "title": "Acting on and Debugging SLO-Based Alerts",
+  "part": "Observability for Teams",
+  "subtitle": "Alert while there is still time to protect the budget",
+  "summary": "An exhausted error budget is a late signal for action. The chapter examines alerts that estimate whether present behavior threatens the objective soon enough for responders to intervene. Such forecasts depend on the recent baseline, the lookahead horizon, traffic patterns, and the way older events leave a rolling window. They are conditional projections, not knowledge of future failures. Event-level evaluation also avoids treating every request in a partly degraded interval as bad merely because an aggregate threshold failed. Once alerted, responders need the failing events and their context to investigate impact and causes. Combining budget-aware detection with exploratory diagnosis makes the alert a starting point for protecting user experience rather than another isolated warning about a component.",
+  "source": {
+    "startLine": 5232,
+    "endLine": 5811,
+    "reference": "text lines 5232–5811"
+  },
+  "concepts": [
+    {
+      "title": "Budget consumption needs context",
+      "body": "Burn describes how quickly failures consume the permitted unreliability. A short period of elevated errors may threaten the objective even while substantial budget remains. Alerting should leave enough time for a useful response, considering current consumption and the objective’s window rather than waiting for the remaining budget to reach zero.",
+      "example": "A rapid partial outage can justify paging before the monthly target is breached.",
+      "source": "text lines 5232–5811"
+    },
+    {
+      "title": "A forecast depends on its baseline",
+      "body": "A lookahead projection extends recent behavior into a future horizon. A very short baseline reacts quickly but may overreact to a brief burst; a long baseline smooths noise but can dilute a new failure. The responder should understand which behavior was extrapolated and recognize that changing traffic or remediation can invalidate the projection.",
+      "example": "A five-minute burst and a sustained two-hour failure support different confidence in continued burn.",
+      "source": "text lines 5232–5811"
+    },
+    {
+      "title": "Rolling windows can recover",
+      "body": "In a sliding-window objective, older events eventually leave the evaluated population. Forecasts that consider the window’s history can account for failures aging out, rather than assuming every old error remains forever. This matters when estimating future compliance or interpreting a recovering budget; improvement in the displayed budget is not necessarily proof of a new technical fix.",
+      "example": "Yesterday’s concentrated failures leave the window while today’s behavior stays unchanged.",
+      "source": "text lines 5232–5811"
+    },
+    {
+      "title": "Count failing events accurately",
+      "body": "A good-minute/bad-minute measure can classify an entire interval as bad when only some requests violated the condition. Event-based evaluation counts the individual failures instead and retains their attributes. This gives a more precise account of partial outages and a direct path from the budget alert to the requests a responder should investigate.",
+      "example": "If 6% of requests exceed the threshold, those events count as bad rather than all requests in the minute.",
+      "source": "text lines 5232–5811"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A predictive burn alert guarantees the budget will be exhausted.",
+      "correction": "The projection assumes future behavior resembles its baseline; changing traffic and mitigation can alter the result."
+    },
+    {
+      "claim": "A minute with a failing percentile means every request was bad.",
+      "correction": "A percentile threshold describes a distribution; event criteria can count the actual fraction that failed."
+    }
+  ],
+  "scenario": {
+    "title": "A sharp but brief burn",
+    "context": "A short error burst generates an alarming budget forecast just as a mitigation is deployed.",
+    "options": [
+      {
+        "label": "Inspect current failing events and the forecast baseline",
+        "benefit": "Tests whether burn persists after the intervention.",
+        "cost": "Requires checking fresh data rather than relying on the alert alone.",
+        "consequence": "The response can be adjusted to the actual post-mitigation rate of failure."
+      },
+      {
+        "label": "Treat the original forecast as a certain future breach",
+        "benefit": "Keeps attention on a potentially serious event.",
+        "cost": "Can misrepresent the future if the underlying error rate has changed.",
+        "consequence": "The team may continue acting on conditions that no longer hold."
+      }
+    ],
+    "debrief": "Use the alert to mobilize, then update the diagnosis with fresh evidence and the forecast’s assumptions."
+  },
+  "quiz": [
+    {
+      "question": "Six percent of requests violate the latency SLI. What does event-based evaluation count?",
+      "options": [
+        "Every request in the interval",
+        "The entire interval if its p95 crosses the threshold",
+        "The 6% that fail the event criterion"
+      ],
+      "answer": 2,
+      "explanation": "The individual good-or-bad rule preserves partial impact rather than marking the whole interval bad."
+    },
+    {
+      "question": "Why can a rolling-window budget improve without a new fix?",
+      "options": [
+        "Older bad events can age out of the window",
+        "A successful mitigation immediately removes old failures from the calculation",
+        "The full allowance is restored at each calendar-day boundary"
+      ],
+      "answer": 0,
+      "explanation": "The population changes as the window advances, so historical failures can stop contributing."
+    },
+    {
+      "question": "What is the trade-off of a very short forecast baseline?",
+      "options": [
+        "It estimates long-term traffic patterns more reliably than a longer baseline",
+        "It reacts quickly but may extrapolate a transient burst",
+        "It smooths a new outage enough to favor a later alert"
+      ],
+      "answer": 1,
+      "explanation": "Responsiveness comes with sensitivity to short-lived changes."
+    }
+  ],
+  "exercise": {
+    "title": "Explain a budget forecast",
+    "prompt": "Draft the information a responder needs alongside a predictive alert.",
+    "fields": [
+      {
+        "label": "Baseline and lookahead",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Affected event population",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Fresh evidence after mitigation",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "BURN",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "FORECAST",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "WINDOW",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "EVENT IMPACT",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "A rapid partial outage can justify paging before the monthly target is breached."
+      },
+      {
+        "node": "step-1",
+        "text": "A five-minute burst and a sustained two-hour failure support different confidence in continued burn."
+      },
+      {
+        "node": "step-2",
+        "text": "Yesterday’s concentrated failures leave the window while today’s behavior stays unchanged."
+      },
+      {
+        "node": "step-3",
+        "text": "If 6% of requests exceed the threshold, those events count as bad rather than all requests in the minute."
+      }
+    ]
+  }
+}

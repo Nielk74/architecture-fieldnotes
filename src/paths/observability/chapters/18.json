@@ -1,0 +1,185 @@
+{
+  "number": 18,
+  "title": "Telemetry Management with Pipelines",
+  "part": "Observability at Scale",
+  "subtitle": "Treat the telemetry pipeline as a service",
+  "summary": "A telemetry pipeline mediates between applications that emit data and backends that store or analyze it. This creates a place to buffer bursts, route records, normalize formats, enrich context, and apply filtering or sampling policies. Slack’s case shows why those responsibilities become operationally significant at scale. A backend outage need not immediately erase application evidence if buffers can hold and replay it, but queues cannot absorb sustained overload forever. Processing mistakes can silently corrupt the very data used to diagnose incidents. Pipelines therefore need their own checks for correctness, capacity, freshness, and availability. Their purpose is to keep useful evidence flowing under changing conditions, with explicit trade-offs about what is delayed, transformed, or dropped.",
+  "source": {
+    "startLine": 8054,
+    "endLine": 8666,
+    "reference": "text lines 8054–8666"
+  },
+  "concepts": [
+    {
+      "title": "Components separate responsibilities",
+      "body": "A receiver accepts data, a buffer temporarily holds it, a processor transforms it, and an exporter sends it onward. These roles can be chained or combined depending on the workload. Separating responsibilities creates places to control flow and routing without requiring every application to implement each backend’s format and delivery behavior itself.",
+      "example": "One receiver accepts traces, then a processor enriches them before export.",
+      "source": "text lines 8054–8666"
+    },
+    {
+      "title": "Buffers absorb temporary disruption",
+      "body": "A queue or local disk buffer can preserve telemetry when a backend is briefly unavailable or traffic spikes. Replay then catches up after recovery. Capacity is finite: if input persistently exceeds output, the backlog grows until something must change. Buffering buys time; it does not remove the need for throughput and overload policies.",
+      "example": "After a backend outage, retained telemetry is replayed while fresh events continue arriving.",
+      "source": "text lines 8054–8666"
+    },
+    {
+      "title": "Transformation changes evidence",
+      "body": "Pipelines may normalize formats, redact sensitive values, add infrastructure metadata, or filter low-value data. Each transformation affects what downstream users can ask and trust. Validate schemas, timestamps, and retained context, because an apparently healthy delivery rate can conceal incorrect values or records dropped by an overly broad rule.",
+      "example": "A faulty timestamp filter removes valid recent spans even though export remains available.",
+      "source": "text lines 8054–8666"
+    },
+    {
+      "title": "Freshness and history can compete",
+      "body": "During a log storm, processing the entire backlog first may leave responders looking at stale conditions. Prioritizing fresh evidence can help current diagnosis, with historical backfill handled later if capacity permits. Make this policy visible and monitor age, loss, and backlog so users understand whether a quiet graph means recovery or delayed ingestion.",
+      "example": "Fresh failure events receive priority while older buffered logs await backfill.",
+      "source": "text lines 8054–8666"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A queue solves sustained telemetry overload.",
+      "correction": "Finite buffering only delays exhaustion when input continues to exceed processing capacity."
+    },
+    {
+      "claim": "Successful export proves pipeline correctness.",
+      "correction": "Records can arrive with wrong fields, timestamps, or filtering; correctness needs end-to-end validation."
+    }
+  ],
+  "scenario": {
+    "title": "The application recovered, the graph did not",
+    "context": "A telemetry backlog keeps showing old errors after a service fix.",
+    "options": [
+      {
+        "label": "Measure event age and prioritize fresh ingestion",
+        "benefit": "Lets responders distinguish current behavior from delayed history.",
+        "cost": "Requires explicit backlog and backfill policy.",
+        "consequence": "Responders can assess recovery now while keeping backlog work visible."
+      },
+      {
+        "label": "Continue interpreting arrival-time graphs as current state",
+        "benefit": "Keeps the existing pipeline simple.",
+        "cost": "Can falsely suggest the intervention failed.",
+        "consequence": "Old failures may be mistaken for current failures and prompt unnecessary intervention."
+      }
+    ],
+    "debrief": "Separate when work happened from when its telemetry arrived before drawing a recovery conclusion."
+  },
+  "quiz": [
+    {
+      "question": "Input remains twice the export capacity for hours. What happens to a finite queue?",
+      "options": [
+        "The buffer reaches a stable size as long as export remains available",
+        "Replay alone removes the mismatch without changing input or output capacity",
+        "Its backlog grows until capacity or policy intervenes"
+      ],
+      "answer": 2,
+      "explanation": "Buffers absorb temporary mismatch, not unlimited sustained overload."
+    },
+    {
+      "question": "After a pipeline rule change, export succeeds but one tenant disappears. What should be checked?",
+      "options": [
+        "Filtering and transformation correctness across the pipeline",
+        "Only application uptime",
+        "Only total exporter throughput"
+      ],
+      "answer": 0,
+      "explanation": "A successful transport can still deliver an incomplete or corrupted population."
+    },
+    {
+      "question": "Why might fresh events be prioritized during a backlog?",
+      "options": [
+        "The oldest records cannot contribute to later incident analysis",
+        "Responders need current behavior to judge ongoing impact and mitigation",
+        "Freshness priority guarantees historical backfill will catch up at the same throughput"
+      ],
+      "answer": 1,
+      "explanation": "Freshness supports live response; historical processing can remain separate work."
+    }
+  ],
+  "exercise": {
+    "title": "Plan for telemetry overload",
+    "prompt": "Describe how a pipeline behaves when a backend is unavailable and then recovers.",
+    "fields": [
+      {
+        "label": "Buffer capacity and maximum age",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Overload or sampling policy",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Checks for freshness and correctness",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "PIPELINE",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "BUFFER",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "TRANSFORM",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "FRESHNESS",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "One receiver accepts traces, then a processor enriches them before export."
+      },
+      {
+        "node": "step-1",
+        "text": "After a backend outage, retained telemetry is replayed while fresh events continue arriving."
+      },
+      {
+        "node": "step-2",
+        "text": "A faulty timestamp filter removes valid recent spans even though export remains available."
+      },
+      {
+        "node": "step-3",
+        "text": "Fresh failure events receive priority while older buffered logs await backfill."
+      }
+    ]
+  }
+}

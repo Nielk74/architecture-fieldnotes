@@ -1,0 +1,195 @@
+{
+  "number": 13,
+  "title": "Emergency Response",
+  "part": "Operations",
+  "subtitle": "Rehearse recovery paths that still work when normal tools fail",
+  "summary": "Emergency readiness depends on preparation that survives contact with real failure. The chapter’s three incidents show different weaknesses: a scoped database test exposed hidden dependencies and an untested rollback; a global configuration change disabled both services and ordinary response tools; a decommissioning workflow amplified an empty-target error into widespread erasure. Recovery depended on aborting harmful activity, involving the right people, using alternative access, and directing traffic toward surviving capacity. Restoring user service and rebuilding the damaged fleet were separate milestones. Each event produced improvements that needed follow-through and renewed testing. The practical lesson is to rehearse the actual recovery process, including communication and installation dependencies, and to use bounded tests to discover assumptions before an uncontrolled outage exposes them.",
+  "source": {
+    "startLine": 5520,
+    "endLine": 5837,
+    "reference": "text lines 5520–5837"
+  },
+  "concepts": [
+    {
+      "title": "Test the rollback before the emergency",
+      "body": "A planned failure experiment can affect dependencies beyond its intended target. The database exercise revealed that a reviewed scope was insufficient and that the assumed rollback did not work. Readiness therefore includes validating reversal and abort procedures, understanding dependency behavior, and having people available to respond. A test teaches something useful only if the team can also contain unexpected damage.",
+      "example": "Teaching extension: Before blocking a dependency in a drill, exercise the exact restore procedure in an appropriate test environment.",
+      "source": "text lines 5520–5837"
+    },
+    {
+      "title": "Keep response access independent",
+      "body": "An outage can disable the same tools engineers normally use to diagnose, communicate, and deploy fixes. During the configuration incident, alternative access and simpler communication paths helped responders act when ordinary infrastructure was unavailable. Independence must be tested in practice: possessing a backup tool is less useful if responders cannot authenticate to it or no longer remember how to use it.",
+      "example": "Teaching extension: Responders rehearse accessing rollback tooling without the application gateway that the change could disable.",
+      "source": "text lines 5520–5837"
+    },
+    {
+      "title": "Stop propagation and distinguish recovery stages",
+      "body": "When automation is expanding damage, stopping the workflow may matter more than repairing an individual machine. In the erasure incident, engineers halted automation and redirected traffic before rebuilding lost capacity. User-visible recovery can precede complete fleet restoration, but remaining capacity and network constraints still require attention. Reinstallation systems must also handle the unusual scale of a mass recovery.",
+      "example": "Teaching extension: Pause a destructive rollout, shift requests to surviving capacity, then rebuild affected sites in priority order.",
+      "source": "text lines 5520–5837"
+    },
+    {
+      "title": "Turn emergency experience into practiced capability",
+      "body": "Documenting an incident identifies concrete weaknesses, but prevention requires completed actions and later exercises. Test both systems and response processes, including communication, escalation, and unfamiliar recovery dependencies. Involve engineers who understand the initiating change without treating them as targets for blame. Repeated practice updates the team’s mental model as production evolves and reveals when an old recovery assumption is no longer valid.",
+      "example": "Teaching extension: A drill after a permissions incident verifies restored access and confirms that all dependent teams receive status updates.",
+      "source": "text lines 5520–5837"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A reviewed failure test cannot exceed its intended scope.",
+      "correction": "Hidden dependencies can broaden impact, so tested rollback and abort paths remain essential."
+    },
+    {
+      "claim": "Once traffic succeeds again, recovery infrastructure no longer matters.",
+      "correction": "Reduced redundancy, congested links, and slow rebuilding can leave the service exposed after immediate mitigation."
+    }
+  ],
+  "scenario": {
+    "title": "Recover when the normal control interface fails",
+    "context": "A configuration rollout makes a service and its ordinary management gateway unavailable. Responders have a separately authenticated command-line path, but some have not used it recently.",
+    "options": [
+      {
+        "label": "Use the rehearsed alternative access and halt the rollout",
+        "benefit": "Responders can stop propagation and apply a known reversal despite the gateway outage.",
+        "cost": "The alternative path must have working credentials and trained operators.",
+        "consequence": "A responder restores the previous configuration while another maintains independent status updates."
+      },
+      {
+        "label": "Concentrate on repairing the management gateway first",
+        "benefit": "The familiar interface could simplify later recovery.",
+        "cost": "The gateway may depend on the failing configuration and delay mitigation.",
+        "consequence": "The team risks extending user impact unless gateway repair is itself the fastest tested recovery path."
+      }
+    ],
+    "debrief": "An emergency may remove ordinary recovery tools. Practice alternative access, communication, and rollback before relying on them, and stop a harmful change from expanding while service is restored."
+  },
+  "quiz": [
+    {
+      "question": "A fault-injection test unexpectedly affects unrelated services. What should responders do first?",
+      "options": [
+        "Continue to collect a full experiment dataset",
+        "Abort the test and activate the recovery process",
+        "Wait for each service to diagnose independently"
+      ],
+      "answer": 1,
+      "explanation": "Unexpected scope calls for containment and recovery, not completion of the experiment."
+    },
+    {
+      "question": "Why rehearse an alternative management access path?",
+      "options": [
+        "Normal access may share the dependency that fails",
+        "It removes the need for authenticated tools",
+        "It guarantees all configuration changes are safe"
+      ],
+      "answer": 0,
+      "explanation": "The chapter’s global outage disrupted ordinary internal tools as well as user services."
+    },
+    {
+      "question": "Traffic is restored after a mass machine erasure, but most machines remain offline. What is the accurate status?",
+      "options": [
+        "The fleet is fully recovered",
+        "There is no remaining operational risk",
+        "User impact is mitigated while capacity restoration continues"
+      ],
+      "answer": 2,
+      "explanation": "Serving users again and rebuilding lost redundancy are different recovery milestones."
+    }
+  ],
+  "exercise": {
+    "title": "Rehearse an unavailable control path",
+    "prompt": "Plan a bounded drill in which the usual management interface is unavailable. Include a tested reversal and a separate means of coordinating responders.",
+    "fields": [
+      {
+        "label": "Abort and restore",
+        "placeholder": "What observed impact stops the drill, and which tested action reverses it?"
+      },
+      {
+        "label": "Independent access",
+        "placeholder": "How can responders authenticate and operate without the affected interface?"
+      },
+      {
+        "label": "Recovery evidence",
+        "placeholder": "What proves user service is restored, and what proves spare capacity is rebuilt?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Emergency response needs an independent recovery path",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "FAILURE",
+        "caption": "ordinary interface is unavailable",
+        "kind": "alert",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "ACCESS",
+        "caption": "use a tested alternative path",
+        "kind": "terminal",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "ROLLBACK",
+        "caption": "restore the known configuration",
+        "kind": "deployment",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "RECOVERY",
+        "caption": "confirm user service and capacity",
+        "kind": "gauge",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      },
+      {
+        "from": "learn",
+        "to": "observe",
+        "dashed": true
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "ordinary interface is unavailable"
+      },
+      {
+        "node": "decide",
+        "text": "use a tested alternative path"
+      },
+      {
+        "node": "act",
+        "text": "restore the known configuration"
+      },
+      {
+        "node": "learn",
+        "text": "confirm user service and capacity"
+      }
+    ]
+  }
+}

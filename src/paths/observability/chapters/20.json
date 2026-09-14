@@ -1,0 +1,185 @@
+{
+  "number": 20,
+  "title": "Observability’s Stakeholders and Allies",
+  "part": "Spreading Observability Culture",
+  "subtitle": "Help adjacent teams answer their own questions",
+  "summary": "Observability data can help more than incident responders. Support needs to understand a customer’s current failure, customer success and product teams need to see how workflows are actually used, and sales or executives need evidence about valuable features and strategic accounts. These groups become allies when telemetry helps them accomplish their own goals, not merely when engineering informs them about a tooling project. The chapter also distinguishes this use from traditional business intelligence. Fast, fresh, request-level exploration is useful for immediate operational questions, while exact accounting and longer-term reporting may require different data guarantees. Adoption should connect these complementary views and preserve clear expectations about accuracy, sampling, access, and the decisions each dataset can support.",
+  "source": {
+    "startLine": 9085,
+    "endLine": 9492,
+    "reference": "text lines 9085–9492"
+  },
+  "concepts": [
+    {
+      "title": "Support can identify customer impact",
+      "body": "A support engineer often receives the first concrete account of a customer’s difficulty. Request-level context can help establish whether the issue is ongoing, which workflow is affected, and whether it matches a broader incident. Giving support a useful investigation path reduces dependence on vague status updates and improves the specificity of escalations to engineering.",
+      "example": "Support searches a reported request to see whether its failure belongs to the current incident.",
+      "source": "text lines 9085–9492"
+    },
+    {
+      "title": "Product and success compare actual use",
+      "body": "Feature uptake alone does not explain whether customers are achieving their goals. Event sequences and attributes can reveal which paths people try, where they fail, or whether a capability appears only in demos rather than normal workflows. These observations help product and customer-success teams test their assumptions and evaluate the effect of guidance or changes.",
+      "example": "Compare workflow completion before and after onboarding assistance for the relevant customer cohort.",
+      "source": "text lines 9085–9492"
+    },
+    {
+      "title": "Allies need their own useful outcomes",
+      "body": "Sales and executives can use telemetry to understand which accounts depend on which features and where performance affects important workflows. Adoption gains support when those questions are answered in language connected to their decisions. Simply adding stakeholders to a project update does not give them a reason to champion the investment.",
+      "example": "An account’s actual feature usage helps prioritize reliability work for its renewal discussion.",
+      "source": "text lines 9085–9492"
+    },
+    {
+      "title": "Operational exploration is not accounting",
+      "body": "Observability favors fresh, fast answers and may use sampling or incomplete scans with explicit accuracy trade-offs. Business reporting can require exact totals and longer historical horizons. Use the operational view to investigate detailed behavior, but do not silently treat approximate telemetry as an authoritative billing ledger; connect complementary systems where their guarantees differ.",
+      "example": "A sampled request dataset helps diagnose usage changes but does not determine an exact invoice.",
+      "source": "text lines 9085–9492"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Stakeholders become allies merely by receiving project updates.",
+      "correction": "They become active supporters when the capability helps solve their own concrete problems."
+    },
+    {
+      "claim": "A fast observability query is automatically suitable for exact billing.",
+      "correction": "Sampling and other approximation trade-offs may make a separate authoritative accounting source necessary."
+    }
+  ],
+  "scenario": {
+    "title": "The sales dashboard counts demos as adoption",
+    "context": "A heavily demonstrated feature appears popular, but customer success sees little regular use.",
+    "options": [
+      {
+        "label": "Compare demo traffic with real workflow cohorts",
+        "benefit": "Tests whether the usage supports the adoption claim.",
+        "cost": "Requires context that distinguishes origins and outcomes.",
+        "consequence": "Product and success teams can distinguish interest during demonstrations from continuing use."
+      },
+      {
+        "label": "Report the total call count as product success",
+        "benefit": "Provides a simple, available measure.",
+        "cost": "Conflates demonstrations with successful customer workflows.",
+        "consequence": "The organization may invest on the basis of activity that does not represent adoption."
+      }
+    ],
+    "debrief": "A stakeholder question often needs request context beyond a convenient aggregate."
+  },
+  "quiz": [
+    {
+      "question": "Which first step is most likely to win a support team’s participation?",
+      "options": [
+        "Show total telemetry volume",
+        "Explain the storage engine architecture",
+        "Help answer a recurring customer-specific failure question"
+      ],
+      "answer": 2,
+      "explanation": "A useful outcome in the team’s own workflow creates a practical reason to participate."
+    },
+    {
+      "question": "Why might an observability dataset be unsuitable as the sole billing source?",
+      "options": [
+        "It may contain sampled or approximate results rather than exact totals",
+        "Any request-level data must be aggregated monthly before it can be accurate",
+        "Grouping by account removes the need to account for different sampling rates"
+      ],
+      "answer": 0,
+      "explanation": "Operational speed and cost choices do not automatically meet accounting accuracy requirements."
+    },
+    {
+      "question": "A feature has many calls but little customer value. What could clarify this?",
+      "options": [
+        "Counting the same total more frequently",
+        "Examining whether calls complete useful workflows or only occur in demos",
+        "Treating the number of feature calls as the number of completed user goals"
+      ],
+      "answer": 1,
+      "explanation": "Context and sequences help distinguish activity from meaningful use."
+    }
+  ],
+  "exercise": {
+    "title": "Create one practical ally",
+    "prompt": "Choose a nonengineering team and design a query that answers a question it already cares about.",
+    "fields": [
+      {
+        "label": "Stakeholder decision",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Required event context",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Accuracy and access expectations",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "SUPPORT",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "PRODUCT",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "ALLIES",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "BI / OPERATIONS",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "Support searches a reported request to see whether its failure belongs to the current incident."
+      },
+      {
+        "node": "step-1",
+        "text": "Compare workflow completion before and after onboarding assistance for the relevant customer cohort."
+      },
+      {
+        "node": "step-2",
+        "text": "An account’s actual feature usage helps prioritize reliability work for its renewal discussion."
+      },
+      {
+        "node": "step-3",
+        "text": "A sampled request dataset helps diagnose usage changes but does not determine an exact invoice."
+      }
+    ]
+  }
+}

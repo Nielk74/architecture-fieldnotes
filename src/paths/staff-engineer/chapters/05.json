@@ -1,0 +1,185 @@
+{
+  "number": 5,
+  "title": "Leading Big Projects",
+  "part": "Execution",
+  "subtitle": "Lead the work through to a shared outcome",
+  "summary": "Leading a project across teams means creating context, defining done, agreeing on scope and logistics, and keeping risks visible. The leader coordinates without taking every task, uses milestones as learning checkpoints, and gives ownership back to the teams doing the work.",
+  "source": {
+    "startLine": 5122,
+    "endLine": 6512,
+    "reference": "text lines 5122–6512"
+  },
+  "concepts": [
+    {
+      "title": "Context",
+      "body": "Project context explains the problem, goals, constraints, stakeholders, and why the work matters. Before distributing tasks, explain the problem and the desired outcome. People need enough context to resolve surprises without constantly asking the project lead. Include affected teams and operational constraints, not only the implementation plan.",
+      "example": "Teaching extension: The kickoff names the customer outcome and the external dependency.",
+      "source": "text lines 5122–6512"
+    },
+    {
+      "title": "Definition of done",
+      "body": "Done names the observable outcome and acceptance conditions, not merely that code has merged. Agree on what will be true when the project is finished. Deployment, adoption, support ownership, and retirement of the old system can matter as much as merged code. Shared completion criteria prevent different teams from stopping at incompatible endpoints.",
+      "example": "Teaching extension: Done means a user can complete the migrated flow and recover from failure.",
+      "source": "text lines 5122–6512"
+    },
+    {
+      "title": "Milestones",
+      "body": "Milestones are checkpoints for learning and coordination, allowing scope or approach to change before the end. Break a long effort into meaningful checkpoints that reveal progress and risk. A milestone should create information or a usable outcome, not merely a date on a slide. Use what it reveals to adjust the remaining plan and communicate changes.",
+      "example": "Teaching extension: A checkpoint tests the first team-to-team handoff with real data.",
+      "source": "text lines 5122–6512"
+    },
+    {
+      "title": "Delegation",
+      "body": "Delegation transfers ownership with context and support; it is different from dropping an unclear task on another team. Give the new owner a clear outcome, relevant context, decision room, and a way to ask for help. Agree on checkpoints without taking every decision back. This builds capacity and makes the project less dependent on the lead being continuously available.",
+      "example": "Teaching extension: A delegation note gives the next owner authority, context, and an escalation path.",
+      "source": "text lines 5122–6512"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "a staff-plus role is mainly about applying a universal formula.",
+      "correction": "The chapter treats judgment as contextual: identify forces, listen to evidence, and adapt the response to the actual system and people."
+    },
+    {
+      "claim": "A visible activity or artifact proves the work is complete.",
+      "correction": "Completion requires a useful outcome, shared understanding, and a way to notice whether the decision worked over time."
+    }
+  ],
+  "scenario": {
+    "title": "Lead the handoff",
+    "context": "A cross-team migration has six owners, an external dependency, and no shared definition of done. A launch window is immovable.",
+    "options": [
+      {
+        "label": "Milestone handoffs",
+        "benefit": "Clarifies the decision and creates a workable path through the stated constraint.",
+        "cost": "Checkpoints require owners to prepare evidence and attend a coordination conversation.",
+        "consequence": "You define acceptance evidence, name owners, and use checkpoints to surface the dependency before launch."
+      },
+      {
+        "label": "Track tasks only",
+        "benefit": "Feels faster or safer in the immediate moment and preserves a familiar habit.",
+        "cost": "Task completion creates false confidence when the integrated path is still untested.",
+        "consequence": "Every task can close while the integrated user path remains broken; late escalation consumes the launch window."
+      }
+    ],
+    "debrief": "Both options respond to a real constraint. The stronger choice makes ownership and consequences visible, then creates a point to learn and adjust."
+  },
+  "quiz": [
+    {
+      "question": "Which definition of done is most complete for a migration?",
+      "options": [
+        "The new code is merged",
+        "One engineer has tried it",
+        "Adoption, operations, and old-system retirement are addressed"
+      ],
+      "answer": 2,
+      "explanation": "Completion criteria should include the outcome and the responsibilities after delivery."
+    },
+    {
+      "question": "What should a project milestone provide?",
+      "options": [
+        "Evidence or a usable outcome for the next decision",
+        "Only a date for reporting",
+        "A guarantee that the rest of the plan will not change"
+      ],
+      "answer": 0,
+      "explanation": "Milestones expose progress and risk while changes remain possible."
+    },
+    {
+      "question": "What distinguishes delegation from simply assigning a task?",
+      "options": [
+        "The lead retains all decisions",
+        "Ownership comes with context, support, and decision room",
+        "The lead stops checking progress entirely"
+      ],
+      "answer": 1,
+      "explanation": "A new owner needs enough information and authority to act, plus agreed support."
+    }
+  ],
+  "exercise": {
+    "title": "Make the next move legible",
+    "prompt": "Describe a staff-level decision, the people and terrain involved, and the route by which you will learn whether it worked.",
+    "fields": [
+      {
+        "label": "What is done for the user?",
+        "placeholder": "Write the concrete facts, people, and constraint."
+      },
+      {
+        "label": "Where should the next handoff occur?",
+        "placeholder": "State the choice and its trade-off."
+      },
+      {
+        "label": "What evidence belongs at the checkpoint?",
+        "placeholder": "Name the evidence or conversation that will revisit it."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "whiteboard",
+        "label": "WHITEBOARD",
+        "kind": "whiteboard",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "stakeholders",
+        "label": "STAKEHOLDERS",
+        "kind": "stakeholders",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "handoff",
+        "label": "HANDOFF",
+        "kind": "handoff",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "experiment",
+        "label": "EXPERIMENT",
+        "kind": "experiment",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "whiteboard",
+        "to": "stakeholders"
+      },
+      {
+        "from": "stakeholders",
+        "to": "handoff"
+      },
+      {
+        "from": "handoff",
+        "to": "experiment"
+      }
+    ],
+    "steps": [
+      {
+        "node": "whiteboard",
+        "text": "Use this whiteboard view to make the next decision visible."
+      },
+      {
+        "node": "stakeholders",
+        "text": "Use this stakeholders view to make the next decision visible."
+      },
+      {
+        "node": "handoff",
+        "text": "Use this handoff view to make the next decision visible."
+      },
+      {
+        "node": "experiment",
+        "text": "Use this experiment view to make the next decision visible."
+      }
+    ]
+  }
+}

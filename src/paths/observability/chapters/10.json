@@ -1,0 +1,185 @@
+{
+  "number": 10,
+  "title": "Applying Observability Practices in Your Team",
+  "part": "Observability for Teams",
+  "subtitle": "Prove value on a problem that already hurts",
+  "summary": "Introducing observability requires a change in team practice as well as a working tool. The chapter recommends beginning with a painful, elusive production problem where better investigation can demonstrate visible value. A quiet peripheral service may be easy to instrument but offers little opportunity to show why the effort matters. Use an existing solution to shorten the path to evidence, evaluate whether it supports genuine exploration, and share the successful investigation with colleagues. Community participation provides additional experience and comparison, while internal ownership keeps the new capability usable. Adoption grows when people can repeat a useful method on their own work, rather than being asked to accept an abstract promise or a growing telemetry bill.",
+  "source": {
+    "startLine": 4159,
+    "endLine": 4485,
+    "reference": "text lines 4159–4485"
+  },
+  "concepts": [
+    {
+      "title": "Choose a meaningful pain point",
+      "body": "A pilot needs a problem that observability can actually help solve. The chapter cautions against choosing an unimportant, already healthy service merely because it seems safe. Instrument a persistent, difficult production issue whose resolution would matter to the team, then use the investigation to demonstrate value that colleagues can recognize in their daily work.",
+      "example": "Start with an unexplained recurring database congestion problem that disrupts on-call engineers.",
+      "source": "text lines 4159–4485"
+    },
+    {
+      "title": "Shorten the path to value",
+      "body": "Building an entire observability platform before testing its usefulness creates a long delay between effort and benefit. The chapter favors trying existing solutions early and judging them by investigative capability. A product label is insufficient: the team should test whether it can ask new questions, preserve context, and find an elusive explanation in its own service.",
+      "example": "Evaluate a tool against a real unknown tenant workload rather than a prepared vendor dashboard.",
+      "source": "text lines 4159–4485"
+    },
+    {
+      "title": "Share the method behind a win",
+      "body": "A solved incident demonstrates value most effectively when colleagues can see how the result was obtained. Share the instrumentation, comparisons, and reasoning, and make the investigation available to the service’s responders. This turns an individual success into a practice others can repeat instead of creating another expert whose private knowledge becomes essential.",
+      "example": "Walk the team through the filters that identified a problematic request cohort.",
+      "source": "text lines 4159–4485"
+    },
+    {
+      "title": "Learn with a community",
+      "body": "Other teams can provide useful comparisons about instrumentation, workflows, and adoption barriers. Community participation works through reciprocal contribution, not only emergency requests for help. Use others’ experiences to question assumptions and design better experiments, while adapting their advice to your own architecture and organizational constraints rather than copying a stack uncritically.",
+      "example": "Exchange lessons with teams facing similar traffic patterns before choosing an instrumentation approach.",
+      "source": "text lines 4159–4485"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "The best observability pilot is always the least important service.",
+      "correction": "A healthy peripheral service can show setup cost without demonstrating meaningful investigative value."
+    },
+    {
+      "claim": "A successful demo means adoption is complete.",
+      "correction": "Responders must be able to repeat the method and maintain the instrumentation in normal work."
+    }
+  ],
+  "scenario": {
+    "title": "A safe but unconvincing pilot",
+    "context": "A manager suggests instrumenting a dormant service while an important API has unexplained weekly stalls.",
+    "options": [
+      {
+        "label": "Pilot on the stalled API",
+        "benefit": "Offers a concrete opportunity to demonstrate diagnostic value.",
+        "cost": "Needs careful coordination with the responsible team.",
+        "consequence": "A solved stall supplies an investigation that the team has a reason to reuse."
+      },
+      {
+        "label": "Pilot on the dormant service",
+        "benefit": "Provides a simple environment for initial setup.",
+        "cost": "May demonstrate none of the benefits needed to win adoption.",
+        "consequence": "The team learns installation steps but may see no reason to change its debugging practice."
+      }
+    ],
+    "debrief": "Keep setup bounded, but choose a problem whose solution matters enough for colleagues to notice."
+  },
+  "quiz": [
+    {
+      "question": "Which pilot best follows the chapter’s advice?",
+      "options": [
+        "An unused service with no known problems",
+        "A persistent unexplained production issue that already costs the team time",
+        "A prepared benchmark that repeats a failure the team already diagnoses easily"
+      ],
+      "answer": 1,
+      "explanation": "A meaningful pain point makes the benefit visible and tests the real investigative workflow."
+    },
+    {
+      "question": "What is the strongest evidence from a pilot?",
+      "options": [
+        "Many new dashboards",
+        "A completed agent installation",
+        "A difficult issue explained through a query path teammates can repeat"
+      ],
+      "answer": 2,
+      "explanation": "The outcome and repeatable method demonstrate value beyond collecting data."
+    },
+    {
+      "question": "How should community advice be used?",
+      "options": [
+        "Compare experiences and adapt them to local constraints",
+        "Adopt the most popular stack without testing",
+        "Use another team’s positive result as sufficient proof of local suitability"
+      ],
+      "answer": 0,
+      "explanation": "The community supplies experience; the team still needs a context-sensitive decision."
+    }
+  ],
+  "exercise": {
+    "title": "Choose an adoption demonstration",
+    "prompt": "Identify a painful problem and the investigation outcome that would persuade the affected team.",
+    "fields": [
+      {
+        "label": "Existing pain and affected people",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Question the pilot must answer",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "How colleagues will repeat the method",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "PAIN POINT",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "TOOL TRIAL",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "SHARE A WIN",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "COMMUNITY",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "Start with an unexplained recurring database congestion problem that disrupts on-call engineers."
+      },
+      {
+        "node": "step-1",
+        "text": "Evaluate a tool against a real unknown tenant workload rather than a prepared vendor dashboard."
+      },
+      {
+        "node": "step-2",
+        "text": "Walk the team through the filters that identified a problematic request cohort."
+      },
+      {
+        "node": "step-3",
+        "text": "Exchange lessons with teams facing similar traffic patterns before choosing an instrumentation approach."
+      }
+    ]
+  }
+}

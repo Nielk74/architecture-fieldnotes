@@ -1,0 +1,190 @@
+{
+  "number": 29,
+  "title": "Dealing with Interrupts",
+  "part": "People and practice",
+  "subtitle": "Protect focused engineering time by concentrating interrupts",
+  "summary": "Operational work includes urgent pages, slower customer tickets, and ongoing duties such as rollouts. Distributing each arrival across the whole team can make everyone interruptible, sacrificing the sustained attention needed for engineering. The chapter proposes separating periods devoted to interrupts from periods devoted to projects. A designated responder gives urgent work clear ownership; ticket rotations and transferable operational roles keep the rest of the team focused. On-call weeks should not also carry normal project expectations. Handoffs preserve unfinished work and expose recurring ticket causes. Teams should examine and reduce those causes through automation, service changes, and reasonable request policies. Quietly helping the queue outside the rotation can hide understaffing or excessive demand instead of solving it.",
+  "source": {
+    "startLine": 13942,
+    "endLine": 14247,
+    "reference": "text lines 13942–14247"
+  },
+  "concepts": [
+    {
+      "title": "Different interrupts need different response policies",
+      "body": "Pages, tickets, and ongoing operational duties differ in urgency, volume, and ownership. A production emergency needs a clear immediate responder, while a request for review may wait within an agreed response window. Choosing coverage requires considering backlog and severity alongside human costs. Treating every arrival as equally urgent unnecessarily interrupts work that needs concentration without necessarily improving service to users.",
+      "example": "Teaching extension: A configuration review enters the ticket queue, while an active serving outage goes directly to the primary on-call engineer.",
+      "source": "text lines 13942–14247"
+    },
+    {
+      "title": "Polarized time for projects and interrupts",
+      "body": "Switching between deep project work and unpredictable operational demands has a cost beyond the minutes spent answering. Assigning substantial blocks to one work mode helps engineers know what success means that day. Primary on-call work should take priority during its block; quiet periods can accommodate interruptible cleanup. A project with an immovable deadline may require moving that engineer’s on-call assignment.",
+      "example": "Teaching extension: An engineer’s on-call week contains incident response and documentation cleanup, while the next week protects their design project.",
+      "source": "text lines 13942–14247"
+    },
+    {
+      "title": "Rotations and transferable responsibility",
+      "body": "Concentrate tickets in an explicitly staffed rotation rather than assigning them randomly across the team. If volume exceeds one person’s capacity, add appropriate coverage without making everyone permanently interruptible. Document ongoing work and hand it over so a multiweek rollout does not follow its original owner into every project week. Clear ownership prevents both dropped work and diffuse responsibility.",
+      "example": "Teaching extension: A push-manager handoff transfers rollout state, verification steps, and remaining actions to the next person on interrupts.",
+      "source": "text lines 13942–14247"
+    },
+    {
+      "title": "Reduce demand instead of enduring the queue",
+      "body": "Regularly review ticket classes and handoffs to identify repeated causes rather than merely surviving each shift. Automation, clearer interfaces, and reasonable support policies can remove work. Requesters can supply necessary information or perform steps that do not require SRE privileges. Hidden help from off-rotation engineers obscures actual capacity, so the team needs an honest view of demand and sustainable coverage.",
+      "example": "Teaching extension: Repeated incomplete capacity requests lead to a documented request format that asks customers to prepare the needed configuration.",
+      "source": "text lines 13942–14247"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Random ticket assignment fairly protects everyone’s productivity.",
+      "correction": "It spreads context switching across the team; a staffed rotation protects larger blocks of focused time."
+    },
+    {
+      "claim": "A quiet on-call week should have the same project commitments as any other week.",
+      "correction": "Unpredictable interruptibility makes that expectation fragile; use work that can be paused cheaply or change the assignment."
+    }
+  ],
+  "scenario": {
+    "title": "Protect project time from interrupts",
+    "context": "An SRE receives ad hoc requests from five product teams while an outage-prevention project is due this month. Each request sounds urgent but has no impact estimate.",
+    "options": [
+      {
+        "label": "Triage interrupts against an explicit budget",
+        "benefit": "The team protects planned reliability work while visible urgent work still gets handled.",
+        "cost": "Some requesters must wait or provide evidence.",
+        "consequence": "The team routes incidents immediately and batches low-impact questions."
+      },
+      {
+        "label": "Answer requests in arrival order",
+        "benefit": "Requesters receive quick acknowledgement without a new process.",
+        "cost": "Arrival order rewards noise and consumes the project’s time.",
+        "consequence": "The project slips and the same interruptions continue."
+      }
+    ],
+    "debrief": "Classify urgency and direct work to the designated interrupt role. Concentrating coverage and handing off ongoing tasks preserves project time; examining recurring request causes reduces future demand instead of merely redistributing it."
+  },
+  "quiz": [
+    {
+      "question": "Why can off-rotation help with tickets conceal a problem?",
+      "options": [
+        "It makes the queue appear manageable with fewer assigned people than actually support it",
+        "It makes individual ticket difficulty impossible to estimate",
+        "It automatically lowers the agreed response-time target"
+      ],
+      "answer": 0,
+      "explanation": "Untracked extra help hides the true operational load."
+    },
+    {
+      "question": "How should a rollout continuing beyond one interrupt shift be handled?",
+      "options": [
+        "Its original owner must remain interruptible until it ends",
+        "It should pause at every shift boundary until its original owner returns",
+        "A documented role and handoff should transfer its state and responsibility"
+      ],
+      "answer": 2,
+      "explanation": "Transferable duties preserve continuity without consuming every future project block."
+    },
+    {
+      "question": "What is the main reason to separate project and interrupt blocks?",
+      "options": [
+        "To defer every urgent request until the current project task is complete",
+        "To reduce costly context switches and clarify work expectations",
+        "To guarantee identical productivity in every on-call week"
+      ],
+      "answer": 1,
+      "explanation": "The goal is focused work in each mode, with explicit coverage for interrupts."
+    }
+  ],
+  "exercise": {
+    "title": "Protect a project week",
+    "prompt": "Design coverage for pages, tickets, and an ongoing rollout while most of the team works on engineering projects.",
+    "fields": [
+      {
+        "label": "Coverage",
+        "placeholder": "Who responds to each class of work, within what response expectation?"
+      },
+      {
+        "label": "Handoff",
+        "placeholder": "What state allows the rollout to transfer at the rotation boundary?"
+      },
+      {
+        "label": "Demand reduction",
+        "placeholder": "Which recurring ticket class can be removed through code, documentation, or request policy?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Protect a project week",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "Arrivals",
+        "caption": "Urgency classes",
+        "kind": "alert",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "Rotation",
+        "caption": "Clear ownership",
+        "kind": "team",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "Handoff",
+        "caption": "Transferred state",
+        "kind": "document",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "Focus",
+        "caption": "Protected projects",
+        "kind": "person",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "Pages, tickets, and ongoing duties have different urgency."
+      },
+      {
+        "node": "decide",
+        "text": "Assigned responders own interrupts for a defined block."
+      },
+      {
+        "node": "act",
+        "text": "Transfer unfinished work and recurring problem evidence."
+      },
+      {
+        "node": "learn",
+        "text": "Other engineers retain sustained time for durable improvements."
+      }
+    ]
+  }
+}

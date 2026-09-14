@@ -1,0 +1,185 @@
+{
+  "number": 13,
+  "title": "Human-Agent Collaboration",
+  "part": "Collaboration",
+  "subtitle": "Match autonomy to demonstrated capability and preserve informed human control",
+  "summary": "Human-agent collaboration depends on deciding which work an agent may perform, when it should clarify uncertainty, and when a person must take over. Delegation can begin with suggestions and drafts, then expand as observed performance supports greater independence. A useful handoff includes the current state, evidence, uncertainty, and decision still needed, so the reviewer can continue without reconstructing the whole interaction. Interfaces, training, and stakeholder feedback help people understand both capability and limits. Oversight also needs action records and routes to correction. The goal is calibrated reliance: neither unquestioning acceptance nor rejection of useful automation regardless of evidence.",
+  "source": {
+    "startLine": 12092,
+    "endLine": 12759,
+    "reference": "text lines 12092-12759"
+  },
+  "concepts": [
+    {
+      "title": "Roles and autonomy",
+      "body": "Roles and autonomy set who may act: reversible routine work can be delegated, while ambiguous eligibility decisions remain with an accountable human.",
+      "example": "Teaching extension: a claims agent may draft routine status updates but must hand an eligibility decision to a trained reviewer with its evidence.",
+      "source": "text lines 12092-12759"
+    },
+    {
+      "title": "Uncertainty and handoffs",
+      "body": "Uncertainty and handoffs preserve continuity when evidence is missing or stakes rise; the agent must state why it stopped and what state the reviewer inherits.",
+      "example": "Teaching extension: the handoff payload includes the uncertain field, tool results, current state, and a resume action so the reviewer can continue safely.",
+      "source": "text lines 12092-12759"
+    },
+    {
+      "title": "Stakeholder alignment",
+      "body": "Stakeholder alignment calibrates reliance through representative tasks, phased rollout, training, and feedback from users and support teams.",
+      "example": "Teaching extension: support, compliance, and affected claimants review a staged rollout and add cases to the evaluation set before wider use.",
+      "source": "text lines 12092-12759"
+    },
+    {
+      "title": "Oversight and trust",
+      "body": "Oversight and trust require auditability, escalation, correction, and undo; observed performance and controls matter more than a convincing demonstration.",
+      "example": "Teaching extension: an audit log records agent actions, human overrides, and undo paths so trust follows observed behavior rather than fluent language.",
+      "source": "text lines 12092-12759"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Roles and autonomy is provided automatically by a more capable model.",
+      "correction": "Human roles range from direct operator to collaborator, governor, or exception reviewer. Autonomy should match task stakes and evidence: routine reversible work can be delegated further than ambiguous high-impact decisions."
+    },
+    {
+      "claim": "Uncertainty and handoffs removes the need for evaluation or human judgment.",
+      "correction": "An agent should surface uncertainty and transfer context when it lacks evidence, encounters an exception, or reaches a consequential action. A handoff needs a clear owner, reason, state, and way to resume. Evaluation and appropriate oversight remain necessary."
+    }
+  ],
+  "scenario": {
+    "title": "Claims handoff policy",
+    "context": "A claims assistant handles routine requests but uncertain cases affect payment and eligibility.",
+    "options": [
+      {
+        "label": "Automate routine cases and hand off exceptions with context",
+        "benefit": "Uses autonomy where evidence is strong and preserves accountable review.",
+        "cost": "Reviewers need training and a clear queue.",
+        "consequence": "An ambiguous case arrives with evidence, uncertainty, and a reason for escalation."
+      },
+      {
+        "label": "Keep the agent autonomous",
+        "benefit": "Reduces queue size and response time.",
+        "cost": "High-impact errors can pass without accountable judgment.",
+        "consequence": "Appeals reveal that users cannot reconstruct how a decision occurred."
+      }
+    ],
+    "debrief": "Both choices can fit different constraints. The decision should state stakes, reversibility, evidence, and who owns correction."
+  },
+  "quiz": [
+    {
+      "question": "Which task warrants a stronger human review boundary?",
+      "options": [
+        "Any task solely because its answer is short.",
+        "A consequential action whose effects are difficult to reverse.",
+        "A reversible formatting suggestion with no external effects."
+      ],
+      "answer": 1,
+      "explanation": "Stakes, uncertainty, and reversibility help determine the appropriate level of autonomy."
+    },
+    {
+      "question": "What should a useful handoff include?",
+      "options": [
+        "Only a message saying “human needed”.",
+        "A hidden history that the reviewer cannot inspect.",
+        "The state, evidence, uncertainty, and decision the person needs to make."
+      ],
+      "answer": 2,
+      "explanation": "A handoff should let a person resume informed work rather than reconstruct the entire situation."
+    },
+    {
+      "question": "How is calibrated trust different from maximum trust?",
+      "options": [
+        "People understand both capability and limits and verify appropriately.",
+        "People accept every output to avoid slowing the system.",
+        "People reject all automation regardless of evidence."
+      ],
+      "answer": 0,
+      "explanation": "Good collaboration matches reliance to demonstrated capability and preserves oversight where it matters."
+    }
+  ],
+  "exercise": {
+    "title": "Handoff protocol",
+    "prompt": "Create a concise artifact for the chapter workflow that makes the agent decision inspectable.",
+    "fields": [
+      {
+        "label": "Autonomy boundary",
+        "placeholder": "Autonomy boundary"
+      },
+      {
+        "label": "Handoff payload",
+        "placeholder": "Handoff payload"
+      },
+      {
+        "label": "Stakeholder feedback",
+        "placeholder": "Stakeholder feedback"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "n0",
+        "label": "HUMAN",
+        "kind": "person",
+        "tone": "sage",
+        "x": 100,
+        "y": 80
+      },
+      {
+        "id": "n1",
+        "label": "AGENT",
+        "kind": "agent",
+        "tone": "peach",
+        "x": 270,
+        "y": 80
+      },
+      {
+        "id": "n2",
+        "label": "HANDOFF",
+        "kind": "handoff",
+        "tone": "lilac",
+        "x": 100,
+        "y": 210
+      },
+      {
+        "id": "n3",
+        "label": "TRUST",
+        "kind": "stakeholders",
+        "tone": "honey",
+        "x": 270,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "n0",
+        "to": "n1"
+      },
+      {
+        "from": "n1",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "to": "n3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "n0",
+        "text": "The human node sets the autonomy boundary for routine and high-stakes work."
+      },
+      {
+        "node": "n1",
+        "text": "The agent node performs bounded tasks and exposes uncertainty rather than guessing."
+      },
+      {
+        "node": "n2",
+        "text": "The handoff node transfers reason, state, evidence, and ownership to a reviewer."
+      },
+      {
+        "node": "n3",
+        "text": "The stakeholder node feeds observed outcomes back into governance and trust."
+      }
+    ]
+  }
+}

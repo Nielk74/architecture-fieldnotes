@@ -1,0 +1,190 @@
+{
+  "number": 31,
+  "title": "Communication and Collaboration in SRE",
+  "part": "People and practice",
+  "subtitle": "Turn shared operational knowledge into coordinated engineering",
+  "summary": "Communication in SRE must carry a shared picture of service health across teams, sites, and specialties. Production meetings connect operational evidence to design decisions: participants examine changes, metrics, outages, alert quality, and outstanding improvements. They should leave with the same understanding rather than a collection of individual status reports. Cross-site engineering adds coordination costs, so written decisions, clear component ownership, and sustained maintenance commitments matter. The Viceroy case shows how a common product vision can unite duplicated monitoring efforts, while contributor churn can dilute ownership. The DFP migration illustrates early collaboration between infrastructure and business-logic experts, agreed interfaces, and output comparison before rollout. Reliability improves when production experience shapes development through a continuing, mutually respectful relationship.",
+  "source": {
+    "startLine": 14494,
+    "endLine": 15052,
+    "reference": "text lines 14494–15052"
+  },
+  "concepts": [
+    {
+      "title": "Production meetings as a feedback mechanism",
+      "body": "A production meeting builds a common understanding of the services a team operates. Reviewing upcoming changes, trends, incidents, and paging behavior connects observed performance to architecture and implementation choices. It should generate assigned improvements and revisit previous actions. This service-centered purpose differs from reporting how busy each person has been, and including development partners completes the feedback path into product changes.",
+      "example": "Teaching extension: A weekly review links growing query latency to a recent data-model change and assigns a joint investigation.",
+      "source": "text lines 14494–15052"
+    },
+    {
+      "title": "Shared agendas and inclusive participation",
+      "body": "Preparing a collaborative agenda before the meeting lets participants supply evidence, questions, and links without competing for speaking time. Distributed teams need deliberate participation because larger rooms can dominate remote colleagues. A chair keeps discussion useful and ensures decisions and actions are recorded. Relevant partners can contribute through representatives or written input when full attendance is impractical.",
+      "example": "Teaching extension: A remote engineer adds an overlooked failure trend to the agenda and supplies its dashboard before discussion begins.",
+      "source": "text lines 14494–15052"
+    },
+    {
+      "title": "Cross-site ownership and common direction",
+      "body": "Distributed projects gain access to more expertise but pay for communication delay and incomplete local context. A common vision, documented decisions, and clearly owned components reduce those costs. Contributions need maintenance commitment beyond the initial patch. The Viceroy collaboration benefited from merging complementary work, but also showed how short-lived contributors and informal local decisions can leave remote owners or delivered features unsupported.",
+      "example": "Teaching extension: Two dashboard teams agree on a shared data interface and name maintainers for the components each team contributes.",
+      "source": "text lines 14494–15052"
+    },
+    {
+      "title": "Early collaboration with product engineering",
+      "body": "Product engineers often know business behavior best, while SREs bring experience with infrastructure, production failure, and scale. Defining interfaces together early lets the groups proceed independently without concealing important dependencies. The DFP migration paired infrastructure design with business-logic changes and compared old and new generated outputs before rollout, allowing discrepancies to be fixed while deployment and operational preparation continued.",
+      "example": "Teaching extension: A replacement indexing pipeline must produce matching results before traffic is moved, even though its database schema and extraction method change.",
+      "source": "text lines 14494–15052"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A production meeting is mainly a round of individual progress reports.",
+      "correction": "Its central purpose is a shared view of service behavior and concrete improvements informed by operations."
+    },
+    {
+      "claim": "A merged codebase automatically gives a cross-site project clear ownership.",
+      "correction": "Maintainers, decision practices, and long-term contribution commitments still need explicit agreement."
+    }
+  ],
+  "scenario": {
+    "title": "Resolve a production disagreement",
+    "context": "A product team wants a launch tomorrow; SRE sees an untested dependency path. Both teams have partial evidence and a shared customer deadline.",
+    "options": [
+      {
+        "label": "Write the disagreement and testable decision in a shared review",
+        "benefit": "A common record lets both teams inspect assumptions and agree on evidence.",
+        "cost": "The written review may delay launch while evidence is gathered.",
+        "consequence": "A load test and rollback owner make the launch decision explicit."
+      },
+      {
+        "label": "Resolve it in a private escalation",
+        "benefit": "A private decision is faster and limits meeting time.",
+        "cost": "Context is lost and the same disagreement can return.",
+        "consequence": "The escalation approves launch without resolving the dependency risk."
+      }
+    ],
+    "debrief": "A shared review lets product and SRE combine their different evidence and assign the missing validation. Record interfaces, decisions, and owners so remote teammates and future work can use the result."
+  },
+  "quiz": [
+    {
+      "question": "Which question belongs in a production meeting’s paging review?",
+      "options": [
+        "Which individual completed the largest number of operational tasks?",
+        "Should this event have paged, and was the response appropriate?",
+        "Did every configured alert fire at least once this week?"
+      ],
+      "answer": 1,
+      "explanation": "Paging review checks alert value and operational response, not individual productivity."
+    },
+    {
+      "question": "What made the DFP migration’s output comparison valuable?",
+      "options": [
+        "It allowed infrastructure behavior to substitute for business-logic validation",
+        "It demonstrated that both databases used the same internal schema",
+        "It exposed behavioral discrepancies before the replacement served users"
+      ],
+      "answer": 2,
+      "explanation": "Matching old and new generated outputs supported a seamless migration."
+    },
+    {
+      "question": "What protects a cross-site project from abandoned contributed features?",
+      "options": [
+        "Explicit ownership and a commitment to maintain and integrate contributions",
+        "Accepting every patch without shared direction",
+        "Restricting decisions to unrecorded local conversations"
+      ],
+      "answer": 0,
+      "explanation": "Sustained ownership matters after an initial contributor returns to other work."
+    }
+  ],
+  "exercise": {
+    "title": "Build a shared production decision",
+    "prompt": "Prepare an agenda item about a risky dependency change that needs input from product and SRE.",
+    "fields": [
+      {
+        "label": "Service evidence",
+        "placeholder": "Which metrics, incidents, and request-path details describe the concern?"
+      },
+      {
+        "label": "Decision and ownership",
+        "placeholder": "What must be decided, who contributes expertise, and who owns each action?"
+      },
+      {
+        "label": "Written follow-up",
+        "placeholder": "How will absent colleagues learn the decision and the team verify completion?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Build a shared production decision",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "Evidence",
+        "caption": "Production facts",
+        "kind": "gauge",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "Discussion",
+        "caption": "Shared understanding",
+        "kind": "team",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "Decision",
+        "caption": "Recorded ownership",
+        "kind": "document",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "Delivery",
+        "caption": "Verified improvement",
+        "kind": "deployment",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "Bring service metrics, changes, and incident experience."
+      },
+      {
+        "node": "decide",
+        "text": "Product and SRE establish one shared understanding."
+      },
+      {
+        "node": "act",
+        "text": "Record the chosen action, rationale, and owner."
+      },
+      {
+        "node": "learn",
+        "text": "Verify the improvement and bring its result into the next review."
+      }
+    ]
+  }
+}

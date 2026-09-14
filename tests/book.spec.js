@@ -21,7 +21,7 @@ for(const chapter of chapters){
 }
 
 test('Pip thresholds span the book and depend on earned missions',()=>{
- expect([0,99,100,399,400,899,900,1599,1600,2399,2400].map(x=>evolutionFor(x).xp)).toEqual([0,0,100,100,400,400,900,900,1600,1600,2400]);expect(nextEvolution(100).xp).toBe(400);expect(nextEvolution(2400)).toBeNull();
+ expect([0,99,100,399,400,899,900,1599,1600,2399,2400].map(x=>evolutionFor(x).xp)).toEqual([0,0,100,100,400,400,900,900,1600,1600,2400]);expect(nextEvolution(100).xp).toBe(400);expect(nextEvolution(2400).xp).toBe(4000);expect(nextEvolution(12400)).toBeNull();
 });
 
 test('chapter data has bounded sources, complete activities, and valid scene references',()=>{
@@ -40,7 +40,7 @@ test('cross-chapter progress persists, skipping stays free, and mobile screens f
  for(const width of [320,360,390,768]){await page.setViewportSize({width,height:700});for(const step of ['intro','explore','scenario','quiz','apply']){await gotoStep(page,step);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(await page.locator('.course-stage').evaluate(el=>el.scrollWidth<=el.clientWidth)).toBe(true);await expect(page.locator('#book-next')).toBeInViewport()}}
 });
 
-test('every one of the 50 reusable scenes visibly moves across actual frames',async({page})=>{
- test.setTimeout(60000);await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('/illustrations.html');await expect(page.locator('#scene-choice option')).toHaveCount(50);const values=await page.locator('#scene-choice option').evaluateAll(options=>options.map(o=>o.value));expect(values).toHaveLength(50);
+test('every one of the 135 reusable scenes visibly moves across actual frames',async({page})=>{
+ test.setTimeout(180000);await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('/illustrations.html');await expect(page.locator('#scene-choice option')).toHaveCount(135);const values=await page.locator('#scene-choice option').evaluateAll(options=>options.map(o=>o.value));expect(values).toHaveLength(135);
  for(const value of values){await page.locator('#scene-choice').selectOption(value);const object=page.locator('#scene-preview .iso-object').first();await expect.poll(()=>object.evaluate(e=>getComputedStyle(e).animationPlayState)).toBe('running');const positions=[];for(let frame=0;frame<3;frame++){positions.push((await object.boundingBox()).y);await page.waitForTimeout(150)}expect(Math.max(...positions)-Math.min(...positions),`${value} must visibly float`).toBeGreaterThan(.1);const paths=page.locator('#scene-preview .iso-edge');if(await paths.count())await expect(page.locator('#scene-preview .iso-traveler')).toHaveCount(await paths.count())}
 });

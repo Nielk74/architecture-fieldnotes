@@ -1,6 +1,7 @@
 import {Capacitor} from '@capacitor/core';
 import {Preferences} from '@capacitor/preferences';
-export const storageKeys=['fieldnotes-book-v1','fieldnotes-hard-parts-v1','fieldnotes-locations-v1','fieldnotes-adr-v1','fieldnotes-motion-v1'];
+import {progressConfigs} from './paths/registry.js';
+export const storageKeys=[...Object.values(progressConfigs).map(p=>p.key),'fieldnotes-locations-v1','fieldnotes-adr-v1','fieldnotes-motion-v1'];
 export const native=Capacitor.isNativePlatform();
 const memory=new Map();let pending=Promise.resolve(),failure=null;
 export async function initializeStorage(){

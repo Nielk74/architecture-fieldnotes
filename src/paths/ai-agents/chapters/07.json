@@ -1,0 +1,185 @@
+{
+  "number": 7,
+  "title": "Learning in Agentic Systems",
+  "part": "Learning",
+  "subtitle": "Choose between learning through context and changing model parameters",
+  "summary": "Agent learning can improve later behavior without retraining the model. Examples, retrieved experience, and stored reflections alter the context used for subsequent attempts; their usefulness depends on the quality and relevance of the feedback retained. Parametric approaches instead change model weights, using demonstrations, preferences, or task-specific reward signals. These methods offer different forms of specialization and impose different data, training, and evaluation costs. Learning is an optional investment, not a prerequisite for a useful agent. Compare the expected improvement with added latency and maintenance, and check whether a change helps representative tasks rather than merely reproducing a successful remembered case.",
+  "source": {
+    "startLine": 5525,
+    "endLine": 6600,
+    "reference": "text lines 5525–6600"
+  },
+  "concepts": [
+    {
+      "title": "Nonparametric learning",
+      "body": "Nonparametric techniques improve behavior without changing model weights, for example by adding examples, reflections, or retrieved experience. They are easier to revise but consume context and can overfit to remembered cases.",
+      "example": "Teaching extension: After review, a successful example of handling an ambiguous cancellation is added to retrieved task guidance. Later calls use that example without modifying the model’s weights.",
+      "source": "text lines 5525-6600"
+    },
+    {
+      "title": "Exemplar learning",
+      "body": "Providing successful examples in a prompt guides behavior through pattern matching. More examples can help, but context limits and example quality constrain the benefit.",
+      "example": "Teaching extension: A support agent receives three reviewed examples of partial refunds rather than twenty unrelated greetings. Evaluation checks whether those examples improve amount and currency selection.",
+      "source": "text lines 5525-6600"
+    },
+    {
+      "title": "Reflexion",
+      "body": "The Reflexion loop performs an action sequence, logs the trial, generates a self-critique after failure, updates memory, and injects the reflection on a later run. The loop adds latency and can preserve a bad critique.",
+      "example": "Teaching extension: An attempt fails because it requested shipment details before identifying the order. The agent records that lesson and uses it to change the sequence on a later attempt.",
+      "source": "text lines 5525-6600"
+    },
+    {
+      "title": "Fine-tuning",
+      "body": "Parameter updates adapt weights to a dataset and can make behavior more consistent. Training costs, data quality, regressions, and evaluation burden mean learning is not automatically worth the investment.",
+      "example": "Teaching extension: A team trains a model on reviewed structured tool-call examples, then tests it on held-out requests. The updated weights are promoted only if the desired consistency improves without unacceptable regressions.",
+      "source": "text lines 5525-6600"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Nonparametric learning is provided automatically by a more capable model.",
+      "correction": "Nonparametric techniques improve behavior without changing model weights, for example by adding examples, reflections, or retrieved experience. They are easier to revise but consume context and can overfit to remembered cases."
+    },
+    {
+      "claim": "Exemplar learning removes the need for evaluation or human judgment.",
+      "correction": "Providing successful examples in a prompt guides behavior through pattern matching. More examples can help, but context limits and example quality constrain the benefit. Evaluation and appropriate oversight remain necessary."
+    }
+  ],
+  "scenario": {
+    "title": "Learning from failed deliveries",
+    "context": "A delivery agent repeatedly chooses an unavailable route. The team has few labeled examples.",
+    "options": [
+      {
+        "label": "Add reviewed reflections to memory and test them on new routes",
+        "benefit": "Improves behavior without immediate weight training.",
+        "cost": "Memory and review add latency and can encode a bad critique.",
+        "consequence": "A held-out route improves while the original failure remains auditable."
+      },
+      {
+        "label": "Fine-tune immediately",
+        "benefit": "May make a broad behavior change.",
+        "cost": "Training data and regression checks are not ready.",
+        "consequence": "The model improves one route class while regressing another."
+      }
+    ],
+    "debrief": "Both choices can fit different constraints. The decision should state stakes, reversibility, evidence, and who owns correction."
+  },
+  "quiz": [
+    {
+      "question": "An agent retrieves examples from prior tasks without changing model weights. What kind of improvement is this?",
+      "options": [
+        "A change to the model architecture.",
+        "Nonparametric learning through external context.",
+        "A completed fine-tuning run."
+      ],
+      "answer": 1,
+      "explanation": "External examples can influence behavior at inference time without updating the model’s parameters."
+    },
+    {
+      "question": "What does Reflexion add after a failed attempt?",
+      "options": [
+        "A guarantee that the next attempt will succeed.",
+        "A rule to repeat the same tool call indefinitely.",
+        "A reflection stored for use in a later attempt."
+      ],
+      "answer": 2,
+      "explanation": "Reflexion uses feedback and remembered lessons; its benefit still needs evaluation."
+    },
+    {
+      "question": "What changes when a team fine-tunes instead of only updating a memory store?",
+      "options": [
+        "The model’s parameters are updated using training data.",
+        "The context window becomes unlimited.",
+        "Every future factual answer becomes current."
+      ],
+      "answer": 0,
+      "explanation": "Fine-tuning changes learned behavior, with data quality and evaluation costs distinct from retrieval."
+    }
+  ],
+  "exercise": {
+    "title": "Learning experiment",
+    "prompt": "Create a concise artifact for the chapter workflow that makes the agent decision inspectable.",
+    "fields": [
+      {
+        "label": "Failure to improve",
+        "placeholder": "Failure to improve"
+      },
+      {
+        "label": "Learning mechanism",
+        "placeholder": "Learning mechanism"
+      },
+      {
+        "label": "Regression test",
+        "placeholder": "Regression test"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "n0",
+        "label": "TRIAL",
+        "kind": "experiment",
+        "tone": "sage",
+        "x": 100,
+        "y": 80
+      },
+      {
+        "id": "n1",
+        "label": "REFLECTION",
+        "kind": "whiteboard",
+        "tone": "peach",
+        "x": 270,
+        "y": 80
+      },
+      {
+        "id": "n2",
+        "label": "MEMORY",
+        "kind": "database",
+        "tone": "lilac",
+        "x": 100,
+        "y": 210
+      },
+      {
+        "id": "n3",
+        "label": "TEST",
+        "kind": "gauge",
+        "tone": "honey",
+        "x": 270,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "n0",
+        "to": "n1"
+      },
+      {
+        "from": "n1",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "to": "n3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "n0",
+        "text": "Inspect trial in the chapter workflow."
+      },
+      {
+        "node": "n1",
+        "text": "Inspect reflection in the chapter workflow."
+      },
+      {
+        "node": "n2",
+        "text": "Inspect memory in the chapter workflow."
+      },
+      {
+        "node": "n3",
+        "text": "Inspect test in the chapter workflow."
+      }
+    ]
+  }
+}

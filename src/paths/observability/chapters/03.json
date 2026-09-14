@@ -1,0 +1,185 @@
+{
+  "number": 3,
+  "title": "Lessons from Scaling Without Observability",
+  "part": "The Path to Observability",
+  "subtitle": "What Parse learned when every outage was different",
+  "summary": "Parse’s growth exposed the limits of an operational approach built around familiar failures. Shared tenants and a fixed pool of Ruby workers allowed one slow backend to consume capacity and impair unrelated requests. Dashboards designed after one noisy customer incident could not anticipate the next customer’s workload. Even impressive global reliability obscured a shard that was completely unavailable to its users. The case does not condemn the original stack: shipping quickly had helped Parse find demand. Its lesson is that successful early choices require new operating capabilities as scale changes. High-cardinality exploration in Scuba made unfamiliar incidents investigable through shared evidence and reduced dependence on veterans who previously carried the diagnosis in their heads.",
+  "source": {
+    "startLine": 1659,
+    "endLine": 2169,
+    "reference": "text lines 1659–2169"
+  },
+  "concepts": [
+    {
+      "title": "Shared capacity spreads symptoms",
+      "body": "Parse’s API workers waited on several backends while serving many tenants. When one backend slowed, pending requests consumed the fixed worker pool, causing unrelated work to suffer. Broad slowness therefore did not mean every dependency independently failed. Understanding how scarce execution capacity was shared mattered more than simply locating the slowest chart.",
+      "example": "A tenant’s workload stalls a backend and exhausts workers needed by otherwise healthy requests.",
+      "source": "text lines 1659–2169"
+    },
+    {
+      "title": "Yesterday’s culprit is insufficient",
+      "body": "After one popular mobile application overwhelmed Parse, the team built controls and dashboards around that customer. New applications soon brought different workloads, making that specific prediction less useful. The lesson is to preserve the ability to identify whichever tenant and operation are unusual now, rather than assume the previous offender remains the important one.",
+      "example": "A dashboard for the Norwegian band’s application cannot explain a new tenant’s geolocation query burst.",
+      "source": "text lines 1659–2169"
+    },
+    {
+      "title": "Global success hides local failure",
+      "body": "The case describes apparently strong overall reliability alongside a shard that was completely down for its users. An aggregate averages over populations whose experiences can differ radically. Tenant and shard context are therefore essential for discovering uneven impact; a small global failure fraction does not imply a small disruption for every customer.",
+      "example": "One shard’s users experience total failure while the platform-wide success rate remains high.",
+      "source": "text lines 1659–2169"
+    },
+    {
+      "title": "Scuba changed the debugging method",
+      "body": "Scuba enabled fast filtering and grouping over identifiers with many distinct values. Parse engineers could start from a symptom and follow comparisons to unfamiliar causes, rather than rely on remembered outage patterns. The practical gain included sharing those investigation steps, so curiosity and analytical skill became useful without years of accumulated incident history.",
+      "example": "A newer engineer follows a failing tenant cohort through its shard and query patterns.",
+      "source": "text lines 1659–2169"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "The Parse case proves that the original stack was a mistake.",
+      "correction": "The account explicitly credits early choices with enabling speed and product-market fit; later scale changed the constraints."
+    },
+    {
+      "claim": "The slowest queries must be the cause of the outage.",
+      "correction": "At Parse, many fast writes could collectively contend on a lock and make reads slow as a downstream symptom."
+    }
+  ],
+  "scenario": {
+    "title": "A new noisy neighbor",
+    "context": "A new mobile app spikes while the dashboard for the previous troublesome tenant is quiet.",
+    "options": [
+      {
+        "label": "Group current slow requests by tenant and backend",
+        "benefit": "Can identify a different workload and its shared-capacity effects.",
+        "cost": "Needs request context across the tenant and dependency boundaries.",
+        "consequence": "The team can choose tenant controls or a dependency mitigation based on the current workload."
+      },
+      {
+        "label": "Add capacity to all API workers",
+        "benefit": "May buy immediate breathing room.",
+        "cost": "Costs more and can leave the backend bottleneck and tenant attribution unresolved.",
+        "consequence": "Extra workers may fill with the same blocked work while the initiating workload remains unidentified."
+      }
+    ],
+    "debrief": "Temporary capacity can support mitigation, but finding the current cohort explains why the familiar tenant dashboard was unhelpful."
+  },
+  "quiz": [
+    {
+      "question": "Why could a slow backend make unrelated Parse requests fail?",
+      "options": [
+        "It filled shared worker capacity with waiting requests",
+        "Each slow tenant had an isolated pool that delayed only its own requests",
+        "The slow backend caused the monitoring system to report healthy requests as failed"
+      ],
+      "answer": 0,
+      "explanation": "The shared worker pool transmitted one dependency’s slowdown to other work."
+    },
+    {
+      "question": "What did the completely unavailable shard demonstrate?",
+      "options": [
+        "The aggregate failure fraction describes the experience of each individual tenant",
+        "A small aggregate error fraction can hide total failure for a cohort",
+        "The shard outage can be explained without retaining tenant or shard identity"
+      ],
+      "answer": 1,
+      "explanation": "Different users can experience radically different availability under the same global average."
+    },
+    {
+      "question": "Which practice best captures the Scuba lesson?",
+      "options": [
+        "Build a permanent dashboard for each past offender",
+        "Escalate every novel issue to the longest-serving engineer",
+        "Follow fast high-cardinality comparisons and share the investigation path"
+      ],
+      "answer": 2,
+      "explanation": "The gain was an exploratory method that could address new failures and distribute diagnostic knowledge."
+    }
+  ],
+  "exercise": {
+    "title": "Separate cause from shared symptoms",
+    "prompt": "Map how one slow dependency could affect healthy tenants in a shared service.",
+    "fields": [
+      {
+        "label": "Resource shared by tenants",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "How waiting propagates",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Fields that identify the initiating workload",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "WORKER POOL",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "NEW TENANT",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "FAILED SHARD",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "SCUBA",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "A tenant’s workload stalls a backend and exhausts workers needed by otherwise healthy requests."
+      },
+      {
+        "node": "step-1",
+        "text": "A dashboard for the Norwegian band’s application cannot explain a new tenant’s geolocation query burst."
+      },
+      {
+        "node": "step-2",
+        "text": "One shard’s users experience total failure while the platform-wide success rate remains high."
+      },
+      {
+        "node": "step-3",
+        "text": "A newer engineer follows a failing tenant cohort through its shard and query patterns."
+      }
+    ]
+  }
+}

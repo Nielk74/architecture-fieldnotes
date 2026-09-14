@@ -1,0 +1,185 @@
+{
+  "number": 3,
+  "title": "Incorporating Societal Context",
+  "part": "Context",
+  "subtitle": "Make the people, assumptions, and feedback around software visible",
+  "summary": "A deployed system participates in a social environment that changes its behavior and is changed by it. Identifying agents, precepts, and artifacts makes people, beliefs, institutions, and infrastructure visible before they disappear inside a simplified technical model. Causal assumptions and feedback diagrams help teams discuss how an intervention might alter later inputs or outcomes. The health-care example shows why a convenient proxy can misrepresent the need the system is meant to address. The toxicity-classification case shows the value of examining data with specialists and responding constructively to criticism. A useful model remains open to revision as context changes.",
+  "source": {
+    "startLine": 1676,
+    "endLine": 2317,
+    "reference": "text lines 1676–2317"
+  },
+  "concepts": [
+    {
+      "title": "Societal context",
+      "body": "Societal context is a dynamic complex system surrounding software. It includes agents such as users and institutions, precepts or beliefs held by those agents, and artifacts such as laws, interfaces, datasets, and physical infrastructure.",
+      "example": "Teaching extension: A benefits portal depends on applicants’ access to documents, caseworkers’ practices, and local institutions. Its team studies those relationships instead of modeling eligibility as a form submission alone.",
+      "source": "text lines 1676-2317"
+    },
+    {
+      "title": "Agents, precepts, artifacts",
+      "body": "Listing these three categories prevents an abstract model from erasing the people and institutions that shape outcomes. For SpeekSplendid, speech-impaired users, coaches, accessibility rules, microphones, language norms, and beliefs about “good” speech all matter.",
+      "example": "Teaching extension: In a tutoring service, learners and teachers are agents, beliefs about acceptable language are precepts, and microphones and lesson materials are artifacts. Naming them exposes whose assumptions shape the product.",
+      "source": "text lines 1676-2317"
+    },
+    {
+      "title": "Explicit causality",
+      "body": "Abstraction helps engineers reason about a system, but hidden assumptions can distort it. Writing causal assumptions explicitly makes a model discussable: a change in access may alter behavior, which changes data, which feeds a later decision.",
+      "example": "Teaching extension: A team writes down its assumption that adding appointment reminders will improve attendance, then checks whether unreliable transport could prevent that relationship from holding.",
+      "source": "text lines 1676-2317"
+    },
+    {
+      "title": "Causal loops",
+      "body": "Causal loop diagrams show reinforcing and balancing feedback rather than only a one-way pipeline. They help teams seek other perspectives, choose subject-matter collaborators, benchmark assumptions, and identify where an intervention may create a new effect.",
+      "example": "Teaching extension: A recommendation system gives popular creators more exposure, producing more clicks that further increase their ranking. A causal loop makes this reinforcing effect visible before interpreting clicks as independent evidence of quality.",
+      "source": "text lines 1676-2317"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Societal context is equivalent to ordinary functional correctness.",
+      "correction": "The chapter separates this concern from “works as coded”: Societal context is a dynamic complex system surrounding software."
+    },
+    {
+      "claim": "A single review proves the product will remain responsible.",
+      "correction": "Users, contexts, and dependencies change; feedback, monitoring, and revision are required."
+    }
+  ],
+  "scenario": {
+    "title": "Causal map for speech coaching",
+    "context": "SpeekSplendid scores speech and suggests coaching. Engineers must choose whether to model users, institutions, beliefs, and artifacts explicitly before launch.",
+    "options": [
+      {
+        "label": "Build a causal loop with affected experts",
+        "benefit": "Makes assumptions about coaching, language norms, and feedback discussable.",
+        "cost": "Workshops take time and diagrams simplify a complex social system.",
+        "consequence": "A speech-impaired participant identifies a harmful proxy, leading to a safer evaluation plan."
+      },
+      {
+        "label": "Model only the speech signal",
+        "benefit": "Keeps the prototype small and technically legible.",
+        "cost": "Social feedback and institutional context remain invisible.",
+        "consequence": "The prototype rewards a narrow accent and the team later discovers the issue through user abandonment."
+      }
+    ],
+    "debrief": "Both choices are defensible under different constraints; the responsible decision states the accepted consequence and the evidence that could change it."
+  },
+  "quiz": [
+    {
+      "question": "What are the three parts of societal context?",
+      "options": [
+        "Inputs, outputs, and latency",
+        "Servers, prompts, and tokens",
+        "Agents, precepts, and artifacts"
+      ],
+      "answer": 2,
+      "explanation": "The chapter defines agents, beliefs or precepts, and artifacts such as laws, interfaces, or infrastructure."
+    },
+    {
+      "question": "What does a causal loop diagram add?",
+      "options": [
+        "It proves a prediction will occur.",
+        "It makes feedback assumptions and reinforcing or balancing effects discussable.",
+        "It removes the need for domain experts."
+      ],
+      "answer": 1,
+      "explanation": "Diagrams expose assumptions and help teams seek other perspectives; they are not proof."
+    },
+    {
+      "question": "In the SpeekSplendid example, why identify speech-impaired users and language experts?",
+      "options": [
+        "Their context can change what good speech and useful coaching mean.",
+        "They provide a replacement for all testing.",
+        "They make societal effects irrelevant."
+      ],
+      "answer": 0,
+      "explanation": "Different agents and expertise shape the system’s meaning and consequences."
+    }
+  ],
+  "exercise": {
+    "title": "Draw societal context",
+    "prompt": "Create a causal map for a system.",
+    "fields": [
+      {
+        "label": "Agents, precepts, artifacts",
+        "placeholder": "Agents, precepts, artifacts"
+      },
+      {
+        "label": "Feedback loop",
+        "placeholder": "Feedback loop"
+      },
+      {
+        "label": "Expert perspective",
+        "placeholder": "Expert perspective"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "n0",
+        "label": "AGENTS",
+        "kind": "stakeholders",
+        "tone": "sage",
+        "x": 100,
+        "y": 80
+      },
+      {
+        "id": "n1",
+        "label": "PRECEPTS",
+        "kind": "whiteboard",
+        "tone": "peach",
+        "x": 270,
+        "y": 80
+      },
+      {
+        "id": "n2",
+        "label": "ARTIFACTS",
+        "kind": "document",
+        "tone": "lilac",
+        "x": 100,
+        "y": 210
+      },
+      {
+        "id": "n3",
+        "label": "LOOPS",
+        "kind": "trace",
+        "tone": "honey",
+        "x": 270,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "n0",
+        "to": "n1"
+      },
+      {
+        "from": "n1",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "to": "n3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "n0",
+        "text": "Examine agents using the chapter evidence."
+      },
+      {
+        "node": "n1",
+        "text": "Examine precepts using the chapter evidence."
+      },
+      {
+        "node": "n2",
+        "text": "Examine artifacts using the chapter evidence."
+      },
+      {
+        "node": "n3",
+        "text": "Examine loops using the chapter evidence."
+      }
+    ]
+  }
+}

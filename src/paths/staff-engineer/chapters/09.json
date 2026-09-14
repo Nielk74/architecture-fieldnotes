@@ -1,0 +1,185 @@
+{
+  "number": 9,
+  "title": "What’s Next?",
+  "part": "Leveling Up",
+  "subtitle": "Choose your next chapter deliberately",
+  "summary": "A career is an ongoing set of choices about learning, environment, values, and scope. The final chapter encourages deliberate investment, honest checks on whether a role still fits, and multiple possible paths including staying, changing roles, or changing employers.",
+  "source": {
+    "startLine": 9790,
+    "endLine": 10737,
+    "reference": "text lines 9790–10737"
+  },
+  "concepts": [
+    {
+      "title": "Investment",
+      "body": "Career investment chooses skills, relationships, experiences, and environments that support a desired future. Skills, visibility, relationships, and experiences expand the opportunities available to you. Choose investments that fit what you want next, rather than treating promotion as the only possible objective. Some valuable opportunities require deliberate practice outside your usual responsibilities.",
+      "example": "Teaching extension: A learning plan reserves time for distributed-systems experiments.",
+      "source": "text lines 9790–10737"
+    },
+    {
+      "title": "Fit",
+      "body": "Role fit is checked by comparing what the job provides with values, needs, and growth direction. Periodically ask what the role gives you and what it costs. Consider the good parts as well as frustrations. An honest assessment may support staying, renegotiating scope, or moving; there is no single tenure or title that proves you are growing.",
+      "example": "Teaching extension: A role-fit review compares autonomy and energy with the promised growth.",
+      "source": "text lines 9790–10737"
+    },
+    {
+      "title": "Options",
+      "body": "Options include deepening a current role, changing scope, moving organizations, consulting, or management. Different choices offer different forms of learning, impact, stability, and autonomy. You can stay with an employer while changing your work, or move to find something unavailable there. Evaluate the work and environment instead of assuming every upward-sounding title is better.",
+      "example": "Teaching extension: The engineer evaluates a lateral move, consulting, and staying as real options.",
+      "source": "text lines 9790–10737"
+    },
+    {
+      "title": "Reflection",
+      "body": "Reflection turns experience into learning by reviewing outcomes, energy, and the next deliberate experiment. You are responsible for your career choices and for the effects of the software you help create. Revisit what matters to you and what you want to become able to do. A small intentional experiment can reveal more than waiting for a perfect long-term plan.",
+      "example": "Teaching extension: A six-month check turns experience into a deliberate next career experiment.",
+      "source": "text lines 9790–10737"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "a staff-plus role is mainly about applying a universal formula.",
+      "correction": "The chapter treats judgment as contextual: identify forces, listen to evidence, and adapt the response to the actual system and people."
+    },
+    {
+      "claim": "A visible activity or artifact proves the work is complete.",
+      "correction": "Completion requires a useful outcome, shared understanding, and a way to notice whether the decision worked over time."
+    }
+  ],
+  "scenario": {
+    "title": "Choose the next investment",
+    "context": "Your current role offers visibility but no time to build distributed-systems depth. A lateral role offers learning with less title recognition.",
+    "options": [
+      {
+        "label": "Choose deliberate growth",
+        "benefit": "Clarifies the decision and creates a workable path through the stated constraint.",
+        "cost": "The learning role may trade short-term title recognition for a deliberate capability investment.",
+        "consequence": "You compare values, learning, relationships, and energy, then set a review point for the move."
+      },
+      {
+        "label": "Optimize title alone",
+        "benefit": "Feels faster or safer in the immediate moment and preserves a familiar habit.",
+        "cost": "Title optimization can lock the engineer into work that does not fit their values or energy.",
+        "consequence": "The title may rise while the capability and work fit you need remain unchanged."
+      }
+    ],
+    "debrief": "Both options respond to a real constraint. The stronger choice makes ownership and consequences visible, then creates a point to learn and adjust."
+  },
+  "quiz": [
+    {
+      "question": "What can expand your future career options?",
+      "options": [
+        "Waiting for a title to create the skills",
+        "Choosing only highly visible work",
+        "Investing in skills, relationships, visibility, and experience"
+      ],
+      "answer": 2,
+      "explanation": "Different investments make different opportunities possible."
+    },
+    {
+      "question": "How should you assess whether to stay in a role?",
+      "options": [
+        "Compare its benefits and costs with your needs and goals",
+        "Use tenure alone as the deciding metric",
+        "Assume changing companies always creates growth"
+      ],
+      "answer": 0,
+      "explanation": "Role fit is contextual; both staying and moving can be good choices."
+    },
+    {
+      "question": "What is useful when the next career step is unclear?",
+      "options": [
+        "Commit to an irreversible plan immediately",
+        "Try a deliberate learning experiment and reflect on it",
+        "Copy a successful colleague’s priorities"
+      ],
+      "answer": 1,
+      "explanation": "A bounded experiment can supply information about what you want and need next."
+    }
+  ],
+  "exercise": {
+    "title": "Make the next move legible",
+    "prompt": "Describe a staff-level decision, the people and terrain involved, and the route by which you will learn whether it worked.",
+    "fields": [
+      {
+        "label": "What do I want to learn?",
+        "placeholder": "Write the concrete facts, people, and constraint."
+      },
+      {
+        "label": "Which environment supports it?",
+        "placeholder": "State the choice and its trade-off."
+      },
+      {
+        "label": "When will I review the choice?",
+        "placeholder": "Name the evidence or conversation that will revisit it."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "colleague",
+        "label": "COLLEAGUE",
+        "kind": "colleague",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "mentor",
+        "label": "MENTOR",
+        "kind": "mentor",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "whiteboard",
+        "label": "WHITEBOARD",
+        "kind": "whiteboard",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "experiment",
+        "label": "EXPERIMENT",
+        "kind": "experiment",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "colleague",
+        "to": "mentor"
+      },
+      {
+        "from": "mentor",
+        "to": "whiteboard"
+      },
+      {
+        "from": "whiteboard",
+        "to": "experiment"
+      }
+    ],
+    "steps": [
+      {
+        "node": "colleague",
+        "text": "Use this colleague view to make the next decision visible."
+      },
+      {
+        "node": "mentor",
+        "text": "Use this mentor view to make the next decision visible."
+      },
+      {
+        "node": "whiteboard",
+        "text": "Use this whiteboard view to make the next decision visible."
+      },
+      {
+        "node": "experiment",
+        "text": "Use this experiment view to make the next decision visible."
+      }
+    ]
+  }
+}

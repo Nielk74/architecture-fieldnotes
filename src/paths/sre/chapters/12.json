@@ -1,0 +1,195 @@
+{
+  "number": 12,
+  "title": "Effective Troubleshooting",
+  "part": "Operations",
+  "subtitle": "Stabilize the service, then distinguish competing explanations with evidence",
+  "summary": "Troubleshooting combines a reusable method with knowledge of how a particular system should behave. Begin with an actionable problem report and assess its impact. During a serious outage, restore as much useful service as possible before pursuing a complete causal explanation, while preserving evidence when feasible. Metrics, logs, traces, and exposed state help locate where observed behavior diverges from expectations. Form several plausible hypotheses and choose tests that distinguish them, accounting for side effects and differences between the test environment and the failing path. Negative evidence is useful because it removes explanations. The application-latency case shows why correlation is insufficient: a suspected datastore problem failed to explain slow static responses, and later instrumentation revealed expensive local processing caused by accumulated data.",
+  "source": {
+    "startLine": 4944,
+    "endLine": 5519,
+    "reference": "text lines 4944–5519"
+  },
+  "concepts": [
+    {
+      "title": "Triage precedes complete diagnosis",
+      "body": "The initial response should match the severity and scope of user impact. During a major outage, mitigation may mean shifting traffic, reducing functionality, or stopping an operation that corrupts data. A complete explanation is valuable but must not delay a useful recovery unnecessarily. Preserve logs and relevant state when practical so that mitigation does not erase every clue needed for later investigation.",
+      "example": "Teaching extension: Move traffic off a failing region while retaining its error logs for causal analysis.",
+      "source": "text lines 4944–5519"
+    },
+    {
+      "title": "Build and discriminate hypotheses",
+      "body": "A troubleshooting hypothesis predicts observations that should occur if a proposed cause is true. Start from system knowledge and likely failure modes, then look for evidence that separates competing explanations. Prefer tests that eliminate a meaningful group of possibilities. A correlation or a past incident suggests a hypothesis; it does not establish that the same cause explains the current failure.",
+      "example": "Teaching extension: Compare database timing at both caller and server to distinguish database work from delay between them.",
+      "source": "text lines 4944–5519"
+    },
+    {
+      "title": "Reduce the problem at observable interfaces",
+      "body": "Known inputs and well-understood component boundaries make it possible to find where behavior first becomes wrong. Follow the request path or bisect a large pipeline, checking inputs and outputs at each boundary. Traces and shared request identifiers connect observations across processes. A reproducible minimal case can then move investigation into a safer environment where more invasive experiments are possible.",
+      "example": "Teaching extension: A request succeeds when sent directly to the backend but fails through the proxy, narrowing the search to that boundary.",
+      "source": "text lines 4944–5519"
+    },
+    {
+      "title": "Control experiments and record uncertainty",
+      "body": "An experiment can mislead if its credentials, network path, or workload differ from the failing request. Active changes can also alter later observations: extra logging consumes resources, and more CPU can change race timing. Record hypotheses, actions, results, and temporary configuration changes. Some production failures cannot safely be reproduced, so conclusions may remain probable contributing causes rather than a proven single cause.",
+      "example": "Teaching extension: A successful database connection from a laptop does not establish that the application host has the same access.",
+      "source": "text lines 4944–5519"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A familiar alert proves the previous incident’s cause has returned.",
+      "correction": "Treat prior incidents as hypotheses and check whether they explain the present evidence."
+    },
+    {
+      "claim": "An experiment is useless if it disproves my preferred explanation.",
+      "correction": "A discriminating negative result narrows the search and prevents more time on an incorrect theory."
+    }
+  ],
+  "scenario": {
+    "title": "Mitigate checkout failures while preserving clues",
+    "context": "A recent checkout deployment coincides with rising errors. A known-compatible previous version is available, and logs can be retained. Database saturation and a changed request path are both plausible explanations.",
+    "options": [
+      {
+        "label": "Restore the prior version and preserve evidence",
+        "benefit": "A reversible mitigation can reduce current user harm quickly.",
+        "cost": "Rollback may not help if the deployment is only coincidental.",
+        "consequence": "The responder checks recovery, retains traces, and continues a focused comparison of hypotheses."
+      },
+      {
+        "label": "Run a bounded diagnostic check first",
+        "benefit": "A quick discriminating observation may prevent an ineffective change.",
+        "cost": "Users remain exposed while the check runs.",
+        "consequence": "This is appropriate only if the check is short and its value justifies delaying an available mitigation."
+      }
+    ],
+    "debrief": "Triage prioritizes restoring service. Diagnosis still matters, but it should not indefinitely postpone a useful mitigation; preserve evidence and test whether the recovery action actually helped."
+  },
+  "quiz": [
+    {
+      "question": "A severe outage is ongoing and traffic can safely move to a healthy region. What comes first?",
+      "options": [
+        "A complete postmortem",
+        "Traffic mitigation while preserving useful evidence",
+        "Reproducing the failure repeatedly in production"
+      ],
+      "answer": 1,
+      "explanation": "Restoring service takes priority over completing causal analysis."
+    },
+    {
+      "question": "The database accepts a connection from your laptop. What remains uncertain?",
+      "options": [
+        "Whether the application has the same network path and credentials",
+        "Whether the database has any software at all",
+        "Whether the laptop can run a client"
+      ],
+      "answer": 0,
+      "explanation": "A test from a different context may not reproduce the application’s failure conditions."
+    },
+    {
+      "question": "A database hypothesis cannot explain equally slow static responses that do not use the database. What should you do?",
+      "options": [
+        "Ignore those responses",
+        "Add an index immediately as proof",
+        "Revise the hypothesis and inspect shared work before the paths diverge"
+      ],
+      "answer": 2,
+      "explanation": "Evidence inconsistent with the theory should redirect investigation toward a cause covering all observed symptoms."
+    }
+  ],
+  "exercise": {
+    "title": "Write a discriminating experiment",
+    "prompt": "An application has higher latency without higher request volume. Propose two explanations and a safe observation that would separate them.",
+    "fields": [
+      {
+        "label": "Competing hypotheses",
+        "placeholder": "Could work per request, a dependency, or a resource limit have changed?"
+      },
+      {
+        "label": "Predicted observations",
+        "placeholder": "What result supports one explanation and contradicts the other?"
+      },
+      {
+        "label": "Experiment controls",
+        "placeholder": "How will you match the failing path and record temporary changes?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Effective Troubleshooting: HYPOTHESES to TRACE to DATABASE to TEST",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "HYPOTHESES",
+        "caption": "inputs and constraints",
+        "kind": "document",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "TRACE",
+        "caption": "choose the operating rule",
+        "kind": "trace",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "DATABASE",
+        "caption": "observe the effect",
+        "kind": "database",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "TEST",
+        "caption": "feed learning back",
+        "kind": "terminal",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      },
+      {
+        "from": "learn",
+        "to": "observe",
+        "dashed": true
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "inputs and constraints"
+      },
+      {
+        "node": "decide",
+        "text": "choose the operating rule"
+      },
+      {
+        "node": "act",
+        "text": "observe the effect"
+      },
+      {
+        "node": "learn",
+        "text": "feed learning back"
+      }
+    ]
+  }
+}

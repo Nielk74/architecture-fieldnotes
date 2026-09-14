@@ -1,0 +1,195 @@
+{
+  "number": 11,
+  "title": "Being On-Call",
+  "part": "Operations",
+  "subtitle": "Balance coverage, incident load, and confidence in the responder",
+  "summary": "On-call keeps engineers connected to production and enables rapid intervention, but its organization must leave room for engineering. Coverage quantity and incident intensity are different constraints: a well-sized rotation can still suffer from noisy, repeated pages. Google’s model limits on-call time and allows enough time per incident for investigation and follow-up, with primary and secondary duties made explicit. Response expectations should reflect the service’s reliability needs, while escalation, clear procedures, and blameless learning reduce pressure on individuals. Persistent overload calls for measurable improvement work and sometimes renegotiated responsibilities with developers. Excessive quiet has a different danger: responders lose familiarity with the system. Practice exercises and sufficient production exposure help maintain the judgment needed when an unfamiliar failure finally occurs.",
+  "source": {
+    "startLine": 4665,
+    "endLine": 4943,
+    "reference": "text lines 4665–4943"
+  },
+  "concepts": [
+    {
+      "title": "Coverage quantity is a staffing constraint",
+      "body": "On-call staffing determines how much of each engineer’s time remains available for project work. The chapter’s single-site model needs eight engineers to cover continuous primary and secondary duties while limiting each person’s on-call share to a quarter. Multi-site coverage can reduce night work but adds coordination costs. These numbers follow the stated coverage assumptions rather than constituting a universal staffing formula.",
+      "example": "Teaching extension: With two simultaneous duty positions and eight engineers, an equal rotation allocates one quarter of each person’s time to coverage.",
+      "source": "text lines 4665–4943"
+    },
+    {
+      "title": "Incident intensity determines shift quality",
+      "body": "A shift with frequent interruptions can leave no time to investigate, restore, document, and fix the causes of incidents. Count related alerts as one incident, while also reducing redundant notifications. The chapter uses at most two incidents per twelve-hour shift as a sustainable upper target based on follow-up effort. A recurring daily page is a reason to improve the service or monitoring.",
+      "example": "Teaching extension: One network failure generates twenty pages but should be grouped as one incident and treated as excessive alert fan-out.",
+      "source": "text lines 4665–4943"
+    },
+    {
+      "title": "Escalation supports deliberate decisions",
+      "body": "A responder needs clear backup paths, agreed response expectations, and permission to ask for help. Under pressure, a familiar alert can tempt an engineer to assume the previous cause without checking. A supportive rotation and an incident process create space to inspect evidence, escalate unknowns, and coordinate action. Seeking another team’s expertise is a normal response to an uncertain outage.",
+      "example": "Teaching extension: The primary calls the developer on-call when the failure remains unexplained instead of repeatedly applying last week’s fix.",
+      "source": "text lines 4665–4943"
+    },
+    {
+      "title": "Correct both overload and underload",
+      "body": "Persistent overload needs concrete goals, such as fewer daily tickets or fewer incidents per shift, and protected engineering time to achieve them. Responsibilities may temporarily return to developers while architectural problems are repaired. Underload also needs attention: infrequent exposure can erode operational knowledge. Rehearsals and a rotation that keeps engineers familiar with production reduce surprises when a real incident occurs.",
+      "example": "Teaching extension: A quiet team replays an old outage so each engineer practices diagnosis and escalation before taking primary duty.",
+      "source": "text lines 4665–4943"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A sufficiently large rotation automatically makes on-call healthy.",
+      "correction": "Shift intensity and repeated interruptions can still prevent effective response and follow-up."
+    },
+    {
+      "claim": "Asking the developer on-call for help shows the SRE has failed.",
+      "correction": "Escalation is an expected mechanism for handling uncertainty and complex failures."
+    }
+  ],
+  "scenario": {
+    "title": "Make on-call sustainable",
+    "context": "A team rotates weekly on-call across six engineers. Handoffs omit known risks and two people have had no protected recovery time after incidents.",
+    "options": [
+      {
+        "label": "Add a written handoff and recovery policy",
+        "benefit": "Context transfers cleanly and fatigue becomes an operational risk the team manages.",
+        "cost": "The team must maintain the handoff and cover recovery time.",
+        "consequence": "The next responder receives current risks, and post-incident recovery is scheduled."
+      },
+      {
+        "label": "Shorten the rotation without changing practice",
+        "benefit": "Short rotations reduce individual exposure.",
+        "cost": "More handoffs can increase coordination overhead.",
+        "consequence": "Fatigue improves briefly, but missing context causes another slow response."
+      }
+    ],
+    "debrief": "Handoffs and recovery time are reliability controls because fatigued responders lose context; shorter rotations alone do not solve either problem."
+  },
+  "quiz": [
+    {
+      "question": "Under the chapter’s single-site assumptions, how many people support two continuous roles at 25% on-call time each?",
+      "options": [
+        "Four",
+        "Six",
+        "Eight"
+      ],
+      "answer": 2,
+      "explanation": "Two concurrent roles divided by a quarter-time share require eight people before additional constraints."
+    },
+    {
+      "question": "A single incident creates 30 related pages. Which improvement addresses the notification burden?",
+      "options": [
+        "Group related alerts and remove redundant pages",
+        "Count each page as an unrelated incident",
+        "Add a separate pager for every metric"
+      ],
+      "answer": 0,
+      "explanation": "Alert fan-out distracts responders without creating 30 separate problems to solve."
+    },
+    {
+      "question": "What risk can a very quiet, infrequent rotation create?",
+      "options": [
+        "More automatic ownership transfers",
+        "Loss of operational familiarity",
+        "An unavoidable increase in traffic"
+      ],
+      "answer": 1,
+      "explanation": "Practice and regular exposure help prevent knowledge gaps from appearing only during emergencies."
+    }
+  ],
+  "exercise": {
+    "title": "Audit an on-call rotation",
+    "prompt": "Assess both the share of time on duty and the incidents per shift. Propose a change that preserves engineering time without losing production familiarity.",
+    "fields": [
+      {
+        "label": "Coverage",
+        "placeholder": "How many simultaneous roles exist and how often is each engineer assigned?"
+      },
+      {
+        "label": "Shift quality",
+        "placeholder": "How many distinct incidents occur, and how much follow-up do they require?"
+      },
+      {
+        "label": "Support and practice",
+        "placeholder": "What escalation path or rehearsal addresses the main knowledge gap?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Being On-Call: ON-CALL to HANDOFF to PAGE to BACKUP",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "ON-CALL",
+        "caption": "inputs and constraints",
+        "kind": "person",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "HANDOFF",
+        "caption": "choose the operating rule",
+        "kind": "document",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "PAGE",
+        "caption": "observe the effect",
+        "kind": "alert",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "BACKUP",
+        "caption": "feed learning back",
+        "kind": "colleague",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      },
+      {
+        "from": "learn",
+        "to": "observe",
+        "dashed": true
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "inputs and constraints"
+      },
+      {
+        "node": "decide",
+        "text": "choose the operating rule"
+      },
+      {
+        "node": "act",
+        "text": "observe the effect"
+      },
+      {
+        "node": "learn",
+        "text": "feed learning back"
+      }
+    ]
+  }
+}

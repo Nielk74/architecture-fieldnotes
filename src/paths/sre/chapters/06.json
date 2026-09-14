@@ -1,0 +1,195 @@
+{
+  "number": 6,
+  "title": "Monitoring Distributed Systems",
+  "part": "Operations",
+  "subtitle": "Use golden signals and actionable symptoms to protect the pager",
+  "summary": "Monitoring supports planning, diagnosis, comparison, and alerting, but these purposes do not all justify interrupting a person. A page should indicate an urgent condition with a useful response. Latency, traffic, errors, and saturation provide a compact view of service health; their definitions must reflect the service and distinguish failed requests from successful ones. Distributions matter because averages hide slow tails and uneven resource pressure. Black-box checks expose externally visible failures, while internal measurements reveal mechanisms and impending constraints. Neither perspective is sufficient alone. Keep the path from failure detection to page simple enough for the team to understand. Repeated, predictable responses are candidates for automation or design repair, and monitoring work should reduce long-term operational burden rather than normalize constant interruption.",
+  "source": {
+    "startLine": 2452,
+    "endLine": 2891,
+    "reference": "text lines 2452–2891"
+  },
+  "concepts": [
+    {
+      "title": "The four golden signals",
+      "body": "Latency measures how long requests take, traffic describes demand, errors capture unsuccessful results, and saturation shows pressure on the limiting resource. Together they connect user experience with load and available headroom. Measure successful and failed request latency separately, because quick failures can make an aggregate timer look healthy. An error can also be wrong content or a response that violates a promised deadline.",
+      "example": "Teaching extension: A fast HTTP 200 with the wrong account balance is still a failed service outcome.",
+      "source": "text lines 2452–2891"
+    },
+    {
+      "title": "Symptoms justify pages; causes guide diagnosis",
+      "body": "A symptom describes what is failing for the service, while a cause explains why. Pages should usually target urgent symptoms or clear imminent problems that require human action. Internal causes remain valuable diagnostic evidence without each needing a separate interruption. The distinction depends on viewpoint: slow database requests are a symptom for database owners and a possible cause for a slow frontend.",
+      "example": "Teaching extension: Page on checkout failures and attach database queue depth as context for the responder.",
+      "source": "text lines 2452–2891"
+    },
+    {
+      "title": "Black-box and white-box coverage",
+      "body": "Black-box monitoring exercises behavior from outside the system, revealing whether a user-like operation currently works. White-box monitoring reads internal metrics or logs and can expose hidden retries, approaching resource exhaustion, and diagnostic detail. Combining them helps distinguish a working process from a working service and can reveal problems before they cause complete external failure.",
+      "example": "Teaching extension: An external search probe catches wrong results while internal queue metrics identify the overloaded backend.",
+      "source": "text lines 2452–2891"
+    },
+    {
+      "title": "Resolution, tails, and monitoring simplicity",
+      "body": "A mean can hide rare slow requests and a long sampling interval can hide brief resource spikes. Histograms preserve useful distributions without retaining every individual event. Select collection resolution according to the failure being detected and its cost. Keep alert rules understandable and periodically remove unused signals or obsolete conditions so the monitoring system does not become another fragile service dependency.",
+      "example": "Teaching extension: Per-second samples bucketed locally reveal CPU bursts that a single minute-average would hide.",
+      "source": "text lines 2452–2891"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A successful HTTP status proves the user got the right result.",
+      "correction": "Correctness and deadline failures can occur even when the transport reports success."
+    },
+    {
+      "claim": "Every unusual internal metric deserves a page.",
+      "correction": "A page needs urgent, actionable significance; many internal signals belong in diagnosis or planning."
+    }
+  ],
+  "scenario": {
+    "title": "Page on symptoms users feel",
+    "context": "A service has dashboards for CPU, garbage collection, queue depth, and request failures. During incidents the on-call receives ten pages for one user-visible outage.",
+    "options": [
+      {
+        "label": "Page on a small set of actionable symptoms",
+        "benefit": "The responder starts from impact and has a clear next action.",
+        "cost": "Some precursors may be missed without supporting dashboards.",
+        "consequence": "The team pages on failed requests and keeps resource metrics for diagnosis."
+      },
+      {
+        "label": "Add more infrastructure alerts",
+        "benefit": "Additional signals may reveal an early resource problem.",
+        "cost": "Alert volume increases and masks the primary failure.",
+        "consequence": "The extra pages are tuned later after measuring false positives."
+      }
+    ],
+    "debrief": "Page on user symptoms and retain causal metrics for diagnosis; adding pages for every precursor would make the responder less reliable."
+  },
+  "quiz": [
+    {
+      "question": "Error responses become very fast while successful responses stay slow. Why can combined mean latency improve misleadingly?",
+      "options": [
+        "Fast failures pull the aggregate downward",
+        "Error responses increase the successful request count",
+        "The service has gained useful capacity"
+      ],
+      "answer": 0,
+      "explanation": "Separating success and error latency prevents quick failures disguising poor service."
+    },
+    {
+      "question": "Which observation is most naturally a saturation signal?",
+      "options": [
+        "Requests per second",
+        "Fraction of incorrect responses",
+        "Growth of a queue at the constrained storage device"
+      ],
+      "answer": 2,
+      "explanation": "Saturation describes pressure on the resource limiting service capacity."
+    },
+    {
+      "question": "A page always requires the same safe, deterministic restart. What should the team investigate?",
+      "options": [
+        "Adding more recipients",
+        "Automating the response or removing the underlying fault",
+        "Increasing the alert frequency"
+      ],
+      "answer": 1,
+      "explanation": "Repeated algorithmic responses are a signal that human interruption should be engineered away."
+    }
+  ],
+  "exercise": {
+    "title": "Design one actionable page",
+    "prompt": "Choose an urgent user-visible failure, define its detection, and identify internal measurements that help diagnose it without creating additional pages.",
+    "fields": [
+      {
+        "label": "Symptom and action",
+        "placeholder": "What is broken, and what immediate intervention could help?"
+      },
+      {
+        "label": "Four-signal coverage",
+        "placeholder": "Which latency, demand, error, and saturation measurements provide context?"
+      },
+      {
+        "label": "Noise check",
+        "placeholder": "What ordinary transient or successful recovery must remain quiet?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Monitoring Distributed Systems: ON-CALL to SIGNAL to PAGE to TRACE",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "ON-CALL",
+        "caption": "inputs and constraints",
+        "kind": "person",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "SIGNAL",
+        "caption": "choose the operating rule",
+        "kind": "gauge",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "PAGE",
+        "caption": "observe the effect",
+        "kind": "alert",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "TRACE",
+        "caption": "feed learning back",
+        "kind": "trace",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      },
+      {
+        "from": "learn",
+        "to": "observe",
+        "dashed": true
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "inputs and constraints"
+      },
+      {
+        "node": "decide",
+        "text": "choose the operating rule"
+      },
+      {
+        "node": "act",
+        "text": "observe the effect"
+      },
+      {
+        "node": "learn",
+        "text": "feed learning back"
+      }
+    ]
+  }
+}

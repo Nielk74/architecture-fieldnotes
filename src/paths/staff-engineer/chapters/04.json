@@ -1,0 +1,185 @@
+{
+  "number": 4,
+  "title": "Finite Time",
+  "part": "Execution",
+  "subtitle": "Spend finite attention deliberately",
+  "summary": "Finite time makes prioritization unavoidable. The chapter treats energy, credibility, quality of life, skills, and social capital as resources that projects consume. Deliberate scope, protected thinking time, and explicit trade-offs let an engineer sustain influence instead of spending themselves into ineffectiveness.",
+  "source": {
+    "startLine": 4071,
+    "endLine": 5121,
+    "reference": "text lines 4071–5121"
+  },
+  "concepts": [
+    {
+      "title": "Resource budget",
+      "body": "Projects consume finite energy, credibility, quality of life, skills, and social capital, not just calendar hours. Some work costs more than its scheduled hours: it can consume relationships, credibility, or the energy needed for another difficult task. Notice what a commitment will draw down and whether there is a realistic way to replenish that resource.",
+      "example": "Teaching extension: An engineer declines a low-value presentation during recovery from an incident.",
+      "source": "text lines 4071–5121"
+    },
+    {
+      "title": "Prioritization",
+      "body": "Prioritization spends resources on work that matters, fits constraints, and has a plausible path to completion. Evaluate the significance of a problem alongside your ability to help and the opportunity cost. Being capable of doing something does not make it the best use of your time. Make deferred work visible instead of silently accepting an impossible queue.",
+      "example": "Teaching extension: A migration is split into a safe slice that fits the quarter.",
+      "source": "text lines 4071–5121"
+    },
+    {
+      "title": "Thinking time",
+      "body": "Protected thinking time enables better technical choices; filling every hour with meetings creates hidden execution risk. Deep analysis is work even when it produces no immediate code or meeting artifact. Reserve uninterrupted time and protect it from automatic fragmentation. Otherwise the difficult decisions tend to get made in the leftover minutes when judgment is most constrained.",
+      "example": "Teaching extension: Two hours without meetings reveal the dependency causing the design dispute.",
+      "source": "text lines 4071–5121"
+    },
+    {
+      "title": "Sustainability",
+      "body": "Sustainable influence preserves the capacity to help later, including the ability to say no or renegotiate scope. Declining a request can preserve an important commitment. Explain the trade-off, suggest another owner or a smaller scope, and negotiate rather than relying on unbounded personal effort. A reliable pace makes your help available after this week's emergency.",
+      "example": "Teaching extension: The engineer renegotiates scope before credibility is spent on a missed promise.",
+      "source": "text lines 4071–5121"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "a staff-plus role is mainly about applying a universal formula.",
+      "correction": "The chapter treats judgment as contextual: identify forces, listen to evidence, and adapt the response to the actual system and people."
+    },
+    {
+      "claim": "A visible activity or artifact proves the work is complete.",
+      "correction": "Completion requires a useful outcome, shared understanding, and a way to notice whether the decision worked over time."
+    }
+  ],
+  "scenario": {
+    "title": "Protect finite resources",
+    "context": "You are asked to lead a migration while recovering from an incident and onboarding a new teammate. The date is fixed, but scope is negotiable.",
+    "options": [
+      {
+        "label": "Reduce scope",
+        "benefit": "Clarifies the decision and creates a workable path through the stated constraint.",
+        "cost": "Reducing scope means deferring attractive work and explaining the trade-off to sponsors.",
+        "consequence": "You protect energy and credibility, delegate a bounded slice, and deliver the highest-value migration safely."
+      },
+      {
+        "label": "Work nights to keep scope",
+        "benefit": "Feels faster or safer in the immediate moment and preserves a familiar habit.",
+        "cost": "Overwork consumes recovery time and increases the chance of a fragile migration.",
+        "consequence": "The date may hold, but quality of life and future capacity collapse, making the next decision worse."
+      }
+    ],
+    "debrief": "Both options respond to a real constraint. The stronger choice makes ownership and consequences visible, then creates a point to learn and adjust."
+  },
+  "quiz": [
+    {
+      "question": "What can a commitment consume besides calendar time?",
+      "options": [
+        "Only the project budget",
+        "Nothing if the work is interesting",
+        "Energy, credibility, and social capital"
+      ],
+      "answer": 2,
+      "explanation": "The chapter treats several personal and organizational resources as finite."
+    },
+    {
+      "question": "A useful but low-impact request would displace a crucial project. What is a reasonable response?",
+      "options": [
+        "Explain the trade-off and negotiate scope or another owner",
+        "Accept it and hide the extra work",
+        "Refuse without discussing the consequence"
+      ],
+      "answer": 0,
+      "explanation": "Prioritization makes opportunity cost visible and allows a deliberate choice."
+    },
+    {
+      "question": "Why reserve thinking time?",
+      "options": [
+        "It replaces communication",
+        "Complex decisions need sustained attention",
+        "It proves seniority"
+      ],
+      "answer": 1,
+      "explanation": "Uninterrupted analysis supports judgment that cannot reliably happen between meetings."
+    }
+  ],
+  "exercise": {
+    "title": "Make the next move legible",
+    "prompt": "Describe a staff-level decision, the people and terrain involved, and the route by which you will learn whether it worked.",
+    "fields": [
+      {
+        "label": "Which resource is constrained?",
+        "placeholder": "Write the concrete facts, people, and constraint."
+      },
+      {
+        "label": "What can be reduced or delegated?",
+        "placeholder": "State the choice and its trade-off."
+      },
+      {
+        "label": "What protects future capacity?",
+        "placeholder": "Name the evidence or conversation that will revisit it."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "leaf",
+        "label": "LEAF",
+        "kind": "leaf",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "clock",
+        "label": "CLOCK",
+        "kind": "document",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "colleague",
+        "label": "COLLEAGUE",
+        "kind": "colleague",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "shield",
+        "label": "SHIELD",
+        "kind": "shield",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "leaf",
+        "to": "clock"
+      },
+      {
+        "from": "clock",
+        "to": "colleague"
+      },
+      {
+        "from": "colleague",
+        "to": "shield"
+      }
+    ],
+    "steps": [
+      {
+        "node": "leaf",
+        "text": "Use this leaf view to make the next decision visible."
+      },
+      {
+        "node": "clock",
+        "text": "Use this clock view to make the next decision visible."
+      },
+      {
+        "node": "colleague",
+        "text": "Use this colleague view to make the next decision visible."
+      },
+      {
+        "node": "shield",
+        "text": "Use this shield view to make the next decision visible."
+      }
+    ]
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "number": 4,
+  "title": "Anticipating and Planning for Downstream Consequences",
+  "part": "Safety",
+  "subtitle": "Explore harmful consequences and rehearse how affected people can recover",
+  "summary": "Safety requires looking beyond whether individual functions return the expected result. A protective feature can itself create harm when its assumptions fail, as the crash-cart authentication example demonstrates. Teams need varied perspectives and several forms of investigation: adversarial testing explores misuse, survivor testing examines the experience of harmed people, and stress or change testing reveals unexpected interactions. Future-regret and tabletop exercises make possible consequences and response gaps discussable before launch. These activities should produce concrete adjustments with owners, rather than end as speculative workshops. The objective is to reduce foreseeable harm while understanding the costs and limitations of the chosen safeguards.",
+  "source": {
+    "startLine": 2318,
+    "endLine": 3086,
+    "reference": "text lines 2318–3086"
+  },
+  "concepts": [
+    {
+      "title": "Safety and harm",
+      "body": "Safety concerns whether software can cause physical, psychological, financial, interpersonal, allocative, representational, quality-of-service, or social-system harm. A conventional functional test cannot enumerate all these pathways.",
+      "example": "Teaching extension: A workplace dashboard reveals individual activity patterns to colleagues. Reviewers examine interpersonal and reputational harm even though every chart displays the underlying data accurately.",
+      "source": "text lines 2318-3086"
+    },
+    {
+      "title": "Breadth and red teams",
+      "body": "Testing with varied people and adversarial “abuser” behavior exposes failures ordinary happy-path tests miss. The chapter contrasts abuser testing, which probes malicious misuse, with survivor testing, which asks whether an innocent harmed user has recovery and support.",
+      "example": "Teaching extension: A messaging team tests whether an abuser can evade blocking and whether a targeted user can preserve evidence, report contact, and obtain help. Those are complementary misuse and recovery questions.",
+      "source": "text lines 2318-3086"
+    },
+    {
+      "title": "Future regret and tabletop",
+      "body": "Future-regret exercises imagine a decision becoming publicly regrettable; tabletop exercises have a group walk through a crisis and response. Both surface ethical consequences before an incident, though imagination cannot replace real evidence.",
+      "example": "Teaching extension: A tabletop exercise asks what happens when a public appointment service sends the wrong location to thousands of people. Participants assign correction, notification, and support responsibilities before a real incident.",
+      "source": "text lines 2318-3086"
+    },
+    {
+      "title": "Change and stress",
+      "body": "Complex systems produce unexpected interactions after changes. Stress tests, chaos experiments, and careful rollout reveal behavior under extreme load, weather, outages, or altered dependencies; safety controls also carry costs such as friction and false alarms.",
+      "example": "Teaching extension: A transit application is tested during a simulated network outage and stale timetable update. The team checks whether its fallback clearly distinguishes old information from confirmed live departures.",
+      "source": "text lines 2318-3086"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Safety and harm is equivalent to ordinary functional correctness.",
+      "correction": "The chapter separates this concern from “works as coded”: Safety concerns whether software can cause physical, psychological, financial, interpersonal, allocative, representational, quality-of-service, or social-system harm."
+    },
+    {
+      "claim": "A single review proves the product will remain responsible.",
+      "correction": "Users, contexts, and dependencies change; feedback, monitoring, and revision are required."
+    }
+  ],
+  "scenario": {
+    "title": "Safety case before a feature change",
+    "context": "A voice assistant change intended to block abusive content causes a benign phrase to disappear from answers. The team must protect against misuse while avoiding broad quality regressions.",
+    "options": [
+      {
+        "label": "Run broad red-team and regression testing",
+        "benefit": "Tests malicious and ordinary cases across languages and contexts before rollout.",
+        "cost": "Coverage work delays the change and can produce false alarms.",
+        "consequence": "The team detects the interaction, narrows the filter, and adds a monitored rollout."
+      },
+      {
+        "label": "Ship the filter globally",
+        "benefit": "Addresses a visible abuse concern quickly.",
+        "cost": "Benign users lose useful content and the cause is harder to isolate after release.",
+        "consequence": "Support reports accumulate, requiring rollback and a more careful harm taxonomy."
+      }
+    ],
+    "debrief": "Both choices are defensible under different constraints; the responsible decision states the accepted consequence and the evidence that could change it."
+  },
+  "quiz": [
+    {
+      "question": "Which harm is allocative?",
+      "options": [
+        "A service uses too much CPU during a benchmark.",
+        "A group receives fewer opportunities or resources from a system.",
+        "A developer dislikes a code style."
+      ],
+      "answer": 1,
+      "explanation": "Allocative harm concerns distribution of opportunities or resources."
+    },
+    {
+      "question": "What distinguishes abuser testing from survivor testing?",
+      "options": [
+        "They are two names for unit tests.",
+        "Abuser testing measures speed; survivor testing measures memory.",
+        "Abuser testing probes malicious misuse; survivor testing checks support for innocent people harmed through the product."
+      ],
+      "answer": 2,
+      "explanation": "The chapter presents the two complementary safety perspectives."
+    },
+    {
+      "question": "What does a tabletop exercise do?",
+      "options": [
+        "A group imagines a crisis and walks through decisions and responses.",
+        "It certifies that no future failure is possible.",
+        "It replaces testing with a production rollout."
+      ],
+      "answer": 0,
+      "explanation": "Tabletops surface overlooked consequences and response gaps before incidents."
+    }
+  ],
+  "exercise": {
+    "title": "Plan safety tests",
+    "prompt": "Choose a feature with plausible misuse or failure.",
+    "fields": [
+      {
+        "label": "Abuser test",
+        "placeholder": "Abuser test"
+      },
+      {
+        "label": "Survivor test",
+        "placeholder": "Survivor test"
+      },
+      {
+        "label": "Stress or tabletop check",
+        "placeholder": "Stress or tabletop check"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "n0",
+        "label": "HARMS",
+        "kind": "alert",
+        "tone": "sage",
+        "x": 100,
+        "y": 80
+      },
+      {
+        "id": "n1",
+        "label": "RED TEAM",
+        "kind": "shield",
+        "tone": "peach",
+        "x": 270,
+        "y": 80
+      },
+      {
+        "id": "n2",
+        "label": "SURVIVOR",
+        "kind": "person",
+        "tone": "lilac",
+        "x": 100,
+        "y": 210
+      },
+      {
+        "id": "n3",
+        "label": "STRESS",
+        "kind": "experiment",
+        "tone": "honey",
+        "x": 270,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "n0",
+        "to": "n1"
+      },
+      {
+        "from": "n1",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "to": "n3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "n0",
+        "text": "Examine harms using the chapter evidence."
+      },
+      {
+        "node": "n1",
+        "text": "Examine red team using the chapter evidence."
+      },
+      {
+        "node": "n2",
+        "text": "Examine survivor using the chapter evidence."
+      },
+      {
+        "node": "n3",
+        "text": "Examine stress using the chapter evidence."
+      }
+    ]
+  }
+}

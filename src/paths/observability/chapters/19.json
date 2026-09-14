@@ -1,0 +1,185 @@
+{
+  "number": 19,
+  "title": "The Business Case for Observability",
+  "part": "Spreading Observability Culture",
+  "subtitle": "Make the investment case with local outcomes",
+  "summary": "A business case for observability should explain which recurring costs and limitations the organization intends to change. Waiting for a catastrophe can produce a rushed tool purchase without the practices needed to benefit from it. A proactive case instead connects difficult diagnosis, repeated rework, on-call strain, or uncertain delivery with a bounded improvement effort. Baseline measures help evaluate the result, but incident timings alone do not capture every benefit or establish causality. The chapter also emphasizes permission and support: engineers need time, usable tools, and a culture that encourages investigation. Sufficient observability is a practical checkpoint where teams can deliver and operate predictably, with instrumentation and exploration embedded in routine work rather than sustained by exceptional outside intervention.",
+  "source": {
+    "startLine": 8667,
+    "endLine": 9084,
+    "reference": "text lines 8667–9084"
+  },
+  "concepts": [
+    {
+      "title": "Recognize costs before a crisis",
+      "body": "Recurring unexplained failures, prolonged debugging, and repeated rework can indicate that the team lacks an effective way to understand production. These costs may be normalized long before a catastrophic outage makes them visible to executives. Build the case around those existing constraints so the initiative addresses a durable problem rather than only the latest dramatic incident.",
+      "example": "Engineers repeatedly spend days reproducing customer failures that existing telemetry cannot explain.",
+      "source": "text lines 8667–9084"
+    },
+    {
+      "title": "Measure a bounded change",
+      "body": "Choose a team or service, record relevant baseline outcomes, and define what an observability pilot should improve. Detection and resolution times are understandable starting measures, but include context such as incident severity, rework, and responder burden. A change in averages alone is weak evidence when the incidents or workload also changed.",
+      "example": "Track time spent locating failures alongside whether more responders can investigate independently.",
+      "source": "text lines 8667–9084"
+    },
+    {
+      "title": "Fund practice as well as infrastructure",
+      "body": "A technically observable system can remain poorly understood if engineers lack time, confidence, or permission to explore it. Budget instrumentation and platform work, support curious investigation, and reduce incentives that punish asking questions. Adoption requires the organization to use its capability, not simply collect records or purchase an analytics interface.",
+      "example": "A team receives protected time to investigate an unclear production behavior and share the result.",
+      "source": "text lines 8667–9084"
+    },
+    {
+      "title": "Define a useful enough checkpoint",
+      "body": "Observability is never finished in an absolute sense, but investment competes with other needs. A useful checkpoint is predictable delivery and sufficient reliability, with instrumentation and investigation becoming ordinary team habits. Look for reduced dependence on outside experts and the ability to answer important questions, then prioritize the next constraint rather than chase complete coverage as an end itself.",
+      "example": "New features routinely include telemetry and their owners verify behavior after deployment.",
+      "source": "text lines 8667–9084"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A vendor’s published ROI predicts this organization’s result.",
+      "correction": "Use external results as context; local workload, baseline, implementation, and adoption determine the actual benefit."
+    },
+    {
+      "claim": "Buying the platform completes the business initiative.",
+      "correction": "The team needs budget, usable workflows, and support to turn technical capability into routine practice."
+    }
+  ],
+  "scenario": {
+    "title": "The emergency purchase proposal",
+    "context": "After a major outage, leadership proposes buying a platform without allocating adoption time.",
+    "options": [
+      {
+        "label": "Tie a funded pilot to recurring diagnostic costs",
+        "benefit": "Creates a testable path from investment to useful behavior.",
+        "cost": "Needs baseline work and team participation.",
+        "consequence": "The organization can decide whether to expand using evidence from actual team outcomes."
+      },
+      {
+        "label": "Purchase immediately and count installed agents",
+        "benefit": "Moves procurement quickly.",
+        "cost": "May leave the original investigation habits and constraints unchanged.",
+        "consequence": "A larger telemetry inventory may arrive without a corresponding improvement in diagnosis."
+      }
+    ],
+    "debrief": "Urgency can justify action, but the business outcome still depends on how the team uses the capability."
+  },
+  "quiz": [
+    {
+      "question": "Which proposal is easiest to evaluate credibly?",
+      "options": [
+        "Buy a platform and assume industry-average returns",
+        "Pilot on a defined service with a baseline and explicit outcome measures",
+        "Collect every signal before defining the problem"
+      ],
+      "answer": 1,
+      "explanation": "A bounded scope and local baseline make the expected benefit reviewable."
+    },
+    {
+      "question": "Resolution time falls after a pilot. What should be considered before attributing the whole gain?",
+      "options": [
+        "Whether ingestion volume increased, as sufficient evidence of diagnostic benefit",
+        "Whether tool adoption coincided with the improvement, without comparing incidents",
+        "Whether incident severity, traffic, and other practices also changed"
+      ],
+      "answer": 2,
+      "explanation": "Context is needed to distinguish a useful improvement from an unsupported causal claim."
+    },
+    {
+      "question": "What suggests observability is becoming a routine practice?",
+      "options": [
+        "Feature owners instrument and inspect their changes without exceptional intervention",
+        "Every dashboard has an owner label",
+        "The platform stores more bytes each month"
+      ],
+      "answer": 0,
+      "explanation": "Habitual use in delivery and operation is stronger evidence than tool or volume counts."
+    }
+  ],
+  "exercise": {
+    "title": "Write an evidence-based investment case",
+    "prompt": "Propose a bounded observability improvement with measurable outcomes and explicit assumptions.",
+    "fields": [
+      {
+        "label": "Recurring business or engineering cost",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Pilot scope and baseline",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Success measure and alternative explanations",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "COST OF PAIN",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "BASELINE",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "FUND PRACTICE",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "CHECKPOINT",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "Engineers repeatedly spend days reproducing customer failures that existing telemetry cannot explain."
+      },
+      {
+        "node": "step-1",
+        "text": "Track time spent locating failures alongside whether more responders can investigate independently."
+      },
+      {
+        "node": "step-2",
+        "text": "A team receives protected time to investigate an unclear production behavior and share the result."
+      },
+      {
+        "node": "step-3",
+        "text": "New features routinely include telemetry and their owners verify behavior after deployment."
+      }
+    ]
+  }
+}

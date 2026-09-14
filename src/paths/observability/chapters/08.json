@@ -1,0 +1,185 @@
+{
+  "number": 8,
+  "title": "Analyzing Events to Achieve Observability",
+  "part": "Fundamentals of Observability",
+  "subtitle": "Turn a symptom into a sequence of comparisons",
+  "summary": "The core analysis loop turns exploratory debugging into a method another person can follow. Begin with the complaint or alert, verify the observed change, and search for dimensions that distinguish the anomalous population. If the result is insufficient, narrow the population and repeat. Wide events make these comparisons possible because the relevant attributes remain associated with individual requests. Automated comparison can rank differences between an anomaly and its baseline, saving the investigator from checking every field manually. Those rankings are clues, not automatic causal verdicts. The investigation succeeds when the evidence supports an explanation and a useful next action; collecting more telemetry without changing how it is analyzed does not produce this capability.",
+  "source": {
+    "startLine": 3449,
+    "endLine": 3796,
+    "reference": "text lines 3449–3796"
+  },
+  "concepts": [
+    {
+      "title": "Verify the starting observation",
+      "body": "Begin with what prompted the investigation rather than a favored explanation. Establish whether a change is visible and which requests and time range it concerns. A complaint may be precise about customer pain but imprecise about the failing component. Verifying that initial observation prevents the rest of the analysis from being built on an unsupported assumption.",
+      "example": "Confirm a latency increase for the reported endpoint before blaming its database.",
+      "source": "text lines 3449–3796"
+    },
+    {
+      "title": "Search distinguishing dimensions",
+      "body": "Inspect sample events, group by fields, and filter values to find what separates unusual behavior from ordinary behavior. The best next dimension is one that changes the question meaningfully. An attribute common to both populations may provide little discrimination even when it appears on every failing request.",
+      "example": "An availability zone appears in nearly all slow requests but only a minority of normal requests.",
+      "source": "text lines 3449–3796"
+    },
+    {
+      "title": "Repeat on a narrower population",
+      "body": "The first useful difference may locate only part of the problem. Filter to that population and continue comparing until the investigation supports a concrete explanation or action. This repeated narrowing preserves the link between each clue and the next question, rather than requiring a sudden intuitive jump to a component name.",
+      "example": "After finding the affected zone, compare instance types and operation paths inside it.",
+      "source": "text lines 3449–3796"
+    },
+    {
+      "title": "Automate comparison, interpret the result",
+      "body": "A tool can compare field distributions inside an anomaly with a baseline and rank their differences. This speeds the laborious search across many dimensions. The ranking does not establish causation: several attributes may describe the same cohort, so the investigator must examine relationships and validate the proposed explanation with further evidence.",
+      "example": "Region and instance type both rank highly because the affected capacity uses that combination.",
+      "source": "text lines 3449–3796"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "The largest statistical difference automatically identifies the root cause.",
+      "correction": "It identifies a promising clue; correlated attributes can describe the same affected population."
+    },
+    {
+      "claim": "Once wide events are collected, debugging habits need no change.",
+      "correction": "Grepping for familiar strings still restricts the questions; exploratory comparison is a separate practice."
+    }
+  ],
+  "scenario": {
+    "title": "A misleading common attribute",
+    "context": "Every slow request uses the same runtime, which also handles almost all healthy traffic.",
+    "options": [
+      {
+        "label": "Compare attribute frequency against the baseline",
+        "benefit": "Shows whether the runtime actually distinguishes the anomaly.",
+        "cost": "Requires a relevant comparison population.",
+        "consequence": "The investigator can reject a ubiquitous field and continue toward a genuinely distinguishing clue."
+      },
+      {
+        "label": "Escalate to the runtime maintainers",
+        "benefit": "Can engage specialized expertise.",
+        "cost": "May pursue a ubiquitous attribute that explains no difference.",
+        "consequence": "Specialists may spend time on a runtime shared equally by healthy and unhealthy requests."
+      }
+    ],
+    "debrief": "Common among failures is not the same as unusually common among failures."
+  },
+  "quiz": [
+    {
+      "question": "All failed requests use Linux, as do all successful requests. How discriminating is that fact?",
+      "options": [
+        "It is the strongest lead because every failure shares the value",
+        "It rules out infrastructure because the successful requests use it too",
+        "It does not distinguish the two populations"
+      ],
+      "answer": 2,
+      "explanation": "A useful comparison considers the baseline, not only what failures have in common."
+    },
+    {
+      "question": "A zone dominates the latency anomaly. What is a sound next step?",
+      "options": [
+        "Filter to that zone and compare additional dimensions",
+        "Declare the provider at fault immediately",
+        "Filter away healthy zones permanently before testing the suspected cause"
+      ],
+      "answer": 0,
+      "explanation": "Narrowing follows the clue while leaving its explanation open to further testing."
+    },
+    {
+      "question": "What does automated anomaly comparison primarily save?",
+      "options": [
+        "The need to verify observations",
+        "Manual searching across many field distributions",
+        "The need for request context"
+      ],
+      "answer": 1,
+      "explanation": "Automation accelerates dimensional search but still needs data and interpretation."
+    }
+  ],
+  "exercise": {
+    "title": "Run the core analysis loop",
+    "prompt": "Describe a symptom, verify it, and design two successive comparisons.",
+    "fields": [
+      {
+        "label": "Verified change and baseline",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "First distinguishing dimension",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Next filter or stopping evidence",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "VERIFY",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "COMPARE",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "NARROW",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "INTERPRET",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "Confirm a latency increase for the reported endpoint before blaming its database."
+      },
+      {
+        "node": "step-1",
+        "text": "An availability zone appears in nearly all slow requests but only a minority of normal requests."
+      },
+      {
+        "node": "step-2",
+        "text": "After finding the affected zone, compare instance types and operation paths inside it."
+      },
+      {
+        "node": "step-3",
+        "text": "Region and instance type both rank highly because the affected capacity uses that combination."
+      }
+    ]
+  }
+}

@@ -1,0 +1,195 @@
+{
+  "number": 5,
+  "title": "Eliminating Toil",
+  "part": "Foundations",
+  "subtitle": "Distinguish recurring service work from improvements that last",
+  "summary": "Toil is recurring work that keeps a production service in its present state and tends to grow with that service. Manual execution, repetition, automation potential, interrupt-driven timing, and lack of lasting value help identify it. The category does not mean unpleasant work: a difficult cleanup may be engineering, while a satisfying daily repair can still be toil. Administrative overhead is a separate category. Measure human effort, including time spent invoking scripts, and look at individual workloads because team averages hide overload. The chapter protects at least half of SRE time for engineering over a meaningful period. Some toil remains unavoidable, but unchecked repetition consumes the capacity needed to improve reliability, damages careers, and makes staffing rise alongside service growth.",
+  "source": {
+    "startLine": 2266,
+    "endLine": 2451,
+    "reference": "text lines 2266–2451"
+  },
+  "concepts": [
+    {
+      "title": "Recognizing toil",
+      "body": "Toil is production work that tends to be repetitive, manual, tactical, automatable, and without enduring improvement. Its volume often increases with users, traffic, or service size. These characteristics are guides rather than a rigid checklist. The key question is whether completing the task changes the future operating burden or merely restores the same state until the next occurrence.",
+      "example": "Teaching extension: Approving the same routine quota increase every morning is toil even when each approval is easy.",
+      "source": "text lines 2266–2451"
+    },
+    {
+      "title": "Engineering and overhead are different categories",
+      "body": "Engineering creates a lasting improvement through design and judgment; it may involve code, configuration, documentation, or a difficult cleanup. Overhead covers organizational work such as meetings and hiring that is not directly operating a production service. Classifying work by whether it is enjoyable or whether it contains code misses these distinctions and produces misleading estimates of engineering capacity.",
+      "example": "Teaching extension: A one-time alert cleanup removes recurring noise; a weekly staffing meeting is overhead; repeated manual restarts are toil.",
+      "source": "text lines 2266–2451"
+    },
+    {
+      "title": "Measure the operator’s effort",
+      "body": "A script does not eliminate toil if a person must repeatedly start it and inspect its result. Count hands-on effort rather than the script’s unattended runtime. On-call coverage creates a baseline commitment, and interruptions create additional work. Examine distributions across engineers and over time: a healthy team average can conceal one person spending nearly every day on repetitive service work.",
+      "example": "Teaching extension: A 40-minute script that requires five minutes of human handling contributes those five minutes each time it runs.",
+      "source": "text lines 2266–2451"
+    },
+    {
+      "title": "Protect the capacity to reduce future work",
+      "body": "Google’s target reserves at least half of SRE time for engineering when assessed over a substantial period. This prevents reactive work from crowding out the improvements that would reduce it. Brief spikes can happen, but persistent overload needs changes in work allocation and priorities. Eliminating recurring work lets the service grow without adding equivalent operational effort or exhausting its engineers.",
+      "example": "Teaching extension: Reducing daily account-repair work frees a recurring block of time to improve the provisioning system itself.",
+      "source": "text lines 2266–2451"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Any task I dislike is toil.",
+      "correction": "Unpleasant work can create a lasting improvement, and some repetitive production work can be enjoyable."
+    },
+    {
+      "claim": "Running a script means the task is fully automated.",
+      "correction": "Repeated human invocation and supervision still consume toil time."
+    }
+  ],
+  "scenario": {
+    "title": "Automate repetitive intervention",
+    "context": "An operator manually acknowledges routine queue repairs several times each day. The repair is deterministic, but a malformed message could make the existing script dangerous.",
+    "options": [
+      {
+        "label": "Measure the toil and automate with validation and rollback",
+        "benefit": "Engineering capacity returns and the guardrails make failure recoverable.",
+        "cost": "Building and testing the automation takes time.",
+        "consequence": "The team adds idempotence, a dry run, and an alert for rejected messages."
+      },
+      {
+        "label": "Keep the manual runbook",
+        "benefit": "Operators retain direct judgment for unusual cases.",
+        "cost": "The queue keeps consuming attention and scales with traffic.",
+        "consequence": "The manual process remains safe but blocks planned reliability work."
+      }
+    ],
+    "debrief": "Automation pays down toil when deterministic repair is guarded; a manual runbook remains useful for exceptions but does not scale with routine load."
+  },
+  "quiz": [
+    {
+      "question": "Which activity most clearly creates enduring engineering value?",
+      "options": [
+        "Manually restarting the same worker every day",
+        "Removing the recurring worker fault and deploying the fix",
+        "Watching a script complete each morning"
+      ],
+      "answer": 1,
+      "explanation": "The fix changes the future service behavior instead of repeating the same recovery."
+    },
+    {
+      "question": "A job runs unattended for 50 minutes but needs ten minutes of operator handling each run. What toil time is counted?",
+      "options": [
+        "Ten minutes",
+        "Fifty minutes",
+        "Sixty minutes"
+      ],
+      "answer": 0,
+      "explanation": "The chapter counts human handling time rather than unattended elapsed time."
+    },
+    {
+      "question": "Why inspect individual toil levels when the team average is acceptable?",
+      "options": [
+        "To require identical daily tasks",
+        "To eliminate all administrative work",
+        "To reveal uneven burdens hidden by the average"
+      ],
+      "answer": 2,
+      "explanation": "Some engineers may lack project time despite a favorable aggregate."
+    }
+  ],
+  "exercise": {
+    "title": "Audit a week of repeated work",
+    "prompt": "List three production tasks from a typical week. Classify each as toil or engineering using repetition and enduring value, then choose one recurring cost to remove.",
+    "fields": [
+      {
+        "label": "Task and human minutes",
+        "placeholder": "How often does the task occur, and how much attention does each occurrence require?"
+      },
+      {
+        "label": "Lasting change",
+        "placeholder": "What would eliminate the need or make completion autonomous?"
+      },
+      {
+        "label": "Protected time",
+        "placeholder": "Who covers the recurring task while the improvement is built?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Eliminating Toil: OPERATOR to QUEUE to AUTOMATION to GUARDRAIL",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "OPERATOR",
+        "caption": "inputs and constraints",
+        "kind": "colleague",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "QUEUE",
+        "caption": "choose the operating rule",
+        "kind": "queue",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "AUTOMATION",
+        "caption": "observe the effect",
+        "kind": "agent",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "GUARDRAIL",
+        "caption": "feed learning back",
+        "kind": "shield",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      },
+      {
+        "from": "learn",
+        "to": "observe",
+        "dashed": true
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "inputs and constraints"
+      },
+      {
+        "node": "decide",
+        "text": "choose the operating rule"
+      },
+      {
+        "node": "act",
+        "text": "observe the effect"
+      },
+      {
+        "node": "learn",
+        "text": "feed learning back"
+      }
+    ]
+  }
+}

@@ -1,0 +1,190 @@
+{
+  "number": 18,
+  "title": "Software Engineering in SRE",
+  "part": "Engineering",
+  "subtitle": "Turn production expertise into reusable software products",
+  "summary": "SRE software development makes service growth sustainable by replacing repeated operational work with durable tools. The chapter develops this argument through Auxon, an internal capacity planning product. Spreadsheet plans become brittle when demand, machine deliveries, or dependency requirements change. Auxon instead captures service intent, combines it with performance measurements and resource supply, and computes allocations while exposing unsatisfied requirements. Its development also illustrates how an SRE team can become an effective product team: start with a useful approximation, preserve replaceable interfaces, recruit suitable early customers, and support adoption. Continued production involvement keeps requirements grounded. Internal software still needs reviews, testing, documentation, ownership, and realistic commitments because successful tools can become essential production dependencies.",
+  "source": {
+    "startLine": 7221,
+    "endLine": 7875,
+    "reference": "text lines 7221–7875"
+  },
+  "concepts": [
+    {
+      "title": "Production experience as product knowledge",
+      "body": "SRE engineers encounter the operational constraints that internal tooling must handle: failure, scale, maintenance, and integration with existing services. Keeping developers involved in production creates a direct feedback path between a tool and its users. Turning that experience into a supported product can reduce repeated work across teams, but requires product planning and engineering discipline beyond writing a local repair script.",
+      "example": "Teaching extension: A rollout tool is tested during real maintenance and improved when operators identify an unsafe recovery step.",
+      "source": "text lines 7221–7875"
+    },
+    {
+      "title": "Intent-based capacity planning",
+      "body": "Intent describes why capacity is needed rather than fixing the allocation in advance. A service can specify demand, geographic constraints, dependencies, and redundancy instead of requesting particular machines. Performance models translate demand into resource consumption, while priorities make shortages explicit. Auxon uses these inputs to generate an allocation plan that can be recomputed when forecasts or available supply change.",
+      "example": "Teaching extension: A service asks for regional demand coverage with two spare failure domains instead of naming three specific clusters.",
+      "source": "text lines 7221–7875"
+    },
+    {
+      "title": "Approximation behind stable interfaces",
+      "body": "An early implementation can establish usefulness without solving every difficult component perfectly. Auxon initially used a heuristic solver behind an interface that later accommodated a stronger optimizer. Modular inputs and outputs also allowed different forecasting and deployment tools to integrate. The point is to isolate uncertainty while proving a concrete use case, so improved models do not require rebuilding the whole product.",
+      "example": "Teaching extension: A planner first produces a feasible allocation; a later optimizer improves cost while preserving its configuration format.",
+      "source": "text lines 7221–7875"
+    },
+    {
+      "title": "Adoption and production standards",
+      "body": "An internal tool succeeds when teams can afford to learn and trust it. Documentation, onboarding help, credible release plans, and early customers with a pressing need all support adoption. The team should demonstrate useful improvements rather than promise universal coverage. As adoption increases, code review, integration testing, and production readiness become especially important because other operators increasingly depend on the tool.",
+      "example": "Teaching extension: Early adopters receive migration support and publish measured planning-time savings that help other teams judge the investment.",
+      "source": "text lines 7221–7875"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Internal tools only need to work for their authors.",
+      "correction": "Shared operational software needs supported interfaces, documentation, testing, and an understanding of other teams’ requirements."
+    },
+    {
+      "claim": "Capacity planning should begin by fixing exact machine allocations.",
+      "correction": "Capture demand and constraints first; flexible allocations can then adapt to changing supply without losing the service’s intent."
+    }
+  ],
+  "scenario": {
+    "title": "Keep SRE engineering capacity",
+    "context": "An SRE team spends most of its week fixing recurring configuration drift and has a backlog of reliability tooling. Product asks for another manual review.",
+    "options": [
+      {
+        "label": "Automate the repeated drift repair",
+        "benefit": "Engineering time shifts from recurring work to durable improvements.",
+        "cost": "Automation must be bounded and observable.",
+        "consequence": "A validated repair job handles known drift and sends exceptions to humans."
+      },
+      {
+        "label": "Add the review to the weekly rota",
+        "benefit": "The review can catch unusual cases immediately.",
+        "cost": "The rota hides the capacity cost and does not reduce recurrence.",
+        "consequence": "The review continues while the underlying source of drift grows."
+      }
+    ],
+    "debrief": "Automating a repeated repair can recover engineering capacity, but a shared tool needs clear users, a supported interface, tests, and ownership. Start with a useful bounded case and improve it from production feedback."
+  },
+  "quiz": [
+    {
+      "question": "What does intent-based planning preserve when a cluster delivery slips?",
+      "options": [
+        "The original machine list regardless of feasibility",
+        "The service requirements and priorities used to recompute placement",
+        "The previous quarter’s allocation as a mandatory constraint"
+      ],
+      "answer": 1,
+      "explanation": "Intent separates service requirements from a particular allocation, allowing the plan to adapt."
+    },
+    {
+      "question": "Why did Auxon hide its early heuristic solver behind an interface?",
+      "options": [
+        "To replace the approximation without redesigning all integrations",
+        "To keep a heuristic solver permanently instead of measuring solution quality",
+        "To prevent users from providing performance data"
+      ],
+      "answer": 0,
+      "explanation": "A stable boundary allowed the solver to improve while the surrounding product remained useful."
+    },
+    {
+      "question": "Which early customer is most likely to justify Auxon’s onboarding effort?",
+      "options": [
+        "A team satisfied with a mature custom planner",
+        "A team whose only requirement is a feature planned for a later release",
+        "A team facing painful planning work and lacking an adequate tool"
+      ],
+      "answer": 2,
+      "explanation": "Early adopters need a concrete benefit large enough to justify configuration and learning costs."
+    }
+  ],
+  "exercise": {
+    "title": "Design an internal product",
+    "prompt": "Choose a recurring operational task and outline a small reusable product. Explain the first useful release and how real operators will shape later work.",
+    "fields": [
+      {
+        "label": "Users and pain",
+        "placeholder": "Who repeats the task, how often, and what makes the current process costly?"
+      },
+      {
+        "label": "First release",
+        "placeholder": "What bounded use case can the first version support, and which interface must remain replaceable?"
+      },
+      {
+        "label": "Adoption and quality",
+        "placeholder": "How will users learn it, give feedback, and trust its tested behavior?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Design an internal product",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "Operators",
+        "caption": "Production pain",
+        "kind": "team",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "Intent",
+        "caption": "Service requirements",
+        "kind": "document",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "Tool",
+        "caption": "Useful first release",
+        "kind": "service",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "Feedback",
+        "caption": "Measured adoption",
+        "kind": "gauge",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "Repeated production work reveals a concrete need."
+      },
+      {
+        "node": "decide",
+        "text": "Describe requirements instead of hardcoding one allocation."
+      },
+      {
+        "node": "act",
+        "text": "Implement a useful first version behind stable interfaces."
+      },
+      {
+        "node": "learn",
+        "text": "User experience and measured benefit guide the next release."
+      }
+    ]
+  }
+}

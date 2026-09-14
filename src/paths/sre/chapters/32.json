@@ -1,0 +1,190 @@
+{
+  "number": 32,
+  "title": "The Evolving SRE Engagement Model",
+  "part": "People and practice",
+  "subtitle": "Move from late service reviews toward reusable reliability",
+  "summary": "SRE engagement begins with deciding where limited expertise can make a meaningful contribution. A production readiness review assesses a service, negotiates improvements, trains the receiving team, and transfers responsibilities gradually with developer support. Late engagement can require expensive redesign of a system already serving users. Early collaboration brings production concerns into design, implementation, and launch, though not every consulted service ultimately needs full SRE ownership. The chapter then extends engagement through frameworks and a shared production platform. Standard instrumentation, traffic controls, and operational interfaces let many services benefit from the same improvements and reduce repeated review work. This enables shared responsibility: SRE can maintain the platform while developers retain responsibility for application behavior.",
+  "source": {
+    "startLine": 15053,
+    "endLine": 15595,
+    "reference": "text lines 15053–15595"
+  },
+  "concepts": [
+    {
+      "title": "Production readiness as a negotiated transition",
+      "body": "A production readiness review examines architecture, dependencies, monitoring, capacity, emergency response, and change management before SRE accepts production responsibility. Findings become prioritized improvements agreed with developers. Training and progressive handover follow, with developers remaining available for support. The review is therefore a collaborative engineering process whose outcome is operational readiness, rather than a document that transfers an unchanged service to another team.",
+      "example": "Teaching extension: Before handover, the reviewers and developers fix missing SLO coverage and rehearse recovery with the whole receiving team.",
+      "source": "text lines 15053–15595"
+    },
+    {
+      "title": "Early engagement changes the cost of reliability",
+      "body": "SRE involvement during design can identify operational problems before they become expensive architectural commitments. During implementation, the team can add instrumentation, controls, and established infrastructure; at launch, it can help validate behavior under real traffic. Early work may also make a service simple enough for developers to keep operating themselves. That can be a successful outcome rather than a failed handover.",
+      "example": "Teaching extension: An early design review adds a safe traffic-control interface before downstream clients depend on the initial API.",
+      "source": "text lines 15053–15595"
+    },
+    {
+      "title": "Frameworks codify production experience",
+      "body": "Service-specific reviews repeat effort when every team independently implements logging, monitoring, overload protection, and configuration. Frameworks encode tested production patterns and expose common behavior across supported environments. Developers then build business logic on a standard foundation, and framework improvements can benefit many services. Consistent control surfaces also make automation and incident diagnosis easier than integrating many slightly incompatible implementations.",
+      "example": "Teaching extension: A common overload module gives several services the same utilization signal, shedding controls, and diagnostic metrics.",
+      "source": "text lines 15053–15595"
+    },
+    {
+      "title": "Platform and application responsibility",
+      "body": "A common platform allows SRE support to extend beyond services with a dedicated SRE team. SRE can own shared production infrastructure and its controls while development teams support application-specific failures. This changes staffing from repeatedly supporting each bespoke service toward maintaining reusable capabilities. Boundaries still need to be understood so an application defect and a platform incident reach the people able to resolve them.",
+      "example": "Teaching extension: A developer handles an incorrect pricing calculation while the platform team investigates failures in shared traffic admission.",
+      "source": "text lines 15053–15595"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A PRR ends when a checklist has been filled in.",
+      "correction": "Prioritized fixes, team training, and a supported transfer of responsibility are essential parts of readiness."
+    },
+    {
+      "claim": "Every successful early consultation must end in full SRE ownership.",
+      "correction": "A reliable low-maintenance service may remain with developers, while benefiting from the consultation or shared platform."
+    }
+  ],
+  "scenario": {
+    "title": "Prepare a service for SRE ownership",
+    "context": "A growing service requests SRE support. Reviewers find missing user-error monitoring and an unsafe rollout procedure; the developers can help correct both.",
+    "options": [
+      {
+        "label": "Agree on improvements, training, and gradual handover",
+        "benefit": "The receiving team gains operational controls and service understanding.",
+        "cost": "Both teams must invest engineering time before transfer.",
+        "consequence": "Developers and SRE fix readiness gaps, rehearse operations, and transfer responsibilities with backup support."
+      },
+      {
+        "label": "Transfer the pager immediately",
+        "benefit": "SRE begins responding without waiting for remediation.",
+        "cost": "Unresolved controls and knowledge gaps follow the pager.",
+        "consequence": "Responders own incidents before they can reliably observe or reverse changes."
+      }
+    ],
+    "debrief": "A PRR should lead to prioritized repairs, training, and a supported handover when the service merits SRE ownership. Earlier design work or shared platform controls can reduce the amount of bespoke remediation required."
+  },
+  "quiz": [
+    {
+      "question": "What follows analysis in a useful production readiness review?",
+      "options": [
+        "Immediate pager transfer regardless of findings",
+        "Prioritized improvements agreed with developers",
+        "Permanent suspension of all feature work"
+      ],
+      "answer": 1,
+      "explanation": "The analysis must lead to changes that establish readiness."
+    },
+    {
+      "question": "Why do common frameworks make SRE engagement scale better?",
+      "options": [
+        "They eliminate application-specific defects",
+        "They require a new implementation of each control per service",
+        "They reuse production controls and reduce repeated review and integration work"
+      ],
+      "answer": 2,
+      "explanation": "Shared implementation spreads expertise without proportional per-service effort."
+    },
+    {
+      "question": "Under the platform model, who normally handles a bug in application business logic?",
+      "options": [
+        "The development team responsible for that application",
+        "Only the shared platform’s on-call engineer",
+        "The SRE reviewers who originally approved the service"
+      ],
+      "answer": 0,
+      "explanation": "Shared platform support does not transfer every application responsibility to SRE."
+    }
+  ],
+  "exercise": {
+    "title": "Choose an engagement model",
+    "prompt": "A growing service asks for SRE support. Compare a readiness review, early design collaboration for its replacement, and adoption of shared production controls.",
+    "fields": [
+      {
+        "label": "Need and fit",
+        "placeholder": "Why does the service merit direct engagement, and what expertise and staffing are available?"
+      },
+      {
+        "label": "Readiness work",
+        "placeholder": "Which improvements and training must precede a transfer of responsibility?"
+      },
+      {
+        "label": "Reusable boundary",
+        "placeholder": "What can the platform own, and which application responsibilities remain with developers?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Choose an engagement model",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "Assess",
+        "caption": "Service readiness",
+        "kind": "gauge",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "Improve",
+        "caption": "Prioritized repairs",
+        "kind": "service",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "Prepare",
+        "caption": "Team training",
+        "kind": "mentor",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "Partner",
+        "caption": "Shared responsibility",
+        "kind": "team",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "Agree on service needs and identify production gaps."
+      },
+      {
+        "node": "decide",
+        "text": "Prioritize fixes and introduce reusable controls where appropriate."
+      },
+      {
+        "node": "act",
+        "text": "Train responders and transfer responsibilities progressively."
+      },
+      {
+        "node": "learn",
+        "text": "Maintain explicit platform and application ownership as the service evolves."
+      }
+    ]
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "number": 6,
+  "title": "Knowledge and Memory",
+  "part": "Context",
+  "subtitle": "Separate retrieved knowledge, interaction memory, and the current context",
+  "summary": "Knowledge retrieval supplies information beyond the model’s parameters, while memory preserves useful history from earlier interactions and actions. Neither is the same as the limited context provided to a particular invocation. Lexical retrieval helps with exact names and terms; vector search can find related meanings despite different wording. Graph-based retrieval adds explicit relationships but requires additional construction, validation, and maintenance. Working memory and notes help organize evidence for the current task, while persistent records need selection and updating over time. Choose these mechanisms according to the information the task needs: storing more material does not ensure that the right material reaches the model.",
+  "source": {
+    "startLine": 4798,
+    "endLine": 5524,
+    "reference": "text lines 4798–5524"
+  },
+  "concepts": [
+    {
+      "title": "Context windows",
+      "body": "An agent’s context window limits what can be supplied to a model invocation. Context engineering decides what to retain, summarize, retrieve, or discard so relevant evidence survives without overwhelming the model.",
+      "example": "Teaching extension: A long support conversation is summarized, but the selected order number and unresolved customer request remain explicit. Only the policy passages relevant to that request are added to the next call.",
+      "source": "text lines 4798-5524"
+    },
+    {
+      "title": "Full-text retrieval",
+      "body": "Keyword retrieval such as BM25 finds exact terms and names efficiently. It can miss paraphrases and semantic matches, so ranking, chunking, and query formulation affect what evidence reaches the agent.",
+      "example": "Teaching extension: A maintenance assistant searches for the exact fault code E-417 before trying broader descriptive queries, so a similarly worded error for another device does not displace the precise match.",
+      "source": "text lines 4798-5524"
+    },
+    {
+      "title": "Semantic vectors",
+      "body": "Embeddings represent text as dense vectors; nearest-neighbor search retrieves by meaning. It handles paraphrase but can blur precise terms and inherits errors from embedding, chunking, and index choices.",
+      "example": "Teaching extension: A user asks how to “stop emails,” and vector retrieval finds an article titled “Disable subscription notifications.” The assistant still checks that the article applies to the current product.",
+      "source": "text lines 4798-5524"
+    },
+    {
+      "title": "Memory lifecycle",
+      "body": "Persistent memory needs explicit rules for what is written, how it is retrieved, when it is updated, and when it is removed. Episodic records of prior interactions serve a different purpose from reusable knowledge or procedures. A memory store can help preserve context across tasks, but stale, incorrect, or irrelevant memories can also propagate mistakes into later decisions.",
+      "example": "Teaching extension: A user changes their preferred delivery address. The memory store updates the active preference instead of retrieving both the old and new address as equally current facts.",
+      "source": "text lines 4798-5524"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Context windows is provided automatically by a more capable model.",
+      "correction": "An agent’s context window limits what can be supplied to a model invocation. Context engineering decides what to retain, summarize, retrieve, or discard so relevant evidence survives without overwhelming the model."
+    },
+    {
+      "claim": "Full-text retrieval removes the need for evaluation or human judgment.",
+      "correction": "Keyword retrieval such as BM25 finds exact terms and names efficiently. It can miss paraphrases and semantic matches, so ranking, chunking, and query formulation affect what evidence reaches the agent. Evaluation and appropriate oversight remain necessary."
+    }
+  ],
+  "scenario": {
+    "title": "Policy assistant stale memory",
+    "context": "An assistant retrieves changing internal policy and also remembers user preferences.",
+    "options": [
+      {
+        "label": "Keep policy in retrieval and store only durable preferences",
+        "benefit": "Reduces stale authoritative memory and keeps context purposeful.",
+        "cost": "The system needs separate update and deletion rules.",
+        "consequence": "A policy revision appears immediately while a preferred format persists."
+      },
+      {
+        "label": "Store all answers in memory",
+        "benefit": "Makes later responses quick.",
+        "cost": "Outdated guidance can be repeated with confidence.",
+        "consequence": "A user follows superseded policy and the team must trace the source."
+      }
+    ],
+    "debrief": "Both choices can fit different constraints. The decision should state stakes, reversibility, evidence, and who owns correction."
+  },
+  "quiz": [
+    {
+      "question": "A policy question depends on an exact product code. Which retrieval method is a useful first fit?",
+      "options": [
+        "Lexical retrieval that preserves the exact identifier.",
+        "Similarity search with no exact-match handling.",
+        "The model’s pretraining alone."
+      ],
+      "answer": 0,
+      "explanation": "Exact terms often matter for codes; semantic similarity solves a different matching problem."
+    },
+    {
+      "question": "Why use semantic vector retrieval?",
+      "options": [
+        "It enforces access permissions automatically.",
+        "Related meanings can match despite different wording.",
+        "It guarantees the newest document is selected."
+      ],
+      "answer": 1,
+      "explanation": "Embeddings help match meaning, while freshness, permissions, and relevance checking remain separate concerns."
+    },
+    {
+      "question": "What makes persistent memory more than an ever-growing transcript?",
+      "options": [
+        "Keeping every message forever.",
+        "Adding all stored text to every request.",
+        "Selection, updating, retrieval, and deletion rules tied to its purpose."
+      ],
+      "answer": 2,
+      "explanation": "Memory needs a lifecycle so useful context can be found without retaining stale or unnecessary material."
+    }
+  ],
+  "exercise": {
+    "title": "Context and memory map",
+    "prompt": "Create a concise artifact for the chapter workflow that makes the agent decision inspectable.",
+    "fields": [
+      {
+        "label": "Retrieved knowledge",
+        "placeholder": "Retrieved knowledge"
+      },
+      {
+        "label": "Durable memory",
+        "placeholder": "Durable memory"
+      },
+      {
+        "label": "Expiration or correction rule",
+        "placeholder": "Expiration or correction rule"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "n0",
+        "label": "QUERY",
+        "kind": "agent",
+        "tone": "sage",
+        "x": 100,
+        "y": 80
+      },
+      {
+        "id": "n1",
+        "label": "RETRIEVE",
+        "kind": "search",
+        "tone": "peach",
+        "x": 270,
+        "y": 80
+      },
+      {
+        "id": "n2",
+        "label": "MEMORY",
+        "kind": "database",
+        "tone": "lilac",
+        "x": 100,
+        "y": 210
+      },
+      {
+        "id": "n3",
+        "label": "CONTEXT",
+        "kind": "document",
+        "tone": "honey",
+        "x": 270,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "n0",
+        "to": "n1"
+      },
+      {
+        "from": "n1",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "to": "n3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "n0",
+        "text": "Inspect query in the chapter workflow."
+      },
+      {
+        "node": "n1",
+        "text": "Inspect retrieve in the chapter workflow."
+      },
+      {
+        "node": "n2",
+        "text": "Inspect memory in the chapter workflow."
+      },
+      {
+        "node": "n3",
+        "text": "Inspect context in the chapter workflow."
+      }
+    ]
+  }
+}

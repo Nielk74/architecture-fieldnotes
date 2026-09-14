@@ -1,0 +1,185 @@
+{
+  "number": 6,
+  "title": "Stitching Events into Traces",
+  "part": "Fundamentals of Observability",
+  "subtitle": "Reconstruct a request across service boundaries",
+  "summary": "A distributed trace connects timed events that belong to the same request. The chapter demystifies tracing by showing how identifiers, parent relationships, and timing information are recorded and propagated, rather than treating the resulting waterfall as magic. A common trace ID establishes membership; distinct span IDs and parent IDs establish structure. Carrying that context across service boundaries allows independently emitted records to be assembled afterward. Useful traces also contain application attributes, because duration and topology alone rarely explain why a particular request behaved differently. Reading a trace means examining waits, nested work, and overlap in relation to the request’s elapsed time, then using the attached context to guide a focused investigation.",
+  "source": {
+    "startLine": 2717,
+    "endLine": 3084,
+    "reference": "text lines 2717–3084"
+  },
+  "concepts": [
+    {
+      "title": "Membership and parentage differ",
+      "body": "The trace ID groups spans into a single request history. Each span also has its own ID, and a parent reference records how its work relates to another operation. Sharing a trace ID without preserving parentage can associate events, but cannot reconstruct the same useful nesting structure for understanding the request’s execution.",
+      "example": "Authorization and profile lookups share the request trace ID but have distinct span IDs.",
+      "source": "text lines 2717–3084"
+    },
+    {
+      "title": "Spans describe timed operations",
+      "body": "A span records an operation with timing and contextual attributes. Its duration describes that operation’s elapsed time, which may include waiting for child work. Summing every span duration can therefore double-count nested or overlapping work. Inspect the timeline and relationships before deciding which operation accounts for the user-visible delay.",
+      "example": "Two parallel 200 ms lookups do not necessarily add 400 ms to the request.",
+      "source": "text lines 2717–3084"
+    },
+    {
+      "title": "Propagation crosses boundaries",
+      "body": "A downstream service needs the tracing context associated with the incoming work. The caller carries it through the transport, and the receiver uses it when creating its own span. Without this handoff, both services may emit plausible telemetry while their records appear as disconnected traces, hiding the relationship the investigator needs.",
+      "example": "An outbound HTTP call carries context that the receiving service extracts.",
+      "source": "text lines 2717–3084"
+    },
+    {
+      "title": "Attributes explain differences",
+      "body": "A waterfall shows where time was spent, but an investigator also needs to know why this request differed from others. Adding build, host, tenant, and application-specific values to spans makes those comparisons possible. The same structured-event principles apply: useful context belongs with the operation whose behavior it helps explain.",
+      "example": "A slow database span records the shard and operation type that distinguish it.",
+      "source": "text lines 2717–3084"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Giving every operation the same span ID stitches a trace correctly.",
+      "correction": "Operations share a trace ID but need distinct span IDs and appropriate parent references."
+    },
+    {
+      "claim": "Adding all span durations yields the request duration.",
+      "correction": "Nested and concurrent operations overlap, so their durations can double-count elapsed time."
+    }
+  ],
+  "scenario": {
+    "title": "A broken handoff",
+    "context": "A checkout trace stops at the payment client while payment-service traces start independently.",
+    "options": [
+      {
+        "label": "Inspect context injection and extraction",
+        "benefit": "Can restore the missing cross-service relationship.",
+        "cost": "Requires checking both sides of the transport boundary.",
+        "consequence": "The next captured request can reveal the complete checkout-to-payment relationship."
+      },
+      {
+        "label": "Increase payment span retention",
+        "benefit": "Provides more payment examples.",
+        "cost": "Does not connect them to their originating checkouts.",
+        "consequence": "The backend stores a larger collection of disconnected payment operations."
+      }
+    ],
+    "debrief": "More disconnected spans do not repair missing propagation."
+  },
+  "quiz": [
+    {
+      "question": "Two parallel child spans each last 100 ms inside a 130 ms root. What is the root’s elapsed time?",
+      "options": [
+        "330 ms",
+        "130 ms",
+        "200 ms"
+      ],
+      "answer": 1,
+      "explanation": "The root already measures the overall interval; overlapping child durations are not additive."
+    },
+    {
+      "question": "Both services emit spans, but downstream calls appear in separate traces. What should be checked first?",
+      "options": [
+        "Whether both services use the same span name for their root operations",
+        "Whether the backend retains downstream spans for a longer period",
+        "Whether trace context crosses and is extracted at the boundary"
+      ],
+      "answer": 2,
+      "explanation": "Broken propagation can disconnect otherwise valid spans."
+    },
+    {
+      "question": "Which fields distinguish trace membership from nesting?",
+      "options": [
+        "Trace ID for membership; span and parent IDs for relationships",
+        "Span ID for membership; trace ID for each parent relationship",
+        "Trace ID for membership; timestamps alone for parent relationships"
+      ],
+      "answer": 0,
+      "explanation": "The identifiers encode the association and structure needed to assemble the trace."
+    }
+  ],
+  "exercise": {
+    "title": "Draw a trace by hand",
+    "prompt": "Model one request that makes two downstream calls and explain the relationships.",
+    "fields": [
+      {
+        "label": "Trace and span identifiers",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Parent relationship at each hop",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Where durations overlap",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "IDENTITY",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "TIMING",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "PROPAGATE",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "ATTRIBUTES",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "Authorization and profile lookups share the request trace ID but have distinct span IDs."
+      },
+      {
+        "node": "step-1",
+        "text": "Two parallel 200 ms lookups do not necessarily add 400 ms to the request."
+      },
+      {
+        "node": "step-2",
+        "text": "An outbound HTTP call carries context that the receiving service extracts."
+      },
+      {
+        "node": "step-3",
+        "text": "A slow database span records the shard and operation type that distinguish it."
+      }
+    ]
+  }
+}

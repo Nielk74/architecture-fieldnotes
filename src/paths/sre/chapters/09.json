@@ -1,0 +1,195 @@
+{
+  "number": 9,
+  "title": "Simplicity",
+  "part": "Operations",
+  "subtitle": "Reduce the behavior and coupling that operators must reason about",
+  "summary": "Simplicity supports reliability by reducing the amount of behavior that must be understood, tested, and changed safely. Essential complexity belongs to the problem; accidental complexity comes from chosen implementations and can often be removed. Predictable code, small APIs, and clear component responsibilities make failures easier to locate. Dead code and obsolete flags are liabilities even when they appear inactive, because they retain confusing and potentially executable paths. Version control provides a way to recover deleted code without leaving it embedded in production. Modularity also applies to releases and data formats: compatible interfaces let teams change one component without rebuilding the whole system. Small, understandable releases make effects easier to attribute and allow stability and development speed to reinforce each other.",
+  "source": {
+    "startLine": 3853,
+    "endLine": 4118,
+    "reference": "text lines 3853–4118"
+  },
+  "concepts": [
+    {
+      "title": "Essential and accidental complexity",
+      "body": "Essential complexity is imposed by the problem being solved; accidental complexity arises from how the solution is built. Serving correct results under load is a real requirement, while unnecessary layers or awkward implementation choices may add avoidable difficulty. SRE should challenge the latter because every extra behavior complicates diagnosis, testing, and change without necessarily delivering value to users.",
+      "example": "Teaching extension: A service still needs authorization, but three overlapping authorization configuration mechanisms may be removable complexity.",
+      "source": "text lines 3853–4118"
+    },
+    {
+      "title": "Delete dead behavior",
+      "body": "Unused code and permanently disabled features retain maintenance and reasoning costs. A flag may later change, reviving an untested path, while commented code distracts readers and becomes stale. After checking that a path is no longer needed, deletion removes those liabilities. Version history preserves the old implementation if future investigation requires it; production source need not serve as its archive.",
+      "example": "Teaching extension: Remove the retired exporter and its flag after verifying no supported deployment uses them.",
+      "source": "text lines 3853–4118"
+    },
+    {
+      "title": "Small APIs and coherent modules",
+      "body": "A small API exposes only the operations needed for a clear purpose, reducing the surface that callers and maintainers must understand. Components with coherent responsibilities can be changed independently. Compatibility and versioning extend this independence across releases, avoiding a forced system-wide upgrade whenever one participant changes. A miscellaneous utility service with unrelated duties weakens that separation.",
+      "example": "Teaching extension: A backward-compatible schema addition lets one service upgrade while its callers migrate later.",
+      "source": "text lines 3853–4118"
+    },
+    {
+      "title": "Small releases improve attribution",
+      "body": "A large release mixes many potential explanations for any performance or correctness change. Smaller releases narrow the set of suspects and make rollback or repair easier to reason about. Simple release procedures also help developers move faster because the effect of a change is visible sooner. The objective is understandable, controllable change rather than freezing a production system indefinitely.",
+      "example": "Teaching extension: Deploying one cache-policy change makes a new latency regression easier to attribute than deploying fifty unrelated changes.",
+      "source": "text lines 3853–4118"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Disabled code has no operational cost.",
+      "correction": "It can confuse maintainers and later become active without being adequately tested."
+    },
+    {
+      "claim": "Simplicity means never changing a stable service.",
+      "correction": "Small, isolated, predictable changes can improve both agility and stability."
+    }
+  ],
+  "scenario": {
+    "title": "Delete a risky option",
+    "context": "A service has a legacy configuration flag that changes timeout behavior, is undocumented, and is never used in current traffic. Keeping it complicates testing.",
+    "options": [
+      {
+        "label": "Remove the dead flag after checking dependencies",
+        "benefit": "The state space shrinks and the remaining behavior is easier to reason about.",
+        "cost": "A hidden consumer would need a migration path.",
+        "consequence": "The team searches callers, announces removal, and deletes the flag."
+      },
+      {
+        "label": "Keep every option for compatibility",
+        "benefit": "An unknown consumer is less likely to break.",
+        "cost": "The unsupported path keeps complexity and failure modes alive.",
+        "consequence": "The flag remains and every future change must test it."
+      }
+    ],
+    "debrief": "Deleting an unused mode reduces the state space after compatibility is checked; keeping it preserves a hypothetical consumer at a permanent complexity cost."
+  },
+  "quiz": [
+    {
+      "question": "What is the strongest reason to delete a permanently retired feature instead of hiding it behind a flag?",
+      "options": [
+        "Deletion removes a dormant behavior that could return unexpectedly",
+        "Flags always make builds slower",
+        "Version control cannot store inactive code"
+      ],
+      "answer": 0,
+      "explanation": "Dead paths still complicate reasoning and can be reactivated accidentally."
+    },
+    {
+      "question": "How does API compatibility support reliability?",
+      "options": [
+        "It removes the need to test clients",
+        "It permits independent component upgrades without forcing a simultaneous system-wide change",
+        "It guarantees every future API can remain unchanged"
+      ],
+      "answer": 1,
+      "explanation": "Compatible interfaces reduce coupling between release schedules."
+    },
+    {
+      "question": "A release contains 100 unrelated changes and latency worsens. Which practice would make the next regression easier to diagnose?",
+      "options": [
+        "More configuration switches per feature",
+        "A longer release freeze",
+        "Smaller, coherent release batches"
+      ],
+      "answer": 2,
+      "explanation": "Fewer simultaneous changes reduce ambiguity about the cause of the observed effect."
+    }
+  ],
+  "exercise": {
+    "title": "Remove one unnecessary behavior",
+    "prompt": "Choose an obsolete feature flag or interface. Explain how to establish that it is unused, remove it, and verify that supported callers still work.",
+    "fields": [
+      {
+        "label": "Accidental complexity",
+        "placeholder": "What behavior exists only because of an old implementation choice?"
+      },
+      {
+        "label": "Dependency check",
+        "placeholder": "Which callers or deployments might still rely on it?"
+      },
+      {
+        "label": "Small release",
+        "placeholder": "How can removal be isolated so its effects are easy to observe?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Simplicity: FLAG to COMPONENT to DELETE to VERIFY",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "FLAG",
+        "caption": "inputs and constraints",
+        "kind": "document",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "COMPONENT",
+        "caption": "choose the operating rule",
+        "kind": "component",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "DELETE",
+        "caption": "observe the effect",
+        "kind": "terminal",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "VERIFY",
+        "caption": "feed learning back",
+        "kind": "shield",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      },
+      {
+        "from": "learn",
+        "to": "observe",
+        "dashed": true
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "inputs and constraints"
+      },
+      {
+        "node": "decide",
+        "text": "choose the operating rule"
+      },
+      {
+        "node": "act",
+        "text": "observe the effect"
+      },
+      {
+        "node": "learn",
+        "text": "feed learning back"
+      }
+    ]
+  }
+}

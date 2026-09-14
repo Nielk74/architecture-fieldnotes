@@ -1,0 +1,195 @@
+{
+  "number": 16,
+  "title": "Tracking Outages",
+  "part": "Operations",
+  "subtitle": "Group alerts into incidents and find recurring costs across services",
+  "summary": "Detailed postmortems explain major incidents, but they miss the cumulative burden of many small events. An outage tracker preserves notifications and their context so teams can group related alerts, annotate response, and analyze patterns over time. The chapter distinguishes acknowledgment and escalation from incident organization: one mechanism ensures somebody receives a page, while another turns many notifications into a usable operational history. Flexible tags connect events with causes and actions without demanding a perfect taxonomy in advance. Counts become useful when compared with prior periods and interpreted alongside severity, effort, and monitoring behavior. Cross-team visibility can reveal shared infrastructure problems or a dependency owner who has not been notified. The same record also improves shift handoffs and weekly service reviews.",
+  "source": {
+    "startLine": 6268,
+    "endLine": 6432,
+    "reference": "text lines 6268–6432"
+  },
+  "concepts": [
+    {
+      "title": "Notifications and incidents are different units",
+      "body": "One outage may generate many alerts across services, while some notifications are false positives or audit events rather than outages. Grouping related notifications into an incident preserves their evidence without treating each page as a separate failure. Tracking both alerts per incident and incidents over time distinguishes notification noise from the frequency of underlying service problems.",
+      "example": "Teaching extension: A network interruption generates twelve service alerts grouped into one incident, while the twelve notifications remain available for analysis.",
+      "source": "text lines 6268–6432"
+    },
+    {
+      "title": "Capture context with low workflow friction",
+      "body": "Outalator passively records notifications and follow-up replies, then allows annotations and important details to be highlighted. This adds history to existing response workflows instead of requiring every responder to reconstruct events later. Escalator has a separate responsibility: it tracks acknowledgment and escalates unanswered notifications. A received or acknowledged page is therefore not equivalent to an explained or resolved incident.",
+      "example": "Teaching extension: An acknowledgment confirms receipt, while an incident annotation records that rerouting restored traffic.",
+      "source": "text lines 6268–6432"
+    },
+    {
+      "title": "Flexible tags support useful comparisons",
+      "body": "Tags add cause, action, and other metadata to events so teams can find related problems and trends. Hierarchical conventions allow a broad category to grow more specific when needed, while free-form use lets teams discover what distinctions are useful. Inconsistent spelling and vague labels still reduce analytical value, so conventions should mature with actual use rather than prevent initial adoption.",
+      "example": "Teaching extension: Use cause:network and, when established, cause:network:switch to compare broad and specific recurring failures.",
+      "source": "text lines 6268–6432"
+    },
+    {
+      "title": "Interpret trends before choosing investments",
+      "body": "Incident history supports baseline comparisons, cross-service patterns, and the identification of recurring infrastructure costs. Raw counts alone do not establish severity or the best investment: high counts can reflect noisy monitoring, client misuse, or many inexpensive incidents. Combine frequency with impact and response effort. Shared visibility also helps responders recognize that a dependency owner may need notification even when their own alerts remained quiet.",
+      "example": "Teaching extension: A common database delay across five services can justify a shared fix that looks too costly for one isolated incident.",
+      "source": "text lines 6268–6432"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Each alert is a distinct outage.",
+      "correction": "Multiple notifications can describe the same incident, and some notifications describe no outage at all."
+    },
+    {
+      "claim": "The component with the most tagged incidents must be the highest-priority fix.",
+      "correction": "Counts need context about severity, effort, monitoring sensitivity, and the cost and benefit of improvements."
+    }
+  ],
+  "scenario": {
+    "title": "Find the recurring cost behind noisy alerts",
+    "context": "An on-call team receives 60 notifications in a week, but several are duplicates from one network incident and others are false positives. Two related services report similar database delays.",
+    "options": [
+      {
+        "label": "Group notifications and annotate incidents before comparing trends",
+        "benefit": "The team can distinguish alert noise, actual failures, and shared dependency costs.",
+        "cost": "Useful grouping and tags require some responder attention.",
+        "consequence": "The weekly review compares incidents, impact, and response effort instead of treating 60 pages as 60 outages."
+      },
+      {
+        "label": "Rank services only by notification count",
+        "benefit": "A count is easy to produce and can expose a noisy service quickly.",
+        "cost": "Duplicate pages and differing alert policies distort the comparison.",
+        "consequence": "The ranking prompts investigation but is insufficient on its own to choose reliability investment."
+      }
+    ],
+    "debrief": "Incident grouping preserves evidence while improving the unit of analysis. Use tags and annotations to interpret frequency with impact and effort; a page count alone does not identify the most valuable fix."
+  },
+  "quiz": [
+    {
+      "question": "Twelve alerts all originate from one network interruption. How should a tracker represent them?",
+      "options": [
+        "Twelve unrelated outages",
+        "One incident containing the twelve notifications",
+        "One notification with the other evidence deleted"
+      ],
+      "answer": 1,
+      "explanation": "Grouping reduces clutter while preserving the original alert evidence."
+    },
+    {
+      "question": "What does acknowledgment tracking establish?",
+      "options": [
+        "That the underlying defect is repaired",
+        "That a postmortem has been reviewed",
+        "That a notification was received by a human"
+      ],
+      "answer": 2,
+      "explanation": "Escalation and acknowledgment concern delivery; incident analysis and resolution are separate."
+    },
+    {
+      "question": "Why can frequent minor events deserve engineering investment?",
+      "options": [
+        "Their combined operational cost can exceed that of a rare major event",
+        "Frequency proves each event has severe user impact",
+        "Every recurring event must have the same root cause"
+      ],
+      "answer": 0,
+      "explanation": "An outage tracker reveals cumulative costs that individually significant postmortems may miss."
+    }
+  ],
+  "exercise": {
+    "title": "Build an incident review from alert history",
+    "prompt": "Group a week of notifications into incidents and identify one recurring problem worth investigating. Explain how you avoid confusing alert volume with impact.",
+    "fields": [
+      {
+        "label": "Grouping",
+        "placeholder": "Which alerts share an event, and which are false positives or tests?"
+      },
+      {
+        "label": "Metadata",
+        "placeholder": "Which cause, action, and effort annotations make comparison possible?"
+      },
+      {
+        "label": "Interpretation",
+        "placeholder": "How do frequency, user impact, and repair cost support the proposed investment?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Alert history becomes evidence for engineering priorities",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "ALERTS",
+        "caption": "retain original notifications",
+        "kind": "alert",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "INCIDENT",
+        "caption": "group related events",
+        "kind": "document",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "TAGS",
+        "caption": "record causes and actions",
+        "kind": "document",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "REVIEW",
+        "caption": "compare frequency and effort",
+        "kind": "team",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      },
+      {
+        "from": "learn",
+        "to": "observe",
+        "dashed": true
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "retain original notifications"
+      },
+      {
+        "node": "decide",
+        "text": "group related events"
+      },
+      {
+        "node": "act",
+        "text": "record causes and actions"
+      },
+      {
+        "node": "learn",
+        "text": "compare frequency and effort"
+      }
+    ]
+  }
+}

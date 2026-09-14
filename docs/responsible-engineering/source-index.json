@@ -1,0 +1,51 @@
+[
+  {
+    "number": 1,
+    "title": "Responsible Software Engineering: A Quick Introduction",
+    "part": "Foundations",
+    "startLine": 419,
+    "endLine": 745
+  },
+  {
+    "number": 2,
+    "title": "Creating AI Systems That Work Well for Everyone",
+    "part": "Fairness",
+    "startLine": 746,
+    "endLine": 1675
+  },
+  {
+    "number": 3,
+    "title": "Incorporating Societal Context",
+    "part": "Context",
+    "startLine": 1676,
+    "endLine": 2317
+  },
+  {
+    "number": 4,
+    "title": "Anticipating and Planning for Downstream Consequences",
+    "part": "Safety",
+    "startLine": 2318,
+    "endLine": 3086
+  },
+  {
+    "number": 5,
+    "title": "Securing and Respecting Users’ Privacy",
+    "part": "Privacy",
+    "startLine": 3087,
+    "endLine": 3947
+  },
+  {
+    "number": 6,
+    "title": "Measuring and Reducing Your Code’s Carbon Footprint",
+    "part": "Environment",
+    "startLine": 3948,
+    "endLine": 4487
+  },
+  {
+    "number": 7,
+    "title": "Building a Culture of Responsible Software Engineering",
+    "part": "Culture",
+    "startLine": 4488,
+    "endLine": 5044
+  }
+]

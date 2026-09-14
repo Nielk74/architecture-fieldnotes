@@ -1,0 +1,185 @@
+{
+  "number": 2,
+  "title": "Creating AI Systems That Work Well for Everyone",
+  "part": "Fairness",
+  "subtitle": "Name the fairness goal and examine how different groups experience the system",
+  "summary": "AI systems can reproduce stereotypes or deliver unequal quality even when aggregate accuracy looks strong. Fairness definitions ask different questions about outcomes, qualifications, and errors, so selecting a metric requires context rather than treating every measure as interchangeable. Bias can enter through assumptions, representation in training data, labeling, and deployment conditions. Paired prompts and counterfactual comparisons help expose problematic associations, but generated content also needs informed human judgment. The image-generation case illustrates an iterative, cross-disciplinary response to harmful outputs. Improving fairness means identifying specific disparities and testing mitigations, while acknowledging that a single score cannot settle every social trade-off.",
+  "source": {
+    "startLine": 746,
+    "endLine": 1675,
+    "reference": "text lines 746–1675"
+  },
+  "concepts": [
+    {
+      "title": "Fairness definitions",
+      "body": "Fairness is not one interchangeable metric. Demographic parity asks whether groups receive an outcome at similar rates; equality of opportunity asks whether qualified people have comparable opportunities. A hiring-ad system can satisfy an overall exposure target while still excluding qualified people. Teams need to name the relevant fairness goal and examine errors across affected groups, rather than treating overall accuracy as evidence of fairness.",
+      "example": "Teaching extension: A hiring team distinguishes equal advertisement exposure across groups from equal selection rates among qualified applicants. It records which outcome each measure addresses before comparing results.",
+      "source": "text lines 746-1675"
+    },
+    {
+      "title": "Bias pathways",
+      "body": "Bias can enter through assumptions, selection of training data, the data itself, and operation. A model may inherit stereotypes, represent some groups sparsely, or encounter inputs unlike its training set. Locating the pathway suggests a mitigation.",
+      "example": "Teaching extension: A speech tool performs worse for one accent because that accent is scarce in its training recordings. The team investigates representation and labeling before assuming a different decision threshold will fix the problem.",
+      "source": "text lines 746-1675"
+    },
+    {
+      "title": "Counterfactual tests",
+      "body": "Counterfactual fairness changes a sensitive attribute while holding other prompt or situation details constant, then compares outputs. Placeholder prompts and paired examples make stereotyped associations visible in generative systems.",
+      "example": "Teaching extension: Reviewers compare otherwise matching job-description prompts that vary a gender cue. Differences in suggested roles reveal an association to investigate, rather than proving every aspect of the system is fair.",
+      "source": "text lines 746-1675"
+    },
+    {
+      "title": "Accuracy and harm",
+      "body": "A system can be accurate on average while serving groups differently, and an output can be hard to label because captions or generated images have no single objectively correct answer. Fairness evaluation therefore combines metrics, human review, and context.",
+      "example": "Teaching extension: A captioning model has a strong overall score but repeatedly misidentifies assistive devices. Affected users help evaluate this concentrated harm that the aggregate score conceals.",
+      "source": "text lines 746-1675"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Fairness definitions is equivalent to ordinary functional correctness.",
+      "correction": "The chapter separates this concern from “works as coded”: Fairness has multiple meanings."
+    },
+    {
+      "claim": "A single review proves the product will remain responsible.",
+      "correction": "Users, contexts, and dependencies change; feedback, monitoring, and revision are required."
+    }
+  ],
+  "scenario": {
+    "title": "Parity in job advertising",
+    "context": "An advertising system delivers doctor job ads more often to men, although gender targeting is not an intended product goal. The team has limited time and must decide how to measure and change delivery without eliminating legitimate relevance.",
+    "options": [
+      {
+        "label": "Audit delivery by group and add a parity safeguard",
+        "benefit": "Makes unequal opportunity visible and tests whether the intervention changes outcomes.",
+        "cost": "Monitoring and experimentation consume engineering time and may reduce some targeting efficiency.",
+        "consequence": "The team finds a delivery feedback loop and adjusts it before expanding campaigns."
+      },
+      {
+        "label": "Leave targeting unchanged",
+        "benefit": "Avoids immediate disruption to advertisers and existing metrics.",
+        "cost": "The disparity remains hidden behind aggregate click-through rates.",
+        "consequence": "A later audit shows unequal opportunity, forcing a rushed policy and advertiser communication effort."
+      }
+    ],
+    "debrief": "Both choices are defensible under different constraints; the responsible decision states the accepted consequence and the evidence that could change it."
+  },
+  "quiz": [
+    {
+      "question": "Which fairness metric asks whether groups receive an outcome at similar rates?",
+      "options": [
+        "Demographic parity",
+        "Runtime parity",
+        "Data minimization"
+      ],
+      "answer": 0,
+      "explanation": "Demographic parity compares outcome rates; equality of opportunity instead focuses on qualified people."
+    },
+    {
+      "question": "What is a counterfactual fairness test for an image prompt?",
+      "options": [
+        "Ask one reviewer whether an output feels fair.",
+        "Measure only average model latency.",
+        "Change a sensitive attribute while holding the rest of the prompt constant and compare outputs."
+      ],
+      "answer": 2,
+      "explanation": "Paired counterfactual prompts expose associations while controlling other details."
+    },
+    {
+      "question": "Why can fairness metrics conflict?",
+      "options": [
+        "Accuracy always prevents fairness.",
+        "Different definitions prioritize different relationships among groups, qualifications, and outcomes.",
+        "Fairness has one universally accepted formula."
+      ],
+      "answer": 1,
+      "explanation": "Parity, opportunity, and predictive criteria cannot always all be satisfied."
+    }
+  ],
+  "exercise": {
+    "title": "Test fairness",
+    "prompt": "Choose an AI output and define the fairness goal that fits its use.",
+    "fields": [
+      {
+        "label": "Fairness definition",
+        "placeholder": "Fairness definition"
+      },
+      {
+        "label": "Paired or grouped test",
+        "placeholder": "Paired or grouped test"
+      },
+      {
+        "label": "Metric trade-off",
+        "placeholder": "Metric trade-off"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "n0",
+        "label": "FAIRNESS",
+        "kind": "whiteboard",
+        "tone": "sage",
+        "x": 100,
+        "y": 80
+      },
+      {
+        "id": "n1",
+        "label": "DATA",
+        "kind": "database",
+        "tone": "peach",
+        "x": 270,
+        "y": 80
+      },
+      {
+        "id": "n2",
+        "label": "TESTS",
+        "kind": "experiment",
+        "tone": "lilac",
+        "x": 100,
+        "y": 210
+      },
+      {
+        "id": "n3",
+        "label": "REVIEW",
+        "kind": "shield",
+        "tone": "honey",
+        "x": 270,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "n0",
+        "to": "n1"
+      },
+      {
+        "from": "n1",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "to": "n3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "n0",
+        "text": "Examine fairness using the chapter evidence."
+      },
+      {
+        "node": "n1",
+        "text": "Examine data using the chapter evidence."
+      },
+      {
+        "node": "n2",
+        "text": "Examine tests using the chapter evidence."
+      },
+      {
+        "node": "n3",
+        "text": "Examine review using the chapter evidence."
+      }
+    ]
+  }
+}

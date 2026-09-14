@@ -1,0 +1,185 @@
+{
+  "number": 8,
+  "title": "From One Agent to Many",
+  "part": "Multiagent design",
+  "subtitle": "Add specialists when their boundaries solve a demonstrated limitation",
+  "summary": "One agent is often the simplest starting point, but a growing collection of tools and responsibilities can make a single context difficult to manage. Splitting work among specialists can clarify roles and permit independent testing and reuse. The split also creates a distributed system: information must move between agents, partial results must be combined, and failures must be contained. Sequential handoffs, parallel work, coordinators, shared state, and messaging infrastructure offer different latency and consistency trade-offs. Select the organization around the task and its dependencies. More agents are useful when specialization outweighs the additional calls, coordination, and operational complexity.",
+  "source": {
+    "startLine": 6601,
+    "endLine": 8457,
+    "reference": "text lines 6601–8457"
+  },
+  "concepts": [
+    {
+      "title": "Single-agent fit",
+      "body": "One agent is often suitable when tasks are modest, tools are manageable, and one context can hold the work. It minimizes latency, resource use, and coordination overhead.",
+      "example": "Teaching extension: A meeting assistant has three tools and a short task history that fit one context. Keeping one agent avoids extra handoffs while the team measures whether any actual limitation remains.",
+      "source": "text lines 6601-8457"
+    },
+    {
+      "title": "Specialization",
+      "body": "Multiple agents divide work by role or capability, such as forecasting, procurement, or exception handling. Specialization can improve focus but creates interfaces and handoffs between agents.",
+      "example": "Teaching extension: A procurement workflow assigns inventory analysis and supplier comparison to different specialists. Each returns a structured result that a coordinator can combine into a purchasing recommendation.",
+      "source": "text lines 6601-8457"
+    },
+    {
+      "title": "Communication patterns",
+      "body": "Agents may pass messages sequentially, work in parallel, or use a coordinator and shared state. The pattern determines latency, consistency, failure propagation, and how much context each agent sees.",
+      "example": "Teaching extension: Two specialists check independent suppliers in parallel, then report to a coordinator. A delivery estimate that depends on the chosen supplier waits until that choice is resolved.",
+      "source": "text lines 6601-8457"
+    },
+    {
+      "title": "Coordination cost",
+      "body": "More agents add model calls, routing, synchronization, debugging, and operational expense. The chapter applies software architecture lessons: split when boundaries clarify work, not merely because multiagent systems are fashionable.",
+      "example": "Teaching extension: A four-agent design gives the same quality as a single agent but requires twice as many model calls and misses the response-time target. The team removes the unnecessary split.",
+      "source": "text lines 6601-8457"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Single-agent fit is provided automatically by a more capable model.",
+      "correction": "One agent is often suitable when tasks are modest, tools are manageable, and one context can hold the work. It minimizes latency, resource use, and coordination overhead."
+    },
+    {
+      "claim": "Specialization removes the need for evaluation or human judgment.",
+      "correction": "Multiple agents divide work by role or capability, such as forecasting, procurement, or exception handling. Specialization can improve focus but creates interfaces and handoffs between agents. Evaluation and appropriate oversight remain necessary."
+    }
+  ],
+  "scenario": {
+    "title": "Supply-chain multiagent boundary",
+    "context": "Forecasting, procurement, and exceptions need different tools; coordination time is limited.",
+    "options": [
+      {
+        "label": "Use specialists with explicit message contracts",
+        "benefit": "Keeps roles focused and makes ownership visible.",
+        "cost": "Calls and handoffs add latency and failure points.",
+        "consequence": "A procurement agent rejects an incomplete forecast rather than guessing."
+      },
+      {
+        "label": "One generalist agent",
+        "benefit": "Reduces coordination and initial code.",
+        "cost": "Tool overload makes selection and debugging difficult.",
+        "consequence": "A single context mixes supplier and exception details."
+      }
+    ],
+    "debrief": "Both choices can fit different constraints. The decision should state stakes, reversibility, evidence, and who owns correction."
+  },
+  "quiz": [
+    {
+      "question": "Why begin with one agent when it can handle the workload?",
+      "options": [
+        "One agent can never make a reasoning error.",
+        "Tools cannot be shared across agents.",
+        "It avoids unnecessary communication and coordination overhead."
+      ],
+      "answer": 2,
+      "explanation": "A multiagent design should solve an actual limitation rather than add components by default."
+    },
+    {
+      "question": "Several specialists produce incompatible partial answers. What is missing?",
+      "options": [
+        "A coordination and reconciliation mechanism.",
+        "Another copy of each conflicting answer.",
+        "A larger label saying “team”."
+      ],
+      "answer": 0,
+      "explanation": "Specialization requires a way to combine results and resolve disagreement."
+    },
+    {
+      "question": "What is a trade-off of separating specialist contexts?",
+      "options": [
+        "Communication latency disappears.",
+        "Each agent gets focused context, but important information must cross boundaries.",
+        "All information is automatically available everywhere."
+      ],
+      "answer": 1,
+      "explanation": "Context separation can improve focus while creating explicit handoff and consistency work."
+    }
+  ],
+  "exercise": {
+    "title": "Agent topology decision",
+    "prompt": "Create a concise artifact for the chapter workflow that makes the agent decision inspectable.",
+    "fields": [
+      {
+        "label": "Role boundaries",
+        "placeholder": "Role boundaries"
+      },
+      {
+        "label": "Message contract",
+        "placeholder": "Message contract"
+      },
+      {
+        "label": "Coordination cost",
+        "placeholder": "Coordination cost"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "n0",
+        "label": "SPECIALISTS",
+        "kind": "agent",
+        "tone": "sage",
+        "x": 100,
+        "y": 80
+      },
+      {
+        "id": "n1",
+        "label": "MESSAGES",
+        "kind": "document",
+        "tone": "peach",
+        "x": 270,
+        "y": 80
+      },
+      {
+        "id": "n2",
+        "label": "COORDINATOR",
+        "kind": "agent",
+        "tone": "lilac",
+        "x": 100,
+        "y": 210
+      },
+      {
+        "id": "n3",
+        "label": "OUTCOME",
+        "kind": "trace",
+        "tone": "honey",
+        "x": 270,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "n0",
+        "to": "n1"
+      },
+      {
+        "from": "n1",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "to": "n3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "n0",
+        "text": "Inspect specialists in the chapter workflow."
+      },
+      {
+        "node": "n1",
+        "text": "Inspect messages in the chapter workflow."
+      },
+      {
+        "node": "n2",
+        "text": "Inspect coordinator in the chapter workflow."
+      },
+      {
+        "node": "n3",
+        "text": "Inspect outcome in the chapter workflow."
+      }
+    ]
+  }
+}

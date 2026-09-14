@@ -1,0 +1,190 @@
+{
+  "number": 25,
+  "title": "Data Processing Pipelines",
+  "part": "Data systems",
+  "subtitle": "Replace fragile batch timing with explicit work state",
+  "summary": "Periodic pipelines become fragile when growth makes execution time approach the scheduling interval. Uneven chunks hold up downstream stages, restarts discard work, and overlapping runs or synchronized workers overload shared infrastructure. Making the schedule more frequent can even reduce progress. The chapter presents Workflow as an alternative for workloads that are fundamentally continuous. A Task Master journals work state, while stateless workers claim leased tasks and publish results transactionally. Unique output names, valid leases, configuration versions, and server identity checks prevent obsolete or misdirected workers from corrupting committed results. Local processing can be coordinated through global reference tasks for failover. The lesson is to design processing semantics, observability, and recovery around the workload’s real continuity requirements.",
+  "source": {
+    "startLine": 11199,
+    "endLine": 11531,
+    "reference": "text lines 11199–11531"
+  },
+  "concepts": [
+    {
+      "title": "The periodicity limit",
+      "body": "A scheduled pipeline needs time for resource acquisition and processing before its next run. As data grows, a shorter interval can create overlapping jobs or repeatedly terminate nearly completed work. Increasing frequency does not remove startup delays or stragglers. When results must be updated continuously, explicit continuous processing can fit the requirement better than a batch design pushed beyond its timing assumptions.",
+      "example": "Teaching extension: A twenty-minute computation with substantial scheduling delay cannot reliably produce a fresh complete result every ten minutes.",
+      "source": "text lines 11199–11531"
+    },
+    {
+      "title": "Stragglers and synchronized resource demand",
+      "body": "Partitioning work does not guarantee equal execution time: one customer’s large shard may determine the completion of a whole stage. Starting thousands of workers together can overload dependencies, while periodic jobs with different schedules occasionally align into large combined peaks. More workers or naive retries can worsen these problems. Inspect shared-resource usage and expose progress during execution, including runs that never finish.",
+      "example": "Teaching extension: Two individually manageable pipelines overlap every few cycles and exhaust the same storage service.",
+      "source": "text lines 11199–11531"
+    },
+    {
+      "title": "Leases and immutable task identity",
+      "body": "Workflow records authoritative task state in a Task Master and gives workers temporary leases. A worker may commit only while its lease and referenced configuration remain valid. Unique output filenames prevent an obsolete worker from overwriting a successor’s work, while a server token detects communication with the wrong Task Master. These controls protect committed results even when redundant computation happens during failures.",
+      "example": "Teaching extension: A stalled worker resumes after its lease expires; its private output file survives, but the master refuses its obsolete commit.",
+      "source": "text lines 11199–11531"
+    },
+    {
+      "title": "Durable coordination and continuity",
+      "body": "The Task Master keeps working state in memory and journals changes durably; workers remain replaceable. Keeping pointers rather than full datasets in the master limits its memory burden. For cross-site continuity, local pipelines coordinate reference tasks through a global workflow, recording unfinished work that another site can claim. Correctness can require blocking when global coordination is unavailable rather than acknowledging an unrecorded completion.",
+      "example": "Teaching extension: A remote pipeline recovers outstanding reference tasks after the original site stops reporting progress.",
+      "source": "text lines 11199–11531"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A shorter cron interval always improves data freshness.",
+      "correction": "Scheduling delay and runtime impose a lower bound; overlapping or restarted runs can produce less progress."
+    },
+    {
+      "claim": "Exactly-once committed results mean a worker never computes a task twice.",
+      "correction": "Failures can cause duplicate computation; leases and commit validation prevent duplicate or obsolete results becoming authoritative."
+    }
+  ],
+  "scenario": {
+    "title": "A batch interval stops fitting",
+    "context": "An hourly pipeline now takes seventy minutes including scheduling delay. A few large work units stall completion, and restarting a run discards completed computation.",
+    "options": [
+      {
+        "label": "Move continuous work into durable leased tasks",
+        "benefit": "Progress survives worker replacement and completion is explicitly recorded.",
+        "cost": "The design needs lease, configuration, and output-identity checks.",
+        "consequence": "An obsolete worker cannot commit after a successor takes its lease."
+      },
+      {
+        "label": "Schedule the full pipeline every thirty minutes",
+        "benefit": "New attempts are initiated more frequently.",
+        "cost": "Runtime still exceeds the interval and overlapping attempts contend for resources.",
+        "consequence": "The pipeline accumulates runs or repeatedly discards almost-complete work."
+      }
+    ],
+    "debrief": "Shortening a schedule cannot overcome startup delay or a slow indivisible chunk. For continuous freshness requirements, explicit leased work and validated commits can preserve progress through worker replacement instead of restarting whole runs."
+  },
+  "quiz": [
+    {
+      "question": "What creates a Moiré load pattern?",
+      "options": [
+        "Unequal work units making one stage wait for its largest customer",
+        "Periodic workloads occasionally overlapping on a shared resource",
+        "A task restarting after its lease expires"
+      ],
+      "answer": 1,
+      "explanation": "The combined peaks emerge from the interaction of schedules."
+    },
+    {
+      "question": "Why does each worker attempt write a uniquely named output file?",
+      "options": [
+        "To make lease validation unnecessary once output exists",
+        "To let the Task Master keep its work state entirely volatile",
+        "To prevent an orphaned worker from overwriting another worker’s output"
+      ],
+      "answer": 2,
+      "explanation": "File isolation complements lease validation at commit time."
+    },
+    {
+      "question": "What should happen if work was produced using an obsolete configuration version?",
+      "options": [
+        "Its commit should be rejected even if the worker still has a lease",
+        "It must replace newer results because it started first",
+        "It can commit if the output file is small"
+      ],
+      "answer": 0,
+      "explanation": "Configuration identity is part of Workflow’s commit correctness checks."
+    }
+  ],
+  "exercise": {
+    "title": "Design a recoverable pipeline",
+    "prompt": "A periodic pipeline now runs longer than its interval. Outline a continuous work model and explain what happens when a worker resumes after losing its lease.",
+    "fields": [
+      {
+        "label": "Timing limit",
+        "placeholder": "How do scheduling delay, stage barriers, and the largest work unit affect completion?"
+      },
+      {
+        "label": "Authoritative state",
+        "placeholder": "Where are tasks, lease ownership, and configuration versions recorded?"
+      },
+      {
+        "label": "Stale worker",
+        "placeholder": "How do unique output names and commit validation protect the successor’s result?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Design a recoverable pipeline",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "Tasks",
+        "caption": "Journaled work",
+        "kind": "database",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "Lease",
+        "caption": "Temporary ownership",
+        "kind": "clock",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "Worker",
+        "caption": "Isolated output",
+        "kind": "service",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "Commit",
+        "caption": "Validated result",
+        "kind": "shield",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "The Task Master journals authoritative work state."
+      },
+      {
+        "node": "decide",
+        "text": "A worker claims a task for a bounded period."
+      },
+      {
+        "node": "act",
+        "text": "Compute into uniquely named output without overwriting other attempts."
+      },
+      {
+        "node": "learn",
+        "text": "Accept output only with current lease, configuration, and server identity."
+      }
+    ]
+  }
+}

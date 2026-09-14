@@ -1,0 +1,185 @@
+{
+  "number": 3,
+  "title": "User Experience Design for Agentic Systems",
+  "part": "Experience",
+  "subtitle": "Make interaction state, control, and recovery understandable to users",
+  "summary": "Agent interfaces must help users understand both what the system can do and what it is doing now. Text, graphical controls, voice, and video offer different advantages depending on the task, environment, and accessibility needs. Synchronous interaction needs responsive turn-taking and interruption handling; asynchronous work needs persistent state and useful notifications. Relevant context can maintain continuity, but retention also creates privacy and attention costs. Clear distinctions between a proposal, an ongoing action, and a completed result prevent mistaken reliance. Trust develops through predictable behavior, honest limits, and understandable recovery when an agent cannot complete a request.",
+  "source": {
+    "startLine": 2067,
+    "endLine": 3118,
+    "reference": "text lines 2067–3118"
+  },
+  "concepts": [
+    {
+      "title": "Interaction modalities",
+      "body": "Text is searchable and asynchronous; graphical interfaces expose workflow state; voice supports hands-free interaction; video can demonstrate rich expression. The choice depends on task, accessibility, privacy, and the user’s environment.",
+      "example": "Teaching extension: A warehouse worker can request an item location by voice, while the screen preserves its aisle and shelf number for reference in a noisy room.",
+      "source": "text lines 2067-3118"
+    },
+    {
+      "title": "Turn-taking",
+      "body": "Agent conversations need clear turns, interruption handling, and recovery from ambiguity. A user should know whether the agent is listening, thinking, waiting for input, or ready to act.",
+      "example": "Teaching extension: A user interrupts a spoken booking proposal to change the date. The assistant cancels the obsolete speech and recomputes the proposal using the new date.",
+      "source": "text lines 2067-3118"
+    },
+    {
+      "title": "Trust and transparency",
+      "body": "Effective UX explains capabilities, limitations, provenance, and uncertainty in terms users can act on. Trust comes from calibrated behavior and visible evidence, not from confident language or anthropomorphic styling.",
+      "example": "Teaching extension: A research assistant labels a figure as coming from last year’s report and states that it has not found a newer value, allowing the reader to judge its usefulness.",
+      "source": "text lines 2067-3118"
+    },
+    {
+      "title": "Control and accessibility",
+      "body": "Users need ways to edit, confirm, undo, or hand off consequential actions. Interfaces should work for people with different sensory, motor, language, and cognitive needs.",
+      "example": "Teaching extension: A scheduling interface offers keyboard-accessible controls to edit attendees and inspect the proposed invitation before sending. A text alternative supports users who cannot use speech.",
+      "source": "text lines 2067-3118"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Interaction modalities is provided automatically by a more capable model.",
+      "correction": "Text is searchable and asynchronous; graphical interfaces expose workflow state; voice supports hands-free interaction; video can demonstrate rich expression. The choice depends on task, accessibility, privacy, and the user’s environment."
+    },
+    {
+      "claim": "Turn-taking removes the need for evaluation or human judgment.",
+      "correction": "Agent conversations need clear turns, interruption handling, and recovery from ambiguity. A user should know whether the agent is listening, thinking, waiting for input, or ready to act. Evaluation and appropriate oversight remain necessary."
+    }
+  ],
+  "scenario": {
+    "title": "Voice assistant accessibility",
+    "context": "A hands-free assistant serves users with different hearing and speech abilities.",
+    "options": [
+      {
+        "label": "Offer text, voice, and visible state with interruption controls",
+        "benefit": "Supports different contexts and makes listening or acting state clear.",
+        "cost": "Multiple modalities increase design and test work.",
+        "consequence": "A user switches modality during an interruption without losing context."
+      },
+      {
+        "label": "Voice-only flow",
+        "benefit": "Keeps implementation focused.",
+        "cost": "Some users cannot reliably access or correct the interaction.",
+        "consequence": "The team receives low completion from an excluded group."
+      }
+    ],
+    "debrief": "Both choices can fit different constraints. The decision should state stakes, reversibility, evidence, and who owns correction."
+  },
+  "quiz": [
+    {
+      "question": "A voice assistant continues speaking after the user interrupts. Which interaction needs work?",
+      "options": [
+        "Turn-taking and cancellation.",
+        "Long-term memory retention.",
+        "Vector index size."
+      ],
+      "answer": 0,
+      "explanation": "A conversational interface must recognize interruption and update the active turn rather than finishing an obsolete response."
+    },
+    {
+      "question": "A user cannot tell whether an agent has acted or is proposing an action. What should the interface distinguish?",
+      "options": [
+        "Only the assistant’s personality.",
+        "Current state, intended action, and completed result.",
+        "Only the number of model tokens used."
+      ],
+      "answer": 1,
+      "explanation": "Clear state and confirmation cues help users understand the system and retain control."
+    },
+    {
+      "question": "A workflow serves users who cannot rely on voice input. What is the relevant design choice?",
+      "options": [
+        "Treat speech as the sole proof of user intent.",
+        "Increase the speed of spoken responses.",
+        "Offer accessible alternative input and feedback modes."
+      ],
+      "answer": 2,
+      "explanation": "Modality choices affect who can use the system; accessibility needs are part of the interaction design."
+    }
+  ],
+  "exercise": {
+    "title": "Interaction storyboard",
+    "prompt": "Create a concise artifact for the chapter workflow that makes the agent decision inspectable.",
+    "fields": [
+      {
+        "label": "Modality and user state",
+        "placeholder": "Modality and user state"
+      },
+      {
+        "label": "Uncertainty signal",
+        "placeholder": "Uncertainty signal"
+      },
+      {
+        "label": "Correction or handoff",
+        "placeholder": "Correction or handoff"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "n0",
+        "label": "USER",
+        "kind": "person",
+        "tone": "sage",
+        "x": 100,
+        "y": 80
+      },
+      {
+        "id": "n1",
+        "label": "MODALITY",
+        "kind": "agent",
+        "tone": "peach",
+        "x": 270,
+        "y": 80
+      },
+      {
+        "id": "n2",
+        "label": "UNCERTAINTY",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 100,
+        "y": 210
+      },
+      {
+        "id": "n3",
+        "label": "CONTROL",
+        "kind": "handoff",
+        "tone": "honey",
+        "x": 270,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "n0",
+        "to": "n1"
+      },
+      {
+        "from": "n1",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "to": "n3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "n0",
+        "text": "Inspect user in the chapter workflow."
+      },
+      {
+        "node": "n1",
+        "text": "Inspect modality in the chapter workflow."
+      },
+      {
+        "node": "n2",
+        "text": "Inspect uncertainty in the chapter workflow."
+      },
+      {
+        "node": "n3",
+        "text": "Inspect control in the chapter workflow."
+      }
+    ]
+  }
+}

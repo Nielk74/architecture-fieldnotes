@@ -1,0 +1,195 @@
+{
+  "number": 3,
+  "title": "Embracing Risk",
+  "part": "Foundations",
+  "subtitle": "Choose reliability by user impact, cost, and the risk left for change",
+  "summary": "Reliability is a choice about acceptable risk, not a contest to collect the most nines. Extra availability consumes money and engineering time that could deliver features or reduce other risks. The appropriate target depends on the service’s users, business role, and consequences of failure. A partial outage is easier to describe through unsuccessful requests than through a single global up/down state, although requests can differ greatly in value. Infrastructure often needs distinct service classes because latency-sensitive clients and batch clients want different resource trade-offs. An error budget makes the chosen tolerance operational: measured failures consume a shared allowance, including failures caused by infrastructure. Release policy can then respond to remaining budget instead of the negotiating strength of competing teams.",
+  "source": {
+    "startLine": 1485,
+    "endLine": 1904,
+    "reference": "text lines 1485–1904"
+  },
+  "concepts": [
+    {
+      "title": "Reliability has an opportunity cost",
+      "body": "Moving toward higher availability requires additional resources, engineering work, and restrictions on change. Those costs must be compared with the benefit users or the business receive. A service can be overengineered when further reliability is less valuable than other improvements. Choosing the target requires product judgment about user expectations and failure consequences, supported by engineering estimates of cost and feasibility.",
+      "example": "Teaching extension: A reporting tool may gain more value from timely new reports than from another expensive nine of uptime.",
+      "source": "text lines 1485–1904"
+    },
+    {
+      "title": "Request-based availability captures partial failure",
+      "body": "Time-based availability divides uptime by the whole observation period. For a distributed service that remains partly available, successful requests divided by total requests often represents impact more usefully. The denominator and measurement period must be explicit. This aggregate remains an approximation: losing a critical transaction can matter more than losing an optional refresh, even if both count as one failed request.",
+      "example": "Teaching extension: A region loses 2,000 of the service’s million daily requests, producing 99.8% aggregate success.",
+      "source": "text lines 1485–1904"
+    },
+    {
+      "title": "Different clients need different service classes",
+      "body": "An interactive client benefits from short queues and spare capacity, while a batch client may accept delay in exchange for high throughput and lower cost. A shared infrastructure service can expose separate classes with different redundancy, placement, and resource policies. Clients then select the lowest-cost class that still meets their needs instead of forcing every workload to fund the strictest target.",
+      "example": "Teaching extension: Analytics jobs use a throughput-oriented pool while checkout reads use capacity with lower queueing delay.",
+      "source": "text lines 1485–1904"
+    },
+    {
+      "title": "Measured failures consume a shared budget",
+      "body": "The error budget is the allowable unreliability implied by the service objective. Monitoring records consumption regardless of whether a release, network failure, or other event caused it. Teams agree how remaining budget changes release policy. This gives both developers and SRE an incentive to reduce change risk: avoiding failures preserves room for useful experiments and new features.",
+      "example": "Teaching extension: A network incident spends half the allowance, so the next rollout uses a smaller canary and slower expansion.",
+      "source": "text lines 1485–1904"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Infrastructure outages should be excluded because developers did not cause them.",
+      "correction": "Users still experienced failures, so the service’s shared budget is consumed."
+    },
+    {
+      "claim": "Two failures with equal counts always have equal business impact.",
+      "correction": "Data exposure, failed signups, and missing optional images can have very different consequences."
+    }
+  ],
+  "scenario": {
+    "title": "Spend reliability deliberately",
+    "context": "A payments API is currently more reliable than its target, but a release would consume some of that margin while fixing a costly reconciliation process. The team must choose whether to release during the measured budget period.",
+    "options": [
+      {
+        "label": "Release within the error budget",
+        "benefit": "The team buys user value while staying inside an agreed reliability allowance.",
+        "cost": "A weak SLO or bad measurement could hide real user harm.",
+        "consequence": "The release proceeds with rollback and budget monitoring."
+      },
+      {
+        "label": "Freeze all change until perfect reliability",
+        "benefit": "The service avoids introducing new failure during a sensitive period.",
+        "cost": "The backlog and operational cost grow without a defined benefit.",
+        "consequence": "No outage occurs, but the reconciliation problem remains and consumes engineers."
+      }
+    ],
+    "debrief": "An error budget turns reliability into a release decision: spend it for user value only while the SLO and rollback signal remain trustworthy."
+  },
+  "quiz": [
+    {
+      "question": "A service handles 4 million eligible requests with a 99.95% target. What is its failure allowance?",
+      "options": [
+        "200 requests",
+        "20,000 requests",
+        "2,000 requests"
+      ],
+      "answer": 2,
+      "explanation": "0.05% of four million is 2,000 unsuccessful requests."
+    },
+    {
+      "question": "Why might batch and interactive users get different storage service classes?",
+      "options": [
+        "They prefer different queue lengths, latency, and cost trade-offs",
+        "Batch clients never need durable data",
+        "Interactive users always need globally synchronous writes"
+      ],
+      "answer": 0,
+      "explanation": "Separating classes permits tailored resource and redundancy choices without overprovisioning every workload."
+    },
+    {
+      "question": "An infrastructure failure consumes the remaining error budget. What does the chapter’s shared-budget model imply?",
+      "options": [
+        "Only infrastructure changes should pause",
+        "Release risk must respond even though application developers did not cause the failure",
+        "The budget resets immediately"
+      ],
+      "answer": 1,
+      "explanation": "Budget follows user impact, so all teams share responsibility for the remaining risk."
+    }
+  ],
+  "exercise": {
+    "title": "Price one additional nine",
+    "prompt": "Compare an interactive checkout service with a nightly report. Explain which failure consequences justify different objectives and define a budget-based release decision.",
+    "fields": [
+      {
+        "label": "User consequences",
+        "placeholder": "Which failures lose transactions, trust, or only convenience?"
+      },
+      {
+        "label": "Cost of improvement",
+        "placeholder": "What additional resources and engineering would the stricter objective require?"
+      },
+      {
+        "label": "Budget policy",
+        "placeholder": "How does measured consumption change rollout size or timing?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Embracing Risk: TARGET to BUDGET to RELEASE to GUARDRAIL",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "TARGET",
+        "caption": "inputs and constraints",
+        "kind": "gauge",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "BUDGET",
+        "caption": "choose the operating rule",
+        "kind": "balance",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "RELEASE",
+        "caption": "observe the effect",
+        "kind": "terminal",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "GUARDRAIL",
+        "caption": "feed learning back",
+        "kind": "shield",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      },
+      {
+        "from": "learn",
+        "to": "observe",
+        "dashed": true
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "inputs and constraints"
+      },
+      {
+        "node": "decide",
+        "text": "choose the operating rule"
+      },
+      {
+        "node": "act",
+        "text": "observe the effect"
+      },
+      {
+        "node": "learn",
+        "text": "feed learning back"
+      }
+    ]
+  }
+}

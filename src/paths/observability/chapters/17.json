@@ -1,0 +1,185 @@
+{
+  "number": 17,
+  "title": "Cheap and Accurate Enough: Sampling",
+  "part": "Observability at Scale",
+  "subtitle": "Spend retention on signal and preserve sampling weights",
+  "summary": "Sampling reduces telemetry cost while retaining detailed examples for investigation, but its design determines which questions remain trustworthy. Constant probability is simple and can represent common traffic, yet rare errors or low-volume tenants may disappear. Head sampling decides early without knowing the outcome; tail sampling can favor interesting completed traces but requires buffering and coordination. Dynamic rates and sampling keys allocate attention across changing traffic and uncommon cohorts. These choices also affect analysis. When retention probabilities differ, counts and distributions must account for how much traffic each retained event represents. Such estimates remain uncertain, and no weight recovers a cohort that had no chance of retention. Cost control therefore needs both a selection policy and honest interpretation of the resulting evidence.",
+  "source": {
+    "startLine": 7403,
+    "endLine": 8053,
+    "reference": "text lines 7403–8053"
+  },
+  "concepts": [
+    {
+      "title": "Constant probability preserves examples",
+      "body": "Keeping each event with the same probability retains its full recorded attributes while reducing volume. It can represent frequent behavior well, but a small or rare cohort may leave no examples. Unlike aggregation, sampling preserves the context of retained requests; unlike complete capture, it cannot guarantee that the particular failure a customer reports survived.",
+      "example": "At 1% retention, a single unusual failure is very likely to be absent.",
+      "source": "text lines 7403–8053"
+    },
+    {
+      "title": "Head and tail know different facts",
+      "body": "Head sampling decides near request entry, before the final status or duration is known. Tail sampling waits for outcome information and can preferentially retain errors or slow traces. That additional knowledge requires handling spans while the decision is pending and coordinating trace retention; collecting more outcome context is not operationally free.",
+      "example": "Keep error traces after completion while applying a lower rate to routine successes.",
+      "source": "text lines 7403–8053"
+    },
+    {
+      "title": "Dynamic rates protect useful cohorts",
+      "body": "A rate can adapt to recent traffic to stay near a telemetry budget. Sampling by keys, such as tenant and outcome, can also keep high-volume sources from overwhelming rare populations. The key design matters: a globally adequate sample can still hide a quiet customer, and an error surge can overwhelm a policy that retains every error unconditionally.",
+      "example": "Give rare tenant-error combinations more retention probability than repetitive successful traffic.",
+      "source": "text lines 7403–8053"
+    },
+    {
+      "title": "Weights enable honest estimates",
+      "body": "For known nonzero retention probability p, a retained event represents an inverse-probability weight of 1/p. Unequal probabilities require weighted counts and distributions rather than naïve averages over retained rows. Weighting estimates the original population; it does not restore discarded request details, eliminate sampling variance, or justify inference about events assigned zero retention probability.",
+      "example": "A success kept at 1% carries weight 100; an error kept at 100% carries weight 1.",
+      "source": "text lines 7403–8053"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Keeping every error means the retained error percentage equals the service error rate.",
+      "correction": "If successes are sampled more heavily, use the recorded probabilities to weight both populations."
+    },
+    {
+      "claim": "Dynamic sampling guarantees every rare failure is captured.",
+      "correction": "It can improve representation, but retention policy, volume, and chance still limit which examples survive."
+    }
+  ],
+  "scenario": {
+    "title": "The sampled error rate looks enormous",
+    "context": "Every error is retained while only 1% of successes survive; the raw stored rows look mostly unhealthy.",
+    "options": [
+      {
+        "label": "Apply recorded inverse-probability weights",
+        "benefit": "Produces an estimate that accounts for unequal retention.",
+        "cost": "Still has sampling uncertainty and cannot recreate missing examples.",
+        "consequence": "The estimated service rate differs from the intentionally error-heavy composition of stored rows."
+      },
+      {
+        "label": "Report the unweighted retained-row percentage",
+        "benefit": "Describes the composition of the stored sample.",
+        "cost": "Misrepresents the service population under unequal selection.",
+        "consequence": "Stakeholders may infer a severe production failure from a deliberately biased sample."
+      }
+    ],
+    "debrief": "Name whether a result describes retained data or estimates original traffic, and preserve probabilities needed for the latter."
+  },
+  "quiz": [
+    {
+      "question": "A retained success has probability 0.01 and a retained error probability 1. Which weights apply?",
+      "options": [
+        "1 and 1",
+        "100 and 1",
+        "1 and 100"
+      ],
+      "answer": 1,
+      "explanation": "Inverse-probability weighting reflects how many original events each retained row represents."
+    },
+    {
+      "question": "Which approach can use final request latency to make its selection?",
+      "options": [
+        "Head sampling before execution",
+        "A constant decision independent of the outcome",
+        "Tail sampling after outcome information arrives"
+      ],
+      "answer": 2,
+      "explanation": "Tail selection gains outcome knowledge at the cost of buffering and coordination."
+    },
+    {
+      "question": "Why sample by tenant as well as total traffic volume?",
+      "options": [
+        "To improve representation of quiet tenants that global sampling may miss",
+        "To use the same retention probability without considering each tenant’s volume",
+        "To calculate population rates from unweighted retained-row counts"
+      ],
+      "answer": 0,
+      "explanation": "Per-key policies can protect rare cohorts, while weights and uncertainty still matter."
+    }
+  ],
+  "exercise": {
+    "title": "Design a sampling policy",
+    "prompt": "Specify how to preserve a rare customer cohort while keeping telemetry volume manageable.",
+    "fields": [
+      {
+        "label": "Selection time and sampling key",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Probability and recorded weight",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Failure cases and uncertainty",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "PROBABILITY",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "HEAD / TAIL",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "RARE COHORTS",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "WEIGHTS",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "At 1% retention, a single unusual failure is very likely to be absent."
+      },
+      {
+        "node": "step-1",
+        "text": "Keep error traces after completion while applying a lower rate to routine successes."
+      },
+      {
+        "node": "step-2",
+        "text": "Give rare tenant-error combinations more retention probability than repetitive successful traffic."
+      },
+      {
+        "node": "step-3",
+        "text": "A success kept at 1% carries weight 100; an error kept at 100% carries weight 1."
+      }
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 import {appStorage} from './storage.js';
 // Preserve the original ledger byte-for-byte until its own path is changed.
 // Each book has independent chapter IDs, answers, drafts and mission flags.
-const configs={fundamentals:{key:'fieldnotes-book-v1',count:24,total:2400},'hard-parts':{key:'fieldnotes-hard-parts-v1',count:15,total:1500}};
+import {progressConfigs as configs} from './paths/registry.js';
 const stores=new Map();
 export function progressFor(path='fundamentals'){
  if(stores.has(path))return stores.get(path);

@@ -1,0 +1,185 @@
+{
+  "number": 7,
+  "title": "Instrumentation with OpenTelemetry",
+  "part": "Fundamentals of Observability",
+  "subtitle": "Separate instrumentation from its destination",
+  "summary": "OpenTelemetry offers a shared approach to generating and transporting telemetry without binding application code to one backend. The chapter separates the instrumentation interfaces from the implementation that processes and exports the resulting data. This distinction lets library authors expose useful operations while application owners configure how telemetry is handled. Automatic instrumentation is a practical starting point for common frameworks and network calls, but it cannot know the business decisions hidden in custom code. Manual spans and attributes supply that missing context. The useful adoption path is therefore incremental: establish working collection, verify continuity across services, and enrich the operations needed to answer actual questions about customers and application behavior.",
+  "source": {
+    "startLine": 3085,
+    "endLine": 3448,
+    "reference": "text lines 3085–3448"
+  },
+  "concepts": [
+    {
+      "title": "API and SDK have different jobs",
+      "body": "Instrumentation calls an API to describe operations and add context. An SDK supplies the configured implementation that processes those calls and arranges telemetry handling. Keeping these roles separate allows reusable libraries to include instrumentation without dictating a particular backend or application-wide export configuration to every program that uses them.",
+      "example": "A shared client library creates spans while the application configures where they go.",
+      "source": "text lines 3085–3448"
+    },
+    {
+      "title": "Export is a replaceable boundary",
+      "body": "Exporters translate and send telemetry to a destination, while a collector can receive and process data outside the application. This separation reduces the amount of application instrumentation that must change when the destination changes. It does not make every backend identical: supported attributes, processing, and analysis capabilities still require validation.",
+      "example": "A backend migration changes export configuration while preserving application span creation.",
+      "source": "text lines 3085–3448"
+    },
+    {
+      "title": "Automatic coverage establishes a baseline",
+      "body": "Automatic instrumentation can describe common framework activity and outbound calls without manually wrapping every operation. This quickly exposes service relationships and timing. However, generic libraries do not know why a discount was selected or which business workflow a request follows, so automatic coverage should be evaluated against the questions the team actually needs to answer.",
+      "example": "HTTP spans exist, but identifying the failed promotion requires a domain attribute.",
+      "source": "text lines 3085–3448"
+    },
+    {
+      "title": "Custom context completes the picture",
+      "body": "Manual instrumentation records meaningful application operations and attributes absent from generic coverage. Add context where the code makes decisions whose outcomes may matter later, and attach it to the relevant span. Consistent names help teams compare those values across requests and services rather than rediscovering a different vocabulary at every boundary.",
+      "example": "Record the chosen pricing rule on the span that evaluates the order.",
+      "source": "text lines 3085–3448"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "OpenTelemetry is itself the storage and analysis backend.",
+      "correction": "It supplies instrumentation and telemetry handling; retained storage and investigation require a destination."
+    },
+    {
+      "claim": "Automatic instrumentation understands application-specific decisions.",
+      "correction": "It observes supported library behavior; domain operations and attributes still need deliberate instrumentation."
+    }
+  ],
+  "scenario": {
+    "title": "Generic traces miss the business decision",
+    "context": "An order fails only under one promotion, but automatic HTTP spans contain no promotion context.",
+    "options": [
+      {
+        "label": "Add the selected promotion to the relevant span",
+        "benefit": "Makes the failing business cohort searchable.",
+        "cost": "Requires understanding the decision point and maintaining the attribute.",
+        "consequence": "Promotion-specific failures become a cohort the investigator can compare."
+      },
+      {
+        "label": "Enable additional generic HTTP hooks",
+        "benefit": "May reveal more transport details.",
+        "cost": "May still omit the application decision behind the failure.",
+        "consequence": "Transport visibility improves without necessarily exposing the selected promotion."
+      }
+    ],
+    "debrief": "Choose instrumentation based on the missing question, not only on how many spans it produces."
+  },
+  "quiz": [
+    {
+      "question": "A library should emit spans without choosing every application’s backend. Which separation helps?",
+      "options": [
+        "Instrumentation API separated from configured SDK and exporters",
+        "One globally configured backend exporter embedded in the reusable library",
+        "A different vendor-specific instrumentation interface in each application"
+      ],
+      "answer": 0,
+      "explanation": "The API exposes instrumentation while application-level configuration controls telemetry handling."
+    },
+    {
+      "question": "HTTP traces are complete but cannot distinguish pricing rules. What should be added?",
+      "options": [
+        "Another exporter of the same fields",
+        "A pricing-rule attribute at the decision point",
+        "Longer retention alone"
+      ],
+      "answer": 1,
+      "explanation": "The missing fact is application context, not transport capacity."
+    },
+    {
+      "question": "What should a backend migration preserve and verify?",
+      "options": [
+        "Equivalent event volume, without checking whether attributes survive",
+        "Identical dashboard totals, without checking request relationships",
+        "Span context, useful attributes, and successful export to the new destination"
+      ],
+      "answer": 2,
+      "explanation": "Portable instrumentation still needs end-to-end validation that the evidence remains usable."
+    }
+  ],
+  "exercise": {
+    "title": "Locate manual instrumentation",
+    "prompt": "Choose a business decision that automatic framework spans cannot explain.",
+    "fields": [
+      {
+        "label": "Decision point in code",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Operation or attribute to record",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Query that would use it",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "API / SDK",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "EXPORT",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "AUTO COVERAGE",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "CUSTOM CONTEXT",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "A shared client library creates spans while the application configures where they go."
+      },
+      {
+        "node": "step-1",
+        "text": "A backend migration changes export configuration while preserving application span creation."
+      },
+      {
+        "node": "step-2",
+        "text": "HTTP spans exist, but identifying the failed promotion requires a domain attribute."
+      },
+      {
+        "node": "step-3",
+        "text": "Record the chosen pricing rule on the span that evaluates the order."
+      }
+    ]
+  }
+}

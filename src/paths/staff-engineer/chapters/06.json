@@ -1,0 +1,185 @@
+{
+  "number": 6,
+  "title": "Why Have We Stopped?",
+  "part": "Execution",
+  "subtitle": "Diagnose obstacles and restore useful progress",
+  "summary": "Stopping well is part of execution. A project needs a meaningful definition of done, feedback about whether the problem was solved, and a conscious decision to continue, change direction, or stop. Momentum is useful only when it remains connected to the goal.",
+  "source": {
+    "startLine": 6513,
+    "endLine": 7679,
+    "reference": "text lines 6513–7679"
+  },
+  "concepts": [
+    {
+      "title": "Stopping rule",
+      "body": "A stopping rule names evidence that the goal is met, no longer worthwhile, or needs a different approach. When movement stops, diagnose the obstacle before pushing harder. The team may lack a decision, a skill, shared understanding, or confidence that the destination is still useful. Different obstacles need different interventions; more status meetings do not solve all of them.",
+      "example": "Teaching extension: The team stops when adoption evidence misses the agreed goal twice.",
+      "source": "text lines 6513–7679"
+    },
+    {
+      "title": "Feedback",
+      "body": "Feedback compares the result with the intended outcome and supplies information for the next decision. Talk with the people doing the work and compare their accounts with the plan. A quiet dependency or unresolved disagreement may be invisible in a progress chart. Surface uncomfortable information early enough that it can still change the route.",
+      "example": "Teaching extension: Support tickets and usage data provide feedback on whether the rewrite helped.",
+      "source": "text lines 6513–7679"
+    },
+    {
+      "title": "Momentum",
+      "body": "Momentum is useful movement toward a goal; activity without a goal can preserve a failing project. Busy people and many completed tasks can coexist with a stalled outcome. Make the next concrete step and its owner visible. If the original goal no longer makes sense, renegotiate it instead of using activity to avoid that conversation.",
+      "example": "Teaching extension: A milestone is removed because it no longer serves the regulatory outcome.",
+      "source": "text lines 6513–7679"
+    },
+    {
+      "title": "Finishing",
+      "body": "Finishing includes rollout, follow-through, documentation, and checking that the problem was actually addressed. The last part of a project often contains unglamorous coordination: adoption, cleanup, communication, and operational handoff. Keep ownership clear through that work. A system that is technically ready but nobody can confidently operate has not reached the destination.",
+      "example": "Teaching extension: The final handoff includes documentation, ownership, and a post-launch check.",
+      "source": "text lines 6513–7679"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "a staff-plus role is mainly about applying a universal formula.",
+      "correction": "The chapter treats judgment as contextual: identify forces, listen to evidence, and adapt the response to the actual system and people."
+    },
+    {
+      "claim": "A visible activity or artifact proves the work is complete.",
+      "correction": "Completion requires a useful outcome, shared understanding, and a way to notice whether the decision worked over time."
+    }
+  ],
+  "scenario": {
+    "title": "Decide whether to stop",
+    "context": "A dashboard rewrite has missed its adoption goal twice. The team has built useful components, but continuing would delay a regulatory fix.",
+    "options": [
+      {
+        "label": "Stop and salvage",
+        "benefit": "Clarifies the decision and creates a workable path through the stated constraint.",
+        "cost": "Stopping requires acknowledging sunk effort and finding a responsible home for partial work.",
+        "consequence": "You compare evidence with the goal, preserve reusable pieces, and redirect capacity to the regulatory outcome."
+      },
+      {
+        "label": "Continue for sunk cost",
+        "benefit": "Feels faster or safer in the immediate moment and preserves a familiar habit.",
+        "cost": "Continuing delays a regulatory fix and makes later cancellation more expensive.",
+        "consequence": "The rewrite gains polish while the important fix waits; morale falls when the same gap is rediscovered."
+      }
+    ],
+    "debrief": "Both options respond to a real constraint. The stronger choice makes ownership and consequences visible, then creates a point to learn and adjust."
+  },
+  "quiz": [
+    {
+      "question": "A project has stopped moving. What helps before demanding more speed?",
+      "options": [
+        "Diagnose the actual obstacle with the people doing the work",
+        "Add the same status meeting every day",
+        "Assume the team lacks motivation"
+      ],
+      "answer": 0,
+      "explanation": "Missing decisions, dependencies, understanding, and changing goals need different responses."
+    },
+    {
+      "question": "Many tickets close but the desired outcome remains distant. What should the lead inspect?",
+      "options": [
+        "The number of messages in chat",
+        "Whether activity still advances the destination",
+        "Whether everyone used identical tools"
+      ],
+      "answer": 1,
+      "explanation": "Visible busyness can hide a stalled goal or unresolved dependency."
+    },
+    {
+      "question": "Who should own the operational handoff at the end of a project?",
+      "options": [
+        "Nobody once the code ships",
+        "Whichever user discovers a problem",
+        "Explicit owners agreed before the handoff"
+      ],
+      "answer": 2,
+      "explanation": "Finishing includes operational readiness and follow-through, not only implementation."
+    }
+  ],
+  "exercise": {
+    "title": "Make the next move legible",
+    "prompt": "Describe a staff-level decision, the people and terrain involved, and the route by which you will learn whether it worked.",
+    "fields": [
+      {
+        "label": "What goal is the evidence testing?",
+        "placeholder": "Write the concrete facts, people, and constraint."
+      },
+      {
+        "label": "What should be salvaged?",
+        "placeholder": "State the choice and its trade-off."
+      },
+      {
+        "label": "What would justify restarting?",
+        "placeholder": "Name the evidence or conversation that will revisit it."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "target",
+        "label": "TARGET",
+        "kind": "document",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "colleague",
+        "label": "COLLEAGUE",
+        "kind": "colleague",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "experiment",
+        "label": "EXPERIMENT",
+        "kind": "experiment",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "handoff",
+        "label": "HANDOFF",
+        "kind": "handoff",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "target",
+        "to": "colleague"
+      },
+      {
+        "from": "colleague",
+        "to": "experiment"
+      },
+      {
+        "from": "experiment",
+        "to": "handoff"
+      }
+    ],
+    "steps": [
+      {
+        "node": "target",
+        "text": "Use this target view to make the next decision visible."
+      },
+      {
+        "node": "colleague",
+        "text": "Use this colleague view to make the next decision visible."
+      },
+      {
+        "node": "experiment",
+        "text": "Use this experiment view to make the next decision visible."
+      },
+      {
+        "node": "handoff",
+        "text": "Use this handoff view to make the next decision visible."
+      }
+    ]
+  }
+}

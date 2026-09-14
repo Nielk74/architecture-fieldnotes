@@ -1,0 +1,185 @@
+{
+  "number": 11,
+  "title": "Observability-Driven Development",
+  "part": "Observability for Teams",
+  "subtitle": "Finish a change by observing it in production",
+  "summary": "Observability-driven development makes production behavior part of the development feedback loop. Tests check anticipated behavior under controlled conditions, but cannot reproduce every interaction among real users, dependencies, and concurrent changes. Engineers therefore design instrumentation while writing code and inspect the result after deployment. The chapter also distinguishes locating a problem from debugging its implementation: telemetry can reveal the failing component and triggering context, after which a debugger or profiler may be the appropriate tool. This practice reduces the distance between an engineer’s intent and the user’s actual experience. A change is better understood when its author can compare old and new behavior, recognize unexpected effects, and verify a correction using the same relevant population.",
+  "source": {
+    "startLine": 4486,
+    "endLine": 4813,
+    "reference": "text lines 4486–4813"
+  },
+  "concepts": [
+    {
+      "title": "Instrument while intent is fresh",
+      "body": "While writing a feature, the engineer knows which decisions and outcomes matter. That is a good time to record the context needed to recognize whether the code behaves as intended. Retrofitting instrumentation during an incident often requires another deployment and another occurrence of the failure before the missing evidence becomes available.",
+      "example": "A new allocation rule records the chosen branch and resulting resource assignment.",
+      "source": "text lines 4486–4813"
+    },
+    {
+      "title": "Observe after deployment",
+      "body": "A passing test suite does not show how a change behaves under production traffic. Compare relevant outcomes after deployment, including the affected build or feature cohort, while the change is still fresh in the author’s mind. Fast feedback makes unexpected behavior easier to connect with the decisions that introduced it.",
+      "example": "Compare latency and errors for the new build against the previous build on equivalent routes.",
+      "source": "text lines 4486–4813"
+    },
+    {
+      "title": "Locate before inspecting code",
+      "body": "Observability helps identify where a problem occurs and which circumstances trigger it across a running system. Once that narrows to a component or operation, a traditional debugger or profiler may be better suited to investigating code internals. These tools work at different scopes and can be combined using the context discovered in production.",
+      "example": "A trace isolates a serialization operation; a local reproduction explores its implementation.",
+      "source": "text lines 4486–4813"
+    },
+    {
+      "title": "Tests and telemetry complement each other",
+      "body": "Tests encode expectations and make repeatable checks before release. Production telemetry reveals behavior under combinations the tests did not represent. An unexpected observation can become a new test, while instrumentation can verify that the resulting fix helps real requests. Neither feedback source alone supplies every answer about software behavior.",
+      "example": "A production-only input combination becomes a regression test after its context is identified.",
+      "source": "text lines 4486–4813"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Observability-driven development replaces testing.",
+      "correction": "Tests validate known expectations; production feedback exposes additional interactions and validates real-world outcomes."
+    },
+    {
+      "claim": "A trace viewer must replace a source-code debugger.",
+      "correction": "Traces locate the operation and context; a debugger may then inspect the implementation in detail."
+    }
+  ],
+  "scenario": {
+    "title": "The tests pass, the feature slows down",
+    "context": "A new recommendation feature passes CI but increases latency only for large accounts.",
+    "options": [
+      {
+        "label": "Compare feature cohorts and account size",
+        "benefit": "Can isolate the production condition missing from tests.",
+        "cost": "Requires feature and account context in telemetry.",
+        "consequence": "The production finding can guide both a targeted fix and a regression test."
+      },
+      {
+        "label": "Extend the generic unit suite first",
+        "benefit": "Can improve checks for known implementation behavior.",
+        "cost": "May miss the large-account condition unless production evidence guides it.",
+        "consequence": "Additional tests may pass while the same account-size regression persists."
+      }
+    ],
+    "debrief": "Use the observed cohort to focus investigation and then strengthen the regression tests."
+  },
+  "quiz": [
+    {
+      "question": "When is a useful time to choose feature-specific instrumentation?",
+      "options": [
+        "After deployment, once a failed request identifies every needed field",
+        "At the end of the release cycle, independently of feature implementation",
+        "While implementing the decisions and expected outcomes"
+      ],
+      "answer": 2,
+      "explanation": "The author can capture intent and relevant context before a failure requires emergency instrumentation."
+    },
+    {
+      "question": "A trace identifies an expensive parser and its triggering input. What may help next?",
+      "options": [
+        "A focused reproduction with a debugger or profiler",
+        "A broader scan of all service metrics before examining the isolated parser",
+        "Increasing trace retention without using the known triggering input"
+      ],
+      "answer": 0,
+      "explanation": "The system-level search has narrowed enough for code-level tools to become useful."
+    },
+    {
+      "question": "Why compare deployment cohorts after shipping?",
+      "options": [
+        "To treat any difference between cohorts as proof the release is defective",
+        "To check intended and unintended effects under actual production conditions",
+        "To replace the need to define expected behavior before release"
+      ],
+      "answer": 1,
+      "explanation": "Production comparison completes a feedback path that controlled tests cannot fully supply."
+    }
+  ],
+  "exercise": {
+    "title": "Plan the after-deploy check",
+    "prompt": "Choose a feature and specify how its author will verify production behavior.",
+    "fields": [
+      {
+        "label": "Expected user outcome",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Instrumented cohort and comparison",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Observation that triggers follow-up",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "INSTRUMENT",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "DEPLOY",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "LOCATE",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "LEARN",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "A new allocation rule records the chosen branch and resulting resource assignment."
+      },
+      {
+        "node": "step-1",
+        "text": "Compare latency and errors for the new build against the previous build on equivalent routes."
+      },
+      {
+        "node": "step-2",
+        "text": "A trace isolates a serialization operation; a local reproduction explores its implementation."
+      },
+      {
+        "node": "step-3",
+        "text": "A production-only input combination becomes a regression test after its context is identified."
+      }
+    ]
+  }
+}

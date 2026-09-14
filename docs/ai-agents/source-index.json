@@ -1,0 +1,93 @@
+[
+  {
+    "number": 1,
+    "title": "Introduction to Agents",
+    "part": "Foundations",
+    "startLine": 620,
+    "endLine": 1194
+  },
+  {
+    "number": 2,
+    "title": "Designing Agent Systems",
+    "part": "Design",
+    "startLine": 1195,
+    "endLine": 2066
+  },
+  {
+    "number": 3,
+    "title": "User Experience Design for Agentic Systems",
+    "part": "Experience",
+    "startLine": 2067,
+    "endLine": 3118
+  },
+  {
+    "number": 4,
+    "title": "Tool Use",
+    "part": "Tools",
+    "startLine": 3119,
+    "endLine": 3833
+  },
+  {
+    "number": 5,
+    "title": "Orchestration",
+    "part": "Workflows",
+    "startLine": 3834,
+    "endLine": 4797
+  },
+  {
+    "number": 6,
+    "title": "Knowledge and Memory",
+    "part": "Context",
+    "startLine": 4798,
+    "endLine": 5524
+  },
+  {
+    "number": 7,
+    "title": "Learning in Agentic Systems",
+    "part": "Learning",
+    "startLine": 5525,
+    "endLine": 6600
+  },
+  {
+    "number": 8,
+    "title": "From One Agent to Many",
+    "part": "Multiagent design",
+    "startLine": 6601,
+    "endLine": 8457
+  },
+  {
+    "number": 9,
+    "title": "Validation and Measurement",
+    "part": "Evaluation",
+    "startLine": 8458,
+    "endLine": 9144
+  },
+  {
+    "number": 10,
+    "title": "Monitoring in Production",
+    "part": "Operations",
+    "startLine": 9145,
+    "endLine": 9933
+  },
+  {
+    "number": 11,
+    "title": "Improvement Loops",
+    "part": "Iteration",
+    "startLine": 9934,
+    "endLine": 10987
+  },
+  {
+    "number": 12,
+    "title": "Protecting Agentic Systems",
+    "part": "Security",
+    "startLine": 10988,
+    "endLine": 12091
+  },
+  {
+    "number": 13,
+    "title": "Human-Agent Collaboration",
+    "part": "Collaboration",
+    "startLine": 12092,
+    "endLine": 12759
+  }
+]

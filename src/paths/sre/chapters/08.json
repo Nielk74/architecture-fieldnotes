@@ -1,0 +1,195 @@
+{
+  "number": 8,
+  "title": "Release Engineering",
+  "part": "Operations",
+  "subtitle": "Make the released binary and configuration reproducible and traceable",
+  "summary": "Release engineering makes delivery a repeatable engineering process from source revision to running service. Hermetic builds control their tools and dependencies so an older version can be rebuilt without accidentally incorporating today’s environment. Release branches and selected fixes identify the intended changes, but the resulting combination must still pass tests. Packaging gives artifacts stable identities and an audit trail that helps responders understand what is running. Deployment then promotes those artifacts at a pace suited to the service’s risk, with canaries and staged expansion where appropriate. Configuration deserves the same care as binaries: its packaging and version relationship determine whether a deployment can be reconstructed. Self-service tools and explicit policies let teams release frequently while keeping these controls consistent.",
+  "source": {
+    "startLine": 3537,
+    "endLine": 3852,
+    "reference": "text lines 3537–3852"
+  },
+  "concepts": [
+    {
+      "title": "Hermetic builds",
+      "body": "A hermetic build obtains its inputs from declared, controlled sources instead of whatever tools or libraries happen to be installed on a machine. Versioning build tools as well as source code makes rebuilding an older release meaningful. Reproducibility reduces uncertainty when investigating failures: a rebuild for one fix should not silently introduce an unrelated compiler or dependency change.",
+      "example": "Teaching extension: A repair to last month’s release uses its recorded compiler and dependencies plus the selected source fix.",
+      "source": "text lines 3537–3852"
+    },
+    {
+      "title": "Release contents must be tested together",
+      "body": "Google’s workflow creates a release branch at a known revision and selectively adds fixes already submitted to mainline. This controls which changes enter the release, but the resulting branch may be a combination never tested on mainline. Running release tests on that exact combination establishes evidence about what will ship and records an audit trail of its validation.",
+      "example": "Teaching extension: Two individually passing cherry-picks are tested together on the release branch before packaging.",
+      "source": "text lines 3537–3852"
+    },
+    {
+      "title": "Artifact identity and staged deployment",
+      "body": "A package identifies the actual built contents, while labels can indicate its place in the release workflow. Deployments should reference the intended version and preserve a trace from source through testing to production. Canarying and progressive rollout expose changes to limited traffic first; expansion pace depends on risk and the observations needed to find problems, rather than a universal release schedule.",
+      "example": "Teaching extension: A canary and the wider rollout use the same package hash instead of rebuilding between stages.",
+      "source": "text lines 3537–3852"
+    },
+    {
+      "title": "Configuration is part of the release",
+      "body": "Configuration can change service behavior as profoundly as a binary. Keeping it reviewed and versioned makes changes intentional, but teams must choose how it is distributed. Bundling configuration with binaries simplifies matching; separate packages permit independent changes; dynamic stores support runtime updates. Each choice needs a clear way to identify the running configuration and its compatibility with the binary.",
+      "example": "Teaching extension: A flag-only repair deploys a new versioned configuration package without rebuilding the executable.",
+      "source": "text lines 3537–3852"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "If every change passed mainline tests, a cherry-picked release needs no retest.",
+      "correction": "The assembled release branch is a distinct combination and must be validated as shipped."
+    },
+    {
+      "claim": "A configuration change is too small to need release discipline.",
+      "correction": "Configuration changes behavior and can create incompatible or untraceable production states."
+    }
+  ],
+  "scenario": {
+    "title": "Promote a reproducible release",
+    "context": "A library change passes tests but has two dependency versions in different build environments. The team can promote one immutable artifact through stages or rebuild separately in production.",
+    "options": [
+      {
+        "label": "Build once and promote the artifact",
+        "benefit": "The tested bits remain the bits deployed, making rollback clearer.",
+        "cost": "The pipeline must preserve configuration separation.",
+        "consequence": "The canary uses the same artifact and is widened only after health checks."
+      },
+      {
+        "label": "Rebuild at each environment",
+        "benefit": "Environment-specific builds can adapt to local requirements.",
+        "cost": "Drift can make a production failure impossible to reproduce.",
+        "consequence": "The production rebuild works but creates a second debugging dimension."
+      }
+    ],
+    "debrief": "Immutable promotion preserves the tested artifact; rebuilding per environment is acceptable only when the resulting drift is explicit and testable."
+  },
+  "quiz": [
+    {
+      "question": "Which input most directly breaks build hermeticity?",
+      "options": [
+        "A pinned compiler version",
+        "A declared library revision",
+        "An undeclared library from the developer’s laptop"
+      ],
+      "answer": 2,
+      "explanation": "An undeclared local dependency makes the result depend on the machine’s environment."
+    },
+    {
+      "question": "Why retest a release branch after cherry-picking fixes?",
+      "options": [
+        "Its combined contents may never have existed on mainline",
+        "Cherry-picking always changes the programming language",
+        "Package signing replaces source testing"
+      ],
+      "answer": 0,
+      "explanation": "The release needs evidence about its own exact code combination."
+    },
+    {
+      "question": "A flag needs changing without rebuilding the binary. Which model supports this while retaining traceability?",
+      "options": [
+        "Edit an unrecorded file on every host",
+        "Release a separately versioned configuration package",
+        "Replace the package hash with a mutable filename only"
+      ],
+      "answer": 1,
+      "explanation": "Separate configuration packaging allows independent changes with a recorded identity."
+    }
+  ],
+  "exercise": {
+    "title": "Trace one release end to end",
+    "prompt": "Describe how an emergency source fix becomes a tested package, then a canary, then a wider release. Include the configuration version.",
+    "fields": [
+      {
+        "label": "Build inputs",
+        "placeholder": "Which source revision, toolchain, and selected fixes define the build?"
+      },
+      {
+        "label": "Evidence and identity",
+        "placeholder": "How are passing tests attached to the exact packaged contents?"
+      },
+      {
+        "label": "Deployment decision",
+        "placeholder": "What observation permits expansion or triggers return to the prior package pair?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Release Engineering: SOURCE to ARTIFACT to CANARY to PROMOTE",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "SOURCE",
+        "caption": "inputs and constraints",
+        "kind": "blueprint",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "ARTIFACT",
+        "caption": "choose the operating rule",
+        "kind": "deployment",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "CANARY",
+        "caption": "observe the effect",
+        "kind": "gauge",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "PROMOTE",
+        "caption": "feed learning back",
+        "kind": "terminal",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      },
+      {
+        "from": "learn",
+        "to": "observe",
+        "dashed": true
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "inputs and constraints"
+      },
+      {
+        "node": "decide",
+        "text": "choose the operating rule"
+      },
+      {
+        "node": "act",
+        "text": "observe the effect"
+      },
+      {
+        "node": "learn",
+        "text": "feed learning back"
+      }
+    ]
+  }
+}

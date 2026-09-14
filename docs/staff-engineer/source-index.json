@@ -1,0 +1,65 @@
+[
+  {
+    "number": 1,
+    "title": "What Would You Say You Do Here?",
+    "part": "The Big Picture",
+    "startLine": 470,
+    "endLine": 1404
+  },
+  {
+    "number": 2,
+    "title": "Three Maps",
+    "part": "The Big Picture",
+    "startLine": 1405,
+    "endLine": 2580
+  },
+  {
+    "number": 3,
+    "title": "Creating the Big Picture",
+    "part": "The Big Picture",
+    "startLine": 2581,
+    "endLine": 4070
+  },
+  {
+    "number": 4,
+    "title": "Finite Time",
+    "part": "Execution",
+    "startLine": 4071,
+    "endLine": 5121
+  },
+  {
+    "number": 5,
+    "title": "Leading Big Projects",
+    "part": "Execution",
+    "startLine": 5122,
+    "endLine": 6512
+  },
+  {
+    "number": 6,
+    "title": "Why Have We Stopped?",
+    "part": "Execution",
+    "startLine": 6513,
+    "endLine": 7679
+  },
+  {
+    "number": 7,
+    "title": "You’re a Role Model Now (Sorry)",
+    "part": "Leveling Up",
+    "startLine": 7680,
+    "endLine": 8702
+  },
+  {
+    "number": 8,
+    "title": "Good Influence at Scale",
+    "part": "Leveling Up",
+    "startLine": 8703,
+    "endLine": 9789
+  },
+  {
+    "number": 9,
+    "title": "What’s Next?",
+    "part": "Leveling Up",
+    "startLine": 9790,
+    "endLine": 10737
+  }
+]

@@ -1,0 +1,156 @@
+[
+  {
+    "number": 1,
+    "title": "What Is Observability?",
+    "part": "The Path to Observability",
+    "startLine": 653,
+    "endLine": 1279
+  },
+  {
+    "number": 2,
+    "title": "How Debugging Practices Differ Between Observability and Monitoring",
+    "part": "The Path to Observability",
+    "startLine": 1280,
+    "endLine": 1658
+  },
+  {
+    "number": 3,
+    "title": "Lessons from Scaling Without Observability",
+    "part": "The Path to Observability",
+    "startLine": 1659,
+    "endLine": 2169
+  },
+  {
+    "number": 4,
+    "title": "How Observability Relates to DevOps, SRE, and Cloud Native",
+    "part": "The Path to Observability",
+    "startLine": 2170,
+    "endLine": 2385
+  },
+  {
+    "number": 5,
+    "title": "Structured Events Are the Building Blocks of Observability",
+    "part": "Fundamentals of Observability",
+    "startLine": 2386,
+    "endLine": 2716
+  },
+  {
+    "number": 6,
+    "title": "Stitching Events into Traces",
+    "part": "Fundamentals of Observability",
+    "startLine": 2717,
+    "endLine": 3084
+  },
+  {
+    "number": 7,
+    "title": "Instrumentation with OpenTelemetry",
+    "part": "Fundamentals of Observability",
+    "startLine": 3085,
+    "endLine": 3448
+  },
+  {
+    "number": 8,
+    "title": "Analyzing Events to Achieve Observability",
+    "part": "Fundamentals of Observability",
+    "startLine": 3449,
+    "endLine": 3796
+  },
+  {
+    "number": 9,
+    "title": "How Observability and Monitoring Come Together",
+    "part": "Fundamentals of Observability",
+    "startLine": 3797,
+    "endLine": 4158
+  },
+  {
+    "number": 10,
+    "title": "Applying Observability Practices in Your Team",
+    "part": "Observability for Teams",
+    "startLine": 4159,
+    "endLine": 4485
+  },
+  {
+    "number": 11,
+    "title": "Observability-Driven Development",
+    "part": "Observability for Teams",
+    "startLine": 4486,
+    "endLine": 4813
+  },
+  {
+    "number": 12,
+    "title": "Using Service-Level Objectives for Reliability",
+    "part": "Observability for Teams",
+    "startLine": 4814,
+    "endLine": 5231
+  },
+  {
+    "number": 13,
+    "title": "Acting on and Debugging SLO-Based Alerts",
+    "part": "Observability for Teams",
+    "startLine": 5232,
+    "endLine": 5811
+  },
+  {
+    "number": 14,
+    "title": "Observability and the Software Supply Chain",
+    "part": "Observability for Teams",
+    "startLine": 5812,
+    "endLine": 6225
+  },
+  {
+    "number": 15,
+    "title": "Build Versus Buy and Return on Investment",
+    "part": "Observability at Scale",
+    "startLine": 6226,
+    "endLine": 6675
+  },
+  {
+    "number": 16,
+    "title": "Efficient Data Storage",
+    "part": "Observability at Scale",
+    "startLine": 6676,
+    "endLine": 7402
+  },
+  {
+    "number": 17,
+    "title": "Cheap and Accurate Enough: Sampling",
+    "part": "Observability at Scale",
+    "startLine": 7403,
+    "endLine": 8053
+  },
+  {
+    "number": 18,
+    "title": "Telemetry Management with Pipelines",
+    "part": "Observability at Scale",
+    "startLine": 8054,
+    "endLine": 8666
+  },
+  {
+    "number": 19,
+    "title": "The Business Case for Observability",
+    "part": "Spreading Observability Culture",
+    "startLine": 8667,
+    "endLine": 9084
+  },
+  {
+    "number": 20,
+    "title": "Observability’s Stakeholders and Allies",
+    "part": "Spreading Observability Culture",
+    "startLine": 9085,
+    "endLine": 9492
+  },
+  {
+    "number": 21,
+    "title": "An Observability Maturity Model",
+    "part": "Spreading Observability Culture",
+    "startLine": 9493,
+    "endLine": 9948
+  },
+  {
+    "number": 22,
+    "title": "Where to Go from Here",
+    "part": "Spreading Observability Culture",
+    "startLine": 9949,
+    "endLine": 10212
+  }
+]

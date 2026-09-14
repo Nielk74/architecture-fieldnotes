@@ -1,0 +1,190 @@
+{
+  "number": 33,
+  "title": "Lessons Learned from Other Industries",
+  "part": "People and practice",
+  "subtitle": "Adapt reliability practices to the consequences of failure",
+  "summary": "Interviews with people from other reliability-sensitive industries reveal common concerns: preparedness, incident learning, repetitive work, and disciplined decisions. Their implementations differ because the costs of failure, pace of change, and operating constraints differ. Realistic simulators can provide practice where live failure would endanger people; drills, training, and multiple defenses make readiness more than an assumption. Incident analysis also includes near misses, exposing weaknesses before harm occurs. Automation can improve precision and response speed, yet that same speed can magnify incorrect actions, so some settings require human verification or independent stopping authority. The chapter encourages learning across industries while rejecting a universal recipe: practices should be chosen in light of actual risk, not copied solely because they work in web services.",
+  "source": {
+    "startLine": 15596,
+    "endLine": 16039,
+    "reference": "text lines 15596–16039"
+  },
+  "concepts": [
+    {
+      "title": "Preparedness shaped by consequences",
+      "body": "Readiness combines training, exercises, capacity, and layers of protection, but the appropriate exercise depends on what failure could harm. The chapter’s interviewees describe realistic simulation, controlled live drills, and site-specific certification. These are different ways to build practiced responses. A software team should carry over the principle of demonstrated preparedness without assuming that deliberate live disruption is acceptable in every industry.",
+      "example": "Teaching extension: A team uses a realistic simulator when testing the failure on a live system would expose people to unacceptable harm.",
+      "source": "text lines 15596–16039"
+    },
+    {
+      "title": "Learning from incidents and near misses",
+      "body": "Incident analysis asks what happened, how the response worked, and what should change to prevent recurrence. Near misses provide similar evidence even when luck or an existing barrier prevented harm. The interviews show both safety and regulatory motivations for review, alongside examples of blameless learning. Examining conditions and improving procedures is more useful than treating the absence of damage as proof of safety.",
+      "example": "Teaching extension: A recovered deployment error is reviewed because a narrowly avoided customer outage still exposed a weak safeguard.",
+      "source": "text lines 15596–16039"
+    },
+    {
+      "title": "Automation can reduce or amplify risk",
+      "body": "Automation can remove repetitive effort, improve consistency, and act faster than humans. The same speed can cause extensive harm when an action or configuration is wrong. The chapter contrasts settings that favor deliberate human oversight with settings that require automated response or identity checks. Choosing the boundary means examining the operation’s failure consequences and the controls that detect or stop incorrect behavior.",
+      "example": "Teaching extension: A repetitive data-entry step gains an automated identity check, while an irreversible operation retains independent verification.",
+      "source": "text lines 15596–16039"
+    },
+    {
+      "title": "Structured decisions in different environments",
+      "body": "A rational decision makes its inputs, assumptions, and criteria explicit before the result is known. Some industries use controlled experiments; others rely on carefully developed procedures or independent risk-control authority. Stable systems with severe failure consequences may change conservatively, while rapidly evolving services need adaptable reasoning. The transferable lesson is disciplined evaluation, not a requirement that every organization adopt the same pace or process.",
+      "example": "Teaching extension: A team agrees on the evidence needed to change a critical control instead of allowing the most senior person’s preference to decide.",
+      "source": "text lines 15596–16039"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Reliability practices should be identical across industries.",
+      "correction": "Failure consequences, system evolution, and operational constraints change which implementation is appropriate."
+    },
+    {
+      "claim": "A near miss needs no analysis because nobody was harmed.",
+      "correction": "It can reveal a latent weakness whose next occurrence may defeat the remaining defenses."
+    }
+  ],
+  "scenario": {
+    "title": "Borrow safety practices carefully",
+    "context": "A team wants to copy an aviation checklist into a software deploy process. The checklist has useful handoff prompts but assumes a fixed hardware sequence.",
+    "options": [
+      {
+        "label": "Adapt the checklist and validate it in the local system",
+        "benefit": "The useful safety mechanism survives while mismatched assumptions are tested.",
+        "cost": "Adaptation requires local experimentation and review.",
+        "consequence": "The team pilots prompts for rollback and ownership, then removes irrelevant steps."
+      },
+      {
+        "label": "Adopt it unchanged because aviation is safer",
+        "benefit": "Adoption is quick and preserves the original wording.",
+        "cost": "A false analogy can create ceremony while missing software failure modes.",
+        "consequence": "The checklist is completed while the real dependency risk remains."
+      }
+    ],
+    "debrief": "The useful transfer is the checklist’s safety purpose, not every step in its original setting. Examine failure consequences, system change, and operator needs before testing a local version with meaningful actions."
+  },
+  "quiz": [
+    {
+      "question": "Why might an industry prefer a simulator over a live failure drill?",
+      "options": [
+        "The consequences of a live failure could be unacceptable",
+        "Simulation guarantees an exact reproduction of every production dependency",
+        "Stable systems can replace recurrent operator training with one design review"
+      ],
+      "answer": 0,
+      "explanation": "Exercise design must respect the cost of failure."
+    },
+    {
+      "question": "What is the central automation trade-off in the interviews?",
+      "options": [
+        "Automated operations are safe whenever their normal path is faster",
+        "Human verification makes every action safer regardless of response deadlines",
+        "Speed and consistency can help, but incorrect actions can also spread harm quickly"
+      ],
+      "answer": 2,
+      "explanation": "The benefits and risks depend on the task and surrounding safeguards."
+    },
+    {
+      "question": "What does a near-miss review contribute?",
+      "options": [
+        "Proof that the existing safeguards need no improvement",
+        "Evidence about weaknesses before an incident causes harm",
+        "A reason to restrict incident reviews to cases with actual harm"
+      ],
+      "answer": 1,
+      "explanation": "Near misses can reveal latent conditions while there is still time to improve protection."
+    }
+  ],
+  "exercise": {
+    "title": "Evaluate an industry analogy",
+    "prompt": "Select one preparedness, incident-learning, or automation practice from another industry and assess its fit for a software service.",
+    "fields": [
+      {
+        "label": "Purpose",
+        "placeholder": "Which failure or human limitation does the original practice address?"
+      },
+      {
+        "label": "Context difference",
+        "placeholder": "How do consequences, change rate, and available controls differ here?"
+      },
+      {
+        "label": "Local design",
+        "placeholder": "What will you retain, change, and test before adopting the practice?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Evaluate an industry analogy",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "Practice",
+        "caption": "Safety purpose",
+        "kind": "document",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "Consequences",
+        "caption": "Different stakes",
+        "kind": "balance",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "Adapt",
+        "caption": "Local safeguards",
+        "kind": "shield",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "Test",
+        "caption": "Observed benefit",
+        "kind": "experiment",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "Identify a concrete reliability mechanism from another setting."
+      },
+      {
+        "node": "decide",
+        "text": "Compare what failure can harm in each environment."
+      },
+      {
+        "node": "act",
+        "text": "Choose controls and training that fit local conditions."
+      },
+      {
+        "node": "learn",
+        "text": "Evaluate whether the adapted practice addresses the actual risk."
+      }
+    ]
+  }
+}

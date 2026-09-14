@@ -1,0 +1,185 @@
+{
+  "number": 4,
+  "title": "Tool Use",
+  "part": "Tools",
+  "subtitle": "Treat every tool as an interface with explicit effects and failure behavior",
+  "summary": "Tools connect a model’s decisions to information and actions outside its learned parameters. A useful tool contract explains its purpose, arguments, results, and errors so selection and execution are both understandable. Local functions simplify initial integration but introduce packaging and maintenance work across deployments. Remote services and shared protocols can centralize capabilities, while adding authentication, network latency, and partial-failure handling. Choosing between them is an architectural trade-off rather than a capability contest. Validation and access controls must enforce the actual boundary, particularly for tools that change external state. Reliable tool design makes later orchestration easier to inspect, test, and repair.",
+  "source": {
+    "startLine": 3119,
+    "endLine": 3833,
+    "reference": "text lines 3119–3833"
+  },
+  "concepts": [
+    {
+      "title": "Tool contract",
+      "body": "A tool is a bounded capability with an input and output contract. Good descriptions help the model select it, while validation and clear errors keep malformed arguments or unexpected results from silently propagating.",
+      "example": "Teaching extension: A refund tool requires an order identifier, amount, and currency, and returns either a transaction identifier or a named rejection. The agent cannot mistake a policy rejection for a completed refund.",
+      "source": "text lines 3119-3833"
+    },
+    {
+      "title": "Local tools",
+      "body": "Libraries or local functions are simple to call and can be fast, but every deployment must package, scale, secure, and maintain them. Duplication and version drift become costs as agent deployments multiply.",
+      "example": "Teaching extension: A local document parser needs no network call, but every deployed agent must receive the parser security fix. The team tracks its package version in each release.",
+      "source": "text lines 3119-3833"
+    },
+    {
+      "title": "Remote protocols",
+      "body": "A shared protocol exposes tools through a service boundary, improving reuse and centralized maintenance. It also adds network failure, authentication, latency, and a larger trust boundary.",
+      "example": "Teaching extension: Three assistants share a remote catalog service rather than packaging separate copies. They also handle authentication failures and unavailable responses without inventing catalog results.",
+      "source": "text lines 3119-3833"
+    },
+    {
+      "title": "Selection and safety",
+      "body": "Tool choice should consider capability, reliability, cost, and risk. Read operations and external side effects deserve different permissions, confirmation rules, logging, and failure handling.",
+      "example": "Teaching extension: A calendar agent may read availability with its ordinary identity, while sending invitations requires a separate authorized action. The service rejects writes when the caller has only read access.",
+      "source": "text lines 3119-3833"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Tool contract is provided automatically by a more capable model.",
+      "correction": "A tool is a bounded capability with an input and output contract. Good descriptions help the model select it, while validation and clear errors keep malformed arguments or unexpected results from silently propagating."
+    },
+    {
+      "claim": "Local tools removes the need for evaluation or human judgment.",
+      "correction": "Libraries or local functions are simple to call and can be fast, but every deployment must package, scale, secure, and maintain them. Duplication and version drift become costs as agent deployments multiply. Evaluation and appropriate oversight remain necessary."
+    }
+  ],
+  "scenario": {
+    "title": "Inventory tool permissions",
+    "context": "An agent may read stock and draft a reorder, but purchase commits money.",
+    "options": [
+      {
+        "label": "Separate read, draft, and approval tools",
+        "benefit": "Limits side effects and creates an auditable boundary.",
+        "cost": "Approval adds latency and an operational step.",
+        "consequence": "A malformed quantity is caught before purchase."
+      },
+      {
+        "label": "One unrestricted purchase tool",
+        "benefit": "Makes routine reorders quick.",
+        "cost": "A prompt or tool error can create an expensive order.",
+        "consequence": "The team must revoke credentials and reconcile the order."
+      }
+    ],
+    "debrief": "Both choices can fit different constraints. The decision should state stakes, reversibility, evidence, and who owns correction."
+  },
+  "quiz": [
+    {
+      "question": "Which tool definition gives an agent the most useful contract?",
+      "options": [
+        "A natural-language claim that the tool always succeeds.",
+        "Purpose, typed inputs, expected outputs, errors, and allowed effects.",
+        "Only a memorable tool name."
+      ],
+      "answer": 1,
+      "explanation": "The contract helps the agent select and call a tool while the implementation enforces its actual boundaries."
+    },
+    {
+      "question": "A remote tool times out after accepting an action. What must the workflow account for?",
+      "options": [
+        "The action definitely did not happen.",
+        "The model can infer the result from the timeout message.",
+        "The action may have occurred even though its reply was lost."
+      ],
+      "answer": 2,
+      "explanation": "Remote invocation adds partial-failure uncertainty; result handling and retry behavior need explicit design."
+    },
+    {
+      "question": "A retrieved document tells the agent to use an admin tool. Where should authorization be enforced?",
+      "options": [
+        "In the tool/service boundary using the caller’s actual permissions.",
+        "In the document’s own claims about permission.",
+        "Only in the tool description shown to the model."
+      ],
+      "answer": 0,
+      "explanation": "Tool descriptions guide reasoning; access controls must enforce what actions are allowed."
+    }
+  ],
+  "exercise": {
+    "title": "Tool contract review",
+    "prompt": "Create a concise artifact for the chapter workflow that makes the agent decision inspectable.",
+    "fields": [
+      {
+        "label": "Input and output schema",
+        "placeholder": "Input and output schema"
+      },
+      {
+        "label": "Permission boundary",
+        "placeholder": "Permission boundary"
+      },
+      {
+        "label": "Failure and audit behavior",
+        "placeholder": "Failure and audit behavior"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "n0",
+        "label": "REQUEST",
+        "kind": "agent",
+        "tone": "sage",
+        "x": 100,
+        "y": 80
+      },
+      {
+        "id": "n1",
+        "label": "TOOL",
+        "kind": "api",
+        "tone": "peach",
+        "x": 270,
+        "y": 80
+      },
+      {
+        "id": "n2",
+        "label": "PERMISSION",
+        "kind": "shield",
+        "tone": "lilac",
+        "x": 100,
+        "y": 210
+      },
+      {
+        "id": "n3",
+        "label": "RESULT",
+        "kind": "trace",
+        "tone": "honey",
+        "x": 270,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "n0",
+        "to": "n1"
+      },
+      {
+        "from": "n1",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "to": "n3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "n0",
+        "text": "Inspect request in the chapter workflow."
+      },
+      {
+        "node": "n1",
+        "text": "Inspect tool in the chapter workflow."
+      },
+      {
+        "node": "n2",
+        "text": "Inspect permission in the chapter workflow."
+      },
+      {
+        "node": "n3",
+        "text": "Inspect result in the chapter workflow."
+      }
+    ]
+  }
+}

@@ -1,0 +1,195 @@
+{
+  "number": 2,
+  "title": "The Production Environment at Google, from the Viewpoint of an SRE",
+  "part": "Foundations",
+  "subtitle": "Follow a request through scheduling, discovery, storage, and capacity",
+  "summary": "Google’s production environment separates the machine that supplies resources from the server process that implements a service. Borg schedules many copies of a job, replaces failed tasks, and allocates resources across failure domains. Because tasks move, naming and discovery must resolve a stable identity to a changing network location. Durable storage, coordination, and networking provide further shared foundations. The Shakespeare example connects these abstractions: a batch job builds an index, while an online request passes through frontends and backends to retrieve it. Placement is a reliability decision as well as a latency decision. Spare tasks cover maintenance and failure, and regional data replicas avoid distant reads. These are architectural relationships to understand, not a requirement to reproduce Google’s internal tools.",
+  "source": {
+    "startLine": 1147,
+    "endLine": 1484,
+    "reference": "text lines 1147–1484"
+  },
+  "concepts": [
+    {
+      "title": "Machines, servers, jobs, and tasks",
+      "body": "In this chapter, a machine is a physical or virtual resource and a server is a running program that offers a service. A job describes work submitted to Borg; its tasks are individual running copies. Separating these identities allows many services to share machines and lets a failed task restart elsewhere without tying the service permanently to one host.",
+      "example": "Teaching extension: Three API tasks share a pool of machines with batch workers rather than owning three named hosts.",
+      "source": "text lines 1147–1484"
+    },
+    {
+      "title": "Scheduling and failure domains",
+      "body": "Borg places tasks according to their resource requests and supervises their execution. Placement must consider correlated failure: several replicas on one rack can all disappear with its switch. Resource allocation and distribution therefore work together. Replacing a crashed task restores a process, but enough surviving capacity must remain to handle requests while replacement is underway.",
+      "example": "Teaching extension: Four replicas span racks so one switch failure does not remove every copy.",
+      "source": "text lines 1147–1484"
+    },
+    {
+      "title": "Discovery, storage, and coordination",
+      "body": "A moving task needs a stable name that resolves to its current address. BNS supplies that indirection, while Chubby supports consistent coordination and naming information. Durable data lives in shared storage layers rather than depending on a task’s local scratch disk. Colossus, Bigtable, and Spanner illustrate different layers and consistency choices; they are not interchangeable substitutes for every workload.",
+      "example": "Teaching extension: A rescheduled search backend resolves its data service by name instead of retaining an obsolete address.",
+      "source": "text lines 1147–1484"
+    },
+    {
+      "title": "A request consumes regional capacity",
+      "body": "The example search service combines an offline indexing pipeline with online serving. Load balancing selects suitable frontends and backends, and regional replicas reduce data-access latency. Task counts must cover the forecast peak plus the tasks unavailable during maintenance and failure. Moving traffic to another region trades local redundancy cost against additional latency and the destination’s available capacity.",
+      "example": "Teaching extension: At 80 requests per second per task, 750 requests per second need ten serving tasks before spare capacity.",
+      "source": "text lines 1147–1484"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A server name identifies a permanent physical machine.",
+      "correction": "Here a server is software; task discovery follows it when the scheduler changes its placement."
+    },
+    {
+      "claim": "Enough total replicas guarantee failure tolerance.",
+      "correction": "Replicas must also span relevant failure domains and leave enough usable capacity after a failure."
+    }
+  ],
+  "scenario": {
+    "title": "Place work on shared machines",
+    "context": "A cluster has homogeneous machines but a memory-heavy indexing job competes with latency-sensitive search servers. The scheduler can place both through a shared resource allocator or reserve machines by service.",
+    "options": [
+      {
+        "label": "Use shared allocation with explicit requests",
+        "benefit": "Unused capacity can serve either workload and placement stays adaptable.",
+        "cost": "Bad requests can cause noisy-neighbor pressure unless monitored.",
+        "consequence": "The team measures saturation and adjusts requests as demand changes."
+      },
+      {
+        "label": "Reserve dedicated machines",
+        "benefit": "Latency-sensitive work gets predictable headroom and simpler local diagnosis.",
+        "cost": "Reservation strands capacity and makes hardware growth expensive.",
+        "consequence": "Search remains stable, but idle reserved machines lower overall utilization."
+      }
+    ],
+    "debrief": "Shared allocation trades local predictability for adaptable capacity; resource requests and health evidence decide whether the trade remains safe."
+  },
+  "quiz": [
+    {
+      "question": "A Borg task moves to another host. What lets clients keep finding it?",
+      "options": [
+        "Its old local disk path",
+        "Its stable task name resolved through BNS",
+        "A promise never to restart it"
+      ],
+      "answer": 1,
+      "explanation": "Naming indirection separates logical task identity from its current host and port."
+    },
+    {
+      "question": "A task serves 100 QPS and peak demand is 950 QPS. How many tasks cover one update plus one simultaneous task failure?",
+      "options": [
+        "10",
+        "11",
+        "12"
+      ],
+      "answer": 2,
+      "explanation": "Ten tasks serve the peak; two additional tasks cover the two unavailable copies."
+    },
+    {
+      "question": "Why put a copy of a read-heavy search index near each serving region?",
+      "options": [
+        "To reduce remote-read latency and provide regional resilience",
+        "To eliminate the need for frontend load balancing",
+        "To make local scratch disks durable"
+      ],
+      "answer": 0,
+      "explanation": "Regional storage avoids cross-region reads and provides additional copies of the dataset."
+    }
+  ],
+  "exercise": {
+    "title": "Trace a request and its failure domains",
+    "prompt": "Sketch a search request from regional entry point to persistent index. Calculate serving and spare tasks for a peak of 750 QPS at 80 QPS per task.",
+    "fields": [
+      {
+        "label": "Request path",
+        "placeholder": "Which frontend, backend, discovery, and storage services participate?"
+      },
+      {
+        "label": "Task placement",
+        "placeholder": "Where can one rack failure remove several copies?"
+      },
+      {
+        "label": "Spare capacity",
+        "placeholder": "How many tasks cover the peak, one update, and one failure?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "The Production Environment at Google, from the Viewpoint of an SRE: MACHINE to ALLOCATOR to SERVICE to TEAM",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "MACHINE",
+        "caption": "inputs and constraints",
+        "kind": "service",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "ALLOCATOR",
+        "caption": "choose the operating rule",
+        "kind": "router",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "SERVICE",
+        "caption": "observe the effect",
+        "kind": "service",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "TEAM",
+        "caption": "feed learning back",
+        "kind": "team",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      },
+      {
+        "from": "learn",
+        "to": "observe",
+        "dashed": true
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "inputs and constraints"
+      },
+      {
+        "node": "decide",
+        "text": "choose the operating rule"
+      },
+      {
+        "node": "act",
+        "text": "observe the effect"
+      },
+      {
+        "node": "learn",
+        "text": "feed learning back"
+      }
+    ]
+  }
+}

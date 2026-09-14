@@ -1,0 +1,185 @@
+{
+  "number": 3,
+  "title": "Creating the Big Picture",
+  "part": "The Big Picture",
+  "subtitle": "Turn shared direction into useful choices",
+  "summary": "A big-picture technical leader turns scattered problems into a coherent direction. Vision describes a desired future, strategy describes the coordinated choices to reach it, and written artifacts align people without requiring the staff engineer to become a permanent bottleneck.",
+  "source": {
+    "startLine": 2581,
+    "endLine": 4070,
+    "reference": "text lines 2581–4070"
+  },
+  "concepts": [
+    {
+      "title": "Vision",
+      "body": "A technical vision describes a coherent future state and why it matters to users and the organization. Describe the future in terms that let people make compatible choices. A useful vision connects the technical landscape to the organization's needs, so it helps people decide what belongs in that future and what should gradually disappear.",
+      "example": "Teaching extension: A vision says every team can safely evolve the API without a central queue.",
+      "source": "text lines 2581–4070"
+    },
+    {
+      "title": "Strategy",
+      "body": "A strategy is a set of coordinated choices and actions, including what will not be pursued. A vision names a destination; strategy makes choices about reaching it. Account for the starting position, constraints, and priorities. A list of desirable technologies is not enough because it does not resolve competition for people, time, and attention.",
+      "example": "Teaching extension: A strategy sequences compatibility, migration, and deletion over two quarters.",
+      "source": "text lines 2581–4070"
+    },
+    {
+      "title": "Alignment",
+      "body": "Alignment means affected people share enough context to make compatible decisions without constant escalation. Bring people into the process before presenting a finished answer. Understanding their constraints can change the plan and creates shared ownership. Agreement that a document sounds good is weaker than teams being able to explain how it changes their next decision.",
+      "example": "Teaching extension: Owners align on one API principle while choosing different implementations.",
+      "source": "text lines 2581–4070"
+    },
+    {
+      "title": "Writing",
+      "body": "Writing creates durable institutional memory and lets readers challenge reasoning asynchronously. Make the audience, purpose, and needed response clear. A written artifact can be reviewed, revisited, and updated as circumstances change. It helps people outside the original conversation see both the proposed direction and the reasoning behind it.",
+      "example": "Teaching extension: An RFC preserves the rejected alternatives and the reason for the choice.",
+      "source": "text lines 2581–4070"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "a staff-plus role is mainly about applying a universal formula.",
+      "correction": "The chapter treats judgment as contextual: identify forces, listen to evidence, and adapt the response to the actual system and people."
+    },
+    {
+      "claim": "A visible activity or artifact proves the work is complete.",
+      "correction": "Completion requires a useful outcome, shared understanding, and a way to notice whether the decision worked over time."
+    }
+  ],
+  "scenario": {
+    "title": "Publish a direction",
+    "context": "Four teams propose incompatible data APIs. You have one quarter to reduce duplicate work and cannot centralize every implementation decision.",
+    "options": [
+      {
+        "label": "Write vision and strategy",
+        "benefit": "Clarifies the decision and creates a workable path through the stated constraint.",
+        "cost": "Writing and socializing principles takes time before implementation appears.",
+        "consequence": "A short vision, decision principles, and staged strategy align local designs while leaving teams autonomy."
+      },
+      {
+        "label": "Issue a central design",
+        "benefit": "Feels faster or safer in the immediate moment and preserves a familiar habit.",
+        "cost": "Central approval accumulates edge cases and makes the author a gatekeeper.",
+        "consequence": "One design is fast to announce, but teams route every edge case back to you and delivery slows."
+      }
+    ],
+    "debrief": "Both options respond to a real constraint. The stronger choice makes ownership and consequences visible, then creates a point to learn and adjust."
+  },
+  "quiz": [
+    {
+      "question": "Which statement is a vision rather than a task?",
+      "options": [
+        "Replace library X on Friday",
+        "Teams can safely ship independent changes",
+        "Schedule a weekly migration meeting"
+      ],
+      "answer": 1,
+      "explanation": "A vision describes a coherent future state that can guide many decisions."
+    },
+    {
+      "question": "What turns a desired future into strategy?",
+      "options": [
+        "Calling the document a roadmap",
+        "Adding more ambitious adjectives",
+        "Choosing actions and priorities under constraints"
+      ],
+      "answer": 2,
+      "explanation": "Strategy makes coordinated choices about reaching the destination."
+    },
+    {
+      "question": "Why involve affected teams before finalizing a technical direction?",
+      "options": [
+        "Their constraints can improve the plan and its ownership",
+        "It guarantees unanimous agreement",
+        "It removes the need to explain the decision"
+      ],
+      "answer": 0,
+      "explanation": "Early participation supplies context and builds shared understanding."
+    }
+  ],
+  "exercise": {
+    "title": "Make the next move legible",
+    "prompt": "Describe a staff-level decision, the people and terrain involved, and the route by which you will learn whether it worked.",
+    "fields": [
+      {
+        "label": "What future state matters?",
+        "placeholder": "Write the concrete facts, people, and constraint."
+      },
+      {
+        "label": "Which choices create coherence?",
+        "placeholder": "State the choice and its trade-off."
+      },
+      {
+        "label": "What will we explicitly leave flexible?",
+        "placeholder": "Name the evidence or conversation that will revisit it."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "whiteboard",
+        "label": "WHITEBOARD",
+        "kind": "whiteboard",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "stakeholders",
+        "label": "STAKEHOLDERS",
+        "kind": "stakeholders",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "blueprint",
+        "label": "BLUEPRINT",
+        "kind": "document",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "handoff",
+        "label": "HANDOFF",
+        "kind": "handoff",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "whiteboard",
+        "to": "stakeholders"
+      },
+      {
+        "from": "stakeholders",
+        "to": "blueprint"
+      },
+      {
+        "from": "blueprint",
+        "to": "handoff"
+      }
+    ],
+    "steps": [
+      {
+        "node": "whiteboard",
+        "text": "Use this whiteboard view to make the next decision visible."
+      },
+      {
+        "node": "stakeholders",
+        "text": "Use this stakeholders view to make the next decision visible."
+      },
+      {
+        "node": "blueprint",
+        "text": "Use this blueprint view to make the next decision visible."
+      },
+      {
+        "node": "handoff",
+        "text": "Use this handoff view to make the next decision visible."
+      }
+    ]
+  }
+}

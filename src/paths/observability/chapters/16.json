@@ -1,0 +1,185 @@
+{
+  "number": 16,
+  "title": "Efficient Data Storage",
+  "part": "Observability at Scale",
+  "subtitle": "Store for unpredictable questions and fresh answers",
+  "summary": "Observability storage must support an unusual combination: high-volume event ingestion, arbitrary filtering and grouping, rapid queries, fresh data, and resilience during incidents. Pre-aggregating into fixed time series sacrifices the context needed for unfamiliar questions, while indexing every possible field can become prohibitively expensive. The chapter uses Honeycomb’s Retriever to illustrate a different trade-off. Time-bounded segments reduce the search space, and column-oriented data within them limits reads to fields a query actually uses. Append-only ingestion accommodates out-of-order events through segment timestamp ranges rather than constant rewriting. This is a reference design, not a universal prescription. Its value lies in connecting physical storage choices to the speed, fidelity, and availability required by an engineer’s investigation loop.",
+  "source": {
+    "startLine": 6676,
+    "endLine": 7402,
+    "reference": "text lines 6676–7402"
+  },
+  "concepts": [
+    {
+      "title": "The workload determines the design",
+      "body": "Investigators do not know every useful field or grouping in advance. Storage must therefore retain event-level attributes and answer new combinations quickly, including newly arrived data. Optimizing only prepared queries can leave unfamiliar investigations slow or impossible. Freshness and fault tolerance matter too, because responders need to verify changes while production is already under stress.",
+      "example": "A previously unused tenant-build combination must be queryable during an incident.",
+      "source": "text lines 6676–7402"
+    },
+    {
+      "title": "Time segments bound the scan",
+      "body": "Retriever groups incoming data into append-only segments and records their oldest and newest event timestamps. Queries select segments whose ranges overlap the requested interval. Events need not arrive in exact timestamp order, but mixing very old backfill with fresh data can widen many segment ranges and increase the amount a later query must scan.",
+      "example": "A narrow time query skips segments entirely outside its interval.",
+      "source": "text lines 6676–7402"
+    },
+    {
+      "title": "Columns reduce unnecessary reads",
+      "body": "Within relevant segments, column-oriented storage lets a query read the fields it filters, groups, or returns instead of every attribute in every event. Sparse and repeated values can also compress efficiently. Reconstructing full rows requires additional work, so the design balances analytical scans with the need to inspect individual events and traces.",
+      "example": "A latency-by-build query reads timestamp, duration, and build rather than all request headers.",
+      "source": "text lines 6676–7402"
+    },
+    {
+      "title": "Avoid preselecting every future question",
+      "body": "A traditional metric series gains efficiency when the same label combinations repeat. Unique request-like attributes undermine that assumption by generating many distinct combinations. The chapter instead emphasizes retained events and efficient reads without requiring every interesting dimension to be predicted and specially indexed, preserving flexibility for the next unfamiliar investigation.",
+      "example": "Turning request IDs into metric labels creates new series rather than reusable aggregate buckets.",
+      "source": "text lines 6676–7402"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Time partitioning requires perfectly ordered event arrival.",
+      "correction": "Segment metadata can track timestamp ranges while writes remain append-only; late data affects scan efficiency."
+    },
+    {
+      "claim": "Retriever is presented as the only valid observability database design.",
+      "correction": "It is a concrete reference architecture used to explain trade-offs and functional requirements."
+    }
+  ],
+  "scenario": {
+    "title": "Backfill slows live investigation",
+    "context": "A pipeline mixes week-old spans with current events, and narrow recent-time queries now scan many segments.",
+    "options": [
+      {
+        "label": "Examine segment ranges and separate backfill handling",
+        "benefit": "Can restore useful time pruning while retaining historical data.",
+        "cost": "Adds ingestion or partition-management complexity.",
+        "consequence": "Recent queries may scan fewer irrelevant segments once backfill is organized appropriately."
+      },
+      {
+        "label": "Increase query workers immediately",
+        "benefit": "May reduce latency by adding capacity.",
+        "cost": "Can mask widening scan ranges and raise operating cost.",
+        "consequence": "The same poorly pruned queries consume a larger worker fleet."
+      }
+    ],
+    "debrief": "Understand whether the scan is large because of data organization before treating it only as a capacity problem."
+  },
+  "quiz": [
+    {
+      "question": "What is a likely effect of mixing very old backfill into every fresh segment?",
+      "options": [
+        "Narrower timestamp bounds because segments are grouped by arrival order",
+        "More segments overlap a typical query window",
+        "No read impact because timestamp ranges are irrelevant once files are immutable"
+      ],
+      "answer": 1,
+      "explanation": "Wider segment bounds weaken time-based pruning even when ingestion remains valid."
+    },
+    {
+      "question": "Why does column storage help a query using only three of many fields?",
+      "options": [
+        "It retrieves each full row before discarding the unused fields",
+        "It can skip the time filter whenever columns are compressed",
+        "It can avoid reading unrelated columns"
+      ],
+      "answer": 2,
+      "explanation": "Reading only required fields reduces the analytical scan workload."
+    },
+    {
+      "question": "Why is a request ID an awkward traditional metric label?",
+      "options": [
+        "It creates many new label combinations with little reuse",
+        "The identifier forces all dimensions to be stored in a single numeric value",
+        "It improves series reuse because each request has an exact label"
+      ],
+      "answer": 0,
+      "explanation": "High uniqueness undermines the amortization that makes reused time series efficient."
+    }
+  ],
+  "exercise": {
+    "title": "Connect query needs to storage",
+    "prompt": "Design a recent-event query and identify which storage work it should avoid.",
+    "fields": [
+      {
+        "label": "Time window and relevant fields",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Segments or columns to skip",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Effect of late-arriving events",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "QUERY NEEDS",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "TIME SEGMENTS",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "COLUMNS",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "FLEXIBLE READS",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "A previously unused tenant-build combination must be queryable during an incident."
+      },
+      {
+        "node": "step-1",
+        "text": "A narrow time query skips segments entirely outside its interval."
+      },
+      {
+        "node": "step-2",
+        "text": "A latency-by-build query reads timestamp, duration, and build rather than all request headers."
+      },
+      {
+        "node": "step-3",
+        "text": "Turning request IDs into metric labels creates new series rather than reusable aggregate buckets."
+      }
+    ]
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "number": 6,
+  "title": "Measuring and Reducing Your Code’s Carbon Footprint",
+  "part": "Environment",
+  "subtitle": "Measure energy and carbon intensity before choosing an optimization",
+  "summary": "Software’s carbon footprint depends on physical resources: power, runtime, equipment, and the electricity supplying them. Emissions accounting distinguishes direct operations, purchased energy, and wider value-chain effects so a local improvement does not conceal shifted costs. Workload timing and location can change emissions, but latency, availability, and other constraints still matter. Profiling directs effort toward disproportionate work, as the expensive logging example illustrates; faster execution alone does not establish lower carbon. The data-center cooling case adds an operational lesson: efficiency improvements need domain expertise, tested safety constraints, and human override. Measurement provides the basis for choosing and verifying useful reductions.",
+  "source": {
+    "startLine": 3948,
+    "endLine": 4487,
+    "reference": "text lines 3948–4487"
+  },
+  "concepts": [
+    {
+      "title": "Carbon accounting",
+      "body": "Operational electricity can be converted to carbon dioxide equivalent: energy use depends on average power and runtime, while emissions depend on the carbon intensity of the electricity supplying the location.",
+      "example": "Teaching extension: A batch workload consumes 2 kWh on electricity rated at 300 g CO2e per kWh, yielding 600 g CO2e for that electricity use. The estimate states its boundary and excludes equipment manufacturing.",
+      "source": "text lines 3948-4487"
+    },
+    {
+      "title": "Scopes of emissions",
+      "body": "Scope 1 covers direct emissions, Scope 2 purchased electricity, and Scope 3 other value-chain emissions such as manufacturing and device use. A code optimization may shift impact rather than remove it.",
+      "example": "Teaching extension: A company distinguishes emissions from its own generator, purchased electricity, and hardware manufacturing. Moving computation to a supplier changes the accounting boundary rather than automatically eliminating its footprint.",
+      "source": "text lines 3948-4487"
+    },
+    {
+      "title": "Where and when",
+      "body": "Processor usage, data-center location, and time of day influence emissions. Moving flexible work to a cleaner region or lower-carbon period can help, but availability, latency, resilience, and user geography constrain the choice.",
+      "example": "Teaching extension: A flexible report can run overnight in a region with lower-carbon electricity, provided it still meets the morning deadline. The team checks the electricity data and transfer costs before moving it.",
+      "source": "text lines 3948-4487"
+    },
+    {
+      "title": "Profile before optimize",
+      "body": "Profiling found that a debugging Log.Write call dominated an ecommerce function’s work. Measuring first directs effort to expensive behavior; faster code is not automatically lower carbon if it causes more parallel processors or traffic.",
+      "example": "Teaching extension: Profiling shows that verbose logging accounts for much of a batch job’s work. The team reduces unnecessary log generation and remeasures energy use instead of assuming a faster algorithm is the largest opportunity.",
+      "source": "text lines 3948-4487"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Carbon accounting is equivalent to ordinary functional correctness.",
+      "correction": "The chapter separates this concern from “works as coded”: Operational electricity can be converted to carbon dioxide equivalent: energy use depends on average power and runtime, while emissions depend on the carbon intensity of the electricity supplying the location.."
+    },
+    {
+      "claim": "A single review proves the product will remain responsible.",
+      "correction": "Users, contexts, and dependencies change; feedback, monitoring, and revision are required."
+    }
+  ],
+  "scenario": {
+    "title": "Carbon-aware batch processing",
+    "context": "A nightly analytics job uses substantial compute. The team can profile and reduce waste, or move flexible work to a lower-carbon region and time.",
+    "options": [
+      {
+        "label": "Profile, then schedule flexible work",
+        "benefit": "Targets the largest processor cost and uses cleaner electricity when constraints allow.",
+        "cost": "Migration and delayed results add operational complexity and may affect freshness.",
+        "consequence": "The team removes a logging hotspot and shifts nonurgent work, documenting latency and resilience limits."
+      },
+      {
+        "label": "Optimize runtime only",
+        "benefit": "Can return results sooner with familiar code changes.",
+        "cost": "More parallel processors may offset energy savings.",
+        "consequence": "A fast rewrite lowers wall time but raises total compute, prompting a measurement-led correction."
+      }
+    ],
+    "debrief": "Both choices are defensible under different constraints; the responsible decision states the accepted consequence and the evidence that could change it."
+  },
+  "quiz": [
+    {
+      "question": "Which quantities are used in the chapter’s basic carbon calculation?",
+      "options": [
+        "User satisfaction and screen size",
+        "Energy use and carbon intensity",
+        "Number of commits and lines of code"
+      ],
+      "answer": 1,
+      "explanation": "Electricity use depends on power and runtime; emissions also depend on the supplying grid’s carbon intensity."
+    },
+    {
+      "question": "What are Scope 1, Scope 2, and Scope 3?",
+      "options": [
+        "Direct emissions, purchased energy emissions, and other value-chain emissions.",
+        "Three levels of CPU utilization.",
+        "Three kinds of privacy consent."
+      ],
+      "answer": 0,
+      "explanation": "The chapter uses the standard scope distinction to broaden accounting."
+    },
+    {
+      "question": "Why profile before optimizing for carbon?",
+      "options": [
+        "Carbon depends only on programming language.",
+        "Profiling always increases emissions permanently.",
+        "Measurement identifies the expensive behavior; faster code is not automatically lower carbon."
+      ],
+      "answer": 2,
+      "explanation": "The debugging Log.Write case shows how profiling finds disproportionate work."
+    }
+  ],
+  "exercise": {
+    "title": "Measure carbon",
+    "prompt": "Pick a workload with recurring compute.",
+    "fields": [
+      {
+        "label": "Power and runtime inputs",
+        "placeholder": "Power and runtime inputs"
+      },
+      {
+        "label": "Location and time",
+        "placeholder": "Location and time"
+      },
+      {
+        "label": "Profile-led reduction and trade-off",
+        "placeholder": "Profile-led reduction and trade-off"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "n0",
+        "label": "POWER",
+        "kind": "gauge",
+        "tone": "sage",
+        "x": 100,
+        "y": 80
+      },
+      {
+        "id": "n1",
+        "label": "LOCATION",
+        "kind": "leaf",
+        "tone": "peach",
+        "x": 270,
+        "y": 80
+      },
+      {
+        "id": "n2",
+        "label": "TIME",
+        "kind": "clock",
+        "tone": "lilac",
+        "x": 100,
+        "y": 210
+      },
+      {
+        "id": "n3",
+        "label": "CARBON",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 270,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "n0",
+        "to": "n1"
+      },
+      {
+        "from": "n1",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "to": "n3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "n0",
+        "text": "Examine power using the chapter evidence."
+      },
+      {
+        "node": "n1",
+        "text": "Examine location using the chapter evidence."
+      },
+      {
+        "node": "n2",
+        "text": "Examine time using the chapter evidence."
+      },
+      {
+        "node": "n3",
+        "text": "Examine carbon using the chapter evidence."
+      }
+    ]
+  }
+}

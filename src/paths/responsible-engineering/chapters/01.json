@@ -1,0 +1,185 @@
+{
+  "number": 1,
+  "title": "Responsible Software Engineering: A Quick Introduction",
+  "part": "Foundations",
+  "subtitle": "Treat social benefit and foreseeable harm as engineering requirements",
+  "summary": "Software can work according to its specification and still harm the people using it. The opening voicemail example shows how an apparently ordinary transcription feature interacts with a person’s history and circumstances. Responsible engineering therefore expands success beyond correctness to include social benefit, fairness, privacy, safety, and environmental effects. Bringing these concerns into early product and architectural decisions creates more room to change the design. Engineers also need expertise and lived experience beyond their own. Feedback after release remains essential because prediction is incomplete. Responsibility is continuing work on consequences, with time and priorities allocated to it alongside other architectural requirements.",
+  "source": {
+    "startLine": 419,
+    "endLine": 745,
+    "reference": "text lines 419–745"
+  },
+  "concepts": [
+    {
+      "title": "Social benefit",
+      "body": "Responsible software is intended to benefit society, avoid harm to people and avoid needless environmental damage. This expands engineering success beyond function and reliability: teams ask who gains, who bears risk, and what happens after release.",
+      "example": "Teaching extension: A transit-planning service measures whether residents can reach essential destinations, not merely whether routes are calculated quickly. It checks whose journeys become worse when an optimization changes transfers.",
+      "source": "text lines 419-745"
+    },
+    {
+      "title": "Proactivity",
+      "body": "The chapter asks engineers to foresee potential harm early, when product goals and architecture can still change. Early investigation is cheaper than repairing public harm after launch, and it makes responsibility part of ordinary planning.",
+      "example": "Teaching extension: Before building a public-service form, the team tests whether its identity requirements exclude residents without the assumed documents, while the enrollment design can still change.",
+      "source": "text lines 419-745"
+    },
+    {
+      "title": "Specialists",
+      "body": "Responsible work needs perspectives engineers may not possess. Sociologists, lawyers, teachers, ethicists, health experts, accessibility practitioners, and affected communities can reveal assumptions hidden by an engineering-only review.",
+      "example": "Teaching extension: A school communication tool is reviewed with teachers, accessibility practitioners, and families using different languages. They identify assumptions that a developer-only usability session missed.",
+      "source": "text lines 419-745"
+    },
+    {
+      "title": "Feedback and humility",
+      "body": "Users need ways to report harm, while teams need humility about what they cannot predict. Equal opportunity, curiosity, and attention to complexity turn feedback into a design input rather than a queue of defects.",
+      "example": "Teaching extension: After residents report confusing eligibility wording, a civic portal opens a feedback route and revises the explanation with affected users rather than dismissing the reports because the rules executed correctly.",
+      "source": "text lines 419-745"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Social benefit is equivalent to ordinary functional correctness.",
+      "correction": "The chapter separates this concern from “works as coded”: Responsible software is intended to benefit society, avoid harm to people and avoid needless environmental damage."
+    },
+    {
+      "claim": "A single review proves the product will remain responsible.",
+      "correction": "Users, contexts, and dependencies change; feedback, monitoring, and revision are required."
+    }
+  ],
+  "scenario": {
+    "title": "Google Voice voicemail transcription",
+    "context": "A voicemail product mistranscribes disconnected beeps as threatening words. The team must reduce distress for users while preserving useful transcription and a workable escalation path.",
+    "options": [
+      {
+        "label": "Add uncertainty cues and an easy correction/reporting path",
+        "benefit": "Users can recognize doubtful transcripts and the team receives evidence about harmful errors.",
+        "cost": "Extra interface friction and review volume may slow routine use.",
+        "consequence": "The team pilots confidence wording and triages reports, finding a recurring accent and audio-quality failure to fix."
+      },
+      {
+        "label": "Keep the simple transcript",
+        "benefit": "Preserves speed and familiar interaction for ordinary calls.",
+        "cost": "Users may treat an incorrect transcript as authoritative and bear the emotional cost.",
+        "consequence": "A public complaint reveals the pattern; the team must retrofit reporting and explain why the original output was wrong."
+      }
+    ],
+    "debrief": "Both choices are defensible under different constraints; the responsible decision states the accepted consequence and the evidence that could change it."
+  },
+  "quiz": [
+    {
+      "question": "Which statement matches responsible software engineering?",
+      "options": [
+        "It optimizes only runtime performance.",
+        "It seeks social benefit while avoiding harm to people and the earth.",
+        "It delegates all value judgments to users."
+      ],
+      "answer": 1,
+      "explanation": "The chapter defines responsibility as social benefit and avoiding harm, including environmental harm."
+    },
+    {
+      "question": "Why does the chapter recommend involving specialists?",
+      "options": [
+        "They reveal social, legal, ethical, health, and accessibility assumptions engineers may miss.",
+        "They replace engineering tests.",
+        "They guarantee every outcome is fair."
+      ],
+      "answer": 0,
+      "explanation": "Specialists broaden the team’s perspective; they do not guarantee certainty."
+    },
+    {
+      "question": "What is a responsible response to an unexpected harmful user report?",
+      "options": [
+        "Ignore it because the code is correct.",
+        "Remove all feedback to protect delivery speed.",
+        "Create a feedback path, investigate consequences, and change the product when warranted."
+      ],
+      "answer": 2,
+      "explanation": "Responsibility continues after launch through feedback and correction."
+    }
+  ],
+  "exercise": {
+    "title": "Map responsibility",
+    "prompt": "Describe a product, its social benefit, and two possible harms.",
+    "fields": [
+      {
+        "label": "Affected people",
+        "placeholder": "Affected people"
+      },
+      {
+        "label": "Early safeguard",
+        "placeholder": "Early safeguard"
+      },
+      {
+        "label": "Feedback path",
+        "placeholder": "Feedback path"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "n0",
+        "label": "VALUES",
+        "kind": "whiteboard",
+        "tone": "sage",
+        "x": 100,
+        "y": 80
+      },
+      {
+        "id": "n1",
+        "label": "PEOPLE",
+        "kind": "person",
+        "tone": "peach",
+        "x": 270,
+        "y": 80
+      },
+      {
+        "id": "n2",
+        "label": "FEEDBACK",
+        "kind": "listening",
+        "tone": "lilac",
+        "x": 100,
+        "y": 210
+      },
+      {
+        "id": "n3",
+        "label": "PRACTICE",
+        "kind": "colleague",
+        "tone": "honey",
+        "x": 270,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "n0",
+        "to": "n1"
+      },
+      {
+        "from": "n1",
+        "to": "n2"
+      },
+      {
+        "from": "n2",
+        "to": "n3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "n0",
+        "text": "Examine values using the chapter evidence."
+      },
+      {
+        "node": "n1",
+        "text": "Examine people using the chapter evidence."
+      },
+      {
+        "node": "n2",
+        "text": "Examine feedback using the chapter evidence."
+      },
+      {
+        "node": "n3",
+        "text": "Examine practice using the chapter evidence."
+      }
+    ]
+  }
+}

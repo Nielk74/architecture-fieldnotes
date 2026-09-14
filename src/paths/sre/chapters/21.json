@@ -1,0 +1,190 @@
+{
+  "number": 21,
+  "title": "Handling Overload",
+  "part": "Distributed systems",
+  "subtitle": "Keep useful work flowing when demand exceeds resources",
+  "summary": "Overload handling must protect individual tasks even when global load balancing works imperfectly. Resource measurements are more dependable than a fixed queries-per-second ceiling because request costs change. Per-customer quotas limit the damage one client can impose, while adaptive client throttling avoids spending backend capacity merely rejecting requests. Request criticality tells successive dependencies which work may be shed first; it is separate from latency sensitivity. Backends use local utilization to reject work before exhaustion, preserving throughput for requests they can serve. Retries may help when only a few tasks are busy, but request and client budgets prevent them from magnifying widespread overload. Connection maintenance and sudden connection bursts also consume resources and may need separate protection.",
+  "source": {
+    "startLine": 8604,
+    "endLine": 9019,
+    "reference": "text lines 8604–9019"
+  },
+  "concepts": [
+    {
+      "title": "Resource-based admission and customer quotas",
+      "body": "A request count is not a stable measure of load when requests vary in cost or software changes their resource needs. Model capacity using the limiting resources, such as CPU and memory, and assign customers negotiated usage limits. This helps contain a customer’s excess demand, although oversubscribed quotas still require attention when several customers approach their limits together.",
+      "example": "Teaching extension: A new expensive query type exhausts CPU even though the request rate remains below yesterday’s safe limit.",
+      "source": "text lines 8604–9019"
+    },
+    {
+      "title": "Adaptive client-side throttling",
+      "body": "Rejecting a request still consumes backend resources. A client can reduce that cost by tracking attempted requests and backend acceptances over a recent window, then dropping some attempts locally as rejection increases. The acceptance multiplier trades faster detection of recovery against more rejected traffic reaching the server. Sparse clients have weaker observations, so the mechanism’s usefulness depends on their request history.",
+      "example": "Teaching extension: During quota exhaustion, the client fails excess calls locally instead of sending every call to receive another rejection.",
+      "source": "text lines 8604–9019"
+    },
+    {
+      "title": "Criticality-aware overload protection",
+      "body": "Criticality identifies the user impact of losing a request. Propagating it through RPC dependencies lets each overloaded task discard lower-value work first using local CPU, memory, or executor-load signals. Latency sensitivity is a different dimension: an optional suggestion can need a very fast response while remaining safe to omit. Protection should preserve useful throughput rather than make an overloaded task refuse everything.",
+      "example": "Teaching extension: A search service omits optional suggestions under pressure while retaining resources for the main search results.",
+      "source": "text lines 8604–9019"
+    },
+    {
+      "title": "Bounded retries and connection costs",
+      "body": "An isolated busy backend may justify retrying elsewhere, but widespread overload makes additional attempts harmful. Per-request limits, aggregate client retry budgets, and explicit nonretryable overload responses constrain amplification. Only the layer directly above the rejecting dependency should retry. Resource accounting must also include connection setup and health checks; a burst of idle clients can overload a service without a large query rate.",
+      "example": "Teaching extension: A batch proxy absorbs thousands of new client connections while forwarding a controlled stream of work to serving backends.",
+      "source": "text lines 8604–9019"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Rejecting requests is effectively free.",
+      "correction": "Protocol handling and connection work still consume resources; local client throttling can prevent those costs."
+    },
+    {
+      "claim": "High-priority requests must also be the most latency-sensitive.",
+      "correction": "Criticality describes the consequence of dropping work, while latency describes how soon a useful response is needed."
+    }
+  ],
+  "scenario": {
+    "title": "Protect service under overload",
+    "context": "A recommendation backend is saturated and its queue is growing. Search results can omit recommendations, but checkout requests must remain available.",
+    "options": [
+      {
+        "label": "Shed optional work and degrade recommendations",
+        "benefit": "Critical capacity is preserved and users receive a reduced experience.",
+        "cost": "The degraded response needs a clear user contract.",
+        "consequence": "The service rejects low-priority recommendation work and serves cached results."
+      },
+      {
+        "label": "Accept every request until queues drain",
+        "benefit": "No requests are rejected at the edge.",
+        "cost": "Queue growth consumes memory and can take down checkout too.",
+        "consequence": "The shared process exhausts resources and loses both features."
+      }
+    ],
+    "debrief": "Lower-criticality work should give way before resource exhaustion harms essential requests. Protect shared tasks with utilization-based admission, and ensure clients do not replace shed traffic with uncontrolled retries."
+  },
+  "quiz": [
+    {
+      "question": "What does adaptive client throttling save that backend rejection cannot?",
+      "options": [
+        "The client’s need to keep recent acceptance statistics",
+        "Network and backend work for requests rejected locally",
+        "The need for any server-side overload protection"
+      ],
+      "answer": 1,
+      "explanation": "Local rejection avoids sending and processing the doomed attempt."
+    },
+    {
+      "question": "When do retries most plausibly help an overload response?",
+      "options": [
+        "When a small subset of tasks is busy and other tasks have spare capacity",
+        "When all downstream layers each retry the same failure",
+        "When the backend explicitly forbids retrying"
+      ],
+      "answer": 0,
+      "explanation": "A bounded retry can find remaining capacity when overload is localized."
+    },
+    {
+      "question": "Why can optional search suggestions be both highly sheddable and latency-sensitive?",
+      "options": [
+        "Their short response deadline makes them the highest criticality",
+        "Their low computational cost guarantees capacity during overload",
+        "Their omission is tolerable, but late suggestions have little value"
+      ],
+      "answer": 2,
+      "explanation": "Latency and user impact are separate dimensions."
+    }
+  ],
+  "exercise": {
+    "title": "Define overload admission",
+    "prompt": "For a service with critical transactions and optional enrichment, specify how excess demand will be handled before its resources are exhausted.",
+    "fields": [
+      {
+        "label": "Resource signal",
+        "placeholder": "What local CPU, memory, or executor-load signal triggers protection?"
+      },
+      {
+        "label": "Criticality",
+        "placeholder": "Which work is shed first, and what reduced response remains useful?"
+      },
+      {
+        "label": "Client behavior",
+        "placeholder": "How will throttling, retry limits, and error responses prevent amplification?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Define overload admission",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "Requests",
+        "caption": "Request criticality",
+        "kind": "queue",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "Utilization",
+        "caption": "Resource pressure",
+        "kind": "gauge",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "Admission",
+        "caption": "Early rejection",
+        "kind": "gateway",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "Results",
+        "caption": "Useful throughput",
+        "kind": "service",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "Incoming work carries its criticality across RPC calls."
+      },
+      {
+        "node": "decide",
+        "text": "Local resource pressure determines admission thresholds."
+      },
+      {
+        "node": "act",
+        "text": "Reject lower-criticality work early and cheaply."
+      },
+      {
+        "node": "learn",
+        "text": "Keep completing the useful work that fits available capacity."
+      }
+    ]
+  }
+}

@@ -86,7 +86,7 @@ Use a `[data-scene-player]` wrapper with numbered `[data-scene-step]` buttons, `
 
 The added SVG classes `.iso-shadow`, `.iso-traveler`, `.iso-work-ring`, and `.iso-scan` share CSS animation. Keep meaningful step order in the recipe; do not rely on painter order to tell the story. A teaching animation illustrates the stated scenario, not every possible runtime execution or an empirical benchmark.
 
-Pip's six forms now use book-wide XP thresholds: 0, 100, 400, 900, 1600, 2400. `nextEvolution(xp)` supplies the next milestone. Every avatar uses the same persisted earned-XP ledger from `src/progress.js`.
+Pip's ten forms use cumulative XP thresholds: 0, 100, 400, 900, 1600, 2400, 4000, 6500, 9500, 12400. `nextEvolution(xp)` supplies the next milestone. Every avatar uses the combined earned XP from the independently persisted path ledgers from `src/progress.js`.
 
 ### Explicit motion preference
 
@@ -127,3 +127,30 @@ Audited all 12 original scene presets, 23 chapter recipes, and the interactive p
 The activity halo (`.iso-work-ring`) sits behind the subject at its ground shadow, outside the floating object group. It uses a palette-colored blurred ellipse with a slow, small breathing cycle; avoid expanding outlines across the object or its label. Keep the halo hidden in static exports and governed by the shared pause control.
 
 The scan (`.iso-scan`) is a broad, softly graduated light band clipped to the object geometry, excluding its text. It travels inside the floating group and never crosses external labels. Per-instance clip and gradient IDs keep repeated scenes and standalone exports self-contained. Playback, global pause and reduced-motion controls still govern the sweep.
+
+## People, relationships, and practices
+
+`src/illustrations/people.js` extends the same renderer with fourteen semantic primitives. They inherit the palette, ground shadow, floating subject, active-node halo, clipped scan, connection flows, accessible title, and global motion preference. No separate animation timer is created per person.
+
+| Kind | Use it to explain | Local action |
+| --- | --- | --- |
+| `api` | An explicit request and response contract | Request and response indicators |
+| `search` | Retrieving relevant records | A lens moves across records |
+| `colleague` | An individual coworker participating in work | A nod and hand gesture |
+| `mentor` | Experience shared between two people | A shared note and conversational turn |
+| `listening` | A group hearing different perspectives | Alternating speech bubbles |
+| `stakeholders` | Different needs meeting at one decision | A pulsing shared decision |
+| `handoff` | Transferring responsibility with context | A note passes between people |
+| `whiteboard` | Shared direction, a model, or a plan | The diagram draws itself |
+| `agent` | An automated reasoning and action loop | Signal, eyes, and tool arm |
+| `shield` | Protection and deliberate admission | A check is drawn |
+| `leaf` | Resource use and environmental consequences | A leaf moves and energy pulses |
+| `trace` | Causal context across linked operations | A highlight follows the spans |
+| `alert` | A signal that asks for action | Bell movement and signal pulses |
+| `experiment` | Testing a hypothesis against evidence | Rising bubbles and an emerging result |
+
+Use the relationship that matters: mentoring is not a reporting line; listening is not agreement; an agent is not a human coworker. Label an edge or sequence step with what travels—context, responsibility, evidence, or a request. Avoid a generic “observe → decide → act” composition when the chapter teaches a more specific mechanism.
+
+A chapter's `visual` has `nodes`, `edges`, and `steps`. `chapterScene()` supplies consistent positions for three to five nodes. Select kinds by meaning, use short labels, and keep longer explanations in the step caption. For example, a mentoring scene can connect `colleague` (question), `mentor` (guided practice), and `handoff` (independent ownership). The studio automatically includes every path's scenes and every registered primitive.
+
+All local animations are CSS and respect the existing `.motion-paused` and `.iso-sleep` rules. A still export remains a meaningful diagram; website and APK scenes animate when motion is on.

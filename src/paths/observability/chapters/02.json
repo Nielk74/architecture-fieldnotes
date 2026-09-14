@@ -1,0 +1,185 @@
+{
+  "number": 2,
+  "title": "How Debugging Practices Differ Between Observability and Monitoring",
+  "part": "The Path to Observability",
+  "subtitle": "Follow evidence beyond the familiar dashboard",
+  "summary": "Monitoring and exploratory debugging answer different questions. A threshold efficiently recognizes a condition chosen in advance, while an investigation must discover which combination of circumstances produced the current symptom. The chapter challenges a familiar workflow: recognize a graph shape, recall an earlier incident, and apply its fix. That shortcut can mistake a downstream effect for its cause. Moving between unrelated tools also forces responders to reconstruct context mentally. Retained event dimensions support a more explicit sequence of comparisons in which each result guides the next question. Shared query paths make reasoning inspectable by colleagues, so diagnostic skill depends less on being the person with the longest memory of previous outages.",
+  "source": {
+    "startLine": 1280,
+    "endLine": 1658,
+    "reference": "text lines 1280–1658"
+  },
+  "concepts": [
+    {
+      "title": "Recognition has limits",
+      "body": "A dashboard compresses selected measurements into a recognizable picture. That makes it valuable for checking known conditions, but encourages matching today’s graph to yesterday’s failure. Similar symptoms can originate from different mechanisms. Treat the familiar pattern as a hypothesis to test, especially before applying a repair that changes the system and obscures the original evidence.",
+      "example": "Database latency can reflect resource contention rather than an inefficient read query.",
+      "source": "text lines 1280–1658"
+    },
+    {
+      "title": "Comparative investigation",
+      "body": "Start with an observed symptom and identify the requests that exhibit it. Compare that population with requests that do not, then narrow along dimensions that distinguish them. Each comparison should reduce uncertainty or challenge an explanation. This makes the investigation repeatable even for a responder who has never encountered the failure before.",
+      "example": "Compare failed and successful requests by deployment, then inspect the affected deployment by endpoint.",
+      "source": "text lines 1280–1658"
+    },
+    {
+      "title": "Context continuity",
+      "body": "Switching tools is costly when identifiers, time windows, and populations do not align. The responder then performs an implicit join in memory and may correlate measurements from different requests. Carrying request context through the investigation makes these relationships explicit and lets other engineers check the evidence behind a proposed explanation.",
+      "example": "A trace link should preserve the failing request, not merely open a general tracing dashboard.",
+      "source": "text lines 1280–1658"
+    },
+    {
+      "title": "Expertise becomes shareable",
+      "body": "Experienced engineers remain valuable, but intuition should not be the only route to a diagnosis. Saved investigation paths reveal which questions were asked and why a hypothesis changed. Colleagues can retrace those steps and learn a method rather than memorize a conclusion, reducing dependence on the same escalation expert during every unfamiliar incident.",
+      "example": "An on-call handoff includes the failing cohort and ruled-out hypotheses.",
+      "source": "text lines 1280–1658"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A graph resembling the last incident establishes the same cause.",
+      "correction": "The resemblance supplies a hypothesis; compare current evidence before reusing the old fix."
+    },
+    {
+      "claim": "Moving through more tools necessarily deepens an investigation.",
+      "correction": "Without aligned context, tool switching can add inference errors while leaving the underlying question unanswered."
+    }
+  ],
+  "scenario": {
+    "title": "The familiar spike",
+    "context": "An engineer proposes a cache restart because the dashboard resembles last month’s outage.",
+    "options": [
+      {
+        "label": "Compare affected requests with the previous hypothesis",
+        "benefit": "Tests whether cache behavior explains the present failures.",
+        "cost": "Takes investigation time before a targeted intervention.",
+        "consequence": "The proposed cache intervention is supported or challenged by current request evidence."
+      },
+      {
+        "label": "Restart the cache immediately",
+        "benefit": "May restore service quickly if the old failure has returned.",
+        "cost": "Can hide evidence and disrupt healthy traffic if the resemblance is misleading.",
+        "consequence": "A transient improvement may leave the actual source of the incident unexplained."
+      }
+    ],
+    "debrief": "Mitigation urgency matters, but record what supports the cache hypothesis and verify the result against the affected population."
+  },
+  "quiz": [
+    {
+      "question": "A responder recognizes an old Redis incident pattern. What should happen next?",
+      "options": [
+        "Restart Redis before evidence changes",
+        "Check only the dashboards used during the earlier Redis incident",
+        "Test whether current failing requests actually implicate Redis"
+      ],
+      "answer": 2,
+      "explanation": "Experience suggests a useful hypothesis, but the current request evidence must support it."
+    },
+    {
+      "question": "Two tools show spikes at the same minute. What would strengthen the proposed relationship?",
+      "options": [
+        "Link the measurements to the same affected request population",
+        "Align both charts to the same bucket size and assume their spikes are related",
+        "Expand both charts to a week"
+      ],
+      "answer": 0,
+      "explanation": "Shared time is weaker evidence than shared request identity and population."
+    },
+    {
+      "question": "What makes a saved investigation more useful than a saved conclusion?",
+      "options": [
+        "It lets responders apply the identical repair without repeating the comparison",
+        "It exposes comparisons and discarded explanations that others can retrace",
+        "It replaces event evidence with a fixed sequence of component checks"
+      ],
+      "answer": 1,
+      "explanation": "A visible reasoning path transfers diagnostic method as well as a result."
+    }
+  ],
+  "exercise": {
+    "title": "Expose a debugging assumption",
+    "prompt": "Revisit a familiar incident diagnosis and turn one intuition into a comparison another engineer could repeat.",
+    "fields": [
+      {
+        "label": "Observed symptom",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Alternative explanation",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Query that distinguishes the two",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "RECOGNIZE",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "COMPARE",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "KEEP CONTEXT",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "SHARE",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "Database latency can reflect resource contention rather than an inefficient read query."
+      },
+      {
+        "node": "step-1",
+        "text": "Compare failed and successful requests by deployment, then inspect the affected deployment by endpoint."
+      },
+      {
+        "node": "step-2",
+        "text": "A trace link should preserve the failing request, not merely open a general tracing dashboard."
+      },
+      {
+        "node": "step-3",
+        "text": "An on-call handoff includes the failing cohort and ruled-out hypotheses."
+      }
+    ]
+  }
+}

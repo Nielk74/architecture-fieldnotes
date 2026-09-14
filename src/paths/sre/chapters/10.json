@@ -1,0 +1,195 @@
+{
+  "number": 10,
+  "title": "Practical Alerting from Time-Series Data",
+  "part": "Operations",
+  "subtitle": "Turn labeled counters into service-level rates and dependable alerts",
+  "summary": "Time-series monitoring separates data collection from the rules that interpret it. Applications export measurements; labels identify their source, meaning, and location; common rules turn those series into dashboards and alerts. Counters preserve accumulated events between scrapes, and rates should be calculated per series before aggregation so restarts do not corrupt the result. A service-level error ratio combines total error and request rates rather than averaging unrelated percentages. Alert conditions can include a duration to suppress transient changes, while routing and deduplication belong in a separate notification layer. Hierarchical collection supports scale and local diagnosis. The rules themselves need testing with synthetic data, and external probes remain necessary because internal measurements cannot reveal requests that never reached the service.",
+  "source": {
+    "startLine": 4119,
+    "endLine": 4664,
+    "reference": "text lines 4119–4664"
+  },
+  "concepts": [
+    {
+      "title": "Labels identify a time series",
+      "body": "A time series contains timestamped measurements distinguished by a set of labels. Labels can identify the metric, instance, job, response code, or region, allowing one rule to select related data across many tasks. Collection and rule definition are separate concerns: discovery finds changing targets, while reusable computations follow the labels instead of requiring a custom check script for every machine.",
+      "example": "Teaching extension: A region label lets one query compare error rates across sites without maintaining separate per-host rules.",
+      "source": "text lines 4119–4664"
+    },
+    {
+      "title": "Compute rates before aggregating counters",
+      "body": "A counter accumulates events and normally increases until a reset, whereas a gauge describes a value that may rise or fall. Rate calculations convert counter changes into activity over time. Compute reset-aware rates for individual series before summing them; summing raw counters first can mix a restarted process with other processes and distort the resulting service-level rate.",
+      "example": "Teaching extension: A restarted task resets its request counter, but its local rate calculation prevents a false fleet-wide drop.",
+      "source": "text lines 4119–4664"
+    },
+    {
+      "title": "Ratios, persistence, and notification routing",
+      "body": "A useful service error ratio divides the sum of error rates by the sum of request rates. Additional conditions can reduce low-volume noise, and a minimum true duration prevents transient threshold crossings from immediately paging. The notification layer then routes and deduplicates alerts. These are distinct steps: a mathematically true condition is not yet necessarily a notification to a human.",
+      "example": "Teaching extension: A sustained error ratio triggers one team notification even when two monitoring replicas evaluate the same rule.",
+      "source": "text lines 4119–4664"
+    },
+    {
+      "title": "Monitor and test the monitoring system",
+      "body": "Collection failure is itself useful evidence, and monitoring needs enough redundancy and capacity to survive faults in the environment it observes. Hierarchical collectors can aggregate locally while retaining detailed series for diagnosis. Synthetic input series allow rules to be tested before deployment. External probes complement these internal measurements by detecting routing, name-resolution, or response-content failures invisible to application counters.",
+      "example": "Teaching extension: Feed a counter reset and a missed scrape into an alert test to confirm they do not imitate an outage.",
+      "source": "text lines 4119–4664"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "The mean of per-instance error percentages is the service error ratio.",
+      "correction": "Instances can serve different traffic volumes; aggregate error and request rates before dividing."
+    },
+    {
+      "claim": "Internal counters capture every failed user request.",
+      "correction": "Failures before a request reaches the instrumented service require external checks or other observation points."
+    }
+  ],
+  "scenario": {
+    "title": "Calculate one service-level error alert",
+    "context": "Two tasks serve very different traffic volumes. The current alert averages their error percentages, so the quiet task dominates some pages. Restarts also create misleading counter changes.",
+    "options": [
+      {
+        "label": "Sum per-task rates before calculating the service ratio",
+        "benefit": "Traffic receives the correct weighting and individual counter resets remain visible to rate handling.",
+        "cost": "The team must verify rate windows, missing data, and low-traffic behavior.",
+        "consequence": "Synthetic tests cover resets and uneven traffic before the alert is deployed."
+      },
+      {
+        "label": "Raise the threshold on the existing average",
+        "benefit": "The team can quickly reduce the number of pages.",
+        "cost": "The incorrect weighting remains and some genuine high-volume failures may be missed.",
+        "consequence": "A quieter pager does not establish that the rule measures service impact correctly."
+      }
+    ],
+    "debrief": "Fix the meaning of the measurement before tuning its threshold. Compute reset-aware rates for each task, aggregate numerator and denominator, then test persistence and routing."
+  },
+  "quiz": [
+    {
+      "question": "One task serves 900 requests with 9 failures; another serves 100 with 10 failures. What is the combined failure ratio?",
+      "options": [
+        "5.5%",
+        "1.9%",
+        "10%"
+      ],
+      "answer": 1,
+      "explanation": "There are 19 failures among 1,000 requests; averaging the two task percentages would misweight traffic."
+    },
+    {
+      "question": "Why compute rates before summing task counters?",
+      "options": [
+        "To preserve counter-reset handling for each task",
+        "To avoid retaining any history",
+        "To turn every gauge into a counter"
+      ],
+      "answer": 0,
+      "explanation": "Reset handling requires the identity and history of the individual counter."
+    },
+    {
+      "question": "What does a minimum alert duration do?",
+      "options": [
+        "It guarantees that the root cause is known",
+        "It changes the SLO automatically",
+        "It waits for a condition to remain true before notifying"
+      ],
+      "answer": 2,
+      "explanation": "Persistence filters transient conditions, at the cost of some detection delay."
+    }
+  ],
+  "exercise": {
+    "title": "Check an alert’s arithmetic",
+    "prompt": "Design an error-ratio alert for tasks with unequal traffic. Specify rate aggregation, its persistence condition, and synthetic cases that should not page.",
+    "fields": [
+      {
+        "label": "Numerator and denominator",
+        "placeholder": "Which per-task rates are summed before division?"
+      },
+      {
+        "label": "Persistence and traffic",
+        "placeholder": "How long must the condition last, and what happens with very little traffic?"
+      },
+      {
+        "label": "Rule tests",
+        "placeholder": "How should restarts, missing samples, and a genuine sustained failure behave?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Labeled counters become a tested service alert",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "COUNTERS",
+        "caption": "collect task-level measurements",
+        "kind": "gauge",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "RATES",
+        "caption": "handle resets before summing",
+        "kind": "gauge",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "RATIO",
+        "caption": "divide total errors by requests",
+        "kind": "gauge",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "ALERT",
+        "caption": "test persistence and routing",
+        "kind": "alert",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      },
+      {
+        "from": "learn",
+        "to": "observe",
+        "dashed": true
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "collect task-level measurements"
+      },
+      {
+        "node": "decide",
+        "text": "handle resets before summing"
+      },
+      {
+        "node": "act",
+        "text": "divide total errors by requests"
+      },
+      {
+        "node": "learn",
+        "text": "test persistence and routing"
+      }
+    ]
+  }
+}

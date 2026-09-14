@@ -1,0 +1,190 @@
+{
+  "number": 26,
+  "title": "Data Integrity: What You Read Is What You Wrote",
+  "part": "Data systems",
+  "subtitle": "Prove that correct user data can be restored in time",
+  "summary": "Data integrity is judged through users’ ability to access correct data, so intact but inaccessible backups are not a sufficient success condition. Recovery requirements should determine backup frequency, retention, location, and format. Replication protects against some failures but promptly copies bad deletions and corruption, making independent defenses necessary. The chapter combines soft deletion, tiered backups, and out-of-band validation to detect problems early and preserve recoverable history. At large scale, sharding and incremental work reduce copying costs, while long incremental chains complicate restores. Gmail and Google Music recovery cases show the value of rehearsed procedures and the difficulty of delayed detection, cross-store references, and offline media logistics. Continuous end-to-end restore tests provide evidence that recovery still works as systems evolve.",
+  "source": {
+    "startLine": 11532,
+    "endLine": 12622,
+    "reference": "text lines 11532–12622"
+  },
+  "concepts": [
+    {
+      "title": "Recovery as the objective",
+      "body": "A backup is useful for disaster recovery only when the application can load it and make data available within an acceptable time. Archive retention alone does not demonstrate this capability. Define how much recent data can be lost and how long users can wait, then test the whole restore path, including capacity, dependencies, format compatibility, and post-processing needed for actual user access.",
+      "example": "Teaching extension: A database export passes a checksum test but is inadequate if restoring its indexes takes longer than the service can tolerate.",
+      "source": "text lines 11532–12622"
+    },
+    {
+      "title": "Independent layers of protection",
+      "body": "Replication copies valid changes quickly, but also propagates accidental deletion and corruption. Soft deletion preserves a limited opportunity to undo mistakes; tiered backups provide older or more isolated recovery points. The layers should differ enough to survive relevant common failures. Retention and deletion delays must also fit the product’s privacy commitments, rather than accumulating copies indefinitely.",
+      "example": "Teaching extension: A bad application deletion reaches every replica, while an isolated earlier backup still contains the missing records.",
+      "source": "text lines 11532–12622"
+    },
+    {
+      "title": "Early validation of application invariants",
+      "body": "Storage consistency does not guarantee that application relationships remain correct. Independent validators can check invariants such as whether a listed file has corresponding contents, detecting slow corruption before usable recovery points disappear. Validators need monitoring, investigation logs, ownership, and rate limits so they do not overload serving systems. Product teams define meaningful invariants while shared infrastructure can provide the execution framework.",
+      "example": "Teaching extension: A validator notices metadata referencing absent audio before a deletion defect spreads through another month of backups.",
+      "source": "text lines 11532–12622"
+    },
+    {
+      "title": "Restore engineering at scale",
+      "body": "Large datasets require parallel, well-balanced shards and incremental processing to make verification and restoration timely. However, a long sequence of dependent incremental backups increases restore complexity and failure exposure. Recovery must also reconcile data and metadata from compatible points in time. Automated end-to-end exercises reveal missing media, insufficient capacity, broken tools, and schema drift before a real incident forces reliance on them.",
+      "example": "Teaching extension: A restore rehearsal checks that recovered objects are reachable through the current application, not merely present on disk.",
+      "source": "text lines 11532–12622"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Several synchronized replicas replace backups.",
+      "correction": "They protect against certain infrastructure failures but may all receive the same erroneous mutation."
+    },
+    {
+      "claim": "A successful backup job proves that recovery works.",
+      "correction": "Only a tested restore through to usable application data verifies the complete recovery path."
+    }
+  ],
+  "scenario": {
+    "title": "Prove what users received",
+    "context": "A replicated profile store returns data after a regional failover. A checksum mismatch appears on one replica, but serving traffic is still possible from two healthy copies.",
+    "options": [
+      {
+        "label": "Quarantine the mismatched replica and validate before repair",
+        "benefit": "Users read from verified copies and the corruption boundary stays known.",
+        "cost": "The healthy copies carry more load during validation.",
+        "consequence": "The team routes around the replica, verifies checksums, and rebuilds it."
+      },
+      {
+        "label": "Accept the replica and repair asynchronously",
+        "benefit": "Availability remains high and repair starts immediately.",
+        "cost": "Bad data can spread or be read before repair completes.",
+        "consequence": "A later read exposes corrupted profile data to customers."
+      }
+    ],
+    "debrief": "Isolating a suspect copy prevents unverified data from reaching users, but replica repair covers only some failure modes. Also test recovery from application corruption that reaches every replica, including restoring coherent data and metadata."
+  },
+  "quiz": [
+    {
+      "question": "Which failure can ordinary synchronous replication spread?",
+      "options": [
+        "An erroneous application deletion",
+        "Loss of the only historical snapshot after all live replicas stay correct",
+        "A site outage that leaves healthy remote replicas reachable"
+      ],
+      "answer": 0,
+      "explanation": "Replication deliberately propagates mutations, including harmful ones."
+    },
+    {
+      "question": "Why is early detection especially valuable for creeping corruption?",
+      "options": [
+        "It makes historical backups unnecessary for application errors",
+        "It lets validators scan without competing for serving resources",
+        "It limits propagation and preserves more usable recovery points"
+      ],
+      "answer": 2,
+      "explanation": "Delay makes both the affected state and the reconstruction problem grow."
+    },
+    {
+      "question": "What is the strongest evidence that a backup strategy meets its purpose?",
+      "options": [
+        "A full backup completing within the nightly maintenance window",
+        "An end-to-end restore delivering correct accessible data within the target time",
+        "Every replica reporting the same current database size"
+      ],
+      "answer": 1,
+      "explanation": "The required outcome is usable restored data, not a successfully written file."
+    }
+  ],
+  "exercise": {
+    "title": "Prove a data recovery",
+    "prompt": "Choose a harmful deletion or corruption scenario and define a restore exercise that ends with correct data available through the application.",
+    "fields": [
+      {
+        "label": "Loss scenario",
+        "placeholder": "What is the cause, scope, detection delay, and last known correct state?"
+      },
+      {
+        "label": "Recovery point",
+        "placeholder": "Which independent backup or soft-deletion layer survives this failure?"
+      },
+      {
+        "label": "Proof",
+        "placeholder": "How will you verify user access, cross-store references, elapsed restore time, and recent data loss?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Prove a data recovery",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "Validate",
+        "caption": "Invariant checks",
+        "kind": "experiment",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "Isolate",
+        "caption": "Contained damage",
+        "kind": "shield",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "Restore",
+        "caption": "Independent history",
+        "kind": "database",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "Access",
+        "caption": "Correct user data",
+        "kind": "person",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "Check application invariants before corruption spreads."
+      },
+      {
+        "node": "decide",
+        "text": "Prevent known bad data or further harmful mutations from propagating."
+      },
+      {
+        "node": "act",
+        "text": "Recover from an independent suitable point in history."
+      },
+      {
+        "node": "learn",
+        "text": "Verify that users can reach correct data within the target time."
+      }
+    ]
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "number": 1,
+  "title": "What Is Observability?",
+  "part": "The Path to Observability",
+  "subtitle": "Ask questions you did not know to prepare",
+  "summary": "Observability describes what engineers can learn from a running system, rather than a collection of installed products. Modern applications produce failures through interactions among users, versions, dependencies, and infrastructure; those combinations cannot all be predicted before deployment. The chapter therefore makes exploratory analysis a requirement. Request-level records must retain enough dimensions and distinct values to let investigators narrow an unfamiliar symptom into a specific population. Metrics, logs, and traces may contribute evidence, but their presence alone says little about which questions remain answerable. The practical test is whether an engineer can explain an unexpected state using existing telemetry, without first modifying the application to capture the missing clue.",
+  "source": {
+    "startLine": 653,
+    "endLine": 1279,
+    "reference": "text lines 653–1279"
+  },
+  "concepts": [
+    {
+      "title": "Observable state",
+      "body": "The control-theory origin concerns inferring internal state from external outputs. Applied to software, the useful question is whether existing telemetry lets you explain unexpected behavior. A green status page cannot establish this ability. Try investigating an unfamiliar customer complaint and notice whether you must deploy additional logging before you can distinguish competing explanations.",
+      "example": "A checkout failure appears only when a particular promotion and payment provider coincide.",
+      "source": "text lines 653–1279"
+    },
+    {
+      "title": "Cardinality preserves identity",
+      "body": "Cardinality counts the distinct values a field can hold. A request identifier has many more possible values than an HTTP method. Those identifying values can be exactly what separates one broken customer experience from millions of healthy ones. Removing them to fit an aggregation scheme can make the interesting population impossible to recover later.",
+      "example": "Grouping by tenant reveals one completely unavailable account behind healthy fleet averages.",
+      "source": "text lines 653–1279"
+    },
+    {
+      "title": "Dimensionality preserves context",
+      "body": "Dimensionality concerns how many attributes describe an event, not how many values one attribute takes. A request might record its build, route, tenant, region, duration, and feature flags. Keeping these together permits questions about their combinations. Separate totals for each attribute cannot reliably reconstruct which conditions occurred on the same request.",
+      "example": "A build is healthy overall but slow only for one region and feature flag combination.",
+      "source": "text lines 653–1279"
+    },
+    {
+      "title": "Explorability is a capability",
+      "body": "Useful investigation moves through questions that change as evidence arrives. The system must support new filters, groupings, and comparisons quickly enough to maintain that reasoning loop. A large dashboard library covers prepared questions; explorability lets the investigator follow a clue beyond that library without changing the deployed application first.",
+      "example": "Filter slow requests, group by build, then compare their dependency calls.",
+      "source": "text lines 653–1279"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Collecting metrics, logs, and traces guarantees observability.",
+      "correction": "Data types are ingredients; the test is whether their retained context supports unfamiliar questions."
+    },
+    {
+      "claim": "High cardinality and high dimensionality mean the same thing.",
+      "correction": "Cardinality counts distinct values within a field; dimensionality counts the fields describing an event."
+    }
+  ],
+  "scenario": {
+    "title": "An invisible tenant outage",
+    "context": "Fleet success is 99.9%, but one customer reports that every checkout fails.",
+    "options": [
+      {
+        "label": "Inspect requests grouped by tenant",
+        "benefit": "Finds whether failures concentrate in that customer’s population.",
+        "cost": "Requires identity fields and careful access to request data.",
+        "consequence": "The investigation can separate this customer’s failures from healthy traffic."
+      },
+      {
+        "label": "Raise the global success threshold",
+        "benefit": "May detect a larger range of aggregate degradations.",
+        "cost": "Still cannot explain which customer is affected.",
+        "consequence": "A stricter threshold may page again without resolving the customer-specific question."
+      }
+    ],
+    "debrief": "An aggregate is a useful starting signal; identifying the affected population requires retained request context."
+  },
+  "quiz": [
+    {
+      "question": "A service has all three telemetry types but must add logging for every new incident. What is missing?",
+      "options": [
+        "More dashboard panels",
+        "The ability to investigate novel states from existing context",
+        "A longer list of uptime checks"
+      ],
+      "answer": 1,
+      "explanation": "The telemetry inventory does not establish explorability. Repeated emergency instrumentation exposes missing context."
+    },
+    {
+      "question": "Which change increases cardinality rather than dimensionality?",
+      "options": [
+        "Adding a deployment field",
+        "Adding a latency field",
+        "Recording more distinct tenant IDs in the existing tenant field"
+      ],
+      "answer": 2,
+      "explanation": "The number of values within tenant changes; the set of fields stays the same."
+    },
+    {
+      "question": "Why retain build and tenant on the same request event?",
+      "options": [
+        "To query their joint behavior without reconstructing unrelated aggregates",
+        "To reduce both fields into separate counters before storage",
+        "To identify the cause directly from whichever field changes first"
+      ],
+      "answer": 0,
+      "explanation": "Joint context makes combinations testable, although correlation still needs investigation."
+    }
+  ],
+  "exercise": {
+    "title": "Design an answerable question",
+    "prompt": "Choose one customer complaint your dashboards cannot explain. Specify the request fields and comparisons that would make it investigable.",
+    "fields": [
+      {
+        "label": "Unexpected symptom",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Fields that preserve the combination",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "First comparison and next question",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "STATE",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "CARDINALITY",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "DIMENSIONS",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "EXPLORE",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "A checkout failure appears only when a particular promotion and payment provider coincide."
+      },
+      {
+        "node": "step-1",
+        "text": "Grouping by tenant reveals one completely unavailable account behind healthy fleet averages."
+      },
+      {
+        "node": "step-2",
+        "text": "A build is healthy overall but slow only for one region and feature flag combination."
+      },
+      {
+        "node": "step-3",
+        "text": "Filter slow requests, group by build, then compare their dependency calls."
+      }
+    ]
+  }
+}

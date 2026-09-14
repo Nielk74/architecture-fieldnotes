@@ -1,0 +1,195 @@
+{
+  "number": 15,
+  "title": "Postmortem Culture: Learning from Failure",
+  "part": "Operations",
+  "subtitle": "Investigate conditions honestly and turn findings into reviewed improvements",
+  "summary": "A postmortem turns an incident into a durable explanation of impact, response, contributing causes, and preventive work. Agreeing on triggers beforehand makes this learning routine rather than dependent on embarrassment or individual preference. Blamelessness preserves the information needed for analysis: people should be able to explain what they saw and why their actions made sense at the time. It does not remove the need to identify weaknesses or complete corrective work. Collaborative drafting and review challenge shallow explanations, incomplete impact estimates, and weak action plans. Sharing the finished account helps other teams learn from the same failure without experiencing it themselves. Leadership participation, recognition, and repeated discussion sustain the practice so postmortems become useful engineering work rather than forgotten paperwork.",
+  "source": {
+    "startLine": 6053,
+    "endLine": 6267,
+    "reference": "text lines 6053–6267"
+  },
+  "concepts": [
+    {
+      "title": "Agree on postmortem triggers",
+      "body": "Teams should decide in advance which events require a written review, such as substantial degradation, data loss, unexpected human intervention, delayed recovery, or monitoring failure. Stakeholders can also request one. Predetermined triggers reduce selective reporting and make the process predictable. The purpose is to capture significant learning, including incidents discovered manually that may reveal a gap in monitoring.",
+      "example": "Teaching extension: A brief data-loss event qualifies for review even when it caused no page and little downtime.",
+      "source": "text lines 6053–6267"
+    },
+    {
+      "title": "Blamelessness preserves causal information",
+      "body": "A blameless account examines the information, tools, constraints, and assumptions shaping an action instead of reducing the explanation to a person’s mistake. Responders can then report what actually happened without protecting themselves through omission. The review still identifies specific weaknesses and needed improvements; its focus shifts from punishing an individual to changing the conditions that made the failure possible.",
+      "example": "Teaching extension: Replace “the operator was careless” with the exact ambiguous command behavior and missing validation that allowed the action.",
+      "source": "text lines 6053–6267"
+    },
+    {
+      "title": "Review impact, causes, and the action plan",
+      "body": "A useful postmortem records the incident’s impact and timeline, mitigation, contributing causes, and follow-up work. Reviewers check whether the account is complete and whether the proposed changes address the findings at an appropriate priority. Multiple causes may require multiple improvements. Assigning and tracking concrete work makes accountability visible without making blame the mechanism for obtaining reliable operations.",
+      "example": "Teaching extension: Track an input-validation fix and a rollback drill separately because they address prevention and recovery.",
+      "source": "text lines 6053–6267"
+    },
+    {
+      "title": "Sharing makes one failure teach many teams",
+      "body": "A completed review belongs in a searchable repository and should reach the people who can benefit from it. Reading groups, reenactments, and selected examples help transfer lessons beyond the original responders. Leadership participation and visible recognition encourage honest reporting. Sharing must preserve appropriate privacy: the chapter explicitly excludes user-identifying information even from internal postmortem documents.",
+      "example": "Teaching extension: Another team turns a reviewed outage into a rehearsal after recognizing the same dependency in its own service.",
+      "source": "text lines 6053–6267"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Blamelessness means nobody owns corrective work.",
+      "correction": "The review can assign and track concrete improvements while avoiding personal condemnation."
+    },
+    {
+      "claim": "A finished document provides value even if nobody reviews or uses it.",
+      "correction": "Review tests the explanation and action plan; sharing and follow-through convert the document into learning."
+    }
+  ],
+  "scenario": {
+    "title": "Turn failure into system learning",
+    "context": "A deploy caused a 20-minute outage because a default timeout changed and no canary exposed it. The team is deciding what to write and what to fix first.",
+    "options": [
+      {
+        "label": "Write a blameless postmortem with owned guardrails",
+        "benefit": "Contributing conditions become visible and corrective work has owners.",
+        "cost": "Follow-through takes coordination across teams.",
+        "consequence": "The postmortem adds a default check, owner, priority, and dissemination plan."
+      },
+      {
+        "label": "Record the deployer and require approval training",
+        "benefit": "Training may reduce one class of mistake quickly.",
+        "cost": "Individual focus can hide the unsafe default and discourage reporting.",
+        "consequence": "Training occurs, but another service retains the same dangerous default."
+      }
+    ],
+    "debrief": "The review should explain the unsafe default and the missing detection, then assign improvements that address both. Training can help, but it cannot substitute for fixing system conditions that will affect the next responder."
+  },
+  "quiz": [
+    {
+      "question": "Which postmortem statement best supports causal learning?",
+      "options": [
+        "The responder should have been more careful",
+        "The command accepted an empty scope as all targets and showed no preview",
+        "The team is unreliable"
+      ],
+      "answer": 1,
+      "explanation": "The statement identifies observable system behavior that can be changed."
+    },
+    {
+      "question": "A data-loss incident never paged anyone. Should that prevent a postmortem?",
+      "options": [
+        "Yes, only pages qualify",
+        "Yes, if service recovered quickly",
+        "No; data loss and monitoring gaps are themselves useful triggers"
+      ],
+      "answer": 2,
+      "explanation": "The chapter’s criteria extend beyond paged outages."
+    },
+    {
+      "question": "What should reviewers examine before sharing the final postmortem?",
+      "options": [
+        "Impact completeness, causal depth, and whether action priorities fit the findings",
+        "Whether one person accepts all blame",
+        "Whether the narrative omits every unsuccessful response"
+      ],
+      "answer": 0,
+      "explanation": "Review ensures the account and preventive plan are useful and credible."
+    }
+  ],
+  "exercise": {
+    "title": "Write an action-oriented incident review",
+    "prompt": "A deployment caused failures because a configuration value was accepted without validation. Draft a blameless causal account and two follow-up actions.",
+    "fields": [
+      {
+        "label": "Information and conditions",
+        "placeholder": "What did the responder know, and what did the tooling fail to reveal?"
+      },
+      {
+        "label": "Impact and timeline",
+        "placeholder": "Which users were affected and which actions changed the outcome?"
+      },
+      {
+        "label": "Actions and review",
+        "placeholder": "Who owns prevention and recovery improvements, and how will completion be demonstrated?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Postmortem Culture: Learning from Failure: Conditions -> Timeline -> Owner -> Learning",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "Conditions",
+        "caption": "name the condition",
+        "kind": "document",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "Timeline",
+        "caption": "choose the bounded action",
+        "kind": "trace",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "Owner",
+        "caption": "observe the consequence",
+        "kind": "person",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "Learning",
+        "caption": "record the recovery lesson",
+        "kind": "team",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      },
+      {
+        "from": "learn",
+        "to": "observe",
+        "dashed": true
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "name the condition"
+      },
+      {
+        "node": "decide",
+        "text": "choose the bounded action"
+      },
+      {
+        "node": "act",
+        "text": "observe the consequence"
+      },
+      {
+        "node": "learn",
+        "text": "record the recovery lesson"
+      }
+    ]
+  }
+}

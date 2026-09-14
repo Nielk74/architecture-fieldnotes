@@ -1,0 +1,195 @@
+{
+  "number": 4,
+  "title": "Service Level Objectives",
+  "part": "Foundations",
+  "subtitle": "Define what users experience, the target, and any contractual consequence",
+  "summary": "Service level indicators describe measured behavior; objectives specify acceptable values; agreements attach consequences to commitments. Keeping these meanings distinct prevents an internal target from being mistaken for a customer contract. The useful starting point is what users need, even when measurement requires an imperfect proxy. A latency average can hide a slow tail, and server measurements can miss delays in the browser or network. Define the population, collection point, aggregation, and interval so the target can guide a real decision. Different workloads may need different objectives. Targets should be few, understandable, and strong enough to change priorities. Publishing them also shapes dependencies: consistently exceeding a promise can teach clients to rely on behavior the service never intended to guarantee.",
+  "source": {
+    "startLine": 1905,
+    "endLine": 2265,
+    "reference": "text lines 1905–2265"
+  },
+  "concepts": [
+    {
+      "title": "Service level indicators",
+      "body": "An SLI is a quantitative description of a service property, such as the fraction of eligible requests that succeed or the distribution of completion times. Its definition includes what is measured, where, and over which population and interval. Measurement should approximate user experience; a backend-only timer cannot capture a page that arrives quickly but remains unusable in the browser.",
+      "example": "Teaching extension: Measure successful checkout completion at the client and document which abandoned or invalid attempts are excluded.",
+      "source": "text lines 1905–2265"
+    },
+    {
+      "title": "Service level objectives",
+      "body": "An SLO sets a target or acceptable range for a defined SLI. It turns observations into priorities: a latency distribution only tells a team to act when compared with user needs and an agreed objective. Select a small number of meaningful targets, distinguish workloads when necessary, and refine them as understanding improves rather than automatically promising today’s best observed performance.",
+      "example": "Teaching extension: Require 99% of eligible search responses to complete within 400 milliseconds over the specified measurement window.",
+      "source": "text lines 1905–2265"
+    },
+    {
+      "title": "Agreements and consequences",
+      "body": "An SLA is an agreement that includes consequences for meeting or missing service commitments. An internal SLO can guide engineering even when no such agreement exists. SRE helps make commitments measurable and evaluates their feasibility; business and legal participants determine the contractual consequences. The presence of reputational harm alone does not turn every internal performance target into a formal customer agreement.",
+      "example": "Teaching extension: A customer contract grants a service credit after an availability commitment is missed; an internal alert target alone does not.",
+      "source": "text lines 1905–2265"
+    },
+    {
+      "title": "Distributions and expectations",
+      "body": "Averages compress behavior and can conceal poor experiences for a minority of requests. Percentiles expose different parts of a latency distribution, while explicit sampling and aggregation windows prevent misleading comparisons. Published objectives also establish dependency expectations. If clients rely on much better observed behavior, a service can meet its stated target yet still break those clients when performance returns to the promised level.",
+      "example": "Teaching extension: A stable median with a sharply worse 99th percentile means a minority of users has become much slower.",
+      "source": "text lines 1905–2265"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A low average latency proves almost every request is fast.",
+      "correction": "A slow tail can coexist with an unchanged mean; inspect the latency distribution."
+    },
+    {
+      "claim": "A service without a customer SLA does not need SLOs.",
+      "correction": "Internal objectives still guide engineering priorities and clarify expected behavior."
+    }
+  ],
+  "scenario": {
+    "title": "Define the customer-visible target",
+    "context": "A search service reports thousands of internal metrics, but users complain about slow results at the tail. Product, SRE, and support need a target for the next quarter.",
+    "options": [
+      {
+        "label": "Choose a latency SLI and percentile SLO",
+        "benefit": "The target represents user experience and creates a useful decision signal.",
+        "cost": "Instrumentation and percentile selection require careful work.",
+        "consequence": "The team chooses a p95 result latency over a rolling window and reviews misses."
+      },
+      {
+        "label": "Start with availability SLO",
+        "benefit": "It is easier to measure and gives users a clear reliability floor.",
+        "cost": "It may miss the tail-latency complaint that motivated the work.",
+        "consequence": "The team protects basic availability first, then adds a latency SLI when it can define the user journey."
+      }
+    ],
+    "debrief": "Availability-first measurement is a reasonable floor under limited instrumentation, but it leaves the slow-results journey unmeasured and must be extended deliberately."
+  },
+  "quiz": [
+    {
+      "question": "Which statement defines an SLO rather than just an SLI?",
+      "options": [
+        "The 99th percentile latency measured at the client",
+        "99% of eligible client requests finish within 400 ms each day",
+        "A refund is due when the contract is breached"
+      ],
+      "answer": 1,
+      "explanation": "The statement combines a defined service measure with a target and period."
+    },
+    {
+      "question": "Backend responses are fast, but a page remains unusable for seconds. Which measurement best addresses this gap?",
+      "options": [
+        "Backend CPU usage alone",
+        "The count of successful TCP connections",
+        "Client-side time until the page is usable"
+      ],
+      "answer": 2,
+      "explanation": "The user’s experience includes work after the backend has responded."
+    },
+    {
+      "question": "What distinguishes an SLA from an internal SLO?",
+      "options": [
+        "Consequences attached to the service agreement",
+        "A target written with more decimal places",
+        "A percentile instead of an average"
+      ],
+      "answer": 0,
+      "explanation": "An agreement specifies consequences; an objective by itself specifies desired behavior."
+    }
+  ],
+  "exercise": {
+    "title": "Specify a measurable promise",
+    "prompt": "Write one search-latency objective that another team could implement without guessing. Distinguish its measurement from any contractual consequence.",
+    "fields": [
+      {
+        "label": "Population and location",
+        "placeholder": "Which requests count, and where does timing begin and end?"
+      },
+      {
+        "label": "Target and window",
+        "placeholder": "Which percentile or fraction must meet what threshold over what interval?"
+      },
+      {
+        "label": "Decision and consequence",
+        "placeholder": "What engineering action follows a miss, and is there a separate contractual penalty?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Service Level Objectives: USER to SLI to SLO to CONTRACT",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "USER",
+        "caption": "inputs and constraints",
+        "kind": "person",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "SLI",
+        "caption": "choose the operating rule",
+        "kind": "gauge",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "SLO",
+        "caption": "observe the effect",
+        "kind": "document",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "SLA",
+        "caption": "agreement and consequences",
+        "kind": "document",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      },
+      {
+        "from": "learn",
+        "to": "observe",
+        "dashed": true
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "inputs and constraints"
+      },
+      {
+        "node": "decide",
+        "text": "choose the operating rule"
+      },
+      {
+        "node": "act",
+        "text": "observe the effect"
+      },
+      {
+        "node": "learn",
+        "text": "agreement and consequences"
+      }
+    ]
+  }
+}

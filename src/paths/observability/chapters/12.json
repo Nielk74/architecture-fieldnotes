@@ -1,0 +1,185 @@
+{
+  "number": 12,
+  "title": "Using Service-Level Objectives for Reliability",
+  "part": "Observability for Teams",
+  "subtitle": "Define reliability around a user’s successful work",
+  "summary": "Service-level objectives turn reliability from an undefined demand for perfection into a measurable agreement about acceptable service. An indicator describes a user-relevant outcome, an objective sets its target over a window, and the remaining allowance becomes an error budget. These choices require judgment: a technically convenient metric may miss the task customers actually need to complete. The chapter connects objectives with structured event data, allowing individual requests to be evaluated against success and latency criteria while retaining the context needed to investigate failures. The purpose is a shared basis for prioritizing reliability and change. Targets should reflect business needs and measurement limitations, with teams reviewing whether the chosen indicator still represents the experience they intend to protect.",
+  "source": {
+    "startLine": 4814,
+    "endLine": 5231,
+    "reference": "text lines 4814–5231"
+  },
+  "concepts": [
+    {
+      "title": "Choose a user-relevant indicator",
+      "body": "A service-level indicator measures an aspect of the experience the service must deliver, such as successful requests or completion within an acceptable duration. Infrastructure health may explain a problem but is not automatically the outcome users need. Define the eligible population and what counts as good so the indicator has a clear meaning.",
+      "example": "Eligible checkout attempts are good when they complete successfully within the agreed latency threshold.",
+      "source": "text lines 4814–5231"
+    },
+    {
+      "title": "An objective includes a window",
+      "body": "An SLO specifies the desired level of an indicator over a time period. A percentage without a population and window leaves its meaning ambiguous. The target should express the reliability the business needs, rather than the maximum number of nines that sounds impressive or the best historical performance the team happened to observe.",
+      "example": "At least 99.9% of eligible requests should satisfy the success condition over the selected window.",
+      "source": "text lines 4814–5231"
+    },
+    {
+      "title": "The error budget is an allowance",
+      "body": "The complement of the objective describes the tolerated fraction of bad outcomes. For an event-based SLO, translate that fraction into requests using the eligible volume in the window. This allowance supports conversations about reliability work and delivery risk; it is not a prediction that failures will arrive evenly or a promise that each user experiences the same reliability.",
+      "example": "A 99.9% target permits 1,000 bad outcomes among one million eligible requests.",
+      "source": "text lines 4814–5231"
+    },
+    {
+      "title": "Event criteria retain diagnostic context",
+      "body": "Evaluate each eligible event against the agreed good-or-bad condition while keeping its useful attributes. The same data can then identify which builds, routes, or customers contribute failures. An objective tells the team whether reliability is acceptable; the event context helps explain why the measured experience is changing.",
+      "example": "Requests failing the latency criterion remain available for grouping by endpoint and deployment.",
+      "source": "text lines 4814–5231"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "The highest possible reliability target is always best.",
+      "correction": "Targets involve business need, engineering cost, and feasible response; unsupported precision can create needless work."
+    },
+    {
+      "claim": "A request-based error budget directly equals a fixed amount of downtime.",
+      "correction": "Its allowance depends on eligible request volume and failures, which need not be uniformly distributed over time."
+    }
+  ],
+  "scenario": {
+    "title": "Healthy servers, failed purchases",
+    "context": "Every host is reachable, but customers cannot finish checkout during payment retries.",
+    "options": [
+      {
+        "label": "Define an indicator around completed checkout attempts",
+        "benefit": "Measures the user outcome affected by retries.",
+        "cost": "Requires an explicit eligibility and success definition.",
+        "consequence": "Reliability discussions can track the work customers actually complete."
+      },
+      {
+        "label": "Use host reachability as the only objective",
+        "benefit": "Is easy to collect and useful for infrastructure checks.",
+        "cost": "Can declare success while the user journey fails.",
+        "consequence": "A healthy infrastructure score can coexist with a continuing purchase failure."
+      }
+    ],
+    "debrief": "Choose the objective at the service outcome, keeping host health as explanatory evidence."
+  },
+  "quiz": [
+    {
+      "question": "A 99.9% request SLO sees one million eligible requests. How many bad requests does its budget allow?",
+      "options": [
+        "100",
+        "1,000",
+        "10,000"
+      ],
+      "answer": 1,
+      "explanation": "The allowed fraction is 0.1%, so one million multiplied by 0.001 gives 1,000."
+    },
+    {
+      "question": "Which indicator is closest to a checkout user’s need?",
+      "options": [
+        "CPU below 70%",
+        "Every container running",
+        "Eligible checkouts completing successfully within a defined duration"
+      ],
+      "answer": 2,
+      "explanation": "It measures the outcome of the user’s task; infrastructure measures are supporting signals."
+    },
+    {
+      "question": "What must accompany a percentage target?",
+      "options": [
+        "Eligible population, good-event definition, and evaluation window",
+        "A percentile chart and the observed peak from the last incident",
+        "A competitor’s target and a list of infrastructure components"
+      ],
+      "answer": 0,
+      "explanation": "These choices establish what the percentage measures and how it is evaluated."
+    }
+  ],
+  "exercise": {
+    "title": "Write an event-based SLO",
+    "prompt": "Specify an objective for one user task with enough detail that two engineers would count it the same way.",
+    "fields": [
+      {
+        "label": "Eligible requests and exclusions",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Good-event rule",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Target, window, and budget",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "INDICATOR",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "OBJECTIVE",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "BUDGET",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "FAILED EVENTS",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "Eligible checkout attempts are good when they complete successfully within the agreed latency threshold."
+      },
+      {
+        "node": "step-1",
+        "text": "At least 99.9% of eligible requests should satisfy the success condition over the selected window."
+      },
+      {
+        "node": "step-2",
+        "text": "A 99.9% target permits 1,000 bad outcomes among one million eligible requests."
+      },
+      {
+        "node": "step-3",
+        "text": "Requests failing the latency criterion remain available for grouping by endpoint and deployment."
+      }
+    ]
+  }
+}

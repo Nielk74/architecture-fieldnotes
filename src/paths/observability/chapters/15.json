@@ -1,0 +1,185 @@
+{
+  "number": 15,
+  "title": "Build Versus Buy and Return on Investment",
+  "part": "Observability at Scale",
+  "subtitle": "Compare ownership costs, not only invoices",
+  "summary": "A build-versus-buy decision should compare the full cost of delivering an effective observability capability. License prices are visible, while engineering time, infrastructure, hiring, upgrades, integration, and ongoing support are often hidden inside existing budgets. The chapter adds opportunity cost: people maintaining a bespoke platform cannot spend the same time advancing the product. Building can nevertheless develop valuable expertise and deeply fit internal workflows, provided the organization can sustain product management and usability as well as technical implementation. Buying can shorten time to value but still introduces integration work and commercial constraints. The decision therefore needs a shared horizon, realistic adoption expectations, and explicit assumptions about what each option enables the business to do.",
+  "source": {
+    "startLine": 6226,
+    "endLine": 6675,
+    "reference": "text lines 6226–6675"
+  },
+  "concepts": [
+    {
+      "title": "Total ownership includes ongoing work",
+      "body": "The price of software is only one part of running an observability capability. Infrastructure, recruitment, upgrades, incident response, integration, and support also consume resources. An open-source stack can be a good choice, but treating existing employees’ time as free hides costs and makes the comparison with a visible commercial invoice misleading.",
+      "example": "Three engineers maintaining a supposedly free stack belong in its ownership estimate.",
+      "source": "text lines 6226–6675"
+    },
+    {
+      "title": "Opportunity cost changes the comparison",
+      "body": "Engineering effort has an alternative use. Time spent developing a telemetry backend may displace customer features or reliability improvements elsewhere. Include that forgone work when comparing options, particularly if observability tooling is not the company’s product. A lower invoice does not necessarily mean the organization retains more capacity for its core goals.",
+      "example": "A quarter spent building query infrastructure delays a revenue-generating product release.",
+      "source": "text lines 6226–6675"
+    },
+    {
+      "title": "An internal platform is a product",
+      "body": "A successful bespoke platform needs requirements discovery, usable workflows, prioritization, support, and adoption. Technical feasibility alone does not establish that colleagues will use it effectively. Building may create strong internal expertise and customized integration, but the organization must fund those product responsibilities alongside storage, ingestion, and query implementation.",
+      "example": "A technically fast backend sees little use because investigation requires undocumented workarounds.",
+      "source": "text lines 6226–6675"
+    },
+    {
+      "title": "Compare benefits on a common horizon",
+      "body": "Evaluate both options over the same period and against the same required outcomes. Buying may deliver useful investigation sooner; building may provide fit or control that matters locally. Include migration and integration work, distinguish recurring from initial costs, and state assumptions clearly enough to revisit the choice when scale or organizational needs change.",
+      "example": "Compare a year of operating costs and adoption effort rather than a monthly invoice against a one-time prototype.",
+      "source": "text lines 6226–6675"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Open-source software has no ongoing ownership cost.",
+      "correction": "Licensing can be free while infrastructure, staffing, integration, and operational work remain substantial."
+    },
+    {
+      "claim": "Building a working backend proves the build option is successful.",
+      "correction": "The platform must also deliver usable workflows and sustained adoption for its internal users."
+    }
+  ],
+  "scenario": {
+    "title": "The invisible platform team",
+    "context": "A commercial quote looks expensive, but an internal stack already occupies several engineers.",
+    "options": [
+      {
+        "label": "Compare full ownership and displaced work",
+        "benefit": "Makes staffing, operations, and product delay visible.",
+        "cost": "Requires gathering costs across multiple budgets.",
+        "consequence": "Decision makers can see which option preserves more capacity for business priorities."
+      },
+      {
+        "label": "Choose solely by the license line",
+        "benefit": "Is quick and aligns with the visible purchasing budget.",
+        "cost": "Can select the more expensive option by omitting hidden work.",
+        "consequence": "The internal stack can win on paper while consuming more total resources."
+      }
+    ],
+    "debrief": "Compare the same outcome and time horizon, with costs included wherever the organization currently records them."
+  },
+  "quiz": [
+    {
+      "question": "Which comparison is most misleading?",
+      "options": [
+        "Annual ownership costs for both options",
+        "A vendor invoice against infrastructure plus staff and support",
+        "A vendor invoice against an internal stack labeled free"
+      ],
+      "answer": 2,
+      "explanation": "Existing staffing and infrastructure remain real costs even when they sit outside the software budget."
+    },
+    {
+      "question": "Why include opportunity cost?",
+      "options": [
+        "The same engineering time could produce value elsewhere",
+        "A quoted license price already accounts for all forgone engineering work",
+        "Existing staff time is a sunk cost and should be excluded from either option"
+      ],
+      "answer": 0,
+      "explanation": "The value of displaced work is part of choosing how to allocate scarce engineering effort."
+    },
+    {
+      "question": "What risk remains after an internal backend meets performance targets?",
+      "options": [
+        "Performance targets determine whether internal users will adopt the workflow",
+        "Its workflows may still fail to attract effective adoption",
+        "A working prototype removes the need for ongoing product prioritization"
+      ],
+      "answer": 1,
+      "explanation": "Usability and internal product management matter alongside technical performance."
+    }
+  ],
+  "exercise": {
+    "title": "Build a fair comparison",
+    "prompt": "Outline the costs and benefits of two realistic options for one year.",
+    "fields": [
+      {
+        "label": "Initial and recurring costs",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Work displaced by internal ownership",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      },
+      {
+        "label": "Required outcomes and adoption assumptions",
+        "placeholder": "Record your reasoning and the evidence you would use."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "label": "TOTAL COST",
+        "kind": "trace",
+        "tone": "sage",
+        "x": 80,
+        "y": 180
+      },
+      {
+        "id": "step-1",
+        "label": "ALTERNATIVES",
+        "kind": "experiment",
+        "tone": "peach",
+        "x": 220,
+        "y": 100
+      },
+      {
+        "id": "step-2",
+        "label": "INTERNAL USERS",
+        "kind": "alert",
+        "tone": "lilac",
+        "x": 360,
+        "y": 180
+      },
+      {
+        "id": "step-3",
+        "label": "TIME HORIZON",
+        "kind": "leaf",
+        "tone": "honey",
+        "x": 500,
+        "y": 100
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1"
+      },
+      {
+        "from": "step-1",
+        "to": "step-2"
+      },
+      {
+        "from": "step-2",
+        "to": "step-3"
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "Three engineers maintaining a supposedly free stack belong in its ownership estimate."
+      },
+      {
+        "node": "step-1",
+        "text": "A quarter spent building query infrastructure delays a revenue-generating product release."
+      },
+      {
+        "node": "step-2",
+        "text": "A technically fast backend sees little use because investigation requires undocumented workarounds."
+      },
+      {
+        "node": "step-3",
+        "text": "Compare a year of operating costs and adoption effort rather than a monthly invoice against a one-time prototype."
+      }
+    ]
+  }
+}

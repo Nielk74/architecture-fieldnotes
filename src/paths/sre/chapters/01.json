@@ -1,0 +1,195 @@
+{
+  "number": 1,
+  "title": "Introduction",
+  "part": "Foundations",
+  "subtitle": "Use engineering time and error budgets to change how services are run",
+  "summary": "SRE changes the economics of operating a service by investing in software that removes recurring human intervention. That investment needs protected time: when operational work consumes the team, the organization must change ownership or staffing so engineering can resume. Reliability also needs a product decision about how much failure users can tolerate. An error budget translates that decision into a shared constraint on release velocity, replacing an argument between stability and features with measurable remaining risk. Monitoring distinguishes urgent intervention from work that can wait and information retained for diagnosis. Incident preparation, capacity planning, and efficient resource use complete the model: engineers own production outcomes while continuously improving the systems that deliver them.",
+  "source": {
+    "startLine": 785,
+    "endLine": 1146,
+    "reference": "text lines 785–1146"
+  },
+  "concepts": [
+    {
+      "title": "Software engineering applied to operations",
+      "body": "SRE treats running a service as a problem that can be improved through software design. Instead of adding an operator whenever traffic or machine count grows, engineers build mechanisms for deployment, recovery, monitoring, and capacity management. The intended result is a service whose operational staffing grows more slowly than its workload, while engineers retain direct experience of production failures.",
+      "example": "Teaching extension: A storage team replaces repeated manual replica replacement with a tested repair controller.",
+      "source": "text lines 785–1146"
+    },
+    {
+      "title": "Protected engineering capacity",
+      "body": "Operational work can consume every available hour because new tickets and incidents arrive continuously. Google therefore caps the aggregate operational share at half of SRE time and protects the remainder for development. Measuring actual time makes overload visible; moving some operational responsibility back to developers creates both breathing room and a reason to improve the service itself.",
+      "example": "Teaching extension: A team spending 70% of its time on operations shares the pager with developers while removing recurrent failures.",
+      "source": "text lines 785–1146"
+    },
+    {
+      "title": "Error budgets align incentives",
+      "body": "An availability objective leaves a permitted fraction of unsuccessful service: the error budget. Product owners choose the target according to user needs, and development and SRE share responsibility for staying within it. Remaining budget supports controlled change; exhaustion redirects effort toward reliability. Safer rollouts become valuable because they permit useful innovation with less user disruption.",
+      "example": "Teaching extension: A 99.9% request-success target permits 1,000 failures among a million eligible requests.",
+      "source": "text lines 785–1146"
+    },
+    {
+      "title": "Operational responsibilities need distinct responses",
+      "body": "Monitoring, incident response, change management, and capacity planning are related responsibilities, but they operate on different timescales. An alert calls for immediate human action; a ticket records work that can wait; a log preserves diagnostic information. Capacity forecasts and rehearsed incident procedures move work out of emergencies, while software improvements prevent repeated manual responses from becoming permanent duties.",
+      "example": "Teaching extension: An imminent capacity shortfall creates a planning ticket; an ongoing outage pages the responder.",
+      "source": "text lines 785–1146"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Hiring programmers automatically creates an SRE team.",
+      "correction": "The organization must also protect engineering time and give the team authority to manage operational load."
+    },
+    {
+      "claim": "SRE succeeds by blocking every risky release.",
+      "correction": "SRE and developers use the agreed error budget to balance useful change with user tolerance for failure."
+    }
+  ],
+  "scenario": {
+    "title": "Make room to eliminate recurring intervention",
+    "context": "A growing service needs manual replica repair every day. SRE spends 70% of its time on operations, and a proposed repair controller keeps being postponed. Product developers want to add another feature this month.",
+    "options": [
+      {
+        "label": "Share operational duties and fund the controller",
+        "benefit": "Developers see the production burden while SRE gains time to remove it.",
+        "cost": "Feature work slows during the investment.",
+        "consequence": "The teams reserve engineering time and track whether recurring repair hours fall."
+      },
+      {
+        "label": "Add temporary operational coverage",
+        "benefit": "Immediate response capacity improves while the service is busy.",
+        "cost": "Recurring work remains and will grow unless engineering time is explicitly protected.",
+        "consequence": "Coverage relieves today’s pressure, but a dated repair project is still needed."
+      }
+    ],
+    "debrief": "Headcount can relieve immediate overload, but the SRE model requires a lasting engineering investment. Shared operational responsibility supplies feedback about the cost of the product’s behavior."
+  },
+  "quiz": [
+    {
+      "question": "An SRE team spends 80% of its time resolving recurring tickets. Which change addresses the structural problem?",
+      "options": [
+        "Add more detailed ticket categories",
+        "Share operational work with developers and reserve time to remove its causes",
+        "Keep the same duties but rename the team"
+      ],
+      "answer": 1,
+      "explanation": "Protected development time is necessary to stop recurring work growing with the service."
+    },
+    {
+      "question": "A service targets 99.9% successful requests. What fraction is its permitted failure budget?",
+      "options": [
+        "0.1%",
+        "0.9%",
+        "99.9%"
+      ],
+      "answer": 0,
+      "explanation": "The permitted unsuccessful fraction is 100% minus the success objective."
+    },
+    {
+      "question": "A disk is projected to fill next week and expansion needs human work tomorrow. Which monitoring output fits?",
+      "options": [
+        "A page every hour",
+        "An unreviewed diagnostic log",
+        "A tracked ticket"
+      ],
+      "answer": 2,
+      "explanation": "The work requires action but does not currently require interrupting an on-call engineer."
+    }
+  ],
+  "exercise": {
+    "title": "Protect time for engineering",
+    "prompt": "A six-person team spends four days each week on recurring interventions. Propose an ownership change and one engineering investment that reduce this load.",
+    "fields": [
+      {
+        "label": "Recurring work",
+        "placeholder": "Which repeated intervention consumes the most engineer time?"
+      },
+      {
+        "label": "Shared responsibility",
+        "placeholder": "Who covers operational work while the repair mechanism is built?"
+      },
+      {
+        "label": "Evidence of improvement",
+        "placeholder": "How will you compare operational hours before and after the change?"
+      }
+    ]
+  },
+  "visual": {
+    "title": "Engineering investment reduces recurring operational work",
+    "nodes": [
+      {
+        "id": "observe",
+        "label": "OPERATIONS",
+        "caption": "measure recurring human work",
+        "kind": "queue",
+        "tone": "sage",
+        "x": 90,
+        "y": 130
+      },
+      {
+        "id": "decide",
+        "label": "ENGINEERING",
+        "caption": "protect time for lasting fixes",
+        "kind": "person",
+        "tone": "lilac",
+        "x": 205,
+        "y": 85
+      },
+      {
+        "id": "act",
+        "label": "CONTROLLER",
+        "caption": "remove repeated intervention",
+        "kind": "agent",
+        "tone": "peach",
+        "x": 320,
+        "y": 130
+      },
+      {
+        "id": "learn",
+        "label": "CAPACITY",
+        "caption": "verify time returned to projects",
+        "kind": "gauge",
+        "tone": "honey",
+        "x": 205,
+        "y": 210
+      }
+    ],
+    "edges": [
+      {
+        "from": "observe",
+        "to": "decide"
+      },
+      {
+        "from": "decide",
+        "to": "act"
+      },
+      {
+        "from": "act",
+        "to": "learn"
+      },
+      {
+        "from": "learn",
+        "to": "observe",
+        "dashed": true
+      }
+    ],
+    "steps": [
+      {
+        "node": "observe",
+        "text": "measure recurring human work"
+      },
+      {
+        "node": "decide",
+        "text": "protect time for lasting fixes"
+      },
+      {
+        "node": "act",
+        "text": "remove repeated intervention"
+      },
+      {
+        "node": "learn",
+        "text": "verify time returned to projects"
+      }
+    ]
+  }
+}
