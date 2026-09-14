@@ -25,3 +25,5 @@ To add a book:
 Pip preserves the original 0–2,400 XP forms and adds forms at 4,000, 6,500, 9,500, and 12,400 XP. Adding books does not erase or rescale previous achievements.
 
 The home library shows all seven illustrated courses before selection, with per-course XP, completion percentage, and completed chapter counts. Topic, search, and progress filters combine; the Continue learning strip resumes the latest unfinished course.
+
+Android uses Capacitor’s supported legacy bridge transport for this multi-page app. This avoids the WebMessage reply proxy changing across document navigations while native preference hydration is in flight. Native persistence tests traverse all seven paths before and after installing the release APK.
