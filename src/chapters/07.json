@@ -1,0 +1,187 @@
+{
+  "number": 7,
+  "title": "Scope of Architecture Characteristics",
+  "part": "Foundations",
+  "subtitle": "Find the boundaries where qualities actually differ",
+  "summary": "Architecture characteristics do not always belong to an entire system. Monoliths encouraged system-wide thinking, but modern styles often contain independently deployable parts with different operational needs. The chapter introduces the architecture quantum: an independently deployable artifact with high functional cohesion and synchronous connascence. Its scope includes everything required to work independently, including a database. Synchronous calls bind the operational qualities of participants because one waits for the other; asynchronous communication can buffer differences and permit more variation. Domain-driven bounded contexts provide a way to keep models coherent inside a boundary while reconciling them at integration points. In the auction case, bidder feedback, the auctioneer, and online bidders need different availability, scale, elasticity, performance, reliability, and security profiles. Thinking in quanta can reveal a hybrid architecture earlier and guide deployment, data ownership, coupling, and communication choices.",
+  "source": {
+    "startLine": 3724,
+    "endLine": 4044,
+    "pages": "91–98"
+  },
+  "concepts": [
+    {
+      "title": "Why scope narrows",
+      "body": "System-level evaluation was a safe default when applications were monoliths, but it can hide mismatched dependencies. A performant or elastic code base cannot succeed if its database or another dependent component fails the same goal. Architects therefore need a scope that includes the components affecting a characteristic, especially for operational qualities and evolutionary design. The boundary should follow actual coupling and failure impact.",
+      "example": "A read-heavy catalog can scale its application instances, yet a single database with a low connection limit becomes the real ceiling. Evaluating only application code misses the architecture’s bottleneck.",
+      "source": "pp. 91–92"
+    },
+    {
+      "title": "Architecture quantum",
+      "body": "An architecture quantum is an independently deployable artifact with high functional cohesion and synchronous connascence. Independence includes required infrastructure such as a database. Functional cohesion means the quantum serves a purposeful workflow or bounded responsibility. Synchronous calls belong to one operational unit because a caller waits and their qualities must remain compatible during the call. It is a reasoning scope, not merely a deployment label.",
+      "example": "A microservice that owns its order data and synchronously calls a tax service may form one quantum for that workflow if both must be deployed and scaled together to meet its response behavior.",
+      "source": "pp. 92–93"
+    },
+    {
+      "title": "Synchronous and asynchronous",
+      "body": "Synchronous connascence couples runtime characteristics: if one service waits on another, mismatched scale, latency, or reliability creates timeouts and failure chains. Asynchronous communication permits fire-and-forget behavior and can buffer temporary rate differences. The choice carries trade-offs, but it changes the scope at which an architect must reason about quality and failure. Buffering also requires explicit status, retries, and reconciliation decisions.",
+      "example": "If payment handles one transaction every 500 milliseconds while auctions end in bursts, a queue can buffer payment requests instead of allowing synchronous calls to time out.",
+      "source": "pp. 92–94"
+    },
+    {
+      "title": "Bounded contexts",
+      "body": "Domain-driven design’s bounded context keeps a domain model visible internally and opaque outside. Rather than force one organization-wide Customer class, each context can model the entity for its own workflow and reconcile differences at an integration point. This supports functional cohesion and limits shared artifacts that otherwise create coordination and coupling. The boundary protects local meaning while making integration deliberate.",
+      "example": "A bidder reputation context and a payment context can each represent a participant differently, exchanging only the data needed at their boundary instead of sharing every internal field.",
+      "source": "pp. 93–94"
+    },
+    {
+      "title": "Auction quanta",
+      "body": "The Going, Going, Gone case separates bidder feedback, the auctioneer, and online bidders because their characteristics differ. Feedback needs availability, scale, and performance; the auctioneer needs especially strong availability, reliability, ordering, security, scale, and elasticity; bidders need reliable, available, scalable, elastic access. This granularity can lead to a hybrid architecture instead of one system-wide target. The most critical path deserves the clearest guarantees.",
+      "example": "A live auctioneer capture path may receive one authoritative stream, while thousands of bidder streams need elastic read distribution. Treating both as one target obscures their different failure impacts.",
+      "source": "pp. 94–98"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Every architecture characteristic must have one target that applies uniformly to the whole system.",
+      "correction": "Independent parts can have different quality needs and failure impact. Scope characteristics at the architecture quantum or another justified boundary."
+    },
+    {
+      "claim": "Splitting services automatically creates independent architecture quanta.",
+      "correction": "A quantum must be independently deployable, functionally cohesive, and include synchronous dependencies. Shared databases or blocking calls may keep parts coupled."
+    }
+  ],
+  "scenario": {
+    "title": "Give an auction three operating profiles",
+    "context": "An online auction has one authoritative auctioneer, hundreds or thousands of bidders, and a live bid/video feedback stream. Bids must be ordered; bidder views should scale elastically; the auctioneer cannot lose the connection during a live sale. Payment processing is slower than auction completion bursts. Decide where to draw operational boundaries and which link should buffer demand.",
+    "options": [
+      {
+        "label": "One synchronous quantum",
+        "benefit": "A single transaction path simplifies ordering and consistency reasoning across auction, bidder, and payment behavior.",
+        "cost": "The slowest dependency constrains the whole unit, and scaling a bursty bidder view may force the authoritative path to scale and deploy with it.",
+        "consequence": "The system keeps a shared deployment and blocking calls. When many auctions end together, payment latency propagates into auction operations unless capacity is over-provisioned or work is delayed."
+      },
+      {
+        "label": "Split by workflow",
+        "benefit": "Auctioneer capture, bidder access, feedback, and payment can receive different availability, scale, and elasticity targets; queues absorb bursts.",
+        "cost": "Ordering, data ownership, observability, and eventual processing require explicit contracts and operational coordination.",
+        "consequence": "The auction records ordered bids, publishes feedback, and enqueues payment work. Bidder traffic scales independently while the team monitors reconciliation and delayed payment outcomes."
+      }
+    ],
+    "debrief": "The quantum is a reasoning boundary, not a promise that distributed systems are always better. If one set of qualities suffices, a monolith may be simpler. Different profiles and synchronous bottlenecks justify finer boundaries and possibly asynchronous links."
+  },
+  "quiz": [
+    {
+      "question": "Which description matches an architecture quantum?",
+      "options": [
+        "Any class with a public method",
+        "An independently deployable, functionally cohesive artifact plus its synchronous dependencies",
+        "A group of services chosen only because they use the same language"
+      ],
+      "answer": 1,
+      "explanation": "The chapter’s definition requires independent deployment, high functional cohesion, and synchronous connascence. Language choice alone is irrelevant."
+    },
+    {
+      "question": "Why can asynchronous communication help between Auction and Payment?",
+      "options": [
+        "It removes the need to record payments",
+        "It buffers rate differences so auction requests need not wait for a slower payment service",
+        "It guarantees every message is processed immediately"
+      ],
+      "answer": 1,
+      "explanation": "Asynchronous links allow temporary buffering and reduce blocking coupling. They do not erase domain work or guarantee immediate processing."
+    },
+    {
+      "question": "What does a bounded context protect?",
+      "options": [
+        "One universal model that every subsystem must share",
+        "A localized domain model whose internals remain opaque outside its boundary",
+        "A database schema that cannot ever evolve"
+      ],
+      "answer": 1,
+      "explanation": "Bounded contexts keep models coherent locally and reconcile differences at integration points, avoiding broad shared artifacts and coupling."
+    }
+  ],
+  "exercise": {
+    "title": "Mark your quality boundaries",
+    "prompt": "Choose a system with at least two workflows. Draw or describe the independently deployable units, name one synchronous dependency, and decide whether an asynchronous boundary would change a key trade-off.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Workflows and their quality needs"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Quantum boundary and communication style"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Coupling, buffering, or consistency cost"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "workflow",
+        "label": "WORKFLOW",
+        "kind": "blueprint",
+        "tone": "sage"
+      },
+      {
+        "id": "sync",
+        "label": "SYNC CALL",
+        "kind": "router",
+        "tone": "lilac"
+      },
+      {
+        "id": "quantum",
+        "label": "QUANTUM",
+        "kind": "deployment",
+        "tone": "peach"
+      },
+      {
+        "id": "event",
+        "label": "ASYNC BUFFER",
+        "kind": "queue",
+        "tone": "honey"
+      }
+    ],
+    "edges": [
+      {
+        "from": "workflow",
+        "to": "sync"
+      },
+      {
+        "from": "sync",
+        "to": "quantum"
+      },
+      {
+        "from": "quantum",
+        "to": "event"
+      },
+      {
+        "from": "event",
+        "to": "workflow"
+      }
+    ],
+    "steps": [
+      {
+        "node": "workflow",
+        "text": "Identify a purposeful workflow and the domain model that must remain coherent for it."
+      },
+      {
+        "node": "sync",
+        "text": "Trace blocking calls and include each dependency whose response is required to complete the workflow."
+      },
+      {
+        "node": "quantum",
+        "text": "Treat the cohesive, independently deployable set as the scope for operational characteristics."
+      },
+      {
+        "node": "event",
+        "text": "Where rate or quality differences should not block the caller, introduce an asynchronous buffer and explicit reconciliation."
+      }
+    ]
+  }
+}

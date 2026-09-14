@@ -1,0 +1,197 @@
+{
+  "number": 21,
+  "title": "Diagramming and Presenting Architecture",
+  "part": "Techniques & people",
+  "subtitle": "Help each audience see the architecture's shape and story",
+  "summary": "An architect's ideas only matter when managers can fund them and teams can build them, so diagramming and presenting are core architecture skills. Both are visual representations, and both depend on representational consistency: show how a detailed view fits the whole before changing scope. Low-fidelity sketches encourage revision and collaboration before investment in polished artifacts. Diagram tools are most useful when they support layers, reusable stencils, and reliable line connections. UML, C4, and ArchiMate offer different standards and scopes, but no language expresses every architecture. Clear titles, labels, directional lines, colors, and keys prevent misinterpretation. Presentations add a time dimension that documents do not control. Transitions, animation, and incremental builds reveal an argument as it unfolds, while infodecks need to stand alone and presentations deliberately divide the story between slides and speaker. A blank slide can return attention to the speaker. Good visuals carry structure and timing without becoming decoration or a wall of text.",
+  "source": {
+    "startLine": 10731,
+    "endLine": 11078,
+    "pages": "315–324"
+  },
+  "concepts": [
+    {
+      "title": "Representational Consistency",
+      "body": "When moving from an architecture overview to a detailed view, first show the relationship between the part and the whole. This practice preserves scope and prevents viewers from losing their place. The same principle works across diagrams and presentation slides: every zoom, crop, or new medium should make the relationship legible before asking the audience to reason about detail and meaning.",
+      "example": "A plug-in diagram can begin with the entire microkernel and highlight the plug-in area before opening its internals. The audience sees where the detail belongs instead of treating it as a separate system.",
+      "source": "pp. 315–316"
+    },
+    {
+      "title": "Iterate at Low Fidelity",
+      "body": "Early sketches, sticky notes, or a tablet canvas reduce the attachment that grows with time invested in a polished artifact. Low ritual lets a team discard weak ideas, try alternatives, and discover the real design through discussion. A polished tool becomes valuable after the structure has been tested. Layers, stencils, and magnets then improve reuse, consistency, and editing speed for the settled view.",
+      "example": "A team rearranges paper cards for a service boundary in minutes. Once the topology settles, a reusable service stencil and layers produce an overview and detail view from the same design.",
+      "source": "pp. 316–318"
+    },
+    {
+      "title": "Choose a Diagram Language",
+      "body": "UML remains useful for class and sequence diagrams, while C4 organizes Context, Container, Component, and Class views. C4 can be a good organizational standard but fits monoliths better than some distributed topologies. ArchiMate is a lightweight enterprise modeling language for visualizing architecture across business domains. Standards help consistency but cannot remove the need for practical judgment about audience and scope.",
+      "example": "An architect can use a C4 context view for users and external systems, a container view for deployment boundaries, and a sequence diagram for one interaction. The combination communicates more than forcing every concern into one notation.",
+      "source": "pp. 318–319"
+    },
+    {
+      "title": "Make Meaning Visible",
+      "body": "Every diagram element should have a clear title or familiar meaning. Lines need visible weight, direction, and consistent synchronous or asynchronous semantics; shapes need labels; colors should distinguish artifacts only when useful. Add a key whenever shapes could be ambiguous. These small conventions protect the audience from guessing and turn a picture into a shared architecture language for important decisions.",
+      "example": "A solid arrow means a waiting call and a dotted arrow means an event throughout a deck. A legend and labels clarify that a three-dimensional box is deployable while a rectangle is a container.",
+      "source": "pp. 319–320"
+    },
+    {
+      "title": "Present in Time",
+      "body": "A document reader controls their pace; a presenter controls the pace of a live story. Transitions can hide boundaries between slides, and animations can reveal a process or consequence when it becomes relevant. Incremental builds avoid exposing the entire argument at once, while a visually blank slide can shift attention to the speaker. An infodeck is self-contained; a presentation intentionally shares the story between visual and verbal channels.",
+      "example": "To explain a long-lived feature branch, reveal the branch, then the merge delay, then the resulting conflict. A slide full of bullets shown at once would let the audience read the conclusion before the reasoning.",
+      "source": "pp. 321–324"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A polished diagram is better than a rough sketch at every stage.",
+      "correction": "Time invested can create irrational attachment. Early low-fidelity artifacts make alternatives disposable and help a team discover the design before formalizing it."
+    },
+    {
+      "claim": "A presentation should contain every word the architect plans to say.",
+      "correction": "Slides and speaker provide two channels. Incremental visual information plus spoken explanation is more effective; a standalone infodeck has different completeness needs."
+    }
+  ],
+  "scenario": {
+    "title": "Explain the migration without losing the room",
+    "context": "You need approval for moving a monolithic checkout toward separate deployment units. Developers need topology and dependency detail; executives need the reason, risk, and sequence. A single dense diagram can show everything, but audiences may lose scope and read ahead. Design a visual path that respects both audiences and the live presentation's time dimension.",
+    "options": [
+      {
+        "label": "One dense diagram",
+        "benefit": "All components and relationships are available in one artifact for later reference.",
+        "cost": "The audience must decode detail while listening, and the key decision can disappear in visual noise.",
+        "consequence": "Developers may find useful connections, but executives see a wall of boxes and the presenter has little control over when a consequence is introduced."
+      },
+      {
+        "label": "Context then builds",
+        "benefit": "A consistent overview establishes scope, then incremental views reveal only the relationships needed for each decision.",
+        "cost": "Preparing layers, transitions, and a separate reference deck takes more design time.",
+        "consequence": "The live audience follows the migration story in order, while the exported diagram remains traceable through labels and a key. Detail is introduced when it can be understood."
+      }
+    ],
+    "debrief": "The right artifact depends on whether readers control their pace and what they need to decide. Use a shared visual language, preserve context during zooms, and tune completeness and timing to the medium."
+  },
+  "quiz": [
+    {
+      "question": "Before drilling from a system overview into one component, what should the architect show?",
+      "options": [
+        "The component's relationship and location within the overall system",
+        "Only the component's internal class names",
+        "A new unrelated color palette"
+      ],
+      "answer": 0,
+      "explanation": "Representational consistency preserves scope. Viewers need the relationship to the whole before interpreting detail."
+    },
+    {
+      "question": "Which early design practice reduces irrational artifact attachment?",
+      "options": [
+        "Use low-fidelity cards or sketches and revise before polishing",
+        "Spend several hours perfecting a diagram before team review",
+        "Avoid showing alternatives to keep the diagram stable"
+      ],
+      "answer": 0,
+      "explanation": "Low-ritual artifacts are easier to discard, encouraging experimentation and collaboration before formal investment."
+    },
+    {
+      "question": "Why use an incremental build in a live architecture presentation?",
+      "options": [
+        "It controls when visual information appears so the speaker can develop the reasoning",
+        "It makes the slide self-contained without a speaker",
+        "It ensures every bullet is visible before the topic begins"
+      ],
+      "answer": 0,
+      "explanation": "A presentation has a time dimension. Incremental builds avoid overloading the audience and reveal a story as it unfolds."
+    }
+  ],
+  "exercise": {
+    "title": "Storyboard an architecture explanation",
+    "prompt": "Create an overview and one detail view for a system decision. Mark the context bridge, line semantics, labels, key, and the order in which a live audience should see the information.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Audience and architecture decision"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Views, notation, and reveal order"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Clarity gained and preparation cost"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "overview",
+        "label": "CONTEXT VIEW",
+        "kind": "blueprint",
+        "tone": "sage"
+      },
+      {
+        "id": "zoom",
+        "label": "RELATIONSHIP",
+        "kind": "router",
+        "tone": "lilac"
+      },
+      {
+        "id": "detail",
+        "label": "DETAIL VIEW",
+        "kind": "blueprint",
+        "tone": "peach"
+      },
+      {
+        "id": "build",
+        "label": "BUILD",
+        "kind": "component",
+        "tone": "honey"
+      },
+      {
+        "id": "audience",
+        "label": "AUDIENCE",
+        "kind": "team",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "overview",
+        "to": "zoom"
+      },
+      {
+        "from": "zoom",
+        "to": "detail"
+      },
+      {
+        "from": "detail",
+        "to": "build"
+      },
+      {
+        "from": "build",
+        "to": "audience"
+      }
+    ],
+    "steps": [
+      {
+        "node": "overview",
+        "text": "Start with the architecture's scope, users, and major boundaries."
+      },
+      {
+        "node": "zoom",
+        "text": "Highlight where the next detail sits so the audience can retain context."
+      },
+      {
+        "node": "detail",
+        "text": "Show the focused structure with labels, directional lines, and a clear key."
+      },
+      {
+        "node": "build",
+        "text": "Reveal relationships and consequences in the order needed for the argument."
+      },
+      {
+        "node": "audience",
+        "text": "Use the visual and spoken channels together to support the audience's decision."
+      }
+    ]
+  }
+}

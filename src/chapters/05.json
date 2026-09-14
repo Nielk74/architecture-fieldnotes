@@ -1,0 +1,187 @@
+{
+  "number": 5,
+  "title": "Identifying Architectural Characteristics",
+  "part": "Foundations",
+  "subtitle": "Turn stakeholder language into design forces",
+  "summary": "Identifying architectural characteristics starts with domain understanding and collaboration. Architects translate business concerns into a short set of structural qualities, rather than designing a generic system that tries to support every “-ility.” Stakeholders may say growth, satisfaction, time to market, or competitive advantage; architects must connect those goals to scalability, elasticity, availability, testability, deployability, security, and related concerns. Requirements provide explicit clues such as user counts, but domain knowledge exposes implicit realities such as registration surges, bursty meal traffic, or the need to recover an interrupted calculation. Architecture katas practice this translation under a timebox by adding users, requirements, and additional context. The Silicon Sandwiches example shows that each requirement needs interpretation and that trade-offs, feasibility, and collaboration with developers matter more than discovering a perfect list. Prioritize a few characteristics and test which one could be removed.",
+  "source": {
+    "startLine": 2806,
+    "endLine": 3228,
+    "pages": "65–75"
+  },
+  "concepts": [
+    {
+      "title": "Translate domain concerns",
+      "body": "Architects listen for business goals and translate them into structural characteristics. Mergers may imply interoperability and adaptability; time to market may require agility, testability, and deployability; user satisfaction may involve performance, availability, fault tolerance, security, and testability. The mapping is contextual, and a short list keeps the architecture understandable. Stakeholders and architects need a shared language to avoid translation loss.",
+      "example": "‘Finish pricing by end of day’ implies more than speed: the system may need scale, availability, reliability, recoverability, auditability, and correctness when a calculation is interrupted.",
+      "source": "pp. 65–67"
+    },
+    {
+      "title": "Read explicit requirements",
+      "body": "Requirements often encode architecture characteristics indirectly. User counts point toward scalability, but the architect must ask whether traffic is steady or bursty. External services raise reliability and fallback questions; mobile access can shape performance and delivery design; online payment raises security hygiene. Each requirement is a clue to inspect, not a command to add every possible capability. The architect tests the clue against domain behavior and constraints.",
+      "example": "A registration system for 1,000 students should plan for last-minute concentration in the final ten minutes, even if the document only says registration lasts ten hours.",
+      "source": "pp. 66–72"
+    },
+    {
+      "title": "Use implicit domain knowledge",
+      "body": "Important characteristics may never appear in a requirements document. Architects use familiarity with user habits, failure impact, market conditions, and operational context to surface availability, elasticity, recoverability, or reliability. They then validate assumptions with domain stakeholders. Implicit does not mean universal: a concern still needs importance and structural consequences before it earns architectural treatment. Asking focused questions prevents intuition from becoming accidental overengineering.",
+      "example": "Meal ordering likely peaks around lunch and dinner. A sound analysis asks for burst handling and a graceful mapping-service fallback instead of assuming an even flow or a total outage on dependency failure.",
+      "source": "pp. 70–74"
+    },
+    {
+      "title": "Practice with architecture katas",
+      "body": "An architecture kata gives a compact domain description, users, requirements, and additional context. Teams design under a timebox, present their choices, and receive feedback about missed trade-offs and alternatives. The exercise trains architects to derive characteristics before implementation and to reason from domain language. Its value is disciplined practice and critique, not a single winning diagram. Timeboxing also exposes which assumptions deserve more investigation.",
+      "example": "A team gets a sandwich ordering brief, notices franchises and overseas plans, and proposes scalability, elasticity, customizability, internationalization, and mobile performance before debating implementation. Reviewers then question the assumptions behind those priorities.",
+      "source": "pp. 67–69"
+    },
+    {
+      "title": "Prioritize and collaborate",
+      "body": "The chapter recommends asking stakeholders for their top three characteristics rather than forcing a complete ranking. Architects should test the least important candidate and ask whether it can move into ordinary design. Feasibility, budget, staff skills, and timing constrain the answer. No architect should decide structural customization or similar concerns in isolation from developers, operations, analysts, and other co-constructors. Collaboration makes the trade-off visible to the people who must carry it.",
+      "example": "Silicon Sandwiches may keep scalability, elasticity, and availability as structural priorities while implementing local promotions through design patterns if a plug-in architecture costs too much.",
+      "source": "pp. 65–75"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A requirement mentioning many users automatically means the system needs the same architecture as a burst-heavy system.",
+      "correction": "Scale and burst shape are different. User count suggests scalability, while domain behavior such as a deadline or meal rush can reveal elasticity. Both should be investigated rather than assumed identical."
+    },
+    {
+      "claim": "The architect should rank every characteristic alone and then impose the final design.",
+      "correction": "Stakeholders choose a small top set more effectively than a total ranking, and architectural decisions need collaboration with implementation, operations, and domain roles."
+    }
+  ],
+  "scenario": {
+    "title": "Prepare a franchise ordering launch",
+    "context": "A franchised food company is launching mobile ordering. It expects thousands of users now and perhaps millions later, with intense meal-time bursts. Shops need national and local promotions, overseas expansion is possible, mapping services may fail, and the corporate budget favors inexpensive staff. The team can fund three structural priorities in the first release. Select a focused set and explain what you would leave to application design.",
+    "options": [
+      {
+        "label": "Scale and resilience",
+        "benefit": "Handles growth and meal-time bursts while keeping ordering available when a mapping dependency fails.",
+        "cost": "Local customization and internationalization may rely on simpler design mechanisms, increasing future change effort.",
+        "consequence": "The system sets capacity and burst targets, isolates mapping with a fallback, and uses third-party payment handling. Local promotions use configurable workflow code until evidence justifies a plug-in structure."
+      },
+      {
+        "label": "Customization and portability",
+        "benefit": "Makes franchise variations and future overseas deployment easier to introduce without rewriting core behavior.",
+        "cost": "Extra extension points and localization structure consume early budget and may leave peak ordering less robust.",
+        "consequence": "The architecture isolates promotion and locale variation behind explicit contracts. The team must cap launch scope or accept that meal-time scaling and mapping resilience need later investment."
+      }
+    ],
+    "debrief": "The chapter’s method does not prescribe one priority order. Translate the domain, surface implicit traffic and failure behavior, ask stakeholders for the top three, and verify whether each concern changes structure enough to justify its cost."
+  },
+  "quiz": [
+    {
+      "question": "What is the most complete translation of ‘time to market’ into architecture concerns?",
+      "options": [
+        "Performance alone",
+        "Agility together with testability and deployability",
+        "Security and portability only"
+      ],
+      "answer": 1,
+      "explanation": "The source warns that agility alone is not time to market. Teams need the ability to change, verify changes, and release them."
+    },
+    {
+      "question": "What hidden characteristic should a registration architect investigate when users tend to wait until a deadline?",
+      "options": [
+        "Elasticity for a burst of traffic",
+        "Archivability for old registrations",
+        "Localization for every possible country"
+      ],
+      "answer": 0,
+      "explanation": "Domain habits can concentrate load. Elasticity addresses bursts, while the other choices are not implied by procrastination."
+    },
+    {
+      "question": "Why ask stakeholders for their top three characteristics?",
+      "options": [
+        "It creates a useful focus and trade-off conversation without forcing an impossible total ranking",
+        "It proves the architect already knows the correct architecture",
+        "It removes the need to discuss feasibility with developers"
+      ],
+      "answer": 0,
+      "explanation": "A small consensual set is easier to discuss and apply. It does not replace implementation collaboration or guarantee one correct design."
+    }
+  ],
+  "exercise": {
+    "title": "Run a mini architecture kata",
+    "prompt": "Write a four-sentence domain brief, then derive three driving characteristics from explicit requirements and implicit context. Explain one characteristic you would defer and what evidence would change that decision.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Users, domain, and hidden pressure"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Top three characteristics and structural effect"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Deferred quality and revisit evidence"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "domain",
+        "label": "DOMAIN STORY",
+        "kind": "person",
+        "tone": "peach"
+      },
+      {
+        "id": "clues",
+        "label": "CLUES",
+        "kind": "document",
+        "tone": "honey"
+      },
+      {
+        "id": "ilities",
+        "label": "QUALITIES",
+        "kind": "target",
+        "tone": "lilac"
+      },
+      {
+        "id": "design",
+        "label": "DESIGN",
+        "kind": "blueprint",
+        "tone": "sage"
+      }
+    ],
+    "edges": [
+      {
+        "from": "domain",
+        "to": "clues"
+      },
+      {
+        "from": "clues",
+        "to": "ilities"
+      },
+      {
+        "from": "ilities",
+        "to": "design"
+      },
+      {
+        "from": "design",
+        "to": "domain"
+      }
+    ],
+    "steps": [
+      {
+        "node": "domain",
+        "text": "Listen to stakeholders and learn the domain habits, risks, deadlines, and business goals behind the request."
+      },
+      {
+        "node": "clues",
+        "text": "Mark explicit user counts and requirements, then add implicit traffic, dependency, recovery, and feasibility clues."
+      },
+      {
+        "node": "ilities",
+        "text": "Translate clues into a short candidate set and ask stakeholders to choose the few characteristics that matter most."
+      },
+      {
+        "node": "design",
+        "text": "Test structural consequences, collaborate on trade-offs, and remove a candidate if it is not worth its complexity."
+      }
+    ]
+  }
+}

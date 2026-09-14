@@ -1,0 +1,197 @@
+{
+  "number": 18,
+  "title": "Choosing the Appropriate Architecture Style",
+  "part": "Architecture styles",
+  "subtitle": "Choose the least-worst fit for this domain and its constraints",
+  "summary": "There is no universally correct architecture style: style selection is a contextual trade-off among domain shape, required architecture characteristics, data, organization, process, team capability, and operations. Technology fashion shifts because prior pain, ecosystem change, new capabilities, acceleration, domain change, technology change, and external pressures alter the available choices. Architects should look for domain/architecture isomorphism, where a problem's structure naturally matches a style, and should decide whether one quantum is enough or different parts need different characteristics. Data placement and service communication follow from that analysis; synchronous communication is the default because it is easier, while asynchronous communication is reserved for a demonstrated need. The Silicon Sandwiches examples show a modular monolith and a microkernel can both fit a simple system, while Going, Going, Gone uses microservices and queues to separate demanding auction characteristics. The resulting design is a defensible set of trade-offs, not a single answer key.",
+  "source": {
+    "startLine": 9199,
+    "endLine": 9588,
+    "pages": "267–277"
+  },
+  "concepts": [
+    {
+      "title": "Why Styles Shift",
+      "body": "Architecture fashion follows experience and changing conditions. Pain in earlier systems exposes new trade-offs; tools and platforms alter what is practical; new capabilities can create a new paradigm; and faster ecosystem change keeps the decision space moving. Domain evolution, technology strategy, mergers, licensing, and other external pressures also reshape a reasonable choice. Trends are evidence to examine, not a substitute for analysis.",
+      "example": "A team may hear that containers are now standard, but its choice still depends on deployment skills, required elasticity, and the cost of changing a stable system. A new capability matters when it changes those forces.",
+      "source": "pp. 267–268"
+    },
+    {
+      "title": "Decision Inputs",
+      "body": "Before choosing a style, understand the domain, the architecture characteristics that affect structure, the existing data architecture, organizational constraints, development and operations processes, and team knowledge. A style that relies on mature automation or Agile practice can be a poor fit for an organization that cannot yet support those practices. Data experts and architects must reason together because schemas and legacy integrations constrain structure.",
+      "example": "A regulated organization planning an acquisition may favor open integration boundaries, even when a closed vendor solution looks simpler. The organizational strategy changes the architecture forces alongside functional requirements.",
+      "source": "pp. 269–270"
+    },
+    {
+      "title": "Isomorphism and Quanta",
+      "body": "Domain/architecture isomorphism asks whether the shape of the problem resembles the topology of a style. Customizable products align with microkernel plug-ins; systems needing many discrete processors can align with space-based approaches. Quantum analysis asks whether one set of characteristics serves the whole system. One quantum supports a monolith; different characteristics imply distributed boundaries and more coordination. This test keeps topology purposeful.",
+      "example": "An auction has many bidders, a high-rate read stream, and a slower payment provider. Treating each as one deployment unit would force conflicting scale and latency choices, so separate quanta are useful.",
+      "source": "pp. 269–270, 274–277"
+    },
+    {
+      "title": "Communication as a Consequence",
+      "body": "After deciding where data lives, choose how parts communicate. Synchronous calls are convenient and easier to design and debug, so they are the default. Asynchronous communication can improve performance, elasticity, or isolation, but introduces synchronization, race conditions, deadlocks, and harder debugging. The choice should follow a real constraint rather than a preference for fashionable distributed mechanisms when constraints demand it.",
+      "example": "A payment provider that processes one request every half second can be protected by a queue when many auctions finish together. A simple internal lookup with short work may remain synchronous.",
+      "source": "p. 270, 275–276"
+    },
+    {
+      "title": "Case Study Trade-offs",
+      "body": "Silicon Sandwiches can use a domain-partitioned modular monolith with one database, or a microkernel whose plug-ins isolate customization; both retain a simple deployment. Going, Going, Gone needs finer separation for bidder, auctioneer, streams, tracking, and payment. Microservices plus asynchronous queues handle unequal characteristics, but orchestration, data separation, and network calls still create performance and reliability work. Each option exposes costs.",
+      "example": "A microkernel BFF adaptor can tailor generic backend data for iOS without moving every device concern into the core. In GGG, BidTracker buffers different bid streams before ordering them.",
+      "source": "pp. 271–277"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "The newest or most popular style is automatically the best choice.",
+      "correction": "Popularity reflects changing conditions and past pain, but the domain, characteristics, data, organization, and team determine fit. A stable monolith can be the least-worst choice."
+    },
+    {
+      "claim": "Asynchronous communication is the modern default for distributed systems.",
+      "correction": "Asynchrony offers specific scale and performance benefits while adding synchronization and debugging problems. The chapter recommends synchronous communication by default and asynchronous communication when necessary."
+    }
+  ],
+  "scenario": {
+    "title": "Choose a shape for a new service",
+    "context": "A small team is building a sandwich ordering product with modest traffic, a limited budget, and a requirement for customer-specific menu rules. A second initiative is an auction platform with bursty bidder traffic, a read-heavy stream, and a payment provider with a fixed processing rate. You must choose a style per context and explain which characteristics drive the boundary.",
+    "options": [
+      {
+        "label": "Modular monolith",
+        "benefit": "One deployment and one database keep operations and coordination simple for the modest ordering system.",
+        "cost": "Independent scaling and deployment are limited, and customization needs explicit domain design rather than structural plug-ins.",
+        "consequence": "The small team can ship the ordering flow quickly and keep related transactions simple. If demand or team boundaries change, separated tables and components leave a possible migration path."
+      },
+      {
+        "label": "Distributed services",
+        "benefit": "Auction functions can scale and evolve with different characteristics, while queues buffer the payment bottleneck.",
+        "cost": "Network calls, data boundaries, deployment automation, and asynchronous failure handling increase operational and design complexity.",
+        "consequence": "Bid capture and streaming can absorb different loads from payment. The team must pay for observability and coordination, and should avoid distributing the simple ordering product merely for fashion."
+      }
+    ],
+    "debrief": "The two contexts produce different least-worst choices. Architecture style follows the forces and domain topology; the same organization may reasonably use a modular monolith in one area and distributed services in another."
+  },
+  "quiz": [
+    {
+      "question": "Which finding most strongly supports a distributed architecture?",
+      "options": [
+        "Different parts need materially different architecture characteristics",
+        "The team has seen a popular distributed style online",
+        "The code could be divided into many classes"
+      ],
+      "answer": 0,
+      "explanation": "Different characteristics imply separate quanta may be needed. Popularity and class count do not by themselves justify runtime distribution."
+    },
+    {
+      "question": "A domain consists of highly coupled multipage forms where each page depends on prior context. Which reasoning is best?",
+      "options": [
+        "A highly decoupled distributed style may fit poorly; consider a more coupled style",
+        "Microservices is ideal because every page can be its own service",
+        "Data architecture can be ignored until after deployment"
+      ],
+      "answer": 0,
+      "explanation": "Semantic coupling makes fine distribution difficult. The chapter uses this kind of domain as an example where a less-decoupled style may fit better."
+    },
+    {
+      "question": "What should justify adding asynchronous messaging between two components?",
+      "options": [
+        "A demonstrated need for scale, performance, or isolation that outweighs added coordination",
+        "A desire to make every architecture look distributed",
+        "The assumption that asynchronous calls are always faster"
+      ],
+      "answer": 0,
+      "explanation": "Asynchronous communication introduces race conditions, synchronization, and debugging costs. It earns its place when a real constraint requires its benefits."
+    }
+  ],
+  "exercise": {
+    "title": "Write a style decision",
+    "prompt": "For a system you know, list the domain forces and architecture characteristics before choosing a style. Record whether one quantum is enough, where data lives, and why communication is synchronous or asynchronous.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Domain, team, data, and constraints"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Chosen style or hybrid"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Benefits, costs, and revisit signals"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "forces",
+        "label": "FORCES",
+        "kind": "balance",
+        "tone": "peach"
+      },
+      {
+        "id": "characteristics",
+        "label": "-ILITIES",
+        "kind": "gauge",
+        "tone": "honey"
+      },
+      {
+        "id": "style",
+        "label": "STYLE FIT",
+        "kind": "blueprint",
+        "tone": "sage"
+      },
+      {
+        "id": "data",
+        "label": "DATA FLOW",
+        "kind": "blueprint",
+        "tone": "lilac"
+      },
+      {
+        "id": "topology",
+        "label": "TOPOLOGY",
+        "kind": "blueprint",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "forces",
+        "to": "style"
+      },
+      {
+        "from": "characteristics",
+        "to": "style"
+      },
+      {
+        "from": "style",
+        "to": "data"
+      },
+      {
+        "from": "data",
+        "to": "topology"
+      }
+    ],
+    "steps": [
+      {
+        "node": "forces",
+        "text": "Start with the domain, organization, teams, process, and external pressures."
+      },
+      {
+        "node": "characteristics",
+        "text": "Identify the architecture characteristics that must shape the solution."
+      },
+      {
+        "node": "style",
+        "text": "Test domain and style isomorphism and decide whether one quantum is enough."
+      },
+      {
+        "node": "data",
+        "text": "Choose data ownership and the communication mode that the constraints require."
+      },
+      {
+        "node": "topology",
+        "text": "Record the least-worst topology, its trade-offs, decisions, and fitness checks."
+      }
+    ]
+  }
+}

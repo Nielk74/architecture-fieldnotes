@@ -1,0 +1,187 @@
+{
+  "number": 2,
+  "title": "Architectural Thinking",
+  "part": "Foundations",
+  "subtitle": "See the forces behind a design decision",
+  "summary": "Architectural thinking is a way of seeing software through structure, constraints, and consequences. It starts by treating architecture and design as a shared, evolving activity between architects and developers rather than a handoff across a barrier. Architects need broad technical awareness alongside selected areas of depth, because recognizing several viable approaches is often more useful than preserving expertise in one tool. Every choice carries trade-offs: extensibility can increase exposure, coupling, or operational difficulty. The architect therefore translates business drivers into architectural concerns such as scale, performance, security, or availability, then chooses a contextually suitable balance. Staying hands-on through production work, proof of concepts, architecture stories, bug fixes, automation, and reviews keeps decisions grounded in implementation reality without making the architect a delivery bottleneck.",
+  "source": {
+    "startLine": 1323,
+    "endLine": 1767,
+    "pages": "23–36"
+  },
+  "concepts": [
+    {
+      "title": "Architecture and design",
+      "body": "Architecture identifies important structural concerns, characteristics, patterns, and major components; design fills in the detailed classes, screens, and code. The boundary is porous: decisions change as implementation reveals new constraints. A bidirectional relationship lets developers challenge architectural assumptions and lets architects coach, refine, and keep the solution aligned with its purpose. Shared feedback also exposes feasibility problems while they are still inexpensive to change.",
+      "example": "A team discovers that a proposed service boundary makes a core workflow awkward to test. The architect joins the redesign, changes the boundary, and updates the rationale before the coupling becomes expensive.",
+      "source": "pp. 23–25"
+    },
+    {
+      "title": "Breadth and depth",
+      "body": "Developers commonly invest in deep working expertise, while architects gain value by widening the set of technologies and solution patterns they can recognize. Breadth does not mean shallow opinions or trying to retain mastery of everything. It means knowing enough about alternatives and their constraints to ask useful questions, while maintaining a few areas of depth for credibility and practical judgment.",
+      "example": "An architect familiar with relational databases, event streams, and caches can compare five plausible designs, then prototype the two that fit the workload instead of defaulting to the tool used last year.",
+      "source": "pp. 25–30"
+    },
+    {
+      "title": "Trade-off analysis",
+      "body": "No architecture answer is universally correct because deployment environment, budget, culture, skills, time, and business priorities change the balance. For an auction, publish-subscribe topics make adding consumers easier and decouple producers, while queues isolate contracts, access, and consumer scaling. Good architectural thinking names both benefits and liabilities before deciding which concern matters most here. The decision should also state which assumption would cause the team to revisit it.",
+      "example": "A bid topic simplifies adding analytics, but a regulated payment consumer may need a separate queue and contract so access and backlog can be monitored tightly.",
+      "source": "pp. 30–34"
+    },
+    {
+      "title": "Business drivers",
+      "body": "Architects convert domain goals into structural concerns. A request for growth may imply scalability and elasticity; a safety-sensitive workflow may imply reliability, recoverability, and auditability. The translation requires domain knowledge and collaboration because the same word, such as fast or available, can hide different thresholds. The resulting characteristics guide design and trade-off discussion. Stakeholders supply the meaning and priorities behind the engineering vocabulary.",
+      "example": "For an end-of-day pricing system, speed alone is insufficient: the design also needs availability, scale, restartability, reliability, and checks that the calculated prices are correct.",
+      "source": "pp. 33–34"
+    },
+    {
+      "title": "Hands-on without bottlenecks",
+      "body": "Architects should keep technical depth, but owning framework code on the critical path turns them into a delivery bottleneck. Safer ways to stay close include production-quality proofs of concept, technical-debt or architecture stories, bug fixes, automation, fitness functions, and frequent code reviews. These activities expose real implementation pain and distribute ownership to the team. They also create concrete evidence for future architectural decisions.",
+      "example": "While developers build the shared deployment framework, the architect prototypes two caching approaches, automates a dependency check, and reviews the business service that will ship next iteration.",
+      "source": "pp. 34–36"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Architecture is a document handed from an architect to developers, after which design begins.",
+      "correction": "The chapter presents architecture and design as synchronized, iterative work. A one-way handoff loses implementation feedback and lets architectural drift go unnoticed."
+    },
+    {
+      "claim": "The most extensible or technically sophisticated option is automatically the best architecture.",
+      "correction": "Extensibility is only one benefit. Security, contract flexibility, observability, scaling, cost, and team context can make a less extensible option the least-worst choice."
+    }
+  ],
+  "scenario": {
+    "title": "Route bids to three consumers",
+    "context": "An auction platform captures bids and sends them to tracking, analytics, and history. History needs a richer contract than the other consumers, while security and independent consumer scaling matter during bidding bursts. The team expects more consumers later, but the current platform can monitor queues more precisely than a shared topic. Choose a communication shape and explain which risk the business is willing to carry.",
+    "options": [
+      {
+        "label": "Publish to a topic",
+        "benefit": "One producer connection makes future consumers easy to add and reduces producer knowledge of consumers.",
+        "cost": "Consumers share a contract and bid data may be visible to more subscribers; per-consumer backlog scaling is less direct.",
+        "consequence": "Bid History subscribes without changing Bid Producer. The team must enforce subscriber authorization and either accept a common schema or add an adaptation layer for richer history data."
+      },
+      {
+        "label": "Send through queues",
+        "benefit": "Each consumer can have its own contract, access boundary, backlog, and scaling policy.",
+        "cost": "The producer knows every destination and must change when a new consumer appears, increasing coupling and operational wiring.",
+        "consequence": "History gets its current-price field without disturbing other consumers, and operators can scale analytics separately. Adding a fourth consumer requires producer and infrastructure changes."
+      }
+    ],
+    "debrief": "Neither mechanism wins in the abstract. The topic favors extensibility and producer decoupling; queues favor isolation, heterogeneous contracts, and per-consumer operations. Business priorities and platform capabilities determine the balance."
+  },
+  "quiz": [
+    {
+      "question": "A developer finds that a proposed architecture makes a workflow difficult to test. What is the strongest architectural response?",
+      "options": [
+        "Treat the architecture as fixed and ask the developer to follow it",
+        "Collaborate, revisit the boundary, and evolve the design with implementation evidence",
+        "Move all detailed decisions to a separate architecture committee"
+      ],
+      "answer": 1,
+      "explanation": "Architecture and design evolve together. Collaboration surfaces a structural problem early; a fixed handoff or distant committee preserves the very barrier that causes drift."
+    },
+    {
+      "question": "Why might an architect choose a queue instead of a topic for an auction consumer?",
+      "options": [
+        "Queues always have lower latency than topics",
+        "Queues allow each consumer to use a separate contract and independently monitored backlog",
+        "Queues eliminate every form of coupling between producer and consumer"
+      ],
+      "answer": 1,
+      "explanation": "The source identifies consumer-specific contracts, access, monitoring, and programmatic scaling as queue benefits. Queues still couple the producer to destinations, and no mechanism is always faster."
+    },
+    {
+      "question": "Which activity keeps an architect hands-on while reducing the risk of blocking delivery?",
+      "options": [
+        "Owning the shared framework on the critical path",
+        "Writing a production-quality proof of concept or an architecture fitness check",
+        "Avoiding source code and relying on diagrams"
+      ],
+      "answer": 1,
+      "explanation": "A bounded proof of concept or automated check exercises implementation judgment without making the architect the sole owner of code every developer needs to proceed."
+    }
+  ],
+  "exercise": {
+    "title": "Make a least-worst decision",
+    "prompt": "Choose a real or invented system decision. Name the business driver, compare two plausible designs, and record the trade-off you would revisit if the context changed.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Users, constraints, and business priority"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "The design choice and why it fits"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "The benefit accepted and cost carried"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "driver",
+        "label": "GOAL",
+        "kind": "target",
+        "tone": "peach"
+      },
+      {
+        "id": "concern",
+        "label": "CONCERN",
+        "kind": "gauge",
+        "tone": "sage"
+      },
+      {
+        "id": "choice",
+        "label": "TRADE-OFF",
+        "kind": "balance",
+        "tone": "lilac"
+      },
+      {
+        "id": "feedback",
+        "label": "FEEDBACK",
+        "kind": "message",
+        "tone": "honey"
+      }
+    ],
+    "edges": [
+      {
+        "from": "driver",
+        "to": "concern"
+      },
+      {
+        "from": "concern",
+        "to": "choice"
+      },
+      {
+        "from": "choice",
+        "to": "feedback"
+      },
+      {
+        "from": "feedback",
+        "to": "concern"
+      }
+    ],
+    "steps": [
+      {
+        "node": "driver",
+        "text": "Stakeholders state the outcome, constraint, or risk that makes the system valuable."
+      },
+      {
+        "node": "concern",
+        "text": "Translate that domain language into a small set of structural characteristics such as scale, security, or recovery."
+      },
+      {
+        "node": "choice",
+        "text": "Compare candidate designs by benefits and costs in this environment, then select the least-worst balance."
+      },
+      {
+        "node": "feedback",
+        "text": "Developers test the decision in real code and feed discoveries back into the architecture."
+      }
+    ]
+  }
+}

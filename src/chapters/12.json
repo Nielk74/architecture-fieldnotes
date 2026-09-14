@@ -1,0 +1,187 @@
+{
+  "number": 12,
+  "title": "Microkernel Architecture Style",
+  "part": "Architecture styles",
+  "subtitle": "Keep the happy path steady while volatile features plug in",
+  "summary": "Microkernel architecture divides a monolithic application into a minimal core system and independent plug-ins. The core can mean the minimum needed to run or the stable happy path; volatile, client-specific, or jurisdiction-specific rules move into plug-ins. A registry discovers available modules, and a standard contract defines behavior, inputs, and outputs. Plug-ins may be compile-time libraries or runtime modules, and they may communicate locally, through messaging, or over REST. Remote plug-ins improve decoupling, scaling, and runtime change but turn the system into a distributed architecture with new failure and cost. The style fits products and business domains with strong customization, such as IDEs, browsers, claims rules, and tax forms. It improves extensibility and isolation while keeping a core-system coupling point.",
+  "source": {
+    "startLine": 5679,
+    "endLine": 6088,
+    "pages": "149–161"
+  },
+  "concepts": [
+    {
+      "title": "Core and plug-ins",
+      "body": "The core system contains the minimum capability needed to run, or the general happy path with little custom processing. Plug-ins are standalone components for specialized features, client customization, and volatile rules. Moving branching complexity out of the core lowers cyclomatic complexity and makes changes easier to isolate. Ideally plug-ins do not depend on one another; the core locates and invokes the one appropriate to the request.",
+      "example": "A device assessment core accepts a device identifier, looks up its plug-in, and invokes a standard assessment operation. Adding a new phone model changes the registry and adds one component instead of another branch in the core.",
+      "source": "pp. 149–151"
+    },
+    {
+      "title": "Local or runtime extension",
+      "body": "Compile-based plug-ins can be simple shared libraries or packages but require redeploying the monolith when changed. Runtime plug-ins can be added or removed independently through a module framework, improving deployment scope and customization. Both remain behind the core's entry point in the common monolithic topology. The core may itself be layered or modular, and the presentation can be embedded or separate.",
+      "example": "An IDE can install a formatter without changing its editor core. A packaged customer product may compile approved modules into one release, while a hosted product can load runtime modules under a managed registry.",
+      "source": "pp. 151–155"
+    },
+    {
+      "title": "Remote plug-ins change the boundary",
+      "body": "A plug-in can be invoked by REST or messaging as a standalone service. This offers independent scaling, runtime changes without a special module framework, and asynchronous processing. However, every request still enters through the core, so the system remains one architectural quantum around that coupling point. Remote access adds network latency, security, deployment complexity, cost, and an unavailable-plug-in failure mode. The requirement should decide the boundary.",
+      "example": "A slow device assessment can run asynchronously and notify the core when complete. If the assessment endpoint is unavailable, the core needs a retry or status path that a local plug-in would not require.",
+      "source": "pp. 155–156"
+    },
+    {
+      "title": "Registry and contract",
+      "body": "The registry records how to find each module, its name, data contract, and possibly its protocol. A standard plug-in contract states behavior plus input and output data; an adapter can translate a third-party module into that standard. The core should pass needed data to a plug-in rather than make every plug-in reach a shared database. A plug-in may own a private store for rules or specialized data.",
+      "example": "An assessment contract can expose assess, register, and deregister operations plus a report, resale flag, value, and price. The core displays the report without interpreting product-specific rule details.",
+      "source": "pp. 156–158"
+    },
+    {
+      "title": "Where it fits and what it costs",
+      "body": "Products with user customization and domains with many changing variants fit microkernel well. Eclipse, browsers, Jenkins, claims processing, and tax preparation illustrate a stable driver with extensible rules. The style is technically partitioned and can also reflect domain boundaries. Its main strengths are simplicity, cost, isolation, and extensibility; monolithic deployment weakens elasticity and fault tolerance. Independent modules improve testability and deployment only when contracts and runtime management are done well.",
+      "example": "A claims core handles filing and settlement flow while jurisdiction plug-ins hold local rules. Adding a jurisdiction should leave other rule modules untouched, but the core still needs a compatible contract and safe module lifecycle.",
+      "source": "pp. 158–161"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A plug-in architecture means plug-ins are always independently deployable services.",
+      "correction": "Plug-ins can be packages compiled into a monolith, runtime modules, or remote services. Only the remote choice creates the distributed network boundary and its associated failure modes."
+    },
+    {
+      "claim": "Moving every rule into plug-ins removes all coupling.",
+      "correction": "The core, registry, and standard contracts remain coupling points. A contract change or core failure can affect every plug-in, so isolation is scoped rather than absolute."
+    }
+  ],
+  "scenario": {
+    "title": "Jurisdiction rules for a claims product",
+    "context": "An insurer has a stable claims workflow but rules vary by region and change often. Customers install the product on premises with limited outbound network access. A new region must be added without rewriting tested rules for existing regions, and an operations team wants a clear rollback path when a rule module is defective and regulatory audits arrive for every installed customer.",
+    "options": [
+      {
+        "label": "Runtime local plug-ins",
+        "benefit": "Each region's rules stay isolated and can be installed or rolled back without a full product redeploy.",
+        "cost": "The product needs a module registry, compatibility checks, lifecycle controls, and tests for core-to-plug-in contracts.",
+        "consequence": "A new regional package can be registered on the customer's site and disabled if validation fails. The core remains available, while a bad module is contained to claims using that region."
+      },
+      {
+        "label": "Remote rules services",
+        "benefit": "Rules can scale and release independently, and a central team can update them without visiting each installation.",
+        "cost": "On-prem installations now depend on connectivity, endpoint security, remote availability, and versioned network contracts.",
+        "consequence": "Central updates are convenient for connected customers, but an outage or firewall change can block claims processing. The product must define offline behavior or accept the new distributed risk for disconnected sites."
+      }
+    ],
+    "debrief": "The stable workflow and volatile regional rules point toward a microkernel. Local runtime modules preserve on-prem operation; remote services are justified only when their operational benefits outweigh the network boundary and the product's deployment context."
+  },
+  "quiz": [
+    {
+      "question": "What belongs in the microkernel core?",
+      "options": [
+        "Every client-specific rule so plug-ins remain empty",
+        "The minimum runtime or stable happy path needed to coordinate extensions",
+        "Only a database schema shared directly by all plug-ins"
+      ],
+      "answer": 1,
+      "explanation": "The core should provide the stable driver and invoke specialized modules. Client-specific complexity is what the plug-ins isolate."
+    },
+    {
+      "question": "Why is a standard plug-in contract useful when modules come from third parties?",
+      "options": [
+        "It lets the core invoke every module with one behavior and data shape, using an adapter where needed",
+        "It guarantees the remote network never fails",
+        "It allows each plug-in to change the core's database schema directly"
+      ],
+      "answer": 0,
+      "explanation": "A common contract protects the core from module-specific details; adapters translate nonstandard third-party contracts."
+    },
+    {
+      "question": "Which trade-off appears when a local plug-in becomes a REST service?",
+      "options": [
+        "The system loses all extensibility",
+        "The system gains independent scaling but adds distributed failure, latency, and cost",
+        "The core no longer participates in requests"
+      ],
+      "answer": 1,
+      "explanation": "Remote plug-ins can scale and change independently, but every request still crosses the core and network, introducing distributed concerns."
+    }
+  ],
+  "exercise": {
+    "title": "Specify an extension point",
+    "prompt": "Design a plug-in boundary for a product or business process. Define the stable core behavior, the volatile module, one registry entry, and the contract fields needed to test compatibility.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Stable workflow and the variants that change"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Core, plug-in, registry, and local or remote invocation"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Isolation gained, lifecycle cost, and failure behavior"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "core",
+        "label": "CORE SYSTEM",
+        "kind": "service",
+        "tone": "sage"
+      },
+      {
+        "id": "registry",
+        "label": "PLUGIN MAP",
+        "kind": "router",
+        "tone": "lilac"
+      },
+      {
+        "id": "plugin",
+        "label": "PLUGIN",
+        "kind": "plugin",
+        "tone": "peach"
+      },
+      {
+        "id": "contract",
+        "label": "CONTRACT",
+        "kind": "document",
+        "tone": "lilac"
+      }
+    ],
+    "edges": [
+      {
+        "from": "core",
+        "to": "registry"
+      },
+      {
+        "from": "registry",
+        "to": "plugin"
+      },
+      {
+        "from": "core",
+        "to": "contract"
+      },
+      {
+        "from": "plugin",
+        "to": "contract"
+      }
+    ],
+    "steps": [
+      {
+        "node": "core",
+        "text": "The stable happy path receives a request without embedding every variant rule."
+      },
+      {
+        "node": "registry",
+        "text": "The core resolves the context to a registered plug-in and invocation mode."
+      },
+      {
+        "node": "plugin",
+        "text": "The selected module performs volatile or client-specific processing in isolation."
+      },
+      {
+        "node": "contract",
+        "text": "A standard input and output contract returns a result the core can display or continue."
+      }
+    ]
+  }
+}

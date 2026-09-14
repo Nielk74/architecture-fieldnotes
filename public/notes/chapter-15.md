@@ -1,0 +1,19 @@
+# Chapter 15: Space-Based Architecture Style
+
+Space-based architecture targets applications whose concurrent load is very high, highly variable, or difficult to predict. Traditional web topology can scale its web servers, but pressure eventually reaches the application server and then the database, the narrowest part of the triangle. Space-based architecture removes the database from synchronous transactional processing by keeping active data in memory inside parallel processing units. Updates reach the database asynchronously, and units can start or stop as demand changes (source lines 7522–7607, printed pp. 211–213).
+
+A processing unit contains application logic and one or more in-memory data grids. Virtualized middleware surrounds the units. Its messaging grid routes requests and session state; its data grid synchronizes cache contents; an optional processing grid coordinates a request that spans units; and the deployment manager adds or removes units based on load. The result is a topology in which any active unit can handle a request against its local data rather than synchronously querying the central database. These components are described at lines 7608–7835 (pp. 213–218).
+
+Data pumps keep the database as the durable system of record without putting it on the hot path. The unit that owns an update sends a durable asynchronous message containing an action and new values. A data writer consumes the pump and applies the change. If every unit for a cache has crashed or been redeployed, a data reader loads data from the database through a reverse data pump: one temporary cache owner acquires a lock, loads the data, then releases it for the other units to synchronize. Readers and writers can hide table details behind a data abstraction contract, buffering a database schema change while caches evolve (lines 7836–8010; pp. 219–223).
+
+Replicated caches introduce a consistency hazard. If two active units update the same row before replication arrives, each can overwrite the other with an old value. The book's inventory example changes 500 units to 490 and 495 concurrently, even though the correct result is 485. Collision probability rises with instance count, update rate, and replication latency, and falls with cache size. The chapter provides a planning formula but stresses that replication latency should be measured in production (lines 8011–8126; pp. 223–226).
+
+Replicated caching is fast and avoids a central cache dependency, making it suitable for smaller, relatively static data with low update rates. Distributed caching keeps one external cache and therefore favors consistency for large or highly dynamic data, but remote access and a cache outage weaken performance and fault tolerance. Both models may be used in one application. A near-cache combines them, yet differing front caches make performance and responsiveness uneven, which is why the chapter discourages it (lines 8127–8214; pp. 226–230).
+
+Ticket sales and auctions illustrate the intended fit: demand spikes sharply, units can be added ahead of the surge, and asynchronous pumps keep the durable store from blocking every transaction. The final ratings describe five-star performance, scalability, and elasticity but low simplicity and testability, plus higher resource and licensing cost (lines 8215–8315; pp. 231–234). The lesson's ticketing scenario and all workload figures are teaching extensions. Its visual shows request routing, in-memory processing, cache choice, durable pump, and system of record. The learner should leave able to assign a cache model by data need rather than by speed alone.
+
+## Source map
+
+- Motivation, processing units, middleware, and deployment manager: source lines 7522–7835, printed pp. 211–218.
+- Pumps, readers/writers, abstraction, and collisions: source lines 7836–8126, printed pp. 219–226.
+- Cache choices, examples, and ratings: source lines 8127–8315, printed pp. 226–234.

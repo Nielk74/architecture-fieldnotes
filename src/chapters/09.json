@@ -1,0 +1,189 @@
+{
+  "number": 9,
+  "title": "Foundations",
+  "part": "Architecture styles",
+  "subtitle": "Name the shape, then price the distance between its parts",
+  "summary": "Architecture styles are shared names for a topology and the characteristics it tends to support or weaken. This chapter introduces the contrast between an unstructured Big Ball of Mud, a single unitary system, and progressively partitioned client/server and three-tier arrangements. It then separates monolithic deployments from distributed ones. Distribution can improve performance, scale, and availability, but it exposes every design to eight network fallacies: connectivity, latency, bandwidth, security, changing topology, many administrators, transport cost, and heterogeneous equipment. Distributed logging, transactions, and contract versioning add operational work. The useful habit is to treat a style name as a starting hypothesis, inspect its assumptions, and measure the environment before choosing it.",
+  "source": {
+    "startLine": 4693,
+    "endLine": 5184,
+    "pages": "119–132"
+  },
+  "concepts": [
+    {
+      "title": "A style is a compact design vocabulary",
+      "body": "An architecture style names a relationship among components and carries default assumptions about topology, deployment, data, and architecture characteristics. Saying layered monolith or client/server lets an experienced team discuss likely strengths and weaknesses without redrawing every connection. The name is a useful hypothesis, not a guarantee: a style can be implemented in variants, and a local decision can change its actual behavior. Learn the topology and the trade-offs that the shorthand implies.",
+      "example": "When a team calls a system browser plus web server, ask where the database runs, which calls are remote, and which characteristics are priorities. The label narrows the questions; it does not answer them.",
+      "source": "pp. 119–121"
+    },
+    {
+      "title": "From mud to partitioning",
+      "body": "A Big Ball of Mud has no discernible structure: dependencies spread promiscuously, quick repairs accumulate, and the effect of a change is hard to predict. A unitary architecture keeps software on one computer and can suit constrained embedded systems, but growing functionality usually creates pressure to separate concerns. Client/server divides front end from back end; desktop plus database, browser plus web server, and three-tier systems are historical variants of that separation.",
+      "example": "A small kiosk may keep its interface, rules, and local store together. A growing retail site can move presentation to a browser, application work to a server, and durable data to a database tier, gaining separation while adding network assumptions.",
+      "source": "pp. 120–122"
+    },
+    {
+      "title": "Monolith or distributed deployment",
+      "body": "A monolith is one deployment unit containing all code; a distributed architecture has multiple deployment units connected through remote protocols. Distribution can provide more performance, scalability, and availability, but every remote boundary adds failure modes and coordination. The classification is imperfect, yet it is useful because distributed systems share problems that a monolith usually avoids. Choose distribution for a needed characteristic and budget for the resulting operational complexity.",
+      "example": "Splitting checkout and inventory into separate services may let inventory scale independently. It also means a checkout now depends on a network call, endpoint security, compatible contracts, and an answer to partial failure.",
+      "source": "pp. 123–124"
+    },
+    {
+      "title": "The network fallacies are coupled",
+      "body": "The eight fallacies are a checklist for rejecting comfortable assumptions. Networks fail; remote latency is measured in milliseconds and has a long tail; bandwidth is finite; every endpoint needs security; topology changes; several administrators own pieces of the path; remote calls consume money and infrastructure; and equipment is heterogeneous. These assumptions reinforce one another: excess payload raises bandwidth use, which raises latency, while topology or equipment changes can alter reliability. Measure averages and high percentiles, and pass only necessary data.",
+      "example": "If a wishlist call fetches a 500-kilobyte customer record to use a 200-byte name, high request volume burns bandwidth and increases latency. A smaller contract or field selector reduces the boundary cost.",
+      "source": "pp. 124–130"
+    },
+    {
+      "title": "Distributed work needs operational design",
+      "body": "Once an application is spread across deployment units, one log is no longer enough to explain a request. Transactions that were simple ACID commits in a monolith become eventual-consistency problems across services; sagas and BASE techniques can coordinate progress and compensation. Teams must also create, maintain, version, and eventually retire contracts between separately owned components. These are architecture concerns, not afterthoughts added when the first incident arrives.",
+      "example": "An order may be stored before payment is accepted. A saga can record the state and compensate the order when payment fails, while a correlation identifier lets operators trace the path across service logs.",
+      "source": "pp. 131–132"
+    },
+    {
+      "title": "Simple decisions have long shadows",
+      "body": "The chapter uses Java serialization as a warning about decisions made for a fashionable architecture. Three-tier computing influenced language design, and a mechanism intended to make networked objects convenient remained for compatibility after the style lost its dominance. Favoring a simple design and questioning assumptions about the future limits the cost of an architectural bet. A named style should help a team reason today without pretending that tomorrow's topology is known.",
+      "example": "Before introducing a universal shared protocol because a current platform favors it, write down who needs it, for how long, and what removing it would cost. A narrow contract is easier to replace than a permanent assumption.",
+      "source": "pp. 122–123"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Splitting a monolith into services automatically makes the system more reliable.",
+      "correction": "Distribution can improve isolation and scaling, but it also adds network failure, latency, security, cost, contract, and consistency problems. Reliability depends on how those assumptions are designed and operated."
+    },
+    {
+      "claim": "A fast private network makes latency, bandwidth, and security irrelevant.",
+      "correction": "A private network still has a nonzero long-tail latency, finite capacity, changing topology, and endpoints that need protection. The boundary must be measured and secured like any other boundary."
+    }
+  ],
+  "scenario": {
+    "title": "Keep the clinic schedule together or split it",
+    "context": "A clinic scheduling product has a browser interface, appointment rules, reminders, and a relational database. It serves 20 clinics today, with modest traffic, a small operations team, and a six-month delivery deadline. Marketing may add a national booking campaign next year, but the volume and requirements are not yet measured. The team must choose a deployment shape while preserving correct appointment availability and affordable operations.",
+    "options": [
+      {
+        "label": "Layered monolith",
+        "benefit": "One deployment and one transaction boundary keep the system simple and inexpensive while the team learns the domain.",
+        "cost": "All code scales and deploys together, and a failure or risky change can affect every clinic.",
+        "consequence": "The team can ship the first release quickly and use a shared database transaction for booking. Before a national campaign, it must measure bottlenecks and extract only a proven hot path if the monolith cannot meet demand."
+      },
+      {
+        "label": "Distributed booking services",
+        "benefit": "Booking, reminders, and availability can be deployed and scaled independently, with a smaller failure domain for each service.",
+        "cost": "The team must operate secured endpoints, version contracts, trace requests, and handle latency and eventual consistency across booking and availability.",
+        "consequence": "A reminder outage need not stop booking, but a network or consistency failure can create uncertainty about a newly reserved slot. The team needs explicit reconciliation and operational ownership before launch."
+      }
+    ],
+    "debrief": "Context matters: uncertain demand and a small team favor a simple starting point, while a measured, extreme booking hotspot may justify distribution. The style should follow the characteristics the product actually needs and the team's ability to operate them; neither option wins universally."
+  },
+  "quiz": [
+    {
+      "question": "A service returns 500 KB to use one 200-byte field at 2,000 requests per second. Which fallacy and response are most directly relevant?",
+      "options": [
+        "Bandwidth is infinite; return the full object because networks are fast",
+        "Bandwidth is finite; design a narrow contract or field selector",
+        "The network is homogeneous; replace the database vendor"
+      ],
+      "answer": 1,
+      "explanation": "The payload consumes boundary capacity and is an example of stamp coupling. Returning only needed data addresses the finite-bandwidth assumption; vendor uniformity does not."
+    },
+    {
+      "question": "What most clearly distinguishes a distributed architecture from a monolith in this chapter?",
+      "options": [
+        "It has more classes and a more modern user interface",
+        "It has multiple deployment units connected by remote access protocols",
+        "It always uses eventual consistency and never uses SQL"
+      ],
+      "answer": 1,
+      "explanation": "Deployment units and remote communication are the defining classification here. A distributed system may still use SQL, and class count or UI technology is unrelated."
+    },
+    {
+      "question": "A payment service is healthy, but a routing change causes its callers to time out. Which lesson should guide the first investigation?",
+      "options": [
+        "Topology is fixed, so inspect only the payment code",
+        "The network is secure, so disable endpoint authentication",
+        "Topology changes and network reliability must be treated as operating assumptions"
+      ],
+      "answer": 2,
+      "explanation": "The topology can change without an application deployment, invalidating latency assumptions. Investigate the network path and its owners while retaining timeouts and security controls."
+    }
+  ],
+  "exercise": {
+    "title": "Name the boundary before you split it",
+    "prompt": "Choose one real or invented product and record the current topology, the characteristic that may require a change, and the network assumption you would measure before introducing a remote boundary.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Users, workload, team, and current deployment"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Style or boundary you would choose first"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "One benefit, one cost, and the measurement that could change your mind"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "client",
+        "label": "CLIENT",
+        "kind": "browser",
+        "tone": "peach"
+      },
+      {
+        "id": "edge",
+        "label": "NETWORK EDGE",
+        "kind": "router",
+        "tone": "lilac"
+      },
+      {
+        "id": "service",
+        "label": "REMOTE SVC",
+        "kind": "service",
+        "tone": "sage"
+      },
+      {
+        "id": "store",
+        "label": "RECORD DB",
+        "kind": "database",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "client",
+        "to": "edge"
+      },
+      {
+        "from": "edge",
+        "to": "service"
+      },
+      {
+        "from": "service",
+        "to": "store"
+      }
+    ],
+    "steps": [
+      {
+        "node": "client",
+        "text": "A user action begins as a local request and crosses a deployment boundary."
+      },
+      {
+        "node": "edge",
+        "text": "The network path adds measurable latency, finite bandwidth, security checks, and changing infrastructure."
+      },
+      {
+        "node": "service",
+        "text": "The remote unit must handle timeouts and a versioned contract even when it is healthy."
+      },
+      {
+        "node": "store",
+        "text": "Data may commit locally while other units converge later, requiring tracing and reconciliation."
+      }
+    ]
+  }
+}

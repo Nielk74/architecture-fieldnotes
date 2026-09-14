@@ -1,0 +1,19 @@
+# Chapter 13: Service-Based Architecture Style
+
+Service-based architecture is presented as a pragmatic distributed midpoint between a monolith and very fine-grained services. Its basic topology has a separately deployed user interface, remote coarse-grained domain services, and commonly one monolithic database. The services are meaningful portions of an application rather than tiny operations. The chapter gives a typical range of four to twelve services, with about seven as an average, and notes that multiple instances can be added when throughput or failover requires them (source lines 6089–6160, printed pp. 163–164).
+
+Flexibility is the style's defining attraction. A UI may remain one application or be federated by domain. A database may remain central or be partitioned when services do not need one another's data. An API gateway or reverse proxy can sit in front to consolidate external access, security, metrics, auditing, and discovery. These variants should follow real boundaries: splitting data while services still need each other's rows introduces calls and duplication. The topology options are described at lines 6161–6231 (pp. 165–167).
+
+Each domain service commonly contains its own API facade, business logic, and persistence, or an internal subdomain structure. The facade can orchestrate a business operation inside the service. In the book's checkout comparison, one coarse OrderService can generate an order ID, apply payment, and adjust inventory within a shared database transaction. An arrangement of finer remote services must cope with partial state, retries, sagas, and BASE eventual consistency. Coarse granularity therefore preserves more ACID behavior and reduces interservice traffic, but a change to the service may require testing and deploying a larger unit. The source treats this trade-off at lines 6232–6308 (pp. 167–169).
+
+The shared database is a practical convenience and a coupling risk. A single shared entity library means a table change can force every service to update and redeploy, even services that do not use the table. Federated libraries aligned to logical domains reduce the blast radius. A common domain still affects all consumers and should be governed tightly. The source recommends making logical partitioning as fine-grained as coherent data domains allow (lines 6309–6398; pp. 169–171).
+
+The electronics recycling example shows the style's intended balance. Quoting and Item Status can scale for external demand, while receiving, assessment, accounting, recycling, and reporting remain at lower instance counts. Federated UIs and separate customer-facing and internal databases create security zones and two quanta. Assessment rules can change frequently inside one service, improving agility, testability, and deployability. The ratings at lines 6399–6538 (pp. 172–177) describe strong results in those qualities and availability, with moderate scalability and lower elasticity because services are coarse. Cost and simplicity are better than in more powerful distributed styles, and local transactions remain common.
+
+The lesson's quote-path scenario is a teaching extension. Its company, load profile, and choices are invented; the coarse service, shared data, ACID, gateway, domain partitioning, and fine-grained coordination consequences follow the chapter. The visual moves one domain request through a gateway and service facade to a shared database, emphasizing that local transaction scope and shared schema are separate decisions.
+
+## Source map
+
+- Basic topology and service instances: source lines 6089–6160, printed pp. 163–164.
+- UI/database/API variants and service granularity: source lines 6161–6308, printed pp. 165–169.
+- Database partitioning, recycling example, and ratings: source lines 6309–6538, printed pp. 169–177.

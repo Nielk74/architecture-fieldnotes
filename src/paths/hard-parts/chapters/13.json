@@ -1,0 +1,183 @@
+{
+  "number": 13,
+  "title": "Contracts",
+  "part": "Contracts & analysis",
+  "subtitle": "Connect services with only the agreement they need",
+  "summary": "A contract is the format used by parts of an architecture to convey information or dependencies. Contracts span integration protocols, libraries, caches, and other connections, and range from strict remote calls to loose name/value messages. Strict contracts provide fidelity, versioning, build-time verification, and documentation, but changes couple participants and version sprawl becomes costly. Loose contracts evolve more freely and decouple implementation, while requiring application validation and governance. Consumer-driven contracts address that tension by letting each consumer specify its needs and making the provider test those expectations. Stamp coupling passes a large structure when a participant uses only a small part; it is useful for genuine industry documents but often an accidental source of bandwidth and change coupling. Design contracts at need-to-know scope and use fitness functions to keep loose agreements reliable.",
+  "source": {
+    "startLine": 8357,
+    "endLine": 8721,
+    "reference": "text lines 8357–8721"
+  },
+  "concepts": [
+    {
+      "title": "Contract spectrum",
+      "body": "Contracts define how architecture parts connect. Strict forms govern names, types, ordering, and required details, often resembling remote method calls. Loose forms carry flexible values or resources. The choice affects static coupling, evolution, verification, documentation, and application logic, so implementation technology should follow the contract decision.",
+      "example": "A typed RPC call requires exact parameters. A resource representation can add airplane engine details without breaking a client that only queries seats.",
+      "source": "text lines 8370–8432"
+    },
+    {
+      "title": "Strict contracts",
+      "body": "Strict contracts provide fidelity and clear documentation, can be versioned, and are easier to verify during builds. Their cost is tight coupling: a shared contract change may require coordinated changes in both services. Supporting too many versions can also create an integration maintenance burden.",
+      "example": "A schema requires account, security identifier, and share count with types and minimum values; CI rejects a provider response that violates those rules.",
+      "source": "text lines 8388–8408; 8460–8508"
+    },
+    {
+      "title": "Loose contracts",
+      "body": "Name/value contracts allow services to evolve internal models and even technology stacks independently. Their flexibility does not remove semantic coupling: consumers still need particular information. Without schema certainty, teams must handle missing names, misspellings, types, and validation through application logic and governance.",
+      "example": "Two services exchange only customer name and status as JSON, so one can redesign its full Customer model without forcing the other to adopt it.",
+      "source": "text lines 8441–8457; 8515–8554"
+    },
+    {
+      "title": "Consumer-driven checks",
+      "body": "A consumer-driven contract reverses the usual provider-push model. A consumer states the fields and behavior it needs; the provider runs that contract as part of its build or deployment checks. This preserves loose service coupling while adding fidelity, but depends on engineering discipline and introduces two cooperating mechanisms.",
+      "example": "Wishlist asks Profile for name by identifier. Profile CI runs Wishlist’s contract test even while other consumers request different fields.",
+      "source": "text lines 8557–8648"
+    },
+    {
+      "title": "Stamp coupling",
+      "body": "Stamp coupling passes a large data structure even though each participant uses a small portion. It can be appropriate for a real standard document whose whole shape must travel, but accidental over-specification makes unrelated changes breaking and wastes bandwidth. Need-to-know contracts reduce this fragility.",
+      "example": "A travel itinerary standard may be passed intact among industry systems. A Wishlist should not receive every Profile field merely because it might someday need them.",
+      "source": "text lines 8649–8721"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "JSON is automatically a loose and safe contract.",
+      "correction": "JSON can carry strict schema requirements or loose name/value pairs. Coupling depends on the governed agreement and validation around it."
+    },
+    {
+      "claim": "Including every possible field prevents future integration work.",
+      "correction": "Over-specification creates stamp coupling: irrelevant changes break consumers and force coordination without solving a current need."
+    }
+  ],
+  "scenario": {
+    "title": "Share a customer profile",
+    "context": "A profile provider serves wishlist, billing, and support teams. Wishlist needs only a display name; billing needs address fields; support needs contact preferences. Teams deploy independently and the provider’s internal model changes frequently. Decide how to keep consumers reliable while avoiding a single oversized agreement.",
+    "options": [
+      {
+        "label": "Consumer contracts",
+        "benefit": "Each consumer governs only the fields it needs and the provider verifies them continuously.",
+        "cost": "Teams must maintain contract tests and disciplined CI across several agreements.",
+        "consequence": "A profile refactor preserves Wishlist because its name contract remains green. Billing can evolve its address expectations separately, with failures visible before deployment."
+      },
+      {
+        "label": "Strict shared schema",
+        "benefit": "One explicit versioned schema gives strong fidelity, documentation, and build-time validation.",
+        "cost": "All consumers inherit coupling to schema changes and must manage version retirement.",
+        "consequence": "The provider catches invalid responses early, but adding an unrelated preference field or changing an address type requires coordinated version planning across consumers."
+      }
+    ],
+    "debrief": "Consumer-specific contracts fit different needs and independent evolution. A strict shared schema is reasonable where exact fidelity and common governance outweigh change coupling; scope and maturity decide the balance."
+  },
+  "quiz": [
+    {
+      "question": "What does a consumer-driven contract change?",
+      "options": [
+        "The consumer specifies required provider behavior and the provider tests it",
+        "The provider hides all fields from consumers",
+        "Every service shares a database schema"
+      ],
+      "answer": 0,
+      "explanation": "The consumer pulls the agreement it needs, while provider builds keep that expectation valid."
+    },
+    {
+      "question": "What is the main danger of accidental stamp coupling?",
+      "options": [
+        "No data can be transmitted",
+        "Unneeded fields create bandwidth and change coupling",
+        "It prevents schema validation"
+      ],
+      "answer": 1,
+      "explanation": "Passing a broad structure makes irrelevant changes and access constraints affect consumers."
+    },
+    {
+      "question": "Which is a typical strict-contract benefit?",
+      "options": [
+        "Guaranteed fidelity and build-time verification",
+        "No need for version management",
+        "Unlimited independent evolution"
+      ],
+      "answer": 0,
+      "explanation": "Strict schemas improve certainty and documentation, with versioning and coupling as costs."
+    }
+  ],
+  "exercise": {
+    "title": "Write a bounded contract",
+    "prompt": "Choose one provider and three consumers. Define the minimum fields each needs, identify one strict rule, and specify the fitness check that catches a breaking provider change.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Provider, consumers, and domain information"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Strictness, fields, and version approach"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Fidelity gained and coupling introduced"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "provider",
+        "label": "PROVIDER",
+        "kind": "service",
+        "tone": "peach"
+      },
+      {
+        "id": "contract",
+        "label": "CONTRACT",
+        "kind": "document",
+        "tone": "lilac"
+      },
+      {
+        "id": "consumer",
+        "label": "CONSUMER",
+        "kind": "service",
+        "tone": "sage"
+      },
+      {
+        "id": "check",
+        "label": "FITNESS",
+        "kind": "gauge",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "consumer",
+        "to": "contract"
+      },
+      {
+        "from": "contract",
+        "to": "provider"
+      },
+      {
+        "from": "provider",
+        "to": "check"
+      }
+    ],
+    "steps": [
+      {
+        "node": "consumer",
+        "text": "State the smallest information and behavior a consumer needs."
+      },
+      {
+        "node": "contract",
+        "text": "Choose strict rules or loose values and record the semantic agreement."
+      },
+      {
+        "node": "provider",
+        "text": "Implement the provider without exporting unrelated internal details."
+      },
+      {
+        "node": "check",
+        "text": "Run the consumer expectation in provider build or deployment checks."
+      }
+    ]
+  }
+}

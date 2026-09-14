@@ -1,0 +1,17 @@
+# Chapter 11: Pipeline Architecture Style
+
+Pipeline architecture, also called pipes and filters, turns a process into a directed sequence of small stages. Pipes usually connect one producer to one consumer, carry data in one direction, and favor small payloads for throughput. Filters are self-contained, generally stateless, and focused on one task. The source names four roles: a producer starts the flow; a transformer changes data; a tester checks criteria and may route or stop it; and a consumer ends the flow by storing or displaying the result (source lines 5487–5559, printed pp. 143–144).
+
+This vocabulary explains why Unix shell pipelines are such a durable example. A sequence of ordinary commands can normalize text, sort it, count it, and select the output without one giant program knowing every step. Similar structures appear in EDI document conversion, ETL, MapReduce-style tools, and business mediators. The value is compositional reuse: a new tester or transformer can be added behind an existing pipe, while unrelated filters retain their own responsibilities. The source's telemetry example at lines 5560–5614 (pp. 145–146) follows this shape. A Kafka reader produces service information, a duration tester selects relevant records, a duration calculator transforms them, and a database output consumes the result. Uptime records take another testing and calculation path; a future database-wait tester can be inserted without changing the capture filter.
+
+The architecture's simplicity does not mean every stage is a service. The chapter describes pipeline systems as usually monolithic. The filters provide logical modularity inside one deployment unit, so a calculator can be replaced and tested without changing the rest of the filter code. However, deployment, scaling, and failure remain largely shared. A memory problem in one filter can affect the whole unit, and scaling one hot stage requires extra parallel-processing techniques. The characteristic discussion at lines 5615–5678 (pp. 146–148) rates simplicity, cost, and modularity as strengths while retaining the monolith's limits on elasticity, scalability, and fault tolerance.
+
+A good pipeline question is whether the work is naturally one-way. It is a strong fit for transformations, classification, and ingestion where each stage can make a clear decision and hand off a small contract. It is less comfortable when the process requires global workflow state, frequent backwards calls, or coordinated recovery among many stages. Adding stages does not automatically make an operation faster: each stage can add processing and data movement. A focused sequence that removes a large, tangled component is the reason to use the style.
+
+The lesson's telemetry scenario is a teaching extension. Its load and malformed records are invented, while its producer, tester, transformer, consumer, and monolith trade-offs come from the chapter. The visual shows a record entering a producer, being tested and routed, transformed, and finally persisted. The exercise asks the learner to design a small stream and name the payload between stages, which keeps the interaction about topology and responsibility instead of cosmetic clicking.
+
+## Source map
+
+- Pipes, filters, roles, and composition: source lines 5487–5559, printed pp. 143–144.
+- Telemetry example and extensibility: source lines 5560–5614, printed pp. 145–146.
+- Characteristic ratings and monolithic limits: source lines 5615–5678, printed pp. 146–148.

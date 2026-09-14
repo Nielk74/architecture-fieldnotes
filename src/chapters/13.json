@@ -1,0 +1,183 @@
+{
+  "number": 13,
+  "title": "Service-Based Architecture Style",
+  "part": "Architecture styles",
+  "subtitle": "Find a pragmatic middle ground around real domains",
+  "summary": "Service-based architecture is a flexible distributed style built from separately deployed, coarse-grained domain services, often four to twelve of them, around a shared database. A user interface may be monolithic or federated, and an API gateway can centralize security, metrics, auditing, or discovery. Coarse granularity lets a domain service orchestrate a business request internally and preserve ACID transactions, avoiding much of the coordination required by fine-grained services. The shared database and entity libraries still create coupling, so logical partitioning and domain-specific libraries reduce schema-change impact. Separate customer and internal quanta can improve security and scaling. Service-based architecture scores well for agility, testability, deployability, availability, and cost, with moderate scalability and elasticity. It is a pragmatic fit when domain modularity matters but microservice-level complexity is unnecessary.",
+  "source": {
+    "startLine": 6089,
+    "endLine": 6538,
+    "pages": "163–177"
+  },
+  "concepts": [
+    {
+      "title": "Coarse domain services",
+      "body": "The basic topology has a separately deployed user interface, remote coarse-grained services, and usually one monolithic database. A service represents a meaningful portion of the application, such as quoting or assessment, rather than one tiny operation. There are commonly four to twelve services, with about seven as an average. Each service can have one or more instances and can be load balanced when throughput or fault tolerance requires it.",
+      "example": "An electronics recycler can deploy Quoting, Receiving, Assessment, Accounting, Item Status, Recycling, and Reporting services. Only high-volume customer-facing services need multiple instances at first during launch.",
+      "source": "pp. 163–165"
+    },
+    {
+      "title": "Flexible topology variants",
+      "body": "Service-based architecture can federate the user interface by domain, split the database into domain-scoped stores, or add an API gateway or reverse proxy. Separate databases are useful only when a service does not need another service's data; otherwise calls and duplication create new coupling. An API layer can consolidate external access and cross-cutting concerns. This flexibility lets the architecture match security zones and workload boundaries rather than enforcing one topology.",
+      "example": "A public quotation UI and database can sit behind a gateway while internal receiving screens use a separate zone. Internal services may update customer-facing data through one-way access across a firewall.",
+      "source": "pp. 165–167, 172–173"
+    },
+    {
+      "title": "Granularity and transactions",
+      "body": "A domain service commonly contains an API facade, business logic, and persistence, or is internally split into subdomains. Its facade can orchestrate placing an order, generating an ID, applying payment, and adjusting inventory through local components. Because these operations can share a database transaction, ACID commit and rollback remain available within the service. Finer-grained remote services gain narrower change scope but require BASE, eventual consistency, and explicit coordination.",
+      "example": "If payment fails inside a coarse OrderService transaction, the order insert and inventory update can roll back together. Splitting those actions into remote services leaves partial state that a saga must repair.",
+      "source": "pp. 167–169, 177"
+    },
+    {
+      "title": "Partition shared data deliberately",
+      "body": "A shared database is convenient but schema changes can affect every service. One shared entity library forces all consumers to change and redeploy even when they do not use the changed table. Federated libraries aligned with logical domains, such as customer, invoicing, and order, reduce the impact to relevant services. A common library remains a coordination hotspot, so its changes should be tightly governed. Make logical partitions as fine-grained as coherent data domains allow.",
+      "example": "Changing an invoicing table can update invoicing_entities_lib and the invoicing service while leaving tracking and quoting untouched. A common customer table still requires coordination among every consumer.",
+      "source": "pp. 169–171"
+    },
+    {
+      "title": "A pragmatic characteristic profile",
+      "body": "Service-based architecture is domain-partitioned and can contain one or several quanta depending on shared UI and data. Separate services improve agility, testability, deployability, and availability because a domain change or service outage can be contained. Coarse services use fewer network calls and preserve more consistency, but they replicate more functionality when scaled, limiting scalability and elasticity. Its simplicity and cost advantages come from accepting less power than finer-grained distributed styles.",
+      "example": "An assessment rule change can be tested and deployed in one service, while a failed Receiving service need not stop Quoting. If all services share one database, their quantum and schema coupling remain shared.",
+      "source": "pp. 172–177"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Service-based architecture requires a separate database for every service.",
+      "correction": "The usual topology uses a centrally shared database; domain-scoped databases are an optional variant when data dependencies permit them."
+    },
+    {
+      "claim": "Coarse services eliminate distributed transaction concerns.",
+      "correction": "They preserve ACID transactions inside one service, but a UI or gateway coordinating multiple services still needs eventual-consistency techniques such as sagas or BASE."
+    }
+  ],
+  "scenario": {
+    "title": "Scale the recycling quote path",
+    "context": "An electronics recycling company has seven business domains. Customer quote and item-status traffic is much higher than internal receiving and accounting traffic, while assessment rules change frequently. The company needs external data isolated from internal operations and wants to avoid a network call for every step of a quote or order transaction during normal working hours and support staff across sites.",
+    "options": [
+      {
+        "label": "Coarse domain services",
+        "benefit": "Quote and status can scale separately, while each domain keeps local orchestration and ACID data changes.",
+        "cost": "A shared database and coarse service deployment still couple schema changes and replicate more code when scaling.",
+        "consequence": "The public services get multiple instances behind a gateway, while internal services stay single-instance. Assessment changes ship in one domain unit, and a public database is protected from direct internal access."
+      },
+      {
+        "label": "Fine-grained services",
+        "benefit": "Each operation can scale and deploy narrowly, potentially reducing the change scope for payment or inventory.",
+        "cost": "The order flow now needs remote orchestration, contract versioning, retries, and eventual consistency across many services.",
+        "consequence": "A payment failure can leave an order and inventory reservation partially written. The team must build a saga and observability before the extra granularity is safe for customer support and reconciliation."
+      }
+    ],
+    "debrief": "The domains and traffic profile reward coarse service boundaries: they isolate meaningful change and scale hotspots without turning every transaction into a distributed workflow. Finer granularity can be useful when independent change is worth its coordination cost, but it is not an automatic improvement."
+  },
+  "quiz": [
+    {
+      "question": "Why can a service-based OrderService preserve ACID behavior for checkout?",
+      "options": [
+        "Its coarse-grained workflow and shared database can commit or roll back within one domain service",
+        "It never communicates remotely with a user interface",
+        "ACID transactions are guaranteed across any number of services"
+      ],
+      "answer": 0,
+      "explanation": "Coarse domain scope lets related work share a local transaction. If multiple remote services participate, the same guarantee no longer follows."
+    },
+    {
+      "question": "Which change most directly reduces the blast radius of a shared database schema update?",
+      "options": [
+        "Put every entity in one library used by all services",
+        "Partition entities and shared libraries by coherent data domains",
+        "Make every service call every other service for the latest row"
+      ],
+      "answer": 1,
+      "explanation": "Federated domain libraries align changes with the services that use them. A single library maximizes unnecessary redeployment."
+    },
+    {
+      "question": "What is a reason to add an API gateway in this style?",
+      "options": [
+        "To replace all domain services with one database query",
+        "To consolidate external access and concerns such as security, metrics, auditing, or discovery",
+        "To force every service to use the same instance count"
+      ],
+      "answer": 1,
+      "explanation": "The gateway is an optional access layer for external requests and shared concerns; it does not erase domain boundaries or dictate scaling."
+    }
+  ],
+  "exercise": {
+    "title": "Choose a service boundary",
+    "prompt": "Map one product into three to eight coarse domain services. Identify the transaction that should remain local, the data partition it needs, and the service that deserves independent scaling.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Domain, workloads, and security zones"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Coarse service boundary and local transaction"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "What sharing simplifies and what it couples"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "ui",
+        "label": "DOMAIN UI",
+        "kind": "browser",
+        "tone": "peach"
+      },
+      {
+        "id": "gateway",
+        "label": "API GATEWAY",
+        "kind": "router",
+        "tone": "lilac"
+      },
+      {
+        "id": "service",
+        "label": "ORDER SVC",
+        "kind": "service",
+        "tone": "sage"
+      },
+      {
+        "id": "database",
+        "label": "SHARED DB",
+        "kind": "database",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "ui",
+        "to": "gateway"
+      },
+      {
+        "from": "gateway",
+        "to": "service"
+      },
+      {
+        "from": "service",
+        "to": "database"
+      }
+    ],
+    "steps": [
+      {
+        "node": "ui",
+        "text": "A domain user starts one coarse business request."
+      },
+      {
+        "node": "gateway",
+        "text": "An optional gateway applies access, security, metrics, and discovery concerns."
+      },
+      {
+        "node": "service",
+        "text": "The domain facade orchestrates order work inside one separately deployed service."
+      },
+      {
+        "node": "database",
+        "text": "A local transaction commits or rolls back against shared data, while domain partitioning limits schema impact."
+      }
+    ]
+  }
+}

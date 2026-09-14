@@ -1,0 +1,177 @@
+{
+  "number": 1,
+  "title": "What Happens When There Are No Best Practices?",
+  "part": "Boundaries & decomposition",
+  "subtitle": "Make consequential choices by weighing trade-offs",
+  "summary": "Software architecture rarely offers a universal best answer because each decision combines a particular organization, system, technology environment, and set of constraints. The architect’s job is to find the least-worst balance among competing qualities, then make that reasoning visible. The chapter introduces architecture decision records as concise records of context, decision, and consequences, and fitness functions as executable checks for architectural characteristics. Fitness functions should measure objective properties such as cycles, layer rules, scalability, or security; they may be atomic or holistic, automated or necessarily manual. Continuous execution turns important architectural principles into feedback rather than relying on late reviews. The Sysops Squad illustrates why data, operational concerns, and change pressure make architecture decisions durable and difficult.",
+  "source": {
+    "startLine": 196,
+    "endLine": 799,
+    "reference": "text lines 196–799"
+  },
+  "concepts": [
+    {
+      "title": "Least-worst trade-offs",
+      "body": "Novel architecture problems combine constraints that no single design can maximize simultaneously. The chapter therefore frames architecture as objective trade-off analysis: identify the forces, compare consequences, and choose the least-worst balance for the situation. “Best” is misleading because it suggests every competing quality can be optimized at once. This approach also explains why advice that worked in another environment may fail when the surrounding ecosystem, business, or data constraints differ.",
+      "example": "Teaching extension: a support system may accept lower peak throughput to gain safer deployment and clearer recovery boundaries when ticket availability matters most.",
+      "source": "text lines 196–255"
+    },
+    {
+      "title": "ADRs preserve reasoning",
+      "body": "An Architecture Decision Record captures a short decision in three useful pieces: context and alternatives, the chosen decision with justification, and consequences including trade-offs. Recording the reasoning helps later teams understand why a structural choice was made, rather than treating the resulting topology as a timeless rule. The chapter uses ADRs throughout its examples and assumes each listed decision has been approved.",
+      "example": "Teaching extension: an ADR for separating reporting states the operational freeze problem, compares alternatives, and records migration cost and temporary release complexity as consequences.",
+      "source": "text lines 337–379"
+    },
+    {
+      "title": "Fitness functions",
+      "body": "A fitness function is any mechanism that objectively assesses one architectural characteristic or a combination of them. Atomic checks can detect component cycles; holistic checks can exercise interacting qualities such as security and performance. The architect must turn vague goals such as agility into measurable contributors like deployability, testability, or cycle time. Fitness functions govern architecture characteristics, while domain tests validate domain criteria.",
+      "example": "Teaching extension: a build can fail when a persistence package directly reaches a controller package, providing immediate feedback about a layer rule.",
+      "source": "text lines 380–506"
+    },
+    {
+      "title": "Feedback and governance",
+      "body": "Automated fitness functions are most valuable when run continually in the delivery flow, because a check that runs only during an occasional review allows erosion in between. Some checks, such as legal review, remain manual, but they should still run as often as practical. The chapter connects this approach to continuous integration and DevOps: automation supplies rapid feedback and makes important safeguards harder to postpone under delivery pressure.",
+      "example": "Teaching extension: a security team can add a dependency-version fitness check to every pipeline when a framework vulnerability appears, allowing a failing build to expose affected projects.",
+      "source": "text lines 507–590"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "An architecture decision is successful only when it has a best solution.",
+      "correction": "Architecture decisions balance competing qualities under local constraints; success means a justified, least-worst trade-off that supports the system’s goals."
+    },
+    {
+      "claim": "A unit test and a fitness function are interchangeable.",
+      "correction": "A unit or acceptance test needs domain knowledge; a fitness function checks an objective architectural characteristic such as dependency structure, elasticity, or performance."
+    }
+  ],
+  "scenario": {
+    "title": "Protect the ticket path",
+    "context": "The Sysops Squad monolith freezes during reporting and occasionally loses availability for ticket entry. The team has limited migration time and must make its reasoning reviewable. It can first document an ADR and add continuous architecture checks, or immediately split reporting without executable governance.",
+    "options": [
+      {
+        "label": "ADR plus checks",
+        "benefit": "Makes trade-offs explicit and provides ongoing evidence that boundaries and quality rules remain intact.",
+        "cost": "Consumes initial engineering time and requires choosing measurable checks.",
+        "consequence": "The team records the migration context, then catches dependency cycles and layer violations in the build while the split proceeds."
+      },
+      {
+        "label": "Split first",
+        "benefit": "Moves quickly toward isolating the reporting load and may show visible operational relief sooner.",
+        "cost": "The reasoning and safeguards remain implicit, so later changes can recreate coupling or weaken the intended boundary.",
+        "consequence": "Reporting is extracted, but a later shortcut reconnects it to ticket code; the team must reconstruct why the boundary mattered during an incident."
+      }
+    ],
+    "debrief": "The chapter’s point is disciplined decision making under uncertainty. Documentation and measurable feedback do not remove trade-offs, but they make them inspectable and governable as the architecture changes."
+  },
+  "quiz": [
+    {
+      "question": "What does “least worst” ask an architect to optimize?",
+      "options": [
+        "Every quality characteristic at once",
+        "The balance of competing consequences in context",
+        "The newest architecture style"
+      ],
+      "answer": 1,
+      "explanation": "The chapter rejects universal best solutions and focuses on a balanced trade-off for a specific situation."
+    },
+    {
+      "question": "Which item belongs in the consequences section of an ADR?",
+      "options": [
+        "Only the winning option’s benefits",
+        "The effects and trade-offs after applying the decision",
+        "A list of implementation syntax"
+      ],
+      "answer": 1,
+      "explanation": "Consequences record what follows from the decision, including costs and compromises."
+    },
+    {
+      "question": "Which is an architecture fitness function?",
+      "options": [
+        "Checking whether an address has a valid street number",
+        "Checking that component dependencies contain no cycles",
+        "Checking whether a customer chose the right product"
+      ],
+      "answer": 1,
+      "explanation": "Dependency cycles are an architectural characteristic; address and product correctness require domain knowledge."
+    }
+  ],
+  "exercise": {
+    "title": "Write a decision record",
+    "prompt": "Choose one structural decision in a system you know and write a compact ADR with measurable architectural checks.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Problem, constraints, and alternatives"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Chosen structure and its justification"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Benefits, costs, and one fitness function"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "forces",
+        "label": "FORCES",
+        "kind": "balance",
+        "tone": "peach"
+      },
+      {
+        "id": "adr",
+        "label": "ADR",
+        "kind": "document",
+        "tone": "sage"
+      },
+      {
+        "id": "check",
+        "label": "FITNESS",
+        "kind": "gauge",
+        "tone": "lilac"
+      },
+      {
+        "id": "build",
+        "label": "BUILD",
+        "kind": "terminal",
+        "tone": "sage"
+      }
+    ],
+    "edges": [
+      {
+        "from": "forces",
+        "to": "adr"
+      },
+      {
+        "from": "adr",
+        "to": "check"
+      },
+      {
+        "from": "check",
+        "to": "build"
+      }
+    ],
+    "steps": [
+      {
+        "node": "forces",
+        "text": "Name the competing qualities and constraints in the decision."
+      },
+      {
+        "node": "adr",
+        "text": "Record the context, choice, justification, and consequences."
+      },
+      {
+        "node": "check",
+        "text": "Translate an architectural principle into an objective check."
+      },
+      {
+        "node": "build",
+        "text": "Run the check continuously so feedback exposes drift."
+      }
+    ]
+  }
+}

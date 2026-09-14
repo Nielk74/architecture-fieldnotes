@@ -1,0 +1,193 @@
+{
+  "number": 8,
+  "title": "Component-Based Thinking",
+  "part": "Foundations",
+  "subtitle": "Partition behavior into useful building blocks",
+  "summary": "Components are the physical packaging of logical modules and the fundamental building blocks architects use to shape a system. They may be libraries, layers, subsystems, event processors, or independently deployed services. Architects define and govern top-level components with collaborators, while developers refine them into classes and functions; the initial design is a draft that should evolve through implementation feedback. Partitioning can follow technical capabilities, such as presentation and persistence, or business domains and workflows. Technical layers make categories easy to find but smear workflows across the system and can amplify team and data coupling. Domain partitioning aligns components with business change and supports cross-functional ownership, while duplicating customization in several places. Component identification is iterative: assign requirements, analyze roles and characteristics, and restructure. Avoid the entity trap, where database entities become fake architecture. Actor/actions, event storming, and workflow analysis are alternative discovery tools. Differing architecture quanta can finally guide monolithic versus distributed deployment.",
+  "source": {
+    "startLine": 4045,
+    "endLine": 4692,
+    "pages": "99–116"
+  },
+  "concepts": [
+    {
+      "title": "Component scope",
+      "body": "A component is a physical packaging of related code at a higher level than individual classes or functions. Libraries often share the caller’s process, while services run in their own address space and communicate over networks or messages. Components may also be layers, subsystems, or event-processor units. The useful level depends on the architecture; a tiny service may not need an extra component hierarchy.",
+      "example": "A Java library can package validation in the same process as its caller. A payment service packages code and its runtime separately, exposing a network contract and independent deployment boundary.",
+      "source": "pp. 99–100"
+    },
+    {
+      "title": "Architect and developer roles",
+      "body": "Architects define, refine, manage, and govern components with business, development, QA, operations, and subject-matter collaborators. Components are usually their lowest direct architectural level; developers and tech leads own most class and function design. Architects should avoid micromanagement and treat the first component design as a draft that implementation can correct. This division preserves accountability while empowering the team to learn.",
+      "example": "An architect sets an Inventory component boundary and its quality goals. The team later moves a reservation rule into a subcomponent after tests reveal a distinct workflow, updating the design together.",
+      "source": "pp. 100–102, 107–109"
+    },
+    {
+      "title": "Technical versus domain partitioning",
+      "body": "Technical partitioning groups presentation, business rules, services, persistence, or other capabilities. It makes categories easy to locate and can limit dependencies between layers, but a business workflow crosses every layer. Domain partitioning groups top-level components around workflows or bounded domains, keeping a change closer together. It better reflects business change and team ownership, but customization may appear in multiple domains.",
+      "example": "In a sandwich system, a layered layout spreads CatalogCheckout across UI, service, and database layers; a domain layout keeps Purchase or MakeOrder as the top-level unit with internal technical subparts.",
+      "source": "pp. 102–107"
+    },
+    {
+      "title": "Iterative identification",
+      "body": "Component discovery cycles through initial candidates, requirement assignment, role and responsibility analysis, architecture-characteristic analysis, and restructuring. The first set is necessarily provisional because unknown requirements and implementation details appear later. Granularity needs balance: fine-grained components create excessive communication, while coarse components hide coupling and harm deployability, testability, and modularity. Feedback turns a diagram into an increasingly useful design and keeps ownership understandable.",
+      "example": "A bid-capture component initially serves both bidders and an auctioneer. Different reliability and scale needs emerge, so the architect splits auctioneer capture and refines its links to tracking and streaming.",
+      "source": "pp. 107–109, 113–114"
+    },
+    {
+      "title": "Discovery techniques and traps",
+      "body": "The entity trap maps database entities to Manager components, confusing data relationships with application workflows and yielding an ORM-shaped design. Actor/actions works for distinct roles and activities; event storming discovers messages and handlers; workflow analysis models activities without requiring messaging. None is universally superior. Choose a technique that fits the domain, process, and architecture constraints, then iterate with feedback. The method should reveal responsibilities, not merely mirror storage.",
+      "example": "Instead of CustomerManager, OrderManager, and ReputationManager by table, an auction team maps bidder actions, auctioneer actions, and system events to capture, tracking, streaming, session, and payment components.",
+      "source": "pp. 109–113"
+    },
+    {
+      "title": "Quantum and deployment choice",
+      "body": "After components are sketched, differing architecture characteristics can reveal multiple quanta. One coherent set may favor a monolith with a simple deployment and database. Distinct quality profiles, such as high-scale bidder streams versus high-reliability auctioneer capture, can justify distributed units. This choice follows coupling and operational needs; it is not a reflexive preference for many services. Deployment complexity must remain part of the trade-off.",
+      "example": "An auction can keep an authoritative tracker together while distributing read-only video and bid streams, if their load and availability profiles demand separate scaling and deployment.",
+      "source": "pp. 114–116"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A component diagram is a final architecture, so developers should implement it without changing boundaries.",
+      "correction": "The chapter treats initial components as a draft. Requirements, responsibilities, architecture characteristics, and implementation feedback should repeatedly reshape granularity and links."
+    },
+    {
+      "claim": "Creating one component per database entity is a domain architecture.",
+      "correction": "That entity trap mirrors an object-relational mapping and misses workflows. Components should reflect responsibilities, actors, events, or domains rather than tables alone."
+    }
+  ],
+  "scenario": {
+    "title": "Partition a live auction platform",
+    "context": "A live auction platform has bidders viewing video and bids, an auctioneer entering authoritative live bids, and system tasks that start auctions, track activity, and charge winners. Bidder traffic can surge; the auctioneer path must remain reliable and ordered. A first diagram contains one BidCapture component and a set of entity managers. Choose a restructuring approach that matches workflows and quality differences.",
+    "options": [
+      {
+        "label": "Domain components",
+        "benefit": "Groups capture, tracking, streaming, session, and payment around workflows and roles, making business change and quality differences visible.",
+        "cost": "Some concerns or customization can repeat, and boundaries require explicit contracts and data ownership.",
+        "consequence": "Auctioneer Capture separates from bidder capture, while BidTracker unifies ordered streams. VideoStreamer and BidStreamer can scale independently when evidence supports distribution."
+      },
+      {
+        "label": "Entity managers",
+        "benefit": "Maps quickly to existing tables and makes basic CRUD operations straightforward for a simple data-centric application.",
+        "cost": "Workflows become scattered or hidden behind generic managers; different load and reliability needs remain mixed, and future migration is harder.",
+        "consequence": "The team can ship simple CRUD screens quickly, but live ordering and auctioneer reliability need cross-manager coordination. The diagram must be revisited once real workflows and failure modes appear."
+      }
+    ],
+    "debrief": "Domain partitioning is not always superior, and CRUD scaffolding can fit a genuinely simple problem. The architectural test is whether components represent cohesive behavior and support the required quality profiles; the initial partition should evolve with evidence."
+  },
+  "quiz": [
+    {
+      "question": "What problem does domain partitioning address in a layered monolith?",
+      "options": [
+        "It keeps each business workflow closer together instead of spreading it across technical layers",
+        "It guarantees every component uses a separate database",
+        "It removes the need for developers to design classes"
+      ],
+      "answer": 0,
+      "explanation": "Domain partitioning organizes top-level components around workflows or domains. It does not require a distributed database or eliminate lower-level design."
+    },
+    {
+      "question": "Why is one BidCapture component split in the auction example?",
+      "options": [
+        "The names were too short",
+        "Auctioneer and bidder capture have different reliability, availability, scale, and elasticity needs",
+        "All components must contain only one class"
+      ],
+      "answer": 1,
+      "explanation": "Architecture characteristics expose different quality profiles. Splitting creates boundaries that can support those profiles; it is not a naming or class-count rule."
+    },
+    {
+      "question": "When can a monolith be a sensible deployment choice?",
+      "options": [
+        "When one coherent architecture quantum can meet the required characteristics",
+        "Only when the database has no tables",
+        "Whenever an architect wants to avoid iteration"
+      ],
+      "answer": 0,
+      "explanation": "A single quantum can favor the simplicity of a monolith. The choice follows coupling and quality needs, and the design still evolves."
+    }
+  ],
+  "exercise": {
+    "title": "Draft and revise components",
+    "prompt": "Take one feature with at least two user roles. Propose three coarse components, assign behaviors, identify one quality difference, and describe the feedback that would cause a split or merge.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Roles, workflows, and constraints"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Components and assigned responsibilities"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Granularity cost and revisit signal"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "roles",
+        "label": "ROLES",
+        "kind": "team",
+        "tone": "peach"
+      },
+      {
+        "id": "candidates",
+        "label": "CANDIDATES",
+        "kind": "component",
+        "tone": "sage"
+      },
+      {
+        "id": "qualities",
+        "label": "QUALITIES",
+        "kind": "target",
+        "tone": "lilac"
+      },
+      {
+        "id": "deploy",
+        "label": "DEPLOYMENT",
+        "kind": "deployment",
+        "tone": "honey"
+      }
+    ],
+    "edges": [
+      {
+        "from": "roles",
+        "to": "candidates"
+      },
+      {
+        "from": "candidates",
+        "to": "qualities"
+      },
+      {
+        "from": "qualities",
+        "to": "deploy"
+      },
+      {
+        "from": "deploy",
+        "to": "candidates"
+      }
+    ],
+    "steps": [
+      {
+        "node": "roles",
+        "text": "List the roles, workflows, and system-triggered events that the application must support."
+      },
+      {
+        "node": "candidates",
+        "text": "Create coarse component candidates and assign behaviors, avoiding a direct copy of database entities."
+      },
+      {
+        "node": "qualities",
+        "text": "Compare responsibilities and architecture characteristics; split or merge candidates whose profiles do not fit."
+      },
+      {
+        "node": "deploy",
+        "text": "Use the resulting quanta and coupling to choose a simple monolith or distributed deployment, then feed implementation evidence back."
+      }
+    ]
+  }
+}

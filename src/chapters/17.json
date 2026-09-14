@@ -1,0 +1,197 @@
+{
+  "number": 17,
+  "title": "Microservices Architecture",
+  "part": "Architecture styles",
+  "subtitle": "Draw boundaries that let domains move independently",
+  "summary": "Microservices is a distributed, domain-centered style whose services physically express bounded contexts. Each service runs in its own process and normally owns the code and data it needs, favoring decoupling over reuse when the two conflict. The hard design work is choosing a useful granularity: services should be cohesive, respect transaction boundaries, and avoid forcing a chatty workflow across the network. Data isolation permits teams to choose different technologies, while sidecars and a service mesh provide shared operational capabilities without sharing domain implementation. Communication may be synchronous or asynchronous, and choreography preserves independence while localized orchestration can contain complex workflows. Cross-service transactions are a warning sign; sagas and compensating actions are expensive exceptions. The style strongly supports scalability, elasticity, and evolutionary change, but network overhead, reliability, and coordination remain real trade-offs.",
+  "source": {
+    "startLine": 8575,
+    "endLine": 9198,
+    "pages": "245–265"
+  },
+  "concepts": [
+    {
+      "title": "Bounded Contexts",
+      "body": "A microservice models a domain or workflow as a bounded context. Its code, subcomponents, and data schemas are coupled inside that boundary but do not depend on another service's internals. This makes the service independently changeable. Reuse is not automatically better: shared classes or schemas reduce duplication while increasing coupling, so a highly decoupled design may deliberately duplicate a small value object.",
+      "example": "A catalog service owns product descriptions and a checkout service keeps the fields it needs for an order. Checkout asks the catalog for authoritative changes instead of importing the catalog's database schema.",
+      "source": "pp. 245–248"
+    },
+    {
+      "title": "Granularity and Data",
+      "body": "Service boundaries should follow cohesive purpose, business transaction needs, and the communication pattern of a workflow. Making every entity a service creates excessive links and network cost. Data isolation removes a shared database as an easy integration point, so a design must name a source of truth or use replication and caching. The benefit is that each service can select an appropriate persistence technology.",
+      "example": "If address validation, shipping, and checkout must coordinate on nearly every request, separating them may create a chatty system. A larger workflow boundary can reduce calls while still keeping unrelated domains independent.",
+      "source": "pp. 247–249"
+    },
+    {
+      "title": "Operational Reuse",
+      "body": "Microservices avoid coupling domain logic, but operational concerns such as monitoring, logging, circuit breaking, and discovery benefit from consistency. A sidecar places those concerns beside each service, and connected sidecars form a service mesh with a shared operational plane across instances. Service discovery can route requests and create instances as demand changes without requiring callers to know one fixed instance.",
+      "example": "Every payment service instance runs a small telemetry sidecar. An infrastructure team upgrades the sidecar once, while the service teams keep ownership of payment behavior and data.",
+      "source": "pp. 249–252"
+    },
+    {
+      "title": "Communication Choices",
+      "body": "Services communicate through known protocols in a heterogeneous environment: different services may use different languages and platforms while still interoperating over a network. Synchronous calls are simple but make callers wait; asynchronous events and messages buffer work and support scale. Choreography has no central coordinator and preserves decoupling, whereas a localized orchestrator can contain a complex business workflow at the price of coupling.",
+      "example": "A wish-list service can call demographics directly for a small read. A multi-step account report may use a dedicated reporting service to coordinate several calls rather than turning one domain service into a hidden front controller.",
+      "source": "pp. 254–259"
+    },
+    {
+      "title": "Transactions and Sagas",
+      "body": "A transaction spanning independently owned service databases undermines the decoupling that motivated microservices and often signals overly fine granularity. The preferred response is to revisit the boundary. When distinct architecture needs make coordination unavoidable, a saga mediator records progress and asks completed participants to compensate when a later step fails. Pending states, undo operations, and coordination traffic make this a costly pattern to use sparingly.",
+      "example": "An auction completion workflow may reserve payment and inventory separately. If payment fails after a reservation, the saga issues a release action, and the system exposes the intermediate state rather than pretending the distributed operation was atomic.",
+      "source": "pp. 259–262"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Every microservice should be as small as possible.",
+      "correction": "Micro is a label, not a size commandment. A boundary should capture a cohesive domain or workflow; if services constantly call one another or require shared transactions, the design may be too fine-grained."
+    },
+    {
+      "claim": "A service mesh makes domain sharing safe, so services can use a common database.",
+      "correction": "Sidecars and a service mesh coordinate operational concerns. They do not erase domain coupling or turn shared schemas into independent bounded contexts."
+    }
+  ],
+  "scenario": {
+    "title": "Split the outbreak response",
+    "context": "A public health self-service service and a nurse portal use a diagnostics provider that handles a limited request rate. Demand spikes during an outbreak, while nurses need timely responses and patient records must remain isolated. The team can preserve simple request flow or introduce separate queues, cached outbreak answers, and stricter service boundaries. Choose using the actual latency, load, and security priorities rather than the fashionable label.",
+    "options": [
+      {
+        "label": "Keep direct calls",
+        "benefit": "The topology stays easy to understand and synchronous responses are convenient.",
+        "cost": "Spikes can saturate the provider, causing timeouts and making both user groups compete for capacity.",
+        "consequence": "The team ships quickly, but an outbreak exposes the provider as a bottleneck. Retries amplify load, and nurses lose the predictable response time the domain requires."
+      },
+      {
+        "label": "Queue and cache",
+        "benefit": "Queues provide back pressure and separate priority paths; cached outbreak questions remove repeat traffic from the provider.",
+        "cost": "The design adds asynchronous state, cache freshness decisions, and more operational components to operate.",
+        "consequence": "Common outbreak requests scale through the cache and nurse traffic can receive priority. The team must document stale-data behavior and observe queue delay to keep the trade-off visible."
+      }
+    ],
+    "debrief": "The second choice fits variable load and differentiated priorities, but its complexity is justified only by those requirements. Direct calls may be right for a small, stable workflow. The chapter's lesson is to fit boundaries and communication to the domain, then iterate."
+  },
+  "quiz": [
+    {
+      "question": "A proposed design has eight services that must participate in one database transaction for every checkout. What is the strongest first response?",
+      "options": [
+        "Reconsider service granularity and the transaction boundary",
+        "Add a global transaction coordinator immediately",
+        "Duplicate the checkout database in every service"
+      ],
+      "answer": 0,
+      "explanation": "Frequent cross-service transactions are evidence that boundaries may be too fine-grained. A saga is an exception with substantial cost, not the default repair."
+    },
+    {
+      "question": "Which arrangement shares monitoring upgrades while keeping domain implementation independent?",
+      "options": [
+        "A sidecar attached to each service and connected through a service mesh",
+        "A shared domain library imported by every service",
+        "A central API mediator containing business rules for all services"
+      ],
+      "answer": 0,
+      "explanation": "Sidecars isolate reusable operational concerns. A shared domain library couples implementations, and a mediator moves interesting domain logic outside bounded contexts."
+    },
+    {
+      "question": "A complex report needs data from several services. Which choice best preserves the style's intent?",
+      "options": [
+        "Use a localized orchestration service whose purpose is that report",
+        "Make the first domain service a permanent global coordinator",
+        "Expose every service database to the report client"
+      ],
+      "answer": 0,
+      "explanation": "Localized orchestration contains necessary workflow coupling. A hidden front controller makes a domain service more complex, while direct database access breaks data isolation."
+    }
+  ],
+  "exercise": {
+    "title": "Draw one bounded workflow",
+    "prompt": "Sketch a small system with two or three domain services. Name each service's source of truth, one communication choice, and the condition that would make you revisit its boundary.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "A workflow and its important users"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Service boundaries and communication"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "What decoupling costs and what you will watch"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "client",
+        "label": "CLIENT",
+        "kind": "browser",
+        "tone": "peach"
+      },
+      {
+        "id": "gateway",
+        "label": "API LAYER",
+        "kind": "router",
+        "tone": "lilac"
+      },
+      {
+        "id": "domain",
+        "label": "SERVICE",
+        "kind": "service",
+        "tone": "sage"
+      },
+      {
+        "id": "sidecar",
+        "label": "SIDECAR",
+        "kind": "service",
+        "tone": "honey"
+      },
+      {
+        "id": "data",
+        "label": "PRIVATE DATA",
+        "kind": "database",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "client",
+        "to": "gateway"
+      },
+      {
+        "from": "gateway",
+        "to": "domain"
+      },
+      {
+        "from": "domain",
+        "to": "data"
+      },
+      {
+        "from": "domain",
+        "to": "sidecar"
+      }
+    ],
+    "steps": [
+      {
+        "node": "client",
+        "text": "A user starts a domain workflow through the service entry point."
+      },
+      {
+        "node": "gateway",
+        "text": "The optional API layer routes or discovers a suitable service without owning domain rules."
+      },
+      {
+        "node": "domain",
+        "text": "The bounded context performs cohesive work and communicates with another service when needed."
+      },
+      {
+        "node": "sidecar",
+        "text": "Operational concerns travel through the sidecar so monitoring and logging stay consistent."
+      },
+      {
+        "node": "data",
+        "text": "The service reads and writes its isolated data, preserving an explicit source of truth."
+      }
+    ]
+  }
+}

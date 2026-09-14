@@ -1,0 +1,203 @@
+{
+  "number": 15,
+  "title": "Space-Based Architecture Style",
+  "part": "Architecture styles",
+  "subtitle": "Move hot transactions into memory and let capacity follow demand",
+  "summary": "Space-based architecture targets extreme or unpredictable concurrent load by removing the central database from synchronous transaction processing. Processing units contain application logic and replicated in-memory data; virtualized middleware routes requests, manages cache membership, coordinates optional multi-unit work, and starts or stops units as demand changes. Asynchronous data pumps eventually update the database through data writers, while data readers refill caches after a full restart or for archive data. Replicated caches maximize performance and fault tolerance for smaller, slower-changing data; distributed caches favor consistency for larger, highly dynamic data but add a central dependency. Replication latency, instance count, update rate, and cache size determine collision risk. The style suits ticketing and auctions with sharp spikes, but its cache, consistency, testing, operational, and cost complexity is substantial.",
+  "source": {
+    "startLine": 7522,
+    "endLine": 8315,
+    "pages": "211–234"
+  },
+  "concepts": [
+    {
+      "title": "Remove the database bottleneck",
+      "body": "Traditional web topology widens at the web tier and narrows at the database, which becomes the concurrency limit under extreme load. Space-based architecture keeps transactional data in replicated in-memory grids inside processing units, so requests do not synchronously wait on the database. Processing units can start and stop with load, providing elasticity. The database remains the system of record, updated asynchronously rather than serving every hot transaction directly.",
+      "example": "When concert tickets go on sale, standby processing units can absorb thousands of concurrent requests while the database receives ordered updates through durable data pumps.",
+      "source": "pp. 211–213, 231–232"
+    },
+    {
+      "title": "Processing units and middleware",
+      "body": "A processing unit contains application logic, web components, and one or more in-memory caches. Virtualized middleware includes a messaging grid for routing requests and session state, a data grid for cache synchronization, an optional processing grid for coordinating multiple units, and a deployment manager for dynamic capacity. Together these components make the system act like a shared space of parallel processors rather than a single request path.",
+      "example": "A messaging grid sends a bid to an available auction unit. The deployment manager adds units as load rises, while a processing grid coordinates a request that needs both order and payment units.",
+      "source": "pp. 213–219"
+    },
+    {
+      "title": "Pumps, writers, and readers",
+      "body": "Processing units do not directly read or write the database for normal transactions. An update owner sends an asynchronous data-pump message containing an action and new values; a data writer applies it. After all cache instances are lost or when archive data is needed, a data reader loads data through a reverse data pump, using a temporary cache owner and lock before other units synchronize. Writers and readers form a data abstraction layer that buffers schema changes behind contracts.",
+      "example": "A changed phone number is sent with customer ID and update action. If every customer-profile unit restarts, one unit loads the cache from the database and releases the lock after the reverse pump completes.",
+      "source": "pp. 219–223"
+    },
+    {
+      "title": "Collision is a consistency cost",
+      "body": "With active/active replicated caches, two units can update the same row before replication arrives. Each old update can overwrite the other's local update, producing a wrong value. Collision probability rises with instance count, update rate, and replication latency, and falls with cache size. The chapter provides a probabilistic formula and emphasizes measuring replication latency in production. High-conflict data may need a different cache model or partitioning strategy.",
+      "example": "Two units decrement inventory from 500 to 490 and 495 during a replication window. The replicated values settle at 490 and 495 instead of the correct 485, demonstrating why inventory needs careful consistency design.",
+      "source": "pp. 223–226"
+    },
+    {
+      "title": "Choose a cache model",
+      "body": "Replicated caching keeps a copy in every processing unit, maximizing speed and avoiding a central cache failure. It fits small, relatively static data with low update rates. Distributed caching keeps data in one external cache, improving consistency for large or highly dynamic data at the cost of remote latency and a central availability dependency. A single application can use both. Near-cache hybrids are discouraged because front caches differ between units, causing uneven behavior.",
+      "example": "Reference product codes can use replicated cache for fast lookup. Current inventory counts can use distributed cache to avoid conflicting copies, even though cache access is slower.",
+      "source": "pp. 226–230"
+    },
+    {
+      "title": "Power with operational weight",
+      "body": "Space-based architecture earns strong performance, scalability, and elasticity by using memory and dynamic units, but it is difficult to test at peak concurrency and expensive in resources and cache licensing. It can be both domain and technical partitioned, and its quanta depend on synchronous relationships among units and interfaces. Data-loss protection, collision measurement, recovery, and eventual-consistency behavior must be designed before relying on the apparent near-infinite scale.",
+      "example": "A ticketing system may add units minutes before a sale, but the team still needs collision tests, durable pumps, restart drills, and a plan for reservations that are not yet in the database.",
+      "source": "pp. 231–234"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Because the database is removed from the hot path, space-based data is immediately strongly consistent.",
+      "correction": "Updates reach the database asynchronously, and replicated caches can collide during replication. The style exchanges central database pressure for eventual consistency and explicit collision management."
+    },
+    {
+      "claim": "Replicated caching is always the best choice because it is fastest.",
+      "correction": "Replicated caching favors performance and fault tolerance for small, stable data. Large, dynamic, or high-update data may require a distributed cache for consistency, and both models can coexist."
+    }
+  ],
+  "scenario": {
+    "title": "Release-night ticket sale",
+    "context": "A concert ticketing site normally has a few hundred concurrent users but expects tens of thousands when sales open. Seat availability must be accurate enough to prevent double selling, while reference data such as venue descriptions changes rarely. The team can pay for cache infrastructure but has limited ability to test peak load safely outside production before and during the sale.",
+    "options": [
+      {
+        "label": "Replicated cache",
+        "benefit": "Every processing unit can serve hot reads from memory with excellent speed and no single cache server dependency.",
+        "cost": "Concurrent seat updates can collide across copies, and each new unit consumes memory; collision and restart behavior are difficult to test.",
+        "consequence": "Venue metadata and other stable reference data respond quickly from each unit. Seat reservations need partitioning, collision monitoring, and a durable ordered pump so a stale copy cannot sell the same seat twice."
+      },
+      {
+        "label": "Distributed cache",
+        "benefit": "One cache authority avoids conflicting replicated seat copies and provides stronger consistency for highly dynamic inventory.",
+        "cost": "Every access crosses a remote cache boundary, and a cache outage can make all processing units nonoperational unless mirrored carefully.",
+        "consequence": "Seat counts are easier to reason about during the sale, but remote cache latency and failover must be measured. Stable venue data can still use replicated caches in the same system."
+      }
+    ],
+    "debrief": "The workload points to space-based architecture, but different data has different needs. Use replicated caching where performance and fault tolerance dominate, distributed caching where consistency dominates, and make collision and outage behavior part of the design."
+  },
+  "quiz": [
+    {
+      "question": "What removes the central database from normal transactional processing in space-based architecture?",
+      "options": [
+        "Processing units use replicated in-memory data and update the database asynchronously through data pumps",
+        "The database is deleted and never used again",
+        "Every request synchronously calls a larger database cluster"
+      ],
+      "answer": 0,
+      "explanation": "The database remains the system of record, but in-memory processing and asynchronous pumps remove it from the hot synchronous path."
+    },
+    {
+      "question": "Which data is the stronger candidate for distributed caching?",
+      "options": [
+        "Rarely changing product descriptions under 100 MB",
+        "Highly dynamic inventory counts where consistency matters",
+        "A cache used only for static UI colors"
+      ],
+      "answer": 1,
+      "explanation": "A distributed cache centralizes dynamic data and avoids replicated conflicts, trading performance and fault tolerance for consistency."
+    },
+    {
+      "question": "What happens when two replicated cache units update the same row before replication completes?",
+      "options": [
+        "The updates are automatically summed into the correct value",
+        "A data collision can cause each old value to overwrite the other, producing incorrect state",
+        "The database synchronously serializes both changes before either cache changes"
+      ],
+      "answer": 1,
+      "explanation": "Replication latency creates a collision window. The chapter's inventory example shows both caches can become wrong and out of sync."
+    }
+  ],
+  "exercise": {
+    "title": "Give each cache a reason",
+    "prompt": "Choose two data sets in a high-volume system. Select replicated, distributed, or both, and state the update rate, size, consistency need, and failure behavior that support each choice.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Spike pattern, data sets, and processing units"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Cache model and data-pump path"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Performance, consistency, fault tolerance, and cost"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "request",
+        "label": "REQUEST",
+        "kind": "message",
+        "tone": "peach"
+      },
+      {
+        "id": "units",
+        "label": "UNITS",
+        "kind": "service",
+        "tone": "sage"
+      },
+      {
+        "id": "cache",
+        "label": "CACHE GRID",
+        "kind": "cache",
+        "tone": "lilac"
+      },
+      {
+        "id": "pump",
+        "label": "DATA PUMP",
+        "kind": "router",
+        "tone": "peach"
+      },
+      {
+        "id": "record",
+        "label": "RECORD DB",
+        "kind": "database",
+        "tone": "sage"
+      }
+    ],
+    "edges": [
+      {
+        "from": "request",
+        "to": "units"
+      },
+      {
+        "from": "units",
+        "to": "cache"
+      },
+      {
+        "from": "cache",
+        "to": "pump"
+      },
+      {
+        "from": "pump",
+        "to": "record"
+      }
+    ],
+    "steps": [
+      {
+        "node": "request",
+        "text": "A spike is routed to an available processing unit without waiting for the database."
+      },
+      {
+        "node": "units",
+        "text": "The unit executes the transaction in memory and becomes the owner of its update."
+      },
+      {
+        "node": "cache",
+        "text": "The data grid replicates or centrally serves the latest cache data according to its consistency need."
+      },
+      {
+        "node": "pump",
+        "text": "A durable asynchronous pump carries the change and action to a writer."
+      },
+      {
+        "node": "record",
+        "text": "The database is eventually updated; readers refill caches after a full restart or archive request."
+      }
+    ]
+  }
+}

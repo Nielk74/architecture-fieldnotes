@@ -1,0 +1,203 @@
+{
+  "number": 14,
+  "title": "Event-Driven Architecture Style",
+  "part": "Architecture styles",
+  "subtitle": "Let systems react quickly, then design for what happens next",
+  "summary": "Event-driven architecture uses decoupled components that asynchronously receive and process events. A broker topology broadcasts processing events without a central coordinator, allowing high responsiveness, performance, scalability, and extensibility; it gives up clear workflow control, straightforward recovery, and easy error handling. A mediator topology keeps event state, issues commands to dedicated queues, waits for acknowledgements, and can restart a workflow, but the mediator adds coupling and can bottleneck throughput. Asynchronous fire-and-forget improves perceived responsiveness without shortening the work itself, so error handling, ordering, and data loss need deliberate patterns. Workflow delegates repair malformed messages, while persistent queues, synchronous send, client acknowledgement, database commits, and last-participant support protect delivery. Broadcast and request-reply cover different communication needs. Choose event-based flow for dynamic action and scale; use request-based flow when certainty and deterministic control matter.",
+  "source": {
+    "startLine": 6539,
+    "endLine": 7521,
+    "pages": "179–209"
+  },
+  "concepts": [
+    {
+      "title": "Request or event",
+      "body": "A request-based model synchronously directs a well-defined data operation through an orchestrator. An event-based model reacts to a situation, such as a bid or a placed order, and allows downstream processors to act asynchronously. Request flow offers certainty and control; event flow suits action-oriented, dynamic work that values responsiveness, scale, and extension. The distinction is about the nature of the interaction, not merely whether a message broker is present.",
+      "example": "Retrieving six months of order history is a deterministic request. Placing an order can emit an event that notification, payment, and inventory processors handle independently.",
+      "source": "pp. 179–180, 206"
+    },
+    {
+      "title": "Broker topology",
+      "body": "A broker has an initiating event, broker channels, event processors, and processing events. One processor acts, publishes what happened, and becomes free while other processors listen and react. Topics provide publish-and-subscribe broadcast and back pressure, and a new consumer can subscribe to an existing event without changing publishers. The price of this decoupling is that no component owns the entire workflow or knows when it is complete.",
+      "example": "After order-created, notification, payment, and inventory run in parallel. Payment publishes payment-applied or payment-denied; fulfillment listens for success, while a future analytics processor can consume email-sent.",
+      "source": "pp. 180–184"
+    },
+    {
+      "title": "Mediator topology",
+      "body": "A mediator receives an initiating event, tracks its state, and sends commands through dedicated queues to event processors. It can run parallel steps, wait for acknowledgements, stop on failure, persist progress, and resume from the last completed step. Multiple mediators can divide domains. Simple, hard, and complex workflows may be delegated to tools with increasing orchestration capability. The mediator improves control and recovery but couples processors to its workflow and can limit scale and performance.",
+      "example": "A customer mediator creates an order, waits for email, payment, and inventory acknowledgements, then commands fulfillment and shipping. An expired card pauses the workflow until repair, rather than letting later steps proceed blindly.",
+      "source": "pp. 185–195"
+    },
+    {
+      "title": "Responsiveness is not performance",
+      "body": "Asynchronous messaging can acknowledge acceptance quickly while work continues. The end-to-end processing time may be unchanged; the user simply does not wait for every parser or downstream service. This creates a promise rather than immediate certainty, so rejected work needs a notification or status path. Request-reply messaging provides a response through a reply queue, usually matched by correlation ID; a temporary reply queue is simpler but adds broker overhead.",
+      "example": "A comment post can return after 25 milliseconds while moderation takes 3,000 milliseconds. The system feels responsive, but it still must tell the author if moderation rejects the comment.",
+      "source": "pp. 195–196, 203–206"
+    },
+    {
+      "title": "Repair, ordering, and delivery",
+      "body": "A workflow event pattern delegates a consumer error to a workflow processor, which repairs and resubmits the message or sends it to a human dashboard. Resubmission can break ordering, so messages for the same account or context may need a temporary FIFO hold. Data loss can happen before enqueue, after dequeue, or before database persistence. Persistent queues with synchronous send, client acknowledgement, an ACID commit, and final queue acknowledgement address those loss windows; duplicate delivery still needs idempotent handling.",
+      "example": "A trade record with 8756 SHARES can be normalized by an error processor and retried. Other trades for that account wait until the repaired message succeeds, preserving account order.",
+      "source": "pp. 197–202"
+    },
+    {
+      "title": "Characteristics and hybrid use",
+      "body": "Event-driven systems can broadcast market data to unknown subscribers and can combine broker and mediator flows. They often score strongly for performance, scalability, fault tolerance, and evolutionary extension, but low for simplicity and testability because dynamic event trees create many possible paths. Shared databases and request-reply dependencies can bind processors into the same quantum even when messages are asynchronous. Add the style where its responsiveness and adaptability repay the operational complexity.",
+      "example": "A price publisher can add analytics, alerts, and audit subscribers without knowing them. A separate mediator can still coordinate a trade that must wait for a confirmation number.",
+      "source": "pp. 203–209"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Asynchronous messaging makes the underlying work finish faster.",
+      "correction": "It can improve perceived responsiveness by acknowledging acceptance early. The processing itself may take the same time, and eventual outcomes need status or notification handling."
+    },
+    {
+      "claim": "A broker event flow can safely restart from the original event after any failure.",
+      "correction": "Broker processors do not own global workflow state, and other actions may already have occurred. Recovery and restart need explicit state, repair, idempotency, and ordering design."
+    }
+  ],
+  "scenario": {
+    "title": "Order events with an expired card",
+    "context": "An online bookstore wants immediate order acknowledgement during traffic spikes. Notification, inventory, and payment can often proceed independently, but an order must not ship until payment is accepted. The team also needs a clear response when a card is expired and must decide whether to optimize for maximum throughput or controlled recovery with no forced synchronous page during a major sale window.",
+    "options": [
+      {
+        "label": "Broker topology",
+        "benefit": "Independent processors run in parallel, scale separately, and new subscribers can observe published events without changing existing senders.",
+        "cost": "No central owner knows workflow completion; payment failure can leave inventory changed and makes restart and compensation difficult.",
+        "consequence": "The customer receives an order ID quickly and notification and inventory proceed beside payment. A denied payment needs explicit compensating events and operational repair because fulfillment cannot infer the whole state."
+      },
+      {
+        "label": "Mediator topology",
+        "benefit": "A mediator tracks steps, waits for acknowledgements, pauses on payment failure, and resumes after the card is repaired.",
+        "cost": "The mediator adds coupling, state management, and a possible throughput bottleneck, reducing the broker's maximum parallelism.",
+        "consequence": "Inventory and notification can run in parallel, but shipping is held until all required acknowledgements arrive. The persisted workflow can restart at fulfillment after payment succeeds and the card is repaired."
+      }
+    ],
+    "debrief": "Choose the broker when decoupling, scale, and dynamic extension dominate; choose the mediator when a business workflow needs control, recovery, and a known completion state. A hybrid can use both for different parts of the process."
+  },
+  "quiz": [
+    {
+      "question": "What is the defining difference between broker and mediator topologies?",
+      "options": [
+        "Broker has central workflow state; mediator has no coordinator",
+        "Broker distributes reactions without a central mediator; mediator controls steps and acknowledgements",
+        "Broker is synchronous; mediator is always a database transaction"
+      ],
+      "answer": 1,
+      "explanation": "The broker publishes processing events for independent listeners, while the mediator issues commands and tracks the workflow. Both can use asynchronous messaging."
+    },
+    {
+      "question": "What does client acknowledgement protect against in a queue consumer?",
+      "options": [
+        "A consumer crash after dequeue removing an unprocessed message permanently",
+        "All network latency between producer and consumer",
+        "A business rule that rejects a message"
+      ],
+      "answer": 0,
+      "explanation": "Client acknowledgement keeps the message associated with the consumer until processing is complete, allowing recovery after a crash. It does not solve latency or business validation."
+    },
+    {
+      "question": "When is request-reply a better fit than fire-and-forget?",
+      "options": [
+        "When the producer needs a result such as an order ID before continuing",
+        "When no component should ever know the result",
+        "When the workflow must intentionally ignore all errors"
+      ],
+      "answer": 0,
+      "explanation": "Request-reply uses a request queue and reply queue, commonly matched by correlation ID, for a needed response while retaining asynchronous transport."
+    }
+  ],
+  "exercise": {
+    "title": "Name the promise your event makes",
+    "prompt": "Design one event flow and state what is acknowledged immediately, what outcome arrives later, how a failure is repaired, and which ordering key must be preserved.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Action, processors, and user expectation"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Broker, mediator, or hybrid flow"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Responsiveness gained and recovery work required"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "event",
+        "label": "START EVENT",
+        "kind": "message",
+        "tone": "peach"
+      },
+      {
+        "id": "broker",
+        "label": "EVENT HUB",
+        "kind": "router",
+        "tone": "lilac"
+      },
+      {
+        "id": "processors",
+        "label": "PROCESSORS",
+        "kind": "service",
+        "tone": "sage"
+      },
+      {
+        "id": "repair",
+        "label": "REPAIR QUEUE",
+        "kind": "queue",
+        "tone": "peach"
+      },
+      {
+        "id": "store",
+        "label": "OUTCOME DB",
+        "kind": "database",
+        "tone": "sage"
+      }
+    ],
+    "edges": [
+      {
+        "from": "event",
+        "to": "broker"
+      },
+      {
+        "from": "broker",
+        "to": "processors"
+      },
+      {
+        "from": "processors",
+        "to": "repair"
+      },
+      {
+        "from": "processors",
+        "to": "store"
+      }
+    ],
+    "steps": [
+      {
+        "node": "event",
+        "text": "The action is accepted and an initiating event enters a durable channel."
+      },
+      {
+        "node": "broker",
+        "text": "A broker broadcasts reactions, or a mediator issues the next command and records workflow state."
+      },
+      {
+        "node": "processors",
+        "text": "Independent processors act asynchronously; the mediator waits for acknowledgements when sequence matters."
+      },
+      {
+        "node": "repair",
+        "text": "A failing consumer delegates repair or manual review and preserves ordering for the affected context."
+      },
+      {
+        "node": "store",
+        "text": "The outcome commits before final acknowledgement, making delivery and recovery observable."
+      }
+    ]
+  }
+}

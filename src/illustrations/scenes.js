@@ -1,0 +1,27 @@
+// Compose new illustrations here: geometry and motion live in engine.js / illustrations.css.
+const roles={interface:'storefront',storefront:'storefront',service:'service',orders:'service',catalogue:'service',data:'database',message:'message',notify:'service',code:'terminal',release:'deployment',app:'service',infra:'deployment',watch:'gauge',team:'team',build:'component',learn:'gauge',choiceA:'blueprint',choiceB:'blueprint'};
+const node = (id, x, y, label, extra = {}) => ({ id, x, y, label, kind:roles[id]||'block', ...extra });
+const edge = (from, to, extra = {}) => ({ from, to, ...extra });
+export const bookshop = {
+  title: 'A bookshop interface connects to order and catalogue services, with shared data beneath.',
+  nodes: [node('interface',240,80,'INTERFACE',{caption:'The experience'}),node('orders',115,160,'ORDERS',{caption:'Business rules'}),node('catalogue',365,160,'CATALOGUE',{caption:'Discover books'}),node('data',240,245,'DATA',{tone:'peach',caption:'Shared foundations'})],
+  edges: [edge('interface','orders'),edge('interface','catalogue'),edge('orders','data'),edge('catalogue','data')],
+};
+export const dimensions = [
+  { title:'Structure: storefront, service, and storage form distinct layers.', nodes:[node('storefront',240,75,'STOREFRONT'),node('service',125,165,'SERVICE'),node('database',285,240,'DATABASE',{kind:'database',tone:'peach'})],edges:[edge('storefront','service'),edge('service','database')] },
+  { title:'Characteristics: a latency goal is checked across the storefront and service.',nodes:[node('storefront',130,155,'STOREFRONT',{badge:'Fast enough?'}),node('service',330,155,'SERVICE',{tone:'lilac'}),node('check',240,250,'QUALITY GOAL',{kind:'document',tone:'honey'})],edges:[edge('storefront','service'),edge('service','check',{dashed:true})] },
+  { title:'Decisions: a service boundary controls access to the database.',nodes:[node('storefront',100,145,'STOREFRONT',{width:90}),node('boundary',240,145,'SERVICE BOUNDARY',{kind:'gateway',tone:'lilac'}),node('database',365,215,'DATABASE',{kind:'database',tone:'peach',width:90})],edges:[edge('storefront','boundary'),edge('boundary','database')] },
+  { title:'Principles: the order service prefers messages for notifications.',nodes:[node('orders',110,135,'ORDERS'),node('message',240,200,'MESSAGE',{kind:'message',tone:'honey'}),node('notify',370,230,'NOTIFY',{tone:'lilac',width:90})],edges:[edge('orders','message',{dashed:true}),edge('message','notify',{dashed:true})] },
+];
+export const engineering = { title:'Engineering: changes travel through automated checks before release.', nodes:[node('code',110,140,'CODE'),node('check',260,145,'CHECKS',{kind:'gateway',tone:'lilac'}),node('release',350,245,'RELEASE',{tone:'peach'})],edges:[edge('code','check'),edge('check','release')] };
+export const operations = { title:'Operations: services rely on infrastructure and ongoing observation.', nodes:[node('app',150,105,'SERVICE',{tone:'lilac'}),node('infra',330,225,'PLATFORM',{windows:true}),node('watch',130,260,'OBSERVE',{kind:'gauge',tone:'honey'})],edges:[edge('app','infra'),edge('infra','watch'),edge('watch','app',{dashed:true})] };
+export const feedback = { title:'Process: a team builds, observes, and adapts in a repeating feedback loop.', nodes:[node('team',240,85,'TEAM',{kind:'team',tone:'lilac'}),node('build',115,225,'BUILD'),node('learn',350,225,'LEARN',{tone:'honey'})],edges:[edge('team','build'),edge('build','learn'),edge('learn','team')] };
+export const data = { title:'Data: two capabilities connect to storage, creating a shared dependency.', nodes:[node('orders',125,125,'ORDERS'),node('catalogue',345,125,'CATALOGUE',{tone:'lilac'}),node('database',235,245,'DATA',{kind:'database',tone:'peach',width:125,height:45})],edges:[edge('orders','database'),edge('catalogue','database')] };
+export const rationale = { title:'A decision record carries context from today’s architect to a future teammate.', nodes:[node('author',110,130,'TODAY',{kind:'person'}),node('record',240,175,'THE WHY',{kind:'document',tone:'honey'}),node('reader',365,235,'TOMORROW',{kind:'person',tone:'lilac'})],edges:[edge('author','record'),edge('record','reader')] };
+export const checkpoint = { title:'Different architectural choices pass through a reasoning checkpoint.', nodes:[node('choiceA',120,140,'CHOICE A'),node('choiceB',350,140,'CHOICE B',{tone:'lilac'}),node('reason',240,250,'CHECK THE CONTEXT',{kind:'gateway',tone:'honey'})],edges:[edge('choiceA','reason'),edge('choiceB','reason')] };
+export function deployments(count = 1) {
+  const n = Math.max(1,Math.min(5,Math.round(count)));
+  const positions = n===1?[[240,180]]:n===2?[[140,145],[335,225]]:n===3?[[240,95],[120,230],[350,230]]:n===4?[[140,115],[330,115],[140,240],[330,240]]:[[240,75],[105,155],[370,155],[160,265],[320,265]];
+  return { title:`${n} independently deployable unit${n===1?'':'s'}; connections illustrate coordination, not a prescribed topology.`,nodes:positions.map(([x,y],i)=>node(`service-${i}`,x,y,n===1?'BOOKSHOP':`UNIT ${i+1}`,{kind:'deployment',width:n===1?155:90,height:n===1?65:32,tone:i%2?'lilac':'sage',windows:true})),edges:positions.slice(1).map((_,i)=>edge(`service-${i}`,`service-${i+1}`)) };
+}
+export const sceneLibrary = { bookshop, structure:dimensions[0], characteristics:dimensions[1], decisions:dimensions[2], principles:dimensions[3], engineering, operations, feedback, data, rationale, checkpoint, deployments:deployments(4) };

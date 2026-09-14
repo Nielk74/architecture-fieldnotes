@@ -1,0 +1,17 @@
+# Chapter 7: Service Granularity
+
+Service granularity is a balancing decision, not a contest to produce the smallest services. The chapter divides the evidence into disintegrator and integrator forces (text lines 4927–4997). Disintegrators include weak cohesion, high code volatility, different scalability or throughput needs, distinct fault-tolerance requirements, security or data-access differences, and planned extensibility (text lines 4999–5121). Each suggests that one service is carrying several independent architectural decisions.
+
+The evidence becomes useful when tied to behavior. A service may look cohesive by name while containing a hot path, a batch path, and an administrative path with different throughput or availability needs. Conversely, two functions may look separate but change together and require the same transaction. Mapping functions to tables helps expose these relationships, while change history and ownership reveal whether a proposed seam is real (text lines 5187–5273).
+
+Integrators are equally important. Shared code forces coordinated releases or version management. Shared tables complicate ownership. A workflow spread across many services adds network hops, response time, and partial failure states. Most strongly, splitting operations that require one ACID transaction removes the local unit of work (text lines 5131–5171). These forces can justify consolidation, even when a prior decomposition made the services look independent.
+
+The chapter’s ticket assignment and customer registration discussions show why workflow matters (text lines 5321–5452). A service boundary changes the failure model: a synchronous call can fail, a retry can duplicate work, and a distributed workflow can leave intermediate state. A boundary should therefore come with fitness functions for latency, availability, change lead time, and consistency. Lines of code or a fixed team-size heuristic cannot measure those outcomes.
+
+A useful analysis asks four questions. Which functions change together? Which need distinct scaling or security? Which data relationships and transactions cross the proposed seam? What does a user observe when one participant is slow or unavailable? The answer may be a split, a consolidation, or a deliberately retained boundary with better contracts.
+
+Teaching extension: select a service from a current system. Make a table mapping each function to its data, owner, change cadence, scale profile, and workflow calls. Recommend one boundary and state the evidence that would prove the recommendation wrong. Include a fallback for a dependent service outage so the design is judged as an operating system, not only as a class diagram.
+
+The two decision stories reinforce that granularity is contextual. Ticket assignment and routing can be judged by their workflow and data relationships, while customer registration must be judged by which steps are mandatory and which can be asynchronous (text lines 5321–5452). A boundary that looks elegant in static code may be expensive when every request becomes a chain of synchronous calls. Conversely, retaining a boundary can make an independently scaling or secured path harder to operate. Record the priority that wins, and revisit it when traffic, ownership, or change cadence changes.
+
+Keep the decision reversible where possible: move one endpoint or one workflow slice, deploy it, and compare its operational measures with the original. Granularity is a living architecture decision rather than a one-time decomposition ceremony.

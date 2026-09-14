@@ -1,0 +1,8 @@
+{
+  "appId": "io.github.nielk74.fieldnotes",
+  "appName": "Architecture Fieldnotes",
+  "webDir": "dist",
+  "server": { "hostname": "localhost", "androidScheme": "https" },
+  "android": { "allowMixedContent": false },
+  "plugins": { "Keyboard": { "resize": "body" } }
+}

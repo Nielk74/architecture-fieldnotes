@@ -1,0 +1,11 @@
+import {test,expect} from '@playwright/test';
+import {parseBackup,mergeLedger} from '../src/backup.js';
+test('backup merging preserves writing and earned missions in both ledgers',()=>{
+ const current={version:1,chapters:{1:{missions:{quiz:true},read:['intro'],activity:{draft:['my draft','second','third'],answers:[2]}}}};
+ const incoming={version:1,chapters:{1:{missions:{explore:true,quiz:false},read:['explore'],activity:{draft:['incoming'],answers:[1,0]}}}};
+ const merged=mergeLedger(current,incoming);expect(merged.chapters[1].missions).toEqual({explore:true,quiz:true});expect(merged.chapters[1].activity.draft).toEqual(['my draft','second','third']);expect(merged.chapters[1].activity.answers).toEqual([2,0]);expect(current.chapters[1].missions.explore).toBeUndefined();
+ expect(()=>parseBackup('{"format":"fieldnotes-backup","version":1,"entries":{"unknown":"a"}}')).toThrow();expect(()=>parseBackup('{"format":"fieldnotes-backup","version":1,"entries":{},"__proto__":{}}')).toThrow();
+});
+test('export and import round trip restores XP, both paths and drafts',async({page})=>{
+ await page.goto('/');await page.evaluate(()=>{localStorage.setItem('fieldnotes-book-v1',JSON.stringify({version:1,chapters:{11:{missions:{explore:true},activity:{draft:['Browser to Android']},read:[]}}}));localStorage.setItem('fieldnotes-hard-parts-v1',JSON.stringify({version:1,chapters:{1:{missions:{quiz:true},activity:{draft:['Other book']},read:[]}}}))});await page.reload();const pending=page.waitForEvent('download');await page.locator('#export-progress').click();const file=await pending;const stream=await file.createReadStream();let text='';for await(const chunk of stream)text+=chunk;expect(Object.keys(parseBackup(text))).toContain('fieldnotes-hard-parts-v1');await page.evaluate(()=>localStorage.clear());await page.reload();await page.locator('#import-progress').setInputFiles({name:'fieldnotes-progress.json',mimeType:'application/json',buffer:Buffer.from(text)});await expect(page.locator('.home-xp')).toHaveText('40 XP across your paths');await page.goto('/fundamentals.html#chapter/11/apply');await expect(page.locator('[data-work="0"]')).toHaveValue('Browser to Android');
+});

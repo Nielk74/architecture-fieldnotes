@@ -1,0 +1,107 @@
+[
+  {
+    "number": 1,
+    "title": "What Happens When There Are No \u201cBest Practices\u201d?",
+    "startLine": 196,
+    "endLine": 799,
+    "part": "Boundaries & decomposition"
+  },
+  {
+    "number": 2,
+    "title": "Discerning Coupling in Software Architecture",
+    "startLine": 800,
+    "endLine": 1200,
+    "part": "Boundaries & decomposition"
+  },
+  {
+    "number": 3,
+    "title": "Architectural Modularity",
+    "startLine": 1201,
+    "endLine": 1476,
+    "part": "Boundaries & decomposition"
+  },
+  {
+    "number": 4,
+    "title": "Architectural Decomposition",
+    "startLine": 1477,
+    "endLine": 1753,
+    "part": "Boundaries & decomposition"
+  },
+  {
+    "number": 5,
+    "title": "Component-Based Decomposition Patterns",
+    "startLine": 1754,
+    "endLine": 3574,
+    "part": "Boundaries & decomposition"
+  },
+  {
+    "number": 6,
+    "title": "Pulling Apart Operational Data",
+    "startLine": 3575,
+    "endLine": 4926,
+    "part": "Boundaries & decomposition"
+  },
+  {
+    "number": 7,
+    "title": "Service Granularity",
+    "startLine": 4927,
+    "endLine": 5479,
+    "part": "Distributed decisions"
+  },
+  {
+    "number": 8,
+    "title": "Reuse Patterns",
+    "startLine": 5480,
+    "endLine": 6002,
+    "part": "Distributed decisions"
+  },
+  {
+    "number": 9,
+    "title": "Data Ownership and Distributed Transactions",
+    "startLine": 6003,
+    "endLine": 6556,
+    "part": "Distributed decisions"
+  },
+  {
+    "number": 10,
+    "title": "Distributed Data Access",
+    "startLine": 6557,
+    "endLine": 6855,
+    "part": "Distributed decisions"
+  },
+  {
+    "number": 11,
+    "title": "Managing Distributed Workflows",
+    "startLine": 6856,
+    "endLine": 7311,
+    "part": "Distributed decisions"
+  },
+  {
+    "number": 12,
+    "title": "Transactional Sagas",
+    "startLine": 7312,
+    "endLine": 8356,
+    "part": "Distributed decisions"
+  },
+  {
+    "number": 13,
+    "title": "Contracts",
+    "startLine": 8357,
+    "endLine": 8721,
+    "part": "Contracts & analysis"
+  },
+  {
+    "number": 14,
+    "title": "Managing Analytical Data",
+    "startLine": 8722,
+    "endLine": 9078,
+    "part": "Contracts & analysis"
+  },
+  {
+    "number": 15,
+    "title": "Build Your Own Trade-Off Analysis",
+    "startLine": 9079,
+    "endLine": 9500,
+    "part": "Contracts & analysis"
+  }
+]

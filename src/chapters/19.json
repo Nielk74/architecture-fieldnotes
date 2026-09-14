@@ -1,0 +1,197 @@
+{
+  "number": 19,
+  "title": "Architecture Decisions",
+  "part": "Techniques & people",
+  "subtitle": "Make the why durable enough to guide implementation",
+  "summary": "Architecture decisions guide teams toward technical choices that support a system's structure and important characteristics. The chapter traces three anti-patterns: avoiding a decision, revisiting an undocumented decision endlessly, and communicating a decision only through messages that get lost. Architects should decide at the last responsible moment, collaborate with implementers, and justify choices in both business and technical terms. An architecturally significant decision affects structure, nonfunctional characteristics, dependencies, interfaces, or construction techniques, including technology choices. Architecture Decision Records make that reasoning durable through a concise title, status, context, decision, consequences, and useful compliance and notes sections. Statuses preserve approval and supersession history; context captures forces, decision states an affirmative choice and why, and consequences expose benefits and costs. ADRs can document standards and architecture, especially when a fitness function can check compliance. A single accessible system of record prevents repeated debate and forgotten guidance.",
+  "source": {
+    "startLine": 9589,
+    "endLine": 10138,
+    "pages": "281–295"
+  },
+  "concepts": [
+    {
+      "title": "Three Decision Traps",
+      "body": "Covering Your Assets defers a choice out of fear, blocking progress; the remedy is the last responsible moment plus close collaboration and feedback. Groundhog Day repeats debate because the decision lacks a complete justification. Email-Driven Architecture loses the decision because transient messages become the only record. The traps form a progression, so a useful decision needs timing, reasoning, and durable communication.",
+      "example": "A team postpones choosing a cache until a release is blocked, then argues every sprint about why the choice was made. A short ADR could preserve the decision and the constraints that led to it.",
+      "source": "pp. 281–283"
+    },
+    {
+      "title": "Architecturally Significant",
+      "body": "A decision is architecturally significant when it changes structure, important nonfunctional characteristics, dependencies, interfaces, or construction techniques. That includes a technology choice when it affects performance, scalability, security, or another key characteristic. The category helps an architect focus documentation on choices that constrain other teams or shape future change, rather than labeling every coding preference an architecture decision for teams.",
+      "example": "Choosing a message broker because throughput and elasticity matter changes dependencies and communication interfaces. Choosing a local variable name generally does not alter the architecture's structure or characteristics.",
+      "source": "pp. 283–284"
+    },
+    {
+      "title": "ADR Shape and Status",
+      "body": "An ADR is a short, focused record, usually one or two pages. Its core sections are Title, Status, Context, Decision, and Consequences; Compliance and Notes add governance and metadata. Proposed, Accepted, and Superseded statuses show the decision's lifecycle. A Request for Comments status can time-box review, and links between superseded records preserve why the system changed and change over time.",
+      "example": "ADR 42 records asynchronous messaging as Accepted. Later, ADR 68 records REST as Accepted and explicitly supersedes 42, so a future reader can see both the current interface and the original reasoning.",
+      "source": "pp. 285–287"
+    },
+    {
+      "title": "Context, Decision, Consequences",
+      "body": "Context names the forces and alternatives that require a choice. Decision should use an affirmative statement and emphasize why, because implementation details can be rediscovered while rationale is easily lost. Consequences state good and bad impacts and the trade-off between characteristics over time. Together, these sections explain enough of the architecture to prevent a tempting refactor from repeating an old mistake.",
+      "example": "An ADR can explain that asynchronous review posting reduced perceived response time, while accepting harder moderation failure handling because responsiveness mattered more to stakeholders in that context.",
+      "source": "pp. 287–289"
+    },
+    {
+      "title": "Compliance and One Record",
+      "body": "Compliance asks how a decision will be measured and governed, manually or through an automated fitness function. ADRs should live where all affected readers can reach them, with one file or page per decision. A wiki or shared structure can separate application, integration, and enterprise scope. Using ADRs for standards forces the organization to explain why a rule exists and whether its consequences are acceptable.",
+      "example": "A layered architecture ADR states that shared services belong in one package and links to an ArchUnit check. A new developer can read the reason and run the check instead of relying on a forwarded email.",
+      "source": "pp. 289–293"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Technology choices are never architecture decisions.",
+      "correction": "A technology choice is architecturally significant when it changes structure, dependencies, interfaces, construction, or a required characteristic such as performance or security."
+    },
+    {
+      "claim": "An email announcing a decision is a sufficient record.",
+      "correction": "Email can point people to a decision, but it is a poor repository. Keep one authoritative ADR and notify only stakeholders directly affected by it."
+    }
+  ],
+  "scenario": {
+    "title": "Record the service contract",
+    "context": "An order service must send payment information to a payment service. Synchronous REST is straightforward, but asynchronous messaging could improve responsiveness and absorb bursts. The choice affects latency, error handling, interface contracts, and the teams that own both services. Write a decision that can survive a future refactor and make its approval boundary explicit.",
+    "options": [
+      {
+        "label": "Synchronous REST",
+        "benefit": "The caller receives an immediate result and the interaction is easier to implement and debug.",
+        "cost": "The order flow waits on payment availability and may couple reliability and latency across the services.",
+        "consequence": "The ADR accepts a dependency on payment response time because the business needs immediate confirmation. A fitness check can protect the contract and timeout policy."
+      },
+      {
+        "label": "Asynchronous messaging",
+        "benefit": "The order request can return quickly and a queue can buffer uneven service capacity.",
+        "cost": "The system needs pending states, failure handling, delivery semantics, and a clear user-facing status.",
+        "consequence": "The ADR accepts eventual processing to gain responsiveness and burst tolerance. It names how failed payments are surfaced and who owns retries, preventing later readers from assuming atomic behavior."
+      }
+    ],
+    "debrief": "Either choice can fit. The valuable architecture work is stating the forces, business value, consequences, approval status, and compliance check in one durable record so the teams can implement and revisit it deliberately."
+  },
+  "quiz": [
+    {
+      "question": "A team keeps postponing a cache decision until the release cannot proceed. Which anti-pattern is visible?",
+      "options": [
+        "Covering Your Assets",
+        "Groundhog Day",
+        "Email-Driven Architecture"
+      ],
+      "answer": 0,
+      "explanation": "Avoiding a decision out of fear is Covering Your Assets. Groundhog Day repeats a decision without its why, while Email-Driven Architecture loses the record."
+    },
+    {
+      "question": "Which ADR section should explain that a latency gain was accepted at the cost of more complex error handling?",
+      "options": [
+        "Consequences",
+        "Title",
+        "Status"
+      ],
+      "answer": 0,
+      "explanation": "Consequences records positive and negative impacts and the trade-off analysis, allowing later readers to understand why the choice remains valid."
+    },
+    {
+      "question": "When should a framework choice be documented as architecturally significant?",
+      "options": [
+        "When it affects a required characteristic or the system's structure, dependencies, interfaces, or construction",
+        "Whenever a developer has a personal preference",
+        "Only when an architecture review board asks for it"
+      ],
+      "answer": 0,
+      "explanation": "Architectural significance is determined by the decision's effect on the system, not by whether it has a technology label or a particular approval ritual."
+    }
+  ],
+  "exercise": {
+    "title": "Draft a compact ADR",
+    "prompt": "Choose one structural or characteristic-affecting decision in a system you know. Write its forces, affirmative choice, technical and business justification, consequences, status, and one compliance check.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Forces and alternatives"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "We will... and why"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Benefits, costs, and compliance"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "forces",
+        "label": "FORCES",
+        "kind": "balance",
+        "tone": "peach"
+      },
+      {
+        "id": "adr",
+        "label": "ADR",
+        "kind": "document",
+        "tone": "sage"
+      },
+      {
+        "id": "status",
+        "label": "STATUS",
+        "kind": "gateway",
+        "tone": "lilac"
+      },
+      {
+        "id": "build",
+        "label": "IMPLEMENT",
+        "kind": "component",
+        "tone": "honey"
+      },
+      {
+        "id": "check",
+        "label": "FITNESS",
+        "kind": "gauge",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "forces",
+        "to": "adr"
+      },
+      {
+        "from": "adr",
+        "to": "status"
+      },
+      {
+        "from": "status",
+        "to": "build"
+      },
+      {
+        "from": "build",
+        "to": "check"
+      }
+    ],
+    "steps": [
+      {
+        "node": "forces",
+        "text": "Gather domain, technical, business, and team forces before the last responsible moment."
+      },
+      {
+        "node": "adr",
+        "text": "Record context, alternatives, an affirmative decision, and its technical and business why."
+      },
+      {
+        "node": "status",
+        "text": "Make approval and supersession visible so the decision has a clear lifecycle."
+      },
+      {
+        "node": "build",
+        "text": "Teams implement against one accessible system of record instead of an email chain."
+      },
+      {
+        "node": "check",
+        "text": "Measure compliance with a fitness function or a deliberate review and update the ADR when forces change."
+      }
+    ]
+  }
+}

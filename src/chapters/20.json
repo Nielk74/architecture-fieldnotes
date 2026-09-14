@@ -1,0 +1,197 @@
+{
+  "number": 20,
+  "title": "Analyzing Architecture Risk",
+  "part": "Techniques & people",
+  "subtitle": "Turn hidden failure modes into shared decisions",
+  "summary": "Architecture risk is unavoidable, so architects need a repeatable way to qualify, communicate, and reduce it. The chapter's risk matrix combines impact and likelihood, each rated from one to three, to produce scores from one to nine: one and two are low, three and four medium, and six through nine high. Risk assessments aggregate these ratings by characteristic and domain area, filter for the audience, and show trend direction clearly. Risk storming adds collective knowledge: participants independently mark risk on a shared architecture diagram, then collaborate on consensus and mitigation. The independent phase avoids anchoring; the discussion surfaces disagreement, unfamiliar technology, and implementation experience that one architect may miss. Mitigation can mean refactoring, buffering, isolation, or researching external guarantees, and stakeholders weigh cost against remaining risk. The nurse diagnostics example shows successive sessions uncovering availability, elasticity, and security changes. Risk storming is continuous and can also analyze Agile story risk.",
+  "source": {
+    "startLine": 10139,
+    "endLine": 10730,
+    "pages": "297–314"
+  },
+  "concepts": [
+    {
+      "title": "Impact and Likelihood",
+      "body": "The risk matrix reduces subjective labels by scoring two dimensions. Rate the overall impact first, then the likelihood that the event will occur, each as low one, medium two, or high three. Multiply them: one and two are low, three and four medium, and six through nine high. A high-impact failure with low likelihood can therefore be medium overall in context.",
+      "example": "A clustered database outage could have high impact but low likelihood. Its product is three, so the team should discuss a medium risk rather than calling it high from impact alone.",
+      "source": "pp. 297–298"
+    },
+    {
+      "title": "Useful Risk Assessments",
+      "body": "A risk assessment summarizes ratings for meaningful criteria such as availability, scalability, or data integrity across services or domain areas. Totals reveal where risk accumulates, but a full table is rarely the best presentation. Filter to the decision's context and show whether risk is improving or worsening. Use a clear key or a trend-to-number arrow so direction cannot be misread.",
+      "example": "A review focused on high security risk can hide low-risk rows and show only the affected domains. A trend marker can show a medium score moving toward high risk after a new dependency is added.",
+      "source": "pp. 298–301"
+    },
+    {
+      "title": "Risk Storming",
+      "body": "Risk storming is a collaborative exercise for a specific dimension, such as performance, availability, security, data loss, or unknown technology. Architects, senior developers, and tech leads independently rate areas on an up-to-date diagram, then meet to reach consensus and design mitigations. Independent identification prevents a dominant voice from directing everyone toward the same area and protects quieter observations during review.",
+      "example": "One developer marks an unfamiliar cache as risk nine while others mark nothing. The conversation reveals a knowledge gap and prompts either training, a simpler choice, or a focused proof of concept.",
+      "source": "pp. 301–306"
+    },
+    {
+      "title": "Mitigation and Cost",
+      "body": "Consensus is not the end: the team changes or enhances the architecture to reduce the agreed risk. Queues can add back pressure, separate databases can isolate availability and security concerns, and caches can remove repeated load. Mitigation costs money and effort, so business stakeholders decide whether the reduction is worth it. Unknown technologies receive the highest risk rating until understood.",
+      "example": "A central profile database can be clustered while case notes use a separate instance. If full federation is too expensive, splitting the data may reduce most of the risk within an acceptable budget.",
+      "source": "pp. 306–307"
+    },
+    {
+      "title": "Continuous Scenarios",
+      "body": "Risk storming can analyze architecture characteristics repeatedly as features, dependencies, and operational conditions change. The nurse diagnostics example identifies a central database and an external engine as availability risks, adds queues and an outbreak cache for elasticity, and separates gateways for security. The same matrix can rank the impact and likelihood of missing an Agile story in an iteration over time.",
+      "example": "After adding self-service demand to a nurse system, a workshop discovers that a provider's 500 requests per second cannot absorb flu-season traffic. Priority queues and cached questions change the topology before the outage.",
+      "source": "pp. 307–314"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Risk analysis is an architect's private judgment completed once before coding.",
+      "correction": "One person can miss risk, and risk changes with features and dependencies. Risk storming uses independent contributions and collaboration, then repeats throughout the system's life."
+    },
+    {
+      "claim": "A risk score tells the team what to build without a cost decision.",
+      "correction": "The score makes impact and likelihood visible; mitigation still involves design trade-offs and stakeholder judgment about whether cost outweighs residual risk."
+    }
+  ],
+  "scenario": {
+    "title": "Prepare the nurse diagnostics system",
+    "context": "A nurse portal and a self-service site depend on a third-party diagnostics engine limited to 500 requests per second. Nurses need medical record access, patients must not receive it, and outbreaks can create hundreds of thousands of self-service requests. The architecture has a central database and one API gateway. Run a focused risk storm and choose the first mitigation to fund.",
+    "options": [
+      {
+        "label": "Harden the gateway",
+        "benefit": "Separate gateways by user type reduce the path from patients or administrators to medical records.",
+        "cost": "Security isolation alone leaves provider throughput and central database availability risks unresolved.",
+        "consequence": "The security boundary becomes easier to reason about and audit, but an outbreak can still overload diagnostics and a database failure can still stop call routing. The team needs additional risk dimensions."
+      },
+      {
+        "label": "Stage by risk dimension",
+        "benefit": "Independent workshops expose availability, elasticity, and security risks, then let stakeholders fund targeted changes such as queues, caching, and database separation.",
+        "cost": "Several sessions and topology changes consume design time and add operational components.",
+        "consequence": "The team can prioritize the highest-impact risks: isolate profile data, buffer and prioritize provider requests, cache common outbreak answers, and restrict gateway reachability. Each change remains tied to a measured concern."
+      }
+    ],
+    "debrief": "Risk storming does not produce a magic architecture or remove all uncertainty. Its value is shared visibility, informed consensus, and a traceable choice about mitigation cost. Focus each session on one dimension when possible."
+  },
+  "quiz": [
+    {
+      "question": "A risk has high impact (3) and low likelihood (1). What score and category does the matrix produce?",
+      "options": [
+        "3, medium risk",
+        "4, medium risk",
+        "6, high risk"
+      ],
+      "answer": 0,
+      "explanation": "Impact is assessed first and likelihood second; 3 multiplied by 1 is 3, which the chapter classifies as medium risk."
+    },
+    {
+      "question": "Why should participants rate the diagram individually before discussing it together?",
+      "options": [
+        "To reduce influence and reveal risks that a group discussion might overlook",
+        "To guarantee everyone assigns the same score",
+        "To let the architect avoid explaining the architecture"
+      ],
+      "answer": 0,
+      "explanation": "Independent identification prevents early voices from directing attention. Consensus then uses the different observations to investigate and agree."
+    },
+    {
+      "question": "The provider is limited to 500 requests per second during an outbreak. Which mitigation addresses both back pressure and repeated questions?",
+      "options": [
+        "Queues with priority channels plus a cache for outbreak questions",
+        "A single synchronous retry loop at the gateway",
+        "A larger diagram with no topology change"
+      ],
+      "answer": 0,
+      "explanation": "Queues buffer and prioritize demand, while the cache prevents known outbreak requests from reaching the constrained provider. Retries can amplify overload."
+    }
+  ],
+  "exercise": {
+    "title": "Run a risk storm",
+    "prompt": "Draw a small architecture and assess one dimension. Give each area an impact and likelihood score, explain two disagreements, and propose one mitigation with its cost and residual risk.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Architecture and risk dimension"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Priority risk and mitigation"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Cost, residual risk, and trend"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "diagram",
+        "label": "ARCHITECTURE",
+        "kind": "blueprint",
+        "tone": "sage"
+      },
+      {
+        "id": "votes",
+        "label": "RATINGS",
+        "kind": "team",
+        "tone": "peach"
+      },
+      {
+        "id": "consensus",
+        "label": "CONSENSUS",
+        "kind": "balance",
+        "tone": "lilac"
+      },
+      {
+        "id": "change",
+        "label": "MITIGATION",
+        "kind": "component",
+        "tone": "honey"
+      },
+      {
+        "id": "trend",
+        "label": "RISK TREND",
+        "kind": "gauge",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "diagram",
+        "to": "votes"
+      },
+      {
+        "from": "votes",
+        "to": "consensus"
+      },
+      {
+        "from": "consensus",
+        "to": "change"
+      },
+      {
+        "from": "change",
+        "to": "trend"
+      }
+    ],
+    "steps": [
+      {
+        "node": "diagram",
+        "text": "Choose one risk dimension and provide a current contextual architecture diagram."
+      },
+      {
+        "node": "votes",
+        "text": "Each participant rates impact and likelihood independently, marking the affected areas."
+      },
+      {
+        "node": "consensus",
+        "text": "Compare disagreements and unknown technologies until the group understands the risk."
+      },
+      {
+        "node": "change",
+        "text": "Design a mitigation and negotiate whether its cost is worth the reduction."
+      },
+      {
+        "node": "trend",
+        "text": "Track the score and direction, then repeat after meaningful change or iteration."
+      }
+    ]
+  }
+}

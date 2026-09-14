@@ -1,0 +1,201 @@
+{
+  "number": 22,
+  "title": "Making Teams Effective",
+  "part": "Techniques & people",
+  "subtitle": "Set the boundary where teams can build with confidence",
+  "summary": "An architect guides implementation as well as designing the technical architecture. Teams need a useful box of constraints: too tight and the architect removes developer judgment, too loose and the team must rediscover architecture without guidance. The control-freak, armchair, and effective architect personalities illustrate these boundary failures and the balanced role. The right level of involvement changes with team familiarity, team size, experience, project complexity, and duration. Large teams can suffer process loss, pluralistic ignorance, and diffusion of responsibility, all of which an architect should observe and address. Checklists help with error-prone, nonprocedural work such as code completion, edge-case testing, and releases, but they should stay short and automate what tools can verify. Guidance about libraries and frameworks can define who decides, who needs approval, and what justification is required. Effective architects collaborate with teams, remove roadblocks, and adjust constraints as the system and team evolve.",
+  "source": {
+    "startLine": 11079,
+    "endLine": 11842,
+    "pages": "325–346"
+  },
+  "concepts": [
+    {
+      "title": "The Right Boundary",
+      "body": "An architect's constraints should give developers the tools, libraries, and principles needed to implement the architecture while preserving room for implementation judgment. Tight boundaries frustrate teams and suppress useful choices; loose boundaries leave teams to perform architecture work without guidance. The effective architect communicates the box, collaborates inside it, and changes it as evidence about the team and project changes.",
+      "example": "The architect defines a Reference Manager component and its interactions, while the developer chooses the internal cache structure. That boundary guides architecture without stealing the design work of implementation.",
+      "source": "pp. 325–330"
+    },
+    {
+      "title": "Elastic Leadership",
+      "body": "The amount of architect control depends on team familiarity, team size, overall experience, project complexity, and project duration. New or junior teams and complex or long projects generally need more mentoring and availability; experienced small teams on short urgent work need less day-to-day control. A rough scale can make the conversation explicit, but the factors should be reassessed throughout the project.",
+      "example": "A small, experienced team delivering a simple two-month site may need a facilitator. A large, mostly junior team on a complex six-month system needs active coaching without detailed pseudocode for every class.",
+      "source": "pp. 330–334"
+    },
+    {
+      "title": "Team Warning Signs",
+      "body": "Process loss means actual productivity falls below the team's theoretical total, often visible in repeated merge conflicts and overlapping work. Pluralistic ignorance occurs when people privately reject a norm but stay silent because they assume they are missing something. Diffusion of responsibility makes ownership and communication less clear as the group grows. Architects should notice these signals and reshape work or invite dissent.",
+      "example": "If one developer knows a firewall blocks messaging but agrees in a large meeting, a facilitator can ask for concerns directly. Splitting parallel work and clarifying owners may also reduce merge conflicts and dropped tasks.",
+      "source": "pp. 335–337"
+    },
+    {
+      "title": "Useful Checklists",
+      "body": "Checklists are valuable for independent, error-prone items that are often skipped, such as overlooked edge cases or release configuration. They should not encode dependent procedural steps, and simple reliable work needs no checklist. Keep lists small, remove automatable checks, and update the release list when failures reveal a missed item. Too many lists reduce use through diminishing returns for teams.",
+      "example": "A test checklist can remind a team to cover missing fields, special characters, and boundary values. A pipeline should automate these tests rather than ask developers to tick them off manually.",
+      "source": "pp. 338–342"
+    },
+    {
+      "title": "Guidance and Justification",
+      "body": "Design principles create a workable boundary for choices such as third-party libraries. Ask whether proposed functionality overlaps existing capability and require technical and business justification. Classify choices by how invasive they are, for example special-purpose, general-purpose, or framework libraries, then state which the team can choose, recommend, or must escalate. Guidance should be clear enough to prevent duplication without making every choice an architect veto.",
+      "example": "A team can select a barcode library independently, recommend a general utility after overlap analysis, and escalate a persistence framework because it shapes the application structure. The rule explains both authority and reason.",
+      "source": "pp. 342–346"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "An architect proves leadership by specifying every implementation detail.",
+      "correction": "Overly tight control removes the developer's craft and creates frustration. The architect should define components, interactions, and constraints while leaving appropriate internal design to the team."
+    },
+    {
+      "claim": "Every process becomes safer when it has a longer checklist.",
+      "correction": "Checklists fit independent, error-prone reminders. Dependent procedures belong in a workflow, and an oversized collection of lists causes people to ignore them."
+    }
+  ],
+  "scenario": {
+    "title": "Set guidance for a growing team",
+    "context": "A new team of twelve developers, mostly junior, is building a complex service over six months. They want to add a new persistence framework and several utility libraries. Merge conflicts are increasing, and meetings rarely surface objections. You need to provide enough guidance to protect the architecture while building the team's ability to decide and deliver.",
+    "options": [
+      {
+        "label": "Prescribe every detail",
+        "benefit": "The architect can quickly standardize libraries, class patterns, and implementation choices.",
+        "cost": "Developers lose ownership, the architect becomes a bottleneck, and silent disagreement may move into code instead of discussion.",
+        "consequence": "Short-term consistency hides longer-term frustration and delays. The team waits for approvals, while the architect owns details they cannot review deeply enough."
+      },
+      {
+        "label": "Bounded guidance",
+        "benefit": "The architect defines component boundaries, escalation rules, a short completion checklist, and forums for dissent while mentoring the team.",
+        "cost": "Developers still make choices, so the architect must remain available and revisit guidance as evidence arrives.",
+        "consequence": "The framework choice receives structural review, utility additions require overlap and business justification, and small workstreams reduce conflicts. The team gains autonomy inside a visible box."
+      }
+    ],
+    "debrief": "The effective boundary is contextual and elastic. Junior, large, and complex teams need more involvement, but involvement should guide and remove roadblocks rather than encode every line of implementation."
+  },
+  "quiz": [
+    {
+      "question": "Which signal most directly suggests process loss?",
+      "options": [
+        "Frequent merge conflicts because people work in the same code areas",
+        "A developer asks why a library is needed",
+        "A team uses a short release checklist"
+      ],
+      "answer": 0,
+      "explanation": "Process loss is the gap between group potential and actual productivity; overlapping work and repeated merge conflicts are a concrete indicator."
+    },
+    {
+      "question": "What kind of item belongs on a useful checklist?",
+      "options": [
+        "An independent, error-prone reminder that people often miss",
+        "A sequence where step three cannot happen before step two",
+        "Every routine action regardless of its error rate"
+      ],
+      "answer": 0,
+      "explanation": "Checklists support independent reminders. Dependent procedures need a workflow, and indiscriminate lists lose their value."
+    },
+    {
+      "question": "A persistence framework changes the application's structure. Who should usually own the decision?",
+      "options": [
+        "The architect or the defined architecture approval path",
+        "Any developer without overlap or business analysis",
+        "A random team member chosen after implementation"
+      ],
+      "answer": 0,
+      "explanation": "Framework libraries are invasive and shape the application. Guidance can reserve them for architecture review while leaving special-purpose choices to developers."
+    }
+  ],
+  "exercise": {
+    "title": "Design the team box",
+    "prompt": "Assess a team using the five control factors. Write three boundaries, one short checklist candidate, and one decision rule that gives developers autonomy while protecting an architectural characteristic.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Team, project, and current warning signs"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Guidance, ownership, and involvement"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Control gained versus autonomy cost"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "architect",
+        "label": "ARCHITECT",
+        "kind": "person",
+        "tone": "peach"
+      },
+      {
+        "id": "boundary",
+        "label": "TEAM BOX",
+        "kind": "boundary",
+        "tone": "lilac"
+      },
+      {
+        "id": "team",
+        "label": "TEAM",
+        "kind": "team",
+        "tone": "sage"
+      },
+      {
+        "id": "checklist",
+        "label": "CHECKLIST",
+        "kind": "document",
+        "tone": "honey"
+      },
+      {
+        "id": "feedback",
+        "label": "FEEDBACK",
+        "kind": "message",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "architect",
+        "to": "boundary"
+      },
+      {
+        "from": "boundary",
+        "to": "team"
+      },
+      {
+        "from": "team",
+        "to": "checklist"
+      },
+      {
+        "from": "team",
+        "to": "feedback"
+      },
+      {
+        "from": "feedback",
+        "to": "architect"
+      }
+    ],
+    "steps": [
+      {
+        "node": "architect",
+        "text": "Assess familiarity, size, experience, complexity, and duration before setting involvement."
+      },
+      {
+        "node": "boundary",
+        "text": "State the architecture constraints and which decisions belong to the team or architect."
+      },
+      {
+        "node": "team",
+        "text": "Let developers implement within the box while watching ownership, conflict, and dissent signals."
+      },
+      {
+        "node": "checklist",
+        "text": "Capture small, independent, error-prone reminders and automate what can be verified."
+      },
+      {
+        "node": "feedback",
+        "text": "Use failures and team observations to adjust guidance and control over the project's life."
+      }
+    ]
+  }
+}

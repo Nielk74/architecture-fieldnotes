@@ -1,0 +1,183 @@
+{
+  "number": 10,
+  "title": "Layered Architecture Style",
+  "part": "Architecture styles",
+  "subtitle": "Make responsibilities visible, then decide where requests may pass",
+  "summary": "Layered architecture groups components into horizontal technical layers, commonly presentation, business, persistence, and database. Each layer hides implementation details behind an abstraction, giving teams familiar responsibilities and a low-cost starting point. The key control is whether a layer is closed, forcing a request through the next layer, or open, allowing a bypass. Closed layers support isolation and replacement when contracts remain stable; open layers can remove needless pass-through work but create coupling. Layering is technically partitioned, so a business domain spreads across many layers and may change slowly. The architecture sinkhole anti-pattern appears when most requests simply pass through layers. The style suits small applications, tight budgets, and uncertain early decisions, while large monoliths pay in deployability, scalability, performance, and recovery risk.",
+  "source": {
+    "startLine": 5185,
+    "endLine": 5486,
+    "pages": "133–141"
+  },
+  "concepts": [
+    {
+      "title": "Horizontal responsibilities",
+      "body": "Layered architecture arranges components into logical horizontal layers, most often presentation, business, persistence, and database. Each layer has a role: presentation handles interaction, business applies rules, persistence retrieves or stores data, and the database provides durable storage. Physical deployment can combine or separate these layers in several ways. The structure is familiar because organizations often have teams aligned to the same technical concerns, but a domain such as customer is consequently spread across every layer.",
+      "example": "A browser controller formats a customer view, a business component calculates eligibility, a persistence component loads records, and a database stores them. Replacing the browser should not require changing eligibility rules if the contracts hold.",
+      "source": "pp. 133–135"
+    },
+    {
+      "title": "Closed layers isolate change",
+      "body": "A closed layer requires a request to pass through the immediately lower layer. This adds a step, but it keeps upper layers from knowing lower-level details and makes replacement possible when the contracts remain stable. The presentation layer can use a business abstraction without knowing how persistence works; a new presentation technology can then be introduced without rewriting the rest. Closed boundaries are a governance mechanism, not merely a diagram convention.",
+      "example": "A profile screen calls a business API, which calls persistence, which calls the database. Changing SQL schema mapping stays behind persistence while the business contract remains unchanged.",
+      "source": "pp. 135–136"
+    },
+    {
+      "title": "Open layers trade speed for coupling",
+      "body": "An open layer allows a request to bypass one or more layers. A fast read may go from presentation to persistence when business processing adds no value, and an open shared-services layer can serve common utilities without forcing an unnecessary route. The benefit is fewer objects and less processing; the cost is interdependency. If upper layers can reach persistence directly, a persistence change may require changes in several callers. Document which layers are open and why.",
+      "example": "A reporting screen can use a read model through an approved open path, while write operations remain closed through business rules. The distinction keeps a deliberate optimization from becoming a general shortcut.",
+      "source": "pp. 135–138"
+    },
+    {
+      "title": "The architecture sinkhole",
+      "body": "A sinkhole occurs when requests travel layer to layer as pass-through work, with no rules, aggregation, calculation, or transformation performed along the route. Every layer adds object creation and processing, so a simple data retrieval can become slower and consume more memory. Some sinkholes are normal; the chapter suggests examining the proportion. If most requests are sinkholes, the style may not fit the problem, or carefully opened layers may be needed with their coupling cost accepted.",
+      "example": "If 80 percent of dashboard reads are copied unchanged through four layers, the stack is doing ceremony rather than useful separation. A measured read path can remove that waste while preserving a stable write boundary.",
+      "source": "pp. 138–139"
+    },
+    {
+      "title": "A pragmatic starting point",
+      "body": "Layered architecture is simple, familiar, inexpensive, and useful when a team is still learning requirements or has a tight deadline. It is a reasonable temporary home before a more modular style is selected, provided reuse stays limited and inheritance remains shallow. As the monolith grows, all changes redeploy together, test scope expands, and one failing component can take down the unit. Scalability and elasticity are weak because the system is one quantum.",
+      "example": "A small public website can begin as a layered application and later isolate a proven high-volume domain. Keeping boundaries clear during the first release preserves options without paying distributed-system costs prematurely.",
+      "source": "pp. 137–141"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Closed layers are always better because bypasses are bad design.",
+      "correction": "Closed layers protect isolation, but an intentional open path can avoid large sinkholes or enforce shared-service access. The choice depends on the request and the coupling cost, and must be documented."
+    },
+    {
+      "claim": "A layered diagram means each layer is independently deployable and scalable.",
+      "correction": "Layers are logical responsibilities; common physical variants remain one monolithic deployment. The whole unit usually deploys, scales, and fails together."
+    }
+  ],
+  "scenario": {
+    "title": "The clinic portal's read path",
+    "context": "A clinic portal has a layered monolith. Appointment writes must apply authorization and conflict rules, but the reception dashboard reads a prepared list of today's appointments. The dashboard is now slow because every row passes unchanged through presentation, business, persistence, and database code. The team has little budget and wants to preserve a replaceable UI while reducing the measured read overhead.",
+    "options": [
+      {
+        "label": "Keep every layer closed",
+        "benefit": "One consistent path preserves the strongest isolation and keeps all callers behind familiar contracts.",
+        "cost": "Pass-through work remains on a high-volume read path, adding processing and making the sinkhole worse.",
+        "consequence": "The UI remains easy to replace, but the team may need caching and more hardware for a problem caused by unnecessary work. The choice is defensible if the read share is small or rules may soon appear."
+      },
+      {
+        "label": "Open a read path",
+        "benefit": "A documented read model can bypass business pass-through code and reduce latency and object creation for this specific use.",
+        "cost": "The dashboard now couples to persistence or a read contract, so schema changes require an explicit compatibility plan.",
+        "consequence": "Measured dashboard latency improves while writes remain closed. The team records the exception, tests the read contract, and revisits it if reporting rules become substantive before broadening the exception to other screens."
+      }
+    ],
+    "debrief": "The right boundary follows the work performed. Closed layers buy isolation, while an open path can be a deliberate response to a measured sinkhole. A style and its layer rules should serve the dominant requests and the team's ability to govern change."
+  },
+  "quiz": [
+    {
+      "question": "What does a closed layer primarily provide?",
+      "options": [
+        "Guaranteed independent deployment of every layer",
+        "Isolation from lower-layer implementation changes when contracts stay stable",
+        "Permission for presentation code to query any database table"
+      ],
+      "answer": 1,
+      "explanation": "A closed layer enforces the next-layer path, reducing knowledge and coupling. It does not make layers separate deployment units."
+    },
+    {
+      "question": "Which observation is strongest evidence of an architecture sinkhole?",
+      "options": [
+        "Most requests perform useful aggregation in the business layer",
+        "A UI can be replaced behind a stable contract",
+        "Most requests pass unchanged through several layers before a simple database read"
+      ],
+      "answer": 2,
+      "explanation": "A sinkhole is pass-through processing with no useful logic at intermediate layers. Replacement behind a contract is an isolation benefit, not a sinkhole."
+    },
+    {
+      "question": "A team is unsure which architecture style it will need and has a tight budget. What guidance follows the chapter?",
+      "options": [
+        "Start with a simple layered structure while keeping reuse limited and inheritance shallow",
+        "Start with many distributed services to guarantee future scalability",
+        "Skip all structure until requirements are complete"
+      ],
+      "answer": 0,
+      "explanation": "Layering is a practical starting point under uncertainty, but preserving future options requires modest reuse and shallow hierarchies."
+    }
+  ],
+  "exercise": {
+    "title": "Draw one request honestly",
+    "prompt": "Choose a request in a small application. Identify the layers it crosses, mark each boundary open or closed, and justify one boundary using measured work rather than convention.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Request, users, and current layer responsibilities"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "One open or closed boundary and its contract"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Isolation or speed gained, plus coupling introduced"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "presentation",
+        "label": "PRESENTATION",
+        "kind": "browser",
+        "tone": "peach"
+      },
+      {
+        "id": "business",
+        "label": "BUSINESS",
+        "kind": "service",
+        "tone": "sage"
+      },
+      {
+        "id": "persistence",
+        "label": "PERSISTENCE",
+        "kind": "component",
+        "tone": "lilac"
+      },
+      {
+        "id": "database",
+        "label": "DATABASE",
+        "kind": "database",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "presentation",
+        "to": "business"
+      },
+      {
+        "from": "business",
+        "to": "persistence"
+      },
+      {
+        "from": "persistence",
+        "to": "database"
+      }
+    ],
+    "steps": [
+      {
+        "node": "presentation",
+        "text": "The user request enters through the presentation contract."
+      },
+      {
+        "node": "business",
+        "text": "A closed path sends it through business rules before storage is considered."
+      },
+      {
+        "node": "persistence",
+        "text": "Persistence translates the business request into a data operation; an approved open read may bypass pass-through work."
+      },
+      {
+        "node": "database",
+        "text": "The database returns durable data, and each layer transforms only what its responsibility requires."
+      }
+    ]
+  }
+}

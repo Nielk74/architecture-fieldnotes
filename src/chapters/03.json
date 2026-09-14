@@ -1,0 +1,187 @@
+{
+  "number": 3,
+  "title": "Modularity",
+  "part": "Foundations",
+  "subtitle": "Shape code so change stays local",
+  "summary": "Modularity is the logical grouping of related code, independent of whether a platform gives that group a package, namespace, or physical component. Good modularity preserves order in systems that otherwise drift toward disorder. Cohesion asks whether parts belong together; coupling measures incoming and outgoing connections; and connascence explains what must change together to preserve correctness. Metrics such as LCOM, abstractness, instability, and distance from the main sequence provide clues, but they cannot replace architectural interpretation. Connascence adds strength, locality, and degree as ways to judge coupling and suggests keeping stronger relationships inside boundaries while weakening relationships across them. Static forms are usually easier to refactor than dynamic runtime dependencies. The chapter closes by connecting logical modules to physical components, preparing for architecture decisions about deployment and scope.",
+  "source": {
+    "startLine": 1768,
+    "endLine": 2417,
+    "pages": "37–53"
+  },
+  "concepts": [
+    {
+      "title": "Logical modules",
+      "body": "A module is a logical grouping of related classes, functions, or other code. Packages and namespaces provide language-specific ways to organize and name that grouping, but modularity does not require a separate process or deployable file. Keeping the concept separate from physical packaging lets architects reason about structure before choosing a platform or splitting a monolith. The logical boundary can therefore guide later physical changes without presupposing them.",
+      "example": "A Java customer package can group customer behavior inside one monolith. The team can later extract it, but unnecessary coupling to unrelated packages will make that migration harder.",
+      "source": "pp. 37–40"
+    },
+    {
+      "title": "Cohesion",
+      "body": "Cohesion measures how strongly a module’s parts belong together. Functional cohesion is strongest; sequential, communicational, procedural, temporal, logical, and coincidental relationships become progressively weaker. The correct boundary depends on change patterns and coupling: splitting a cohesive unit can make the code harder to read and force more cross-module calls. LCOM offers a structural lack-of-cohesion signal, not a final design verdict.",
+      "example": "Customer creation and update may share one boundary, while order cancellation may deserve its own only when it can grow independently without requiring extensive customer knowledge.",
+      "source": "pp. 40–44"
+    },
+    {
+      "title": "Coupling and balance",
+      "body": "Afferent coupling counts incoming connections; efferent coupling counts outgoing connections. Abstractness compares abstract artifacts with concrete ones, and instability is outgoing coupling divided by total coupling. Distance from the main sequence combines abstractness and instability to flag an imbalance: too much implementation can create a zone of pain, while too much abstraction can create a zone of uselessness. These are diagnostic signals requiring context.",
+      "example": "A stable domain contract may intentionally be abstract and receive many dependencies, while a volatile adapter can remain concrete and depend outward; a tool can reveal whether the balance is drifting.",
+      "source": "pp. 44–48"
+    },
+    {
+      "title": "Connascence",
+      "body": "Two elements are connascent when a change in one requires a change in the other to preserve correctness. Static forms include agreement on names, types, meanings, positions, or algorithms. Dynamic forms include execution order, timing, related values, and shared identity. The categories describe the nature of a dependency, while strength, locality, and degree help judge whether it is acceptable or should be refactored.",
+      "example": "Replacing a magic status number with a named constant weakens connascence of meaning into connascence of name. A shared transaction state across services is a stronger dynamic dependency.",
+      "source": "pp. 48–52"
+    },
+    {
+      "title": "Modularity guidance",
+      "body": "Page-Jones’s guidance is to minimize total connascence, minimize what crosses encapsulation boundaries, and maximize what remains inside them. Prefer weaker forms as elements get farther apart, and consider the size of the affected set. Static dependencies are often preferable to dynamic ones because source analysis and refactoring tools can expose them. No metric captures logical intent perfectly, so architects must ask why a dependency exists and whether a boundary is helping the change pattern.",
+      "example": "Two methods in one component can share a convention safely; spreading that same hidden convention across services multiplies coordination and makes independent change risky. A named contract can make that dependency visible.",
+      "source": "pp. 50–53"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A package, class, or separate file is automatically a well-designed module.",
+      "correction": "Physical or language boundaries do not prove relatedness. A module can contain unrelated elements or tightly coupled groups; cohesion and the nature of dependencies still need analysis."
+    },
+    {
+      "claim": "A high or low metric value tells the architect exactly what to refactor.",
+      "correction": "LCOM, coupling, abstractness, instability, and distance expose structural clues. They cannot determine domain meaning or distinguish essential complexity from accidental complexity without human interpretation."
+    }
+  ],
+  "scenario": {
+    "title": "Split the order workspace",
+    "context": "A retail monolith has one CustomerWorkspace module containing customer creation, profile updates, order lookup, order cancellation, and notification. Order operations are growing quickly, but they use customer identifiers and a shared database. The team wants clearer ownership without creating a web of calls that makes everyday changes harder. Decide whether to keep the grouping, split orders, or create a smaller boundary first.",
+    "options": [
+      {
+        "label": "Keep one module",
+        "benefit": "Shared customer knowledge stays local, so workflows require fewer calls and remain easy to follow while order behavior is still small.",
+        "cost": "The module may accumulate unrelated responsibilities and make ownership, testing, and future extraction less clear.",
+        "consequence": "The team keeps a cohesive workflow for now and records a measurement baseline. If order code grows independently, rising lack of cohesion becomes evidence for a later split."
+      },
+      {
+        "label": "Extract Order module",
+        "benefit": "Order behavior gains a focused boundary that can evolve and be tested with a clearer responsibility.",
+        "cost": "Customer and order data now require an explicit contract; poorly chosen calls can introduce stronger cross-boundary coupling.",
+        "consequence": "Order lookup and cancellation move behind a contract, while customer data remains authoritative in its module. The team must choose stable names and avoid leaking internal representations."
+      }
+    ],
+    "debrief": "The right boundary depends on behavior, change, and coupling rather than a naming rule. A split that increases communication and hidden dependencies may be worse than a larger cohesive module; a growing accidental grouping may justify extraction."
+  },
+  "quiz": [
+    {
+      "question": "Which module shows the strongest cohesion?",
+      "options": [
+        "A file containing unrelated helpers used by convenience",
+        "A unit whose parts all contribute to one complete responsibility",
+        "A package whose methods only need to run during startup"
+      ],
+      "answer": 1,
+      "explanation": "Functional cohesion groups everything essential to one function. Coincidental and temporal cohesion describe weaker reasons for being together."
+    },
+    {
+      "question": "What does efferent coupling describe?",
+      "options": [
+        "The number of incoming connections to an artifact",
+        "The ratio of abstract to concrete artifacts",
+        "The number of outgoing connections from an artifact"
+      ],
+      "answer": 2,
+      "explanation": "Efferent means outgoing. Afferent coupling counts incoming connections; abstractness is a separate derived metric."
+    },
+    {
+      "question": "How should a team usually handle a strong dependency between distant components?",
+      "options": [
+        "Move the dependency closer or refactor it toward a weaker form",
+        "Ignore it if the components have different names",
+        "Add more shared state so both components can change freely"
+      ],
+      "answer": 0,
+      "explanation": "Connascence guidance combines strength and locality: stronger relationships are more tolerable inside a boundary, while distant relationships should be weakened or localized."
+    }
+  ],
+  "exercise": {
+    "title": "Map one boundary",
+    "prompt": "Choose a small code area or imagined feature. List the behavior that belongs together, name one dependency crossing the boundary, and propose a refactoring or measurement that would make the relationship easier to change.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Module and behavior under review"
+      },
+      {
+        "label": "Boundary",
+        "placeholder": "What belongs together and why"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Coupling retained and improvement to try"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "module",
+        "label": "RELATED CODE",
+        "kind": "component",
+        "tone": "sage"
+      },
+      {
+        "id": "cohesion",
+        "label": "COHESION",
+        "kind": "component",
+        "tone": "peach"
+      },
+      {
+        "id": "coupling",
+        "label": "COUPLING",
+        "kind": "router",
+        "tone": "lilac"
+      },
+      {
+        "id": "refactor",
+        "label": "WEAKER LINK",
+        "kind": "component",
+        "tone": "honey"
+      }
+    ],
+    "edges": [
+      {
+        "from": "module",
+        "to": "cohesion"
+      },
+      {
+        "from": "cohesion",
+        "to": "coupling"
+      },
+      {
+        "from": "coupling",
+        "to": "refactor"
+      },
+      {
+        "from": "refactor",
+        "to": "module"
+      }
+    ],
+    "steps": [
+      {
+        "node": "module",
+        "text": "Group code by a meaningful responsibility and identify the relationships that make the group useful."
+      },
+      {
+        "node": "cohesion",
+        "text": "Check whether the parts belong together or whether the group is only sharing a file, timing, or convenience."
+      },
+      {
+        "node": "coupling",
+        "text": "Trace incoming, outgoing, and connascent dependencies, including hidden meanings, order, timing, or shared values."
+      },
+      {
+        "node": "refactor",
+        "text": "Keep stronger relationships local and replace distant conventions or shared algorithms with clearer, weaker contracts."
+      }
+    ]
+  }
+}

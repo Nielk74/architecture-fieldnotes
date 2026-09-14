@@ -1,0 +1,177 @@
+{
+  "number": 11,
+  "title": "Pipeline Architecture Style",
+  "part": "Architecture styles",
+  "subtitle": "Turn one long operation into small, composable passes",
+  "summary": "Pipeline architecture, also called pipes and filters, sends data through a one-way sequence of independent filters. Pipes are usually point-to-point and unidirectional; filters are self-contained, generally stateless, and should perform one task. A producer starts the flow, transformers change data, testers route it according to criteria, and a consumer ends it by displaying or persisting a result. These small abstractions compose well, as Unix shells, ETL, EDI, MapReduce, and telemetry processing demonstrate. Modularity and simplicity are strong, but the common monolithic deployment still limits elasticity, scalability, fault tolerance, and recovery. The most useful design question is whether a task can be expressed as a clear stream of transformations and tests, with payloads small enough for the required throughput.",
+  "source": {
+    "startLine": 5487,
+    "endLine": 5678,
+    "pages": "143–148"
+  },
+  "concepts": [
+    {
+      "title": "One-way pipes",
+      "body": "Pipes carry payloads from one filter to the next, usually in a point-to-point, unidirectional flow. Smaller payloads generally improve performance. The pipe hides how a filter is implemented, while the direction makes the processing order easy to see. A pipeline is therefore a topology for composing work, rather than a promise that every stage runs in a separate process or can scale independently.",
+      "example": "A telemetry record can travel from a Kafka reader to a duration test, then to a calculator, and finally to a database output. Each pipe carries only what the next filter needs.",
+      "source": "pp. 143–145"
+    },
+    {
+      "title": "Four focused filters",
+      "body": "A producer starts a process and sends data outward. A transformer accepts input, changes some or all of it, and forwards the result. A tester evaluates criteria and may route or stop the flow. A consumer terminates the pipeline by persisting or presenting the final result. Filters should be independent, generally stateless, and focused on one task; composite behavior emerges from their sequence.",
+      "example": "A producer reads service metrics, a tester identifies uptime records, a transformer calculates uptime, and a consumer stores the metric. Duration records can branch to a different transformer without changing the producer.",
+      "source": "pp. 143–146"
+    },
+    {
+      "title": "Composition creates reuse",
+      "body": "Because filters expose simple directional boundaries, teams can recombine them for new flows. The Unix word-frequency example demonstrates that a short sequence of ordinary commands can solve a task more clearly than one large algorithm. Adding a tester after an existing branch can extend telemetry processing without rewriting prior filters. Composition works best when data contracts are small and each filter's behavior is predictable.",
+      "example": "The same normalization transformer can feed a search index pipeline and a reporting pipeline. A new connection-wait tester can be inserted after uptime classification to collect another metric.",
+      "source": "pp. 144–146"
+    },
+    {
+      "title": "A useful fit and its limits",
+      "body": "Pipelines fit simple, one-way processing: document conversion, ETL, shell commands, telemetry streams, and mediator routes. The separation gives better modularity and slightly better testing and deployment than a less structured monolith. Yet a typical pipeline remains one deployment unit and one quantum. A failure or memory exhaustion in one filter can affect the whole application, and scaling or recovering individual stages is not a natural strength.",
+      "example": "A batch import can be easy to test filter by filter, but a runaway parsing filter can still crash the monolithic process. Scaling only parsing requires additional concurrency techniques the style does not naturally provide.",
+      "source": "pp. 145–148"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Every filter in a pipeline is a separately deployed service.",
+      "correction": "Filters are independent logical components; the chapter describes pipeline architecture as usually monolithic, so all filters may deploy and fail together."
+    },
+    {
+      "claim": "A pipeline improves end-to-end performance simply by adding more filters.",
+      "correction": "Each filter adds work and payload movement. The style helps when focused stages compose cleanly; smaller payloads and useful transformations matter more than stage count."
+    }
+  ],
+  "scenario": {
+    "title": "Telemetry stream for a small platform",
+    "context": "A platform team receives service telemetry and wants duration, uptime, and database-wait metrics. It has one deployment unit, modest load, and needs a clear way to add a metric next quarter. A few records are malformed, and the team must decide whether to keep a linear pipeline or introduce a shared branching coordinator for the initial release and a clear ownership rule.",
+    "options": [
+      {
+        "label": "Pipes and filters",
+        "benefit": "Small producer, tester, transformer, and consumer stages make each metric rule easy to isolate and extend.",
+        "cost": "A monolithic process still shares failure and scaling fate, and branching behavior must be tested across the stream.",
+        "consequence": "The team adds a database-wait tester after uptime classification and reuses the existing consumer contract. A memory bug in one calculator still requires recovering the deployment unit after the stream drains."
+      },
+      {
+        "label": "Central coordinator",
+        "benefit": "One component can see the whole workflow, centralize malformed-record handling, and coordinate complex routes.",
+        "cost": "The coordinator becomes coupling and a bottleneck, while simple transformations become harder to reuse independently.",
+        "consequence": "Malformed records have a visible path and workflow metrics are straightforward, but adding a new metric now requires coordinator changes and broader testing across the consumer support without pausing unrelated records."
+      }
+    ],
+    "debrief": "A pipeline is strongest when work is naturally one-way and composable. Central control becomes attractive when workflow state and recovery dominate. The current load and the type of change determine whether the filters' simplicity outweighs coordination needs."
+  },
+  "quiz": [
+    {
+      "question": "Which component should decide whether a telemetry record matches uptime criteria?",
+      "options": [
+        "Producer",
+        "Tester",
+        "Consumer"
+      ],
+      "answer": 1,
+      "explanation": "A tester evaluates criteria and optionally emits output. A producer starts the flow and a consumer terminates it."
+    },
+    {
+      "question": "Why does adding a new filter often preserve pipeline extensibility?",
+      "options": [
+        "Filters share global state, so every stage sees every change",
+        "A focused filter can be inserted behind a one-way data contract without rewriting unrelated filters",
+        "The pipeline automatically deploys each filter on independent hardware"
+      ],
+      "answer": 1,
+      "explanation": "Compositional reuse comes from independent stages and simple pipes. Deployment independence is not guaranteed."
+    },
+    {
+      "question": "What is a central limit of the common pipeline implementation?",
+      "options": [
+        "It cannot process more than one record",
+        "It is usually a monolith, so scalability and fault recovery remain constrained",
+        "It requires every filter to call every other filter"
+      ],
+      "answer": 1,
+      "explanation": "The style's modular filters improve structure, but a monolithic deployment can still fail and scale as one quantum."
+    }
+  ],
+  "exercise": {
+    "title": "Compose a useful stream",
+    "prompt": "Design a five-stage pipeline for one data task. Label each stage producer, tester, transformer, or consumer, and specify the small payload passed between two adjacent stages.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Source data and the result a user needs"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Ordered filter stages and one branch"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Reuse or clarity gained, plus the monolithic limit"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "producer",
+        "label": "PRODUCER",
+        "kind": "source",
+        "tone": "peach"
+      },
+      {
+        "id": "tester",
+        "label": "TESTER",
+        "kind": "gateway",
+        "tone": "lilac"
+      },
+      {
+        "id": "transformer",
+        "label": "TRANSFORMER",
+        "kind": "terminal",
+        "tone": "sage"
+      },
+      {
+        "id": "consumer",
+        "label": "CONSUMER",
+        "kind": "database",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "producer",
+        "to": "tester"
+      },
+      {
+        "from": "tester",
+        "to": "transformer"
+      },
+      {
+        "from": "transformer",
+        "to": "consumer"
+      }
+    ],
+    "steps": [
+      {
+        "node": "producer",
+        "text": "A source emits one record into a directional pipe."
+      },
+      {
+        "node": "tester",
+        "text": "The tester checks a criterion and routes unmatched records away from this flow."
+      },
+      {
+        "node": "transformer",
+        "text": "The matching record is transformed into the metric or document shape needed next."
+      },
+      {
+        "node": "consumer",
+        "text": "The consumer ends the one-way flow by storing or presenting the result."
+      }
+    ]
+  }
+}

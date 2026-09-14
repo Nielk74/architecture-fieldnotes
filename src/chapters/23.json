@@ -1,0 +1,197 @@
+{
+  "number": 23,
+  "title": "Negotiation and Leadership Skills",
+  "part": "Techniques & people",
+  "subtitle": "Turn disagreement into a better shared decision",
+  "summary": "Architecture decisions are challenged by stakeholders, developers, and other architects, so negotiation and leadership are part of the architect's technical work. The chapter recommends translating emphatic language into the underlying concern, gathering facts before negotiating, and narrowing broad demands to the subsystem that truly needs them. Demonstration in a production-like environment beats an abstract argument; calm reasoning preserves relationships. With developers, explain the reason before the constraint and invite them to test a disputed alternative, allowing evidence and buy-in to emerge. Leadership rests on the four Cs: communication, collaboration, clarity, and conciseness. Architects should balance visionary thinking with budget, time, team skill, trade-offs, and technical limits. They lead by example and grammar that invites participation, become available to the team, and create personal trust. Managing meetings protects developer flow: qualify invitations, use agendas, keep architect-called meetings purposeful, and make time to sit with or visit the development team.",
+  "source": {
+    "startLine": 11843,
+    "endLine": 12533,
+    "pages": "347–363"
+  },
+  "concepts": [
+    {
+      "title": "Translate the Demand",
+      "body": "Stakeholder phrases such as zero downtime or lightning fast are signals about priority, not complete requirements. An architect should identify the underlying concern, research the numbers, and turn vague language into a shared discussion of measurable outcomes. Narrowing a demand to the part of the system that needs it can reduce unnecessary cost. Cost and time are useful evidence, but opening with them can derail trust.",
+      "example": "Five nines means about five minutes and thirty-five seconds of downtime per year. Asking which trading operation actually needs that target may produce a narrower, affordable requirement than applying it to every component.",
+      "source": "pp. 347–350"
+    },
+    {
+      "title": "Demonstrate and Stay Calm",
+      "body": "When architects disagree about REST, messaging, or another choice, a test in a production-like environment provides evidence specific to their system. General claims found by searching cannot settle local latency, throughput, or failure behavior. Avoid personal or argumentative escalation; pause when necessary and return with clear reasoning. Calm leadership protects collaboration while leaving room for either side to discover they were wrong.",
+      "example": "Two architects build a small comparison with representative payloads, network conditions, and load. The measurements expose whether messaging's buffering helps this system instead of relying on a universal claim about speed.",
+      "source": "pp. 350–351"
+    },
+    {
+      "title": "Collaborate with Developers",
+      "body": "An architect should explain why a constraint exists before asking a developer to follow it. Stating the reason first lets the developer hear the justification and shifts the discussion toward solving the remaining problem. Invite a developer to show how a preferred alternative meets the required characteristic; if it succeeds, the architect learns, and if it fails, the developer sees the evidence and can support the decision.",
+      "example": "Instead of ordering a closed layer, explain that change control requires database calls through the business layer, then work with the developer on a fast path for simple queries within that rule.",
+      "source": "pp. 351–352"
+    },
+    {
+      "title": "The Four Cs",
+      "body": "Communication, collaboration, clarity, and conciseness work together to prevent accidental complexity and build respect across the entire project. Essential complexity reflects a genuinely hard problem; accidental complexity is difficulty the architect has introduced through needless design or explanation. The four Cs help stakeholders and teams understand the real problem, form solutions together, and keep the architecture approachable in daily work.",
+      "example": "A clear one-page topology with a concise reason for a boundary lets a team discuss a real availability constraint. An elaborate diagram full of unexplained flows may create the appearance of expertise while obscuring the decision.",
+      "source": "pp. 353–355"
+    },
+    {
+      "title": "Lead by Example and Protect Flow",
+      "body": "A pragmatic visionary combines future-aware thinking with budget, time, skills, trade-offs, and technical limitations. Leadership comes from useful behavior and respect rather than title: ask questions, use people's names correctly, offer help, and turn a demand into a favor when appropriate. Protect developer flow by qualifying meetings, requesting agendas, avoiding unnecessary interruptions, and making visible time for the team consistently.",
+      "example": "An architect asks to attend only the relevant part of a meeting, then schedules a needed design session near the day boundary. They sit with the team or visit regularly so questions surface before implementation drifts.",
+      "source": "pp. 355–363"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Seniority should settle an architecture disagreement.",
+      "correction": "Demonstration and context-specific evidence are stronger than title or generic internet claims. A calm experiment can validate the other person's proposal and improve the decision."
+    },
+    {
+      "claim": "Being visionary means choosing the most elaborate future-proof design.",
+      "correction": "Vision must be balanced with real budget, time, team skill, trade-offs, and technical limits. A practical solution that addresses the bottleneck is more useful than theoretical complexity."
+    }
+  ],
+  "scenario": {
+    "title": "Negotiate the availability target",
+    "context": "A sponsor demands five nines for an entire trading platform. Your analysis suggests three nines is enough for most operations, while one order-matching path may deserve a stronger target. The sponsor dislikes condescension, and developers are already concerned about the cost of clustering and federation. You need an agreement that preserves the real business priority and leaves the team with an actionable constraint.",
+    "options": [
+      {
+        "label": "Argue from authority",
+        "benefit": "A firm directive appears to resolve the disagreement quickly.",
+        "cost": "It can damage trust, conceal which subsystem matters, and leave developers implementing an expensive or misunderstood target.",
+        "consequence": "The sponsor may comply publicly while challenging the design later. The team lacks shared numbers and may overbuild reliability where it has little value."
+      },
+      {
+        "label": "Qualify with evidence",
+        "benefit": "Translate nines into downtime, identify the critical path, and discuss cost and consequences using the sponsor's actual concern.",
+        "cost": "Research and a careful conversation take time, and the result may still require a difficult trade-off.",
+        "consequence": "The sponsor can approve a precise target per subsystem, while the team understands why clustering or simpler safeguards are chosen. The decision is easier to document and revisit."
+      }
+    ],
+    "debrief": "Negotiation works when the underlying concern is understood and the parties can evaluate context-specific evidence. The architect's role is to create agreement around a useful trade-off, not to win a status contest."
+  },
+  "quiz": [
+    {
+      "question": "A stakeholder says a system must be lightning fast. What should the architect do first?",
+      "options": [
+        "Translate the phrase into a measurable performance concern and gather context",
+        "Promise the most complex architecture immediately",
+        "Dismiss the phrase as meaningless"
+      ],
+      "answer": 0,
+      "explanation": "The grammar is a useful signal that performance matters. The architect should investigate the real target and scope before choosing a design."
+    },
+    {
+      "question": "Two architects disagree about messaging and REST. Which action best follows the chapter?",
+      "options": [
+        "Run a representative demonstration in the target environment",
+        "Use the senior architect's title to end the discussion",
+        "Choose the option with the most online search results"
+      ],
+      "answer": 0,
+      "explanation": "Demonstration defeats discussion because local latency, throughput, and failure behavior matter more than generic claims."
+    },
+    {
+      "question": "How should an architect present a constraint to a developer?",
+      "options": [
+        "Explain the reason first and collaborate on how to meet it",
+        "Begin with 'you must' and refuse questions",
+        "Hide the reason so implementation stays faster"
+      ],
+      "answer": 0,
+      "explanation": "Stating the justification first keeps the conversation impersonal and opens a joint search for a solution that preserves the architecture's purpose."
+    }
+  ],
+  "exercise": {
+    "title": "Prepare a negotiation",
+    "prompt": "Choose a contested architecture requirement. Translate the demand into measurable scope, gather evidence, name each side's priority, and script a collaborative request with one fallback trade-off.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "People, concern, and measurable target"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Evidence-based proposal"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Cost, time, and relationship impact"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "signal",
+        "label": "SIGNAL",
+        "kind": "message",
+        "tone": "peach"
+      },
+      {
+        "id": "evidence",
+        "label": "EVIDENCE",
+        "kind": "document",
+        "tone": "honey"
+      },
+      {
+        "id": "conversation",
+        "label": "COLLAB",
+        "kind": "team",
+        "tone": "lilac"
+      },
+      {
+        "id": "decision",
+        "label": "TRADE-OFF",
+        "kind": "balance",
+        "tone": "sage"
+      },
+      {
+        "id": "team",
+        "label": "TEAM FLOW",
+        "kind": "team",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "signal",
+        "to": "evidence"
+      },
+      {
+        "from": "evidence",
+        "to": "conversation"
+      },
+      {
+        "from": "conversation",
+        "to": "decision"
+      },
+      {
+        "from": "decision",
+        "to": "team"
+      }
+    ],
+    "steps": [
+      {
+        "node": "signal",
+        "text": "Listen for the priority hidden in a stakeholder's emphatic requirement."
+      },
+      {
+        "node": "evidence",
+        "text": "Research the numbers, test alternatives, and scope the requirement to the affected subsystem."
+      },
+      {
+        "node": "conversation",
+        "text": "State the reason first, invite the other person's view, and keep disagreement calm."
+      },
+      {
+        "node": "decision",
+        "text": "Agree on a clear trade-off using business value, technical limits, and consequences."
+      },
+      {
+        "node": "team",
+        "text": "Protect developer flow and lead through availability, respect, and follow-through."
+      }
+    ]
+  }
+}

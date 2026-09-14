@@ -1,0 +1,15 @@
+Write one valid JSON file src/chapters/NN.json and public/notes/chapter-NN.md per assigned chapter (NN zero-padded). Read source body with line boundaries in docs/chapters/source-index.json (newline lines, sed -n safe). Summarize from the text, original paraphrase, don't copy paragraphs. JSON shape:
+{
+ "number":2,"title":"Architectural Thinking","part":"Foundations",
+ "subtitle":"Short inviting chapter-specific hook",
+ "summary":"100–160 word original overview",
+ "source":{"startLine":1323,"endLine":1767,"pages":"23–35"},
+ "concepts":[{"title":"Short title","body":"60–100 words of substantive explanation","example":"Concrete modern example, 25–50 words","source":"pp. 23–25"}],
+ "misconceptions":[{"claim":"A tempting mistaken belief","correction":"Reasoned correction"}],
+ "scenario":{"title":"Specific decision","context":"60–100 words defining a real trade-off situation and priorities", "options":[{"label":"Choice A","benefit":"Why useful here","cost":"What it gives up","consequence":"Concrete 30–60 word outcome"},{"label":"Choice B","benefit":"...","cost":"...","consequence":"..."}],"debrief":"Why context matters; no universally winning choice"},
+ "quiz":[{"question":"Application question","options":["a","b","c"],"answer":1,"explanation":"Why correct plus misconception corrected"}],
+ "exercise":{"title":"Apply this chapter","prompt":"Specific artifact to write or small design to justify","fields":[{"label":"Context","placeholder":"A guiding example"},{"label":"Decision","placeholder":"..."},{"label":"Trade-off","placeholder":"..."}]},
+ "visual":{"nodes":[{"id":"a","label":"UPPERCASE SHORT","kind":"block","tone":"sage"},{"id":"b","label":"...","kind":"database","tone":"peach"},{"id":"c","label":"...","kind":"gateway","tone":"lilac"}],"edges":[{"from":"a","to":"b"},{"from":"b","to":"c"}],"steps":[{"node":"a","text":"Concrete logical first step"},{"node":"b","text":"What happens next"},{"node":"c","text":"Result or check"}]}
+}
+Requirements: 4–6 concepts covering all major chapter sections (3 allowed for short chapter 11; 6–8 for long styles chapter); 2 misconceptions; 3 quiz questions with nontrivial distractors and zero-based correct index; 2 genuinely different scenario options with costs. visual 3–5 nodes using block/database/document/gateway/person, no coordinates necessary. visual steps describe a mechanism or decision cycle specific to this chapter, NOT vague generic animation. Professional skills chapters can show people, artifacts, feedback. The site positions nodes. Keep strings plain text (no HTML/markdown formatting). Part: Foundations (2–8), Architecture styles (9–18), Techniques & people (19–24).
+Markdown notes: 500–900 words, chapter-specific heading, source page/line references, complete major concepts, trade-offs, misconceptions, modern exercise clearly labeled extension. JSON scenario/example/visual are teaching extensions. References should come from printed pages or text lines actually read. Do not browse current external resources; summarize the supplied 2020 book.

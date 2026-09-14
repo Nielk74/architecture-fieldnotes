@@ -1,0 +1,193 @@
+{
+  "number": 6,
+  "title": "Measuring and Governing Architecture Characteristics",
+  "part": "Foundations",
+  "subtitle": "Turn architectural intent into living checks",
+  "summary": "Architecture characteristics become useful when teams define and govern them concretely. Vague or composite terms such as performance and agility produce disagreement, while objective definitions create a shared language and reveal smaller measurable parts. Operational measures should account for distributions and outliers, not only averages; structural measures such as cyclomatic complexity offer signals but still require judgment about essential versus accidental complexity and poor partitioning. Process qualities can be decomposed into testability and deployability, with coverage and deployment outcomes interpreted alongside intent. Governance steers the important concerns that urgency can hide. Architecture fitness functions are objective integrity checks implemented through metrics, tests, monitors, chaos experiments, or other mechanisms. They can detect cycles, enforce layer dependencies, check thresholds, and probe production behavior. Effective checks are automated, understandable, collaborative, and tied to a characteristic’s purpose.",
+  "source": {
+    "startLine": 3229,
+    "endLine": 3723,
+    "pages": "77–89"
+  },
+  "concepts": [
+    {
+      "title": "Define measurable qualities",
+      "body": "Architecture characteristics often have vague, organization-specific, or composite meanings. Objective definitions let architecture, development, and operations share a vocabulary and unpack qualities such as agility into modularity, testability, and deployability. The goal is useful evidence, not a claim that characteristics behave like physical constants. Teams must choose measures that represent their priorities and agree what a result means. Shared definitions make disagreements actionable.",
+      "example": "Instead of saying ‘fast,’ a team defines response budgets for key requests, names the traffic conditions, and decides which tail behavior would trigger investigation with users.",
+      "source": "pp. 77–78"
+    },
+    {
+      "title": "Operational measures",
+      "body": "Operational qualities require nuanced measures. Average response time can hide a small group of severe outliers, so maxima or percentile-style views may matter. Performance budgets can cover first visible progress or page bytes, while scalability can be assessed through trends and statistical models rather than arbitrary fixed numbers. Measures evolve as devices, workloads, and user expectations change. The workload and measurement window belong beside every target.",
+      "example": "A streaming service models normal scale over time and alerts when live observations leave the predicted range, prompting investigation of either the model or the system.",
+      "source": "pp. 77–79"
+    },
+    {
+      "title": "Structural complexity",
+      "body": "Cyclomatic complexity estimates the number of independent execution paths using decision points; for a single method, CC is E − N + 2. High complexity harms modularity, testability, and deployability, but a threshold depends on domain difficulty and code factoring. A metric cannot tell whether complexity is essential to the problem or accidental in the implementation, so teams use it as a baseline and investigation signal.",
+      "example": "A method with two conditional branches has three paths and CC 3. Refactoring a large method may lower its CC, but splitting it only helps if the resulting methods remain coherent.",
+      "source": "pp. 79–81"
+    },
+    {
+      "title": "Process measures",
+      "body": "Agility and related process characteristics affect architecture. Code coverage provides evidence about testability, but 100% coverage with weak assertions does not guarantee confidence. Deployability can be measured through successful deployment rate, duration, and defects after release. If these qualities matter, the architecture may need stronger isolation and modularity so teams can test and deploy changes independently. Measures should support learning rather than become a vanity score.",
+      "example": "A team tracks deployment duration and rollback-causing defects alongside meaningful test assertions, then separates a tightly coupled module when release failures repeatedly cluster there. The change is evaluated against later releases.",
+      "source": "pp. 80–82"
+    },
+    {
+      "title": "Fitness functions",
+      "body": "An architecture fitness function is any mechanism that objectively assesses the integrity of one or more architecture characteristics. It can be a metric, unit test, monitor, or chaos experiment. A cycle test can fail a build when components form circular dependencies; a distance threshold can flag imbalance; layer rules can prevent forbidden imports. The mechanism should express an understood architectural purpose.",
+      "example": "A dependency test runs in continuous integration and rejects a new package cycle before it spreads through the code base, preserving reuse and clearer ownership.",
+      "source": "pp. 82–87"
+    },
+    {
+      "title": "Governance through collaboration",
+      "body": "Governance steers qualities that are important but easily displaced by urgent feature work. Automated checks scale better than late reviews, and production probes can test resilience, security, or orphaned services. Architects must explain why a fitness function exists and collaborate with developers so a rule remains comprehensible, appropriate, and aligned with current architecture rather than becoming an ivory-tower burden. Teams need a clear response when a check fails.",
+      "example": "A resilience experiment introduces controlled latency in a safe environment, while a security check flags exposed ports. Teams review failures as architectural feedback, not as mysterious punishment.",
+      "source": "pp. 82–89"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A single average or threshold fully defines an operational quality.",
+      "correction": "Averages hide outliers and fixed thresholds may ignore workload or domain complexity. Measures need context, distributions, baselines, and interpretation."
+    },
+    {
+      "claim": "A fitness function is a framework or a test that can replace architectural judgment.",
+      "correction": "It is a perspective covering many mechanisms. The check provides objective evidence, but teams still choose meaningful rules, explain their purpose, and respond to failures thoughtfully."
+    }
+  ],
+  "scenario": {
+    "title": "Protect a growing service boundary",
+    "context": "A team maintains a layered service whose release failures often follow direct controller-to-database imports. Developers are moving quickly, and reviews happen days after code lands. The architect wants an automated guard, but the team also sees a few complex domain methods and noisy test-coverage reports. Pick a governance approach that protects the boundary while keeping measures useful.",
+    "options": [
+      {
+        "label": "Layer fitness test",
+        "benefit": "Catches forbidden dependencies at build time, before a cycle or boundary leak spreads through the code base.",
+        "cost": "Requires agreed package rules and can block legitimate exceptions if the team does not document intent and review the rule.",
+        "consequence": "Continuous integration rejects controller-to-persistence references and reports the violated layer. Developers can fix the dependency while the reason remains visible in the test."
+      },
+      {
+        "label": "Review-only policy",
+        "benefit": "Keeps exceptions flexible and avoids a new automated rule while the team learns where boundaries truly matter.",
+        "cost": "Feedback arrives late, and rapid imports can create several coupled changes before anyone notices; governance depends on scarce reviewer attention.",
+        "consequence": "The architect samples dependency graphs during reviews and records baseline complexity. The team accepts a higher risk of drift while refining a future automated check."
+      }
+    ],
+    "debrief": "Automation is strongest when the characteristic and purpose are clear. A fitness test can protect an important boundary early, but thresholds and exceptions should be context-aware. Reviews, metrics, and experiments remain complementary evidence."
+  },
+  "quiz": [
+    {
+      "question": "Why measure more than average response time?",
+      "options": [
+        "Averages cannot be computed for software",
+        "A small set of slow outliers can be hidden by the average and still harm users",
+        "Maximum response time always equals scalability"
+      ],
+      "answer": 1,
+      "explanation": "The chapter highlights outliers and boundary conditions. Teams may need maximum or distribution-aware measures in addition to averages."
+    },
+    {
+      "question": "What does cyclomatic complexity primarily count?",
+      "options": [
+        "Independent execution paths introduced by decisions",
+        "The number of database tables in an application",
+        "The percentage of code covered by tests"
+      ],
+      "answer": 0,
+      "explanation": "CC uses graph structure and decision points to estimate independent paths. Coverage is a separate testability measure."
+    },
+    {
+      "question": "Which is a fitness function for modularity?",
+      "options": [
+        "A dashboard with no threshold or action",
+        "A continuous build check that fails when forbidden dependency cycles appear",
+        "A one-time architecture diagram stored in a wiki"
+      ],
+      "answer": 1,
+      "explanation": "A fitness function objectively assesses integrity. An automated cycle test provides a repeatable signal and action; a passive artifact does not."
+    }
+  ],
+  "exercise": {
+    "title": "Write one useful guard",
+    "prompt": "Choose one architecture characteristic in a system. Define the observable signal, its context, and the automated or manual check that would warn when integrity drifts.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Quality, workload, and boundary"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Measure, threshold, and check"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "False positives, blind spots, and review plan"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "intent",
+        "label": "INTENT",
+        "kind": "target",
+        "tone": "peach"
+      },
+      {
+        "id": "measure",
+        "label": "MEASURE",
+        "kind": "gauge",
+        "tone": "honey"
+      },
+      {
+        "id": "guard",
+        "label": "FITNESS",
+        "kind": "gauge",
+        "tone": "lilac"
+      },
+      {
+        "id": "build",
+        "label": "RUNTIME",
+        "kind": "service",
+        "tone": "sage"
+      }
+    ],
+    "edges": [
+      {
+        "from": "intent",
+        "to": "measure"
+      },
+      {
+        "from": "measure",
+        "to": "guard"
+      },
+      {
+        "from": "guard",
+        "to": "build"
+      },
+      {
+        "from": "build",
+        "to": "intent"
+      }
+    ],
+    "steps": [
+      {
+        "node": "intent",
+        "text": "State the architectural quality and why it matters to the system’s success."
+      },
+      {
+        "node": "measure",
+        "text": "Choose a contextual signal that captures the quality, including workload, baseline, or tolerance."
+      },
+      {
+        "node": "guard",
+        "text": "Encode the signal as a test, metric, monitor, or experiment with an understandable failure condition."
+      },
+      {
+        "node": "build",
+        "text": "Run the check continuously, interpret failures with the team, and refine the rule as the architecture evolves."
+      }
+    ]
+  }
+}

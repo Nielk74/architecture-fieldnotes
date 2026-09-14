@@ -1,0 +1,19 @@
+# Chapter 5: Component-Based Decomposition Patterns
+
+Chapter 5 supplies a sequence for incrementally turning a structured monolith into domain services. The goal is controlled refinement, not a sudden rearrangement of deployment units. The patterns start with evidence about logical components and end with a service boundary. Each step makes a different kind of coupling or cohesion visible, allowing the team to govern the migration as it proceeds (text lines 1754–1811).
+
+Identify and Size Components begins with an inventory of logical components and measurements such as statements and files. Names alone are unreliable: a component may be much larger than its neighbors or hide several responsibilities. In the Sysops Squad example, Reporting accounts for about one third of the codebase, so the team breaks it into Reporting Shared, Ticket Reports, Expert Reports, and Financial Reports. Size is a signal for investigation, combined with responsibility and coupling (text lines 1812–2450).
+
+Gather Common Domain Components separates shared business processing from shared infrastructure. Notification, validation, formatting, and similar behavior may be domain functionality used by some workflows. Logging, metrics, and security are operational infrastructure used broadly. The distinction matters because a shared domain component has business ownership and change pressure, while a broad infrastructure dependency has a different role. Both can become coupling hubs if their scope is left vague (text lines 2451–2758).
+
+Flatten Components addresses nesting that hides the real logical structure. Making components visible at a common level helps the team inspect their responsibilities and dependencies. Flattening is a clarification step, not an automatic service extraction: it reveals what must be decided next rather than solving data ownership or deployment by itself (text lines 2759–3075).
+
+Determine Component Dependencies maps direction, shared assets, and cycles. This information identifies extraction constraints and suggests a safe refactoring order. Fitness functions can protect the desired dependency direction while developers change the code. A component that appears cohesive but depends on many unrelated areas may need a contract or ownership decision before it becomes a service (text lines 3076–3217).
+
+Create Component Domains groups related components around a business capability. In the Sysops example, ticket creation, assignment, notification, and routing form a candidate ticketing domain. The grouping should follow functional cohesion and change drivers, not merely package proximity. The resulting domain is a candidate ownership and deployment boundary whose viability must still be checked against dependencies and data (text lines 3218–3525).
+
+Create Domain Services turns those domains into separately deployed units. This is an incremental path to service-based architecture, and it leaves operational automation, contracts, shared data, and future database decomposition as explicit work. A deployment boundary is useful only when it corresponds to a coherent domain and the organization can operate it (text lines 3526–3574).
+
+Teaching extension: apply all six patterns to one area of a codebase and record one unresolved dependency at each step. The exercise is an application of the supplied patterns, not new source material.
+
+Taken together, the patterns create a sequence of increasingly consequential decisions. Measurement identifies where attention is needed; shared-domain analysis clarifies ownership; flattening and dependency mapping expose hidden structure; domain grouping proposes a business boundary; service creation makes that boundary operational. The sequence helps a team explain progress and risk to both developers and sponsors while preserving room for later data and communication decisions.

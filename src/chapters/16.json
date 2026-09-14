@@ -1,0 +1,193 @@
+{
+  "number": 16,
+  "title": "Orchestration-Driven Service-Oriented Architecture",
+  "part": "Architecture styles",
+  "subtitle": "See how reuse can become the coupling it was meant to avoid",
+  "summary": "This historical service-oriented architecture grew in an era of scarce, licensed computing and enterprise mergers, so technical partitioning and reuse became dominant goals. Business services described coarse domain entry points, enterprise services supplied fine-grained reusable behavior, application services handled one-off needs, and infrastructure services provided operational concerns. An orchestration engine stitched them together, transformed messages, and defined transaction boundaries around shared databases and legacy systems. The same hub became a bottleneck and political center. Canonical shared services such as Customer reduced duplication but forced unrelated divisions to depend on one model, turning a small change into coordinated deployment and broad testing. The style supported some scale but performed poorly for modern deployability, testability, simplicity, and cost. Its lesson is that reuse is valuable only when the coupling and change boundaries remain healthy.",
+  "source": {
+    "startLine": 8316,
+    "endLine": 8574,
+    "pages": "235–243"
+  },
+  "concepts": [
+    {
+      "title": "History shapes the style",
+      "body": "Orchestration-driven SOA emerged in the late 1990s as enterprises merged, computing and databases were expensive, and distributed computing was newly practical. Organizations were urged to reuse scarce infrastructure and software assets. That context made a taxonomy of services and a central integration mechanism appear rational. Understanding the era explains why the architecture emphasized enterprise reuse even though later engineering priorities valued independent deployment and fast change more highly.",
+      "example": "A company with many divisions may have chosen shared application servers and licensed database connections to avoid duplication. The resulting architecture cannot be judged fairly without understanding those constraints, but it can still teach durable trade-offs.",
+      "source": "pp. 235–236"
+    },
+    {
+      "title": "A taxonomy of service layers",
+      "body": "Business services are coarse entry points named for domain behavior, such as PlaceOrder. Enterprise services provide fine-grained, reusable implementations such as CreateCustomer or CalculateQuote. Application services solve one application's special need, while infrastructure services handle monitoring, logging, authentication, and authorization. The taxonomy separates responsibilities and promises reuse, but a business workflow becomes spread across many layers and depends on their exact granularity.",
+      "example": "PlaceOrder can be defined by business users, assembled from CreateCustomer and CalculateQuote enterprise services, and supported by an authentication infrastructure service. A one-off geolocation need can remain an application service.",
+      "source": "pp. 236–237"
+    },
+    {
+      "title": "The orchestration engine is the hub",
+      "body": "Every request flows through the orchestration engine, which maps business services to enterprise implementations, transforms messages, integrates legacy or packaged software, and declares transaction boundaries. A shared relational database or a few databases commonly support the style. Distributed transaction behavior is moved into the engine, but choosing a workable transaction boundary becomes harder as the workflow spans more services. The integration team consequently becomes a central organizational force and bottleneck.",
+      "example": "CreateQuote enters the service bus, which calls CreateCustomer and CalculateQuote and then their application services. A new boundary or transformation requires changing the hub through which all internal calls travel.",
+      "source": "pp. 237–239"
+    },
+    {
+      "title": "Reuse creates canonical coupling",
+      "body": "Extracting a concept such as Customer into one reusable service appears to eliminate duplicated behavior across divisions. It also creates a dependency on one canonical model. A change made for auto insurance, such as a driver's license field, becomes extra complexity for disability insurance, while every consumer may need coordinated testing and deployment. Reuse is not free: the shared component's release cadence and model become everyone else's constraint.",
+      "example": "A canonical Customer service serves auto, disability, and home insurance. Adding driver-license details may force all three divisions to understand and deploy a model change, even when only auto insurance uses it.",
+      "source": "pp. 239–240"
+    },
+    {
+      "title": "Technical partitioning can shred a domain",
+      "body": "A concept such as CatalogCheckout may be distributed across dozens of services, several taxonomy tiers, and one database schema. A small change, such as adding an address line, then becomes a cross-team coordination task. If an enterprise service has the wrong transactional granularity, developers must either reshape it or create a near-duplicate. The architecture's separation looks orderly in a diagram but makes incremental change and local understanding difficult in practice.",
+      "example": "An address field change crosses business, enterprise, application, infrastructure, and database artifacts. The team spends more effort coordinating contracts and releases than implementing the domain behavior itself.",
+      "source": "pp. 240–241"
+    },
+    {
+      "title": "The historical trade-off profile",
+      "body": "SOA is distributed but often one quantum because the orchestration engine and shared database couple its parts. It can support some elasticity and scalability through enterprise tooling, but performance suffers from many remote hops and deployment depends on the whole arrangement. Deployability and testability score especially poorly by modern standards. The backlash against these costs influenced newer styles. The lasting lesson is to evaluate reuse, mediation, and technical layers against the characteristics a team values now.",
+      "example": "A service bus can coordinate a large enterprise workflow, yet a three-line shared contract change may require holistic regression testing and a coordinated release across every dependent service.",
+      "source": "pp. 241–243"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A canonical shared service always reduces coupling because duplicate logic disappears.",
+      "correction": "It reduces duplication but couples consumers to one model and release cadence. A change for one domain can ripple into unrelated consumers and coordinated deployments."
+    },
+    {
+      "claim": "Many service layers automatically mean independent deployment and small change scope.",
+      "correction": "The orchestration hub, shared databases, fine-grained contracts, and coordinated transactions can make the entire architecture one tightly coupled quantum despite its distributed topology."
+    }
+  ],
+  "scenario": {
+    "title": "One Customer model for two insurers",
+    "context": "An insurer's auto and disability divisions each have customer data and workflows. An integration team proposes one canonical Customer service and a central orchestration engine to maximize reuse. Auto needs driver's-license details; disability changes its profile independently. Leadership wants lower duplication but also wants teams to release small changes without a company-wide test cycle or centralizing every field across both divisions over time.",
+    "options": [
+      {
+        "label": "Canonical shared service",
+        "benefit": "One implementation can standardize common customer behavior and avoid duplicate integrations across divisions.",
+        "cost": "The shared model becomes a coupling point; division-specific fields, release timing, and transaction boundaries require coordination.",
+        "consequence": "The teams share a Customer contract and central orchestration workflow, but an auto-only field triggers cross-division analysis and a coordinated deployment. Reuse pays off only when the model and change cadence genuinely align."
+      },
+      {
+        "label": "Domain-owned customer models",
+        "benefit": "Each division can evolve the customer concept with its own rules, data shape, and release schedule.",
+        "cost": "Common behavior may be implemented twice, and integration requires explicit translation between models.",
+        "consequence": "Auto can add license rules without changing disability. The integration team maintains narrow adapters for the few shared facts, accepting duplication to preserve independent change and local ownership for operations."
+      }
+    ],
+    "debrief": "A canonical service is useful when consumers truly share stable behavior and a compatible change cadence. When domains use different meanings or change independently, local models and explicit translation can cost less than broad coupling. Reuse should be tested against change, ownership, and transaction boundaries."
+  },
+  "quiz": [
+    {
+      "question": "What is the orchestration engine's central role in this SOA style?",
+      "options": [
+        "It only stores logs and never controls business flow",
+        "It stitches services, transforms messages, integrates systems, and defines workflow transaction boundaries",
+        "It removes all shared data and lets every service choose any protocol"
+      ],
+      "answer": 1,
+      "explanation": "The engine is both integration hub and workflow coordinator. Its central position is also a source of coupling and bottleneck risk."
+    },
+    {
+      "question": "Why can a canonical Customer service harm incremental change?",
+      "options": [
+        "Consumers become dependent on one shared model, so a domain-specific change can ripple across them",
+        "Canonical models prevent any data from being reused",
+        "Each consumer automatically gets a private database and contract"
+      ],
+      "answer": 0,
+      "explanation": "Shared representation reduces duplication but spreads the impact of its changes, especially when domains have different needs."
+    },
+    {
+      "question": "Why can this distributed SOA still behave as one architectural quantum?",
+      "options": [
+        "The orchestration engine and shared database couple many services and their characteristics",
+        "Because distributed systems always contain exactly one process",
+        "Because business services cannot have names"
+      ],
+      "answer": 0,
+      "explanation": "The central hub and shared data create coupling across the topology, so independent deployment and characteristics remain difficult."
+    }
+  ],
+  "exercise": {
+    "title": "Audit a reuse proposal",
+    "prompt": "Take one proposed shared service. List the consumers, the behavior they truly share, the change likely to ripple, and the smallest contract or local model that could preserve independent delivery.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Teams, domains, ownership, and current integration"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Shared service, local models, or an adapter"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Duplication avoided versus coupling introduced"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "business",
+        "label": "BUSINESS API",
+        "kind": "browser",
+        "tone": "peach"
+      },
+      {
+        "id": "engine",
+        "label": "ORCHESTRATOR",
+        "kind": "router",
+        "tone": "lilac"
+      },
+      {
+        "id": "enterprise",
+        "label": "ENTERPRISE",
+        "kind": "service",
+        "tone": "sage"
+      },
+      {
+        "id": "shared",
+        "label": "SHARED DB",
+        "kind": "database",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "business",
+        "to": "engine"
+      },
+      {
+        "from": "engine",
+        "to": "enterprise"
+      },
+      {
+        "from": "enterprise",
+        "to": "shared"
+      },
+      {
+        "from": "engine",
+        "to": "shared"
+      }
+    ],
+    "steps": [
+      {
+        "node": "business",
+        "text": "A coarse business service states the domain outcome the organization wants."
+      },
+      {
+        "node": "engine",
+        "text": "The orchestration hub maps the outcome to workflow steps, transformations, and transaction boundaries."
+      },
+      {
+        "node": "enterprise",
+        "text": "Fine-grained reusable services execute the shared business fragments through the hub."
+      },
+      {
+        "node": "shared",
+        "text": "A shared database and canonical contracts connect divisions, making reuse a potential ripple path for change."
+      }
+    ]
+  }
+}

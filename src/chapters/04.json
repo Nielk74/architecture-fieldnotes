@@ -1,0 +1,187 @@
+{
+  "number": 4,
+  "title": "Architecture Characteristics Defined",
+  "part": "Foundations",
+  "subtitle": "Name the forces that shape structure",
+  "summary": "Architecture characteristics describe how a system must operate and what design qualities make it successful beyond its domain behavior. A characteristic qualifies when it is a nondomain consideration, influences structure, and is critical or important to success. The distinction prevents teams from dismissing concerns as nonfunctional or treating quality as a late inspection. Characteristics may be implicit, such as availability or security, or explicit in requirements. They span operational concerns like performance, scalability, reliability, and recoverability; structural concerns like maintainability and portability; and cross-cutting concerns like accessibility, legal constraints, privacy, and authorization. Lists and definitions vary by organization, so teams need shared language and precise context. Because characteristics interact, architects choose a small, least-worst set and iterate rather than attempting to maximize everything.",
+  "source": {
+    "startLine": 2418,
+    "endLine": 2805,
+    "pages": "55–64"
+  },
+  "concepts": [
+    {
+      "title": "Three-part definition",
+      "body": "An architecture characteristic specifies a nondomain design consideration, influences some structural aspect of the design, and is critical or important to application success. Performance may require special structure; ordinary security hygiene around a third-party payment processor may not. The criteria keep every desirable quality from becoming an architectural requirement and focus effort on concerns that shape the system. They also help teams explain why a concern receives architectural attention.",
+      "example": "Encrypting traffic is baseline hygiene. If the application processes payments itself, isolating payment handling into a dedicated component may make security an architectural characteristic because structure is now essential.",
+      "source": "pp. 55–57"
+    },
+    {
+      "title": "Implicit and explicit",
+      "body": "Explicit characteristics appear in requirements, such as a scale target or portability constraint. Implicit characteristics are rarely written but arise from domain knowledge, such as availability in a public service or low latency in trading. Architects must uncover implicit concerns without inventing unnecessary structure. A characteristic becomes significant when its importance and structural consequences are real in this context. Validation with stakeholders turns an assumption into a defensible design input.",
+      "example": "A requirement for a high-frequency trading workflow may omit low latency because domain experts assume it. An architect still has to surface it and ask what response budget the business means.",
+      "source": "pp. 56–57"
+    },
+    {
+      "title": "Operational qualities",
+      "body": "Operational characteristics describe behavior while the system runs. Availability concerns how long it must be accessible; performance includes response time, throughput, capacity, and peak analysis; scalability concerns increasing users or requests; elasticity concerns bursts; and reliability, robustness, continuity, and recoverability address failure and restoration. These qualities overlap, so their concrete meanings need agreement. Teams should state the workload and failure conditions behind each term.",
+      "example": "A concert ticket service needs elasticity for the on-sale surge, while a hotel site may need steady scalability. A disaster recovery target adds a recoverability design constraint beyond uptime.",
+      "source": "pp. 57–58"
+    },
+    {
+      "title": "Structural and cross-cutting",
+      "body": "Structural characteristics shape the internal code and delivery substrate: maintainability, modularity, extensibility, configurability, portability, installability, reuse, supportability, and upgradeability are examples. Cross-cutting concerns include accessibility, authentication, authorization, privacy, security, legal rules, and archivability. The boundaries and definitions vary, so a team should establish a shared vocabulary rather than assume familiar labels mean the same thing. Their scope often crosses components and roles.",
+      "example": "A multilingual product may need localization in screens and reports, while a regulated service may need archival deletion rules, audit access, and privacy boundaries across several components.",
+      "source": "pp. 58–62"
+    },
+    {
+      "title": "Least-worst selection",
+      "body": "Supporting every possible characteristic adds complexity, and improving one can harm another: encryption and indirection may reduce performance, while generalized flexibility can make a design unwieldy. Architects should select the few characteristics critical to success, accept trade-offs, and favor iterative architectures that can change as evidence improves. The goal is a workable balance, not a mythical perfect system. Explicitly recording the trade-off makes later revision easier.",
+      "example": "A small internal tool may prioritize usability and maintainability over global portability. If its users or deployment context change, an iteration can revisit that balance instead of carrying unused structure today.",
+      "source": "pp. 62–64"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Every desirable property is automatically an architecture characteristic that must receive special structure.",
+      "correction": "A concern must be nondomain, structurally influential, and critical or important. Baseline coding hygiene may address a concern without architectural treatment."
+    },
+    {
+      "claim": "A standard list gives every team one precise, universal definition of each characteristic.",
+      "correction": "The chapter describes incomplete lists and ambiguous terms. Teams should define a shared language and concrete context-specific meaning before designing or measuring."
+    }
+  ],
+  "scenario": {
+    "title": "Choose qualities for a public clinic portal",
+    "context": "A clinic is replacing a small appointment portal. Patients need accessible mobile booking, staff need reliable schedules, and the clinic has limited budget and one operations team. A future partner may integrate through an API, but international expansion is uncertain. The team can fund only a few special structural capabilities this year. Select the qualities that should shape architecture and state what remains ordinary design hygiene.",
+    "options": [
+      {
+        "label": "Reliability-first",
+        "benefit": "Keeps schedules available and recoverable during outages, supporting the clinic’s core service and staff trust.",
+        "cost": "May leave future integration and broad portability less optimized, and recovery mechanisms consume budget and operational attention.",
+        "consequence": "The portal uses resilient scheduling storage, backups, and a clear recovery target. Accessibility remains a first-class product requirement; speculative internationalization waits for evidence."
+      },
+      {
+        "label": "Integration-first",
+        "benefit": "Creates documented seams and adaptable contracts for a likely partner while making future extensions easier.",
+        "cost": "Adds structure and testing effort before the partner is confirmed, potentially distracting from schedule reliability and mobile experience.",
+        "consequence": "The portal exposes a stable booking API and isolates integration code. The team must still set explicit availability and recovery expectations so extensibility does not hide operational gaps."
+      }
+    ],
+    "debrief": "Both choices can be defensible. The architecture characteristic is the concern that is important, structurally influential, and worth its cost now. Requirements, domain knowledge, budget, and future evidence decide which qualities belong in the small supported set."
+  },
+  "quiz": [
+    {
+      "question": "Which situation most clearly elevates security to an architecture characteristic?",
+      "options": [
+        "A team uses normal secure coding around an external payment provider",
+        "The application handles payment internally and needs a structural isolation boundary",
+        "A developer prefers a security framework because it is fashionable"
+      ],
+      "answer": 1,
+      "explanation": "The defining test is structural influence plus importance. Internal payment handling can require a dedicated module or service; ordinary hygiene alone may not."
+    },
+    {
+      "question": "What is the best distinction between scalability and elasticity?",
+      "options": [
+        "Scalability handles increasing load; elasticity handles bursts in load",
+        "Scalability means security; elasticity means availability",
+        "They are identical terms with no useful design difference"
+      ],
+      "answer": 0,
+      "explanation": "The chapter separates sustained growth from burst handling. A system may need one or both depending on its domain traffic pattern."
+    },
+    {
+      "question": "Why should architects select only a few architecture characteristics?",
+      "options": [
+        "Other qualities never matter to software",
+        "Each supported characteristic can require structure and create trade-offs with others",
+        "A short list guarantees the design is objectively correct"
+      ],
+      "answer": 1,
+      "explanation": "Characteristics interact and add complexity. A short, context-driven set enables a least-worst balance; it does not make the result universally correct."
+    }
+  ],
+  "exercise": {
+    "title": "Define a quality that matters",
+    "prompt": "Take a system you know. Name one explicit and one implicit architecture characteristic, describe the structural consequence of each, and identify one concern you would deliberately defer.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "System and stakeholders"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Characteristic and structural response"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Quality deferred and why"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "need",
+        "label": "DOMAIN NEED",
+        "kind": "person",
+        "tone": "peach"
+      },
+      {
+        "id": "qualify",
+        "label": "THREE TESTS",
+        "kind": "gauge",
+        "tone": "lilac"
+      },
+      {
+        "id": "structure",
+        "label": "STRUCTURE",
+        "kind": "blueprint",
+        "tone": "sage"
+      },
+      {
+        "id": "balance",
+        "label": "BALANCE",
+        "kind": "balance",
+        "tone": "honey"
+      }
+    ],
+    "edges": [
+      {
+        "from": "need",
+        "to": "qualify"
+      },
+      {
+        "from": "qualify",
+        "to": "structure"
+      },
+      {
+        "from": "structure",
+        "to": "balance"
+      },
+      {
+        "from": "balance",
+        "to": "need"
+      }
+    ],
+    "steps": [
+      {
+        "node": "need",
+        "text": "Collect domain requirements and concerns, including what experts assume but did not write down."
+      },
+      {
+        "node": "qualify",
+        "text": "Check whether each concern is nondomain, changes structure, and is important enough to justify the cost."
+      },
+      {
+        "node": "structure",
+        "text": "Choose design and operational mechanisms that make the selected qualities achievable and observable."
+      },
+      {
+        "node": "balance",
+        "text": "Reconcile competing qualities, record the least-worst trade-off, and revisit it as context changes."
+      }
+    ]
+  }
+}

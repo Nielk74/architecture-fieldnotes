@@ -1,0 +1,197 @@
+{
+  "number": 24,
+  "title": "Developing a Career Path",
+  "part": "Techniques & people",
+  "subtitle": "Keep learning, practicing, and choosing your next edge",
+  "summary": "An architecture career has no universal route, but it does require deliberate, continuous learning. Because technology changes rapidly, architects need breadth as well as depth and must build learning into ordinary routines. The 20-minute rule protects a daily block for exploring an unfamiliar term or deepening a topic, ideally before email and interruptions take over. A personal technology radar turns a changing portfolio into an explicit conversation. Its quadrants can cover tools, languages and frameworks, techniques, and platforms; its rings move items from hold through assess and trial to adopt. For personal use, hold can include habits to stop, assess is a research queue, trial is active experimentation, and adopt marks trusted practices. A diversified portfolio balances in-demand skills with carefully chosen gambits. Social media can extend breadth through weak links that expose unfamiliar ideas and opportunities. Architecture katas provide practice because architecture has trade-offs rather than one answer key. The final discipline is to learn, practice, and design repeatedly.",
+  "source": {
+    "startLine": 12534,
+    "endLine": 12834,
+    "pages": "365–372"
+  },
+  "concepts": [
+    {
+      "title": "Continuous Breadth",
+      "body": "Architects cannot rely on one technology's long-term value. The ecosystem changes quickly, so a career path needs a living stockpile of technical and business resources and regular time to explore them. Breadth helps an architect recognize unfamiliar options and ask better questions; depth still matters when a decision requires it. Conversations with colleagues can reveal useful resources as they change.",
+      "example": "An architect who knows only one platform may miss that a new capability changes deployment economics. A regular habit of reading across operations, data, and business keeps more options visible before a project makes a choice urgent.",
+      "source": "pp. 365–367"
+    },
+    {
+      "title": "The 20-Minute Rule",
+      "body": "Protect at least twenty minutes each day for learning or deeper investigation. The small fixed commitment is designed to survive a busy career, but lunch and evenings are easily displaced. The chapter recommends doing it after the morning coffee and before checking email, when attention has not yet been consumed by incoming requests. Use the time to promote unknown buzzwords into topics you can assess.",
+      "example": "Each morning, an architect reads one short systems article, looks up one unfamiliar term, and writes a two-sentence note. Over weeks, the practice builds a map of topics worth deeper experiments.",
+      "source": "pp. 365–366"
+    },
+    {
+      "title": "Build a Personal Radar",
+      "body": "A technology radar makes portfolio choices explicit instead of letting novelty, employer pressure, or habit decide them ad hoc. Quadrants can cover tools, languages and frameworks, techniques, and platforms. Hold means avoid starting new work or break a habit; assess means investigate; trial means run a low-risk experiment; adopt means the choice is trusted enough for regular use. The exercise itself creates time for reflection.",
+      "example": "Place a new database in assess until a spike tests operations and data fit. Move it to trial for a contained feature, and adopt only after the team understands its trade-offs and support needs.",
+      "source": "pp. 367–370"
+    },
+    {
+      "title": "Diversify the Portfolio",
+      "body": "A career technology portfolio resembles a financial portfolio: balance widely demanded skills with selected gambits such as open source or mobile work. The radar helps compare interestingness, employability, organizational value, and learning cost rather than chasing every fashionable tool. Hold can also protect attention from low-value information streams. A deliberate spread makes the architect less vulnerable to a single technology bubble.",
+      "example": "An architect can maintain a reliable platform skill, trial an open source contribution, and assess a new cloud service. The mix creates options without declaring every experiment production-ready.",
+      "source": "pp. 369–370"
+    },
+    {
+      "title": "Weak Links and Practice",
+      "body": "Strong links mostly reinforce what a person already knows, while weak links expose perspectives and opportunities outside the usual circle. Following respected technologists can broaden the assess queue when done deliberately. Learning still needs practice: architecture katas give repeated design reps, and their value lies in explaining why and the trade-offs, not collecting a single correct topology. Great architects improve by architecting repeatedly.",
+      "example": "A short kata asks a team to design an event platform under a fixed budget. Comparing decisions and their consequences teaches more than copying an answer diagram, especially when a new constraint changes the least-worst design.",
+      "source": "pp. 370–372"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A career plan should specialize in one technology and wait for formal training time.",
+      "correction": "Technology changes and formal time is easily displaced. A small daily breadth habit plus deliberate depth and practice builds a more resilient path."
+    },
+    {
+      "claim": "The adopt ring means a technology is universally correct and needs no further thought.",
+      "correction": "A personal radar expresses a current portfolio judgment. Rings organize investigation and commitment; choices still depend on context and should be revisited as forces change."
+    }
+  ],
+  "scenario": {
+    "title": "Place the new platform on your radar",
+    "context": "Your team hears strong claims about a new platform. It might improve an upcoming project, but nobody has operated it, and the organization already depends on a reliable platform that is widely supported. You have twenty minutes a day for learning and one low-risk experiment available this quarter. Decide how to investigate without letting excitement become a production commitment.",
+    "options": [
+      {
+        "label": "Adopt immediately",
+        "benefit": "The team gets early experience and may gain a strategic advantage from the new capability.",
+        "cost": "Unknown operational fit and support risk become part of a real project before evidence exists.",
+        "consequence": "The team discovers hidden constraints under delivery pressure. Reversing the choice becomes expensive, and the radar no longer distinguishes enthusiasm from confidence."
+      },
+      {
+        "label": "Assess then trial",
+        "benefit": "A short research block and bounded spike create evidence before a wider commitment.",
+        "cost": "The team spends time learning and may conclude the platform offers no useful advantage yet.",
+        "consequence": "The platform remains an explicit assess or trial item with notes about fit, cost, and support. The existing platform stays available while the portfolio decision matures."
+      }
+    ],
+    "debrief": "A radar is a thinking scaffold, not a prediction machine. Staged commitment protects the current system while creating a deliberate path from unfamiliar idea to evidence-backed adoption."
+  },
+  "quiz": [
+    {
+      "question": "When is the 20-minute rule most likely to survive the workday?",
+      "options": [
+        "First thing after coffee and before checking email",
+        "Only during lunch when meetings permit",
+        "After all incoming work is finished"
+      ],
+      "answer": 0,
+      "explanation": "The chapter recommends protecting the first quiet block because lunch, evenings, and the end of the day are easily consumed by changing demands."
+    },
+    {
+      "question": "A technology has promise but you have not investigated it yourself. Which personal radar ring fits?",
+      "options": [
+        "Assess",
+        "Adopt",
+        "Hold"
+      ],
+      "answer": 0,
+      "explanation": "Assess is a staging area for research. Adopt represents trusted practice; hold is for avoiding new use or breaking a habit."
+    },
+    {
+      "question": "What makes an architecture kata valuable?",
+      "options": [
+        "Repeated practice explaining trade-offs and why a design fits its constraints",
+        "Memorizing one official topology as the answer",
+        "Avoiding decisions until every uncertainty disappears"
+      ],
+      "answer": 0,
+      "explanation": "Architecture has trade-offs rather than universally right answers. Katas build design judgment by practicing decisions and rationale."
+    }
+  ],
+  "exercise": {
+    "title": "Create a personal radar",
+    "prompt": "Choose five technologies, techniques, or habits. Place each in a quadrant and ring, schedule a 20-minute learning action, and define the evidence required to move one item to trial or adopt.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Career goals and current portfolio"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Radar placements and next experiment"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Breadth, depth, time, and risk"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "habit",
+        "label": "20 MINUTES",
+        "kind": "clock",
+        "tone": "peach"
+      },
+      {
+        "id": "unknown",
+        "label": "ASSESS",
+        "kind": "target",
+        "tone": "lilac"
+      },
+      {
+        "id": "trial",
+        "label": "TRIAL",
+        "kind": "terminal",
+        "tone": "honey"
+      },
+      {
+        "id": "adopt",
+        "label": "ADOPT",
+        "kind": "gateway",
+        "tone": "sage"
+      },
+      {
+        "id": "practice",
+        "label": "KATA",
+        "kind": "team",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "habit",
+        "to": "unknown"
+      },
+      {
+        "from": "unknown",
+        "to": "trial"
+      },
+      {
+        "from": "trial",
+        "to": "adopt"
+      },
+      {
+        "from": "adopt",
+        "to": "practice"
+      }
+    ],
+    "steps": [
+      {
+        "node": "habit",
+        "text": "Reserve a small daily block before incoming work takes over."
+      },
+      {
+        "node": "unknown",
+        "text": "Place unfamiliar ideas in assess and gather enough context to frame a question."
+      },
+      {
+        "node": "trial",
+        "text": "Run a bounded experiment that reveals fit, cost, and operational consequences."
+      },
+      {
+        "node": "adopt",
+        "text": "Move a choice inward only when evidence and portfolio priorities support regular use."
+      },
+      {
+        "node": "practice",
+        "text": "Repeat architecture katas and explain why the chosen trade-offs fit the scenario."
+      }
+    ]
+  }
+}

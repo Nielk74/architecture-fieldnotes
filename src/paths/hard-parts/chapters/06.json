@@ -1,0 +1,189 @@
+{
+  "number": 6,
+  "title": "Pulling Apart Operational Data",
+  "part": "Boundaries & decomposition",
+  "subtitle": "Separate data only when the system can carry the cost",
+  "summary": "Decomposing a monolithic database is a riskier boundary change than decomposing application code because data is a core business asset and its relationships are often implicit in tables, views, triggers, and foreign keys. The chapter balances six disintegrators—change control, connection management, scalability, fault tolerance, architectural quanta, and database type optimization—against data relationships and ACID transactions that favor integration. A five step evolutionary process turns the database into data domains, assigns tables, removes cross-domain artifacts, moves service access to domain schemas, and eventually extracts physical databases. The approach preserves useful local relationships while making cross-domain coupling explicit. Database choice is also a trade-off: relational, key-value, document, graph, column-family, NewSQL, cloud-native, and time-series systems optimize different workloads. The chapter ends by treating aggregate boundaries as a practical guide for choosing schema shape.",
+  "source": {
+    "startLine": 3575,
+    "endLine": 4926,
+    "reference": "text lines 3575–4926"
+  },
+  "concepts": [
+    {
+      "title": "Disintegration drivers",
+      "body": "Break apart data when a shared database prevents independent change, saturates connection pools, cannot scale with services, creates a single point of failure, collapses distinct architectural quanta, or forces every workload into one database type. These drivers justify investigation rather than automatically proving that decomposition is correct. Data relationships and transactions may outweigh them, so the decision requires measured evidence and an explicit trade-off analysis.",
+      "example": "If reporting queries consume nearly every connection, ticketing times out. A separate reporting domain may relieve contention, while tightly coupled payment tables can remain together until their transaction boundary is understood.",
+      "source": "text lines 3600–4018"
+    },
+    {
+      "title": "Bounded data contracts",
+      "body": "A service should own the data it writes, while callers use a contract rather than another service's schema. A JSON response can rename fields or change representation, insulating the caller from a breaking database migration inside the owner’s bounded context. The separation is valuable only if services stop reaching across schemas directly; otherwise the database remains an accidental shared contract.",
+      "example": "A wishlist owner can remove an expiration column internally while continuing to send an expiration value in its response for a transition period. The consuming service need not know whether storage uses DATE, epoch time, or a default.",
+      "source": "text lines 3630–3704"
+    },
+    {
+      "title": "Connection and scale",
+      "body": "Distributed service instances each tend to own a connection pool, so a migration can multiply demand even before traffic grows. Quotas provide governance: begin with equal allocations, measure waits and maximum use with fitness functions, then tune quotas by service need. Quotas must be evaluated against instance counts; a distribution that fits one database can fail badly when services scale independently.",
+      "example": "Five services fit a 100-connection budget on paper, but fourteen scaled instances consume 242 connections. The measured quota can be reallocated toward services with waits, yet the database still needs a scaling plan.",
+      "source": "text lines 3706–3998"
+    },
+    {
+      "title": "Five step extraction",
+      "body": "Data domains group tables and their local artifacts around a bounded context. The migration proceeds iteratively: analyze and define domains, assign tables, remove cross-domain artifacts, move service access to the domain schema, and separate schemas into physical databases. Local foreign keys and views can survive inside a domain; cross-domain joins, triggers, procedures, and views must become service calls or other explicit integration.",
+      "example": "Payment keeps contract and billing together but removes a customer join from its view. The Payment service then requests the customer name from Customer, making the former hidden dependency visible and governable.",
+      "source": "text lines 4116–4408"
+    },
+    {
+      "title": "Choose data technology",
+      "body": "A data domain is also a boundary for selecting a database suited to its workload. Relational systems offer strong relationships and transactions; key-value systems optimize direct lookup; documents fit aggregate-shaped records; graphs model traversals; column families handle wide distributed access; NewSQL and cloud-native systems trade familiar relational behavior against operational goals; time-series systems fit timestamped measurements. The chapter treats ratings as comparative adoption guidance, not a universal ranking.",
+      "example": "A knowledge base with document-shaped articles may benefit from a document store, while payments retain relational constraints. Moving only after the domain seam is understood limits the blast radius of technology experimentation.",
+      "source": "text lines 4409–4790"
+    },
+    {
+      "title": "Aggregate boundaries",
+      "body": "Database structure should reflect how the application changes and transacts. A survey can model one aggregate when survey, questions, and responses are always loaded and changed together; separate aggregates with references may be better when each has an independent lifecycle. Aggregate boundaries help decide which relationships belong inside a data domain and which become distributed coordination.",
+      "example": "If editing a survey always requires its questions atomically, one aggregate preserves that transaction. If questions are reused or administered independently, references and explicit consistency rules may be safer than one giant record.",
+      "source": "text lines 4800–4925"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A microservices migration always requires an immediate database-per-service split.",
+      "correction": "The chapter allows staged data domains and shared database arrangements where appropriate. Decomposition should follow evidence from coupling, scale, availability, and transaction needs."
+    },
+    {
+      "claim": "Removing every foreign key is the first step to independent services.",
+      "correction": "Local integrity artifacts can remain inside a data domain. Only cross-domain relationships need to be removed or replaced, and the migration is iterative."
+    }
+  ],
+  "scenario": {
+    "title": "Choose a data boundary",
+    "context": "A support platform is moving from one relational database to domain services. Reporting causes connection waits, payment updates require atomic writes, and the knowledge base has document-shaped content. The database team has limited migration capacity and will accept only a reversible first slice. Decide what to separate first while preserving operational safety.",
+    "options": [
+      {
+        "label": "Reporting first",
+        "benefit": "Directly addresses measured connection contention and reduces load on ticketing.",
+        "cost": "The team must replace cross-domain reporting joins and operate another data store.",
+        "consequence": "Reporting moves behind a domain schema and read contract. Ticketing remains on the original store while connection waits are measured again, giving the next extraction a clearer baseline."
+      },
+      {
+        "label": "Payment first",
+        "benefit": "Keeps the strongest transaction boundary explicit and protects sensitive payment data.",
+        "cost": "It may not relieve the immediate reporting bottleneck, and payment’s relationships require careful artifact refactoring.",
+        "consequence": "Payment tables and local constraints move together. The migration improves ownership but users still see report timeouts until a later slice addresses reporting load."
+      }
+    ],
+    "debrief": "The drivers point in different directions. A good first slice combines measurable benefit, a coherent domain, and a migration path that preserves required transactions. Technology choice follows the boundary; it should not substitute for one."
+  },
+  "quiz": [
+    {
+      "question": "Which observation is strongest evidence for a connection-management disintegrator?",
+      "options": [
+        "A table has a descriptive name",
+        "Service instances experience connection waits and request timeouts",
+        "Two tables have a foreign key"
+      ],
+      "answer": 1,
+      "explanation": "Connection waits and timeout symptoms indicate that distributed pools are exhausting the shared database capacity. A foreign key is instead an integration concern."
+    },
+    {
+      "question": "What should happen to a foreign key crossing two extracted data domains?",
+      "options": [
+        "Preserve it invisibly across both databases",
+        "Remove it and make the relationship explicit through an integration mechanism",
+        "Duplicate it in every service schema"
+      ],
+      "answer": 1,
+      "explanation": "Cross-domain database artifacts preserve hidden coupling. The chapter’s process removes them and moves access behind service or other explicit boundaries."
+    },
+    {
+      "question": "Why evaluate instance counts when assigning connection quotas?",
+      "options": [
+        "Quotas apply once to the whole cluster",
+        "Each instance can create a pool, so scale-out multiplies total connections",
+        "Instance counts determine foreign-key validity"
+      ],
+      "answer": 1,
+      "explanation": "A quota that fits one instance per service can exceed database capacity after independent scale-out."
+    }
+  ],
+  "exercise": {
+    "title": "Map one extraction slice",
+    "prompt": "Draw one data domain from an existing schema, list its local artifacts, mark each cross-domain dependency, and justify the first migration step using one disintegrator and one integrator.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Services, tables, workload evidence, and required transactions"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Domain boundary, access contract, and migration sequence"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Benefit gained and integrity, scale, or operational cost accepted"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "shared",
+        "label": "SHARED DB",
+        "kind": "database",
+        "tone": "peach"
+      },
+      {
+        "id": "domain",
+        "label": "DATA DOMAIN",
+        "kind": "boundary",
+        "tone": "sage"
+      },
+      {
+        "id": "contract",
+        "label": "ACCESS API",
+        "kind": "router",
+        "tone": "lilac"
+      },
+      {
+        "id": "store",
+        "label": "DATA STORE",
+        "kind": "database",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "shared",
+        "to": "domain"
+      },
+      {
+        "from": "domain",
+        "to": "contract"
+      },
+      {
+        "from": "contract",
+        "to": "store"
+      }
+    ],
+    "steps": [
+      {
+        "node": "shared",
+        "text": "Measure coupling, connection waits, scale pressure, failures, and transaction needs in the shared database."
+      },
+      {
+        "node": "domain",
+        "text": "Group related tables and retain local constraints while marking cross-domain artifacts for refactoring."
+      },
+      {
+        "node": "contract",
+        "text": "Route foreign data through an explicit service contract so callers no longer depend on the schema."
+      },
+      {
+        "node": "store",
+        "text": "Extract the schema into its own physical database only after the domain boundary and access behavior are stable."
+      }
+    ]
+  }
+}
