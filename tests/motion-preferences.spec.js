@@ -1,5 +1,5 @@
 import {test,expect} from '@playwright/test';
-async function positions(locator){await expect(locator).toBeVisible();const ys=[];for(let i=0;i<3;i++){ys.push((await locator.boundingBox()).y);await new Promise(r=>setTimeout(r,250))}return Math.max(...ys)-Math.min(...ys)}
+async function positions(locator){await expect(locator).toBeVisible();const ys=[];for(let i=0;i<9;i++){ys.push((await locator.boundingBox()).y);await new Promise(r=>setTimeout(r,250))}return Math.max(...ys)-Math.min(...ys)}
 for(const [name,path,ready,scene] of [
  ['book','/#chapter/11/intro','.book-intro','.book-intro .iso-object'],
  ['chapter one','/chapter-one.html#lesson/foundations','#foundations.lesson-panel','.dimension-art .iso-object'],
