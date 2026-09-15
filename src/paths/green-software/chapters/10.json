@@ -1,0 +1,184 @@
+{
+  "number": 10,
+  "subtitle": "Turn observations into service decisions.",
+  "summary": "Monitoring helps teams decide whether a system is meeting the needs it promises to serve. This chapter introduces availability, the four golden signals, and the distinction between an indicator, an objective, and an agreement. It uses the Chubby example to show how accidental overdelivery can encourage fragile dependencies. The authors then imagine carbon metrics joining existing production monitoring, with explicit objectives and budgets alongside reliability. Observability adds the ability to investigate unfamiliar behavior in complex systems rather than relying only on predefined alerts. The chapter’s vision of standardized real-time carbon telemetry is aspirational in the supplied edition. Its practical lesson is to connect credible measurements to decisions, ownership, and service constraints.",
+  "concepts": [
+    {
+      "title": "Availability needs an explicit promise",
+      "body": "A service’s observed availability and its promised service level are different. The Chubby story shows how exceptional uptime can teach consumers to rely on behavior beyond that promise. Higher reliability targets can require more resources and engineering. Choose service levels around user needs and ensure consumers can cope with the failures that remain within the stated contract.",
+      "example": "Teaching extension: A batch consumer retries safely instead of assuming its upstream service will never be unavailable.",
+      "source": "pp. 157–159"
+    },
+    {
+      "title": "Use the four golden signals",
+      "body": "Latency, traffic, errors, and saturation describe different aspects of service behavior. Together they help distinguish high demand, resource pressure, failed work, and slow responses. Carbon measurements gain context from these signals: an increase may reflect growth, retries, or altered allocation. Looking at a single utilization or emissions chart cannot reliably explain why a service changed.",
+      "example": "Teaching extension: An emissions increase accompanied by flat traffic and more errors prompts an investigation into repeated processing.",
+      "source": "pp. 159–160"
+    },
+    {
+      "title": "Separate indicator, objective, and agreement",
+      "body": "An SLI is a measured characteristic. An SLO sets a target for that characteristic over a defined period. An SLA is an agreement with service users. Error budgets describe the allowed deviation from an objective. These distinctions matter when sustainability objectives are proposed because a measurement alone does not define a threshold, response, or acceptable effect on customers.",
+      "example": "Teaching extension: The team distinguishes measured export completion time from the target that eligible exports finish before their deadline.",
+      "source": "pp. 160–162"
+    },
+    {
+      "title": "Carbon budgets need operational rules",
+      "body": "The authors propose adding credible carbon data to existing monitoring practices. Carbon and availability objectives can conflict, so decisions need an agreed policy and knowledge of remaining budgets. A high-carbon period is not permission to break a service promise. Their imagined real-time metric is a future-facing teaching device in the book, not proof that all necessary telemetry already exists.",
+      "example": "Teaching extension: A delayed export runs before its deadline when no cleaner slot remains, and the team records the carbon-policy exception.",
+      "source": "pp. 161–162"
+    },
+    {
+      "title": "Observability explains unfamiliar behavior",
+      "body": "Monitoring watches known signals and conditions. Observability supports asking new questions about internal behavior using external evidence. Merely collecting logs, metrics, and traces is insufficient if they cannot explain an incident. For sustainability, connecting a costly operation to request context can help locate waste that a preselected aggregate dashboard would hide.",
+      "example": "Teaching extension: A trace reveals that only one export format triggers repeated conversion calls, explaining an otherwise mysterious increase in compute.",
+      "source": "pp. 162–165"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "An SLO is just a graph of latency.",
+      "correction": "The graph is evidence. An objective also defines the acceptable result and evaluation window."
+    },
+    {
+      "claim": "Collecting all three telemetry types makes a system observable.",
+      "correction": "The evidence must support useful questions about behavior; storage alone does not provide an explanation."
+    }
+  ],
+  "scenario": {
+    "title": "The carbon budget meets the deadline",
+    "context": "Teaching extension. An export service has a promised completion deadline and a proposed carbon target. Electricity is forecast to remain carbon intensive through the remaining window. The team can complete the full result now or offer a lighter alternative if the customer has accepted that option. It cannot silently change the promised result.",
+    "options": [
+      {
+        "label": "Complete the promised result and record the exception",
+        "benefit": "Preserves the existing service commitment.",
+        "cost": "May exceed the proposed carbon target and require follow-up work.",
+        "consequence": "The team records why shifting was infeasible and investigates design changes or a future agreement that would create more flexibility."
+      },
+      {
+        "label": "Use an agreed lighter result where permitted",
+        "benefit": "Can reduce immediate work while meeting an explicitly accepted service mode.",
+        "cost": "Requires a clear customer agreement and evidence that the lighter result remains useful.",
+        "consequence": "Only eligible requests use the lighter path. The team tracks quality, completion, and resource use rather than treating every request as interchangeable."
+      }
+    ],
+    "debrief": "A useful policy makes conflicts explicit. Monitoring informs decisions; it does not authorize silently breaking an agreement."
+  },
+  "quiz": [
+    {
+      "question": "Which statement is an objective rather than only a measurement?",
+      "options": [
+        "The current completion latency is 20 seconds",
+        "99% of eligible exports finish within two minutes over 28 days",
+        "The dashboard contains a latency graph"
+      ],
+      "answer": 1,
+      "explanation": "An objective combines a target, scope, and time window."
+    },
+    {
+      "question": "Traffic stays flat while errors and compute rise. What deserves investigation?",
+      "options": [
+        "Only the cloud invoice discount",
+        "Only the app’s color palette",
+        "Retries or repeated work associated with failures"
+      ],
+      "answer": 2,
+      "explanation": "The signals suggest a plausible mechanism to investigate; they do not by themselves prove the cause."
+    },
+    {
+      "question": "What should a carbon-aware policy do when a deadline cannot be shifted?",
+      "options": [
+        "Follow the agreed service policy and record the trade-off",
+        "Treat carbon intensity as permission to break any promise",
+        "Remove the event from reporting"
+      ],
+      "answer": 0,
+      "explanation": "Carbon objectives need explicit priorities and accountable exception handling alongside reliability."
+    }
+  ],
+  "exercise": {
+    "title": "Propose a carbon service objective",
+    "prompt": "Define a tentative carbon objective for one workload and the operational decision it would support. State the measurement limitations and how service conflicts are handled.",
+    "fields": [
+      {
+        "label": "Indicator, target, and window",
+        "placeholder": "What is measured, what result is acceptable, and over what period?"
+      },
+      {
+        "label": "Service constraints and response",
+        "placeholder": "Who acts when the target is threatened, and which promises must still be met?"
+      },
+      {
+        "label": "Investigation evidence",
+        "placeholder": "What request context, traffic, error, and resource data will explain a change?"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "service",
+        "label": "SERVICE",
+        "kind": "service",
+        "tone": "sage"
+      },
+      {
+        "id": "signals",
+        "label": "SIGNALS",
+        "kind": "gauge",
+        "tone": "lilac"
+      },
+      {
+        "id": "budget",
+        "label": "OBJECTIVE",
+        "kind": "target",
+        "tone": "peach"
+      },
+      {
+        "id": "response",
+        "label": "RESPONSE",
+        "kind": "colleague",
+        "tone": "honey"
+      }
+    ],
+    "edges": [
+      {
+        "from": "service",
+        "to": "signals"
+      },
+      {
+        "from": "signals",
+        "to": "budget"
+      },
+      {
+        "from": "budget",
+        "to": "response"
+      }
+    ],
+    "steps": [
+      {
+        "node": "service",
+        "text": "Run work under an explicit service promise."
+      },
+      {
+        "node": "signals",
+        "text": "Observe carbon alongside traffic, latency, errors, and saturation."
+      },
+      {
+        "node": "budget",
+        "text": "Compare evidence with the defined target and window."
+      },
+      {
+        "node": "response",
+        "text": "Choose the agreed response and investigate the cause."
+      }
+    ]
+  },
+  "title": "Monitoring",
+  "part": "Measure and learn",
+  "source": {
+    "startLine": 5851,
+    "endLine": 6150,
+    "pages": "157–165",
+    "reference": "pp. 157–165; text lines 5851–6150"
+  }
+}

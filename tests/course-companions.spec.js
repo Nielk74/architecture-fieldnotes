@@ -1,7 +1,7 @@
 import {test,expect} from '@playwright/test';
 import {paths} from '../src/paths/registry.js';
 import {courseEvolutions,courseEvolutionFor,nextCourseEvolution,renderCourseBot} from '../src/illustrations/course-sidekicks.js';
-test('all seven courses have ten distinct forms with reachable, independent thresholds',()=>{
+test('all registered courses have ten distinct forms with reachable, independent thresholds',()=>{
  const all=new Set();
  for(const path of Object.values(paths)){
   const stages=courseEvolutions(path.id);expect(stages).toHaveLength(10);expect(stages[0].xp).toBe(0);expect(stages[9].xp).toBe(path.totalXP);expect(new Set(stages.map(s=>s.gear)).size).toBe(10);
@@ -11,10 +11,10 @@ test('all seven courses have ten distinct forms with reachable, independent thre
   }
   expect(nextCourseEvolution(path.id,path.totalXP)).toBeNull();expect(courseEvolutionFor(path.id,0).level).toBe(0);
  }
- expect(all.size).toBe(70);
+ expect(all.size).toBe(Object.keys(paths).length*10);
 });
-test('the atlas exposes 80 previews without granting XP and links to the current course',async({page})=>{
- await page.setViewportSize({width:320,height:800});await page.goto('/companions.html');await expect(page.locator('.pip-form')).toHaveCount(80);await expect(page.locator('.pip-form.current')).toHaveCount(8);await expect(page.locator('.pip-form.locked')).toHaveCount(72);
+test('the atlas exposes every preview without granting XP and links to the current course',async({page})=>{
+ await page.setViewportSize({width:320,height:800});await page.goto('/companions.html');await expect(page.locator('.pip-form')).toHaveCount((Object.keys(paths).length+1)*10);await expect(page.locator('.pip-form.current')).toHaveCount(Object.keys(paths).length+1);await expect(page.locator('.pip-form.locked')).toHaveCount((Object.keys(paths).length+1)*9);
  await page.locator('#pip-track').selectOption('sre');await expect(page.locator('.pip-form:visible')).toHaveCount(10);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  await page.goto('/learn.html?path=sre#chapter/1/explore');await expect(page.locator('[data-companion-track]')).toHaveCount(2);await expect(page.locator('[data-companion-track=sre]')).toBeInViewport();await page.getByRole('link',{name:'Explore course Pip evolutions'}).click();await expect(page.locator('#pip-track')).toHaveValue('sre');await expect(page.locator('[data-pip-family=sre]')).toContainText('0 course XP');
 });

@@ -1,6 +1,7 @@
 import {paths} from '../paths/registry.js';
 const milestones=[0,.05,.12,.22,.34,.48,.64,.78,.9,1];
 const themes={
+ 'green-software':{color:'#a8c9b1',dark:'#386456',accent:'#efcd81',shape:'round',stages:[['Resource observer','leaf'],['Energy explorer','battery'],['Waste finder','lens'],['Efficiency builder','wrench'],['Carbon scheduler','clock'],['Hardware caretaker','sprout'],['Footprint measurer','gauge'],['GreenOps guide','checklist'],['Change cultivator','tree'],['Green software steward','garden']]},
  fundamentals:{color:'#b8cf96',dark:'#506940',accent:'#edc56e',shape:'square',stages:[['Sketch','pencil'],['Blueprint','blueprint'],['Model maker','blocks'],['Structure builder','ruler'],['Style explorer','compass'],['Quality keeper','diamond'],['Boundary designer','gate'],['Decision author','scroll'],['System composer','city'],['Foundation master','temple']]},
  'hard-parts':{color:'#c2aedb',dark:'#685180',accent:'#e5b079',shape:'hex',stages:[['Boundary scout','gate'],['Service splitter','scissors'],['Coupling untangler','knot'],['Contract keeper','handshake'],['Data navigator','database'],['Trade-off balancer','balance'],['Workflow conductor','route'],['Saga coordinator','loop'],['Resilience weaver','bridge'],['Distributed master','network']]},
  'staff-engineer':{color:'#e7c58e',dark:'#88623d',accent:'#d29188',shape:'round',stages:[['Thoughtful listener','ear'],['Context gatherer','notebook'],['Trust builder','heart'],['Direction finder','compass'],['Clear communicator','chat'],['Project guide','flag'],['Team connector','handshake'],['Growth mentor','sprout'],['Influence multiplier','people'],['Staff pathfinder','beacon']]},
@@ -14,6 +15,7 @@ export function courseEvolutions(course){const config=paths[course],theme=themes
 export function courseEvolutionFor(course,xp=0){return courseEvolutions(course).filter(s=>s.xp<=xp).at(-1)}
 export function nextCourseEvolution(course,xp=0){return courseEvolutions(course).find(s=>s.xp>xp)||null}
 const props={
+ clock:'<circle cx="22" cy="23" r="16"/><path d="M22 12v11l9 5M16 3h12"/>',
  pencil:'<path d="m8 31 18-23 7 6-18 23-9 3Z"/><path d="m24 10 7 6M8 31l7 6"/>',
  blueprint:'<rect x="5" y="7" width="32" height="30" rx="3"/><path d="M10 13h20v17H10zM20 13v17M10 22h20"/>',
  blocks:'<path d="m4 24 9-5 9 5-9 6Zm0 0v10l9 5 9-5V24m-9 6v9m9-15 9-5 9 5-9 6m0 0v9m-9-5 9 5 9-5V24M13 19V9l9-5 9 5v10m-18-10 9 5 9-5m-9 5v10"/>',
@@ -73,6 +75,7 @@ export function renderCourseBot({course,xp=0,level,decorative=true}={}){
  const stages=courseEvolutions(course),stage=level===undefined?courseEvolutionFor(course,xp):stages[Math.max(0,Math.min(9,level))],n=stage.level,t=themes[course];
  const heads={square:'<rect x="43" y="39" width="94" height="65" rx="13"/>',hex:'<path d="m53 39 74 0 14 17v32l-14 17H53L39 88V56Z"/>',round:'<rect x="40" y="39" width="100" height="65" rx="30"/>',leaf:'<path d="M43 68q0-38 47-34 48-4 48 34v13q0 26-48 25-47 1-47-25Z"/>',visor:'<path d="M42 66q0-31 48-31t48 31v25q-48 28-96 0Z"/>',lens:'<rect x="42" y="39" width="96" height="65" rx="22"/>',antenna:'<path d="M49 40h82l8 17v33l-12 14H53L41 90V57Z"/>'};
  let top='<circle cx="90" cy="24" r="5"/>';
+ if(course==='green-software')top=`<path d="M61 34h58l-5-20H66Z"/><path d="M77 15v18m13-18v18m13-18v18M65 24h51"/>${n>=3?'<path d="M90 14V5m-6 3h12"/>':''}${n>=6?'<path d="M61 22q-20-19-20-4 3 12 20 4m58 0q20-19 20-4-3 12-20 4"/>':''}${n===9?'<circle cx="90" cy="0" r="7"/><path d="M78 0h-5m34 0h-5M90-12v-4"/>':''}`;
  // Course headgear stays thematic; overall Pip owns the shared crown progression.
  if(n>0){
   if(course==='fundamentals')top=`<path d="M59 33q2-${16+n*2} 31-${16+n*2}t31 ${16+n*2}H59Z"/><path d="M90 ${17-n*2}v16M54 34h72"/>${n>=6?'<path d="M72 23v9m9-13v13m18-13v13m9-9v9"/>':''}${n===9?'<path d="M71 13V4h12v9m14 0V1h12v12"/>':''}`;

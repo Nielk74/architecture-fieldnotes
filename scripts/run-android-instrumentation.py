@@ -1,4 +1,4 @@
-"""Stream native checks and bound the full seven-course traversal on hosted emulators."""
+"""Stream native checks and bound the full course traversal on hosted emulators."""
 import subprocess, sys, threading
 
 runner = 'io.github.nielk74.fieldnotes.test/androidx.test.runner.AndroidJUnitRunner'

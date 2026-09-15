@@ -2,7 +2,7 @@ import {test,expect} from '@playwright/test';
 import fs from 'node:fs';
 import {renderScene} from '../src/illustrations/engine.js';
 import {chapterScene} from '../src/chapters/visuals.js';
-const counts={'staff-engineer':9,'responsible-engineering':7,sre:34,observability:22,'ai-agents':13};
+const counts={'green-software':13,'staff-engineer':9,'responsible-engineering':7,sre:34,observability:22,'ai-agents':13};
 const load=(id,n)=>JSON.parse(fs.readFileSync(new URL(`../src/paths/${id}/chapters/${String(n).padStart(2,'0')}.json`,import.meta.url),'utf8'));
 for(const [id,count] of Object.entries(counts)){
  test(`${id}: every chapter renders and its learning steps are reachable`,async({page})=>{
@@ -33,12 +33,12 @@ for(const [id,count] of Object.entries(counts)){
 test('course library shows every illustration and filters on small phones',async({page})=>{
  for(const width of [320,390,768]){
   await page.setViewportSize({width,height:800});await page.goto('/');
-  await expect(page.locator('.path-card:visible')).toHaveCount(7);
-  await expect(page.locator('.course-art .iso-scene')).toHaveCount(7);
-  await expect(page.locator('.path-progress progress')).toHaveCount(7);
+  await expect(page.locator('.path-card:visible')).toHaveCount(8);
+  await expect(page.locator('.course-art .iso-scene')).toHaveCount(8);
+  await expect(page.locator('.path-progress progress')).toHaveCount(8);
   await page.locator('#path-category').selectOption('People & responsibility');await expect(page.locator('.path-card:visible')).toHaveCount(2);
   await page.locator('#path-category').selectOption('all');await page.locator('#path-search').fill('agents');await expect(page.locator('.path-card:visible')).toHaveCount(1);await expect(page.locator('.path-ai-agents')).toBeVisible();
-  await page.locator('#path-search').fill('no matching course');await expect(page.locator('#no-paths')).toBeVisible();await page.locator('#reset-course-filters').click();await expect(page.locator('.path-card:visible')).toHaveCount(7);
+  await page.locator('#path-search').fill('no matching course');await expect(page.locator('#no-paths')).toBeVisible();await page.locator('#reset-course-filters').click();await expect(page.locator('.path-card:visible')).toHaveCount(8);
   await page.locator('[data-course-status="completed"]').click();await expect(page.locator('#no-paths')).toBeVisible();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  }

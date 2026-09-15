@@ -1,13 +1,9 @@
-Reading copy is now visibly justified on phones as well as larger screens, while retaining the larger mobile type, comfortable line spacing, automatic hyphenation, stronger contrast, and left-aligned final lines. The home introduction now follows the same reading treatment.
+Building Green Software is now a complete learning path: all 13 chapters of the supplied March 2024 first edition by Anne Currie, Sarah Hsu, and Sara Bergman, with 65 activity stops, 39 quiz questions, original source notes, and 1,300 available XP.
 
-Pip now has 80 appearances: ten overall forms and ten distinct forms for each of seven courses. Overall evolution follows combined XP; each course companion evolves only through XP earned in that book. Both remain visible during lessons with separate progress indicators. Tap either portrait to explore its evolution atlas. Existing XP and reflections are preserved.
+Explore energy efficiency, carbon-aware scheduling, hardware longevity, networking, machine learning, measurement, monitoring, and a practical improvement roadmap. Each chapter includes an illustrated map, concept exploration, a decision comparison, checked quiz feedback, and an editable reflection to save and export. Examples and practice numbers are labeled teaching extensions; the raw book is excluded.
 
-Main navigation now uses consistent SVG icons with distinct library, chapter, map, and motion controls, plus larger mobile tap targets.
+The library now contains eight courses and 137 chapters. Green Software has its own progress ledger and ten themed Pip forms, bringing the companion collection to 90 appearances. Existing course progress and overall evolution thresholds are preserved. Course counts and companion totals update from the registry.
 
-Pip now stays visible on every screen, with an evolution progress ring, XP countdown, and immediate updates as you earn rewards. The compact strip remains visible on phones without covering lesson controls.
+Progress backup and restore include the new course. The Android persistence checks cover its XP and reflections through restart and an in-place update alongside the existing courses. Install the APK over your existing app to retain progress.
 
-Seven learning paths, 124 chapters, and 38 animated illustration primitives, including mentoring, listening, handoffs, investigation, and agent workflows. The original Fundamentals and Hard Parts progress is retained.
-
-New paths: The Staff Engineer’s Path, Responsible Software Engineering, Site Reliability Engineering, Observability Engineering, and Building Applications with AI Agents. Compare every book in the illustrated course library, with visible XP, completion bars, topic and progress filters, and a shortcut to resume your latest lesson. Pip gains four later evolutions while keeping all original thresholds.
-
-The APK works offline and saves XP and reflections in native Android preferences. Export/import on the home page can transfer browser progress. Install updates over the existing app to retain progress. CI checks web behavior and native persistence before publishing. Purchased book files are excluded.
+The release workflow checks the production web build, mobile layouts, learning journeys, source-file exclusion, and native persistence before publishing the signed APK and SHA-256 checksum.

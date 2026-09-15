@@ -1,0 +1,106 @@
+[
+  {
+    "number": 1,
+    "title": "Introduction to Green Software",
+    "part": "Foundations",
+    "startLine": 634,
+    "endLine": 1142,
+    "pages": "1–14"
+  },
+  {
+    "number": 2,
+    "title": "Building Blocks",
+    "part": "Foundations",
+    "startLine": 1143,
+    "endLine": 1600,
+    "pages": "15–29"
+  },
+  {
+    "number": 3,
+    "title": "Code Efficiency",
+    "part": "Design and operate",
+    "startLine": 1601,
+    "endLine": 2385,
+    "pages": "31–51"
+  },
+  {
+    "number": 4,
+    "title": "Operational Efficiency",
+    "part": "Design and operate",
+    "startLine": 2386,
+    "endLine": 3083,
+    "pages": "53–72"
+  },
+  {
+    "number": 5,
+    "title": "Carbon Awareness",
+    "part": "Design and operate",
+    "startLine": 3084,
+    "endLine": 3600,
+    "pages": "73–89"
+  },
+  {
+    "number": 6,
+    "title": "Hardware Efficiency",
+    "part": "Design and operate",
+    "startLine": 3601,
+    "endLine": 4143,
+    "pages": "91–105"
+  },
+  {
+    "number": 7,
+    "title": "Networking",
+    "part": "Design and operate",
+    "startLine": 4144,
+    "endLine": 4742,
+    "pages": "107–123"
+  },
+  {
+    "number": 8,
+    "title": "Greener Machine Learning, AI, and LLMs",
+    "part": "Design and operate",
+    "startLine": 4743,
+    "endLine": 5076,
+    "pages": "125–134"
+  },
+  {
+    "number": 9,
+    "title": "Measurement",
+    "part": "Measure and learn",
+    "startLine": 5077,
+    "endLine": 5850,
+    "pages": "135–155"
+  },
+  {
+    "number": 10,
+    "title": "Monitoring",
+    "part": "Measure and learn",
+    "startLine": 5851,
+    "endLine": 6150,
+    "pages": "157–165"
+  },
+  {
+    "number": 11,
+    "title": "Co-Benefits",
+    "part": "Make change happen",
+    "startLine": 6151,
+    "endLine": 6578,
+    "pages": "167–179"
+  },
+  {
+    "number": 12,
+    "title": "The Green Software Maturity Matrix",
+    "part": "Make change happen",
+    "startLine": 6579,
+    "endLine": 6981,
+    "pages": "181–192"
+  },
+  {
+    "number": 13,
+    "title": "Where Do We Go from Here?",
+    "part": "Make change happen",
+    "startLine": 6982,
+    "endLine": 7347,
+    "pages": "193–202"
+  }
+]

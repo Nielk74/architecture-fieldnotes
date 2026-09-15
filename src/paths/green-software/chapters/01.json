@@ -1,0 +1,200 @@
+{
+  "number": 1,
+  "subtitle": "Follow software back to electricity, hardware, and useful work.",
+  "summary": "Green software starts with a physical question: what resources does a useful result require, and what emissions follow? The authors distinguish energy efficiency, hardware efficiency, and carbon awareness. Reducing processing is one lever; sharing machines, keeping devices useful, and moving flexible work to cleaner electricity are others. The introduction previews a practical route through these decisions, beginning with operations and suitable platforms before expensive custom optimization. It also connects sustainability to developer productivity, cost, reliability, and security. The goal is software that meets real needs while reducing its impact. Measurement guides that work, but a lack of perfect carbon data does not prevent an initial investigation of obvious waste.",
+  "concepts": [
+    {
+      "title": "Three complementary levers",
+      "body": "Energy efficiency reduces electricity for useful work. Hardware efficiency improves equipment utilization and longevity. Carbon awareness changes when, where, or how much work runs in response to electricity emissions. These approaches can reinforce one another, but improving one does not establish that the complete system has become greener. Follow both the useful result and the resources supporting it.",
+      "example": "Teaching extension: A media service removes duplicate conversions, shares workers, and schedules flexible exports using grid data. Each change addresses a different part of its footprint.",
+      "source": "pp. 1–3"
+    },
+    {
+      "title": "Start with operations",
+      "body": "The introduction emphasizes avoiding idle and oversized resources because improvements can often use existing operational tools. A faster program on an unchanged, mostly idle server may leave much of the footprint in place. Platform choices and workload flexibility help convert software improvements into fewer active resources while retaining the service that users actually need.",
+      "example": "Teaching extension: An unused weekend worker prompts an ownership and restart check before the team considers rewriting its conversion engine.",
+      "source": "pp. 6–9"
+    },
+    {
+      "title": "Design for flexibility",
+      "body": "Separating urgent interactions from delayable work makes demand shifting possible. Demand shaping changes the service offered when electricity is more carbon intensive. Both require product decisions: a deadline, quality level, or freshness expectation must be explicit before a system can adapt. Flexibility comes from design rather than a green label attached to an unchanged workload.",
+      "example": "Teaching extension: Playback stays immediate, while an optional high-resolution download can finish by morning. Users can see when it will be ready.",
+      "source": "pp. 10–12"
+    },
+    {
+      "title": "Keep devices and software useful",
+      "body": "Dropping compatibility or security support can encourage replacement of working equipment. The introduction therefore treats device longevity as a software concern alongside server electricity. Its broader vision retains usability, security, resilience, and developer productivity. A sustainable design must still serve people well enough to remain useful and adopted, with attention to both clients and infrastructure.",
+      "example": "Teaching extension: The app keeps a lightweight playback path on supported older phones while offering additional effects on newer hardware.",
+      "source": "pp. 11–14"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "The fastest implementation must have the lowest footprint.",
+      "correction": "Speed can come from more machines or parallel work. Assess electricity supply, aggregate energy, and hardware consequences."
+    },
+    {
+      "claim": "Nothing can improve until perfect measurement exists.",
+      "correction": "An inventory can expose unused resources and unnecessary work. Start with transparent evidence and improve measurement over time."
+    }
+  ],
+  "scenario": {
+    "title": "The first week of a green initiative",
+    "context": "Teaching extension. A media team has one week available. Its export must finish by 08:00 but usually finishes much earlier. The dedicated worker stays on between jobs. There is also a CPU-heavy conversion function. The team can investigate operating schedules or begin replacing that function, but cannot complete both this week.",
+    "options": [
+      {
+        "label": "Make the worker restartable and scheduled",
+        "benefit": "Targets idle operation and creates flexibility for later carbon-aware scheduling.",
+        "cost": "Requires recovery checks and confidence that no hidden consumer needs it overnight.",
+        "consequence": "The team defines the deadline, verifies a restart, and records active resource hours. It tests whether shorter operation actually reduces resource allocation."
+      },
+      {
+        "label": "Profile and improve the conversion",
+        "benefit": "Can reduce recurring compute and improve export capacity.",
+        "cost": "Idle operation remains unless the allocation or operating schedule changes.",
+        "consequence": "The team benchmarks a focused improvement. It later needs to rightsize or share the worker to realize the full operational opportunity."
+      }
+    ],
+    "debrief": "Choose the experiment using observed waste, team capacity, and service constraints. Both approaches may be useful, but their benefits must be checked."
+  },
+  "quiz": [
+    {
+      "question": "A job uses the same energy during a lower-carbon period. Which lever changed?",
+      "options": [
+        "Hardware longevity",
+        "Carbon awareness",
+        "Code efficiency"
+      ],
+      "answer": 1,
+      "explanation": "The electricity emissions factor changed through timing; the computation did not necessarily become more energy efficient."
+    },
+    {
+      "question": "An app drops a working, security-supported phone. Which impact is easy to miss?",
+      "options": [
+        "Manufacturing emissions from induced replacement",
+        "Only download size",
+        "Only server CPU use"
+      ],
+      "answer": 0,
+      "explanation": "Compatibility can trigger new manufacturing even when the existing device still works."
+    },
+    {
+      "question": "Which first step fits the introductory chapter?",
+      "options": [
+        "Rewrite every service",
+        "Wait for perfect carbon figures",
+        "Find waste and choose a measurable change within service constraints"
+      ],
+      "answer": 2,
+      "explanation": "The book favors achievable improvements and useful software, with better measurement developing alongside practice."
+    }
+  ],
+  "exercise": {
+    "title": "Choose your first intervention",
+    "prompt": "Select a real service. Define its useful result, a source of avoidable resource use, and an observation that would tell you whether a change helped.",
+    "fields": [
+      {
+        "label": "Useful result and constraints",
+        "placeholder": "Who needs the result, and when must it be ready?"
+      },
+      {
+        "label": "First change and its lever",
+        "placeholder": "Will you reduce energy, extend hardware use, or respond to cleaner electricity?"
+      },
+      {
+        "label": "Evidence and revisit point",
+        "placeholder": "What will you compare, and which result would change your plan?"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "work",
+        "label": "USEFUL WORK",
+        "kind": "target",
+        "tone": "sage"
+      },
+      {
+        "id": "energy",
+        "label": "ELECTRICITY",
+        "kind": "gauge",
+        "tone": "lilac"
+      },
+      {
+        "id": "hardware",
+        "label": "HARDWARE",
+        "kind": "deployment",
+        "tone": "peach"
+      },
+      {
+        "id": "impact",
+        "label": "EMISSIONS",
+        "kind": "leaf",
+        "tone": "honey"
+      }
+    ],
+    "edges": [
+      {
+        "from": "work",
+        "to": "energy"
+      },
+      {
+        "from": "work",
+        "to": "hardware"
+      },
+      {
+        "from": "energy",
+        "to": "impact"
+      },
+      {
+        "from": "hardware",
+        "to": "impact"
+      }
+    ],
+    "steps": [
+      {
+        "node": "work",
+        "text": "Identify the result the user actually needs."
+      },
+      {
+        "node": "energy",
+        "text": "Processing and waiting both have electricity consequences."
+      },
+      {
+        "node": "hardware",
+        "text": "Equipment carries manufacturing and end-of-life emissions."
+      },
+      {
+        "node": "impact",
+        "text": "Compare the combined impact for the same useful result."
+      }
+    ]
+  },
+  "edges": [
+    {
+      "from": "work",
+      "to": "energy"
+    },
+    {
+      "from": "work",
+      "to": "hardware"
+    },
+    {
+      "from": "energy",
+      "to": "impact"
+    },
+    {
+      "from": "hardware",
+      "to": "impact"
+    }
+  ],
+  "title": "Introduction to Green Software",
+  "part": "Foundations",
+  "source": {
+    "startLine": 634,
+    "endLine": 1142,
+    "pages": "1–14",
+    "reference": "pp. 1–14; text lines 634–1142"
+  }
+}

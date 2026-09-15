@@ -159,8 +159,10 @@ All local animations are CSS and respect the existing `.motion-paused` and `.iso
 
 ## Course companions
 
-`src/illustrations/course-sidekicks.js` defines seven themed families with ten forms each. Every family has its own head shape, colors, themed headgear, and ten distinct pieces of equipment. Keep the original ten overall forms in `sidekick.js`; they still use combined XP. Total collection: 80 appearances.
+`src/illustrations/course-sidekicks.js` defines eight themed families with ten forms each. Every family has its own head shape, colors, themed headgear, and ten distinct pieces of equipment. Keep the original ten overall forms in `sidekick.js`; they still use combined XP. Total collection: 90 appearances.
 
 Course thresholds derive from that book’s total XP at 0, 5, 12, 22, 34, 48, 64, 78, 90, and 100 percent, rounded to reachable 20-XP increments. The last form requires all course XP. Derive state from the existing ledgers; never store another mutable level or reset progress.
 
 To extend a family, edit its stage names and gear recipes, then its themed headgear. Keep each stage visually distinct beyond color, preserve the 180×175 viewBox, and check it at both atlas size and 50 pixels in the persistent header. `companions.html` previews all forms without granting rewards. The header shows overall and current-course tracks side by side; portrait links open the relevant atlas. Offscreen atlas artwork pauses.
+
+Green Software adds a sage companion with solar-panel headgear and ten resource, energy, scheduling, hardware, measurement, and stewardship forms. Its thresholds derive from the course’s 1,300 XP; existing overall thresholds remain stable. Its 13 chapter scenes use the shared semantic primitives and scene player.

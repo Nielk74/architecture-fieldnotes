@@ -1,0 +1,198 @@
+{
+  "number": 4,
+  "subtitle": "Turn spare capacity into fewer active resources.",
+  "summary": "Operational efficiency delivers the required function, performance, and resilience with fewer resources. This chapter centers on utilization: rightsizing, autoscaling, workload sharing, and scheduling reduce idle capacity that consumes electricity without useful output. These practices need workload information and reliable automation. A scheduler cannot place work effectively without knowing resource and availability needs; autoscaling is incomplete if it never scales down. Restartable systems make it possible to switch off unused environments and retire abandoned workloads. Managed platforms can supply some of these capabilities, but the benefits depend on how they are used. Efficiency also introduces failure modes and operational complexity, so recovery and service-level validation belong in the change.",
+  "concepts": [
+    {
+      "title": "Rightsizing realizes savings",
+      "body": "A smaller program does not automatically produce a smaller infrastructure footprint. Rightsizing aligns provisioned capacity with observed demand, peaks, and resilience requirements. Reducing repeated idle overhead is the objective, rather than making every utilization graph reach its maximum. Overprovisioning often masks uncertainty about load and failures; investigate that uncertainty before reducing the safety margin.",
+      "example": "Teaching extension: After a memory optimization, a worker is tested on a smaller allocation against peak jobs before production changes.",
+      "source": "pp. 55–57"
+    },
+    {
+      "title": "Scale down as well as up",
+      "body": "Autoscaling should remove capacity after demand falls. Fear of disruption can leave that direction disabled, preserving waste. Burstable capacity can suit intermittent demand, but sustained load and depleted credits introduce constraints. Infrastructure as code makes configuration repeatable and reviewable, helping allocation improvements become an operational practice rather than a cleanup that soon drifts.",
+      "example": "Teaching extension: A test environment starts during working hours, drains jobs at closing time, and proves it can restart the next morning.",
+      "source": "pp. 57–60"
+    },
+    {
+      "title": "Schedulers need information",
+      "body": "Placement works best when complementary jobs share resources. A scheduler needs encapsulated dependencies, fast startup, and accurate resource and availability requirements. Diverse tenants and flexible work create more opportunities than workloads that all peak simultaneously. Specifying oversized requirements can prevent efficient placement even when the underlying system has sophisticated scheduling capabilities.",
+      "example": "Teaching extension: A batch job declares its memory requirement and deadline so it can fit around interactive traffic on shared capacity.",
+      "source": "pp. 60–66"
+    },
+    {
+      "title": "Make turning off routine",
+      "body": "LightSwitchOps means stopping and restarting with confidence. Unused services often survive because nobody knows whether they are needed or recoverable. Inventory, ownership, reproducible deployment, and recovery checks make retirement practical. Removing abandoned workloads can reduce unmaintained security exposure as well as resource use. A scheduled shutdown needs more than an optimistic assumption that startup will work.",
+      "example": "Teaching extension: An old preview service gets an ownership and traffic check, a restore procedure, and a reversible retirement plan.",
+      "source": "pp. 66–69"
+    },
+    {
+      "title": "Efficiency requires resilience",
+      "body": "Shared infrastructure, interruptible workers, and tighter margins create failure modes that must be handled. A low spot price does not itself establish low-carbon electricity. The chapter’s expectation of future carbon-aware scheduling is a prediction from the book’s period. Evaluate interruption, repeated work, and service objectives before relying on an efficient-looking operating arrangement.",
+      "example": "Teaching extension: An interrupted export resumes from a checkpoint. The trial measures retries and deadline misses along with resource hours.",
+      "source": "pp. 63–64, 69–72"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Dedicated cloud servers automatically deliver workload-sharing benefits.",
+      "correction": "The hosting location alone does not change allocation. Use the platform’s efficient resource and service options deliberately."
+    },
+    {
+      "claim": "Maximum utilization is the sustainability target.",
+      "correction": "A useful improvement preserves service and recovery needs. Saturation can create errors, retries, and additional waste."
+    }
+  ],
+  "scenario": {
+    "title": "The quiet overnight worker pool",
+    "context": "Teaching extension. A media service reserves several workers for a brief export peak. Jobs must finish by morning and survive losing a worker. The team can consolidate onto shared interruptible workers with checkpoints or first rightsize a dedicated pool. Peak load is understood, but interruptions remain untested.",
+    "options": [
+      {
+        "label": "Use shared workers with checkpoints",
+        "benefit": "Reduces reserved idle capacity and offers more scheduling flexibility.",
+        "cost": "Requires durable progress, bounded retries, and deadline protection.",
+        "consequence": "The trial records completed jobs, active resources, and repeated work after interruption. A fallback remains until recovery is demonstrated."
+      },
+      {
+        "label": "Rightsize the dedicated pool first",
+        "benefit": "Makes a simpler initial change using a familiar execution model.",
+        "cost": "Retains some reserved idle overhead and less placement flexibility.",
+        "consequence": "Peak-load validation establishes a smaller safe pool and a baseline for considering more extensive sharing later."
+      }
+    ],
+    "debrief": "The appropriate degree of sharing follows workload constraints and demonstrated recovery, not the cheapest resource label."
+  },
+  "quiz": [
+    {
+      "question": "An autoscaler grows from two workers to ten and never removes them. What is missing?",
+      "options": [
+        "Scale-down after demand falls",
+        "A higher maximum",
+        "More labels with no behavior change"
+      ],
+      "answer": 0,
+      "explanation": "Surplus allocation must actually be released to avoid continued idle overhead."
+    },
+    {
+      "question": "Which information helps job placement?",
+      "options": [
+        "Only job names",
+        "Only mean request latency",
+        "Resource needs, startup behavior, and service constraints"
+      ],
+      "answer": 2,
+      "explanation": "These inputs let the scheduler use spare capacity while respecting the job’s needs."
+    },
+    {
+      "question": "Why is cheaper interruptible capacity not proof of cleaner electricity?",
+      "options": [
+        "Interrupted work cannot be measured",
+        "Spare-capacity pricing does not establish grid carbon intensity",
+        "Electricity supply never varies"
+      ],
+      "answer": 1,
+      "explanation": "Interruptibility can improve utilization, but carbon-aware execution needs an appropriate electricity signal."
+    }
+  ],
+  "exercise": {
+    "title": "Plan a rightsizing experiment",
+    "prompt": "Choose an environment with idle capacity. Define a reversible allocation change and the load and recovery checks needed to accept it.",
+    "fields": [
+      {
+        "label": "Observed demand and owner",
+        "placeholder": "Who needs the environment, and what must it handle at peak?"
+      },
+      {
+        "label": "Allocation and recovery",
+        "placeholder": "What resource can be released, and how will work resume?"
+      },
+      {
+        "label": "Acceptance and rollback",
+        "placeholder": "Which deadline, error, or recovery result would stop the experiment?"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "interactive",
+        "label": "LIVE REQUESTS",
+        "kind": "browser",
+        "tone": "sage"
+      },
+      {
+        "id": "batch",
+        "label": "FLEXIBLE JOBS",
+        "kind": "queue",
+        "tone": "lilac"
+      },
+      {
+        "id": "pool",
+        "label": "SHARED POOL",
+        "kind": "deployment",
+        "tone": "peach"
+      },
+      {
+        "id": "off",
+        "label": "RELEASE IDLE",
+        "kind": "clock",
+        "tone": "honey"
+      }
+    ],
+    "edges": [
+      {
+        "from": "interactive",
+        "to": "pool"
+      },
+      {
+        "from": "batch",
+        "to": "pool"
+      },
+      {
+        "from": "pool",
+        "to": "off"
+      }
+    ],
+    "steps": [
+      {
+        "node": "interactive",
+        "text": "Identify capacity needed by interactive service objectives."
+      },
+      {
+        "node": "batch",
+        "text": "Declare resources and deadlines for delayable work."
+      },
+      {
+        "node": "pool",
+        "text": "Place complementary jobs on fewer resources."
+      },
+      {
+        "node": "off",
+        "text": "Drain and release surplus capacity with tested recovery."
+      }
+    ]
+  },
+  "edges": [
+    {
+      "from": "interactive",
+      "to": "pool"
+    },
+    {
+      "from": "batch",
+      "to": "pool"
+    },
+    {
+      "from": "pool",
+      "to": "off"
+    }
+  ],
+  "title": "Operational Efficiency",
+  "part": "Design and operate",
+  "source": {
+    "startLine": 2386,
+    "endLine": 3083,
+    "pages": "53–72",
+    "reference": "pp. 53–72; text lines 2386–3083"
+  }
+}

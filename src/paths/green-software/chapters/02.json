@@ -1,0 +1,170 @@
+{
+  "number": 2,
+  "subtitle": "Keep watts, kilowatt-hours, and carbon in their proper places.",
+  "summary": "The building blocks chapter supplies the vocabulary behind sustainable software decisions. Carbon is shorthand for greenhouse gases, while carbon dioxide equivalent expresses their warming effects on a common basis. Weather describes short-term conditions; climate describes longer patterns. For computing, the chapter separates power from energy and explains why electricity from different sources has different emissions. Hardware is not perfectly energy proportional: an idle machine can still draw power. Facility overhead adds another layer, represented by power usage effectiveness. Finally, manufacturing and disposing of equipment contribute embodied carbon. These distinctions let engineers trace software through processors, memory, storage, electricity supply, and equipment lifetime without confusing one measurement with the whole footprint.",
+  "concepts": [
+    {
+      "title": "Carbon and climate vocabulary",
+      "body": "Carbon dioxide equivalent, written CO₂e, expresses greenhouse gases on a common warming-impact basis for a stated time horizon. The book uses carbon as shorthand for these gases. It distinguishes daily weather from long-term climate patterns and global warming from broader climate change. A brief local observation cannot describe the full climate trend.",
+      "example": "Teaching extension: A team labels its estimate in grams CO₂e and records the emissions factor, rather than reporting grams of electricity.",
+      "source": "pp. 15–20"
+    },
+    {
+      "title": "Power is a rate; energy accumulates",
+      "body": "Power describes the rate of energy use in watts. Energy depends on power and duration; a kilowatt-hour is the energy consumed at one kilowatt for one hour. Software can lower a power reading while running longer, so compare energy over equivalent completed tasks. An instantaneous reading does not establish the final result.",
+      "example": "Teaching extension: A fictional 100 W worker operating steadily for two hours uses 0.2 kWh. Duration is essential to the calculation.",
+      "source": "pp. 20–22"
+    },
+    {
+      "title": "Electricity has an emissions factor",
+      "body": "Carbon intensity relates electricity to emissions, commonly in grams CO₂e per kilowatt-hour. Renewable and low-carbon generation are related but distinct: nuclear is the book’s example of low-carbon generation that is not renewable. Electricity use and its supply must both be considered. Equal energy consumption does not establish equal emissions across times and places.",
+      "example": "Teaching extension: Two fictional 0.2 kWh jobs use factors of 100 and 500 g CO₂e/kWh, giving electricity estimates of 20 and 100 g CO₂e.",
+      "source": "pp. 21–22"
+    },
+    {
+      "title": "Idle power and facility overhead",
+      "body": "Servers draw power even at low utilization, so consolidating useful work can reduce repeated idle overhead. Power usage effectiveness, or PUE, compares total facility energy with IT energy. It includes cooling and other overhead but does not describe application efficiency or grid carbon intensity. Check the measurement boundary before applying this multiplier to avoid counting overhead twice.",
+      "example": "Teaching extension: With IT energy of 10 kWh and illustrative PUE of 1.4, facility energy is 14 kWh. A whole-facility meter already includes that overhead.",
+      "source": "pp. 22–25"
+    },
+    {
+      "title": "Hardware exists before runtime",
+      "body": "Processors, memory, and disks carry production and disposal emissions as well as operational energy use. Their roles and replacement pressures differ. Longer support and better utilization obtain more useful work from equipment and can avoid new manufacturing. Existing embodied emissions are not physically reversed by changing the accounting lifetime; longevity changes how much service that equipment provides.",
+      "example": "Teaching extension: Reducing memory requirements keeps a service usable on an older supported laptop and avoids a software-induced replacement.",
+      "source": "pp. 25–29"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A 50 W reading means the task used 50 Wh.",
+      "correction": "Watts are a rate. Duration and variation in power determine energy."
+    },
+    {
+      "claim": "A low PUE proves an application is low carbon.",
+      "correction": "PUE describes facility overhead; application waste, electricity supply, and hardware still matter."
+    }
+  ],
+  "scenario": {
+    "title": "Choose a measurement boundary",
+    "context": "Teaching extension. A lab compares two export implementations producing identical output. It can measure the workstation at the wall or sample processor counters. Battery charging and background activity could distort a run. The team needs a useful baseline now and a repeatable method for future regressions.",
+    "options": [
+      {
+        "label": "Measure the whole device under controlled conditions",
+        "benefit": "Includes electricity use beyond the processor.",
+        "cost": "Background and idle consumption must be recorded to interpret the result.",
+        "consequence": "The report gives energy per completed run and explains what the meter includes. Grid intensity and hardware remain separate additions to a carbon estimate."
+      },
+      {
+        "label": "Use processor activity as a scoped proxy",
+        "benefit": "Makes frequent comparisons convenient when full measurement is difficult.",
+        "cost": "Misses other components and cannot claim a complete energy result.",
+        "consequence": "The team compares the same workload consistently and labels the proxy. Wider measurements check whether apparent savings move costs elsewhere."
+      }
+    ],
+    "debrief": "A useful measurement has a declared boundary. Neither a counter nor a device meter automatically covers a distributed service."
+  },
+  "quiz": [
+    {
+      "question": "A fictional device draws 200 W for 30 minutes. How much energy is that?",
+      "options": [
+        "400 Wh",
+        "200 kWh",
+        "100 Wh"
+      ],
+      "answer": 2,
+      "explanation": "200 W multiplied by half an hour is 100 Wh, or 0.1 kWh."
+    },
+    {
+      "question": "What is missing from electricity use alone to estimate electricity-related CO₂e?",
+      "options": [
+        "The supplying electricity’s carbon intensity",
+        "The number of source files",
+        "Deployment frequency"
+      ],
+      "answer": 0,
+      "explanation": "Energy multiplied by a compatible emissions factor gives operational electricity emissions within the stated boundary."
+    },
+    {
+      "question": "PUE is 1.5 and IT energy is 20 kWh. What is modeled facility energy?",
+      "options": [
+        "20 kWh",
+        "30 kWh",
+        "13.3 kWh"
+      ],
+      "answer": 1,
+      "explanation": "20 × 1.5 = 30 kWh. PUE is an overhead multiplier, not a carbon factor."
+    }
+  ],
+  "exercise": {
+    "title": "Draw a measurement boundary",
+    "prompt": "Describe a computing task using power, duration, electricity emissions, and equipment. Separate observed quantities from estimates.",
+    "fields": [
+      {
+        "label": "Task and energy units",
+        "placeholder": "Define a completed result and how you would obtain Wh or kWh."
+      },
+      {
+        "label": "Electricity and facility boundary",
+        "placeholder": "Which grid factor applies, and is overhead already included?"
+      },
+      {
+        "label": "Hardware and uncertainty",
+        "placeholder": "Which devices are included, and what manufacturing or background-use data is missing?"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "meter",
+        "label": "ENERGY",
+        "kind": "gauge",
+        "tone": "sage"
+      },
+      {
+        "id": "facility",
+        "label": "OVERHEAD",
+        "kind": "deployment",
+        "tone": "lilac"
+      },
+      {
+        "id": "grid",
+        "label": "GRID MIX",
+        "kind": "leaf",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "meter",
+        "to": "facility"
+      },
+      {
+        "from": "facility",
+        "to": "grid"
+      }
+    ],
+    "steps": [
+      {
+        "node": "meter",
+        "text": "Accumulate power over a completed task."
+      },
+      {
+        "node": "facility",
+        "text": "Include facility overhead once within the boundary."
+      },
+      {
+        "node": "grid",
+        "text": "Combine energy with the relevant electricity emissions factor."
+      }
+    ]
+  },
+  "title": "Building Blocks",
+  "part": "Foundations",
+  "source": {
+    "startLine": 1143,
+    "endLine": 1600,
+    "pages": "15–29",
+    "reference": "pp. 15–29; text lines 1143–1600"
+  }
+}

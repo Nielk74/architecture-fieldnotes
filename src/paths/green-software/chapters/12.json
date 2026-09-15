@@ -1,0 +1,170 @@
+{
+  "number": 12,
+  "subtitle": "Assess each area with evidence, then choose the next practice.",
+  "summary": "The Green Software Maturity Matrix is presented as a self-assessment guide for improving organizational practice. The book describes five levels—Aspiring, Aware, Acting, Awesome, and Inspiring—and multiple axes rather than a single uniform score. Early progress can include training, inventories, manual cleanup, and rightsizing. Later stages add consistent processes, broader measurement, automation, and decisions informed by dynamic electricity data. Product management, device support, servers, education, commitments, and measurement can develop at different speeds. The framework is the version discussed in the supplied 2024 text, not a current certification. Its useful purpose is to identify supported evidence and the next achievable improvement, without mistaking an ambitious target or a successful pilot for organization-wide capability.",
+  "concepts": [
+    {
+      "title": "A maturity model guides improvement",
+      "body": "The matrix offers a vocabulary for describing current practice and what comes next. The five level names summarize movement from individual interest through repeatable work to quantitative continuous improvement. The chapter frames it for organizational leaders and advocates. Its detailed criteria belong to the version in the book; the course uses them for learning rather than issuing a certification.",
+      "example": "Teaching extension: A team cites an inventory and repeated review records as evidence instead of choosing a level because its aspiration sounds impressive.",
+      "source": "pp. 181–184"
+    },
+    {
+      "title": "Early action does not require perfect telemetry",
+      "body": "Initial practices include identifying unused resources, rightsizing, choosing suitable hosting, and developing operational skills. Retrospective data and qualified proxies can support this stage while measurement improves. The book stresses beginning where the organization is. Building an elaborate real-time measurement system before acting on visible waste can delay useful progress without resolving the simplest resource problems.",
+      "example": "Teaching extension: The operations team inventories unused environments and performs a reviewed cleanup while it establishes a more complete measurement baseline.",
+      "source": "pp. 184–186"
+    },
+    {
+      "title": "Repeatability separates pilots from practice",
+      "body": "The Acting level emphasizes defined processes, broader emissions knowledge, recurring review, and deliberate attention to product waste and device longevity. Later levels bring automation and quantitative response. A single project can demonstrate a technique without proving the organization consistently applies it. Evidence should show scope, ownership, recurrence, and how exceptions are handled.",
+      "example": "Teaching extension: One team’s cleanup becomes a documented monthly process with owners and review evidence across the service inventory.",
+      "source": "pp. 186–188"
+    },
+    {
+      "title": "Assess axes independently",
+      "body": "The matrix covers commitments, footprint, metrics, operations, electricity, end-user devices, servers, product management, and education. Different groups own these areas and may have different capabilities. A strong operational practice cannot compensate for an unknown device-support policy in an honest assessment. Recording separate evidence and gaps makes the next steps more useful than an unsupported overall average.",
+      "example": "Teaching extension: Operations has repeatable rightsizing, but device support is ad hoc. The assessment records both rather than calling every area mature.",
+      "source": "pp. 188–191"
+    },
+    {
+      "title": "Distinguish annual claims from continuous response",
+      "body": "The higher-level vision includes real-time and forecast data, carbon budgets, and electricity use matched to carbon-free supply by time and location. Annual purchases or broad future commitments do not demonstrate that operational capability. The book also limits the matrix’s focus to greenhouse-gas-related software practice; it does not establish performance on every environmental concern.",
+      "example": "Teaching extension: A yearly renewable-energy claim is recorded under commitments, while actual scheduling and interval data are requested for electricity practices.",
+      "source": "pp. 181, 187–192"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "One advanced team proves the whole organization is advanced.",
+      "correction": "Record the scope of evidence separately across teams and axes. A pilot does not establish a consistent practice."
+    },
+    {
+      "claim": "A maturity level is a measured emissions reduction.",
+      "correction": "A level describes practices and evidence. Actual resource and emissions outcomes need their own measurements."
+    }
+  ],
+  "scenario": {
+    "title": "An honest maturity review",
+    "context": "Teaching extension. A company has automated rightsizing in one platform team, an annual emissions report, and enthusiastic volunteers. Other teams provision manually, and there is no defined older-device support policy. Leaders want a useful next-quarter plan based on the book’s matrix.",
+    "options": [
+      {
+        "label": "Assess each axis and expand one repeatable practice",
+        "benefit": "Makes gaps visible and turns a demonstrated technique into an achievable next step.",
+        "cost": "Requires gathering evidence from several owners and accepting an uneven picture.",
+        "consequence": "The review records the platform pilot’s scope and assigns a broader operating process. Device-support work remains a separate gap with an owner."
+      },
+      {
+        "label": "Invest first in shared real-time measurement",
+        "benefit": "Could improve feedback for later quantitative decisions.",
+        "cost": "Does not itself standardize operations or resolve unsupported devices.",
+        "consequence": "The team defines what decisions the new data would enable, while making clear that instrumentation is not proof of maturity on every axis."
+      }
+    ],
+    "debrief": "The next investment should follow the bottleneck revealed by evidence. More detailed data can be useful without being the only path forward."
+  },
+  "quiz": [
+    {
+      "question": "A pilot auto-scales well but the rest of the company does not. What should the assessment record?",
+      "options": [
+        "Organization-wide automation",
+        "A universal level five score",
+        "The pilot’s scope and the remaining adoption gap"
+      ],
+      "answer": 2,
+      "explanation": "The matrix distinguishes actual organizational practice from isolated capability."
+    },
+    {
+      "question": "Which is a reasonable early improvement with incomplete carbon data?",
+      "options": [
+        "Ignore known idle resources",
+        "Review and rightsize unused allocation using consistent evidence",
+        "Declare all emissions zero"
+      ],
+      "answer": 1,
+      "explanation": "Useful early action can proceed with transparent proxies and operational checks."
+    },
+    {
+      "question": "What does an annual renewable-energy purchase alone fail to demonstrate?",
+      "options": [
+        "Hourly, location-matched carbon-free operation",
+        "That a purchase occurred",
+        "That the organization made a commitment"
+      ],
+      "answer": 0,
+      "explanation": "Annual accounting does not establish the time-and-place matching described in the higher-level vision."
+    }
+  ],
+  "exercise": {
+    "title": "Assess two maturity axes",
+    "prompt": "Use the book’s framework to assess two areas you influence. Keep evidence, missing information, and aspirations separate. Choose one achievable next practice.",
+    "fields": [
+      {
+        "label": "Axes and current evidence",
+        "placeholder": "Which operations, metrics, device, product, or education practices can you demonstrate?"
+      },
+      {
+        "label": "Gaps and scope",
+        "placeholder": "Which teams or capabilities remain unverified or inconsistent?"
+      },
+      {
+        "label": "Next practice and review",
+        "placeholder": "Who will establish the next repeatable action, and what evidence will show it happened?"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "evidence",
+        "label": "EVIDENCE",
+        "kind": "document",
+        "tone": "sage"
+      },
+      {
+        "id": "axes",
+        "label": "SEPARATE AXES",
+        "kind": "whiteboard",
+        "tone": "lilac"
+      },
+      {
+        "id": "next",
+        "label": "NEXT PRACTICE",
+        "kind": "target",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "evidence",
+        "to": "axes"
+      },
+      {
+        "from": "axes",
+        "to": "next"
+      }
+    ],
+    "steps": [
+      {
+        "node": "evidence",
+        "text": "Collect records of practices that actually operate."
+      },
+      {
+        "node": "axes",
+        "text": "Assess operations, measurement, and device support independently."
+      },
+      {
+        "node": "next",
+        "text": "Choose one achievable improvement with an owner and review."
+      }
+    ]
+  },
+  "title": "The Green Software Maturity Matrix",
+  "part": "Make change happen",
+  "source": {
+    "startLine": 6579,
+    "endLine": 6981,
+    "pages": "181–192",
+    "reference": "pp. 181–192; text lines 6579–6981"
+  }
+}

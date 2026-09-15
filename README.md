@@ -9,6 +9,7 @@ A playful, offline-capable software architecture learning app. Choose a book, ex
 - **Site Reliability Engineering:** 34 chapters.
 - **Observability Engineering:** 22 chapters.
 - **Building Applications with AI Agents:** 13 chapters.
+- **Building Green Software:** all 13 chapters of the supplied March 2024 first edition, with source notes and 1,300 available XP.
 - Shared isometric illustration framework with 38 semantic shapes, animated flows, gentle activity effects, and motion controls.
 - Mobile layouts, freely accessible chapter maps, Back/Skip, progress backup/import, and an Android APK.
 
@@ -21,7 +22,7 @@ npm ci
 npm run dev
 ```
 
-Open `http://localhost:5173`. The searchable home page selects among seven paths (124 chapters); `/fundamentals.html` and `/hard-parts.html` open their chapter libraries. Old `/#chapter/...` and `/#lesson/...` bookmarks still work. `/illustrations.html` is the reusable illustration studio.
+Open `http://localhost:5173`. The searchable home page selects among eight paths (137 chapters); `/fundamentals.html` and `/hard-parts.html` open their chapter libraries. The green software course opens at `/learn.html?path=green-software`. Old `/#chapter/...` and `/#lesson/...` bookmarks still work. `/illustrations.html` is the reusable illustration studio.
 
 ```sh
 npm test
@@ -58,7 +59,7 @@ Android builds require Java 21 and Android SDK 36. Debug builds from a personal 
 The GitHub workflow validates the web app, audits public files, builds a signed release APK, and runs emulator tests that:
 
 1. Earn real progress and save a reflection through the WebView UI.
-2. Confirm all seven books are written to native preferences.
+2. Confirm all registered books are written to native preferences.
 3. Clear WebView localStorage and verify native restoration.
 4. Force-stop the app, install the release APK over the existing app, and verify XP and reflections from every path survive.
 
@@ -79,4 +80,4 @@ See [the illustration framework](docs/illustrations.md) and [learning paths](doc
 
 Independent learning companion; not affiliated with O’Reilly or the authors. Book titles and source content remain the property of their respective owners. The software license does not grant rights to redistribute purchased books.
 
-Pip has **80 appearances**: ten overall forms and ten themed forms per course. Course and overall evolution remain visible together during lessons, using existing earned XP. Open `/companions.html` or tap a portrait to preview the collection; browsing never awards XP.
+Pip has **90 appearances**: ten overall forms and ten themed forms per course. Course and overall evolution remain visible together during lessons, using existing earned XP. Open `/companions.html` or tap a portrait to preview the collection; browsing never awards XP.

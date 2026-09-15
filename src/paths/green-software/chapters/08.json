@@ -1,0 +1,170 @@
+{
+  "number": 8,
+  "subtitle": "Look beyond training to the whole model lifecycle.",
+  "summary": "The machine learning chapter examines sustainability across planning, data collection, training, deployment, and maintenance. It argues that attention should follow the actual lifecycle cost of the application, rather than the most visible training run alone. Reusing suitable data or a pretrained model may avoid substantial new work. Smaller models and techniques such as pruning and quantization can reduce resource requirements, provided the useful quality of the result remains acceptable. Flexible training can be shifted toward cleaner electricity, while hardware fit and utilization also matter. In a production service, repeated inference may be a large share of total work. The book identifies this as a reason to measure the full lifecycle, with explicit uncertainty about available industry evidence.",
+  "concepts": [
+    {
+      "title": "Make sustainability a planning question",
+      "body": "Before building a model pipeline, define the useful outcome, service expectations, and how impact will be measured. Choices about update frequency, response quality, and optional functionality affect every later phase. The chapter emphasizes making these decisions early because changes are cheaper before deployment. A glamorous training optimization may miss a larger product requirement that creates unnecessary repeated work.",
+      "example": "Teaching extension: A recommendation feature is evaluated against a simple baseline and a specified quality threshold before committing to a new training pipeline.",
+      "source": "pp. 125–128"
+    },
+    {
+      "title": "Collect suitable data rather than all data",
+      "body": "Gathering, cleaning, moving, and storing data all consume resources. Existing datasets can avoid rebuilding collection, but must fit the use case and support representative results. The chapter also raises consent and labor concerns. Sustainability does not excuse unsuitable data: poor quality can undermine accuracy and cause additional training or repeated processing downstream.",
+      "example": "Teaching extension: The team checks whether a permitted, representative existing dataset covers the needed cases before collecting another large archive.",
+      "source": "pp. 128–130"
+    },
+    {
+      "title": "Reduce or reuse model work",
+      "body": "Pruning removes model structure, quantization uses lower-precision representations, and transfer learning adapts existing learned capabilities. These methods can reduce training or inference requirements, but their practical effects depend on model, hardware, and accuracy needs. Reusing a suitable model can avoid new training; it does not make later inference or the original training footprint disappear.",
+      "example": "Teaching extension: A compact candidate must pass the same task evaluation as the larger model before the team compares energy and memory use.",
+      "source": "pp. 130–132"
+    },
+    {
+      "title": "Training has scheduling and hardware choices",
+      "body": "Training is often more delayable than interactive inference, making it a candidate for carbon-aware scheduling. Specialized processors may improve energy efficiency, while federated or edge approaches change where work and communication happen. These alternatives require attention to data distribution, hardware utilization, and convergence. No training topology is automatically greener for every workload.",
+      "example": "Teaching extension: A retraining run waits for an eligible cleaner interval, with a completion deadline and a measured allowance for checkpoints and retries.",
+      "source": "pp. 131–132"
+    },
+    {
+      "title": "Inference can dominate repeated operation",
+      "body": "An enterprise model may be trained occasionally but queried many times. Model size, serving allocation, unnecessary calls, and maintenance therefore deserve measurement alongside training. The chapter presents lifecycle hotspots as scenario-dependent and acknowledges limited public evidence. A research model used once and a heavily used production model can justify very different priorities.",
+      "example": "Teaching extension: A service compares the month’s training energy with all inference energy, including replicas kept ready during quiet periods.",
+      "source": "pp. 132–134"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Training is always the largest ML footprint.",
+      "correction": "Repeated inference and serving infrastructure may dominate in production. Measure the actual lifecycle."
+    },
+    {
+      "claim": "A smaller model is acceptable regardless of its results.",
+      "correction": "Resource efficiency must preserve the defined task quality and applicable representation and fairness needs."
+    }
+  ],
+  "scenario": {
+    "title": "A greener recommendation service",
+    "context": "Teaching extension. A media team refreshes recommendations frequently. It has a large general model and a smaller candidate adapted from an existing model. Both can be measured on representative inputs. The team wants to reduce serving resources without reducing useful recommendation quality or excluding less common user interests.",
+    "options": [
+      {
+        "label": "Evaluate and adapt the compact model",
+        "benefit": "May reduce serving memory and repeated inference work.",
+        "cost": "Requires a careful quality comparison and may need further adaptation.",
+        "consequence": "The team checks common and less common cases before accepting the smaller model. It then resizes serving capacity and measures real request volume."
+      },
+      {
+        "label": "Retain the larger model and reduce unnecessary calls",
+        "benefit": "Preserves an established quality baseline while targeting repeated work.",
+        "cost": "Keeps a larger serving footprint and requires caching or freshness decisions.",
+        "consequence": "The service avoids redundant requests where results remain valid, then measures whether the reduction permits fewer active replicas."
+      }
+    ],
+    "debrief": "The useful outcome and measured lifecycle determine the intervention. Neither model size nor reuse alone establishes the full reduction."
+  },
+  "quiz": [
+    {
+      "question": "A production model is trained monthly but serves millions of requests. Where should measurement look?",
+      "options": [
+        "Only the training job",
+        "Training and repeated inference with their infrastructure",
+        "Only parameter count"
+      ],
+      "answer": 1,
+      "explanation": "Lifecycle frequency and serving allocation can make inference a major contributor."
+    },
+    {
+      "question": "What does quantization change?",
+      "options": [
+        "The geographical location of the data",
+        "Whether users have consented",
+        "The numerical precision used to represent model values"
+      ],
+      "answer": 2,
+      "explanation": "Lower precision can reduce memory and compute, but quality and hardware behavior must be checked."
+    },
+    {
+      "question": "Why reuse a suitable pretrained model?",
+      "options": [
+        "It can avoid some new training work",
+        "It makes all inference carbon-free",
+        "It removes the need to evaluate results"
+      ],
+      "answer": 0,
+      "explanation": "Reuse can reduce additional training while leaving quality, serving, and lifecycle responsibilities in place."
+    }
+  ],
+  "exercise": {
+    "title": "Plan a lifecycle comparison",
+    "prompt": "Choose an ML feature and compare two ways of delivering it. Include useful quality and recurring operation, not just a one-time training score.",
+    "fields": [
+      {
+        "label": "Task and evaluation threshold",
+        "placeholder": "What result must the feature deliver, including less common cases?"
+      },
+      {
+        "label": "Data, training, and model choice",
+        "placeholder": "What can be reused, reduced, or scheduled, and what must be validated?"
+      },
+      {
+        "label": "Serving and total impact",
+        "placeholder": "How often will inference run, and what active hardware and energy will you compare?"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "data",
+        "label": "DATA",
+        "kind": "database",
+        "tone": "sage"
+      },
+      {
+        "id": "train",
+        "label": "TRAIN / REUSE",
+        "kind": "agent",
+        "tone": "lilac"
+      },
+      {
+        "id": "serve",
+        "label": "INFERENCE",
+        "kind": "service",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "data",
+        "to": "train"
+      },
+      {
+        "from": "train",
+        "to": "serve"
+      }
+    ],
+    "steps": [
+      {
+        "node": "data",
+        "text": "Gather suitable representative inputs without needless collection."
+      },
+      {
+        "node": "train",
+        "text": "Compare reuse or adaptation against the defined task quality."
+      },
+      {
+        "node": "serve",
+        "text": "Measure repeated serving and resize resources when improvements allow it."
+      }
+    ]
+  },
+  "title": "Greener Machine Learning, AI, and LLMs",
+  "part": "Design and operate",
+  "source": {
+    "startLine": 4743,
+    "endLine": 5076,
+    "pages": "125–134",
+    "reference": "pp. 125–134; text lines 4743–5076"
+  }
+}

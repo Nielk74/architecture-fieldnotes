@@ -1,0 +1,170 @@
+{
+  "number": 7,
+  "subtitle": "Manage application demand across wires, compute, and storage.",
+  "summary": "Networking offers lessons in adapting to a variable resource. The chapter describes the internet as wires, compute, and storage connected through independently operated networks. Lower layers have strong efficiency incentives, while applications still control how much data they request, process, cache, and send. Compression and caching trade computation or storage for reduced transfer, so they require a whole-system comparison. The authors caution against treating changes to internet routing as an easy sustainability project. Their pandemic examples show existing application techniques handling demand: assets were staged near users, and optional quality was reduced while core service continued. These mechanisms suggest how software can adapt to changing electricity conditions without assuming unlimited resources.",
+  "concepts": [
+    {
+      "title": "The internet includes more than wires",
+      "body": "Backbone, metro, and last-mile connections carry traffic at different scales. Compute and storage also support networking through caching, compression, and content delivery. The best fit depends on the job and access conditions. The chapter’s discussion of satellites adds a reminder that access benefits, equipment lifetime, infrastructure, and wider consequences cannot be reduced to a single transmission statistic.",
+      "example": "Teaching extension: A delivery assessment includes the origin, cache, access network, and user device rather than counting only downloaded bytes.",
+      "source": "pp. 107–115"
+    },
+    {
+      "title": "Compression trades one resource for another",
+      "body": "Compressing a payload can reduce traffic while consuming processor work to encode and decode it. Whether that helps depends on compressibility, workload, network conditions, and hardware support. An already compressed asset may offer little further reduction. The application should compare the complete delivery path and user need, not assume that every smaller payload is a lower-carbon one.",
+      "example": "Teaching extension: A service compares recompressing video with sending an existing rendition, including encoder work and actual transfer savings.",
+      "source": "pp. 110–111"
+    },
+    {
+      "title": "Application decisions are a practical lever",
+      "body": "The internet connects autonomous systems whose routing reflects policy and commercial relationships. The authors argue that introducing carbon-based behavior into BGP is complex and risky. Applications can act more directly by reducing unnecessary transfers and adjusting delivery. This preserves the distinction between moving a workload at the application level and changing how the public internet routes packets.",
+      "example": "Teaching extension: A product team reduces repeated full downloads using conditional updates rather than proposing a new global routing policy.",
+      "source": "pp. 115–118"
+    },
+    {
+      "title": "Caching can shift work ahead of demand",
+      "body": "A content delivery network stores assets near users and can move them before peak demand. This decouples preparation from the request itself and reduces repeated long-distance transfers. Cached copies require storage, and unused prefetches can waste work. The book uses this mechanism as an example of flexibility, not proof that all caching automatically responds to carbon intensity.",
+      "example": "Teaching extension: A scheduled release stages the expected popular assets near its audience while monitoring how many prefetched copies are actually used.",
+      "source": "pp. 118–120"
+    },
+    {
+      "title": "Graceful degradation preserves essentials",
+      "body": "A service can reduce optional quality when resources are constrained, as video calls preserve audio while reducing video detail. The pandemic examples show the value of having such controls already designed and understood. Applying that flexibility to electricity requires a relevant carbon or power signal and agreed minimum functionality; merely degrading randomly does not establish a sustainability benefit.",
+      "example": "Teaching extension: A learning video lowers optional resolution under a constrained delivery mode while captions and clear audio remain available.",
+      "source": "pp. 120–123"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Compressing every payload always saves energy.",
+      "correction": "Compression adds compute; evaluate actual size reduction and encoding and decoding costs."
+    },
+    {
+      "claim": "A CDN is automatically carbon aware.",
+      "correction": "Caching provides shifting capability. Carbon awareness additionally requires an electricity signal that influences operation."
+    }
+  ],
+  "scenario": {
+    "title": "Prepare a popular video release",
+    "context": "Teaching extension. A service expects many viewers for a new video. It can stage selected renditions in regional caches or fetch and transform them on demand. Viewers use a mix of small screens and large displays. The popularity forecast is imperfect, so precomputing every format everywhere may waste work.",
+    "options": [
+      {
+        "label": "Precompute and stage likely renditions",
+        "benefit": "Reduces repeated origin work and smooths the peak transfer load.",
+        "cost": "Uses storage and preparation that may be wasted if demand differs from the forecast.",
+        "consequence": "The service places likely popular versions and measures cache use. It keeps less common formats on demand until their demand justifies staging."
+      },
+      {
+        "label": "Generate and transfer on demand",
+        "benefit": "Avoids speculative renditions that nobody requests.",
+        "cost": "Concentrates processing at request time and may repeat work during a surge.",
+        "consequence": "The team measures latency and repeated conversions, then considers selective caching where observed reuse supports the extra stored copy."
+      }
+    ],
+    "debrief": "Demand predictability and reuse determine the best balance. A bandwidth improvement is evidence about delivery, not by itself a complete carbon result."
+  },
+  "quiz": [
+    {
+      "question": "A cached video was prepared earlier but served when requested. What was shifted?",
+      "options": [
+        "The user’s viewing preference",
+        "The preparatory work",
+        "The device’s manufacturing date"
+      ],
+      "answer": 1,
+      "explanation": "Preparation and transfer can be decoupled from demand while the user still watches at the chosen time."
+    },
+    {
+      "question": "Why assess compression beyond bytes saved?",
+      "options": [
+        "All compression is harmful",
+        "Storage has no footprint",
+        "Encoding and decoding also consume resources"
+      ],
+      "answer": 2,
+      "explanation": "The complete path includes compute as well as transmission."
+    },
+    {
+      "question": "What does the chapter favor as an initial networking intervention?",
+      "options": [
+        "Reduce unnecessary application traffic and use established delivery controls",
+        "Redesign BGP before changing applications",
+        "Assume lower-layer efficiency removes every opportunity"
+      ],
+      "answer": 0,
+      "explanation": "The authors identify application behavior as a more accessible and controllable source of improvements."
+    }
+  ],
+  "exercise": {
+    "title": "Design a delivery strategy",
+    "prompt": "Select a large or frequently requested asset. Compare immediate generation with selective preprocessing and caching, then define an essential service mode.",
+    "fields": [
+      {
+        "label": "Demand and delivery path",
+        "placeholder": "Who requests this asset, from where, and how predictable is reuse?"
+      },
+      {
+        "label": "Transfer, compute, and storage trade-off",
+        "placeholder": "What work is saved or added by caching or compression?"
+      },
+      {
+        "label": "Fallback and evidence",
+        "placeholder": "What quality is essential, and how will unused prefetches and repeated work be tracked?"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "origin",
+        "label": "ORIGIN",
+        "kind": "service",
+        "tone": "sage"
+      },
+      {
+        "id": "cache",
+        "label": "NEARBY CACHE",
+        "kind": "cache",
+        "tone": "lilac"
+      },
+      {
+        "id": "viewer",
+        "label": "VIEWER",
+        "kind": "browser",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "origin",
+        "to": "cache"
+      },
+      {
+        "from": "cache",
+        "to": "viewer"
+      }
+    ],
+    "steps": [
+      {
+        "node": "origin",
+        "text": "Prepare a rendition that viewers are likely to request."
+      },
+      {
+        "node": "cache",
+        "text": "Stage a copy before the peak, accepting storage and forecast costs."
+      },
+      {
+        "node": "viewer",
+        "text": "Serve the appropriate rendition from nearby when requested."
+      }
+    ]
+  },
+  "title": "Networking",
+  "part": "Design and operate",
+  "source": {
+    "startLine": 4144,
+    "endLine": 4742,
+    "pages": "107–123",
+    "reference": "pp. 107–123; text lines 4144–4742"
+  }
+}

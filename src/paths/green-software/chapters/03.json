@@ -1,0 +1,170 @@
+{
+  "number": 3,
+  "subtitle": "Find costly work before choosing a costly rewrite.",
+  "summary": "Code efficiency avoids unnecessary computation for a defined result, but achieving it consumes developer time and expertise. The authors explain why reusable APIs and higher-level platforms became popular: they exchange some machine efficiency for development speed and maintained functionality. The practical response is to profile expensive behavior, choose efficient libraries and platforms, and question unnecessary work or retained data. Architecture matters because excessive layers and chatty services add processing. Fast execution, low energy use, and low carbon are not interchangeable; parallelism or extra hardware can buy speed. The chapter closes with the rebound problem: efficiency can make a service cheaper and increase demand, so improvements per operation do not guarantee falling totals.",
+  "concepts": [
+    {
+      "title": "Machine and developer productivity",
+      "body": "A reusable API may do more work than a custom implementation while saving development and maintenance effort. The book treats this as a trade-off rather than a mistake. Specialized optimization becomes easier to justify when heavily reused code or a high-volume service spreads that investment across many operations and users. Maintaining that specialization remains part of its cost.",
+      "example": "Teaching extension: Improving a common image library can benefit thousands of applications, while hand-tuning a rarely used internal screen has limited reach.",
+      "source": "pp. 31–37"
+    },
+    {
+      "title": "Profile the work that matters",
+      "body": "Profiling locates costly calls, repeated work, and poor algorithms before a rewrite is proposed. Faster execution is a clue rather than proof of lower carbon: more processors can reduce wall time while increasing resource use. Ask whether the improvement permits smaller or more densely shared resources, and preserve equivalent output and service requirements in the comparison.",
+      "example": "Teaching extension: A trace finds repeated metadata retrieval. Reusing the result removes work without changing languages or weakening the response contract.",
+      "source": "pp. 37–40"
+    },
+    {
+      "title": "Service boundaries cost work",
+      "body": "Cross-process and network calls introduce serialization, transmission, and platform overhead. Excessive calls or duplicated middleware can dominate processing. Reducing those costs must be balanced against understandable interfaces, independent ownership, and maintainability. Neither a monolith nor microservices is automatically greener; architecture and operations together determine the outcome. Platform guidance can help avoid duplicating work the platform already performs.",
+      "example": "Teaching extension: A pipeline batches metadata requests while retaining a clear service boundary, then checks latency and debugging consequences.",
+      "source": "pp. 41–44"
+    },
+    {
+      "title": "Avoid unnecessary features and data",
+      "body": "Lean product decisions eliminate work before optimization is needed. Unused features and rarely queried data still consume maintenance, storage, and processing. Retention and archive policies should follow actual needs. Client-side processing and smaller or reused ML models offer other opportunities, but include transfer costs and client hardware effects when evaluating them. Moving work does not erase it.",
+      "example": "Teaching extension: An unused daily report becomes on-demand. Records that must be retained move to storage suited to their infrequent access.",
+      "source": "pp. 44–47"
+    },
+    {
+      "title": "Efficiency can grow demand",
+      "body": "The Jevons discussion warns that cheaper operations can become more widely used and increase total resource demand. The authors still favor efficiency during the energy transition and reusable platforms that distribute its engineering cost. Their expectations about future energy abundance are an outlook, not a guarantee that every efficiency improvement will reduce absolute emissions today.",
+      "example": "Teaching extension: Exports become half as expensive per job, but volume triples. The team reviews total energy alongside the per-export improvement.",
+      "source": "pp. 47–51"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A compiled-language rewrite is always the best first action.",
+      "correction": "Its value depends on scale, bottlenecks, operations, and maintenance. Removing unnecessary work may be a better initial experiment."
+    },
+    {
+      "claim": "Lower emissions per request guarantee lower total emissions.",
+      "correction": "Request volume can increase. Keep both unit and total measures."
+    }
+  ],
+  "scenario": {
+    "title": "The expensive thumbnail pipeline",
+    "context": "Teaching extension. A thumbnail service repeatedly queries metadata and uses a familiar image library. Demand is rising, but specialist capacity is limited. The team can remove redundant calls and test a library upgrade, or build a hardware-specific conversion engine. Both options must preserve output quality.",
+    "options": [
+      {
+        "label": "Remove repeated work and test a maintained library",
+        "benefit": "Preserves familiar development while targeting observed waste.",
+        "cost": "May leave low-level gains unrealized and depends on library maintainers.",
+        "consequence": "The team benchmarks identical images and tracks resource use. Saved capacity becomes a rightsizing opportunity rather than an assumed reduction."
+      },
+      {
+        "label": "Build a specialized conversion engine",
+        "benefit": "Offers deeper control for a hot path that may justify investment at scale.",
+        "cost": "Requires specialist maintenance and extensive regression checks.",
+        "consequence": "A stronger per-image result must be weighed against engineering effort, supported hardware, and the ability to evolve the product."
+      }
+    ],
+    "debrief": "Measured bottlenecks and scale determine when specialization pays. Reuse spreads the cost of difficult optimization."
+  },
+  "quiz": [
+    {
+      "question": "A rewrite halves latency by doubling workers. What follows about energy?",
+      "options": [
+        "It must halve",
+        "It needs measurement across all workers",
+        "It must stay constant"
+      ],
+      "answer": 1,
+      "explanation": "Wall time alone omits aggregate power and resource use."
+    },
+    {
+      "question": "Ten identical metadata calls occur within one request. What is a strong first hypothesis?",
+      "options": [
+        "Avoid duplicate calls while preserving correctness",
+        "Replace all infrastructure first",
+        "Remove correctness checks"
+      ],
+      "answer": 0,
+      "explanation": "A focused change can test observed repeated work before a broad rewrite."
+    },
+    {
+      "question": "Energy per job falls 25% and volume doubles. In this simplified model, total energy…",
+      "options": [
+        "Falls 25%",
+        "Stays constant",
+        "Rises 50%"
+      ],
+      "answer": 2,
+      "explanation": "0.75 × 2 = 1.5 times the original energy. These invented numbers illustrate growth offsetting unit efficiency."
+    }
+  ],
+  "exercise": {
+    "title": "Write an optimization hypothesis",
+    "prompt": "Choose a frequently executed path and propose a change based on an observation. Explain how saved computation could reduce resource allocation.",
+    "fields": [
+      {
+        "label": "Evidence of unnecessary work",
+        "placeholder": "Which profile or trace identifies the processing cost?"
+      },
+      {
+        "label": "Change and engineering cost",
+        "placeholder": "What changes, and what maintenance or debugging burden follows?"
+      },
+      {
+        "label": "Comparison and resource consequence",
+        "placeholder": "Hold quality constant; track unit and total use and identify a rightsizing step."
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "request",
+        "label": "REQUEST",
+        "kind": "browser",
+        "tone": "sage"
+      },
+      {
+        "id": "calls",
+        "label": "REPEATED CALLS",
+        "kind": "api",
+        "tone": "lilac"
+      },
+      {
+        "id": "library",
+        "label": "SHARED CODE",
+        "kind": "component",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "request",
+        "to": "calls"
+      },
+      {
+        "from": "calls",
+        "to": "library"
+      }
+    ],
+    "steps": [
+      {
+        "node": "request",
+        "text": "A user requests one thumbnail."
+      },
+      {
+        "node": "calls",
+        "text": "Repeated lookups add avoidable processing."
+      },
+      {
+        "node": "library",
+        "text": "Remove duplicate work and compare a maintained library."
+      }
+    ]
+  },
+  "title": "Code Efficiency",
+  "part": "Design and operate",
+  "source": {
+    "startLine": 1601,
+    "endLine": 2385,
+    "pages": "31–51",
+    "reference": "pp. 31–51; text lines 1601–2385"
+  }
+}

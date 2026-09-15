@@ -43,7 +43,7 @@ public class ProgressPersistenceTest {
         while(System.currentTimeMillis()<deadline){if(preferences().getString(key,"").contains(value))return;Thread.sleep(150);}
         fail("Native progress was not persisted: "+key);
     }
-    private final String[] additionalPaths={"staff-engineer","responsible-engineering","sre","observability","ai-agents"};
+    private final String[] additionalPaths={"staff-engineer","responsible-engineering","sre","observability","ai-agents","green-software"};
     private void seedAdditionalPaths(ActivityScenario<MainActivity> scenario) throws Exception {
         for(String path:additionalPaths) {
             open(scenario,"/learn.html?path="+path+"#chapter/1/explore");

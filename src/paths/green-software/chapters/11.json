@@ -1,0 +1,198 @@
+{
+  "number": 11,
+  "subtitle": "Make the case using the work colleagues already care about.",
+  "summary": "Sustainability often shares mechanisms with cost control, reliability, performance, security, and data management. This chapter explains these co-benefits as a way to make change practical when teams face competing priorities. Removing idle resources can reduce both spending and exposure; tested recovery can reduce dependence on permanently reserved capacity; suitable compute and storage can improve efficiency. Better data handling can avoid repeated transformations and unnecessary retention. These relationships are opportunities rather than universal equivalences. Cost can change without carbon changing, and reliability still has real engineering requirements. The authors encourage integrating sustainability into existing product and operational decisions, with a case that names the benefits, the implementation effort, and the constraints that remain.",
+  "concepts": [
+    {
+      "title": "Cost and carbon can share a cause",
+      "body": "Rightsizing, retiring unused services, and using suitable shared platforms can reduce both cost and resource demand. FinOps connects technology, finance, and business around spending decisions, offering an existing collaboration pattern. The relationship is conditional: a cheaper tariff or discount does not necessarily change electricity or hardware. Explain the resource mechanism behind the proposed savings.",
+      "example": "Teaching extension: Finance and engineering inspect an idle service together, distinguishing reduced resource hours from a new contractual discount.",
+      "source": "pp. 167–169"
+    },
+    {
+      "title": "Resilience can reduce idle redundancy",
+      "body": "Reliability concerns consistent useful service; resilience concerns recovering from disruption. The chapter favors automation, recovery, and operational awareness over unexamined reliance on idle duplicate systems. This does not mean removing every backup or replica. Recovery time, data protection, correlated failure, and test results determine how much reserved capacity a service actually needs.",
+      "example": "Teaching extension: A team tests recovery onto fresh capacity before deciding whether a permanently idle standby can be reduced.",
+      "source": "pp. 170–172"
+    },
+    {
+      "title": "Performance should fit the task",
+      "body": "A suitable compute or storage option can improve performance and efficiency together. The fastest possible response is not always the user’s requirement, and infrequently accessed retained data may not need the same storage as active records. Fit matters more than a generic maximum-performance label. Include the resource and lifecycle costs associated with the chosen arrangement.",
+      "example": "Teaching extension: Current media metadata remains quickly accessible, while rarely requested historical material uses an archive with an accepted retrieval delay.",
+      "source": "pp. 172–173"
+    },
+    {
+      "title": "Security can eliminate wasteful work",
+      "body": "Abandoned services expand the attack surface, and malicious traffic can consume resources without legitimate value. Removing unused systems and preventing abusive requests can therefore support sustainability and security together. Necessary protections also perform work; the chapter’s argument is to reduce waste through good security, not to disable checks or encryption for a superficially smaller compute number.",
+      "example": "Teaching extension: A retired preview service no longer needs patching or background resources, and its unused public endpoint disappears.",
+      "source": "pp. 174–175"
+    },
+    {
+      "title": "Data design connects multiple benefits",
+      "body": "Unnecessary storage and repeated transformations consume resources and create operational complexity. Suitable data models, deliberate retention, and clean inputs can improve correctness, performance, and sustainability. Product and data teams must decide what information is useful and how long it is needed. The chapter uses these shared concerns to argue for sustainability as a regular design consideration.",
+      "example": "Teaching extension: Two pipeline stages agree on a compatible representation, removing a repeated conversion while retaining needed fields.",
+      "source": "pp. 175–179"
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Every cost cut is a carbon cut.",
+      "correction": "Commercial pricing changes can lower bills with identical resource use. Identify the physical mechanism."
+    },
+    {
+      "claim": "Resilience means backups are unnecessary.",
+      "correction": "Recovery objectives and data protection remain essential. Replace assumptions with tested evidence before reducing redundancy."
+    }
+  ],
+  "scenario": {
+    "title": "Win support for removing an old service",
+    "context": "Teaching extension. A team maintains a rarely used report endpoint. Security wants fewer exposed systems, finance wants lower recurring cost, and users occasionally need historical reports. The team can retire the endpoint and provide an archive workflow or consolidate it into an actively maintained service. Neither choice can discard required records.",
+    "options": [
+      {
+        "label": "Retire the endpoint and provide archived reports",
+        "benefit": "Removes an exposed service and its recurring allocation.",
+        "cost": "Historical retrieval becomes slower and needs a documented owner.",
+        "consequence": "Users retain the required information with an agreed retrieval process. The team checks that the archived alternative is usable before closing the endpoint."
+      },
+      {
+        "label": "Consolidate into the maintained platform",
+        "benefit": "Keeps quicker retrieval and reduces a separate maintenance boundary.",
+        "cost": "Retains active processing and can add complexity to the receiving service.",
+        "consequence": "The platform takes ownership of the report capability and removes duplicate resources. The team measures whether consolidation reduced total work."
+      }
+    ],
+    "debrief": "A convincing proposal connects each stakeholder’s need to a concrete mechanism and acknowledges the new responsibility or delay."
+  },
+  "quiz": [
+    {
+      "question": "Which cost reduction most directly suggests lower resource demand?",
+      "options": [
+        "A new invoice discount",
+        "A currency exchange change",
+        "Turning off a verified unused allocation"
+      ],
+      "answer": 2,
+      "explanation": "Releasing an unused resource changes operation; pricing changes alone do not."
+    },
+    {
+      "question": "Before reducing a standby system, what is needed?",
+      "options": [
+        "Evidence that recovery and data protection requirements are met",
+        "Only a lower projected invoice",
+        "A promise to test after an outage"
+      ],
+      "answer": 0,
+      "explanation": "Recovery must be demonstrated against requirements rather than assumed."
+    },
+    {
+      "question": "Why can better data models help sustainability?",
+      "options": [
+        "All schemas use identical resources",
+        "They can avoid repeated transformations and needless retained data",
+        "They eliminate the need for storage"
+      ],
+      "answer": 1,
+      "explanation": "The benefit comes from less unnecessary processing and storage while preserving required information."
+    }
+  ],
+  "exercise": {
+    "title": "Write a cross-team improvement proposal",
+    "prompt": "Select a change with a sustainability benefit and at least one benefit another team cares about. Explain the shared cause rather than merely listing desirable outcomes.",
+    "fields": [
+      {
+        "label": "Affected people and requirements",
+        "placeholder": "Who depends on this behavior, including occasional users?"
+      },
+      {
+        "label": "Mechanism and co-benefits",
+        "placeholder": "How does one concrete change reduce resources and improve cost, security, or recovery?"
+      },
+      {
+        "label": "Cost, ownership, and evidence",
+        "placeholder": "What new burden appears, who owns it, and what will verify the result?"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "waste",
+        "label": "IDLE SERVICE",
+        "kind": "service",
+        "tone": "sage"
+      },
+      {
+        "id": "cost",
+        "label": "RESOURCE COST",
+        "kind": "gauge",
+        "tone": "lilac"
+      },
+      {
+        "id": "security",
+        "label": "EXPOSURE",
+        "kind": "shield",
+        "tone": "peach"
+      },
+      {
+        "id": "users",
+        "label": "USER NEED",
+        "kind": "stakeholders",
+        "tone": "honey"
+      }
+    ],
+    "edges": [
+      {
+        "from": "waste",
+        "to": "cost"
+      },
+      {
+        "from": "waste",
+        "to": "security"
+      },
+      {
+        "from": "waste",
+        "to": "users"
+      }
+    ],
+    "steps": [
+      {
+        "node": "waste",
+        "text": "Find a resource with little useful work and unclear ownership."
+      },
+      {
+        "node": "cost",
+        "text": "Releasing it can lower ongoing allocation."
+      },
+      {
+        "node": "security",
+        "text": "Retiring an unused endpoint can also reduce maintenance and exposure."
+      },
+      {
+        "node": "users",
+        "text": "Preserve required access through an agreed alternative."
+      }
+    ]
+  },
+  "edges": [
+    {
+      "from": "waste",
+      "to": "cost"
+    },
+    {
+      "from": "waste",
+      "to": "security"
+    },
+    {
+      "from": "waste",
+      "to": "users"
+    }
+  ],
+  "title": "Co-Benefits",
+  "part": "Make change happen",
+  "source": {
+    "startLine": 6151,
+    "endLine": 6578,
+    "pages": "167–179",
+    "reference": "pp. 167–179; text lines 6151–6578"
+  }
+}
