@@ -41,6 +41,7 @@ small,
 .connections p,
 .checkpoint-intro,
 .rationale p,
+.library-welcome > div > p,
 .map-intro > p:not(.map-source),
 .library-hero > div > p,
 .chapter-prose > p,
@@ -494,29 +495,6 @@ h1 em,
   .misconceptions p {
     font-size: 15px;
     line-height: 1.75;
-  }
-
-  .intro,
-  .section-sub,
-  .concept-description,
-  .scenario-description,
-  .connections p,
-  .checkpoint-intro,
-  .rationale p,
-  .map-intro > p:not(.map-source),
-  .library-hero > div > p,
-  .chapter-prose > p,
-  .chapter-promise li,
-  .concept-page > p,
-  .misconceptions p,
-  .scenario-context,
-  .outcome,
-  .lab-brief,
-  .lab-tools fieldset p,
-  .lab-tools details p,
-  .pip-atlas > p {
-    text-align: left;
-    hyphens: none;
   }
 
   .course-focus {

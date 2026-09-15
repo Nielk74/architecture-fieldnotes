@@ -1,3 +1,5 @@
+Reading copy is now visibly justified on phones as well as larger screens, while retaining the larger mobile type, comfortable line spacing, automatic hyphenation, stronger contrast, and left-aligned final lines. The home introduction now follows the same reading treatment.
+
 Pip now has 80 appearances: ten overall forms and ten distinct forms for each of seven courses. Overall evolution follows combined XP; each course companion evolves only through XP earned in that book. Both remain visible during lessons with separate progress indicators. Tap either portrait to explore its evolution atlas. Existing XP and reflections are preserved.
 
 Main navigation now uses consistent SVG icons with distinct library, chapter, map, and motion controls, plus larger mobile tap targets.
