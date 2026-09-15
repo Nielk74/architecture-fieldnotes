@@ -1,4 +1,6 @@
-v0.5.0 brings Pip’s level-up celebration into the app. Earn a new course or overall form and Pip leaps, transforms, and lands in a burst of stars. The screen keeps just the new level, form name, and “Let’s go!” button.
+v0.5.1 brings Pip’s level-up celebration into the app. Earn a new course or overall form and Pip leaps, transforms, and lands in a burst of stars. The screen keeps just the new level, form name, and “Let’s go!” button.
+
+This release fixes the Android test timing race that blocked v0.5.0. The native test now records animation frames inside the WebView before checking them, so a busy emulator can verify real movement even after the celebration has finished.
 
 All eight courses use the same celebration, including the original Fundamentals Chapter 1. When a mission levels up both companions, their celebrations appear one at a time. Reloading, restoring progress, revisiting a completed mission, reading, and saving drafts do not replay rewards.
 

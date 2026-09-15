@@ -116,14 +116,40 @@ public class ProgressPersistenceTest {
             js(scenario,"document.querySelector('.motion-toggle').click()");
             waitFor(scenario,"document.body.classList.contains('motion-on')");
             String route=js(scenario,"location.href");
-            js(scenario,"document.querySelectorAll('[data-choice]').forEach(b=>b.click())");
-            waitFor(scenario,"document.querySelector('.level-up-dialog')?.dataset.track === 'staff-engineer'");
-            assertEquals("Earned popup must animate","\"animated\"",js(scenario,"document.querySelector('.level-up-dialog').dataset.mode"));
-            assertEquals("Native CSS must animate Pip","\"level-up-arrive\"",js(scenario,"getComputedStyle(document.querySelector('.level-up-after')).animationName"));
-            String first=js(scenario,"getComputedStyle(document.querySelector('.level-up-orbits')).transform");
-            Thread.sleep(200);
-            String second=js(scenario,"getComputedStyle(document.querySelector('.level-up-orbits')).transform");
-            assertNotEquals("Native celebration must visibly move",first,second);
+            // ActivityScenario.onActivity waits for Android's UI thread to become idle.
+            // On a software-rendered emulator that can outlast the whole celebration.
+            // Capture real frames inside the WebView before earning XP, so native
+            // assertions can read the evidence even after the animation has settled.
+            js(scenario,"""
+                (() => {
+                    const evidence = window.__earnedAnimation = {
+                        animated: false, pipAnimation: '', moved: false, settled: false
+                    };
+                    let firstTransform;
+                    const deadline = performance.now() + 60000;
+                    function sample() {
+                        const dialog = document.querySelector('.level-up-dialog[data-track="staff-engineer"][data-source="reward"]');
+                        if (dialog?.dataset.mode === 'animated') {
+                            evidence.animated = true;
+                            evidence.pipAnimation = getComputedStyle(dialog.querySelector('.level-up-after')).animationName;
+                            const transform = getComputedStyle(dialog.querySelector('.level-up-orbits')).transform;
+                            if (firstTransform === undefined) firstTransform = transform;
+                            else if (transform !== firstTransform) evidence.moved = true;
+                        }
+                        if (dialog?.dataset.mode === 'settled') {
+                            evidence.settled = true;
+                            return;
+                        }
+                        if (performance.now() < deadline) requestAnimationFrame(sample);
+                    }
+                    requestAnimationFrame(sample);
+                    document.querySelectorAll('[data-choice]').forEach(b => b.click());
+                })()
+                """);
+            waitFor(scenario,"window.__earnedAnimation?.settled === true");
+            assertEquals("Earned popup must animate","true",js(scenario,"window.__earnedAnimation.animated"));
+            assertEquals("Native CSS must animate Pip","\"level-up-arrive\"",js(scenario,"window.__earnedAnimation.pipAnimation"));
+            assertEquals("Native celebration must visibly move","true",js(scenario,"window.__earnedAnimation.moved"));
             InstrumentationRegistry.getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
             waitFor(scenario,"document.querySelector('.level-up-dialog') === null");
             assertEquals("Android Back should dismiss without leaving the lesson",route,js(scenario,"location.href"));
