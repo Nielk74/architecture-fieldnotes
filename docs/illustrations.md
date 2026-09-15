@@ -154,3 +154,5 @@ Use the relationship that matters: mentoring is not a reporting line; listening 
 A chapter's `visual` has `nodes`, `edges`, and `steps`. `chapterScene()` supplies consistent positions for three to five nodes. Select kinds by meaning, use short labels, and keep longer explanations in the step caption. For example, a mentoring scene can connect `colleague` (question), `mentor` (guided practice), and `handoff` (independent ownership). The studio automatically includes every path's scenes and every registered primitive.
 
 All local animations are CSS and respect the existing `.motion-paused` and `.iso-sleep` rules. A still export remains a meaningful diagram; website and APK scenes animate when motion is on.
+
+`src/companion.js` mounts a persistent Pip strip through the shared bootstrap. It derives evolution progress from combined earned XP within the current stage interval, listens for `book:progress`, and reserves header space on phones. The final stage displays a full ring.

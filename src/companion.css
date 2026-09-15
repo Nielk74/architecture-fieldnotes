@@ -1,0 +1,18 @@
+/* Reserve space in the fixed course chrome: Pip never covers an activity. */
+body.has-companion header{height:auto;flex:0 0 auto;position:sticky;top:0;z-index:30}
+body.has-companion header>.nav{height:72px}
+.companion-status{border-top:1px solid #e9e0ed;background:#f3edf7;color:#654d78}
+.companion-inner{max-width:1312px;margin:auto;display:flex;align-items:center;gap:12px;min-height:64px;padding:3px 24px;position:relative}
+.companion-portrait{position:relative;flex:0 0 58px;width:58px;height:58px}
+.companion-ring{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:#dfd1e8;stroke-width:2}
+.companion-ring-value{stroke:#9a75b2;stroke-linecap:round;transform:rotate(-90deg);transform-origin:center}
+.companion-portrait>.pip-avatar{position:absolute;inset:2px;width:54px;height:54px}
+.companion-identity{min-width:0}.companion-identity strong{display:block;font-size:12px;line-height:1.4}.companion-identity>span{display:block;font-size:9px;color:#8b729e;margin-top:3px}
+.companion-growth{width:180px;margin-left:auto;flex-shrink:0}.companion-growth>div{display:flex;justify-content:space-between;gap:8px;font-size:10px}.companion-growth strong{font-size:10px}.companion-growth small{display:block;font-size:9px;color:#8b729e;margin-top:3px}
+.companion-growth progress{appearance:none;display:block;width:100%;height:5px;margin-top:5px;border:0;border-radius:8px;overflow:hidden;background:#dfd1e8}.companion-growth progress::-webkit-progress-bar{background:#dfd1e8}.companion-growth progress::-webkit-progress-value{background:#9a75b2;border-radius:8px}.companion-growth progress::-moz-progress-bar{background:#9a75b2}
+.companion-announcement{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.companion-evolved{animation:companion-evolve .8s ease-out}@keyframes companion-evolve{50%{scale:1.12;filter:drop-shadow(0 0 8px #ce9de5)}}
+.motion-paused .companion-evolved{animation:none}
+@media(prefers-reduced-motion:reduce){body:not(.motion-on) .companion-evolved{animation:none}}
+@media(max-width:680px){body.has-companion header>.nav{height:62px}.companion-inner{padding:2px 12px;gap:8px;min-height:61px}.companion-portrait{flex-basis:56px;width:56px;height:56px}.companion-portrait>.pip-avatar{width:52px;height:52px}.companion-identity strong{font-size:10px;max-width:115px}.companion-identity>span{font-size:8px}.companion-growth{width:116px}.companion-growth>div,.companion-growth strong{font-size:9px}.companion-growth small{font-size:8px}}
+.has-companion .course-header-tools .book-avatar,.has-companion .course-header-tools .quest-emblem{display:none}
