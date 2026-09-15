@@ -1,3 +1,4 @@
+import {navigationIcon} from '../navigation-icons.js';
 import {appStorage} from '../storage.js';
 // A single preference controls CSS, SVG sequencing, and every page's motion button.
 const KEY='fieldnotes-motion-v1';
@@ -11,7 +12,7 @@ function controls(){
   const label=enabled?'Pause animations':mode==='system'&&reduced()?'Enable animations (device prefers reduced motion)':'Enable animations';
   button.setAttribute('aria-label',label);button.setAttribute('aria-pressed',String(!enabled));button.title=label;
   if(button.id==='studio-motion')button.textContent=enabled?'Pause motion':'Enable motion';
-  else button.innerHTML=`<span aria-hidden="true">${enabled?'Ⅱ':'▶'}</span><span class="motion-state-label">${enabled?'Motion on':'Motion off'}</span>`;
+  else button.innerHTML=`${navigationIcon(enabled?'pause':'play')}<span class="motion-state-label">${enabled?'Motion on':'Motion off'}</span>`;
  });
  document.querySelectorAll('[data-scene-play]').forEach(button=>{const playing=enabled&&button.closest('[data-scene-player]').dataset.playing!=='false';button.textContent=playing?'Ⅱ Pause sequence':'▶ Play the sequence';button.setAttribute('aria-pressed',String(playing))});
 }

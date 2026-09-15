@@ -1,3 +1,5 @@
+Main navigation now uses consistent SVG icons with distinct library, chapter, map, and motion controls, plus larger mobile tap targets.
+
 Pip now stays visible on every screen, with an evolution progress ring, XP countdown, and immediate updates as you earn rewards. The compact strip remains visible on phones without covering lesson controls.
 
 Seven learning paths, 124 chapters, and 38 animated illustration primitives, including mentoring, listening, handoffs, investigation, and agent workflows. The original Fundamentals and Hard Parts progress is retained.
