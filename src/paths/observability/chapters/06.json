@@ -3,7 +3,7 @@
   "title": "Stitching Events into Traces",
   "part": "Fundamentals of Observability",
   "subtitle": "Reconstruct a request across service boundaries",
-  "summary": "A distributed trace connects timed events that belong to the same request. The chapter demystifies tracing by showing how identifiers, parent relationships, and timing information are recorded and propagated, rather than treating the resulting waterfall as magic. A common trace ID establishes membership; distinct span IDs and parent IDs establish structure. Carrying that context across service boundaries allows independently emitted records to be assembled afterward. Useful traces also contain application attributes, because duration and topology alone rarely explain why a particular request behaved differently. Reading a trace means examining waits, nested work, and overlap in relation to the request’s elapsed time, then using the attached context to guide a focused investigation.",
+  "summary": "Pip sees several plausible records but no complete request journey. Trace membership, span identity, and parentage connect the work. Timing must respect nesting and concurrency, while attributes explain why this order differed from the others.",
   "source": {
     "startLine": 2717,
     "endLine": 3084,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Membership and parentage differ",
-      "body": "The trace ID groups spans into a single request history. Each span also has its own ID, and a parent reference records how its work relates to another operation. Sharing a trace ID without preserving parentage can associate events, but cannot reconstruct the same useful nesting structure for understanding the request’s execution.",
-      "example": "Authorization and profile lookups share the request trace ID but have distinct span IDs.",
-      "source": "text lines 2717–3084"
+      "body": "Pip gives authorization and profile lookup the same trace ID. That groups their request history but does not describe their relationship. Each span needs its own ID and a parent reference for useful nesting. Pip preserves membership and parentage instead of flattening every operation into one bag of events.",
+      "example": "",
+      "source": "text lines 2717–3084",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "TRACE ID",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "trace",
+            "label": "SPAN IDS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "PARENT REFERENCES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip gives authorization and profile lookup the same trace ID."
+          },
+          {
+            "node": "step-1",
+            "text": "That groups their request history but does not describe their relationship."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip preserves membership and parentage instead of flattening every operation into one bag of events."
+          }
+        ]
+      }
     },
     {
       "title": "Spans describe timed operations",
-      "body": "A span records an operation with timing and contextual attributes. Its duration describes that operation’s elapsed time, which may include waiting for child work. Summing every span duration can therefore double-count nested or overlapping work. Inspect the timeline and relationships before deciding which operation accounts for the user-visible delay.",
-      "example": "Two parallel 200 ms lookups do not necessarily add 400 ms to the request.",
-      "source": "text lines 2717–3084"
+      "body": "Pip adds two parallel 200-millisecond lookups and predicts 400 milliseconds of delay. Span duration is elapsed operation time and may include child work. Summing nested or overlapping durations can double-count. Pip reads timing and relationships before assigning responsibility for the user-visible wait.",
+      "example": "",
+      "source": "text lines 2717–3084",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "PARALLEL LOOKUPS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "trace",
+            "label": "NESTED TIMELINE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "ACTUAL ELAPSED TIME",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip adds two parallel 200-millisecond lookups and predicts 400 milliseconds of delay."
+          },
+          {
+            "node": "step-1",
+            "text": "Span duration is elapsed operation time and may include child work."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip reads timing and relationships before assigning responsibility for the user-visible wait."
+          }
+        ]
+      }
     },
     {
       "title": "Propagation crosses boundaries",
-      "body": "A downstream service needs the tracing context associated with the incoming work. The caller carries it through the transport, and the receiver uses it when creating its own span. Without this handoff, both services may emit plausible telemetry while their records appear as disconnected traces, hiding the relationship the investigator needs.",
-      "example": "An outbound HTTP call carries context that the receiving service extracts.",
-      "source": "text lines 2717–3084"
+      "body": "Pip’s downstream service emits a new disconnected trace. The caller must carry incoming work’s context through the transport and the receiver must extract it. The downstream span then belongs to the same request journey. Without that handoff, individually plausible telemetry hides the relationship Pip needs.",
+      "example": "",
+      "source": "text lines 2717–3084",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "CALLER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "message",
+            "label": "PROPAGATED CONTEXT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "service",
+            "label": "RECEIVER",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s downstream service emits a new disconnected trace."
+          },
+          {
+            "node": "step-1",
+            "text": "The caller must carry incoming work’s context through the transport and the receiver must extract it."
+          },
+          {
+            "node": "step-3",
+            "text": "Without that handoff, individually plausible telemetry hides the relationship Pip needs."
+          }
+        ]
+      }
     },
     {
       "title": "Attributes explain differences",
-      "body": "A waterfall shows where time was spent, but an investigator also needs to know why this request differed from others. Adding build, host, tenant, and application-specific values to spans makes those comparisons possible. The same structured-event principles apply: useful context belongs with the operation whose behavior it helps explain.",
-      "example": "A slow database span records the shard and operation type that distinguish it.",
-      "source": "text lines 2717–3084"
+      "body": "Pip locates a slow database span but still cannot explain the difference. Timing shows where; build, host, tenant, and domain attributes help explain why this request was unusual. Pip records shard and operation type on the relevant span. The structured-event principle follows the work whose behavior the field explains.",
+      "example": "",
+      "source": "text lines 2717–3084",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "SLOW SPAN",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "database",
+            "label": "SHARD + OPERATION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "search",
+            "label": "COMPARE REQUESTS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip locates a slow database span but still cannot explain the difference."
+          },
+          {
+            "node": "step-1",
+            "text": "Timing shows where; build, host, tenant, and domain attributes help explain why this request was unusual."
+          },
+          {
+            "node": "step-3",
+            "text": "The structured-event principle follows the work whose behavior the field explains."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -118,68 +370,68 @@
     "nodes": [
       {
         "id": "step-0",
-        "label": "IDENTITY",
-        "kind": "trace",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "observability"
       },
       {
         "id": "step-1",
-        "label": "TIMING",
-        "kind": "experiment",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
+        "kind": "message",
+        "label": "TRACE ID",
+        "tone": "sage"
       },
       {
         "id": "step-2",
-        "label": "PROPAGATE",
-        "kind": "alert",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
+        "kind": "trace",
+        "label": "SPAN IDS",
+        "tone": "lilac"
       },
       {
         "id": "step-3",
-        "label": "ATTRIBUTES",
-        "kind": "leaf",
-        "tone": "honey",
-        "x": 500,
-        "y": 100
+        "kind": "router",
+        "label": "PARENT REFERENCES",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
         "from": "step-0",
-        "to": "step-1"
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-1",
-        "to": "step-2"
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-2",
-        "to": "step-3"
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
         "node": "step-0",
-        "text": "Authorization and profile lookups share the request trace ID but have distinct span IDs."
+        "text": "Pip gives authorization and profile lookup the same trace ID."
       },
       {
         "node": "step-1",
-        "text": "Two parallel 200 ms lookups do not necessarily add 400 ms to the request."
-      },
-      {
-        "node": "step-2",
-        "text": "An outbound HTTP call carries context that the receiving service extracts."
+        "text": "That groups their request history but does not describe their relationship."
       },
       {
         "node": "step-3",
-        "text": "A slow database span records the shard and operation type that distinguish it."
+        "text": "Pip preserves membership and parentage instead of flattening every operation into one bag of events."
       }
     ]
+  },
+  "story": {
+    "course": "observability",
+    "world": "market",
+    "title": "The order crosses three stalls"
   }
 }

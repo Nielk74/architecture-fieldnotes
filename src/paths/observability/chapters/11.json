@@ -3,7 +3,7 @@
   "title": "Observability-Driven Development",
   "part": "Observability for Teams",
   "subtitle": "Finish a change by observing it in production",
-  "summary": "Observability-driven development makes production behavior part of the development feedback loop. Tests check anticipated behavior under controlled conditions, but cannot reproduce every interaction among real users, dependencies, and concurrent changes. Engineers therefore design instrumentation while writing code and inspect the result after deployment. The chapter also distinguishes locating a problem from debugging its implementation: telemetry can reveal the failing component and triggering context, after which a debugger or profiler may be the appropriate tool. This practice reduces the distance between an engineer’s intent and the user’s actual experience. A change is better understood when its author can compare old and new behavior, recognize unexpected effects, and verify a correction using the same relevant population.",
+  "summary": "Pip adds a new allocation rule and records its decisions while writing it. Tests establish expectations; production telemetry reveals combinations they missed. The investigation narrows to a component, then becomes a regression test and a verified fix.",
   "source": {
     "startLine": 4486,
     "endLine": 4813,
@@ -12,27 +12,285 @@
   "concepts": [
     {
       "title": "Instrument while intent is fresh",
-      "body": "While writing a feature, the engineer knows which decisions and outcomes matter. That is a good time to record the context needed to recognize whether the code behaves as intended. Retrofitting instrumentation during an incident often requires another deployment and another occurrence of the failure before the missing evidence becomes available.",
-      "example": "A new allocation rule records the chosen branch and resulting resource assignment.",
-      "source": "text lines 4486–4813"
+      "body": "Pip records the allocation branch and resulting resource assignment while writing the feature. The author still knows which decisions and outcomes matter. Waiting until an incident can require another deployment and another failure before evidence exists. Pip instruments intent while the context is fresh.",
+      "example": "",
+      "source": "text lines 4486–4813",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "NEW RULE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "DECISION CONTEXT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "trace",
+            "label": "RECORDED OUTCOME",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip records the allocation branch and resulting resource assignment while writing the feature."
+          },
+          {
+            "node": "step-1",
+            "text": "The author still knows which decisions and outcomes matter."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip instruments intent while the context is fresh."
+          }
+        ]
+      }
     },
     {
       "title": "Observe after deployment",
-      "body": "A passing test suite does not show how a change behaves under production traffic. Compare relevant outcomes after deployment, including the affected build or feature cohort, while the change is still fresh in the author’s mind. Fast feedback makes unexpected behavior easier to connect with the decisions that introduced it.",
-      "example": "Compare latency and errors for the new build against the previous build on equivalent routes.",
-      "source": "text lines 4486–4813"
+      "body": "Pip’s passing tests are followed by a live build comparison. Equivalent routes and the affected feature cohort reveal production latency and error changes. Fast feedback connects unexpected behavior to decisions still fresh in the author’s mind. Pip observes after deployment instead of treating tests as a complete account of live behavior.",
+      "example": "",
+      "source": "text lines 4486–4813",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "experiment",
+            "label": "PASSING TESTS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "deployment",
+            "label": "LIVE BUILD",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "COHORT COMPARISON",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s passing tests are followed by a live build comparison."
+          },
+          {
+            "node": "step-1",
+            "text": "Equivalent routes and the affected feature cohort reveal production latency and error changes."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip observes after deployment instead of treating tests as a complete account of live behavior."
+          }
+        ]
+      }
     },
     {
       "title": "Locate before inspecting code",
-      "body": "Observability helps identify where a problem occurs and which circumstances trigger it across a running system. Once that narrows to a component or operation, a traditional debugger or profiler may be better suited to investigating code internals. These tools work at different scopes and can be combined using the context discovered in production.",
-      "example": "A trace isolates a serialization operation; a local reproduction explores its implementation.",
-      "source": "text lines 4486–4813"
+      "body": "Pip’s trace narrows the delay to serialization under one input combination. Observability locates where and under which circumstances a running system behaves wrongly. A debugger or profiler can then examine that component’s internals in a local reproduction. Pip combines tools at their appropriate scopes.",
+      "example": "",
+      "source": "text lines 4486–4813",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "trace",
+            "label": "PRODUCTION CONTEXT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "component",
+            "label": "SERIALIZATION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "terminal",
+            "label": "LOCAL DEBUGGER",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s trace narrows the delay to serialization under one input combination."
+          },
+          {
+            "node": "step-1",
+            "text": "Observability locates where and under which circumstances a running system behaves wrongly."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip combines tools at their appropriate scopes."
+          }
+        ]
+      }
     },
     {
       "title": "Tests and telemetry complement each other",
-      "body": "Tests encode expectations and make repeatable checks before release. Production telemetry reveals behavior under combinations the tests did not represent. An unexpected observation can become a new test, while instrumentation can verify that the resulting fix helps real requests. Neither feedback source alone supplies every answer about software behavior.",
-      "example": "A production-only input combination becomes a regression test after its context is identified.",
-      "source": "text lines 4486–4813"
+      "body": "Pip turns the production-only combination into a regression test. Tests encode repeatable expectations; telemetry exposes combinations those tests did not represent. Instrumentation then verifies that the fix helps real requests. Pip keeps both feedback sources because neither answers every question alone.",
+      "example": "",
+      "source": "text lines 4486–4813",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "trace",
+            "label": "UNEXPECTED INPUT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "experiment",
+            "label": "NEW REGRESSION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "LIVE FIX CHECK",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-3",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip turns the production-only combination into a regression test."
+          },
+          {
+            "node": "step-1",
+            "text": "Tests encode repeatable expectations; telemetry exposes combinations those tests did not represent."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip keeps both feedback sources because neither answers every question alone."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -118,68 +376,68 @@
     "nodes": [
       {
         "id": "step-0",
-        "label": "INSTRUMENT",
-        "kind": "trace",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "observability"
       },
       {
         "id": "step-1",
-        "label": "DEPLOY",
-        "kind": "experiment",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
+        "kind": "terminal",
+        "label": "NEW RULE",
+        "tone": "sage"
       },
       {
         "id": "step-2",
-        "label": "LOCATE",
-        "kind": "alert",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
+        "kind": "document",
+        "label": "DECISION CONTEXT",
+        "tone": "lilac"
       },
       {
         "id": "step-3",
-        "label": "LEARN",
-        "kind": "leaf",
-        "tone": "honey",
-        "x": 500,
-        "y": 100
+        "kind": "trace",
+        "label": "RECORDED OUTCOME",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
         "from": "step-0",
-        "to": "step-1"
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-1",
-        "to": "step-2"
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-2",
-        "to": "step-3"
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
         "node": "step-0",
-        "text": "A new allocation rule records the chosen branch and resulting resource assignment."
+        "text": "Pip records the allocation branch and resulting resource assignment while writing the feature."
       },
       {
         "node": "step-1",
-        "text": "Compare latency and errors for the new build against the previous build on equivalent routes."
-      },
-      {
-        "node": "step-2",
-        "text": "A trace isolates a serialization operation; a local reproduction explores its implementation."
+        "text": "The author still knows which decisions and outcomes matter."
       },
       {
         "node": "step-3",
-        "text": "A production-only input combination becomes a regression test after its context is identified."
+        "text": "Pip instruments intent while the context is fresh."
       }
     ]
+  },
+  "story": {
+    "course": "observability",
+    "world": "market",
+    "title": "Watch the feature while its intent is still fresh"
   }
 }

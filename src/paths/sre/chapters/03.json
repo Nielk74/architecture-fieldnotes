@@ -3,7 +3,7 @@
   "title": "Embracing Risk",
   "part": "Foundations",
   "subtitle": "Choose reliability by user impact, cost, and the risk left for change",
-  "summary": "Reliability is a choice about acceptable risk, not a contest to collect the most nines. Extra availability consumes money and engineering time that could deliver features or reduce other risks. The appropriate target depends on the service’s users, business role, and consequences of failure. A partial outage is easier to describe through unsuccessful requests than through a single global up/down state, although requests can differ greatly in value. Infrastructure often needs distinct service classes because latency-sensitive clients and batch clients want different resource trade-offs. An error budget makes the chosen tolerance operational: measured failures consume a shared allowance, including failures caused by infrastructure. Release policy can then respond to remaining budget instead of the negotiating strength of competing teams.",
+  "summary": "Pip wants perfect harbor availability, but every extra guarantee costs capacity, engineering time, and freedom to change. The crew chooses reliability around user consequences, measures partial failures, and gives different workloads service classes that fit their needs.",
   "source": {
     "startLine": 1485,
     "endLine": 1904,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Reliability has an opportunity cost",
-      "body": "Moving toward higher availability requires additional resources, engineering work, and restrictions on change. Those costs must be compared with the benefit users or the business receive. A service can be overengineered when further reliability is less valuable than other improvements. Choosing the target requires product judgment about user expectations and failure consequences, supported by engineering estimates of cost and feasibility.",
-      "example": "Teaching extension: A reporting tool may gain more value from timely new reports than from another expensive nine of uptime.",
-      "source": "text lines 1485–1904"
+      "body": "Pip proposes another expensive nine of uptime for a reporting tool. Higher availability consumes resources, engineering work, and room for change. Product judgment weighs user expectations and failure consequences against other useful improvements. Pip supports that choice with feasibility and cost estimates instead of assuming maximum reliability always wins.",
+      "example": "",
+      "source": "text lines 1485–1904",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "target",
+            "label": "HIGHER AVAILABILITY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "balance",
+            "label": "OPPORTUNITY COST",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "USER NEEDS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip proposes another expensive nine of uptime for a reporting tool."
+          },
+          {
+            "node": "step-1",
+            "text": "Higher availability consumes resources, engineering work, and room for change."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip supports that choice with feasibility and cost estimates instead of assuming maximum reliability always wins."
+          }
+        ]
+      }
     },
     {
       "title": "Request-based availability captures partial failure",
-      "body": "Time-based availability divides uptime by the whole observation period. For a distributed service that remains partly available, successful requests divided by total requests often represents impact more usefully. The denominator and measurement period must be explicit. This aggregate remains an approximation: losing a critical transaction can matter more than losing an optional refresh, even if both count as one failed request.",
-      "example": "Teaching extension: A region loses 2,000 of the service’s million daily requests, producing 99.8% aggregate success.",
-      "source": "text lines 1485–1904"
+      "body": "Pip sees a region fail while most harbor requests still succeed. Time-based uptime hides that partial impact; request availability uses successful requests divided by total eligible requests. Losing 2,000 of a million daily requests yields 99.8% success. Pip states the window and denominator, remembering that critical transactions may matter more than optional refreshes.",
+      "example": "",
+      "source": "text lines 1485–1904",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "router",
+            "label": "PARTIAL REGION LOSS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "99.8% SUCCESS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "ELIGIBLE REQUESTS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip sees a region fail while most harbor requests still succeed."
+          },
+          {
+            "node": "step-1",
+            "text": "Time-based uptime hides that partial impact; request availability uses successful requests divided by total eligible requests."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip states the window and denominator, remembering that critical transactions may matter more than optional refreshes."
+          }
+        ]
+      }
     },
     {
       "title": "Different clients need different service classes",
-      "body": "An interactive client benefits from short queues and spare capacity, while a batch client may accept delay in exchange for high throughput and lower cost. A shared infrastructure service can expose separate classes with different redundancy, placement, and resource policies. Clients then select the lowest-cost class that still meets their needs instead of forcing every workload to fund the strictest target.",
-      "example": "Teaching extension: Analytics jobs use a throughput-oriented pool while checkout reads use capacity with lower queueing delay.",
-      "source": "text lines 1485–1904"
+      "body": "Pip gives batch reports the same spare capacity as interactive booking. Batch clients may accept queues for throughput and lower cost; interactive clients need short delays. Separate classes can vary redundancy, placement, and resource policies. Pip chooses the least expensive class that meets each workload’s needs.",
+      "example": "",
+      "source": "text lines 1485–1904",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "phone",
+            "label": "INTERACTIVE BOOKING",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "queue",
+            "label": "BATCH REPORTS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "SERVICE CLASSES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip gives batch reports the same spare capacity as interactive booking."
+          },
+          {
+            "node": "step-1",
+            "text": "Batch clients may accept queues for throughput and lower cost; interactive clients need short delays."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip chooses the least expensive class that meets each workload’s needs."
+          }
+        ]
+      }
     },
     {
       "title": "Measured failures consume a shared budget",
-      "body": "The error budget is the allowable unreliability implied by the service objective. Monitoring records consumption regardless of whether a release, network failure, or other event caused it. Teams agree how remaining budget changes release policy. This gives both developers and SRE an incentive to reduce change risk: avoiding failures preserves room for useful experiments and new features.",
-      "example": "Teaching extension: A network incident spends half the allowance, so the next rollout uses a smaller canary and slower expansion.",
-      "source": "text lines 1485–1904"
+      "body": "Pip’s network incident spends half the shared error allowance. Failures consume the budget regardless of whether a release, network, or another cause produced them. The team’s agreed policy now calls for a smaller canary and slower expansion. Pip preserves room for future change by reducing risk, not by arguing whose failures count.",
+      "example": "",
+      "source": "text lines 1485–1904",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "NETWORK INCIDENT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "HALF BUDGET LEFT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "deployment",
+            "label": "SMALLER CANARY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s network incident spends half the shared error allowance."
+          },
+          {
+            "node": "step-1",
+            "text": "Failures consume the budget regardless of whether a release, network, or another cause produced them."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip preserves room for future change by reducing risk, not by arguing whose failures count."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,81 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Embracing Risk: TARGET to BUDGET to RELEASE to GUARDRAIL",
     "nodes": [
       {
-        "id": "observe",
-        "label": "TARGET",
-        "caption": "inputs and constraints",
-        "kind": "gauge",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "BUDGET",
-        "caption": "choose the operating rule",
-        "kind": "balance",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "RELEASE",
-        "caption": "observe the effect",
-        "kind": "terminal",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "GUARDRAIL",
-        "caption": "feed learning back",
-        "kind": "shield",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "target",
+        "label": "HIGHER AVAILABILITY",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "balance",
+        "label": "OPPORTUNITY COST",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "document",
+        "label": "USER NEEDS",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
-      },
-      {
-        "from": "learn",
-        "to": "observe",
-        "dashed": true
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "inputs and constraints"
+        "node": "step-0",
+        "text": "Pip proposes another expensive nine of uptime for a reporting tool."
       },
       {
-        "node": "decide",
-        "text": "choose the operating rule"
+        "node": "step-1",
+        "text": "Higher availability consumes resources, engineering work, and room for change."
       },
       {
-        "node": "act",
-        "text": "observe the effect"
-      },
-      {
-        "node": "learn",
-        "text": "feed learning back"
+        "node": "step-3",
+        "text": "Pip supports that choice with feasibility and cost estimates instead of assuming maximum reliability always wins."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "Another nine has a price"
   }
 }

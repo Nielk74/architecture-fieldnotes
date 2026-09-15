@@ -1,27 +1,53 @@
 # Chapter 5: Eliminating Toil
 
-Distinguish recurring service work from improvements that last
+*Pip’s adventure: The same restart, every morning. Fictional teaching story; concepts follow the cited source.*
 
-Toil is recurring work that keeps a production service in its present state and tends to grow with that service. Manual execution, repetition, automation potential, interrupt-driven timing, and lack of lasting value help identify it. The category does not mean unpleasant work: a difficult cleanup may be engineering, while a satisfying daily repair can still be toil. Administrative overhead is a separate category. Measure human effort, including time spent invoking scripts, and look at individual workloads because team averages hide overload. The chapter protects at least half of SRE time for engineering over a meaningful period. Some toil remains unavoidable, but unchecked repetition consumes the capacity needed to improve reliability, damages careers, and makes staffing rise alongside service growth.
+Source: text lines 2266–2451.
+
+Pip restarts the same harbor worker each day. Finishing the task restores service but never reduces tomorrow’s burden. The crew distinguishes toil, lasting engineering, and organizational overhead, then measures human effort and protects time to remove recurring work.
 
 ## Recognizing toil
 
-Toil is production work that tends to be repetitive, manual, tactical, automatable, and without enduring improvement. Its volume often increases with users, traffic, or service size. These characteristics are guides rather than a rigid checklist. The key question is whether completing the task changes the future operating burden or merely restores the same state until the next occurrence.
+Pip approves the same routine quota increase every morning. Repetitive, manual, tactical, automatable work without enduring improvement tends to be toil. Its volume often grows with traffic or service size, though these traits are guides rather than a rigid checklist. Pip asks whether today’s task reduces tomorrow’s operating burden.
+
+Source: text lines 2266–2451.
 
 ## Engineering and overhead are different categories
 
-Engineering creates a lasting improvement through design and judgment; it may involve code, configuration, documentation, or a difficult cleanup. Overhead covers organizational work such as meetings and hiring that is not directly operating a production service. Classifying work by whether it is enjoyable or whether it contains code misses these distinctions and produces misleading estimates of engineering capacity.
+Pip labels every coded task engineering and every meeting toil. Engineering creates enduring improvement through design and judgment, including configuration, documentation, or cleanup. A staffing meeting is overhead; repeated restarts are production toil. Pip classifies the effect of work, not whether it is enjoyable or contains code.
+
+Source: text lines 2266–2451.
 
 ## Measure the operator’s effort
 
-A script does not eliminate toil if a person must repeatedly start it and inspect its result. Count hands-on effort rather than the script’s unattended runtime. On-call coverage creates a baseline commitment, and interruptions create additional work. Examine distributions across engineers and over time: a healthy team average can conceal one person spending nearly every day on repetitive service work.
+Pip calls a 40-minute repair script fully automated. A person still spends five minutes starting and checking each run: those minutes are hands-on toil. Coverage and interruptions create additional commitments. Pip examines individual distributions over time because a healthy average can hide one exhausted operator.
+
+Source: text lines 2266–2451.
 
 ## Protect the capacity to reduce future work
 
-Google’s target reserves at least half of SRE time for engineering when assessed over a substantial period. This prevents reactive work from crowding out the improvements that would reduce it. Brief spikes can happen, but persistent overload needs changes in work allocation and priorities. Eliminating recurring work lets the service grow without adding equivalent operational effort or exhausting its engineers.
+Pip’s daily account repairs consume the time needed to fix provisioning. Google’s model reserves at least half of SRE time for engineering over a substantial period. Brief spikes differ from persistent overload, which needs changed allocation and priorities. Pip removes recurring work so growth does not require equivalent manual effort.
 
-## Apply it
+Source: text lines 2266–2451.
+
+## Transfer challenge: Automate repetitive intervention
+
+An operator manually acknowledges routine queue repairs several times each day. The repair is deterministic, but a malformed message could make the existing script dangerous.
+
+### Measure the toil and automate with validation and rollback
+
+Engineering capacity returns and the guardrails make failure recoverable. Building and testing the automation takes time. The team adds idempotence, a dry run, and an alert for rejected messages.
+
+### Keep the manual runbook
+
+Operators retain direct judgment for unusual cases. The queue keeps consuming attention and scales with traffic. The manual process remains safe but blocks planned reliability work.
+
+Automation pays down toil when deterministic repair is guarded; a manual runbook remains useful for exceptions but does not scale with routine load.
+
+## Audit a week of repeated work
 
 List three production tasks from a typical week. Classify each as toil or engineering using repetition and enduring value, then choose one recurring cost to remove.
 
-Source: *Site Reliability Engineering*, chapter 5, text lines 2266–2451. This note is an original synthesis; the exercise is a teaching extension.
+- Task and human minutes
+- Lasting change
+- Protected time

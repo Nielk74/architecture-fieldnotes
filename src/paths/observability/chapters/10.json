@@ -3,7 +3,7 @@
   "title": "Applying Observability Practices in Your Team",
   "part": "Observability for Teams",
   "subtitle": "Prove value on a problem that already hurts",
-  "summary": "Introducing observability requires a change in team practice as well as a working tool. The chapter recommends beginning with a painful, elusive production problem where better investigation can demonstrate visible value. A quiet peripheral service may be easy to instrument but offers little opportunity to show why the effort matters. Use an existing solution to shorten the path to evidence, evaluate whether it supports genuine exploration, and share the successful investigation with colleagues. Community participation provides additional experience and comparison, while internal ownership keeps the new capability usable. Adoption grows when people can repeat a useful method on their own work, rather than being asked to accept an abstract promise or a growing telemetry bill.",
+  "summary": "Pip wants to prove observability useful to the market team. A safe but irrelevant demo will not do that. Pip chooses a persistent production mystery, tests investigative capability quickly, and shares the method so the win becomes a repeatable practice.",
   "source": {
     "startLine": 4159,
     "endLine": 4485,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Choose a meaningful pain point",
-      "body": "A pilot needs a problem that observability can actually help solve. The chapter cautions against choosing an unimportant, already healthy service merely because it seems safe. Instrument a persistent, difficult production issue whose resolution would matter to the team, then use the investigation to demonstrate value that colleagues can recognize in their daily work.",
-      "example": "Start with an unexplained recurring database congestion problem that disrupts on-call engineers.",
-      "source": "text lines 4159–4485"
+      "body": "Pip considers instrumenting the healthiest, least important stall. A pilot needs a problem observability can actually help solve. Pip chooses recurring unexplained database congestion that burdens on-call and customers. Resolving meaningful daily pain gives colleagues a reason to adopt the practice.",
+      "example": "",
+      "source": "text lines 4159–4485",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "market",
+            "label": "IRRELEVANT DEMO?",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "database",
+            "label": "RECURRING CONGESTION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "target",
+            "label": "MEANINGFUL PILOT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip considers instrumenting the healthiest, least important stall."
+          },
+          {
+            "node": "step-1",
+            "text": "A pilot needs a problem observability can actually help solve."
+          },
+          {
+            "node": "step-3",
+            "text": "Resolving meaningful daily pain gives colleagues a reason to adopt the practice."
+          }
+        ]
+      }
     },
     {
       "title": "Shorten the path to value",
-      "body": "Building an entire observability platform before testing its usefulness creates a long delay between effort and benefit. The chapter favors trying existing solutions early and judging them by investigative capability. A product label is insufficient: the team should test whether it can ask new questions, preserve context, and find an elusive explanation in its own service.",
-      "example": "Evaluate a tool against a real unknown tenant workload rather than a prepared vendor dashboard.",
-      "source": "text lines 4159–4485"
+      "body": "Pip nearly builds an entire platform before testing its usefulness. The chapter favors trying existing solutions early against the team’s real investigative needs. A product label or prepared dashboard is not evidence of explorability. Pip tests new questions, context continuity, and an elusive tenant workload before expanding investment.",
+      "example": "",
+      "source": "text lines 4159–4485",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "workshop",
+            "label": "PLATFORM EFFORT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "search",
+            "label": "REAL UNKNOWN",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "TIME TO VALUE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip nearly builds an entire platform before testing its usefulness."
+          },
+          {
+            "node": "step-1",
+            "text": "The chapter favors trying existing solutions early against the team’s real investigative needs."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip tests new questions, context continuity, and an elusive tenant workload before expanding investment."
+          }
+        ]
+      }
     },
     {
       "title": "Share the method behind a win",
-      "body": "A solved incident demonstrates value most effectively when colleagues can see how the result was obtained. Share the instrumentation, comparisons, and reasoning, and make the investigation available to the service’s responders. This turns an individual success into a practice others can repeat instead of creating another expert whose private knowledge becomes essential.",
-      "example": "Walk the team through the filters that identified a problematic request cohort.",
-      "source": "text lines 4159–4485"
+      "body": "Pip solves the incident, then walks responders through instrumentation and comparisons. A visible reasoning path teaches how the result was obtained. The investigation remains available for colleagues to repeat. Pip shares a method instead of becoming another expert whose private knowledge everyone must summon.",
+      "example": "",
+      "source": "text lines 4159–4485",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "trace",
+            "label": "INSTRUMENTED EVIDENCE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "search",
+            "label": "COMPARISON PATH",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "SHARED METHOD",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip solves the incident, then walks responders through instrumentation and comparisons."
+          },
+          {
+            "node": "step-1",
+            "text": "A visible reasoning path teaches how the result was obtained."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip shares a method instead of becoming another expert whose private knowledge everyone must summon."
+          }
+        ]
+      }
     },
     {
       "title": "Learn with a community",
-      "body": "Other teams can provide useful comparisons about instrumentation, workflows, and adoption barriers. Community participation works through reciprocal contribution, not only emergency requests for help. Use others’ experiences to question assumptions and design better experiments, while adapting their advice to your own architecture and organizational constraints rather than copying a stack uncritically.",
-      "example": "Exchange lessons with teams facing similar traffic patterns before choosing an instrumentation approach.",
-      "source": "text lines 4159–4485"
+      "body": "Pip exchanges investigation lessons with another market team. Community participation includes reciprocal contribution, not only emergency requests. Others’ workflows and adoption barriers help question assumptions and design experiments. Pip adapts the advice to local architecture and organization instead of copying an entire stack uncritically.",
+      "example": "",
+      "source": "text lines 4159–4485",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "team",
+            "label": "PEER COMMUNITY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "listening",
+            "label": "RECIPROCAL LESSONS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "experiment",
+            "label": "LOCAL EXPERIMENT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip exchanges investigation lessons with another market team."
+          },
+          {
+            "node": "step-1",
+            "text": "Community participation includes reciprocal contribution, not only emergency requests."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip adapts the advice to local architecture and organization instead of copying an entire stack uncritically."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -118,68 +370,68 @@
     "nodes": [
       {
         "id": "step-0",
-        "label": "PAIN POINT",
-        "kind": "trace",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "observability"
       },
       {
         "id": "step-1",
-        "label": "TOOL TRIAL",
-        "kind": "experiment",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
+        "kind": "market",
+        "label": "IRRELEVANT DEMO?",
+        "tone": "sage"
       },
       {
         "id": "step-2",
-        "label": "SHARE A WIN",
-        "kind": "alert",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
+        "kind": "database",
+        "label": "RECURRING CONGESTION",
+        "tone": "lilac"
       },
       {
         "id": "step-3",
-        "label": "COMMUNITY",
-        "kind": "leaf",
-        "tone": "honey",
-        "x": 500,
-        "y": 100
+        "kind": "target",
+        "label": "MEANINGFUL PILOT",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
         "from": "step-0",
-        "to": "step-1"
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-1",
-        "to": "step-2"
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-2",
-        "to": "step-3"
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
         "node": "step-0",
-        "text": "Start with an unexplained recurring database congestion problem that disrupts on-call engineers."
+        "text": "Pip considers instrumenting the healthiest, least important stall."
       },
       {
         "node": "step-1",
-        "text": "Evaluate a tool against a real unknown tenant workload rather than a prepared vendor dashboard."
-      },
-      {
-        "node": "step-2",
-        "text": "Walk the team through the filters that identified a problematic request cohort."
+        "text": "A pilot needs a problem observability can actually help solve."
       },
       {
         "node": "step-3",
-        "text": "Exchange lessons with teams facing similar traffic patterns before choosing an instrumentation approach."
+        "text": "Resolving meaningful daily pain gives colleagues a reason to adopt the practice."
       }
     ]
+  },
+  "story": {
+    "course": "observability",
+    "world": "market",
+    "title": "Start with the problem that keeps the crew awake"
   }
 }

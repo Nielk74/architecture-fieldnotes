@@ -3,7 +3,7 @@
   "title": "Release Engineering",
   "part": "Operations",
   "subtitle": "Make the released binary and configuration reproducible and traceable",
-  "summary": "Release engineering makes delivery a repeatable engineering process from source revision to running service. Hermetic builds control their tools and dependencies so an older version can be rebuilt without accidentally incorporating today’s environment. Release branches and selected fixes identify the intended changes, but the resulting combination must still pass tests. Packaging gives artifacts stable identities and an audit trail that helps responders understand what is running. Deployment then promotes those artifacts at a pace suited to the service’s risk, with canaries and staged expansion where appropriate. Configuration deserves the same care as binaries: its packaging and version relationship determine whether a deployment can be reconstructed. Self-service tools and explicit policies let teams release frequently while keeping these controls consistent.",
+  "summary": "Pip’s repair build quietly picks up a new compiler. Release engineering removes that uncertainty with controlled inputs, tests of the exact release combination, and artifact identity from source through rollout. Configuration changes need the same deliberate treatment.",
   "source": {
     "startLine": 3537,
     "endLine": 3852,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Hermetic builds",
-      "body": "A hermetic build obtains its inputs from declared, controlled sources instead of whatever tools or libraries happen to be installed on a machine. Versioning build tools as well as source code makes rebuilding an older release meaningful. Reproducibility reduces uncertainty when investigating failures: a rebuild for one fix should not silently introduce an unrelated compiler or dependency change.",
-      "example": "Teaching extension: A repair to last month’s release uses its recorded compiler and dependencies plus the selected source fix.",
-      "source": "text lines 3537–3852"
+      "body": "Pip rebuilds last month’s release and gets an unrelated dependency change. Hermetic builds use declared, controlled inputs rather than whatever tools a machine happens to hold. Versioning build tools alongside source makes older releases meaningfully reproducible. Pip includes only the intended fix and recorded compiler and dependencies.",
+      "example": "",
+      "source": "text lines 3537–3852",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "DECLARED INPUTS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "plugin",
+            "label": "PINNED TOOLS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "deployment",
+            "label": "REPRODUCIBLE BUILD",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip rebuilds last month’s release and gets an unrelated dependency change."
+          },
+          {
+            "node": "step-1",
+            "text": "Hermetic builds use declared, controlled inputs rather than whatever tools a machine happens to hold."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip includes only the intended fix and recorded compiler and dependencies."
+          }
+        ]
+      }
     },
     {
       "title": "Release contents must be tested together",
-      "body": "Google’s workflow creates a release branch at a known revision and selectively adds fixes already submitted to mainline. This controls which changes enter the release, but the resulting branch may be a combination never tested on mainline. Running release tests on that exact combination establishes evidence about what will ship and records an audit trail of its validation.",
-      "example": "Teaching extension: Two individually passing cherry-picks are tested together on the release branch before packaging.",
-      "source": "text lines 3537–3852"
+      "body": "Pip selects two individually passing fixes for the release branch. The chapter’s workflow branches at a known revision and chooses fixes already on mainline. Their combination may never have been tested together. Pip tests that exact release content and retains its validation trail before packaging.",
+      "example": "",
+      "source": "text lines 3537–3852",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "KNOWN REVISION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "component",
+            "label": "SELECTED FIXES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "experiment",
+            "label": "EXACT COMBINATION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip selects two individually passing fixes for the release branch."
+          },
+          {
+            "node": "step-1",
+            "text": "The chapter’s workflow branches at a known revision and chooses fixes already on mainline."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip tests that exact release content and retains its validation trail before packaging."
+          }
+        ]
+      }
     },
     {
       "title": "Artifact identity and staged deployment",
-      "body": "A package identifies the actual built contents, while labels can indicate its place in the release workflow. Deployments should reference the intended version and preserve a trace from source through testing to production. Canarying and progressive rollout expose changes to limited traffic first; expansion pace depends on risk and the observations needed to find problems, rather than a universal release schedule.",
-      "example": "Teaching extension: A canary and the wider rollout use the same package hash instead of rebuilding between stages.",
-      "source": "text lines 3537–3852"
+      "body": "Pip rebuilds between canary and rollout and loses the evidence link. A package identifies actual contents; workflow labels indicate its stage. Pip deploys the same hash progressively with traceability from source through testing to production. Expansion follows risk and the observations needed, not a universal timetable.",
+      "example": "",
+      "source": "text lines 3537–3852",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "PACKAGE IDENTITY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "deployment",
+            "label": "CANARY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "deployment",
+            "label": "SAME ARTIFACT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip rebuilds between canary and rollout and loses the evidence link."
+          },
+          {
+            "node": "step-1",
+            "text": "A package identifies actual contents; workflow labels indicate its stage."
+          },
+          {
+            "node": "step-3",
+            "text": "Expansion follows risk and the observations needed, not a universal timetable."
+          }
+        ]
+      }
     },
     {
       "title": "Configuration is part of the release",
-      "body": "Configuration can change service behavior as profoundly as a binary. Keeping it reviewed and versioned makes changes intentional, but teams must choose how it is distributed. Bundling configuration with binaries simplifies matching; separate packages permit independent changes; dynamic stores support runtime updates. Each choice needs a clear way to identify the running configuration and its compatibility with the binary.",
-      "example": "Teaching extension: A flag-only repair deploys a new versioned configuration package without rebuilding the executable.",
-      "source": "text lines 3537–3852"
+      "body": "Pip changes a flag and alters booking behavior without a new binary. Configuration needs review, versioning, running identity, and compatibility checks too. Bundling simplifies matching; separate packages allow independent changes; dynamic stores permit runtime updates. Pip chooses the distribution model and can identify the exact active configuration.",
+      "example": "",
+      "source": "text lines 3537–3852",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "VERSIONED CONFIG",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "plugin",
+            "label": "BINARY COMPATIBILITY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "RUNNING IDENTITY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip changes a flag and alters booking behavior without a new binary."
+          },
+          {
+            "node": "step-1",
+            "text": "Configuration needs review, versioning, running identity, and compatibility checks too."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip chooses the distribution model and can identify the exact active configuration."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,81 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Release Engineering: SOURCE to ARTIFACT to CANARY to PROMOTE",
     "nodes": [
       {
-        "id": "observe",
-        "label": "SOURCE",
-        "caption": "inputs and constraints",
-        "kind": "blueprint",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "ARTIFACT",
-        "caption": "choose the operating rule",
-        "kind": "deployment",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "CANARY",
-        "caption": "observe the effect",
-        "kind": "gauge",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "PROMOTE",
-        "caption": "feed learning back",
-        "kind": "terminal",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "terminal",
+        "label": "DECLARED INPUTS",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "plugin",
+        "label": "PINNED TOOLS",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "deployment",
+        "label": "REPRODUCIBLE BUILD",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
-      },
-      {
-        "from": "learn",
-        "to": "observe",
-        "dashed": true
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "inputs and constraints"
+        "node": "step-0",
+        "text": "Pip rebuilds last month’s release and gets an unrelated dependency change."
       },
       {
-        "node": "decide",
-        "text": "choose the operating rule"
+        "node": "step-1",
+        "text": "Hermetic builds use declared, controlled inputs rather than whatever tools a machine happens to hold."
       },
       {
-        "node": "act",
-        "text": "observe the effect"
-      },
-      {
-        "node": "learn",
-        "text": "feed learning back"
+        "node": "step-3",
+        "text": "Pip includes only the intended fix and recorded compiler and dependencies."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "The canary must be the package that ships"
   }
 }

@@ -1,17 +1,65 @@
-# Chapter 6 — Measuring and Governing Architecture Characteristics
+# Chapter 6: Measuring and Governing Architecture Characteristics
 
-Chapter 6 addresses a practical problem: teams use architecture characteristics constantly, but often define them vaguely or differently. Terms such as performance, agility, and deployability can mean different things across departments. Some are composites; agility can be decomposed into modularity, testability, and deployability. Objective, organization-wide definitions create a shared language and let teams discuss evidence rather than labels (source pp. 77–78, lines 3229–3310).
+*Pip’s adventure: A promise becomes a check. Fictional teaching story; concepts follow the cited source.*
 
-Operational measures need context. Average response time can conceal a small set of requests that take far longer, so maximums or distribution-aware views may be necessary. Performance budgets can target specific experiences, such as first visible page progress or download size. For scale, mature teams measure behavior over time and build statistical models, alerting when observations leave the expected range. A deviation may indicate a system problem or a model that needs revision. The chapter presents measurement as evolving with workloads, devices, and user expectations rather than a permanent checklist (pp. 77–79, lines 3311–3378).
+Source: printed pp. 77–89.
 
-Structural concerns are harder to measure comprehensively. Cyclomatic complexity estimates independent execution paths from graph structure; for a single method, CC equals E minus N plus 2. More decisions and paths generally make code harder to understand, test, and change. Thresholds are context dependent: algorithmically difficult domains may require more complexity, while poor factoring can make accidental complexity look essential. Code coverage and test-driven development can encourage smaller methods, but neither a low metric nor high coverage alone proves a healthy design (pp. 79–81, lines 3379–3443).
+Pip writes “fast and agile” on the bookshop plan, then cannot tell whether the design meets it. Shared measures turn those words into useful evidence. Fitness checks protect important qualities when feature pressure rises, provided the crew understands what each check means.
 
-Process qualities also produce evidence. Testability can be observed through coverage tools, but coverage without meaningful assertions offers little confidence. Deployability can be measured through successful and failed deployments, duration, and defects raised after deployment. If these qualities matter, they can influence architecture by encouraging modularity and isolation. The team should select enough measures to capture its goals without creating an unmanageable reporting burden (pp. 80–82, lines 3444–3487).
+## Define measurable qualities
 
-Governance is the architect’s act of steering important concerns that feature urgency may displace. The chapter introduces architecture fitness functions as any mechanism that objectively assesses the integrity of a characteristic or combination of characteristics. A fitness function can be a metric, monitor, unit test, dependency rule, or chaos experiment. It is a perspective on existing verification mechanisms rather than a special framework (pp. 82–83, lines 3488–3555).
+Pip asks three teammates what “agile” means and receives three answers. Architecture qualities can be vague, local, or composite; shared definitions make disagreement actionable. Pip unpacks agility into modularity, testability, and deployability and states request budgets with workload assumptions. The measures represent priorities, not universal physical constants.
 
-Examples make the idea concrete. A JDepend check can fail a continuous build when components form cycles, preventing reuse and pulling more of the code base into a change. A distance-from-main-sequence threshold can flag an abstractness/instability imbalance. ArchUnit or NetArchTest can enforce layer dependencies. Netflix’s Conformity, Security, and Janitor Monkeys show the same principle in runtime governance: verify service behavior, security configuration, and orphaned resources. Chaos experiments test how systems handle faults and latency before those failures arrive unexpectedly (pp. 84–89, lines 3556–3723).
+Source: pp. 77–78.
 
-Fitness functions are most effective when developers understand their purpose. A rule that appears arbitrary encourages workarounds or resentment. Teams should agree on context, thresholds, exceptions, and the response to failure, then revise the check as the architecture evolves. The JSON scenario and visual are teaching extensions: they invent a layered service and show a possible boundary guard. Outcomes are illustrative rather than measured claims.
+## Operational measures
 
-Source boundary: this lesson covers Chapter 6, printed pages 77–89 and supplied text lines 3229–3723. Specific tool names appear only where the chapter uses them as examples; this lesson does not claim current tool behavior beyond the supplied 2020 text.
+Pip’s average page speed hides a minority of severe delays. Operational measures may need tail views, first visible progress, page bytes, and scale trends or statistical models. Pip records workload and measurement window beside each target. Devices, demand, and expectations change, so an observation outside a predicted range questions either the model or the service.
+
+Source: pp. 77–79.
+
+## Structural complexity
+
+Pip finds two conditional branches and three independent paths in a method. For the chapter’s single-method graph, cyclomatic complexity is E − N + 2, giving CC 3 here. High complexity can harm modularity, testing, and deployment, but thresholds depend on domain difficulty and factoring. Pip refactors for coherent responsibilities, not a lower score alone.
+
+Source: pp. 79–81.
+
+## Process measures
+
+Pip sees 100% coverage beside weak assertions and frequent rollbacks. Coverage is evidence about testing, not guaranteed confidence. Deployment success, duration, and post-release defects reveal other process qualities. Pip strengthens meaningful checks and isolates a repeatedly troublesome module, then evaluates later releases instead of celebrating a vanity score.
+
+Source: pp. 80–82.
+
+## Fitness functions
+
+Pip’s build rejects a new package cycle. A fitness function objectively assesses one or more architectural characteristics through a metric, test, monitor, or experiment. Layer rules and distance thresholds are other possible mechanisms. Pip connects the check to understood reuse and ownership goals rather than enforcing a mysterious number.
+
+Source: pp. 82–87.
+
+## Governance through collaboration
+
+Pip explains a controlled latency experiment before asking the team to run it. Governance protects qualities feature urgency can displace; automated checks scale beyond occasional reviews. Resilience, security, or orphan-service probes must fit the current architecture and have clear responses. Pip collaborates on failures as feedback instead of imposing unexplained punishment.
+
+Source: pp. 82–89.
+
+## Transfer challenge: Protect a growing service boundary
+
+A team maintains a layered service whose release failures often follow direct controller-to-database imports. Developers are moving quickly, and reviews happen days after code lands. The architect wants an automated guard, but the team also sees a few complex domain methods and noisy test-coverage reports. Pick a governance approach that protects the boundary while keeping measures useful.
+
+### Layer fitness test
+
+Catches forbidden dependencies at build time, before a cycle or boundary leak spreads through the code base. Requires agreed package rules and can block legitimate exceptions if the team does not document intent and review the rule. Continuous integration rejects controller-to-persistence references and reports the violated layer. Developers can fix the dependency while the reason remains visible in the test.
+
+### Review-only policy
+
+Keeps exceptions flexible and avoids a new automated rule while the team learns where boundaries truly matter. Feedback arrives late, and rapid imports can create several coupled changes before anyone notices; governance depends on scarce reviewer attention. The architect samples dependency graphs during reviews and records baseline complexity. The team accepts a higher risk of drift while refining a future automated check.
+
+Automation is strongest when the characteristic and purpose are clear. A fitness test can protect an important boundary early, but thresholds and exceptions should be context-aware. Reviews, metrics, and experiments remain complementary evidence.
+
+## Write one useful guard
+
+Choose one architecture characteristic in a system. Define the observable signal, its context, and the automated or manual check that would warn when integrity drifts.
+
+- Context
+- Decision
+- Trade-off

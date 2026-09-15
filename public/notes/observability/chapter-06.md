@@ -1,27 +1,53 @@
-# 6. Stitching Events into Traces
+# Chapter 6: Stitching Events into Traces
 
-Reconstruct a request across service boundaries
+*Pip’s adventure: The order crosses three stalls. Fictional teaching story; concepts follow the cited source.*
 
-A distributed trace connects timed events that belong to the same request. The chapter demystifies tracing by showing how identifiers, parent relationships, and timing information are recorded and propagated, rather than treating the resulting waterfall as magic. A common trace ID establishes membership; distinct span IDs and parent IDs establish structure. Carrying that context across service boundaries allows independently emitted records to be assembled afterward. Useful traces also contain application attributes, because duration and topology alone rarely explain why a particular request behaved differently. Reading a trace means examining waits, nested work, and overlap in relation to the request’s elapsed time, then using the attached context to guide a focused investigation.
+Source: text lines 2717–3084.
+
+Pip sees several plausible records but no complete request journey. Trace membership, span identity, and parentage connect the work. Timing must respect nesting and concurrency, while attributes explain why this order differed from the others.
 
 ## Membership and parentage differ
 
-The trace ID groups spans into a single request history. Each span also has its own ID, and a parent reference records how its work relates to another operation. Sharing a trace ID without preserving parentage can associate events, but cannot reconstruct the same useful nesting structure for understanding the request’s execution.
+Pip gives authorization and profile lookup the same trace ID. That groups their request history but does not describe their relationship. Each span needs its own ID and a parent reference for useful nesting. Pip preserves membership and parentage instead of flattening every operation into one bag of events.
+
+Source: text lines 2717–3084.
 
 ## Spans describe timed operations
 
-A span records an operation with timing and contextual attributes. Its duration describes that operation’s elapsed time, which may include waiting for child work. Summing every span duration can therefore double-count nested or overlapping work. Inspect the timeline and relationships before deciding which operation accounts for the user-visible delay.
+Pip adds two parallel 200-millisecond lookups and predicts 400 milliseconds of delay. Span duration is elapsed operation time and may include child work. Summing nested or overlapping durations can double-count. Pip reads timing and relationships before assigning responsibility for the user-visible wait.
+
+Source: text lines 2717–3084.
 
 ## Propagation crosses boundaries
 
-A downstream service needs the tracing context associated with the incoming work. The caller carries it through the transport, and the receiver uses it when creating its own span. Without this handoff, both services may emit plausible telemetry while their records appear as disconnected traces, hiding the relationship the investigator needs.
+Pip’s downstream service emits a new disconnected trace. The caller must carry incoming work’s context through the transport and the receiver must extract it. The downstream span then belongs to the same request journey. Without that handoff, individually plausible telemetry hides the relationship Pip needs.
+
+Source: text lines 2717–3084.
 
 ## Attributes explain differences
 
-A waterfall shows where time was spent, but an investigator also needs to know why this request differed from others. Adding build, host, tenant, and application-specific values to spans makes those comparisons possible. The same structured-event principles apply: useful context belongs with the operation whose behavior it helps explain.
+Pip locates a slow database span but still cannot explain the difference. Timing shows where; build, host, tenant, and domain attributes help explain why this request was unusual. Pip records shard and operation type on the relevant span. The structured-event principle follows the work whose behavior the field explains.
 
-## Apply it
+Source: text lines 2717–3084.
+
+## Transfer challenge: A broken handoff
+
+A checkout trace stops at the payment client while payment-service traces start independently.
+
+### Inspect context injection and extraction
+
+Can restore the missing cross-service relationship. Requires checking both sides of the transport boundary. The next captured request can reveal the complete checkout-to-payment relationship.
+
+### Increase payment span retention
+
+Provides more payment examples. Does not connect them to their originating checkouts. The backend stores a larger collection of disconnected payment operations.
+
+More disconnected spans do not repair missing propagation.
+
+## Draw a trace by hand
 
 Model one request that makes two downstream calls and explain the relationships.
 
-Source: *Observability Engineering*, chapter 6; supplied text lines 2717–3084. These notes are an original synthesis; examples and activities are illustrative.
+- Trace and span identifiers
+- Parent relationship at each hop
+- Where durations overlap

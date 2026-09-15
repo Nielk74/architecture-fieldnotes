@@ -1,27 +1,53 @@
-# 15. Build Versus Buy and Return on Investment
+# Chapter 15: Build Versus Buy and Return on Investment
 
-Compare ownership costs, not only invoices
+*Pip’s adventure: The free stack has a busy crew behind it. Fictional teaching story; concepts follow the cited source.*
 
-A build-versus-buy decision should compare the full cost of delivering an effective observability capability. License prices are visible, while engineering time, infrastructure, hiring, upgrades, integration, and ongoing support are often hidden inside existing budgets. The chapter adds opportunity cost: people maintaining a bespoke platform cannot spend the same time advancing the product. Building can nevertheless develop valuable expertise and deeply fit internal workflows, provided the organization can sustain product management and usability as well as technical implementation. Buying can shorten time to value but still introduces integration work and commercial constraints. The decision therefore needs a shared horizon, realistic adoption expectations, and explicit assumptions about what each option enables the business to do.
+Source: text lines 6226–6675.
+
+Pip compares an observability invoice with a “free” internal stack. Maintenance and displaced product work change the calculation. Both options need a common horizon, required investigative outcomes, and honest assumptions about adoption, integration, and recurring effort.
 
 ## Total ownership includes ongoing work
 
-The price of software is only one part of running an observability capability. Infrastructure, recruitment, upgrades, incident response, integration, and support also consume resources. An open-source stack can be a good choice, but treating existing employees’ time as free hides costs and makes the comparison with a visible commercial invoice misleading.
+Pip calls the market’s observability stack free while three engineers maintain it. Ownership includes infrastructure, hiring, upgrades, incidents, integration, and support as well as software price. Open source can still be the right choice. Pip counts employee time so an invisible labor cost is not compared unfairly with a visible invoice.
+
+Source: text lines 6226–6675.
 
 ## Opportunity cost changes the comparison
 
-Engineering effort has an alternative use. Time spent developing a telemetry backend may displace customer features or reliability improvements elsewhere. Include that forgone work when comparing options, particularly if observability tooling is not the company’s product. A lower invoice does not necessarily mean the organization retains more capacity for its core goals.
+Pip spends a quarter building query infrastructure and delays a customer feature. Engineering time has an alternative use. Forgone product and reliability improvements belong in the build-versus-buy comparison, especially when tooling is not the business’s product. Pip asks which choice preserves capacity for core goals, not only which invoice is smaller.
+
+Source: text lines 6226–6675.
 
 ## An internal platform is a product
 
-A successful bespoke platform needs requirements discovery, usable workflows, prioritization, support, and adoption. Technical feasibility alone does not establish that colleagues will use it effectively. Building may create strong internal expertise and customized integration, but the organization must fund those product responsibilities alongside storage, ingestion, and query implementation.
+Pip’s fast internal backend attracts few investigators. Requirements, usable workflows, prioritization, support, and adoption are product responsibilities. Custom integration and expertise can justify building, but storage and queries alone do not fund those duties. Pip fixes undocumented investigation workarounds rather than treating technical feasibility as product success.
+
+Source: text lines 6226–6675.
 
 ## Compare benefits on a common horizon
 
-Evaluate both options over the same period and against the same required outcomes. Buying may deliver useful investigation sooner; building may provide fit or control that matters locally. Include migration and integration work, distinguish recurring from initial costs, and state assumptions clearly enough to revisit the choice when scale or organizational needs change.
+Pip compares a monthly invoice with a one-time prototype and rejects the mismatch. Both options need the same horizon and required outcomes. Buying may deliver useful investigation sooner; building may provide locally important fit or control. Pip separates initial, recurring, migration, and integration costs, recording assumptions for later reassessment.
 
-## Apply it
+Source: text lines 6226–6675.
+
+## Transfer challenge: The invisible platform team
+
+A commercial quote looks expensive, but an internal stack already occupies several engineers.
+
+### Compare full ownership and displaced work
+
+Makes staffing, operations, and product delay visible. Requires gathering costs across multiple budgets. Decision makers can see which option preserves more capacity for business priorities.
+
+### Choose solely by the license line
+
+Is quick and aligns with the visible purchasing budget. Can select the more expensive option by omitting hidden work. The internal stack can win on paper while consuming more total resources.
+
+Compare the same outcome and time horizon, with costs included wherever the organization currently records them.
+
+## Build a fair comparison
 
 Outline the costs and benefits of two realistic options for one year.
 
-Source: *Observability Engineering*, chapter 15; supplied text lines 6226–6675. These notes are an original synthesis; examples and activities are illustrative.
+- Initial and recurring costs
+- Work displaced by internal ownership
+- Required outcomes and adoption assumptions

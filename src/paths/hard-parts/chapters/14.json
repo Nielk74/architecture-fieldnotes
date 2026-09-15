@@ -1,1 +1,437 @@
-{"number":14,"title":"Managing Analytical Data","part":"Contracts & analysis","subtitle":"Separate reporting needs from operational workloads","summary":"Analytical and operational data serve different purposes, formats, and query patterns. The Data Warehouse centralizes extracted and transformed data so analysts can run specialized queries without burdening operational stores, but its pipelines and schema work are expensive and can become stale or rigid. The Data Lake reverses that model: it loads data in natural form and transforms it when a use appears, reducing premature work while shifting discovery, quality, and transformation burden to consumers. The chapter introduces Data Mesh as a newer response to the limits of centralized analytical platforms. Its key architectural question is where ownership, preparation, governance, and query cost should live as operational data becomes distributed. A useful design separates analytical access from transactional paths and chooses centralization, deferred transformation, or domain ownership according to actual consumers and quality requirements.","source":{"startLine":8722,"endLine":9078,"reference":"text lines 8722–9078"},"concepts":[{"title":"Two data purposes","body":"Operational systems optimize current transactions and updates; analytical systems optimize queries, aggregations, historical views, and prediction. Their schemas and workloads differ, so joining them directly can add expensive work or destabilize transactional performance. Architecture must decide how analytical data is copied, shaped, owned, and queried.","example":"Order placement needs fast writes and current state. Planning needs years of orders grouped by region and product, with calculations that should not compete with checkout traffic.","source":"text lines 8726–8746"},{"title":"Data warehouse","body":"A warehouse extracts data from many sources, transforms it into a designed analytical schema, loads it centrally, and runs analysis there. Central governance and predictable queries are useful, but extraction pipelines, transformation cost, storage, and freshness create substantial operational and maintenance commitments.","example":"Nightly order, inventory, and customer extracts are conformed into reporting dimensions so finance can run repeatable regional revenue queries.","source":"text lines 8738–8836"},{"title":"Data lake","body":"A lake keeps the centralized model and pipelines but changes transform-and-load to load-and-transform. Raw data is stored in its natural format and transformed when a consumer has a concrete need. This avoids work for analyses that never arrive, while making discovery, quality, schema interpretation, and repeated transformation someone’s responsibility.","example":"Raw clickstream, order, and sensor files land first. A data scientist later creates a curated feature set for a forecasting experiment rather than requiring every field to be modeled upfront.","source":"text lines 8836–8888"},{"title":"Data Mesh direction","body":"Data Mesh appears as a response to the limits of centralized analytical approaches in distributed organizations. The relevant trade-off shifts toward domain ownership, analytical data as a product, federated governance, and self-service capabilities. It distributes responsibility as well as data, so organizational readiness becomes part of the design.","example":"Sales owns a documented revenue dataset while logistics owns delivery events; shared governance defines discoverability and quality expectations without one team transforming everything.","source":"text lines 8889–9078"}],"misconceptions":[{"claim":"A warehouse and operational database should always be the same store for simplicity.","correction":"Analytical aggregation and historical queries can compete with transactional workloads and need different schemas. Separation is a workload trade-off, not needless duplication."},{"claim":"A data lake removes data modeling and quality work.","correction":"It defers transformation and makes raw data available; consumers still pay for interpretation, quality, lineage, and repeatable curated outputs."}],"scenario":{"title":"Build planning analytics","context":"An online retailer wants predictive inventory planning while checkout must remain reliable. Data comes from orders, warehouses, suppliers, and customer behavior. Analysts need reproducible metrics; data scientists need raw history; domain teams vary in their ability to document datasets. Choose an analytical arrangement and define where quality and ownership sit.","options":[{"label":"Warehouse first","benefit":"Curated schemas and centralized governance support consistent reporting and protected operational workloads.","cost":"Upfront extraction and transformation are expensive, and new exploratory uses wait for pipeline work.","consequence":"Finance gets trusted weekly metrics quickly, but a new forecasting feature requires another modeled pipeline and may lag behind changing source data."},{"label":"Lake with domains","benefit":"Raw history supports exploration and domain teams can publish curated datasets as needs emerge.","cost":"Consumers face discovery and quality variation, while governance and ownership require organizational discipline.","consequence":"Data science starts from raw events, while inventory publishes a documented feature dataset. Shared checks are needed to prevent opaque, duplicated transformations."}],"debrief":"Predictable recurring metrics favor curated warehouse paths; exploratory and distributed ownership needs favor lake or mesh practices. The decision must name who pays for freshness, quality, and transformation."},"quiz":[{"question":"Why separate analytical and operational data?","options":["Their workloads, schemas, and query purposes differ","Analytical users never need history","Operational systems cannot store records"],"answer":0,"explanation":"Analytical aggregation can be costly and shaped differently from transactional updates."},{"question":"What changes in a data lake?","options":["Transform before loading everything","Load natural data and transform when needed","Remove all pipelines and governance"],"answer":1,"explanation":"The lake defers transformation; it does not eliminate the work or responsibility."},{"question":"What organizational issue does a data mesh make explicit?","options":["Domain ownership and federated governance","The end of analytical data","A requirement for one central schema"],"answer":0,"explanation":"Mesh approaches distribute data product responsibility and require shared governance."}],"exercise":{"title":"Trace an analytical product","prompt":"Pick one analytical question. Map its operational sources, transformation point, owner, freshness expectation, quality checks, and consumer access path.","fields":[{"label":"Context","placeholder":"Question, sources, and operational constraints"},{"label":"Decision","placeholder":"Warehouse, lake, mesh, or combination"},{"label":"Trade-off","placeholder":"Freshness, cost, quality, and ownership"}]},"visual":{"nodes":[{"id":"ops","label":"OPERATIONS","kind":"database","tone":"peach"},{"id":"ingest","label":"INGEST","kind":"queue","tone":"lilac"},{"id":"product","label":"DATA PRODUCT","kind":"document","tone":"sage"},{"id":"analysis","label":"ANALYSIS","kind":"gauge","tone":"peach"}],"edges":[{"from":"ops","to":"ingest"},{"from":"ingest","to":"product"},{"from":"product","to":"analysis"}],"steps":[{"node":"ops","text":"Keep transactional records optimized for operational behavior."},{"node":"ingest","text":"Extract or load records into an analytical path with defined freshness."},{"node":"product","text":"Transform, document, and govern a reusable analytical dataset."},{"node":"analysis","text":"Run reporting or modeling without competing with checkout workloads."}]}}
+{
+  "number": 14,
+  "title": "Managing Analytical Data",
+  "part": "Contracts & analysis",
+  "subtitle": "Separate reporting needs from operational workloads",
+  "summary": "Pip’s planning query competes with live parcel intake. Operational transactions and historical analysis need different shapes and ownership. The crew compares a warehouse, a lake, and domain-owned analytical products without hiding who must ensure quality and freshness.",
+  "source": {
+    "startLine": 8722,
+    "endLine": 9078,
+    "reference": "text lines 8722–9078"
+  },
+  "concepts": [
+    {
+      "title": "Two data purposes",
+      "body": "Pip runs years of regional delivery totals against live intake. Operational stores favor current transactions and updates; analytics favor history, aggregation, and prediction. Their workloads and schemas differ, so direct joins can destabilize transactions. Pip decides how analytical copies are shaped, owned, and queried off the critical path.",
+      "example": "",
+      "source": "text lines 8726–8746",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "parcel",
+            "label": "LIVE INTAKE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "database",
+            "label": "OPERATIONAL DATA",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "HISTORICAL ANALYSIS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip runs years of regional delivery totals against live intake."
+          },
+          {
+            "node": "step-1",
+            "text": "Operational stores favor current transactions and updates; analytics favor history, aggregation, and prediction."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip decides how analytical copies are shaped, owned, and queried off the critical path."
+          }
+        ]
+      }
+    },
+    {
+      "title": "Data warehouse",
+      "body": "Pip needs repeatable regional revenue figures. A warehouse extracts sources, transforms them into a designed analytical schema, loads centrally, then supports analysis. Central governance and predictable queries help the finance crew. Pip budgets pipelines, transformation, storage, freshness, and maintenance rather than treating the reporting table as free.",
+      "example": "",
+      "source": "text lines 8738–8836",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "SOURCE EXTRACTS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "terminal",
+            "label": "TRANSFORM FIRST",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "database",
+            "label": "WAREHOUSE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip needs repeatable regional revenue figures."
+          },
+          {
+            "node": "step-1",
+            "text": "A warehouse extracts sources, transforms them into a designed analytical schema, loads centrally, then supports analysis."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip budgets pipelines, transformation, storage, freshness, and maintenance rather than treating the reporting table as free."
+          }
+        ]
+      }
+    },
+    {
+      "title": "Data lake",
+      "body": "Pip stores raw orders, clicks, and sensor files before a forecast is requested. A lake loads natural formats and transforms later for a concrete consumer. It avoids premature transformation while retaining centralized storage and pipelines. Pip assigns discovery, quality, interpretation, and repeated transformation work so deferred modeling does not become nobody’s job.",
+      "example": "",
+      "source": "text lines 8836–8888",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "source",
+            "label": "RAW FILES",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "database",
+            "label": "LAKE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "terminal",
+            "label": "TRANSFORM ON USE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip stores raw orders, clicks, and sensor files before a forecast is requested."
+          },
+          {
+            "node": "step-1",
+            "text": "A lake loads natural formats and transforms later for a concrete consumer."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip assigns discovery, quality, interpretation, and repeated transformation work so deferred modeling does not become nobody’s job."
+          }
+        ]
+      }
+    },
+    {
+      "title": "Data Mesh direction",
+      "body": "Pip asks logistics to own delivery events and sales to own revenue data. Data Mesh shifts toward domain-owned analytical products, federated governance, and self-service capabilities. Shared discoverability and quality rules replace one team transforming everything. Pip checks organizational readiness because responsibility, not only data, becomes distributed.",
+      "example": "",
+      "source": "text lines 8889–9078",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "parcel",
+            "label": "LOGISTICS PRODUCT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "SALES PRODUCT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "FEDERATED GOVERNANCE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks logistics to own delivery events and sales to own revenue data."
+          },
+          {
+            "node": "step-1",
+            "text": "Data Mesh shifts toward domain-owned analytical products, federated governance, and self-service capabilities."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip checks organizational readiness because responsibility, not only data, becomes distributed."
+          }
+        ]
+      }
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "A warehouse and operational database should always be the same store for simplicity.",
+      "correction": "Analytical aggregation and historical queries can compete with transactional workloads and need different schemas. Separation is a workload trade-off, not needless duplication."
+    },
+    {
+      "claim": "A data lake removes data modeling and quality work.",
+      "correction": "It defers transformation and makes raw data available; consumers still pay for interpretation, quality, lineage, and repeatable curated outputs."
+    }
+  ],
+  "scenario": {
+    "title": "Build planning analytics",
+    "context": "An online retailer wants predictive inventory planning while checkout must remain reliable. Data comes from orders, warehouses, suppliers, and customer behavior. Analysts need reproducible metrics; data scientists need raw history; domain teams vary in their ability to document datasets. Choose an analytical arrangement and define where quality and ownership sit.",
+    "options": [
+      {
+        "label": "Warehouse first",
+        "benefit": "Curated schemas and centralized governance support consistent reporting and protected operational workloads.",
+        "cost": "Upfront extraction and transformation are expensive, and new exploratory uses wait for pipeline work.",
+        "consequence": "Finance gets trusted weekly metrics quickly, but a new forecasting feature requires another modeled pipeline and may lag behind changing source data."
+      },
+      {
+        "label": "Lake with domains",
+        "benefit": "Raw history supports exploration and domain teams can publish curated datasets as needs emerge.",
+        "cost": "Consumers face discovery and quality variation, while governance and ownership require organizational discipline.",
+        "consequence": "Data science starts from raw events, while inventory publishes a documented feature dataset. Shared checks are needed to prevent opaque, duplicated transformations."
+      }
+    ],
+    "debrief": "Predictable recurring metrics favor curated warehouse paths; exploratory and distributed ownership needs favor lake or mesh practices. The decision must name who pays for freshness, quality, and transformation."
+  },
+  "quiz": [
+    {
+      "question": "Why separate analytical and operational data?",
+      "options": [
+        "Their workloads, schemas, and query purposes differ",
+        "Analytical users never need history",
+        "Operational systems cannot store records"
+      ],
+      "answer": 0,
+      "explanation": "Analytical aggregation can be costly and shaped differently from transactional updates."
+    },
+    {
+      "question": "What changes in a data lake?",
+      "options": [
+        "Transform before loading everything",
+        "Load natural data and transform when needed",
+        "Remove all pipelines and governance"
+      ],
+      "answer": 1,
+      "explanation": "The lake defers transformation; it does not eliminate the work or responsibility."
+    },
+    {
+      "question": "What organizational issue does a data mesh make explicit?",
+      "options": [
+        "Domain ownership and federated governance",
+        "The end of analytical data",
+        "A requirement for one central schema"
+      ],
+      "answer": 0,
+      "explanation": "Mesh approaches distribute data product responsibility and require shared governance."
+    }
+  ],
+  "exercise": {
+    "title": "Trace an analytical product",
+    "prompt": "Pick one analytical question. Map its operational sources, transformation point, owner, freshness expectation, quality checks, and consumer access path.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Question, sources, and operational constraints"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Warehouse, lake, mesh, or combination"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Freshness, cost, quality, and ownership"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "hard-parts"
+      },
+      {
+        "id": "step-1",
+        "kind": "parcel",
+        "label": "LIVE INTAKE",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "database",
+        "label": "OPERATIONAL DATA",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "gauge",
+        "label": "HISTORICAL ANALYSIS",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
+      },
+      {
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
+      },
+      {
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "Pip runs years of regional delivery totals against live intake."
+      },
+      {
+        "node": "step-1",
+        "text": "Operational stores favor current transactions and updates; analytics favor history, aggregation, and prediction."
+      },
+      {
+        "node": "step-3",
+        "text": "Pip decides how analytical copies are shaped, owned, and queried off the critical path."
+      }
+    ]
+  },
+  "story": {
+    "course": "hard-parts",
+    "world": "islands",
+    "title": "Tomorrow’s forecast must not block today’s parcel"
+  }
+}

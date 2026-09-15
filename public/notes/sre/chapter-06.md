@@ -1,27 +1,53 @@
 # Chapter 6: Monitoring Distributed Systems
 
-Use golden signals and actionable symptoms to protect the pager
+*Pip’s adventure: The fast reply contains the wrong booking. Fictional teaching story; concepts follow the cited source.*
 
-Monitoring supports planning, diagnosis, comparison, and alerting, but these purposes do not all justify interrupting a person. A page should indicate an urgent condition with a useful response. Latency, traffic, errors, and saturation provide a compact view of service health; their definitions must reflect the service and distinguish failed requests from successful ones. Distributions matter because averages hide slow tails and uneven resource pressure. Black-box checks expose externally visible failures, while internal measurements reveal mechanisms and impending constraints. Neither perspective is sufficient alone. Keep the path from failure detection to page simple enough for the team to understand. Repeated, predictable responses are candidates for automation or design repair, and monitoring work should reduce long-term operational burden rather than normalize constant interruption.
+Source: text lines 2452–2891.
+
+Pip’s dashboard looks healthy because failures return quickly. Monitoring must connect latency, traffic, errors, and saturation to user outcomes. The crew combines external checks with internal evidence and pages people for actionable problems rather than every interesting signal.
 
 ## The four golden signals
 
-Latency measures how long requests take, traffic describes demand, errors capture unsuccessful results, and saturation shows pressure on the limiting resource. Together they connect user experience with load and available headroom. Measure successful and failed request latency separately, because quick failures can make an aggregate timer look healthy. An error can also be wrong content or a response that violates a promised deadline.
+Pip receives a fast HTTP 200 showing the wrong booking balance. Errors include wrong content and missed deadlines, not just status codes. Latency, traffic, errors, and saturation connect experience, demand, and limiting-resource pressure. Pip measures successful and failed latency separately so fast failures cannot improve the apparent average.
+
+Source: text lines 2452–2891.
 
 ## Symptoms justify pages; causes guide diagnosis
 
-A symptom describes what is failing for the service, while a cause explains why. Pages should usually target urgent symptoms or clear imminent problems that require human action. Internal causes remain valuable diagnostic evidence without each needing a separate interruption. The distinction depends on viewpoint: slow database requests are a symptom for database owners and a possible cause for a slow frontend.
+Pip’s phone buzzes for every database queue change. Pages should usually indicate urgent service symptoms or clear imminent problems needing human action. Internal causes remain diagnostic context; the database owner may see that same queue as a symptom. Pip pages on booking failures and attaches queue depth to guide diagnosis.
+
+Source: text lines 2452–2891.
 
 ## Black-box and white-box coverage
 
-Black-box monitoring exercises behavior from outside the system, revealing whether a user-like operation currently works. White-box monitoring reads internal metrics or logs and can expose hidden retries, approaching resource exhaustion, and diagnostic detail. Combining them helps distinguish a working process from a working service and can reveal problems before they cause complete external failure.
+Pip’s process responds, but a passenger-like search returns nonsense. Black-box probes test external behavior; white-box metrics and logs reveal internal retries, pressure, and causes. Pip combines the failed search with backend queue evidence. A running process is not proof of a working service.
+
+Source: text lines 2452–2891.
 
 ## Resolution, tails, and monitoring simplicity
 
-A mean can hide rare slow requests and a long sampling interval can hide brief resource spikes. Histograms preserve useful distributions without retaining every individual event. Select collection resolution according to the failure being detected and its cost. Keep alert rules understandable and periodically remove unused signals or obsolete conditions so the monitoring system does not become another fragile service dependency.
+Pip’s minute-average hides brief CPU bursts. Shorter sampling can reveal them; histograms preserve useful distributions without every raw event. Pip chooses resolution according to detection needs and cost, including latency tails. Understandable alert rules and removal of obsolete signals keep monitoring from becoming another fragile dependency.
 
-## Apply it
+Source: text lines 2452–2891.
+
+## Transfer challenge: Page on symptoms users feel
+
+A service has dashboards for CPU, garbage collection, queue depth, and request failures. During incidents the on-call receives ten pages for one user-visible outage.
+
+### Page on a small set of actionable symptoms
+
+The responder starts from impact and has a clear next action. Some precursors may be missed without supporting dashboards. The team pages on failed requests and keeps resource metrics for diagnosis.
+
+### Add more infrastructure alerts
+
+Additional signals may reveal an early resource problem. Alert volume increases and masks the primary failure. The extra pages are tuned later after measuring false positives.
+
+Page on user symptoms and retain causal metrics for diagnosis; adding pages for every precursor would make the responder less reliable.
+
+## Design one actionable page
 
 Choose an urgent user-visible failure, define its detection, and identify internal measurements that help diagnose it without creating additional pages.
 
-Source: *Site Reliability Engineering*, chapter 6, text lines 2452–2891. This note is an original synthesis; the exercise is a teaching extension.
+- Symptom and action
+- Four-signal coverage
+- Noise check

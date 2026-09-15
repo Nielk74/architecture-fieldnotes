@@ -1,27 +1,53 @@
 # Chapter 3: Embracing Risk
 
-Choose reliability by user impact, cost, and the risk left for change
+*Pip’s adventure: Another nine has a price. Fictional teaching story; concepts follow the cited source.*
 
-Reliability is a choice about acceptable risk, not a contest to collect the most nines. Extra availability consumes money and engineering time that could deliver features or reduce other risks. The appropriate target depends on the service’s users, business role, and consequences of failure. A partial outage is easier to describe through unsuccessful requests than through a single global up/down state, although requests can differ greatly in value. Infrastructure often needs distinct service classes because latency-sensitive clients and batch clients want different resource trade-offs. An error budget makes the chosen tolerance operational: measured failures consume a shared allowance, including failures caused by infrastructure. Release policy can then respond to remaining budget instead of the negotiating strength of competing teams.
+Source: text lines 1485–1904.
+
+Pip wants perfect harbor availability, but every extra guarantee costs capacity, engineering time, and freedom to change. The crew chooses reliability around user consequences, measures partial failures, and gives different workloads service classes that fit their needs.
 
 ## Reliability has an opportunity cost
 
-Moving toward higher availability requires additional resources, engineering work, and restrictions on change. Those costs must be compared with the benefit users or the business receive. A service can be overengineered when further reliability is less valuable than other improvements. Choosing the target requires product judgment about user expectations and failure consequences, supported by engineering estimates of cost and feasibility.
+Pip proposes another expensive nine of uptime for a reporting tool. Higher availability consumes resources, engineering work, and room for change. Product judgment weighs user expectations and failure consequences against other useful improvements. Pip supports that choice with feasibility and cost estimates instead of assuming maximum reliability always wins.
+
+Source: text lines 1485–1904.
 
 ## Request-based availability captures partial failure
 
-Time-based availability divides uptime by the whole observation period. For a distributed service that remains partly available, successful requests divided by total requests often represents impact more usefully. The denominator and measurement period must be explicit. This aggregate remains an approximation: losing a critical transaction can matter more than losing an optional refresh, even if both count as one failed request.
+Pip sees a region fail while most harbor requests still succeed. Time-based uptime hides that partial impact; request availability uses successful requests divided by total eligible requests. Losing 2,000 of a million daily requests yields 99.8% success. Pip states the window and denominator, remembering that critical transactions may matter more than optional refreshes.
+
+Source: text lines 1485–1904.
 
 ## Different clients need different service classes
 
-An interactive client benefits from short queues and spare capacity, while a batch client may accept delay in exchange for high throughput and lower cost. A shared infrastructure service can expose separate classes with different redundancy, placement, and resource policies. Clients then select the lowest-cost class that still meets their needs instead of forcing every workload to fund the strictest target.
+Pip gives batch reports the same spare capacity as interactive booking. Batch clients may accept queues for throughput and lower cost; interactive clients need short delays. Separate classes can vary redundancy, placement, and resource policies. Pip chooses the least expensive class that meets each workload’s needs.
+
+Source: text lines 1485–1904.
 
 ## Measured failures consume a shared budget
 
-The error budget is the allowable unreliability implied by the service objective. Monitoring records consumption regardless of whether a release, network failure, or other event caused it. Teams agree how remaining budget changes release policy. This gives both developers and SRE an incentive to reduce change risk: avoiding failures preserves room for useful experiments and new features.
+Pip’s network incident spends half the shared error allowance. Failures consume the budget regardless of whether a release, network, or another cause produced them. The team’s agreed policy now calls for a smaller canary and slower expansion. Pip preserves room for future change by reducing risk, not by arguing whose failures count.
 
-## Apply it
+Source: text lines 1485–1904.
+
+## Transfer challenge: Spend reliability deliberately
+
+A payments API is currently more reliable than its target, but a release would consume some of that margin while fixing a costly reconciliation process. The team must choose whether to release during the measured budget period.
+
+### Release within the error budget
+
+The team buys user value while staying inside an agreed reliability allowance. A weak SLO or bad measurement could hide real user harm. The release proceeds with rollback and budget monitoring.
+
+### Freeze all change until perfect reliability
+
+The service avoids introducing new failure during a sensitive period. The backlog and operational cost grow without a defined benefit. No outage occurs, but the reconciliation problem remains and consumes engineers.
+
+An error budget turns reliability into a release decision: spend it for user value only while the SLO and rollback signal remain trustworthy.
+
+## Price one additional nine
 
 Compare an interactive checkout service with a nightly report. Explain which failure consequences justify different objectives and define a budget-based release decision.
 
-Source: *Site Reliability Engineering*, chapter 3, text lines 1485–1904. This note is an original synthesis; the exercise is a teaching extension.
+- User consequences
+- Cost of improvement
+- Budget policy

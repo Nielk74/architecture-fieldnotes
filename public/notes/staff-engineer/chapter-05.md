@@ -1,25 +1,27 @@
 # Chapter 5: Leading Big Projects
 
+*Pip’s adventure: Six finished tasks and a broken handoff. Fictional teaching story; concepts follow the cited source.*
+
 Original learning summary of Tanya Reilly's The Staff Engineer’s Path (2022). Source: text lines 5122–6512.
 
-Leading a project across teams means creating context, defining done, agreeing on scope and logistics, and keeping risks visible. The leader coordinates without taking every task, uses milestones as learning checkpoints, and gives ownership back to the teams doing the work.
+Six teams finish their tasks, but the migrated service still fails. Pip reconnects context, scope, logistics, risk, and a shared definition of done. Milestones should expose evidence; delegation gives ownership to the teams doing the work, not every task to Pip.
 
 ## Context
 
-Project context explains the problem, goals, constraints, stakeholders, and why the work matters. Before distributing tasks, explain the problem and the desired outcome. People need enough context to resolve surprises without constantly asking the project lead. Include affected teams and operational constraints, not only the implementation plan.
+Pip distributes tickets before explaining the migration. Each team makes choices that conflict at the handoff. Project context supplies the missing picture: the problem, outcome, constraints, stakeholders, and why it matters. Pip brings affected teams and a dependency into the kickoff. With operational constraints visible, colleagues can handle surprises without asking the project lead to decide every detail.
 
 ## Definition of done
 
-Done names the observable outcome and acceptance conditions, not merely that code has merged. Agree on what will be true when the project is finished. Deployment, adoption, support ownership, and retirement of the old system can matter as much as merged code. Shared completion criteria prevent different teams from stopping at incompatible endpoints.
+“Merged,” says one team. “Adopted,” says another. Pip asks what must be true for the migration to be done. A user completing the flow and recovering from failure is stronger evidence than a closed ticket. Deployment, adoption, support ownership, and retiring the old system may all belong in the agreement. Shared acceptance conditions keep workshop teams from stopping at incompatible finish lines.
 
 ## Milestones
 
-Milestones are checkpoints for learning and coordination, allowing scope or approach to change before the end. Break a long effort into meaningful checkpoints that reveal progress and risk. A milestone should create information or a usable outcome, not merely a date on a slide. Use what it reveals to adjust the remaining plan and communicate changes.
+The slide says “milestone Friday,” but nobody knows what it proves. Pip replaces the date-only checkpoint with a real-data handoff between two teams. A milestone should reveal progress, risk, or a usable outcome while the remaining plan can still change. Colleagues use the result to adjust scope and communicate the new route. Checkpoints coordinate learning; they do not make uncertainty disappear from a calendar.
 
 ## Delegation
 
-Delegation transfers ownership with context and support; it is different from dropping an unclear task on another team. Give the new owner a clear outcome, relevant context, decision room, and a way to ask for help. Agree on checkpoints without taking every decision back. This builds capacity and makes the project less dependent on the lead being continuously available.
+Pip hands over a task, then keeps answering every decision. That is not much ownership. Delegation needs a clear outcome, relevant context, room to decide, support, and an escalation path. Pip agrees checkpoints with the new owner without taking each choice back. The handoff builds capability and makes the project less dependent on one person’s constant availability; it is more than dropping an unclear ticket on another team.
 
 ## Teaching extension
 
-A cross-team migration has six owners, an external dependency, and no shared definition of done. A launch window is immovable. These invented practice choices are not reported incidents from the book. Use the reflection to apply the distinction to your own role.
+Pip’s migration has six owners, an external dependency, and no shared finish line. The workshop cannot move the launch window. These invented practice choices are not reported incidents from the book. Use the reflection to apply the distinction to your own role.

@@ -1,0 +1,11 @@
+// Course-entry scenes establish the setting; chapter scenes teach its mechanisms.
+export const adventures={
+ fundamentals:{world:'bookshop',hook:'Pip opens a bookshop.',description:'Follow orders, compare architecture styles, and discover the costs behind each boundary.',props:[['storefront','BOOKSHOP'],['parcel','FIRST ORDER'],['blueprint','DESIGN CHOICES']]},
+ 'hard-parts':{world:'islands',hook:'A parcel crosses the boundaries.',description:'Join Pip’s island delivery network to untangle services, distributed data, and recovery.',props:[['ferry','ISLAND NETWORK'],['parcel','PENDING DELIVERY'],['queue','COORDINATION']]},
+ 'staff-engineer':{world:'workshop',hook:'Pip helps the workshop grow.',description:'Listen, find shared direction, and help others lead the technical work.',props:[['workshop','THE WORKSHOP'],['listening','LISTEN FIRST'],['handoff','SHARED OWNERSHIP']]},
+ 'responsible-engineering':{world:'civic',hook:'Build with the people affected.',description:'Join Pip and residents to examine fairness, privacy, safety, and environmental consequences.',props:[['stakeholders','TOWN RESIDENTS'],['phone','PUBLIC SERVICE'],['shield','RESPONSIBLE CHOICES']]},
+ sre:{world:'harbor',hook:'Pip joins the harbor crew.',description:'Keep booking services useful through error budgets, less toil, practiced response, and recovery.',props:[['ferry','HARBOR BOOKINGS'],['alert','SERVICE TROUBLE'],['colleague','RESPONSE CREW']]},
+ observability:{world:'market',hook:'A mystery at the night market.',description:'Follow Pip from a customer’s complaint through events, traces, and testable explanations.',props:[['market','NIGHT MARKET'],['trace','REQUEST EVIDENCE'],['search','FOLLOW THE CLUE']]},
+ 'ai-agents':{world:'museum',hook:'Pip builds a museum guide.',description:'Give a curious guide useful tools, memory, boundaries, evaluation, and human handoffs.',props:[['museum','THE MUSEUM'],['agent','TOOL-USING GUIDE'],['gateway','BOUNDED AUTHORITY']]},
+ 'green-software':{world:'cinema',hook:'One screening. A smaller footprint.',description:'Help Pip prepare the cinema with less waste, longer-lived hardware, and carbon evidence.',props:[['cinema','TOWN SCREENING'],['service','USEFUL COMPUTE'],['leaf','LOWER IMPACT']]},
+};

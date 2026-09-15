@@ -3,7 +3,7 @@
   "title": "Monitoring Distributed Systems",
   "part": "Operations",
   "subtitle": "Use golden signals and actionable symptoms to protect the pager",
-  "summary": "Monitoring supports planning, diagnosis, comparison, and alerting, but these purposes do not all justify interrupting a person. A page should indicate an urgent condition with a useful response. Latency, traffic, errors, and saturation provide a compact view of service health; their definitions must reflect the service and distinguish failed requests from successful ones. Distributions matter because averages hide slow tails and uneven resource pressure. Black-box checks expose externally visible failures, while internal measurements reveal mechanisms and impending constraints. Neither perspective is sufficient alone. Keep the path from failure detection to page simple enough for the team to understand. Repeated, predictable responses are candidates for automation or design repair, and monitoring work should reduce long-term operational burden rather than normalize constant interruption.",
+  "summary": "Pip’s dashboard looks healthy because failures return quickly. Monitoring must connect latency, traffic, errors, and saturation to user outcomes. The crew combines external checks with internal evidence and pages people for actionable problems rather than every interesting signal.",
   "source": {
     "startLine": 2452,
     "endLine": 2891,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "The four golden signals",
-      "body": "Latency measures how long requests take, traffic describes demand, errors capture unsuccessful results, and saturation shows pressure on the limiting resource. Together they connect user experience with load and available headroom. Measure successful and failed request latency separately, because quick failures can make an aggregate timer look healthy. An error can also be wrong content or a response that violates a promised deadline.",
-      "example": "Teaching extension: A fast HTTP 200 with the wrong account balance is still a failed service outcome.",
-      "source": "text lines 2452–2891"
+      "body": "Pip receives a fast HTTP 200 showing the wrong booking balance. Errors include wrong content and missed deadlines, not just status codes. Latency, traffic, errors, and saturation connect experience, demand, and limiting-resource pressure. Pip measures successful and failed latency separately so fast failures cannot improve the apparent average.",
+      "example": "",
+      "source": "text lines 2452–2891",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "phone",
+            "label": "WRONG RESULT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "FOUR GOLDEN SIGNALS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "SUCCESS VS FAILURE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip receives a fast HTTP 200 showing the wrong booking balance."
+          },
+          {
+            "node": "step-1",
+            "text": "Errors include wrong content and missed deadlines, not just status codes."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip measures successful and failed latency separately so fast failures cannot improve the apparent average."
+          }
+        ]
+      }
     },
     {
       "title": "Symptoms justify pages; causes guide diagnosis",
-      "body": "A symptom describes what is failing for the service, while a cause explains why. Pages should usually target urgent symptoms or clear imminent problems that require human action. Internal causes remain valuable diagnostic evidence without each needing a separate interruption. The distinction depends on viewpoint: slow database requests are a symptom for database owners and a possible cause for a slow frontend.",
-      "example": "Teaching extension: Page on checkout failures and attach database queue depth as context for the responder.",
-      "source": "text lines 2452–2891"
+      "body": "Pip’s phone buzzes for every database queue change. Pages should usually indicate urgent service symptoms or clear imminent problems needing human action. Internal causes remain diagnostic context; the database owner may see that same queue as a symptom. Pip pages on booking failures and attaches queue depth to guide diagnosis.",
+      "example": "",
+      "source": "text lines 2452–2891",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "BOOKING FAILURES",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "database",
+            "label": "QUEUE EVIDENCE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "colleague",
+            "label": "ACTIONABLE PAGE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s phone buzzes for every database queue change."
+          },
+          {
+            "node": "step-1",
+            "text": "Pages should usually indicate urgent service symptoms or clear imminent problems needing human action."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip pages on booking failures and attaches queue depth to guide diagnosis."
+          }
+        ]
+      }
     },
     {
       "title": "Black-box and white-box coverage",
-      "body": "Black-box monitoring exercises behavior from outside the system, revealing whether a user-like operation currently works. White-box monitoring reads internal metrics or logs and can expose hidden retries, approaching resource exhaustion, and diagnostic detail. Combining them helps distinguish a working process from a working service and can reveal problems before they cause complete external failure.",
-      "example": "Teaching extension: An external search probe catches wrong results while internal queue metrics identify the overloaded backend.",
-      "source": "text lines 2452–2891"
+      "body": "Pip’s process responds, but a passenger-like search returns nonsense. Black-box probes test external behavior; white-box metrics and logs reveal internal retries, pressure, and causes. Pip combines the failed search with backend queue evidence. A running process is not proof of a working service.",
+      "example": "",
+      "source": "text lines 2452–2891",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "search",
+            "label": "EXTERNAL PROBE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "trace",
+            "label": "INTERNAL EVIDENCE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "service",
+            "label": "OVERLOADED BACKEND",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s process responds, but a passenger-like search returns nonsense."
+          },
+          {
+            "node": "step-1",
+            "text": "Black-box probes test external behavior; white-box metrics and logs reveal internal retries, pressure, and causes."
+          },
+          {
+            "node": "step-3",
+            "text": "A running process is not proof of a working service."
+          }
+        ]
+      }
     },
     {
       "title": "Resolution, tails, and monitoring simplicity",
-      "body": "A mean can hide rare slow requests and a long sampling interval can hide brief resource spikes. Histograms preserve useful distributions without retaining every individual event. Select collection resolution according to the failure being detected and its cost. Keep alert rules understandable and periodically remove unused signals or obsolete conditions so the monitoring system does not become another fragile service dependency.",
-      "example": "Teaching extension: Per-second samples bucketed locally reveal CPU bursts that a single minute-average would hide.",
-      "source": "text lines 2452–2891"
+      "body": "Pip’s minute-average hides brief CPU bursts. Shorter sampling can reveal them; histograms preserve useful distributions without every raw event. Pip chooses resolution according to detection needs and cost, including latency tails. Understandable alert rules and removal of obsolete signals keep monitoring from becoming another fragile dependency.",
+      "example": "",
+      "source": "text lines 2452–2891",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "HIDDEN BURSTS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "HISTOGRAMS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "SIMPLE ALERT RULES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s minute-average hides brief CPU bursts."
+          },
+          {
+            "node": "step-1",
+            "text": "Shorter sampling can reveal them; histograms preserve useful distributions without every raw event."
+          },
+          {
+            "node": "step-3",
+            "text": "Understandable alert rules and removal of obsolete signals keep monitoring from becoming another fragile dependency."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,81 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Monitoring Distributed Systems: ON-CALL to SIGNAL to PAGE to TRACE",
     "nodes": [
       {
-        "id": "observe",
-        "label": "ON-CALL",
-        "caption": "inputs and constraints",
-        "kind": "person",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "SIGNAL",
-        "caption": "choose the operating rule",
-        "kind": "gauge",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "PAGE",
-        "caption": "observe the effect",
-        "kind": "alert",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "TRACE",
-        "caption": "feed learning back",
-        "kind": "trace",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "phone",
+        "label": "WRONG RESULT",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "gauge",
+        "label": "FOUR GOLDEN SIGNALS",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "clock",
+        "label": "SUCCESS VS FAILURE",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
-      },
-      {
-        "from": "learn",
-        "to": "observe",
-        "dashed": true
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "inputs and constraints"
+        "node": "step-0",
+        "text": "Pip receives a fast HTTP 200 showing the wrong booking balance."
       },
       {
-        "node": "decide",
-        "text": "choose the operating rule"
+        "node": "step-1",
+        "text": "Errors include wrong content and missed deadlines, not just status codes."
       },
       {
-        "node": "act",
-        "text": "observe the effect"
-      },
-      {
-        "node": "learn",
-        "text": "feed learning back"
+        "node": "step-3",
+        "text": "Pip measures successful and failed latency separately so fast failures cannot improve the apparent average."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "The fast reply contains the wrong booking"
   }
 }

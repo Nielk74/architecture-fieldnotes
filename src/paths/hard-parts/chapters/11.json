@@ -1,1 +1,437 @@
-{"number":11,"title":"Managing Distributed Workflows","part":"Distributed decisions","subtitle":"Choose coordination for the workflow you actually have","summary":"Distributed workflows combine services to perform domain work, so their design is governed by communication, consistency, and coordination. Orchestration gives one workflow specific mediator responsibility for state, alternate paths, retries, and errors. Choreography distributes those responsibilities across participating services and can reduce a central bottleneck, but error paths add communication links and domain complexity. Neither style removes semantic coupling: the business workflow already requires its steps. Implementation can only add to that coupling. Choreography also needs a deliberate state strategy, such as a front controller, rebuilding state from services, or stamping state into messages. The chapter’s practical lesson is to model normal and failure paths together, then choose the smallest coordination structure that fits the workflow’s complexity, scale, and status needs.","source":{"startLine":6856,"endLine":7311,"reference":"text lines 6856–7311"},"concepts":[{"title":"Orchestration","body":"An orchestrator manages one workflow’s state, calls, optional behavior, errors, notifications, and retries. It should be specific to that workflow rather than a global enterprise bus. This central owner makes complex alternate paths visible and queryable, while adding a communication bottleneck, a possible failure point, and coupling to every participating service.","example":"An order orchestrator records the order, verifies payment synchronously, asks fulfillment asynchronously, and emails the customer. If fulfillment reports a backorder, it refunds payment and updates order status.","source":"text lines 6880–6950"},{"title":"Choreography","body":"In choreography, each service performs its local step and emits a message that triggers the next participant. The happy path has fewer coordination components, but boundary paths force services to know how to notify, compensate, or update one another. As the workflow grows, those extra links can become a distributed mediator in everything but name.","example":"Order placement emits a payment message; payment emits fulfillment; fulfillment emits email. A backorder then requires compensating messages to payment, email, and order placement.","source":"text lines 6951–7008"},{"title":"Semantic coupling","body":"A domain workflow has inherent semantic coupling: its required steps and dependencies come from the business problem. An architect cannot eliminate that coupling through topology. Technical layers or accidental service links can increase it, so organizing implementation around domain workflows usually keeps the solution closer to the problem’s actual complexity.","example":"Ticket assignment must match skills, schedules, and locations. A domain partition keeps that workflow together; technical layers smear it across persistence, rules, and presentation and add coordination work.","source":"text lines 7009–7060"},{"title":"Workflow state","body":"Choreography needs an explicit answer to where transient state lives. A front controller makes status easy to query but adds a pseudo-mediator and communication chatter. Stateless choreography reconstructs a snapshot by querying every service, improving decoupling at a cost in latency. Stamp coupling carries state in messages, reducing queries while enlarging contracts and still lacking a single status owner.","example":"For an order, a front controller stores workflow progress; a stateless design queries order, payment, and fulfillment; a stamped message carries completed steps to the next service.","source":"text lines 7061–7145"}],"misconceptions":[{"claim":"Choreography is always the more decoupled and therefore better choice.","correction":"It removes a mediator, but complex error paths add service links and workflow knowledge. Compare the full happy path, failure paths, state queries, and scale needs."},{"claim":"A mediator removes the workflow’s coupling.","correction":"The domain steps still have semantic coupling. Orchestration centralizes implementation and can make it easier to reason about, while also creating a coupling point and bottleneck."}],"scenario":{"title":"Coordinate ticket assignment","context":"A support platform must accept a ticket, match skills, check schedules, assign an engineer, and report status. Matching rules change often, failures need clear recovery, and operators want to query progress. Traffic is moderate today but may grow. Choose a coordination style while accounting for error paths and the cost of putting workflow knowledge in domain services.","options":[{"label":"Workflow orchestrator","benefit":"One component owns progress, retries, alternate paths, and a status view.","cost":"The mediator adds coupling, a throughput chokepoint, and a workflow failure concern.","consequence":"A failed schedule lookup is retried and then routed to an explicit exception state. Operators query one workflow record, while the team monitors mediator load and availability."},{"label":"Service choreography","benefit":"Services can process the normal chain without a central coordinator and avoid one workflow bottleneck.","cost":"Each participant must understand failure notifications, state reconstruction, and compensation.","consequence":"Skill matching emits a schedule request and later events complete assignment. A partial failure requires several services to publish corrective events, increasing operational investigation work."}],"debrief":"The number of alternate paths and the need for an authoritative status view favor orchestration here. A simpler, high-throughput chain with rare errors could justify choreography. The domain semantics remain the same in either design."},"quiz":[{"question":"What distinguishes orchestration from choreography?","options":["An orchestrator owns coordination for one workflow","Choreography requires a global enterprise bus","Orchestration makes every service share one database"],"answer":0,"explanation":"Orchestration introduces a workflow-specific mediator. Choreography distributes triggering and coordination among services."},{"question":"Why can choreography become harder as error cases increase?","options":["Filters cannot emit messages","Each service must add links and logic for alternate paths and compensation","Eventual consistency makes all errors impossible"],"answer":1,"explanation":"Error paths add communication and workflow knowledge to domain services, even when the happy path is simple."},{"question":"Which state choice provides a single easy status query but adds chatter?","options":["Front controller","Stateless choreography","No messages"],"answer":0,"explanation":"A front controller owns workflow state, simplifying queries while requiring services to communicate with that owner."}],"exercise":{"title":"Map both workflow paths","prompt":"Draw the happy path and two failure paths for a multi-service workflow. Compare orchestration and choreography, then record who owns transient state and how an operator queries it.","fields":[{"label":"Context","placeholder":"Domain steps, priorities, and failure conditions"},{"label":"Decision","placeholder":"Coordination style and state owner"},{"label":"Trade-off","placeholder":"Scale, recovery, coupling, and status consequences"}]},"visual":{"nodes":[{"id":"request","label":"REQUEST","kind":"source","tone":"peach"},{"id":"coord","label":"COORDINATE","kind":"router","tone":"lilac"},{"id":"services","label":"DOMAIN STEPS","kind":"service","tone":"sage"},{"id":"state","label":"WF STATE","kind":"database","tone":"peach"}],"edges":[{"from":"request","to":"coord"},{"from":"coord","to":"services"},{"from":"services","to":"state"}],"steps":[{"node":"request","text":"A client starts a domain workflow with its required semantic steps."},{"node":"coord","text":"Choose a mediator or distributed event chain and define failure routes."},{"node":"services","text":"Services perform local work and report success, failure, or compensation."},{"node":"state","text":"Persist or reconstruct progress so recovery and status queries have an owner."}]}}
+{
+  "number": 11,
+  "title": "Managing Distributed Workflows",
+  "part": "Distributed decisions",
+  "subtitle": "Choose coordination for the workflow you actually have",
+  "summary": "Pip’s parcel is paid for but cannot ship. A coordinator can own the recovery, or participants can exchange corrective messages. Either way, the business dependencies remain, and somebody must make workflow status understandable.",
+  "source": {
+    "startLine": 6856,
+    "endLine": 7311,
+    "reference": "text lines 6856–7311"
+  },
+  "concepts": [
+    {
+      "title": "Orchestration",
+      "body": "Pip asks a delivery orchestrator where the parcel stopped. It owns workflow-specific state, calls, optional paths, errors, retries, and notifications—not every enterprise integration. A backorder triggers payment compensation and a status update. Pip gains visible recovery while accepting a bottleneck, failure point, and coupling to participants.",
+      "example": "",
+      "source": "text lines 6880–6950",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "router",
+            "label": "WORKFLOW OWNER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "alert",
+            "label": "BACKORDER",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "message",
+            "label": "COMPENSATE + UPDATE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks a delivery orchestrator where the parcel stopped."
+          },
+          {
+            "node": "step-1",
+            "text": "It owns workflow-specific state, calls, optional paths, errors, retries, and notifications—not every enterprise integration."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip gains visible recovery while accepting a bottleneck, failure point, and coupling to participants."
+          }
+        ]
+      }
+    },
+    {
+      "title": "Choreography",
+      "body": "Pip follows order, payment, fulfillment, and email events without a mediator. Each choreographed participant performs a local step and triggers another. A backorder now needs corrective links to payment, email, and order placement. Pip counts failure-path knowledge too: enough links can recreate a distributed mediator.",
+      "example": "",
+      "source": "text lines 6951–7008",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "LOCAL STEP EVENT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "NEXT PARTICIPANT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "CORRECTIVE LINKS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip follows order, payment, fulfillment, and email events without a mediator."
+          },
+          {
+            "node": "step-1",
+            "text": "Each choreographed participant performs a local step and triggers another."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip counts failure-path knowledge too: enough links can recreate a distributed mediator."
+          }
+        ]
+      }
+    },
+    {
+      "title": "Semantic coupling",
+      "body": "Pip redraws delivery assignment across technical layers, but its dependencies remain. Skills, schedules, and locations are inherent semantic coupling in the business workflow. Topology cannot eliminate those required relationships. Pip groups the domain workflow to avoid adding accidental coordination across persistence, rules, and presentation.",
+      "example": "",
+      "source": "text lines 7009–7060",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "parcel",
+            "label": "ASSIGNMENT WORKFLOW",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "blueprint",
+            "label": "REQUIRED DEPENDENCIES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "component",
+            "label": "DOMAIN GROUPING",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip redraws delivery assignment across technical layers, but its dependencies remain."
+          },
+          {
+            "node": "step-1",
+            "text": "Skills, schedules, and locations are inherent semantic coupling in the business workflow."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip groups the domain workflow to avoid adding accidental coordination across persistence, rules, and presentation."
+          }
+        ]
+      }
+    },
+    {
+      "title": "Workflow state",
+      "body": "Pip asks for status in a choreographed delivery. A front controller stores progress but adds pseudo-mediation and chatter. Stateless queries reconstruct a snapshot with latency; stamped messages carry state with larger contracts and no single status owner. Pip chooses where transient state lives before an operator needs to find it.",
+      "example": "",
+      "source": "text lines 7061–7145",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "router",
+            "label": "FRONT CONTROLLER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "search",
+            "label": "QUERY EACH SERVICE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "message",
+            "label": "STAMPED STATE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks for status in a choreographed delivery."
+          },
+          {
+            "node": "step-1",
+            "text": "A front controller stores progress but adds pseudo-mediation and chatter."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip chooses where transient state lives before an operator needs to find it."
+          }
+        ]
+      }
+    }
+  ],
+  "misconceptions": [
+    {
+      "claim": "Choreography is always the more decoupled and therefore better choice.",
+      "correction": "It removes a mediator, but complex error paths add service links and workflow knowledge. Compare the full happy path, failure paths, state queries, and scale needs."
+    },
+    {
+      "claim": "A mediator removes the workflow’s coupling.",
+      "correction": "The domain steps still have semantic coupling. Orchestration centralizes implementation and can make it easier to reason about, while also creating a coupling point and bottleneck."
+    }
+  ],
+  "scenario": {
+    "title": "Coordinate ticket assignment",
+    "context": "A support platform must accept a ticket, match skills, check schedules, assign an engineer, and report status. Matching rules change often, failures need clear recovery, and operators want to query progress. Traffic is moderate today but may grow. Choose a coordination style while accounting for error paths and the cost of putting workflow knowledge in domain services.",
+    "options": [
+      {
+        "label": "Workflow orchestrator",
+        "benefit": "One component owns progress, retries, alternate paths, and a status view.",
+        "cost": "The mediator adds coupling, a throughput chokepoint, and a workflow failure concern.",
+        "consequence": "A failed schedule lookup is retried and then routed to an explicit exception state. Operators query one workflow record, while the team monitors mediator load and availability."
+      },
+      {
+        "label": "Service choreography",
+        "benefit": "Services can process the normal chain without a central coordinator and avoid one workflow bottleneck.",
+        "cost": "Each participant must understand failure notifications, state reconstruction, and compensation.",
+        "consequence": "Skill matching emits a schedule request and later events complete assignment. A partial failure requires several services to publish corrective events, increasing operational investigation work."
+      }
+    ],
+    "debrief": "The number of alternate paths and the need for an authoritative status view favor orchestration here. A simpler, high-throughput chain with rare errors could justify choreography. The domain semantics remain the same in either design."
+  },
+  "quiz": [
+    {
+      "question": "What distinguishes orchestration from choreography?",
+      "options": [
+        "An orchestrator owns coordination for one workflow",
+        "Choreography requires a global enterprise bus",
+        "Orchestration makes every service share one database"
+      ],
+      "answer": 0,
+      "explanation": "Orchestration introduces a workflow-specific mediator. Choreography distributes triggering and coordination among services."
+    },
+    {
+      "question": "Why can choreography become harder as error cases increase?",
+      "options": [
+        "Filters cannot emit messages",
+        "Each service must add links and logic for alternate paths and compensation",
+        "Eventual consistency makes all errors impossible"
+      ],
+      "answer": 1,
+      "explanation": "Error paths add communication and workflow knowledge to domain services, even when the happy path is simple."
+    },
+    {
+      "question": "Which state choice provides a single easy status query but adds chatter?",
+      "options": [
+        "Front controller",
+        "Stateless choreography",
+        "No messages"
+      ],
+      "answer": 0,
+      "explanation": "A front controller owns workflow state, simplifying queries while requiring services to communicate with that owner."
+    }
+  ],
+  "exercise": {
+    "title": "Map both workflow paths",
+    "prompt": "Draw the happy path and two failure paths for a multi-service workflow. Compare orchestration and choreography, then record who owns transient state and how an operator queries it.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Domain steps, priorities, and failure conditions"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Coordination style and state owner"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Scale, recovery, coupling, and status consequences"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "hard-parts"
+      },
+      {
+        "id": "step-1",
+        "kind": "router",
+        "label": "WORKFLOW OWNER",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "alert",
+        "label": "BACKORDER",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "message",
+        "label": "COMPENSATE + UPDATE",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
+      },
+      {
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
+      },
+      {
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "Pip asks a delivery orchestrator where the parcel stopped."
+      },
+      {
+        "node": "step-1",
+        "text": "It owns workflow-specific state, calls, optional paths, errors, retries, and notifications—not every enterprise integration."
+      },
+      {
+        "node": "step-3",
+        "text": "Pip gains visible recovery while accepting a bottleneck, failure point, and coupling to participants."
+      }
+    ]
+  },
+  "story": {
+    "course": "hard-parts",
+    "world": "islands",
+    "title": "Who knows where the delivery got stuck?"
+  }
+}

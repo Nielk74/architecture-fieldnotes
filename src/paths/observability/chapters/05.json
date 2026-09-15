@@ -3,7 +3,7 @@
   "title": "Structured Events Are the Building Blocks of Observability",
   "part": "Fundamentals of Observability",
   "subtitle": "Keep one request’s context together",
-  "summary": "Structured events make later investigation possible by preserving the details of a meaningful unit of work. The chapter proposes collecting context as a request enters, executes, and exits a service, then emitting a record that associates those details with its outcome. This differs from scattering pieces across independent log lines or reducing them immediately into separate totals. Named fields enable filtering and comparison, while sufficiently wide records preserve combinations the instrumenter did not know would matter. The goal is not simply to make text look like JSON. The event must retain coherent request context at useful granularity, so an engineer can compare unusual behavior with normal behavior without reconstructing the story from disconnected fragments.",
+  "summary": "Pip’s market logs contain all the right words but cannot connect them to one request. Structured events accumulate context during a unit of work and record its outcome. Wide fields keep combinations available for questions nobody thought to ask in advance.",
   "source": {
     "startLine": 2386,
     "endLine": 2716,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "An event represents a unit of work",
-      "body": "For the chapter’s model, an event records one request’s interaction with a service. Begin collecting context when that work starts, add relevant details as they become known, and record the outcome when it ends. This scope associates the input, execution circumstances, and result rather than leaving their relationship for a later investigator to guess.",
-      "example": "A request record holds route, tenant, selected backend, duration, and final status.",
-      "source": "text lines 2386–2716"
+      "body": "Pip starts an event when a checkout enters the service. The chapter’s event represents that request’s interaction with the service. Route, tenant, selected backend, duration, and final status accumulate until completion. Pip keeps input, circumstances, and outcome associated instead of asking tomorrow’s investigator to guess their relationship.",
+      "example": "",
+      "source": "text lines 2386–2716",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "REQUEST START",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "ACCUMULATED CONTEXT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "FINAL OUTCOME",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip starts an event when a checkout enters the service."
+          },
+          {
+            "node": "step-1",
+            "text": "The chapter’s event represents that request’s interaction with the service."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip keeps input, circumstances, and outcome associated instead of asking tomorrow’s investigator to guess their relationship."
+          }
+        ]
+      }
     },
     {
       "title": "Structure enables comparison",
-      "body": "Named fields give machines stable places to find values. A duration field can be compared numerically, while a tenant field can be grouped without parsing changing message prose. Merely encoding a sentence in JSON leaves most of its useful meaning unstructured; the attributes needed for investigation must themselves be represented as fields.",
-      "example": "Use duration_ms: 820 rather than only message: request took 820 milliseconds.",
-      "source": "text lines 2386–2716"
+      "body": "Pip stores “request took 820 milliseconds” inside a JSON message. Encoding prose as JSON does not structure the useful attributes. A numeric duration_ms field supports comparison; a tenant field supports grouping without parsing changing sentences. Pip gives machines stable named fields for the questions that matter.",
+      "example": "",
+      "source": "text lines 2386–2716",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "JSON SENTENCE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "duration_ms: 820",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "search",
+            "label": "FIELD COMPARISON",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip stores “request took 820 milliseconds” inside a JSON message."
+          },
+          {
+            "node": "step-1",
+            "text": "Encoding prose as JSON does not structure the useful attributes."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip gives machines stable named fields for the questions that matter."
+          }
+        ]
+      }
     },
     {
       "title": "Wide records retain combinations",
-      "body": "A wide event includes many attributes that describe the same request. Their joint presence lets an investigator ask whether failures depend on a particular build, user group, and backend together. If each attribute is recorded in a separate aggregate, that association may be lost even when all the individual totals are available.",
-      "example": "A rare build-region combination explains an error pattern absent from either overall breakdown.",
-      "source": "text lines 2386–2716"
+      "body": "Pip finds failures only for one rare build-region combination. A wide event retains many attributes of the same request. Joint context permits comparisons involving build, user group, and backend together. Separate aggregates can lose the association even when every individual total survives.",
+      "example": "",
+      "source": "text lines 2386–2716",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "WIDE REQUEST EVENT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "deployment",
+            "label": "BUILD + REGION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "alert",
+            "label": "RARE COMBINATION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip finds failures only for one rare build-region combination."
+          },
+          {
+            "node": "step-1",
+            "text": "A wide event retains many attributes of the same request."
+          },
+          {
+            "node": "step-3",
+            "text": "Separate aggregates can lose the association even when every individual total survives."
+          }
+        ]
+      }
     },
     {
       "title": "Enrich during execution",
-      "body": "Not every useful detail is known at request entry. Authentication may discover an account, routing may select a shard, and execution may encounter a retry or error. Accumulating these facts into the event lets the final record capture what actually happened, including outcome information unavailable when the request began.",
-      "example": "The chosen shard and retry count are appended before the event is emitted.",
-      "source": "text lines 2386–2716"
+      "body": "Pip does not know the account or chosen shard at request entry. Authentication, routing, retries, and errors reveal context during execution. Pip enriches the same event as those facts arrive. The final record explains what actually happened, including the outcome unavailable at the start.",
+      "example": "",
+      "source": "text lines 2386–2716",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "gateway",
+            "label": "AUTHENTICATED ACCOUNT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "CHOSEN SHARD",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "FINAL ENRICHED EVENT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip does not know the account or chosen shard at request entry."
+          },
+          {
+            "node": "step-1",
+            "text": "Authentication, routing, retries, and errors reveal context during execution."
+          },
+          {
+            "node": "step-3",
+            "text": "The final record explains what actually happened, including the outcome unavailable at the start."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -118,68 +370,68 @@
     "nodes": [
       {
         "id": "step-0",
-        "label": "REQUEST",
-        "kind": "trace",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "observability"
       },
       {
         "id": "step-1",
-        "label": "FIELDS",
-        "kind": "experiment",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
+        "kind": "message",
+        "label": "REQUEST START",
+        "tone": "sage"
       },
       {
         "id": "step-2",
-        "label": "COMBINATIONS",
-        "kind": "alert",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
+        "kind": "document",
+        "label": "ACCUMULATED CONTEXT",
+        "tone": "lilac"
       },
       {
         "id": "step-3",
-        "label": "OUTCOME",
-        "kind": "leaf",
-        "tone": "honey",
-        "x": 500,
-        "y": 100
+        "kind": "gauge",
+        "label": "FINAL OUTCOME",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
         "from": "step-0",
-        "to": "step-1"
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-1",
-        "to": "step-2"
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-2",
-        "to": "step-3"
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
         "node": "step-0",
-        "text": "A request record holds route, tenant, selected backend, duration, and final status."
+        "text": "Pip starts an event when a checkout enters the service."
       },
       {
         "node": "step-1",
-        "text": "Use duration_ms: 820 rather than only message: request took 820 milliseconds."
-      },
-      {
-        "node": "step-2",
-        "text": "A rare build-region combination explains an error pattern absent from either overall breakdown."
+        "text": "The chapter’s event represents that request’s interaction with the service."
       },
       {
         "node": "step-3",
-        "text": "The chosen shard and retry count are appended before the event is emitted."
+        "text": "Pip keeps input, circumstances, and outcome associated instead of asking tomorrow’s investigator to guess their relationship."
       }
     ]
+  },
+  "story": {
+    "course": "observability",
+    "world": "market",
+    "title": "Keep the clues on the same receipt"
   }
 }

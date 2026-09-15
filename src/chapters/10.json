@@ -3,7 +3,7 @@
   "title": "Layered Architecture Style",
   "part": "Architecture styles",
   "subtitle": "Make responsibilities visible, then decide where requests may pass",
-  "summary": "Layered architecture groups components into horizontal technical layers, commonly presentation, business, persistence, and database. Each layer hides implementation details behind an abstraction, giving teams familiar responsibilities and a low-cost starting point. The key control is whether a layer is closed, forcing a request through the next layer, or open, allowing a bypass. Closed layers support isolation and replacement when contracts remain stable; open layers can remove needless pass-through work but create coupling. Layering is technically partitioned, so a business domain spreads across many layers and may change slowly. The architecture sinkhole anti-pattern appears when most requests simply pass through layers. The style suits small applications, tight budgets, and uncertain early decisions, while large monoliths pay in deployability, scalability, performance, and recovery risk.",
+  "summary": "Pip sends a bookshop request through presentation, business, persistence, and database layers. Clear roles can isolate change, but pass-through work adds cost. Deliberately opened paths need documented coupling trade-offs, especially as one deployable application grows.",
   "source": {
     "startLine": 5185,
     "endLine": 5486,
@@ -12,33 +12,348 @@
   "concepts": [
     {
       "title": "Horizontal responsibilities",
-      "body": "Layered architecture arranges components into logical horizontal layers, most often presentation, business, persistence, and database. Each layer has a role: presentation handles interaction, business applies rules, persistence retrieves or stores data, and the database provides durable storage. Physical deployment can combine or separate these layers in several ways. The structure is familiar because organizations often have teams aligned to the same technical concerns, but a domain such as customer is consequently spread across every layer.",
-      "example": "A browser controller formats a customer view, a business component calculates eligibility, a persistence component loads records, and a database stores them. Replacing the browser should not require changing eligibility rules if the contracts hold.",
-      "source": "pp. 133–135"
+      "body": "Pip follows a customer view through presentation, eligibility rules, persistence, and durable storage. Layered architecture groups horizontal technical responsibilities, which may share or separate physical deployments. The customer domain consequently crosses every layer. Pip keeps contracts clear so replacing a browser need not rewrite eligibility rules.",
+      "example": "",
+      "source": "pp. 133–135",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "browser",
+            "label": "PRESENTATION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "component",
+            "label": "BUSINESS + PERSISTENCE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "database",
+            "label": "DURABLE DATA",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip follows a customer view through presentation, eligibility rules, persistence, and durable storage."
+          },
+          {
+            "node": "step-1",
+            "text": "Layered architecture groups horizontal technical responsibilities, which may share or separate physical deployments."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip keeps contracts clear so replacing a browser need not rewrite eligibility rules."
+          }
+        ]
+      }
     },
     {
       "title": "Closed layers isolate change",
-      "body": "A closed layer requires a request to pass through the immediately lower layer. This adds a step, but it keeps upper layers from knowing lower-level details and makes replacement possible when the contracts remain stable. The presentation layer can use a business abstraction without knowing how persistence works; a new presentation technology can then be introduced without rewriting the rest. Closed boundaries are a governance mechanism, not merely a diagram convention.",
-      "example": "A profile screen calls a business API, which calls persistence, which calls the database. Changing SQL schema mapping stays behind persistence while the business contract remains unchanged.",
-      "source": "pp. 135–136"
+      "body": "Pip’s screen calls business logic, which calls persistence, which accesses the database. A closed layer requires passing through the immediately lower layer. The extra step hides lower-level details and can isolate replacement behind stable contracts. Pip enforces that boundary so schema mapping changes do not leak upward.",
+      "example": "",
+      "source": "pp. 135–136",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "browser",
+            "label": "SCREEN",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "component",
+            "label": "CLOSED INTERFACES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "database",
+            "label": "HIDDEN STORAGE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s screen calls business logic, which calls persistence, which accesses the database."
+          },
+          {
+            "node": "step-1",
+            "text": "A closed layer requires passing through the immediately lower layer."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip enforces that boundary so schema mapping changes do not leak upward."
+          }
+        ]
+      }
     },
     {
       "title": "Open layers trade speed for coupling",
-      "body": "An open layer allows a request to bypass one or more layers. A fast read may go from presentation to persistence when business processing adds no value, and an open shared-services layer can serve common utilities without forcing an unnecessary route. The benefit is fewer objects and less processing; the cost is interdependency. If upper layers can reach persistence directly, a persistence change may require changes in several callers. Document which layers are open and why.",
-      "example": "A reporting screen can use a read model through an approved open path, while write operations remain closed through business rules. The distinction keeps a deliberate optimization from becoming a general shortcut.",
-      "source": "pp. 135–138"
+      "body": "Pip opens a reporting read path directly to persistence when business processing adds no value. Open layers allow bypasses or shared utilities with fewer objects and processing steps. They also expose more callers to lower-level changes. Pip documents the approved read exception while keeping writes through business rules.",
+      "example": "",
+      "source": "pp. 135–138",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "browser",
+            "label": "REPORT READ",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "APPROVED BYPASS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "database",
+            "label": "PERSISTENCE CONTRACT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip opens a reporting read path directly to persistence when business processing adds no value."
+          },
+          {
+            "node": "step-1",
+            "text": "Open layers allow bypasses or shared utilities with fewer objects and processing steps."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip documents the approved read exception while keeping writes through business rules."
+          }
+        ]
+      }
     },
     {
       "title": "The architecture sinkhole",
-      "body": "A sinkhole occurs when requests travel layer to layer as pass-through work, with no rules, aggregation, calculation, or transformation performed along the route. Every layer adds object creation and processing, so a simple data retrieval can become slower and consume more memory. Some sinkholes are normal; the chapter suggests examining the proportion. If most requests are sinkholes, the style may not fit the problem, or carefully opened layers may be needed with their coupling cost accepted.",
-      "example": "If 80 percent of dashboard reads are copied unchanged through four layers, the stack is doing ceremony rather than useful separation. A measured read path can remove that waste while preserving a stable write boundary.",
-      "source": "pp. 138–139"
+      "body": "Pip finds 80% of dashboard reads copied unchanged through four layers. Such sinkholes add object creation, processing, and memory without rules, aggregation, calculation, or transformation. Some pass-through is normal; a dominant proportion questions the fit. Pip measures the path and considers carefully opening layers while accepting the new coupling.",
+      "example": "",
+      "source": "pp. 138–139",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "UNCHANGED PAYLOAD",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "component",
+            "label": "FOUR PASS-THROUGHS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "SINKHOLE PROPORTION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip finds 80% of dashboard reads copied unchanged through four layers."
+          },
+          {
+            "node": "step-1",
+            "text": "Such sinkholes add object creation, processing, and memory without rules, aggregation, calculation, or transformation."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip measures the path and considers carefully opening layers while accepting the new coupling."
+          }
+        ]
+      }
     },
     {
       "title": "A pragmatic starting point",
-      "body": "Layered architecture is simple, familiar, inexpensive, and useful when a team is still learning requirements or has a tight deadline. It is a reasonable temporary home before a more modular style is selected, provided reuse stays limited and inheritance remains shallow. As the monolith grows, all changes redeploy together, test scope expands, and one failing component can take down the unit. Scalability and elasticity are weak because the system is one quantum.",
-      "example": "A small public website can begin as a layered application and later isolate a proven high-volume domain. Keeping boundaries clear during the first release preserves options without paying distributed-system costs prematurely.",
-      "source": "pp. 137–141"
+      "body": "Pip starts the small bookshop with familiar, inexpensive layers under a tight deadline. Clear boundaries, limited reuse, and shallow inheritance preserve options while requirements emerge. A growing monolith redeploys together, expands tests, and shares failure with weak independent scale or elasticity. Pip treats the simple one-quantum starting point as a revisitable choice.",
+      "example": "",
+      "source": "pp. 137–141",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "storefront",
+            "label": "SMALL START",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "deployment",
+            "label": "ONE DEPLOYMENT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "GROWTH LIMITS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip starts the small bookshop with familiar, inexpensive layers under a tight deadline."
+          },
+          {
+            "node": "step-1",
+            "text": "Clear boundaries, limited reuse, and shallow inheritance preserve options while requirements emerge."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip treats the simple one-quantum starting point as a revisitable choice."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -123,61 +438,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "presentation",
-        "label": "PRESENTATION",
-        "kind": "browser",
-        "tone": "peach"
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "fundamentals"
       },
       {
-        "id": "business",
-        "label": "BUSINESS",
-        "kind": "service",
+        "id": "step-1",
+        "kind": "browser",
+        "label": "PRESENTATION",
         "tone": "sage"
       },
       {
-        "id": "persistence",
-        "label": "PERSISTENCE",
+        "id": "step-2",
         "kind": "component",
+        "label": "BUSINESS + PERSISTENCE",
         "tone": "lilac"
       },
       {
-        "id": "database",
-        "label": "DATABASE",
+        "id": "step-3",
         "kind": "database",
+        "label": "DURABLE DATA",
         "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "presentation",
-        "to": "business"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "business",
-        "to": "persistence"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "persistence",
-        "to": "database"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "presentation",
-        "text": "The user request enters through the presentation contract."
+        "node": "step-0",
+        "text": "Pip follows a customer view through presentation, eligibility rules, persistence, and durable storage."
       },
       {
-        "node": "business",
-        "text": "A closed path sends it through business rules before storage is considered."
+        "node": "step-1",
+        "text": "Layered architecture groups horizontal technical responsibilities, which may share or separate physical deployments."
       },
       {
-        "node": "persistence",
-        "text": "Persistence translates the business request into a data operation; an approved open read may bypass pass-through work."
-      },
-      {
-        "node": "database",
-        "text": "The database returns durable data, and each layer transforms only what its responsibility requires."
+        "node": "step-3",
+        "text": "Pip keeps contracts clear so replacing a browser need not rewrite eligibility rules."
       }
     ]
+  },
+  "story": {
+    "course": "fundamentals",
+    "world": "bookshop",
+    "title": "Four desks copy the same order"
   }
 }

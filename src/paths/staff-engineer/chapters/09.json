@@ -3,7 +3,7 @@
   "title": "What’s Next?",
   "part": "Leveling Up",
   "subtitle": "Choose your next chapter deliberately",
-  "summary": "A career is an ongoing set of choices about learning, environment, values, and scope. The final chapter encourages deliberate investment, honest checks on whether a role still fits, and multiple possible paths including staying, changing roles, or changing employers.",
+  "summary": "Pip sees a title and a role offering deeper learning. Career choices involve values, environment, relationships, energy, and scope—not one universal ladder. Reflection and investments help Pip compare staying, changing work, or moving employers, then test a next step.",
   "source": {
     "startLine": 9790,
     "endLine": 10737,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Investment",
-      "body": "Career investment chooses skills, relationships, experiences, and environments that support a desired future. Skills, visibility, relationships, and experiences expand the opportunities available to you. Choose investments that fit what you want next, rather than treating promotion as the only possible objective. Some valuable opportunities require deliberate practice outside your usual responsibilities.",
-      "example": "Teaching extension: A learning plan reserves time for distributed-systems experiments.",
-      "source": "text lines 9790–10737"
+      "body": "Pip circles a promotion, then notices it offers little practice in the skill they want. Career investment includes skills, visibility, relationships, experiences, and environments that make opportunities possible. Pip reserves time for distributed-systems experiments beyond responsibilities. The right investment depends on the future being sought; promotion is one possible objective, not the only one. Deliberate practice may open a different door.",
+      "example": "",
+      "source": "text lines 9790–10737",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "target",
+            "label": "DESIRED FUTURE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "experiment",
+            "label": "DELIBERATE PRACTICE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "handoff",
+            "label": "NEW OPTIONS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks what the next opportunity should make possible."
+          },
+          {
+            "node": "step-1",
+            "text": "Choose a future beyond a title alone."
+          },
+          {
+            "node": "step-3",
+            "text": "Some opportunities require practice outside current responsibilities."
+          }
+        ]
+      }
     },
     {
       "title": "Fit",
-      "body": "Role fit is checked by comparing what the job provides with values, needs, and growth direction. Periodically ask what the role gives you and what it costs. Consider the good parts as well as frustrations. An honest assessment may support staying, renegotiating scope, or moving; there is no single tenure or title that proves you are growing.",
-      "example": "Teaching extension: A role-fit review compares autonomy and energy with the promised growth.",
-      "source": "text lines 9790–10737"
+      "body": "The workshop offers Pip autonomy but leaves little energy for learning. A role-fit review counts the good parts as well as the frustrations: what does the job provide, what does it cost, and how does that compare with values, needs, and growth? Staying, renegotiating scope, or moving may each make sense. Neither a particular title nor time served proves the role still fits.",
+      "example": "",
+      "source": "text lines 9790–10737",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "workshop",
+            "label": "CURRENT ROLE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "balance",
+            "label": "BENEFITS & COSTS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "target",
+            "label": "VALUES & GROWTH",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip reviews the role honestly."
+          },
+          {
+            "node": "step-1",
+            "text": "Notice both what the workshop provides and what it costs."
+          },
+          {
+            "node": "step-3",
+            "text": "Judge fit against personal needs and growth direction."
+          }
+        ]
+      }
     },
     {
       "title": "Options",
-      "body": "Options include deepening a current role, changing scope, moving organizations, consulting, or management. Different choices offer different forms of learning, impact, stability, and autonomy. You can stay with an employer while changing your work, or move to find something unavailable there. Evaluate the work and environment instead of assuming every upward-sounding title is better.",
-      "example": "Teaching extension: The engineer evaluates a lateral move, consulting, and staying as real options.",
-      "source": "text lines 9790–10737"
+      "body": "Three doors appear on Pip’s sketch: deepen the current role, change scope, or leave the organization. Consulting and management offer other possibilities. Each trades learning, impact, stability, and autonomy differently. Pip could stay with the same employer and change the work, or move for something unavailable there. The useful comparison concerns the actual work and environment, not which door carries the most upward-sounding title.",
+      "example": "",
+      "source": "text lines 9790–10737",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "workshop",
+            "label": "STAY & DEEPEN",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "handoff",
+            "label": "CHANGE SCOPE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gateway",
+            "label": "MOVE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip keeps several real choices open."
+          },
+          {
+            "node": "step-1",
+            "text": "Deepening the current work can be growth."
+          },
+          {
+            "node": "step-3",
+            "text": "Compare the actual environment before choosing a new organization or role."
+          }
+        ]
+      }
     },
     {
       "title": "Reflection",
-      "body": "Reflection turns experience into learning by reviewing outcomes, energy, and the next deliberate experiment. You are responsible for your career choices and for the effects of the software you help create. Revisit what matters to you and what you want to become able to do. A small intentional experiment can reveal more than waiting for a perfect long-term plan.",
-      "example": "Teaching extension: A six-month check turns experience into a deliberate next career experiment.",
-      "source": "text lines 9790–10737"
+      "body": "Pip cannot draw a perfect career map, so chooses a bounded learning experiment and a review date. Reflection turns experience into information: outcomes, energy, values, and what to become able to do next. Pip remains responsible for career choices and the effects of the software they help create. A small deliberate experiment can reveal more than waiting indefinitely for a flawless long-term plan.",
+      "example": "",
+      "source": "text lines 9790–10737",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "experiment",
+            "label": "SMALL EXPERIMENT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "OUTCOME & ENERGY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "REVIEW",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip starts without pretending to know the perfect long-term route."
+          },
+          {
+            "node": "step-1",
+            "text": "Try a bounded, intentional experiment."
+          },
+          {
+            "node": "step-3",
+            "text": "Use a review point to choose the next step."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -47,22 +299,22 @@
   ],
   "scenario": {
     "title": "Choose the next investment",
-    "context": "Your current role offers visibility but no time to build distributed-systems depth. A lateral role offers learning with less title recognition.",
+    "context": "Pip’s visible workshop role leaves no time for distributed-systems depth. A lateral role offers learning but less title recognition. Which investment fits?",
     "options": [
       {
         "label": "Choose deliberate growth",
-        "benefit": "Clarifies the decision and creates a workable path through the stated constraint.",
-        "cost": "The learning role may trade short-term title recognition for a deliberate capability investment.",
-        "consequence": "You compare values, learning, relationships, and energy, then set a review point for the move."
+        "benefit": "Pip compares the move against desired capability and values.",
+        "cost": "A learning role may offer less immediate title recognition.",
+        "consequence": "Pip weighs relationships, learning, and energy, then sets a review point rather than treating the move as a guaranteed answer."
       },
       {
         "label": "Optimize title alone",
-        "benefit": "Feels faster or safer in the immediate moment and preserves a familiar habit.",
-        "cost": "Title optimization can lock the engineer into work that does not fit their values or energy.",
-        "consequence": "The title may rise while the capability and work fit you need remain unchanged."
+        "benefit": "Title recognition offers an obvious external signal.",
+        "cost": "The actual work may still conflict with values or energy.",
+        "consequence": "Pip’s title rises while the missing capability and role fit remain unchanged."
       }
     ],
-    "debrief": "Both options respond to a real constraint. The stronger choice makes ownership and consequences visible, then creates a point to learn and adjust."
+    "debrief": "The next rung is not automatically the next useful step. Pip compares lived work and deliberate learning with the future they actually want."
   },
   "quiz": [
     {
@@ -117,69 +369,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "colleague",
-        "label": "COLLEAGUE",
-        "kind": "colleague",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
-      },
-      {
-        "id": "mentor",
-        "label": "MENTOR",
-        "kind": "mentor",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
-      },
-      {
-        "id": "whiteboard",
-        "label": "WHITEBOARD",
-        "kind": "whiteboard",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
-      },
-      {
-        "id": "experiment",
-        "label": "EXPERIMENT",
-        "kind": "experiment",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 500,
-        "y": 100
+        "course": "staff-engineer"
+      },
+      {
+        "id": "step-1",
+        "kind": "target",
+        "label": "DESIRED FUTURE",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "experiment",
+        "label": "DELIBERATE PRACTICE",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "handoff",
+        "label": "NEW OPTIONS",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "colleague",
-        "to": "mentor"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "mentor",
-        "to": "whiteboard"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "whiteboard",
-        "to": "experiment"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "colleague",
-        "text": "Use this colleague view to make the next decision visible."
+        "node": "step-0",
+        "text": "Pip asks what the next opportunity should make possible."
       },
       {
-        "node": "mentor",
-        "text": "Use this mentor view to make the next decision visible."
+        "node": "step-1",
+        "text": "Choose a future beyond a title alone."
       },
       {
-        "node": "whiteboard",
-        "text": "Use this whiteboard view to make the next decision visible."
-      },
-      {
-        "node": "experiment",
-        "text": "Use this experiment view to make the next decision visible."
+        "node": "step-3",
+        "text": "Some opportunities require practice outside current responsibilities."
       }
     ]
+  },
+  "story": {
+    "course": "staff-engineer",
+    "world": "workshop",
+    "title": "Which door does Pip want next?"
   }
 }

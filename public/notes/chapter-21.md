@@ -1,15 +1,59 @@
 # Chapter 21: Diagramming and Presenting Architecture
 
-Architecture has to travel through people. A brilliant technical idea does not become a system if managers cannot fund it or developers cannot build it, which is why the chapter treats diagramming and presenting as core skills. Both create visual representations, but they also share a discipline called representational consistency. When an architect moves from an overview to a detailed view, the relationship between the detail and the whole should be visible first. Without that bridge, viewers lose scope and may mistake a part for a separate architecture (source lines 10731–10820; pp. 315–316).
+*Pip’s adventure: Show where Pip is before zooming in. Fictional teaching story; concepts follow the cited source.*
 
-The source recommends low-fidelity artifacts early in design. A quick sketch, sticky-note arrangement, or tablet canvas is easier to throw away than a polished diagram that took hours. That disposability supports experimentation, revision, and discussion. Once the team has found a useful structure, a formal tool can make it clear and reusable. Layers hide or reveal detail, stencils encode common organizational shapes, and magnets keep connections aligned. Tool fluency helps, but time spent polishing should follow design iteration rather than replace it (lines 10821–10893; pp. 316–318).
+Source: printed pp. 315–324.
 
-Several diagram standards are described. UML remains useful for class and sequence diagrams, although many of its other forms have less use. C4 provides Context, Container, Component, and Class views and can be a good organizational standard, especially for monolithic structures where those relationships are clear. ArchiMate is a lightweight enterprise modeling language for describing architecture across business domains. No standard covers every design, so the architect still chooses the view and level of detail that a decision requires (lines 10894–10958; pp. 318–319).
+Pip’s polished diagram loses the audience when it jumps into one plug-in. Clear architecture communication preserves scope, labels relationships, and reveals the argument at a useful pace. Early sketches remain easy to discard until the structure earns polish.
 
-Clarity comes from consistent visual semantics. Titles should stay attached to their elements; lines should be visible and show direction; solid and dotted lines can consistently distinguish synchronous and asynchronous communication. Labels prevent ambiguity, colors can distinguish different artifacts, and a key should explain any shape that viewers might interpret in different ways. A diagram without a key can create more confusion than no diagram because it invites confident misreading (lines 10959–11024; pp. 319–320).
+## Representational Consistency
 
-Presentations add control over time. Transitions move between slides, animations reveal movement or changes within a slide, and incremental builds allow a speaker to expose a relationship when it becomes relevant. A slide that shows every bullet at once lets the audience read ahead and overloads the visual and verbal channels with duplicate information. Subtle transitions can hide slide boundaries within one idea, while a distinct transition can signal a new topic. An infodeck is different: it is meant to be read independently and therefore needs more complete content. A live presentation deliberately makes slides only part of the story (lines 11025–11062; pp. 321–323).
+Pip zooms into a plug-in and the bookshop audience loses its place. Representational consistency first shows how the detail belongs to the whole. Pip highlights the plug-in inside the full microkernel before opening its internals. The same scope-preserving move helps across crops, diagrams, slides, and media.
 
-Invisibility, a blank slide, is a simple way to return attention to the speaker. The broader lesson is strategic channel use: a picture can carry structure, an animation can carry sequence, and spoken explanation can carry rationale. Teaching extension: the migration storyboard in the lesson is invented. It asks learners to design a context bridge and reveal order; its value is practicing audience-centered communication, not prescribing a particular tool. Record both the reference view and the focused view so a later reader can follow the same relationships.
+Source: pp. 315–316.
 
-Source: supplied 2020 text, chapter 21, lines 10731–11078, printed pages 315–324.
+## Iterate at Low Fidelity
+
+Pip spends hours polishing a boundary the team later rejects. Low-fidelity sketches, sticky notes, and canvases reduce attachment and make alternatives cheap. Pip rearranges cards until discussion tests the structure. Only then do reusable stencils, layers, and connection magnets earn their role in consistent, maintainable diagrams.
+
+Source: pp. 316–318.
+
+## Choose a Diagram Language
+
+Pip needs both an overview and the order of calls. UML can serve class and sequence views; C4 organizes Context, Container, Component, and Class, with fit varying by topology. ArchiMate offers enterprise views across business domains. Pip chooses notation for audience and scope instead of forcing every concern into one standard.
+
+Source: pp. 318–319.
+
+## Make Meaning Visible
+
+Pip’s audience cannot tell whether an arrow means waiting or an event. Shapes need labels and familiar meaning; lines need clear direction, weight, and consistent semantics. Colors should distinguish useful differences, with a key for ambiguity. Pip makes every element interpretable so the diagram supports decisions instead of guessing.
+
+Source: pp. 319–320.
+
+## Present in Time
+
+Pip reveals a feature branch, then its long delay, then the merge conflict. A document reader controls pace; a presenter shares the story through spoken and visual channels. Incremental animation can reveal process and consequence, while a blank slide redirects attention. Pip distinguishes a self-contained infodeck from a live presentation rather than showing the whole argument at once.
+
+Source: pp. 321–324.
+
+## Transfer challenge: Explain the migration without losing the room
+
+You need approval for moving a monolithic checkout toward separate deployment units. Developers need topology and dependency detail; executives need the reason, risk, and sequence. A single dense diagram can show everything, but audiences may lose scope and read ahead. Design a visual path that respects both audiences and the live presentation's time dimension.
+
+### One dense diagram
+
+All components and relationships are available in one artifact for later reference. The audience must decode detail while listening, and the key decision can disappear in visual noise. Developers may find useful connections, but executives see a wall of boxes and the presenter has little control over when a consequence is introduced.
+
+### Context then builds
+
+A consistent overview establishes scope, then incremental views reveal only the relationships needed for each decision. Preparing layers, transitions, and a separate reference deck takes more design time. The live audience follows the migration story in order, while the exported diagram remains traceable through labels and a key. Detail is introduced when it can be understood.
+
+The right artifact depends on whether readers control their pace and what they need to decide. Use a shared visual language, preserve context during zooms, and tune completeness and timing to the medium.
+
+## Storyboard an architecture explanation
+
+Create an overview and one detail view for a system decision. Mark the context bridge, line semantics, labels, key, and the order in which a live audience should see the information.
+
+- Context
+- Decision
+- Trade-off

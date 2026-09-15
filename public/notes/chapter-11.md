@@ -1,17 +1,53 @@
 # Chapter 11: Pipeline Architecture Style
 
-Pipeline architecture, also called pipes and filters, turns a process into a directed sequence of small stages. Pipes usually connect one producer to one consumer, carry data in one direction, and favor small payloads for throughput. Filters are self-contained, generally stateless, and focused on one task. The source names four roles: a producer starts the flow; a transformer changes data; a tester checks criteria and may route or stop it; and a consumer ends the flow by storing or displaying the result (source lines 5487–5559, printed pp. 143–144).
+*Pip’s adventure: Pip builds a book-record assembly line. Fictional teaching story; concepts follow the cited source.*
 
-This vocabulary explains why Unix shell pipelines are such a durable example. A sequence of ordinary commands can normalize text, sort it, count it, and select the output without one giant program knowing every step. Similar structures appear in EDI document conversion, ETL, MapReduce-style tools, and business mediators. The value is compositional reuse: a new tester or transformer can be added behind an existing pipe, while unrelated filters retain their own responsibilities. The source's telemetry example at lines 5560–5614 (pp. 145–146) follows this shape. A Kafka reader produces service information, a duration tester selects relevant records, a duration calculator transforms them, and a database output consumes the result. Uptime records take another testing and calculation path; a future database-wait tester can be inserted without changing the capture filter.
+Source: printed pp. 143–148.
 
-The architecture's simplicity does not mean every stage is a service. The chapter describes pipeline systems as usually monolithic. The filters provide logical modularity inside one deployment unit, so a calculator can be replaced and tested without changing the rest of the filter code. However, deployment, scaling, and failure remain largely shared. A memory problem in one filter can affect the whole unit, and scaling one hot stage requires extra parallel-processing techniques. The characteristic discussion at lines 5615–5678 (pp. 146–148) rates simplicity, cost, and modularity as strengths while retaining the monolith's limits on elasticity, scalability, and fault tolerance.
+Pip turns incoming records into useful catalog data through focused filters. One-way pipes make composition understandable, but do not promise separate processes or independent scaling. The crew tests each transformation and the failure boundary of the whole pipeline.
 
-A good pipeline question is whether the work is naturally one-way. It is a strong fit for transformations, classification, and ingestion where each stage can make a clear decision and hand off a small contract. It is less comfortable when the process requires global workflow state, frequent backwards calls, or coordinated recovery among many stages. Adding stages does not automatically make an operation faster: each stage can add processing and data movement. A focused sequence that removes a large, tangled component is the reason to use the style.
+## One-way pipes
 
-The lesson's telemetry scenario is a teaching extension. Its load and malformed records are invented, while its producer, tester, transformer, consumer, and monolith trade-offs come from the chapter. The visual shows a record entering a producer, being tested and routed, transformed, and finally persisted. The exercise asks the learner to design a small stream and name the payload between stages, which keeps the interaction about topology and responsibility instead of cosmetic clicking.
+Pip passes a telemetry record from reader to duration test, calculator, then storage. Pipes usually connect filters point to point in one direction. Small payloads and hidden filter implementation keep processing order clear. Pip treats the pipeline as composition, not proof that stages are separate processes or independently scalable.
 
-## Source map
+Source: pp. 143–145.
 
-- Pipes, filters, roles, and composition: source lines 5487–5559, printed pp. 143–144.
-- Telemetry example and extensibility: source lines 5560–5614, printed pp. 145–146.
-- Characteristic ratings and monolithic limits: source lines 5615–5678, printed pp. 146–148.
+## Four focused filters
+
+Pip’s producer emits records; a tester chooses the relevant kind. A transformer changes and forwards data; a consumer persists or presents the final result. Independent, generally stateless filters each do one task. Pip branches duration and uptime processing without changing the producer’s responsibility.
+
+Source: pp. 143–146.
+
+## Composition creates reuse
+
+Pip reuses normalization in both search-index and reporting flows. Simple directional contracts let predictable filters combine into larger behavior. The Unix word-frequency example shows ordinary commands composing a clear solution. Pip adds a connection-wait tester after classification without rewriting the earlier filters.
+
+Source: pp. 144–146.
+
+## A useful fit and its limits
+
+Pip tests an import filter by filter, then a runaway parser exhausts the process. Pipelines suit one-way conversion, ETL, shell work, telemetry, and mediation with useful modularity. A typical monolithic pipeline still shares one deployment quantum and failure boundary. Pip needs additional concurrency or deployment design to scale and recover stages independently.
+
+Source: pp. 145–148.
+
+## Transfer challenge: Telemetry stream for a small platform
+
+A platform team receives service telemetry and wants duration, uptime, and database-wait metrics. It has one deployment unit, modest load, and needs a clear way to add a metric next quarter. A few records are malformed, and the team must decide whether to keep a linear pipeline or introduce a shared branching coordinator for the initial release and a clear ownership rule.
+
+### Pipes and filters
+
+Small producer, tester, transformer, and consumer stages make each metric rule easy to isolate and extend. A monolithic process still shares failure and scaling fate, and branching behavior must be tested across the stream. The team adds a database-wait tester after uptime classification and reuses the existing consumer contract. A memory bug in one calculator still requires recovering the deployment unit after the stream drains.
+
+### Central coordinator
+
+One component can see the whole workflow, centralize malformed-record handling, and coordinate complex routes. The coordinator becomes coupling and a bottleneck, while simple transformations become harder to reuse independently. Malformed records have a visible path and workflow metrics are straightforward, but adding a new metric now requires coordinator changes and broader testing across the consumer support without pausing unrelated records.
+
+A pipeline is strongest when work is naturally one-way and composable. Central control becomes attractive when workflow state and recovery dominate. The current load and the type of change determine whether the filters' simplicity outweighs coordination needs.
+
+## Compose a useful stream
+
+Design a five-stage pipeline for one data task. Label each stage producer, tester, transformer, or consumer, and specify the small payload passed between two adjacent stages.
+
+- Context
+- Decision
+- Trade-off

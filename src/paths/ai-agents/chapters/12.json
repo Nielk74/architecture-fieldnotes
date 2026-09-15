@@ -3,7 +3,7 @@
   "title": "Protecting Agentic Systems",
   "part": "Security",
   "subtitle": "Protect the full path from untrusted input to external action",
-  "summary": "An agent’s attack surface includes the model, retrieved information, stored memory, tools, and communication between components. Malicious instructions in data can redirect behavior, while compromised dependencies or poisoned records can influence later decisions. Security must therefore extend beyond filtering the final answer. Provenance and integrity checks protect information; scoped permissions and isolation limit actions; monitoring and recovery help contain failures that get through. The chapter also treats internal misconfiguration, inconsistent state, and goal mismatch as sources of damage. Complementary controls should prevent one mistaken decision from becoming unrestricted authority, and testing must examine the complete route from input to effect.",
+  "summary": "Pip’s guide reads an exhibit page that tells it to export visitor records. The page is evidence, not authority. Pip follows the route from untrusted input through memory and tools, then layers controls so one mistaken model decision cannot become unrestricted action.",
   "source": {
     "startLine": 10988,
     "endLine": 12091,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Agent threat surface",
-      "body": "An agent combines model reasoning, external data, tools, and repeated autonomous actions. Each boundary creates a way for an attacker or a faulty dependency to influence behavior. Protecting only the final chat response leaves tool permissions, retrieved content, data provenance, and communication between agents exposed. Security analysis must follow the complete path from input to effect.",
-      "example": "Teaching extension: A security review follows a retrieved web page into stored memory and then into a tool call, examining how untrusted text might acquire influence at each boundary.",
-      "source": "text lines 10988-12091"
+      "body": "Pip follows a suspicious page into the guide’s memory and a proposed tool call. Models, external data, tools, and repeated actions each introduce boundaries an attacker or faulty dependency can influence. Filtering the final chat response leaves those routes exposed. Pip checks permissions, provenance, and inter-agent communication along the complete input-to-effect path.",
+      "example": "",
+      "source": "text lines 10988-12091",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "UNTRUSTED PAGE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "database",
+            "label": "STORED MEMORY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "api",
+            "label": "PROPOSED EFFECT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip follows a suspicious page into the guide’s memory and a proposed tool call."
+          },
+          {
+            "node": "step-1",
+            "text": "Models, external data, tools, and repeated actions each introduce boundaries an attacker or faulty dependency can influence."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip checks permissions, provenance, and inter-agent communication along the complete input-to-effect path."
+          }
+        ]
+      }
     },
     {
       "title": "Prompt and goal attacks",
-      "body": "Untrusted content can redirect an agent, while ambiguous goals can produce actions that satisfy literal wording but violate intent. Instructions, data, and tools need distinct trust boundaries and validation.",
-      "example": "Teaching extension: A supplier page includes instructions to export customer records. The agent treats that text as page content, and the tool boundary independently denies the export permission.",
-      "source": "text lines 10988-12091"
+      "body": "Pip’s supplier page orders the guide to export visitor records. Untrusted content can redirect behavior; ambiguous goals can satisfy wording while violating intent. Pip separates instructions, data, and tool authority. The service independently denies export permission even if the model follows the hostile text.",
+      "example": "",
+      "source": "text lines 10988-12091",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "HOSTILE INSTRUCTION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gateway",
+            "label": "TRUST BOUNDARY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "shield",
+            "label": "EXPORT DENIED",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s supplier page orders the guide to export visitor records."
+          },
+          {
+            "node": "step-1",
+            "text": "Untrusted content can redirect behavior; ambiguous goals can satisfy wording while violating intent."
+          },
+          {
+            "node": "step-3",
+            "text": "The service independently denies export permission even if the model follows the hostile text."
+          }
+        ]
+      }
     },
     {
       "title": "Data and supply chain",
-      "body": "Poisoned data, exfiltration, insecure dependencies, and compromised tools can alter what an agent believes or does. Provenance, least privilege, isolation, and revalidation limit blast radius.",
-      "example": "Teaching extension: A connector update is rejected when its package integrity check fails. Separately, retrieved records keep their provenance so a poisoned source can be identified and withdrawn.",
-      "source": "text lines 10988-12091"
+      "body": "Pip rejects a connector update whose integrity check fails. Poisoned data, exfiltration, insecure dependencies, and compromised tools can change beliefs or actions. Retrieved records retain provenance so a poisoned source can be withdrawn. Least privilege, isolation, and revalidation limit the damage.",
+      "example": "",
+      "source": "text lines 10988-12091",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "plugin",
+            "label": "CONNECTOR UPDATE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "shield",
+            "label": "INTEGRITY CHECK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "SOURCE PROVENANCE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip rejects a connector update whose integrity check fails."
+          },
+          {
+            "node": "step-1",
+            "text": "Poisoned data, exfiltration, insecure dependencies, and compromised tools can change beliefs or actions."
+          },
+          {
+            "node": "step-3",
+            "text": "Least privilege, isolation, and revalidation limit the damage."
+          }
+        ]
+      }
     },
     {
       "title": "Defense in depth",
-      "body": "Controls combine policy, scoped identity, confirmation, sandboxing, monitoring, red teaming, and recovery. No single filter reliably handles adaptive behavior, so layers should fail safely and leave an audit trail.",
-      "example": "Teaching extension: A document-processing agent has read-only storage access, an isolated execution environment, and logged tool requests. If a malicious document changes its behavior, these controls still restrict and expose attempted effects.",
-      "source": "text lines 10988-12091"
+      "body": "Pip’s document agent has read-only storage, isolated execution, and logged tool requests. Policy, scoped identity, confirmation, sandboxing, monitoring, red teaming, and recovery provide complementary controls. A malicious document may still change model behavior. Pip makes attempted effects restricted, visible, and recoverable rather than trusting one filter.",
+      "example": "",
+      "source": "text lines 10988-12091",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "gateway",
+            "label": "SCOPED IDENTITY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "boundary",
+            "label": "ISOLATED EXECUTION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "trace",
+            "label": "AUDIT + RECOVERY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s document agent has read-only storage, isolated execution, and logged tool requests."
+          },
+          {
+            "node": "step-1",
+            "text": "Policy, scoped identity, confirmation, sandboxing, monitoring, red teaming, and recovery provide complementary controls."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip makes attempted effects restricted, visible, and recoverable rather than trusting one filter."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -117,69 +369,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "n0",
-        "label": "THREAT",
-        "kind": "alert",
-        "tone": "sage",
-        "x": 100,
-        "y": 80
-      },
-      {
-        "id": "n1",
-        "label": "IDENTITY",
-        "kind": "shield",
-        "tone": "peach",
-        "x": 270,
-        "y": 80
-      },
-      {
-        "id": "n2",
-        "label": "TOOLS",
-        "kind": "api",
-        "tone": "lilac",
-        "x": 100,
-        "y": 210
-      },
-      {
-        "id": "n3",
-        "label": "RECOVERY",
-        "kind": "trace",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 270,
-        "y": 210
+        "course": "ai-agents"
+      },
+      {
+        "id": "step-1",
+        "kind": "document",
+        "label": "UNTRUSTED PAGE",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "database",
+        "label": "STORED MEMORY",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "api",
+        "label": "PROPOSED EFFECT",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "n0",
-        "to": "n1"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n1",
-        "to": "n2"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n2",
-        "to": "n3"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "n0",
-        "text": "Inspect threat in the chapter workflow."
+        "node": "step-0",
+        "text": "Pip follows a suspicious page into the guide’s memory and a proposed tool call."
       },
       {
-        "node": "n1",
-        "text": "Inspect identity in the chapter workflow."
+        "node": "step-1",
+        "text": "Models, external data, tools, and repeated actions each introduce boundaries an attacker or faulty dependency can influence."
       },
       {
-        "node": "n2",
-        "text": "Inspect tools in the chapter workflow."
-      },
-      {
-        "node": "n3",
-        "text": "Inspect recovery in the chapter workflow."
+        "node": "step-3",
+        "text": "Pip checks permissions, provenance, and inter-agent communication along the complete input-to-effect path."
       }
     ]
+  },
+  "story": {
+    "course": "ai-agents",
+    "world": "museum",
+    "title": "The exhibit label tries to give orders"
   }
 }

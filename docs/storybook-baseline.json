@@ -1,0 +1,4610 @@
+{
+  "baselineCommit": "14d4e049a65b82c0d0c24cf15dea679e58b6b393",
+  "chapters": {
+    "fundamentals/2": {
+      "file": "src/chapters/02.json",
+      "summary": 123,
+      "concepts": [
+        96,
+        93,
+        94,
+        88,
+        90
+      ],
+      "scenario": 65,
+      "reading": 1152,
+      "source": {
+        "startLine": 1323,
+        "endLine": 1767,
+        "pages": "23–36"
+      },
+      "conceptSources": [
+        "pp. 23–25",
+        "pp. 25–30",
+        "pp. 30–34",
+        "pp. 33–34",
+        "pp. 34–36"
+      ],
+      "answers": [
+        1,
+        1,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/3": {
+      "file": "src/chapters/03.json",
+      "summary": 127,
+      "concepts": [
+        96,
+        86,
+        95,
+        91,
+        106
+      ],
+      "scenario": 62,
+      "reading": 1131,
+      "source": {
+        "startLine": 1768,
+        "endLine": 2417,
+        "pages": "37–53"
+      },
+      "conceptSources": [
+        "pp. 37–40",
+        "pp. 40–44",
+        "pp. 44–48",
+        "pp. 48–52",
+        "pp. 50–53"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/4": {
+      "file": "src/chapters/04.json",
+      "summary": 123,
+      "concepts": [
+        98,
+        101,
+        93,
+        89,
+        97
+      ],
+      "scenario": 66,
+      "reading": 1131,
+      "source": {
+        "startLine": 2418,
+        "endLine": 2805,
+        "pages": "55–64"
+      },
+      "conceptSources": [
+        "pp. 55–57",
+        "pp. 56–57",
+        "pp. 57–58",
+        "pp. 58–62",
+        "pp. 62–64"
+      ],
+      "answers": [
+        1,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/5": {
+      "file": "src/chapters/05.json",
+      "summary": 138,
+      "concepts": [
+        86,
+        93,
+        96,
+        96,
+        96
+      ],
+      "scenario": 67,
+      "reading": 1143,
+      "source": {
+        "startLine": 2806,
+        "endLine": 3228,
+        "pages": "65–75"
+      },
+      "conceptSources": [
+        "pp. 65–67",
+        "pp. 66–72",
+        "pp. 70–74",
+        "pp. 67–69",
+        "pp. 65–75"
+      ],
+      "answers": [
+        1,
+        0,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/6": {
+      "file": "src/chapters/06.json",
+      "summary": 133,
+      "concepts": [
+        89,
+        92,
+        97,
+        97,
+        86,
+        95
+      ],
+      "scenario": 57,
+      "reading": 1192,
+      "source": {
+        "startLine": 3229,
+        "endLine": 3723,
+        "pages": "77–89"
+      },
+      "conceptSources": [
+        "pp. 77–78",
+        "pp. 77–79",
+        "pp. 79–81",
+        "pp. 80–82",
+        "pp. 82–87",
+        "pp. 82–89"
+      ],
+      "answers": [
+        1,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/7": {
+      "file": "src/chapters/07.json",
+      "summary": 135,
+      "concepts": [
+        92,
+        98,
+        87,
+        88,
+        92
+      ],
+      "scenario": 57,
+      "reading": 1105,
+      "source": {
+        "startLine": 3724,
+        "endLine": 4044,
+        "pages": "91–98"
+      },
+      "conceptSources": [
+        "pp. 91–92",
+        "pp. 92–93",
+        "pp. 92–94",
+        "pp. 93–94",
+        "pp. 94–98"
+      ],
+      "answers": [
+        1,
+        1,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/8": {
+      "file": "src/chapters/08.json",
+      "summary": 153,
+      "concepts": [
+        94,
+        91,
+        90,
+        92,
+        95,
+        90
+      ],
+      "scenario": 62,
+      "reading": 1241,
+      "source": {
+        "startLine": 4045,
+        "endLine": 4692,
+        "pages": "99–116"
+      },
+      "conceptSources": [
+        "pp. 99–100",
+        "pp. 100–102, 107–109",
+        "pp. 102–107",
+        "pp. 107–109, 113–114",
+        "pp. 109–113",
+        "pp. 114–116"
+      ],
+      "answers": [
+        0,
+        1,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/9": {
+      "file": "src/chapters/09.json",
+      "summary": 109,
+      "concepts": [
+        106,
+        111,
+        101,
+        112,
+        101,
+        108
+      ],
+      "scenario": 65,
+      "reading": 1400,
+      "source": {
+        "startLine": 4693,
+        "endLine": 5184,
+        "pages": "119–132"
+      },
+      "conceptSources": [
+        "pp. 119–121",
+        "pp. 120–122",
+        "pp. 123–124",
+        "pp. 124–130",
+        "pp. 131–132",
+        "pp. 122–123"
+      ],
+      "answers": [
+        1,
+        1,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/10": {
+      "file": "src/chapters/10.json",
+      "summary": 122,
+      "concepts": [
+        110,
+        98,
+        108,
+        111,
+        103
+      ],
+      "scenario": 61,
+      "reading": 1229,
+      "source": {
+        "startLine": 5185,
+        "endLine": 5486,
+        "pages": "133–141"
+      },
+      "conceptSources": [
+        "pp. 133–135",
+        "pp. 135–136",
+        "pp. 135–138",
+        "pp. 138–139",
+        "pp. 137–141"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/11": {
+      "file": "src/chapters/11.json",
+      "summary": 118,
+      "concepts": [
+        95,
+        95,
+        92,
+        101
+      ],
+      "scenario": 62,
+      "reading": 1017,
+      "source": {
+        "startLine": 5487,
+        "endLine": 5678,
+        "pages": "143–148"
+      },
+      "conceptSources": [
+        "pp. 143–145",
+        "pp. 143–146",
+        "pp. 144–146",
+        "pp. 145–148"
+      ],
+      "answers": [
+        1,
+        1,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/12": {
+      "file": "src/chapters/12.json",
+      "summary": 119,
+      "concepts": [
+        103,
+        95,
+        100,
+        95,
+        105
+      ],
+      "scenario": 62,
+      "reading": 1171,
+      "source": {
+        "startLine": 5679,
+        "endLine": 6088,
+        "pages": "149–161"
+      },
+      "conceptSources": [
+        "pp. 149–151",
+        "pp. 151–155",
+        "pp. 155–156",
+        "pp. 156–158",
+        "pp. 158–161"
+      ],
+      "answers": [
+        1,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/13": {
+      "file": "src/chapters/13.json",
+      "summary": 125,
+      "concepts": [
+        95,
+        101,
+        100,
+        101,
+        104
+      ],
+      "scenario": 61,
+      "reading": 1187,
+      "source": {
+        "startLine": 6089,
+        "endLine": 6538,
+        "pages": "163–177"
+      },
+      "conceptSources": [
+        "pp. 163–165",
+        "pp. 165–167, 172–173",
+        "pp. 167–169, 177",
+        "pp. 169–171",
+        "pp. 172–177"
+      ],
+      "answers": [
+        0,
+        1,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/14": {
+      "file": "src/chapters/14.json",
+      "summary": 131,
+      "concepts": [
+        94,
+        93,
+        108,
+        98,
+        108,
+        99
+      ],
+      "scenario": 62,
+      "reading": 1294,
+      "source": {
+        "startLine": 6539,
+        "endLine": 7521,
+        "pages": "179–209"
+      },
+      "conceptSources": [
+        "pp. 179–180, 206",
+        "pp. 180–184",
+        "pp. 185–195",
+        "pp. 195–196, 203–206",
+        "pp. 197–202",
+        "pp. 203–209"
+      ],
+      "answers": [
+        1,
+        0,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/15": {
+      "file": "src/chapters/15.json",
+      "summary": 125,
+      "concepts": [
+        93,
+        100,
+        113,
+        101,
+        100,
+        100
+      ],
+      "scenario": 61,
+      "reading": 1311,
+      "source": {
+        "startLine": 7522,
+        "endLine": 8315,
+        "pages": "211–234"
+      },
+      "conceptSources": [
+        "pp. 211–213, 231–232",
+        "pp. 213–219",
+        "pp. 219–223",
+        "pp. 223–226",
+        "pp. 226–230",
+        "pp. 231–234"
+      ],
+      "answers": [
+        0,
+        1,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/16": {
+      "file": "src/chapters/16.json",
+      "summary": 132,
+      "concepts": [
+        104,
+        92,
+        100,
+        100,
+        97,
+        104
+      ],
+      "scenario": 63,
+      "reading": 1302,
+      "source": {
+        "startLine": 8316,
+        "endLine": 8574,
+        "pages": "235–243"
+      },
+      "conceptSources": [
+        "pp. 235–236",
+        "pp. 236–237",
+        "pp. 237–239",
+        "pp. 239–240",
+        "pp. 240–241",
+        "pp. 241–243"
+      ],
+      "answers": [
+        1,
+        0,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/17": {
+      "file": "src/chapters/17.json",
+      "summary": 131,
+      "concepts": [
+        94,
+        96,
+        87,
+        99,
+        102
+      ],
+      "scenario": 67,
+      "reading": 1173,
+      "source": {
+        "startLine": 8575,
+        "endLine": 9198,
+        "pages": "245–265"
+      },
+      "conceptSources": [
+        "pp. 245–248",
+        "pp. 247–249",
+        "pp. 249–252",
+        "pp. 254–259",
+        "pp. 259–262"
+      ],
+      "answers": [
+        0,
+        0,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/18": {
+      "file": "src/chapters/18.json",
+      "summary": 147,
+      "concepts": [
+        98,
+        93,
+        93,
+        91,
+        89
+      ],
+      "scenario": 59,
+      "reading": 1152,
+      "source": {
+        "startLine": 9199,
+        "endLine": 9588,
+        "pages": "267–277"
+      },
+      "conceptSources": [
+        "pp. 267–268",
+        "pp. 269–270",
+        "pp. 269–270, 274–277",
+        "p. 270, 275–276",
+        "pp. 271–277"
+      ],
+      "answers": [
+        0,
+        0,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/19": {
+      "file": "src/chapters/19.json",
+      "summary": 143,
+      "concepts": [
+        96,
+        88,
+        92,
+        88,
+        101
+      ],
+      "scenario": 54,
+      "reading": 1091,
+      "source": {
+        "startLine": 9589,
+        "endLine": 10138,
+        "pages": "281–295"
+      },
+      "conceptSources": [
+        "pp. 281–283",
+        "pp. 283–284",
+        "pp. 285–287",
+        "pp. 287–289",
+        "pp. 289–293"
+      ],
+      "answers": [
+        0,
+        0,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/20": {
+      "file": "src/chapters/20.json",
+      "summary": 150,
+      "concepts": [
+        92,
+        95,
+        92,
+        93,
+        94
+      ],
+      "scenario": 61,
+      "reading": 1148,
+      "source": {
+        "startLine": 10139,
+        "endLine": 10730,
+        "pages": "297–314"
+      },
+      "conceptSources": [
+        "pp. 297–298",
+        "pp. 298–301",
+        "pp. 301–306",
+        "pp. 306–307",
+        "pp. 307–314"
+      ],
+      "answers": [
+        0,
+        0,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/21": {
+      "file": "src/chapters/21.json",
+      "summary": 155,
+      "concepts": [
+        94,
+        94,
+        97,
+        94,
+        103
+      ],
+      "scenario": 54,
+      "reading": 1135,
+      "source": {
+        "startLine": 10731,
+        "endLine": 11078,
+        "pages": "315–324"
+      },
+      "conceptSources": [
+        "pp. 315–316",
+        "pp. 316–318",
+        "pp. 318–319",
+        "pp. 319–320",
+        "pp. 321–324"
+      ],
+      "answers": [
+        0,
+        0,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/22": {
+      "file": "src/chapters/22.json",
+      "summary": 146,
+      "concepts": [
+        89,
+        93,
+        98,
+        91,
+        98
+      ],
+      "scenario": 56,
+      "reading": 1113,
+      "source": {
+        "startLine": 11079,
+        "endLine": 11842,
+        "pages": "325–346"
+      },
+      "conceptSources": [
+        "pp. 325–330",
+        "pp. 330–334",
+        "pp. 335–337",
+        "pp. 338–342",
+        "pp. 342–346"
+      ],
+      "answers": [
+        0,
+        0,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/23": {
+      "file": "src/chapters/23.json",
+      "summary": 148,
+      "concepts": [
+        99,
+        93,
+        99,
+        96,
+        96
+      ],
+      "scenario": 63,
+      "reading": 1147,
+      "source": {
+        "startLine": 11843,
+        "endLine": 12533,
+        "pages": "347–363"
+      },
+      "conceptSources": [
+        "pp. 347–350",
+        "pp. 350–351",
+        "pp. 351–352",
+        "pp. 353–355",
+        "pp. 355–363"
+      ],
+      "answers": [
+        0,
+        0,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "fundamentals/24": {
+      "file": "src/chapters/24.json",
+      "summary": 160,
+      "concepts": [
+        97,
+        96,
+        99,
+        89,
+        99
+      ],
+      "scenario": 59,
+      "reading": 1130,
+      "source": {
+        "startLine": 12534,
+        "endLine": 12834,
+        "pages": "365–372"
+      },
+      "conceptSources": [
+        "pp. 365–367",
+        "pp. 365–366",
+        "pp. 367–370",
+        "pp. 369–370",
+        "pp. 370–372"
+      ],
+      "answers": [
+        0,
+        0,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "hard-parts/1": {
+      "file": "src/paths/hard-parts/chapters/01.json",
+      "summary": 117,
+      "concepts": [
+        93,
+        86,
+        85,
+        95
+      ],
+      "scenario": 44,
+      "reading": 890,
+      "source": {
+        "startLine": 196,
+        "endLine": 799,
+        "reference": "text lines 196–799"
+      },
+      "conceptSources": [
+        "text lines 196–255",
+        "text lines 337–379",
+        "text lines 380–506",
+        "text lines 507–590"
+      ],
+      "answers": [
+        1,
+        1,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "hard-parts/2": {
+      "file": "src/paths/hard-parts/chapters/02.json",
+      "summary": 127,
+      "concepts": [
+        89,
+        89,
+        88,
+        91
+      ],
+      "scenario": 38,
+      "reading": 838,
+      "source": {
+        "startLine": 800,
+        "endLine": 1200,
+        "reference": "text lines 800–1200"
+      },
+      "conceptSources": [
+        "text lines 800–846",
+        "text lines 847–977",
+        "text lines 978–1000",
+        "text lines 1001–1085"
+      ],
+      "answers": [
+        0,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "hard-parts/3": {
+      "file": "src/paths/hard-parts/chapters/03.json",
+      "summary": 121,
+      "concepts": [
+        78,
+        78,
+        72,
+        71,
+        78
+      ],
+      "scenario": 43,
+      "reading": 873,
+      "source": {
+        "startLine": 1201,
+        "endLine": 1476,
+        "reference": "text lines 1201–1476"
+      },
+      "conceptSources": [
+        "text lines 1201–1282",
+        "text lines 1283–1342",
+        "text lines 1343–1364",
+        "text lines 1365–1382",
+        "text lines 1383–1476"
+      ],
+      "answers": [
+        0,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "hard-parts/4": {
+      "file": "src/paths/hard-parts/chapters/04.json",
+      "summary": 127,
+      "concepts": [
+        77,
+        73,
+        69,
+        71
+      ],
+      "scenario": 49,
+      "reading": 751,
+      "source": {
+        "startLine": 1477,
+        "endLine": 1753,
+        "reference": "text lines 1477–1753"
+      },
+      "conceptSources": [
+        "text lines 1477–1535",
+        "text lines 1536–1585",
+        "text lines 1586–1635",
+        "text lines 1636–1733"
+      ],
+      "answers": [
+        0,
+        1,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "hard-parts/5": {
+      "file": "src/paths/hard-parts/chapters/05.json",
+      "summary": 133,
+      "concepts": [
+        80,
+        72,
+        68,
+        76,
+        69,
+        78
+      ],
+      "scenario": 39,
+      "reading": 957,
+      "source": {
+        "startLine": 1754,
+        "endLine": 3574,
+        "reference": "text lines 1754–3574"
+      },
+      "conceptSources": [
+        "text lines 1812–2450",
+        "text lines 2451–2758",
+        "text lines 2759–3075",
+        "text lines 3076–3217",
+        "text lines 3218–3525",
+        "text lines 3526–3574"
+      ],
+      "answers": [
+        0,
+        0,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "hard-parts/6": {
+      "file": "src/paths/hard-parts/chapters/06.json",
+      "summary": 130,
+      "concepts": [
+        96,
+        98,
+        94,
+        94,
+        100,
+        89
+      ],
+      "scenario": 52,
+      "reading": 1189,
+      "source": {
+        "startLine": 3575,
+        "endLine": 4926,
+        "reference": "text lines 3575–4926"
+      },
+      "conceptSources": [
+        "text lines 3600–4018",
+        "text lines 3630–3704",
+        "text lines 3706–3998",
+        "text lines 4116–4408",
+        "text lines 4409–4790",
+        "text lines 4800–4925"
+      ],
+      "answers": [
+        1,
+        1,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "hard-parts/7": {
+      "file": "src/paths/hard-parts/chapters/07.json",
+      "summary": 134,
+      "concepts": [
+        86,
+        88,
+        83,
+        84
+      ],
+      "scenario": 50,
+      "reading": 903,
+      "source": {
+        "startLine": 4927,
+        "endLine": 5479,
+        "reference": "text lines 4927–5479"
+      },
+      "conceptSources": [
+        "text lines 4999–5121",
+        "text lines 5131–5171",
+        "text lines 5187–5273",
+        "text lines 5121–5165, 5395–5452"
+      ],
+      "answers": [
+        1,
+        1,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "hard-parts/8": {
+      "file": "src/paths/hard-parts/chapters/08.json",
+      "summary": 149,
+      "concepts": [
+        86,
+        78,
+        89,
+        84,
+        82
+      ],
+      "scenario": 44,
+      "reading": 963,
+      "source": {
+        "startLine": 5480,
+        "endLine": 6002,
+        "reference": "text lines 5480–6002"
+      },
+      "conceptSources": [
+        "text lines 5518–5588",
+        "text lines 5593–5659",
+        "text lines 5663–5721",
+        "text lines 5759–5795",
+        "text lines 5891–5987"
+      ],
+      "answers": [
+        1,
+        1,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "hard-parts/9": {
+      "file": "src/paths/hard-parts/chapters/09.json",
+      "summary": 149,
+      "concepts": [
+        83,
+        91,
+        84,
+        84
+      ],
+      "scenario": 45,
+      "reading": 913,
+      "source": {
+        "startLine": 6003,
+        "endLine": 6556,
+        "reference": "text lines 6003–6556"
+      },
+      "conceptSources": [
+        "text lines 6039–6079, 6264–6268",
+        "text lines 6081–6259",
+        "text lines 6287–6321",
+        "text lines 6335–6497"
+      ],
+      "answers": [
+        0,
+        0,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "hard-parts/10": {
+      "file": "src/paths/hard-parts/chapters/10.json",
+      "summary": 151,
+      "concepts": [
+        81,
+        88,
+        91,
+        83
+      ],
+      "scenario": 49,
+      "reading": 914,
+      "source": {
+        "startLine": 6557,
+        "endLine": 6855,
+        "reference": "text lines 6557–6855"
+      },
+      "conceptSources": [
+        "text lines 6577–6621",
+        "text lines 6623–6661",
+        "text lines 6663–6729, 6780–6848",
+        "text lines 6731–6780"
+      ],
+      "answers": [
+        0,
+        1,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "hard-parts/11": {
+      "file": "src/paths/hard-parts/chapters/11.json",
+      "summary": 121,
+      "concepts": [
+        79,
+        79,
+        78,
+        86
+      ],
+      "scenario": 57,
+      "reading": 887,
+      "source": {
+        "startLine": 6856,
+        "endLine": 7311,
+        "reference": "text lines 6856–7311"
+      },
+      "conceptSources": [
+        "text lines 6880–6950",
+        "text lines 6951–7008",
+        "text lines 7009–7060",
+        "text lines 7061–7145"
+      ],
+      "answers": [
+        0,
+        1,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "hard-parts/12": {
+      "file": "src/paths/hard-parts/chapters/12.json",
+      "summary": 132,
+      "concepts": [
+        71,
+        69,
+        66,
+        76,
+        77,
+        72,
+        74,
+        69
+      ],
+      "scenario": 54,
+      "reading": 1123,
+      "source": {
+        "startLine": 7312,
+        "endLine": 8356,
+        "reference": "text lines 7312–8356"
+      },
+      "conceptSources": [
+        "text lines 7328–7418",
+        "text lines 7420–7506",
+        "text lines 7508–7586",
+        "text lines 7588–7732",
+        "text lines 7734–7876",
+        "text lines 7878–7950",
+        "text lines 7952–8024",
+        "text lines 8026–8356"
+      ],
+      "answers": [
+        0,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "hard-parts/13": {
+      "file": "src/paths/hard-parts/chapters/13.json",
+      "summary": 131,
+      "concepts": [
+        69,
+        67,
+        67,
+        68,
+        70
+      ],
+      "scenario": 45,
+      "reading": 872,
+      "source": {
+        "startLine": 8357,
+        "endLine": 8721,
+        "reference": "text lines 8357–8721"
+      },
+      "conceptSources": [
+        "text lines 8370–8432",
+        "text lines 8388–8408; 8460–8508",
+        "text lines 8441–8457; 8515–8554",
+        "text lines 8557–8648",
+        "text lines 8649–8721"
+      ],
+      "answers": [
+        0,
+        1,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "hard-parts/14": {
+      "file": "src/paths/hard-parts/chapters/14.json",
+      "summary": 133,
+      "concepts": [
+        72,
+        61,
+        79,
+        71
+      ],
+      "scenario": 50,
+      "reading": 816,
+      "source": {
+        "startLine": 8722,
+        "endLine": 9078,
+        "reference": "text lines 8722–9078"
+      },
+      "conceptSources": [
+        "text lines 8726–8746",
+        "text lines 8738–8836",
+        "text lines 8836–8888",
+        "text lines 8889–9078"
+      ],
+      "answers": [
+        0,
+        1,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "hard-parts/15": {
+      "file": "src/paths/hard-parts/chapters/15.json",
+      "summary": 137,
+      "concepts": [
+        72,
+        70,
+        69,
+        62,
+        60
+      ],
+      "scenario": 54,
+      "reading": 900,
+      "source": {
+        "startLine": 9079,
+        "endLine": 9500,
+        "reference": "text lines 9079–9500"
+      },
+      "conceptSources": [
+        "text lines 9100–9135",
+        "text lines 9136–9188",
+        "text lines 9189–9248",
+        "text lines 9249–9288",
+        "text lines 9289–9500"
+      ],
+      "answers": [
+        0,
+        1,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "staff-engineer/1": {
+      "file": "src/paths/staff-engineer/chapters/01.json",
+      "summary": 49,
+      "concepts": [
+        67,
+        70,
+        67,
+        67
+      ],
+      "scenario": 23,
+      "reading": 704,
+      "source": {
+        "startLine": 470,
+        "endLine": 1404,
+        "reference": "text lines 470–1404"
+      },
+      "conceptSources": [
+        "text lines 470–1404",
+        "text lines 470–1404",
+        "text lines 470–1404",
+        "text lines 470–1404"
+      ],
+      "answers": [
+        1,
+        0,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "staff-engineer/2": {
+      "file": "src/paths/staff-engineer/chapters/02.json",
+      "summary": 48,
+      "concepts": [
+        69,
+        68,
+        72,
+        75
+      ],
+      "scenario": 27,
+      "reading": 715,
+      "source": {
+        "startLine": 1405,
+        "endLine": 2580,
+        "reference": "text lines 1405–2580"
+      },
+      "conceptSources": [
+        "text lines 1405–2580",
+        "text lines 1405–2580",
+        "text lines 1405–2580",
+        "text lines 1405–2580"
+      ],
+      "answers": [
+        1,
+        0,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "staff-engineer/3": {
+      "file": "src/paths/staff-engineer/chapters/03.json",
+      "summary": 39,
+      "concepts": [
+        70,
+        66,
+        67,
+        62
+      ],
+      "scenario": 20,
+      "reading": 665,
+      "source": {
+        "startLine": 2581,
+        "endLine": 4070,
+        "reference": "text lines 2581–4070"
+      },
+      "conceptSources": [
+        "text lines 2581–4070",
+        "text lines 2581–4070",
+        "text lines 2581–4070",
+        "text lines 2581–4070"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "staff-engineer/4": {
+      "file": "src/paths/staff-engineer/chapters/04.json",
+      "summary": 41,
+      "concepts": [
+        68,
+        71,
+        69,
+        69
+      ],
+      "scenario": 25,
+      "reading": 687,
+      "source": {
+        "startLine": 4071,
+        "endLine": 5121,
+        "reference": "text lines 4071–5121"
+      },
+      "conceptSources": [
+        "text lines 4071–5121",
+        "text lines 4071–5121",
+        "text lines 4071–5121",
+        "text lines 4071–5121"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "staff-engineer/5": {
+      "file": "src/paths/staff-engineer/chapters/05.json",
+      "summary": 41,
+      "concepts": [
+        59,
+        68,
+        68,
+        74
+      ],
+      "scenario": 20,
+      "reading": 689,
+      "source": {
+        "startLine": 5122,
+        "endLine": 6512,
+        "reference": "text lines 5122–6512"
+      },
+      "conceptSources": [
+        "text lines 5122–6512",
+        "text lines 5122–6512",
+        "text lines 5122–6512",
+        "text lines 5122–6512"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "staff-engineer/6": {
+      "file": "src/paths/staff-engineer/chapters/06.json",
+      "summary": 42,
+      "concepts": [
+        72,
+        68,
+        69,
+        63
+      ],
+      "scenario": 22,
+      "reading": 698,
+      "source": {
+        "startLine": 6513,
+        "endLine": 7679,
+        "reference": "text lines 6513–7679"
+      },
+      "conceptSources": [
+        "text lines 6513–7679",
+        "text lines 6513–7679",
+        "text lines 6513–7679",
+        "text lines 6513–7679"
+      ],
+      "answers": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "staff-engineer/7": {
+      "file": "src/paths/staff-engineer/chapters/07.json",
+      "summary": 35,
+      "concepts": [
+        69,
+        67,
+        69,
+        65
+      ],
+      "scenario": 22,
+      "reading": 685,
+      "source": {
+        "startLine": 7680,
+        "endLine": 8702,
+        "reference": "text lines 7680–8702"
+      },
+      "conceptSources": [
+        "text lines 7680–8702",
+        "text lines 7680–8702",
+        "text lines 7680–8702",
+        "text lines 7680–8702"
+      ],
+      "answers": [
+        1,
+        0,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "staff-engineer/8": {
+      "file": "src/paths/staff-engineer/chapters/08.json",
+      "summary": 38,
+      "concepts": [
+        67,
+        63,
+        67,
+        71
+      ],
+      "scenario": 20,
+      "reading": 680,
+      "source": {
+        "startLine": 8703,
+        "endLine": 9789,
+        "reference": "text lines 8703–9789"
+      },
+      "conceptSources": [
+        "text lines 8703–9789",
+        "text lines 8703–9789",
+        "text lines 8703–9789",
+        "text lines 8703–9789"
+      ],
+      "answers": [
+        1,
+        0,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "staff-engineer/9": {
+      "file": "src/paths/staff-engineer/chapters/09.json",
+      "summary": 39,
+      "concepts": [
+        61,
+        70,
+        68,
+        72
+      ],
+      "scenario": 21,
+      "reading": 694,
+      "source": {
+        "startLine": 9790,
+        "endLine": 10737,
+        "reference": "text lines 9790–10737"
+      },
+      "conceptSources": [
+        "text lines 9790–10737",
+        "text lines 9790–10737",
+        "text lines 9790–10737",
+        "text lines 9790–10737"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "responsible-engineering/1": {
+      "file": "src/paths/responsible-engineering/chapters/01.json",
+      "summary": 101,
+      "concepts": [
+        66,
+        62,
+        53,
+        66
+      ],
+      "scenario": 25,
+      "reading": 701,
+      "source": {
+        "startLine": 419,
+        "endLine": 745,
+        "reference": "text lines 419–745"
+      },
+      "conceptSources": [
+        "text lines 419-745",
+        "text lines 419-745",
+        "text lines 419-745",
+        "text lines 419-745"
+      ],
+      "answers": [
+        1,
+        0,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "responsible-engineering/2": {
+      "file": "src/paths/responsible-engineering/chapters/02.json",
+      "summary": 99,
+      "concepts": [
+        92,
+        71,
+        61,
+        66
+      ],
+      "scenario": 38,
+      "reading": 724,
+      "source": {
+        "startLine": 746,
+        "endLine": 1675,
+        "reference": "text lines 746–1675"
+      },
+      "conceptSources": [
+        "text lines 746-1675",
+        "text lines 746-1675",
+        "text lines 746-1675",
+        "text lines 746-1675"
+      ],
+      "answers": [
+        0,
+        2,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "responsible-engineering/3": {
+      "file": "src/paths/responsible-engineering/chapters/03.json",
+      "summary": 98,
+      "concepts": [
+        64,
+        66,
+        62,
+        69
+      ],
+      "scenario": 20,
+      "reading": 680,
+      "source": {
+        "startLine": 1676,
+        "endLine": 2317,
+        "reference": "text lines 1676–2317"
+      },
+      "conceptSources": [
+        "text lines 1676-2317",
+        "text lines 1676-2317",
+        "text lines 1676-2317",
+        "text lines 1676-2317"
+      ],
+      "answers": [
+        2,
+        1,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "responsible-engineering/4": {
+      "file": "src/paths/responsible-engineering/chapters/04.json",
+      "summary": 101,
+      "concepts": [
+        51,
+        69,
+        64,
+        65
+      ],
+      "scenario": 28,
+      "reading": 699,
+      "source": {
+        "startLine": 2318,
+        "endLine": 3086,
+        "reference": "text lines 2318–3086"
+      },
+      "conceptSources": [
+        "text lines 2318-3086",
+        "text lines 2318-3086",
+        "text lines 2318-3086",
+        "text lines 2318-3086"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "responsible-engineering/5": {
+      "file": "src/paths/responsible-engineering/chapters/05.json",
+      "summary": 103,
+      "concepts": [
+        58,
+        62,
+        58,
+        63
+      ],
+      "scenario": 22,
+      "reading": 647,
+      "source": {
+        "startLine": 3087,
+        "endLine": 3947,
+        "reference": "text lines 3087–3947"
+      },
+      "conceptSources": [
+        "text lines 3087-3947",
+        "text lines 3087-3947",
+        "text lines 3087-3947",
+        "text lines 3087-3947"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "responsible-engineering/6": {
+      "file": "src/paths/responsible-engineering/chapters/06.json",
+      "summary": 99,
+      "concepts": [
+        64,
+        61,
+        65,
+        69
+      ],
+      "scenario": 24,
+      "reading": 709,
+      "source": {
+        "startLine": 3948,
+        "endLine": 4487,
+        "reference": "text lines 3948–4487"
+      },
+      "conceptSources": [
+        "text lines 3948-4487",
+        "text lines 3948-4487",
+        "text lines 3948-4487",
+        "text lines 3948-4487"
+      ],
+      "answers": [
+        1,
+        0,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "responsible-engineering/7": {
+      "file": "src/paths/responsible-engineering/chapters/07.json",
+      "summary": 101,
+      "concepts": [
+        39,
+        38,
+        41,
+        38
+      ],
+      "scenario": 28,
+      "reading": 652,
+      "source": {
+        "startLine": 4488,
+        "endLine": 5044,
+        "reference": "text lines 4488-5044"
+      },
+      "conceptSources": [
+        "text lines 4488-5044",
+        "text lines 4488-5044",
+        "text lines 4488-5044",
+        "text lines 4488-5044"
+      ],
+      "answers": [
+        0,
+        2,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/1": {
+      "file": "src/paths/sre/chapters/01.json",
+      "summary": 113,
+      "concepts": [
+        74,
+        77,
+        69,
+        74
+      ],
+      "scenario": 34,
+      "reading": 797,
+      "source": {
+        "startLine": 785,
+        "endLine": 1146,
+        "reference": "text lines 785–1146"
+      },
+      "conceptSources": [
+        "text lines 785–1146",
+        "text lines 785–1146",
+        "text lines 785–1146",
+        "text lines 785–1146"
+      ],
+      "answers": [
+        1,
+        0,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/2": {
+      "file": "src/paths/sre/chapters/02.json",
+      "summary": 120,
+      "concepts": [
+        78,
+        70,
+        77,
+        77
+      ],
+      "scenario": 30,
+      "reading": 797,
+      "source": {
+        "startLine": 1147,
+        "endLine": 1484,
+        "reference": "text lines 1147–1484"
+      },
+      "conceptSources": [
+        "text lines 1147–1484",
+        "text lines 1147–1484",
+        "text lines 1147–1484",
+        "text lines 1147–1484"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/3": {
+      "file": "src/paths/sre/chapters/03.json",
+      "summary": 119,
+      "concepts": [
+        80,
+        77,
+        78,
+        77
+      ],
+      "scenario": 37,
+      "reading": 819,
+      "source": {
+        "startLine": 1485,
+        "endLine": 1904,
+        "reference": "text lines 1485–1904"
+      },
+      "conceptSources": [
+        "text lines 1485–1904",
+        "text lines 1485–1904",
+        "text lines 1485–1904",
+        "text lines 1485–1904"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/4": {
+      "file": "src/paths/sre/chapters/04.json",
+      "summary": 119,
+      "concepts": [
+        77,
+        78,
+        83,
+        83
+      ],
+      "scenario": 28,
+      "reading": 828,
+      "source": {
+        "startLine": 1905,
+        "endLine": 2265,
+        "reference": "text lines 1905–2265"
+      },
+      "conceptSources": [
+        "text lines 1905–2265",
+        "text lines 1905–2265",
+        "text lines 1905–2265",
+        "text lines 1905–2265"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/5": {
+      "file": "src/paths/sre/chapters/05.json",
+      "summary": 119,
+      "concepts": [
+        76,
+        78,
+        80,
+        78
+      ],
+      "scenario": 25,
+      "reading": 801,
+      "source": {
+        "startLine": 2266,
+        "endLine": 2451,
+        "reference": "text lines 2266–2451"
+      },
+      "conceptSources": [
+        "text lines 2266–2451",
+        "text lines 2266–2451",
+        "text lines 2266–2451",
+        "text lines 2266–2451"
+      ],
+      "answers": [
+        1,
+        0,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/6": {
+      "file": "src/paths/sre/chapters/06.json",
+      "summary": 121,
+      "concepts": [
+        80,
+        78,
+        71,
+        76
+      ],
+      "scenario": 24,
+      "reading": 788,
+      "source": {
+        "startLine": 2452,
+        "endLine": 2891,
+        "reference": "text lines 2452–2891"
+      },
+      "conceptSources": [
+        "text lines 2452–2891",
+        "text lines 2452–2891",
+        "text lines 2452–2891",
+        "text lines 2452–2891"
+      ],
+      "answers": [
+        0,
+        2,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/7": {
+      "file": "src/paths/sre/chapters/07.json",
+      "summary": 123,
+      "concepts": [
+        73,
+        76,
+        74,
+        84
+      ],
+      "scenario": 28,
+      "reading": 831,
+      "source": {
+        "startLine": 2892,
+        "endLine": 3536,
+        "reference": "text lines 2892–3536"
+      },
+      "conceptSources": [
+        "text lines 2892–3536",
+        "text lines 2892–3536",
+        "text lines 2892–3536",
+        "text lines 2892–3536"
+      ],
+      "answers": [
+        0,
+        2,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/8": {
+      "file": "src/paths/sre/chapters/08.json",
+      "summary": 119,
+      "concepts": [
+        77,
+        73,
+        79,
+        74
+      ],
+      "scenario": 28,
+      "reading": 790,
+      "source": {
+        "startLine": 3537,
+        "endLine": 3852,
+        "reference": "text lines 3537–3852"
+      },
+      "conceptSources": [
+        "text lines 3537–3852",
+        "text lines 3537–3852",
+        "text lines 3537–3852",
+        "text lines 3537–3852"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/9": {
+      "file": "src/paths/sre/chapters/09.json",
+      "summary": 120,
+      "concepts": [
+        75,
+        76,
+        71,
+        78
+      ],
+      "scenario": 24,
+      "reading": 788,
+      "source": {
+        "startLine": 3853,
+        "endLine": 4118,
+        "reference": "text lines 3853–4118"
+      },
+      "conceptSources": [
+        "text lines 3853–4118",
+        "text lines 3853–4118",
+        "text lines 3853–4118",
+        "text lines 3853–4118"
+      ],
+      "answers": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/10": {
+      "file": "src/paths/sre/chapters/10.json",
+      "summary": 118,
+      "concepts": [
+        78,
+        76,
+        79,
+        81
+      ],
+      "scenario": 27,
+      "reading": 823,
+      "source": {
+        "startLine": 4119,
+        "endLine": 4664,
+        "reference": "text lines 4119–4664"
+      },
+      "conceptSources": [
+        "text lines 4119–4664",
+        "text lines 4119–4664",
+        "text lines 4119–4664",
+        "text lines 4119–4664"
+      ],
+      "answers": [
+        1,
+        0,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/11": {
+      "file": "src/paths/sre/chapters/11.json",
+      "summary": 119,
+      "concepts": [
+        83,
+        83,
+        80,
+        80
+      ],
+      "scenario": 23,
+      "reading": 802,
+      "source": {
+        "startLine": 4665,
+        "endLine": 4943,
+        "reference": "text lines 4665–4943"
+      },
+      "conceptSources": [
+        "text lines 4665–4943",
+        "text lines 4665–4943",
+        "text lines 4665–4943",
+        "text lines 4665–4943"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/12": {
+      "file": "src/paths/sre/chapters/12.json",
+      "summary": 121,
+      "concepts": [
+        78,
+        78,
+        81,
+        82
+      ],
+      "scenario": 30,
+      "reading": 852,
+      "source": {
+        "startLine": 4944,
+        "endLine": 5519,
+        "reference": "text lines 4944–5519"
+      },
+      "conceptSources": [
+        "text lines 4944–5519",
+        "text lines 4944–5519",
+        "text lines 4944–5519",
+        "text lines 4944–5519"
+      ],
+      "answers": [
+        1,
+        0,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/13": {
+      "file": "src/paths/sre/chapters/13.json",
+      "summary": 119,
+      "concepts": [
+        79,
+        77,
+        76,
+        82
+      ],
+      "scenario": 26,
+      "reading": 853,
+      "source": {
+        "startLine": 5520,
+        "endLine": 5837,
+        "reference": "text lines 5520–5837"
+      },
+      "conceptSources": [
+        "text lines 5520–5837",
+        "text lines 5520–5837",
+        "text lines 5520–5837",
+        "text lines 5520–5837"
+      ],
+      "answers": [
+        1,
+        0,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/14": {
+      "file": "src/paths/sre/chapters/14.json",
+      "summary": 122,
+      "concepts": [
+        74,
+        77,
+        82,
+        73
+      ],
+      "scenario": 29,
+      "reading": 814,
+      "source": {
+        "startLine": 5838,
+        "endLine": 6052,
+        "reference": "text lines 5838–6052"
+      },
+      "conceptSources": [
+        "text lines 5838–6052",
+        "text lines 5838–6052",
+        "text lines 5838–6052",
+        "text lines 5838–6052"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/15": {
+      "file": "src/paths/sre/chapters/15.json",
+      "summary": 120,
+      "concepts": [
+        76,
+        79,
+        74,
+        75
+      ],
+      "scenario": 28,
+      "reading": 817,
+      "source": {
+        "startLine": 6053,
+        "endLine": 6267,
+        "reference": "text lines 6053–6267"
+      },
+      "conceptSources": [
+        "text lines 6053–6267",
+        "text lines 6053–6267",
+        "text lines 6053–6267",
+        "text lines 6053–6267"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/16": {
+      "file": "src/paths/sre/chapters/16.json",
+      "summary": 120,
+      "concepts": [
+        77,
+        74,
+        75,
+        86
+      ],
+      "scenario": 29,
+      "reading": 847,
+      "source": {
+        "startLine": 6268,
+        "endLine": 6432,
+        "reference": "text lines 6268–6432"
+      },
+      "conceptSources": [
+        "text lines 6268–6432",
+        "text lines 6268–6432",
+        "text lines 6268–6432",
+        "text lines 6268–6432"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/17": {
+      "file": "src/paths/sre/chapters/17.json",
+      "summary": 123,
+      "concepts": [
+        78,
+        79,
+        80,
+        83
+      ],
+      "scenario": 27,
+      "reading": 858,
+      "source": {
+        "startLine": 6433,
+        "endLine": 7220,
+        "reference": "text lines 6433–7220"
+      },
+      "conceptSources": [
+        "text lines 6433–7220",
+        "text lines 6433–7220",
+        "text lines 6433–7220",
+        "text lines 6433–7220"
+      ],
+      "answers": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/18": {
+      "file": "src/paths/sre/chapters/18.json",
+      "summary": 113,
+      "concepts": [
+        80,
+        79,
+        81,
+        80
+      ],
+      "scenario": 25,
+      "reading": 860,
+      "source": {
+        "startLine": 7221,
+        "endLine": 7875,
+        "reference": "text lines 7221–7875"
+      },
+      "conceptSources": [
+        "text lines 7221–7875",
+        "text lines 7221–7875",
+        "text lines 7221–7875",
+        "text lines 7221–7875"
+      ],
+      "answers": [
+        1,
+        0,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/19": {
+      "file": "src/paths/sre/chapters/19.json",
+      "summary": 111,
+      "concepts": [
+        81,
+        77,
+        83,
+        87
+      ],
+      "scenario": 27,
+      "reading": 817,
+      "source": {
+        "startLine": 7876,
+        "endLine": 8106,
+        "reference": "text lines 7876–8106"
+      },
+      "conceptSources": [
+        "text lines 7876–8106",
+        "text lines 7876–8106",
+        "text lines 7876–8106",
+        "text lines 7876–8106"
+      ],
+      "answers": [
+        0,
+        2,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/20": {
+      "file": "src/paths/sre/chapters/20.json",
+      "summary": 112,
+      "concepts": [
+        75,
+        78,
+        81,
+        80
+      ],
+      "scenario": 22,
+      "reading": 790,
+      "source": {
+        "startLine": 8107,
+        "endLine": 8603,
+        "reference": "text lines 8107–8603"
+      },
+      "conceptSources": [
+        "text lines 8107–8603",
+        "text lines 8107–8603",
+        "text lines 8107–8603",
+        "text lines 8107–8603"
+      ],
+      "answers": [
+        2,
+        1,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/21": {
+      "file": "src/paths/sre/chapters/21.json",
+      "summary": 115,
+      "concepts": [
+        77,
+        81,
+        80,
+        83
+      ],
+      "scenario": 21,
+      "reading": 811,
+      "source": {
+        "startLine": 8604,
+        "endLine": 9019,
+        "reference": "text lines 8604–9019"
+      },
+      "conceptSources": [
+        "text lines 8604–9019",
+        "text lines 8604–9019",
+        "text lines 8604–9019",
+        "text lines 8604–9019"
+      ],
+      "answers": [
+        1,
+        0,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/22": {
+      "file": "src/paths/sre/chapters/22.json",
+      "summary": 115,
+      "concepts": [
+        85,
+        83,
+        82,
+        83
+      ],
+      "scenario": 21,
+      "reading": 859,
+      "source": {
+        "startLine": 9020,
+        "endLine": 9888,
+        "reference": "text lines 9020–9888"
+      },
+      "conceptSources": [
+        "text lines 9020–9888",
+        "text lines 9020–9888",
+        "text lines 9020–9888",
+        "text lines 9020–9888"
+      ],
+      "answers": [
+        1,
+        0,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/23": {
+      "file": "src/paths/sre/chapters/23.json",
+      "summary": 116,
+      "concepts": [
+        83,
+        88,
+        86,
+        92
+      ],
+      "scenario": 20,
+      "reading": 895,
+      "source": {
+        "startLine": 9889,
+        "endLine": 10801,
+        "reference": "text lines 9889–10801"
+      },
+      "conceptSources": [
+        "text lines 9889–10801",
+        "text lines 9889–10801",
+        "text lines 9889–10801",
+        "text lines 9889–10801"
+      ],
+      "answers": [
+        2,
+        1,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/24": {
+      "file": "src/paths/sre/chapters/24.json",
+      "summary": 117,
+      "concepts": [
+        79,
+        78,
+        76,
+        80
+      ],
+      "scenario": 25,
+      "reading": 850,
+      "source": {
+        "startLine": 10802,
+        "endLine": 11198,
+        "reference": "text lines 10802–11198"
+      },
+      "conceptSources": [
+        "text lines 10802–11198",
+        "text lines 10802–11198",
+        "text lines 10802–11198",
+        "text lines 10802–11198"
+      ],
+      "answers": [
+        0,
+        2,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/25": {
+      "file": "src/paths/sre/chapters/25.json",
+      "summary": 116,
+      "concepts": [
+        81,
+        78,
+        84,
+        79
+      ],
+      "scenario": 24,
+      "reading": 847,
+      "source": {
+        "startLine": 11199,
+        "endLine": 11531,
+        "reference": "text lines 11199–11531"
+      },
+      "conceptSources": [
+        "text lines 11199–11531",
+        "text lines 11199–11531",
+        "text lines 11199–11531",
+        "text lines 11199–11531"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/26": {
+      "file": "src/paths/sre/chapters/26.json",
+      "summary": 119,
+      "concepts": [
+        85,
+        75,
+        80,
+        82
+      ],
+      "scenario": 27,
+      "reading": 837,
+      "source": {
+        "startLine": 11532,
+        "endLine": 12622,
+        "reference": "text lines 11532–12622"
+      },
+      "conceptSources": [
+        "text lines 11532–12622",
+        "text lines 11532–12622",
+        "text lines 11532–12622",
+        "text lines 11532–12622"
+      ],
+      "answers": [
+        0,
+        2,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/27": {
+      "file": "src/paths/sre/chapters/27.json",
+      "summary": 114,
+      "concepts": [
+        82,
+        81,
+        80,
+        78
+      ],
+      "scenario": 25,
+      "reading": 844,
+      "source": {
+        "startLine": 12623,
+        "endLine": 13347,
+        "reference": "text lines 12623–13347"
+      },
+      "conceptSources": [
+        "text lines 12623–13347",
+        "text lines 12623–13347",
+        "text lines 12623–13347",
+        "text lines 12623–13347"
+      ],
+      "answers": [
+        1,
+        0,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/28": {
+      "file": "src/paths/sre/chapters/28.json",
+      "summary": 118,
+      "concepts": [
+        82,
+        78,
+        77,
+        83
+      ],
+      "scenario": 29,
+      "reading": 823,
+      "source": {
+        "startLine": 13348,
+        "endLine": 13941,
+        "reference": "text lines 13348–13941"
+      },
+      "conceptSources": [
+        "text lines 13348–13941",
+        "text lines 13348–13941",
+        "text lines 13348–13941",
+        "text lines 13348–13941"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/29": {
+      "file": "src/paths/sre/chapters/29.json",
+      "summary": 116,
+      "concepts": [
+        81,
+        80,
+        78,
+        80
+      ],
+      "scenario": 27,
+      "reading": 854,
+      "source": {
+        "startLine": 13942,
+        "endLine": 14247,
+        "reference": "text lines 13942–14247"
+      },
+      "conceptSources": [
+        "text lines 13942–14247",
+        "text lines 13942–14247",
+        "text lines 13942–14247",
+        "text lines 13942–14247"
+      ],
+      "answers": [
+        0,
+        2,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/30": {
+      "file": "src/paths/sre/chapters/30.json",
+      "summary": 110,
+      "concepts": [
+        77,
+        77,
+        78,
+        84
+      ],
+      "scenario": 28,
+      "reading": 832,
+      "source": {
+        "startLine": 14248,
+        "endLine": 14493,
+        "reference": "text lines 14248–14493"
+      },
+      "conceptSources": [
+        "text lines 14248–14493",
+        "text lines 14248–14493",
+        "text lines 14248–14493",
+        "text lines 14248–14493"
+      ],
+      "answers": [
+        1,
+        0,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/31": {
+      "file": "src/paths/sre/chapters/31.json",
+      "summary": 116,
+      "concepts": [
+        80,
+        77,
+        82,
+        82
+      ],
+      "scenario": 23,
+      "reading": 838,
+      "source": {
+        "startLine": 14494,
+        "endLine": 15052,
+        "reference": "text lines 14494–15052"
+      },
+      "conceptSources": [
+        "text lines 14494–15052",
+        "text lines 14494–15052",
+        "text lines 14494–15052",
+        "text lines 14494–15052"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/32": {
+      "file": "src/paths/sre/chapters/32.json",
+      "summary": 113,
+      "concepts": [
+        82,
+        80,
+        77,
+        83
+      ],
+      "scenario": 22,
+      "reading": 828,
+      "source": {
+        "startLine": 15053,
+        "endLine": 15595,
+        "reference": "text lines 15053–15595"
+      },
+      "conceptSources": [
+        "text lines 15053–15595",
+        "text lines 15053–15595",
+        "text lines 15053–15595",
+        "text lines 15053–15595"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/33": {
+      "file": "src/paths/sre/chapters/33.json",
+      "summary": 120,
+      "concepts": [
+        83,
+        82,
+        80,
+        88
+      ],
+      "scenario": 25,
+      "reading": 858,
+      "source": {
+        "startLine": 15596,
+        "endLine": 16039,
+        "reference": "text lines 15596–16039"
+      },
+      "conceptSources": [
+        "text lines 15596–16039",
+        "text lines 15596–16039",
+        "text lines 15596–16039",
+        "text lines 15596–16039"
+      ],
+      "answers": [
+        0,
+        2,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "sre/34": {
+      "file": "src/paths/sre/chapters/34.json",
+      "summary": 114,
+      "concepts": [
+        82,
+        79,
+        80,
+        87
+      ],
+      "scenario": 27,
+      "reading": 840,
+      "source": {
+        "startLine": 16040,
+        "endLine": 16131,
+        "reference": "text lines 16040–16131"
+      },
+      "conceptSources": [
+        "text lines 16040–16131",
+        "text lines 16040–16131",
+        "text lines 16040–16131",
+        "text lines 16040–16131"
+      ],
+      "answers": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/1": {
+      "file": "src/paths/observability/chapters/01.json",
+      "summary": 108,
+      "concepts": [
+        66,
+        66,
+        66,
+        60
+      ],
+      "scenario": 12,
+      "reading": 714,
+      "source": {
+        "startLine": 653,
+        "endLine": 1279,
+        "reference": "text lines 653–1279"
+      },
+      "conceptSources": [
+        "text lines 653–1279",
+        "text lines 653–1279",
+        "text lines 653–1279",
+        "text lines 653–1279"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/2": {
+      "file": "src/paths/observability/chapters/02.json",
+      "summary": 110,
+      "concepts": [
+        67,
+        66,
+        65,
+        63
+      ],
+      "scenario": 13,
+      "reading": 746,
+      "source": {
+        "startLine": 1280,
+        "endLine": 1658,
+        "reference": "text lines 1280–1658"
+      },
+      "conceptSources": [
+        "text lines 1280–1658",
+        "text lines 1280–1658",
+        "text lines 1280–1658",
+        "text lines 1280–1658"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/3": {
+      "file": "src/paths/observability/chapters/03.json",
+      "summary": 114,
+      "concepts": [
+        66,
+        69,
+        65,
+        67
+      ],
+      "scenario": 15,
+      "reading": 786,
+      "source": {
+        "startLine": 1659,
+        "endLine": 2169,
+        "reference": "text lines 1659–2169"
+      },
+      "conceptSources": [
+        "text lines 1659–2169",
+        "text lines 1659–2169",
+        "text lines 1659–2169",
+        "text lines 1659–2169"
+      ],
+      "answers": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/4": {
+      "file": "src/paths/observability/chapters/04.json",
+      "summary": 112,
+      "concepts": [
+        63,
+        64,
+        64,
+        61
+      ],
+      "scenario": 14,
+      "reading": 693,
+      "source": {
+        "startLine": 2170,
+        "endLine": 2385,
+        "reference": "text lines 2170–2385"
+      },
+      "conceptSources": [
+        "text lines 2170–2385",
+        "text lines 2170–2385",
+        "text lines 2170–2385",
+        "text lines 2170–2385"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/5": {
+      "file": "src/paths/observability/chapters/05.json",
+      "summary": 114,
+      "concepts": [
+        66,
+        63,
+        65,
+        62
+      ],
+      "scenario": 14,
+      "reading": 708,
+      "source": {
+        "startLine": 2386,
+        "endLine": 2716,
+        "reference": "text lines 2386–2716"
+      },
+      "conceptSources": [
+        "text lines 2386–2716",
+        "text lines 2386–2716",
+        "text lines 2386–2716",
+        "text lines 2386–2716"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/6": {
+      "file": "src/paths/observability/chapters/06.json",
+      "summary": 111,
+      "concepts": [
+        66,
+        63,
+        62,
+        62
+      ],
+      "scenario": 13,
+      "reading": 699,
+      "source": {
+        "startLine": 2717,
+        "endLine": 3084,
+        "reference": "text lines 2717–3084"
+      },
+      "conceptSources": [
+        "text lines 2717–3084",
+        "text lines 2717–3084",
+        "text lines 2717–3084",
+        "text lines 2717–3084"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/7": {
+      "file": "src/paths/observability/chapters/07.json",
+      "summary": 109,
+      "concepts": [
+        62,
+        61,
+        67,
+        63
+      ],
+      "scenario": 15,
+      "reading": 704,
+      "source": {
+        "startLine": 3085,
+        "endLine": 3448,
+        "reference": "text lines 3085–3448"
+      },
+      "conceptSources": [
+        "text lines 3085–3448",
+        "text lines 3085–3448",
+        "text lines 3085–3448",
+        "text lines 3085–3448"
+      ],
+      "answers": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/8": {
+      "file": "src/paths/observability/chapters/08.json",
+      "summary": 113,
+      "concepts": [
+        68,
+        63,
+        64,
+        65
+      ],
+      "scenario": 14,
+      "reading": 723,
+      "source": {
+        "startLine": 3449,
+        "endLine": 3796,
+        "reference": "text lines 3449–3796"
+      },
+      "conceptSources": [
+        "text lines 3449–3796",
+        "text lines 3449–3796",
+        "text lines 3449–3796",
+        "text lines 3449–3796"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/9": {
+      "file": "src/paths/observability/chapters/09.json",
+      "summary": 110,
+      "concepts": [
+        62,
+        64,
+        65,
+        65
+      ],
+      "scenario": 12,
+      "reading": 740,
+      "source": {
+        "startLine": 3797,
+        "endLine": 4158,
+        "reference": "text lines 3797–4158"
+      },
+      "conceptSources": [
+        "text lines 3797–4158",
+        "text lines 3797–4158",
+        "text lines 3797–4158",
+        "text lines 3797–4158"
+      ],
+      "answers": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/10": {
+      "file": "src/paths/observability/chapters/10.json",
+      "summary": 115,
+      "concepts": [
+        66,
+        71,
+        64,
+        64
+      ],
+      "scenario": 15,
+      "reading": 742,
+      "source": {
+        "startLine": 4159,
+        "endLine": 4485,
+        "reference": "text lines 4159–4485"
+      },
+      "conceptSources": [
+        "text lines 4159–4485",
+        "text lines 4159–4485",
+        "text lines 4159–4485",
+        "text lines 4159–4485"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/11": {
+      "file": "src/paths/observability/chapters/11.json",
+      "summary": 114,
+      "concepts": [
+        63,
+        65,
+        65,
+        62
+      ],
+      "scenario": 13,
+      "reading": 737,
+      "source": {
+        "startLine": 4486,
+        "endLine": 4813,
+        "reference": "text lines 4486–4813"
+      },
+      "conceptSources": [
+        "text lines 4486–4813",
+        "text lines 4486–4813",
+        "text lines 4486–4813",
+        "text lines 4486–4813"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/12": {
+      "file": "src/paths/observability/chapters/12.json",
+      "summary": 117,
+      "concepts": [
+        67,
+        68,
+        70,
+        60
+      ],
+      "scenario": 12,
+      "reading": 721,
+      "source": {
+        "startLine": 4814,
+        "endLine": 5231,
+        "reference": "text lines 4814–5231"
+      },
+      "conceptSources": [
+        "text lines 4814–5231",
+        "text lines 4814–5231",
+        "text lines 4814–5231",
+        "text lines 4814–5231"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/13": {
+      "file": "src/paths/observability/chapters/13.json",
+      "summary": 117,
+      "concepts": [
+        63,
+        67,
+        67,
+        71
+      ],
+      "scenario": 15,
+      "reading": 765,
+      "source": {
+        "startLine": 5232,
+        "endLine": 5811,
+        "reference": "text lines 5232–5811"
+      },
+      "conceptSources": [
+        "text lines 5232–5811",
+        "text lines 5232–5811",
+        "text lines 5232–5811",
+        "text lines 5232–5811"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/14": {
+      "file": "src/paths/observability/chapters/14.json",
+      "summary": 116,
+      "concepts": [
+        67,
+        68,
+        66,
+        69
+      ],
+      "scenario": 13,
+      "reading": 745,
+      "source": {
+        "startLine": 5812,
+        "endLine": 6225,
+        "reference": "text lines 5812–6225"
+      },
+      "conceptSources": [
+        "text lines 5812–6225",
+        "text lines 5812–6225",
+        "text lines 5812–6225",
+        "text lines 5812–6225"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/15": {
+      "file": "src/paths/observability/chapters/15.json",
+      "summary": 113,
+      "concepts": [
+        63,
+        63,
+        60,
+        71
+      ],
+      "scenario": 13,
+      "reading": 738,
+      "source": {
+        "startLine": 6226,
+        "endLine": 6675,
+        "reference": "text lines 6226–6675"
+      },
+      "conceptSources": [
+        "text lines 6226–6675",
+        "text lines 6226–6675",
+        "text lines 6226–6675",
+        "text lines 6226–6675"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/16": {
+      "file": "src/paths/observability/chapters/16.json",
+      "summary": 114,
+      "concepts": [
+        66,
+        64,
+        65,
+        64
+      ],
+      "scenario": 16,
+      "reading": 751,
+      "source": {
+        "startLine": 6676,
+        "endLine": 7402,
+        "reference": "text lines 6676–7402"
+      },
+      "conceptSources": [
+        "text lines 6676–7402",
+        "text lines 6676–7402",
+        "text lines 6676–7402",
+        "text lines 6676–7402"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/17": {
+      "file": "src/paths/observability/chapters/17.json",
+      "summary": 121,
+      "concepts": [
+        67,
+        64,
+        68,
+        69
+      ],
+      "scenario": 17,
+      "reading": 748,
+      "source": {
+        "startLine": 7403,
+        "endLine": 8053,
+        "reference": "text lines 7403–8053"
+      },
+      "conceptSources": [
+        "text lines 7403–8053",
+        "text lines 7403–8053",
+        "text lines 7403–8053",
+        "text lines 7403–8053"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/18": {
+      "file": "src/paths/observability/chapters/18.json",
+      "summary": 114,
+      "concepts": [
+        63,
+        66,
+        61,
+        64
+      ],
+      "scenario": 11,
+      "reading": 713,
+      "source": {
+        "startLine": 8054,
+        "endLine": 8666,
+        "reference": "text lines 8054–8666"
+      },
+      "conceptSources": [
+        "text lines 8054–8666",
+        "text lines 8054–8666",
+        "text lines 8054–8666",
+        "text lines 8054–8666"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/19": {
+      "file": "src/paths/observability/chapters/19.json",
+      "summary": 118,
+      "concepts": [
+        68,
+        63,
+        65,
+        71
+      ],
+      "scenario": 13,
+      "reading": 753,
+      "source": {
+        "startLine": 8667,
+        "endLine": 9084,
+        "reference": "text lines 8667–9084"
+      },
+      "conceptSources": [
+        "text lines 8667–9084",
+        "text lines 8667–9084",
+        "text lines 8667–9084",
+        "text lines 8667–9084"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/20": {
+      "file": "src/paths/observability/chapters/20.json",
+      "summary": 115,
+      "concepts": [
+        69,
+        68,
+        64,
+        68
+      ],
+      "scenario": 13,
+      "reading": 757,
+      "source": {
+        "startLine": 9085,
+        "endLine": 9492,
+        "reference": "text lines 9085–9492"
+      },
+      "conceptSources": [
+        "text lines 9085–9492",
+        "text lines 9085–9492",
+        "text lines 9085–9492",
+        "text lines 9085–9492"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/21": {
+      "file": "src/paths/observability/chapters/21.json",
+      "summary": 119,
+      "concepts": [
+        67,
+        71,
+        68,
+        68
+      ],
+      "scenario": 16,
+      "reading": 753,
+      "source": {
+        "startLine": 9493,
+        "endLine": 9948,
+        "reference": "text lines 9493–9948"
+      },
+      "conceptSources": [
+        "text lines 9493–9948",
+        "text lines 9493–9948",
+        "text lines 9493–9948",
+        "text lines 9493–9948"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "observability/22": {
+      "file": "src/paths/observability/chapters/22.json",
+      "summary": 112,
+      "concepts": [
+        66,
+        65,
+        66,
+        65
+      ],
+      "scenario": 15,
+      "reading": 756,
+      "source": {
+        "startLine": 9949,
+        "endLine": 10212,
+        "reference": "text lines 9949–10212"
+      },
+      "conceptSources": [
+        "text lines 9949–10212",
+        "text lines 9949–10212",
+        "text lines 9949–10212",
+        "text lines 9949–10212"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "ai-agents/1": {
+      "file": "src/paths/ai-agents/chapters/01.json",
+      "summary": 102,
+      "concepts": [
+        66,
+        60,
+        57,
+        54
+      ],
+      "scenario": 22,
+      "reading": 732,
+      "source": {
+        "startLine": 620,
+        "endLine": 1194,
+        "reference": "text lines 620–1194"
+      },
+      "conceptSources": [
+        "text lines 620-1194",
+        "text lines 620-1194",
+        "text lines 620-1194",
+        "text lines 620-1194"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "ai-agents/2": {
+      "file": "src/paths/ai-agents/chapters/02.json",
+      "summary": 100,
+      "concepts": [
+        60,
+        62,
+        63,
+        52
+      ],
+      "scenario": 15,
+      "reading": 713,
+      "source": {
+        "startLine": 1195,
+        "endLine": 2066,
+        "reference": "text lines 1195–2066"
+      },
+      "conceptSources": [
+        "text lines 1195-2066",
+        "text lines 1195-2066",
+        "text lines 1195-2066",
+        "text lines 1195-2066"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "ai-agents/3": {
+      "file": "src/paths/ai-agents/chapters/03.json",
+      "summary": 96,
+      "concepts": [
+        57,
+        55,
+        60,
+        52
+      ],
+      "scenario": 11,
+      "reading": 679,
+      "source": {
+        "startLine": 2067,
+        "endLine": 3118,
+        "reference": "text lines 2067–3118"
+      },
+      "conceptSources": [
+        "text lines 2067-3118",
+        "text lines 2067-3118",
+        "text lines 2067-3118",
+        "text lines 2067-3118"
+      ],
+      "answers": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "ai-agents/4": {
+      "file": "src/paths/ai-agents/chapters/04.json",
+      "summary": 100,
+      "concepts": [
+        66,
+        61,
+        52,
+        55
+      ],
+      "scenario": 13,
+      "reading": 716,
+      "source": {
+        "startLine": 3119,
+        "endLine": 3833,
+        "reference": "text lines 3119–3833"
+      },
+      "conceptSources": [
+        "text lines 3119-3833",
+        "text lines 3119-3833",
+        "text lines 3119-3833",
+        "text lines 3119-3833"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "ai-agents/5": {
+      "file": "src/paths/ai-agents/chapters/05.json",
+      "summary": 100,
+      "concepts": [
+        67,
+        61,
+        58,
+        64
+      ],
+      "scenario": 13,
+      "reading": 722,
+      "source": {
+        "startLine": 3834,
+        "endLine": 4797,
+        "reference": "text lines 3834–4797"
+      },
+      "conceptSources": [
+        "text lines 3834-4797",
+        "text lines 3834-4797",
+        "text lines 3834-4797",
+        "text lines 3834-4797"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "ai-agents/6": {
+      "file": "src/paths/ai-agents/chapters/06.json",
+      "summary": 103,
+      "concepts": [
+        64,
+        61,
+        59,
+        87
+      ],
+      "scenario": 11,
+      "reading": 728,
+      "source": {
+        "startLine": 4798,
+        "endLine": 5524,
+        "reference": "text lines 4798–5524"
+      },
+      "conceptSources": [
+        "text lines 4798-5524",
+        "text lines 4798-5524",
+        "text lines 4798-5524",
+        "text lines 4798-5524"
+      ],
+      "answers": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "ai-agents/7": {
+      "file": "src/paths/ai-agents/chapters/07.json",
+      "summary": 100,
+      "concepts": [
+        59,
+        51,
+        65,
+        61
+      ],
+      "scenario": 14,
+      "reading": 686,
+      "source": {
+        "startLine": 5525,
+        "endLine": 6600,
+        "reference": "text lines 5525–6600"
+      },
+      "conceptSources": [
+        "text lines 5525-6600",
+        "text lines 5525-6600",
+        "text lines 5525-6600",
+        "text lines 5525-6600"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "ai-agents/8": {
+      "file": "src/paths/ai-agents/chapters/08.json",
+      "summary": 98,
+      "concepts": [
+        59,
+        54,
+        58,
+        60
+      ],
+      "scenario": 11,
+      "reading": 649,
+      "source": {
+        "startLine": 6601,
+        "endLine": 8457,
+        "reference": "text lines 6601–8457"
+      },
+      "conceptSources": [
+        "text lines 6601-8457",
+        "text lines 6601-8457",
+        "text lines 6601-8457",
+        "text lines 6601-8457"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "ai-agents/9": {
+      "file": "src/paths/ai-agents/chapters/09.json",
+      "summary": 99,
+      "concepts": [
+        57,
+        57,
+        55,
+        52
+      ],
+      "scenario": 15,
+      "reading": 685,
+      "source": {
+        "startLine": 8458,
+        "endLine": 9144,
+        "reference": "text lines 8458–9144"
+      },
+      "conceptSources": [
+        "text lines 8458-9144",
+        "text lines 8458-9144",
+        "text lines 8458-9144",
+        "text lines 8458-9144"
+      ],
+      "answers": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "ai-agents/10": {
+      "file": "src/paths/ai-agents/chapters/10.json",
+      "summary": 100,
+      "concepts": [
+        51,
+        58,
+        55,
+        55
+      ],
+      "scenario": 12,
+      "reading": 670,
+      "source": {
+        "startLine": 9145,
+        "endLine": 9933,
+        "reference": "text lines 9145–9933"
+      },
+      "conceptSources": [
+        "text lines 9145-9933",
+        "text lines 9145-9933",
+        "text lines 9145-9933",
+        "text lines 9145-9933"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "ai-agents/11": {
+      "file": "src/paths/ai-agents/chapters/11.json",
+      "summary": 100,
+      "concepts": [
+        62,
+        57,
+        48,
+        55
+      ],
+      "scenario": 10,
+      "reading": 665,
+      "source": {
+        "startLine": 9934,
+        "endLine": 10987,
+        "reference": "text lines 9934–10987"
+      },
+      "conceptSources": [
+        "text lines 9934-10987",
+        "text lines 9934-10987",
+        "text lines 9934-10987",
+        "text lines 9934-10987"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "ai-agents/12": {
+      "file": "src/paths/ai-agents/chapters/12.json",
+      "summary": 100,
+      "concepts": [
+        85,
+        57,
+        53,
+        61
+      ],
+      "scenario": 14,
+      "reading": 723,
+      "source": {
+        "startLine": 10988,
+        "endLine": 12091,
+        "reference": "text lines 10988–12091"
+      },
+      "conceptSources": [
+        "text lines 10988-12091",
+        "text lines 10988-12091",
+        "text lines 10988-12091",
+        "text lines 10988-12091"
+      ],
+      "answers": [
+        0,
+        1,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "ai-agents/13": {
+      "file": "src/paths/ai-agents/chapters/13.json",
+      "summary": 98,
+      "concepts": [
+        45,
+        48,
+        38,
+        41
+      ],
+      "scenario": 13,
+      "reading": 633,
+      "source": {
+        "startLine": 12092,
+        "endLine": 12759,
+        "reference": "text lines 12092-12759"
+      },
+      "conceptSources": [
+        "text lines 12092-12759",
+        "text lines 12092-12759",
+        "text lines 12092-12759",
+        "text lines 12092-12759"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "green-software/1": {
+      "file": "src/paths/green-software/chapters/01.json",
+      "summary": 109,
+      "concepts": [
+        84,
+        74,
+        77,
+        75
+      ],
+      "scenario": 51,
+      "reading": 843,
+      "source": {
+        "startLine": 634,
+        "endLine": 1142,
+        "pages": "1–14",
+        "reference": "pp. 1–14; text lines 634–1142"
+      },
+      "conceptSources": [
+        "pp. 1–3",
+        "pp. 6–9",
+        "pp. 10–12",
+        "pp. 11–14"
+      ],
+      "answers": [
+        1,
+        0,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "green-software/2": {
+      "file": "src/paths/green-software/chapters/02.json",
+      "summary": 110,
+      "concepts": [
+        73,
+        73,
+        77,
+        82,
+        76
+      ],
+      "scenario": 46,
+      "reading": 890,
+      "source": {
+        "startLine": 1143,
+        "endLine": 1600,
+        "pages": "15–29",
+        "reference": "pp. 15–29; text lines 1143–1600"
+      },
+      "conceptSources": [
+        "pp. 15–20",
+        "pp. 20–22",
+        "pp. 21–22",
+        "pp. 22–25",
+        "pp. 25–29"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "green-software/3": {
+      "file": "src/paths/green-software/chapters/03.json",
+      "summary": 112,
+      "concepts": [
+        80,
+        77,
+        76,
+        78,
+        76
+      ],
+      "scenario": 45,
+      "reading": 895,
+      "source": {
+        "startLine": 1601,
+        "endLine": 2385,
+        "pages": "31–51",
+        "reference": "pp. 31–51; text lines 1601–2385"
+      },
+      "conceptSources": [
+        "pp. 31–37",
+        "pp. 37–40",
+        "pp. 41–44",
+        "pp. 44–47",
+        "pp. 47–51"
+      ],
+      "answers": [
+        1,
+        0,
+        2
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "green-software/4": {
+      "file": "src/paths/green-software/chapters/04.json",
+      "summary": 108,
+      "concepts": [
+        74,
+        75,
+        72,
+        76,
+        72
+      ],
+      "scenario": 47,
+      "reading": 867,
+      "source": {
+        "startLine": 2386,
+        "endLine": 3083,
+        "pages": "53–72",
+        "reference": "pp. 53–72; text lines 2386–3083"
+      },
+      "conceptSources": [
+        "pp. 55–57",
+        "pp. 57–60",
+        "pp. 60–66",
+        "pp. 66–69",
+        "pp. 63–64, 69–72"
+      ],
+      "answers": [
+        0,
+        2,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "green-software/5": {
+      "file": "src/paths/green-software/chapters/05.json",
+      "summary": 115,
+      "concepts": [
+        80,
+        76,
+        76,
+        83,
+        81
+      ],
+      "scenario": 57,
+      "reading": 944,
+      "source": {
+        "startLine": 3084,
+        "endLine": 3600,
+        "pages": "73–89",
+        "reference": "pp. 73–89; text lines 3084–3600"
+      },
+      "conceptSources": [
+        "pp. 74–79",
+        "pp. 80–81",
+        "pp. 82, 84–85",
+        "pp. 83–84",
+        "pp. 85–89"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "green-software/6": {
+      "file": "src/paths/green-software/chapters/06.json",
+      "summary": 111,
+      "concepts": [
+        84,
+        77,
+        78,
+        75,
+        79
+      ],
+      "scenario": 48,
+      "reading": 916,
+      "source": {
+        "startLine": 3601,
+        "endLine": 4143,
+        "pages": "91–105",
+        "reference": "pp. 91–105; text lines 3601–4143"
+      },
+      "conceptSources": [
+        "pp. 91–94, 98",
+        "pp. 94–96",
+        "pp. 96–99",
+        "pp. 99–101",
+        "pp. 101–105"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "green-software/7": {
+      "file": "src/paths/green-software/chapters/07.json",
+      "summary": 111,
+      "concepts": [
+        77,
+        76,
+        77,
+        79,
+        78
+      ],
+      "scenario": 49,
+      "reading": 920,
+      "source": {
+        "startLine": 4144,
+        "endLine": 4742,
+        "pages": "107–123",
+        "reference": "pp. 107–123; text lines 4144–4742"
+      },
+      "conceptSources": [
+        "pp. 107–115",
+        "pp. 110–111",
+        "pp. 115–118",
+        "pp. 118–120",
+        "pp. 120–123"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "green-software/8": {
+      "file": "src/paths/green-software/chapters/08.json",
+      "summary": 117,
+      "concepts": [
+        81,
+        72,
+        77,
+        75,
+        72
+      ],
+      "scenario": 48,
+      "reading": 921,
+      "source": {
+        "startLine": 4743,
+        "endLine": 5076,
+        "pages": "125–134",
+        "reference": "pp. 125–134; text lines 4743–5076"
+      },
+      "conceptSources": [
+        "pp. 125–128",
+        "pp. 128–130",
+        "pp. 130–132",
+        "pp. 131–132",
+        "pp. 132–134"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "green-software/9": {
+      "file": "src/paths/green-software/chapters/09.json",
+      "summary": 114,
+      "concepts": [
+        76,
+        84,
+        82,
+        88,
+        82
+      ],
+      "scenario": 50,
+      "reading": 991,
+      "source": {
+        "startLine": 5077,
+        "endLine": 5850,
+        "pages": "135–155",
+        "reference": "pp. 135–155; text lines 5077–5850"
+      },
+      "conceptSources": [
+        "pp. 135–137, 149–150",
+        "pp. 136–139",
+        "pp. 141–143",
+        "pp. 145–151",
+        "pp. 139–145, 151–155"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "green-software/10": {
+      "file": "src/paths/green-software/chapters/10.json",
+      "summary": 111,
+      "concepts": [
+        74,
+        73,
+        77,
+        80,
+        72
+      ],
+      "scenario": 53,
+      "reading": 939,
+      "source": {
+        "startLine": 5851,
+        "endLine": 6150,
+        "pages": "157–165",
+        "reference": "pp. 157–165; text lines 5851–6150"
+      },
+      "conceptSources": [
+        "pp. 157–159",
+        "pp. 159–160",
+        "pp. 160–162",
+        "pp. 161–162",
+        "pp. 162–165"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "green-software/11": {
+      "file": "src/paths/green-software/chapters/11.json",
+      "summary": 112,
+      "concepts": [
+        73,
+        71,
+        76,
+        75,
+        74
+      ],
+      "scenario": 51,
+      "reading": 905,
+      "source": {
+        "startLine": 6151,
+        "endLine": 6578,
+        "pages": "167–179",
+        "reference": "pp. 167–179; text lines 6151–6578"
+      },
+      "conceptSources": [
+        "pp. 167–169",
+        "pp. 170–172",
+        "pp. 172–173",
+        "pp. 174–175",
+        "pp. 175–179"
+      ],
+      "answers": [
+        2,
+        0,
+        1
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "green-software/12": {
+      "file": "src/paths/green-software/chapters/12.json",
+      "summary": 112,
+      "concepts": [
+        82,
+        76,
+        71,
+        78,
+        74
+      ],
+      "scenario": 41,
+      "reading": 920,
+      "source": {
+        "startLine": 6579,
+        "endLine": 6981,
+        "pages": "181–192",
+        "reference": "pp. 181–192; text lines 6579–6981"
+      },
+      "conceptSources": [
+        "pp. 181–184",
+        "pp. 184–186",
+        "pp. 186–188",
+        "pp. 188–191",
+        "pp. 181, 187–192"
+      ],
+      "answers": [
+        2,
+        1,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    },
+    "green-software/13": {
+      "file": "src/paths/green-software/chapters/13.json",
+      "summary": 112,
+      "concepts": [
+        74,
+        81,
+        75,
+        73,
+        87
+      ],
+      "scenario": 48,
+      "reading": 968,
+      "source": {
+        "startLine": 6982,
+        "endLine": 7347,
+        "pages": "193–202",
+        "reference": "pp. 193–202; text lines 6982–7347"
+      },
+      "conceptSources": [
+        "pp. 193–197",
+        "pp. 196–197",
+        "pp. 197–199",
+        "pp. 198–202",
+        "pp. 194–195, 202"
+      ],
+      "answers": [
+        1,
+        2,
+        0
+      ],
+      "options": [
+        3,
+        3,
+        3
+      ]
+    }
+  }
+}

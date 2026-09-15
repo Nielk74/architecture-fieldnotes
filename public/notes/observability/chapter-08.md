@@ -1,27 +1,53 @@
-# 8. Analyzing Events to Achieve Observability
+# Chapter 8: Analyzing Events to Achieve Observability
 
-Turn a symptom into a sequence of comparisons
+*Pip’s adventure: Follow the clue, then test it. Fictional teaching story; concepts follow the cited source.*
 
-The core analysis loop turns exploratory debugging into a method another person can follow. Begin with the complaint or alert, verify the observed change, and search for dimensions that distinguish the anomalous population. If the result is insufficient, narrow the population and repeat. Wide events make these comparisons possible because the relevant attributes remain associated with individual requests. Automated comparison can rank differences between an anomaly and its baseline, saving the investigator from checking every field manually. Those rankings are clues, not automatic causal verdicts. The investigation succeeds when the evidence supports an explanation and a useful next action; collecting more telemetry without changing how it is analyzed does not produce this capability.
+Source: text lines 3449–3796.
+
+Pip hears that “the market is slow” and starts by finding the affected requests. Comparisons narrow the population one useful distinction at a time. Automated difference ranking speeds the search, but Pip must still test the explanation.
 
 ## Verify the starting observation
 
-Begin with what prompted the investigation rather than a favored explanation. Establish whether a change is visible and which requests and time range it concerns. A complaint may be precise about customer pain but imprecise about the failing component. Verifying that initial observation prevents the rest of the analysis from being built on an unsupported assumption.
+Pip hears a stall owner blame the database for slow checkout. The complaint identifies pain, not necessarily the failing component. Pip verifies the latency change, requests, and time range before selecting a cause. The investigation begins with observed behavior rather than a favored explanation.
+
+Source: text lines 3449–3796.
 
 ## Search distinguishing dimensions
 
-Inspect sample events, group by fields, and filter values to find what separates unusual behavior from ordinary behavior. The best next dimension is one that changes the question meaningfully. An attribute common to both populations may provide little discrimination even when it appears on every failing request.
+Pip finds one availability zone in nearly all slow requests but few normal ones. Samples, groups, and filters reveal distinguishing dimensions. A field appearing in every failure is weak evidence if it is equally common in successes. Pip chooses comparisons that meaningfully change the question.
+
+Source: text lines 3449–3796.
 
 ## Repeat on a narrower population
 
-The first useful difference may locate only part of the problem. Filter to that population and continue comparing until the investigation supports a concrete explanation or action. This repeated narrowing preserves the link between each clue and the next question, rather than requiring a sudden intuitive jump to a component name.
+Pip narrows to the affected zone, then compares instance types and operation paths. The first difference may identify only part of the problem. Repeated filtering and comparison connect each clue to the next question. Pip continues until evidence supports a concrete explanation or action, not an intuitive leap.
+
+Source: text lines 3449–3796.
 
 ## Automate comparison, interpret the result
 
-A tool can compare field distributions inside an anomaly with a baseline and rank their differences. This speeds the laborious search across many dimensions. The ranking does not establish causation: several attributes may describe the same cohort, so the investigator must examine relationships and validate the proposed explanation with further evidence.
+Pip’s comparison tool ranks region and instance type as unusually common in failures. Automated distribution comparison accelerates searching many dimensions. The ranking is not causation: both fields may describe one cohort. Pip examines their relationship and gathers further evidence before accepting the explanation.
 
-## Apply it
+Source: text lines 3449–3796.
+
+## Transfer challenge: A misleading common attribute
+
+Every slow request uses the same runtime, which also handles almost all healthy traffic.
+
+### Compare attribute frequency against the baseline
+
+Shows whether the runtime actually distinguishes the anomaly. Requires a relevant comparison population. The investigator can reject a ubiquitous field and continue toward a genuinely distinguishing clue.
+
+### Escalate to the runtime maintainers
+
+Can engage specialized expertise. May pursue a ubiquitous attribute that explains no difference. Specialists may spend time on a runtime shared equally by healthy and unhealthy requests.
+
+Common among failures is not the same as unusually common among failures.
+
+## Run the core analysis loop
 
 Describe a symptom, verify it, and design two successive comparisons.
 
-Source: *Observability Engineering*, chapter 8; supplied text lines 3449–3796. These notes are an original synthesis; examples and activities are illustrative.
+- Verified change and baseline
+- First distinguishing dimension
+- Next filter or stopping evidence

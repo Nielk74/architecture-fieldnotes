@@ -3,7 +3,7 @@
   "title": "Measuring and Reducing Your Code’s Carbon Footprint",
   "part": "Environment",
   "subtitle": "Measure energy and carbon intensity before choosing an optimization",
-  "summary": "Software’s carbon footprint depends on physical resources: power, runtime, equipment, and the electricity supplying them. Emissions accounting distinguishes direct operations, purchased energy, and wider value-chain effects so a local improvement does not conceal shifted costs. Workload timing and location can change emissions, but latency, availability, and other constraints still matter. Profiling directs effort toward disproportionate work, as the expensive logging example illustrates; faster execution alone does not establish lower carbon. The data-center cooling case adds an operational lesson: efficiency improvements need domain expertise, tested safety constraints, and human override. Measurement provides the basis for choosing and verifying useful reductions.",
+  "summary": "Pip speeds up a town report by adding processors. The clock improves; total work does not. Following power, runtime, grid intensity, and equipment across accounting boundaries reveals why speed alone cannot prove lower carbon. Pip profiles the work before deciding what to remove, move, or delay.",
   "source": {
     "startLine": 3948,
     "endLine": 4487,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Carbon accounting",
-      "body": "Operational electricity can be converted to carbon dioxide equivalent: energy use depends on average power and runtime, while emissions depend on the carbon intensity of the electricity supplying the location.",
-      "example": "Teaching extension: A batch workload consumes 2 kWh on electricity rated at 300 g CO2e per kWh, yielding 600 g CO2e for that electricity use. The estimate states its boundary and excludes equipment manufacturing.",
-      "source": "text lines 3948-4487"
+      "body": "Pip’s town report uses 2 kWh on electricity rated at 300 g CO2e/kWh: 600 g CO2e for that electricity. Average power and runtime determine energy; supplying electricity’s carbon intensity determines associated emissions. Pip writes the boundary beside the result. Equipment manufacturing is excluded, not magically emission-free.",
+      "example": "",
+      "source": "text lines 3948-4487",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP ACCOUNTS",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "2 kWh",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "leaf",
+            "label": "300 g / kWh",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "600 g CO2e",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip states the accounting boundary."
+          },
+          {
+            "node": "step-1",
+            "text": "Power and runtime determine energy."
+          },
+          {
+            "node": "step-3",
+            "text": "The result excludes equipment manufacturing."
+          }
+        ]
+      }
     },
     {
       "title": "Scopes of emissions",
-      "body": "Scope 1 covers direct emissions, Scope 2 purchased electricity, and Scope 3 other value-chain emissions such as manufacturing and device use. A code optimization may shift impact rather than remove it.",
-      "example": "Teaching extension: A company distinguishes emissions from its own generator, purchased electricity, and hardware manufacturing. Moving computation to a supplier changes the accounting boundary rather than automatically eliminating its footprint.",
-      "source": "text lines 3948-4487"
+      "body": "Pip moves computation to a supplier and celebrates an empty local meter. The town’s accountant stops the party: Scope 1 covers direct emissions, Scope 2 purchased electricity, and Scope 3 other value-chain effects, including manufacturing and device use. Pip redraws the boundary. Moving impact is not necessarily removing it.",
+      "example": "",
+      "source": "text lines 3948-4487",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP MOVES WORK",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "DIRECT OPERATIONS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "leaf",
+            "label": "PURCHASED POWER",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "deployment",
+            "label": "VALUE CHAIN",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip checks where the impact went."
+          },
+          {
+            "node": "step-1",
+            "text": "Scope 1 covers direct emissions."
+          },
+          {
+            "node": "step-3",
+            "text": "Scope 3 follows the wider value chain."
+          }
+        ]
+      }
     },
     {
       "title": "Where and when",
-      "body": "Processor usage, data-center location, and time of day influence emissions. Moving flexible work to a cleaner region or lower-carbon period can help, but availability, latency, resilience, and user geography constrain the choice.",
-      "example": "Teaching extension: A flexible report can run overnight in a region with lower-carbon electricity, provided it still meets the morning deadline. The team checks the electricity data and transfer costs before moving it.",
-      "source": "text lines 3948-4487"
+      "body": "Pip’s report can wait until morning. A lower-carbon place or period might reduce emissions, but processor use, transfers, user geography, latency, availability, and resilience constrain the move. Pip checks electricity data and the deadline before scheduling. A flexible workload creates a choice; “overnight” alone does not prove cleaner electricity.",
+      "example": "",
+      "source": "text lines 3948-4487",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "MORNING DEADLINE",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "FLEXIBLE REPORT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "leaf",
+            "label": "GRID INTENSITY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "TRANSFER COST",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip keeps the morning deadline."
+          },
+          {
+            "node": "step-1",
+            "text": "Flexible work can change time or place."
+          },
+          {
+            "node": "step-3",
+            "text": "Check transfers, latency, and resilience."
+          }
+        ]
+      }
     },
     {
       "title": "Profile before optimize",
-      "body": "Profiling found that a debugging Log.Write call dominated an ecommerce function’s work. Measuring first directs effort to expensive behavior; faster code is not automatically lower carbon if it causes more parallel processors or traffic.",
-      "example": "Teaching extension: Profiling shows that verbose logging accounts for much of a batch job’s work. The team reduces unnecessary log generation and remeasures energy use instead of assuming a faster algorithm is the largest opportunity.",
-      "source": "text lines 3948-4487"
+      "body": "Pip hunts for a clever algorithm; the profile points to verbose logging. The book’s Log.Write example shows why measuring first matters. Pip removes unnecessary log generation and remeasures energy. Faster execution can still use more parallel processors or trigger more traffic: a shorter stopwatch reading is not a carbon measurement.",
+      "example": "",
+      "source": "text lines 3948-4487",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP PROFILES",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "VERBOSE LOGGING",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "PARALLEL WORK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "REMEASURE ENERGY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip measures before rewriting."
+          },
+          {
+            "node": "step-1",
+            "text": "Logging dominates this workload."
+          },
+          {
+            "node": "step-3",
+            "text": "Verify energy instead of trusting wall time."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -47,7 +299,7 @@
   ],
   "scenario": {
     "title": "Carbon-aware batch processing",
-    "context": "A nightly analytics job uses substantial compute. The team can profile and reduce waste, or move flexible work to a lower-carbon region and time.",
+    "context": "Pip’s nightly town report consumes substantial compute. A faster rewrite may add processors; profiling and flexible scheduling offer another route.",
     "options": [
       {
         "label": "Profile, then schedule flexible work",
@@ -62,7 +314,7 @@
         "consequence": "A fast rewrite lowers wall time but raises total compute, prompting a measurement-led correction."
       }
     ],
-    "debrief": "Both choices are defensible under different constraints; the responsible decision states the accepted consequence and the evidence that could change it."
+    "debrief": "Pip profiles waste, then checks scheduling against deadlines and resilience. A runtime improvement needs an energy and emissions check."
   },
   "quiz": [
     {
@@ -117,69 +369,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "n0",
-        "label": "POWER",
-        "kind": "gauge",
-        "tone": "sage",
-        "x": 100,
-        "y": 80
-      },
-      {
-        "id": "n1",
-        "label": "LOCATION",
-        "kind": "leaf",
-        "tone": "peach",
-        "x": 270,
-        "y": 80
-      },
-      {
-        "id": "n2",
-        "label": "TIME",
-        "kind": "clock",
-        "tone": "lilac",
-        "x": 100,
-        "y": 210
-      },
-      {
-        "id": "n3",
-        "label": "CARBON",
-        "kind": "leaf",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP ACCOUNTS",
         "tone": "honey",
-        "x": 270,
-        "y": 210
+        "course": "responsible-engineering"
+      },
+      {
+        "id": "step-1",
+        "kind": "gauge",
+        "label": "2 kWh",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "leaf",
+        "label": "300 g / kWh",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "document",
+        "label": "600 g CO2e",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "n0",
-        "to": "n1"
+        "from": "step-0",
+        "to": "step-1",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "n1",
-        "to": "n2"
+        "from": "step-1",
+        "to": "step-3",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "n2",
-        "to": "n3"
+        "from": "step-2",
+        "to": "step-3",
+        "flow": false,
+        "dashed": true
       }
     ],
     "steps": [
       {
-        "node": "n0",
-        "text": "Examine power using the chapter evidence."
+        "node": "step-0",
+        "text": "Pip states the accounting boundary."
       },
       {
-        "node": "n1",
-        "text": "Examine location using the chapter evidence."
+        "node": "step-1",
+        "text": "Power and runtime determine energy."
       },
       {
-        "node": "n2",
-        "text": "Examine time using the chapter evidence."
-      },
-      {
-        "node": "n3",
-        "text": "Examine carbon using the chapter evidence."
+        "node": "step-3",
+        "text": "The result excludes equipment manufacturing."
       }
     ]
+  },
+  "story": {
+    "course": "responsible-engineering",
+    "world": "civic",
+    "title": "The report that finished faster but cost more"
   }
 }

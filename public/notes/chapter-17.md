@@ -1,17 +1,59 @@
 # Chapter 17: Microservices Architecture
 
-Microservices is presented as a domain-centered distributed style. Its defining move is to make a bounded context physical: a service owns the code, supporting components, and data schemas needed to perform one cohesive domain or workflow. The source stresses that this is a coupling choice. Reuse reduces duplication, but reuse also connects the things that use it. When independent evolution is the primary goal, a team may accept small, deliberate duplication in order to keep service internals separate (source lines 8575–8648; pp. 245–248).
+*Pip’s adventure: The catalog owns its own meaning. Fictional teaching story; concepts follow the cited source.*
 
-The central design question is granularity. A service should have a meaningful purpose, align with business transaction boundaries where possible, and avoid a workflow that constantly calls across the network. “Micro” is a label rather than a demand for the smallest possible unit. A service split around individual database entities can become an entity trap: it creates communication and data coordination without expressing a useful domain boundary. Iteration is expected. A first cut at boundaries, data dependencies, and communication is a hypothesis to refine (lines 8649–8717; pp. 247–249).
+Source: printed pp. 245–265.
 
-Data isolation is a major consequence. Shared schemas and a shared database are convenient integration points, but they couple services to implementation details. A distributed design must identify which domain is authoritative for a fact, or use replication and caching with explicit consistency consequences. In return, a service can choose a persistence technology suited to its own price, data shape, and operational needs. The optional API layer can provide proxying and discovery, but domain logic belongs inside bounded contexts rather than in a central mediator (lines 8718–8766; pp. 249–250).
+Pip separates bookshop domains for independent change, then finds a shared schema tying them back together. Microservices need cohesive bounded contexts and deliberate communication. Smaller is not automatically better when transactions and everyday workflows become a maze of remote calls.
 
-Operational reuse is separated from domain reuse. Sidecars place monitoring, logging, circuit breaking, and similar concerns alongside each service. Connected sidecars form a service mesh that exposes a consistent operational plane, and service discovery can find or create instances as demand changes. The style also allows a monolithic frontend or microfrontends. A microfrontend aligns interface ownership with backend service boundaries, but it adds its own coordination cost (lines 8767–8851; pp. 250–254).
+## Bounded Contexts
 
-Communication can be synchronous or asynchronous. Services are protocol-aware because they need to know how to reach one another, heterogeneous because their implementation stacks may differ, and interoperable because they exchange information over the network. Choreography uses events without a central coordinator and preserves decoupling. For a complex workflow, however, a localized orchestrator can contain coordination rather than turning an ordinary domain service into a hidden front controller. Neither option is free: choreography complicates error handling, while orchestration introduces coupling (lines 8852–8979; pp. 254–259).
+Pip’s checkout imports Catalog’s schema and breaks when descriptions change. A microservice keeps code, subcomponents, and data coupled inside its bounded context, not to another service’s internals. Catalog owns authoritative product changes; checkout keeps the fields its orders need. Pip may duplicate a small value object to avoid stronger shared-model coupling.
 
-Cross-service transactions are an especially strong warning. Distributed atomicity conflicts with independent data ownership and usually indicates that boundaries are too fine-grained. The preferred repair is to revisit granularity. When two services must remain separate because their characteristics differ, a saga can coordinate steps, track success, and issue compensating actions after failure. Pending states, undo logic, and network traffic make this an exception. The chapter closes by associating the style with scalability, elasticity, and evolutionary change while warning about network performance, reliability, and excessive communication (lines 8980–9198; pp. 259–265).
+Source: pp. 245–248.
 
-Teaching extension: the outbreak response scenario is invented for practice. Queues, priority channels, and an outbreak cache illustrate how a team could handle a constrained provider, but the scenario's results are not measurements from the book. Use the exercise to name a service's source of truth, the communication choice, and the evidence that would cause a boundary to move.
+## Granularity and Data
 
-Source: supplied 2020 text, chapter 17, lines 8575–9198, printed pages 245–265.
+Pip turns address validation, shipping, and checkout into tiny services that call constantly. Cohesive purpose, transaction needs, and workflow communication should determine granularity, not every database entity. Isolated data needs a source of truth or deliberate replication and caching. Pip considers a larger workflow boundary while preserving independent storage choices for unrelated domains.
+
+Source: pp. 247–249.
+
+## Operational Reuse
+
+Pip gives each payment instance consistent telemetry without sharing its business rules. Sidecars can supply monitoring, logging, circuit breaking, and discovery; connected proxies form a service mesh. A shared operational plane can evolve while domain teams retain behavior and data ownership. Discovery routes to changing instances instead of one fixed address.
+
+Source: pp. 249–252.
+
+## Communication Choices
+
+Pip chooses a simple synchronous lookup but queues work that must absorb bursts. Known protocols connect heterogeneous languages and platforms; waiting calls and asynchronous messages have different operational costs. Choreography avoids a central coordinator, while a localized orchestrator can contain complex workflow knowledge. Pip does not quietly turn one domain service into everybody’s front controller.
+
+Source: pp. 254–259.
+
+## Transactions and Sagas
+
+Pip’s auction reserves stock before payment fails. A cross-service transaction can undermine independence and signal an overly fine boundary, so Pip revisits the split first. If different architectural needs justify separation, a saga records progress and requests compensating actions. Pending states, undo, and coordination traffic remain real costs, not an invisible distributed ACID transaction.
+
+Source: pp. 259–262.
+
+## Transfer challenge: Split the outbreak response
+
+A public health self-service service and a nurse portal use a diagnostics provider that handles a limited request rate. Demand spikes during an outbreak, while nurses need timely responses and patient records must remain isolated. The team can preserve simple request flow or introduce separate queues, cached outbreak answers, and stricter service boundaries. Choose using the actual latency, load, and security priorities rather than the fashionable label.
+
+### Keep direct calls
+
+The topology stays easy to understand and synchronous responses are convenient. Spikes can saturate the provider, causing timeouts and making both user groups compete for capacity. The team ships quickly, but an outbreak exposes the provider as a bottleneck. Retries amplify load, and nurses lose the predictable response time the domain requires.
+
+### Queue and cache
+
+Queues provide back pressure and separate priority paths; cached outbreak questions remove repeat traffic from the provider. The design adds asynchronous state, cache freshness decisions, and more operational components to operate. Common outbreak requests scale through the cache and nurse traffic can receive priority. The team must document stale-data behavior and observe queue delay to keep the trade-off visible.
+
+The second choice fits variable load and differentiated priorities, but its complexity is justified only by those requirements. Direct calls may be right for a small, stable workflow. The chapter's lesson is to fit boundaries and communication to the domain, then iterate.
+
+## Draw one bounded workflow
+
+Sketch a small system with two or three domain services. Name each service's source of truth, one communication choice, and the condition that would make you revisit its boundary.
+
+- Context
+- Decision
+- Trade-off

@@ -3,7 +3,7 @@
   "title": "Where to Go from Here",
   "part": "Spreading Observability Culture",
   "subtitle": "Carry the analysis habit into the next system",
-  "summary": "The closing chapter returns to the central capability: using rich, high-cardinality context and iterative comparison to explain unfamiliar behavior. It then points toward deeper learning in SRE, SLOs, OpenTelemetry, and distributed tracing, each covering work the book introduces but cannot exhaust. Its forward-looking discussion links portable instrumentation, richer frontend visibility, and faster developer feedback. Those predictions were written in March 2022 and should be read as historical expectations rather than verified claims about today’s tools. The enduring lesson is practical: connect code changes with their effects on real users, retain the context needed to investigate surprises, and make custom instrumentation and production learning part of ordinary development as systems and practices evolve.",
+  "summary": "Pip can now explain an unfamiliar market failure without deploying extra diagnostics. The next learning investment should address a real limit. Frontend techniques and the book’s forecasts remain useful when their distinct guarantees and publication-era uncertainty stay visible.",
   "source": {
     "startLine": 9949,
     "endLine": 10212,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Keep the definition operational",
-      "body": "The closing definition joins data properties with a debugging practice. High cardinality and many dimensions are useful because they permit arbitrary comparisons during an unfamiliar investigation. A team should test this capability on real questions, rather than conclude that a tool name, signal inventory, or large volume of telemetry establishes observability by itself.",
-      "example": "An engineer explains an unexpected customer failure without deploying new diagnostic code first.",
-      "source": "text lines 9949–10212"
+      "body": "Pip explains a new customer failure using already-recorded context. High cardinality and many dimensions matter because they enable arbitrary comparisons during unfamiliar investigations. Data properties and debugging practice belong together. Pip tests real questions instead of using tool names, signal inventories, or telemetry volume as proof of observability.",
+      "example": "",
+      "source": "text lines 9949–10212",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "person",
+            "label": "UNFAMILIAR FAILURE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "RICH CONTEXT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "search",
+            "label": "ARBITRARY COMPARISON",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip explains a new customer failure using already-recorded context."
+          },
+          {
+            "node": "step-1",
+            "text": "High cardinality and many dimensions matter because they enable arbitrary comparisons during unfamiliar investigations."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip tests real questions instead of using tool names, signal inventories, or telemetry volume as proof of observability."
+          }
+        ]
+      }
     },
     {
       "title": "Choose the next depth deliberately",
-      "body": "The chapter recommends further study because observability intersects several substantial disciplines. SRE develops reliability practice, SLO material deepens measurement and alerting, and instrumentation and tracing resources explore data collection in greater detail. Select learning that addresses a current limitation so additional knowledge connects with the team’s actual operational or development work.",
-      "example": "A team with useful traces but noisy reliability alerts studies SLO design more deeply.",
-      "source": "text lines 9949–10212"
+      "body": "Pip has useful traces but unreliable, noisy alerts. Further SRE, SLO, instrumentation, or tracing study can deepen different parts of the practice. Pip chooses SLO design because it addresses today’s limitation. The next subject earns its place by improving actual development or operations work.",
+      "example": "",
+      "source": "text lines 9949–10212",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "trace",
+            "label": "EXISTING STRENGTH",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "alert",
+            "label": "CURRENT LIMIT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "TARGETED STUDY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip has useful traces but unreliable, noisy alerts."
+          },
+          {
+            "node": "step-1",
+            "text": "Further SRE, SLO, instrumentation, or tracing study can deepen different parts of the practice."
+          },
+          {
+            "node": "step-3",
+            "text": "The next subject earns its place by improving actual development or operations work."
+          }
+        ]
+      }
     },
     {
       "title": "Frontend evidence serves different purposes",
-      "body": "Real-user monitoring observes actual interactions, while synthetic monitoring exercises scripted paths under selected conditions. Neither covers every possible user journey by itself. The chapter anticipates richer frontend observability connecting detailed experiences with exploratory investigation; distinguish that aspiration from a claim that one technique already eliminates the specific strengths and limits of the others.",
-      "example": "A synthetic checkout succeeds while a rare browser version fails for real users.",
-      "source": "text lines 9949–10212"
+      "body": "Pip’s synthetic checkout succeeds while a rare real browser fails. Real-user monitoring observes actual interactions; synthetic monitoring tests selected scripted paths. Neither covers every journey alone. The chapter anticipates richer exploratory frontend observability, but Pip keeps that aspiration separate from claims that one technique eliminates the others’ limits.",
+      "example": "",
+      "source": "text lines 9949–10212",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "experiment",
+            "label": "SYNTHETIC PATH",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "phone",
+            "label": "REAL BROWSER FAILURE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "trace",
+            "label": "COMPLEMENTARY EVIDENCE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s synthetic checkout succeeds while a rare real browser fails."
+          },
+          {
+            "node": "step-1",
+            "text": "Real-user monitoring observes actual interactions; synthetic monitoring tests selected scripted paths."
+          },
+          {
+            "node": "step-3",
+            "text": "The chapter anticipates richer exploratory frontend observability, but Pip keeps that aspiration separate from claims that one technique eliminates the others’ limits."
+          }
+        ]
+      }
     },
     {
       "title": "Read forecasts as dated hypotheses",
-      "body": "The authors’ March 2022 forecasts concern OpenTelemetry adoption, automatic instrumentation, frontend use, and tighter development feedback loops. These are predictions from the book’s publication context, not current product guarantees. Their durable direction is to reduce the gap between writing code and understanding its effects, with domain-specific instrumentation still necessary alongside automated coverage.",
-      "example": "Assess current capabilities separately before relying on an old forecast about automatic instrumentation.",
-      "source": "text lines 9949–10212"
+      "body": "Pip finds promising predictions about automatic instrumentation in the book. The authors’ March 2022 forecasts are dated hypotheses, not current product guarantees. Their durable direction is faster feedback between code and its effects, with domain context still necessary. Pip checks present capabilities separately before relying on an old prediction.",
+      "example": "",
+      "source": "text lines 9949–10212",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "MARCH 2022 FORECAST",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "DATED HYPOTHESIS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "terminal",
+            "label": "DOMAIN CONTEXT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip finds promising predictions about automatic instrumentation in the book."
+          },
+          {
+            "node": "step-1",
+            "text": "The authors’ March 2022 forecasts are dated hypotheses, not current product guarantees."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip checks present capabilities separately before relying on an old prediction."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -118,68 +370,68 @@
     "nodes": [
       {
         "id": "step-0",
-        "label": "CAPABILITY",
-        "kind": "trace",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "observability"
       },
       {
         "id": "step-1",
-        "label": "NEXT LEARNING",
-        "kind": "experiment",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
+        "kind": "person",
+        "label": "UNFAMILIAR FAILURE",
+        "tone": "sage"
       },
       {
         "id": "step-2",
-        "label": "FRONTEND",
-        "kind": "alert",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
+        "kind": "document",
+        "label": "RICH CONTEXT",
+        "tone": "lilac"
       },
       {
         "id": "step-3",
-        "label": "2022 FORECASTS",
-        "kind": "leaf",
-        "tone": "honey",
-        "x": 500,
-        "y": 100
+        "kind": "search",
+        "label": "ARBITRARY COMPARISON",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
         "from": "step-0",
-        "to": "step-1"
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-1",
-        "to": "step-2"
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-2",
-        "to": "step-3"
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
         "node": "step-0",
-        "text": "An engineer explains an unexpected customer failure without deploying new diagnostic code first."
+        "text": "Pip explains a new customer failure using already-recorded context."
       },
       {
         "node": "step-1",
-        "text": "A team with useful traces but noisy reliability alerts studies SLO design more deeply."
-      },
-      {
-        "node": "step-2",
-        "text": "A synthetic checkout succeeds while a rare browser version fails for real users."
+        "text": "High cardinality and many dimensions matter because they enable arbitrary comparisons during unfamiliar investigations."
       },
       {
         "node": "step-3",
-        "text": "Assess current capabilities separately before relying on an old forecast about automatic instrumentation."
+        "text": "Pip tests real questions instead of using tool names, signal inventories, or telemetry volume as proof of observability."
       }
     ]
+  },
+  "story": {
+    "course": "observability",
+    "world": "market",
+    "title": "Pip keeps the next question open"
   }
 }

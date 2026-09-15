@@ -3,7 +3,7 @@
   "title": "Postmortem Culture: Learning from Failure",
   "part": "Operations",
   "subtitle": "Investigate conditions honestly and turn findings into reviewed improvements",
-  "summary": "A postmortem turns an incident into a durable explanation of impact, response, contributing causes, and preventive work. Agreeing on triggers beforehand makes this learning routine rather than dependent on embarrassment or individual preference. Blamelessness preserves the information needed for analysis: people should be able to explain what they saw and why their actions made sense at the time. It does not remove the need to identify weaknesses or complete corrective work. Collaborative drafting and review challenge shallow explanations, incomplete impact estimates, and weak action plans. Sharing the finished account helps other teams learn from the same failure without experiencing it themselves. Leadership participation, recognition, and repeated discussion sustain the practice so postmortems become useful engineering work rather than forgotten paperwork.",
+  "summary": "Pip wants to know who pressed the wrong button. The crew instead reconstructs the information, tools, and conditions that made the action possible. Clear review triggers, owned follow-up work, and privacy-conscious sharing turn one failure into useful learning.",
   "source": {
     "startLine": 6053,
     "endLine": 6267,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Agree on postmortem triggers",
-      "body": "Teams should decide in advance which events require a written review, such as substantial degradation, data loss, unexpected human intervention, delayed recovery, or monitoring failure. Stakeholders can also request one. Predetermined triggers reduce selective reporting and make the process predictable. The purpose is to capture significant learning, including incidents discovered manually that may reveal a gap in monitoring.",
-      "example": "Teaching extension: A brief data-loss event qualifies for review even when it caused no page and little downtime.",
-      "source": "text lines 6053–6267"
+      "body": "Pip nearly skips reviewing a brief data-loss event because no pager fired. Predetermined triggers can include degradation, loss, unexpected intervention, slow recovery, and monitoring failure. Stakeholders may request reviews too. Pip captures significant learning consistently, including manually discovered gaps, instead of reporting only selected outages.",
+      "example": "",
+      "source": "text lines 6053–6267",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "UNPAGED DATA LOSS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "AGREED TRIGGERS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "search",
+            "label": "MONITORING GAP",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip nearly skips reviewing a brief data-loss event because no pager fired."
+          },
+          {
+            "node": "step-1",
+            "text": "Predetermined triggers can include degradation, loss, unexpected intervention, slow recovery, and monitoring failure."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip captures significant learning consistently, including manually discovered gaps, instead of reporting only selected outages."
+          }
+        ]
+      }
     },
     {
       "title": "Blamelessness preserves causal information",
-      "body": "A blameless account examines the information, tools, constraints, and assumptions shaping an action instead of reducing the explanation to a person’s mistake. Responders can then report what actually happened without protecting themselves through omission. The review still identifies specific weaknesses and needed improvements; its focus shifts from punishing an individual to changing the conditions that made the failure possible.",
-      "example": "Teaching extension: Replace “the operator was careless” with the exact ambiguous command behavior and missing validation that allowed the action.",
-      "source": "text lines 6053–6267"
+      "body": "Pip replaces “careless operator” with the exact ambiguous command behavior. Blameless review examines information, tools, constraints, and assumptions that shaped the action. Responders can describe what happened without protective omissions. Pip identifies concrete weaknesses and changes conditions instead of treating punishment as prevention.",
+      "example": "",
+      "source": "text lines 6053–6267",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "AMBIGUOUS COMMAND",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "listening",
+            "label": "HONEST ACCOUNT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "shield",
+            "label": "BETTER CONDITIONS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip replaces “careless operator” with the exact ambiguous command behavior."
+          },
+          {
+            "node": "step-1",
+            "text": "Blameless review examines information, tools, constraints, and assumptions that shaped the action."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip identifies concrete weaknesses and changes conditions instead of treating punishment as prevention."
+          }
+        ]
+      }
     },
     {
       "title": "Review impact, causes, and the action plan",
-      "body": "A useful postmortem records the incident’s impact and timeline, mitigation, contributing causes, and follow-up work. Reviewers check whether the account is complete and whether the proposed changes address the findings at an appropriate priority. Multiple causes may require multiple improvements. Assigning and tracking concrete work makes accountability visible without making blame the mechanism for obtaining reliable operations.",
-      "example": "Teaching extension: Track an input-validation fix and a rollback drill separately because they address prevention and recovery.",
-      "source": "text lines 6053–6267"
+      "body": "Pip reconstructs impact, timeline, mitigation, and contributing causes. Reviewers check completeness, priorities, and whether actions address those findings. Input validation and a rollback drill become separately owned, tracked work. Multiple causes can need multiple improvements; accountability does not require blame.",
+      "example": "",
+      "source": "text lines 6053–6267",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "trace",
+            "label": "IMPACT + TIMELINE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "whiteboard",
+            "label": "CONTRIBUTING CAUSES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "OWNED ACTIONS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip reconstructs impact, timeline, mitigation, and contributing causes."
+          },
+          {
+            "node": "step-1",
+            "text": "Reviewers check completeness, priorities, and whether actions address those findings."
+          },
+          {
+            "node": "step-3",
+            "text": "Multiple causes can need multiple improvements; accountability does not require blame."
+          }
+        ]
+      }
     },
     {
       "title": "Sharing makes one failure teach many teams",
-      "body": "A completed review belongs in a searchable repository and should reach the people who can benefit from it. Reading groups, reenactments, and selected examples help transfer lessons beyond the original responders. Leadership participation and visible recognition encourage honest reporting. Sharing must preserve appropriate privacy: the chapter explicitly excludes user-identifying information even from internal postmortem documents.",
-      "example": "Teaching extension: Another team turns a reviewed outage into a rehearsal after recognizing the same dependency in its own service.",
-      "source": "text lines 6053–6267"
+      "body": "Pip’s crew publishes a searchable review without user-identifying information. Reading groups, reenactments, and selected examples help other teams recognize similar dependencies. Leadership participation and recognition encourage honest reporting. Pip turns the shared lesson into another team’s rehearsal while preserving privacy even in internal documents.",
+      "example": "",
+      "source": "text lines 6053–6267",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "SEARCHABLE REVIEW",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "shield",
+            "label": "NO USER IDENTIFIERS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "SHARED LEARNING",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s crew publishes a searchable review without user-identifying information."
+          },
+          {
+            "node": "step-1",
+            "text": "Reading groups, reenactments, and selected examples help other teams recognize similar dependencies."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip turns the shared lesson into another team’s rehearsal while preserving privacy even in internal documents."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,81 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Postmortem Culture: Learning from Failure: Conditions -> Timeline -> Owner -> Learning",
     "nodes": [
       {
-        "id": "observe",
-        "label": "Conditions",
-        "caption": "name the condition",
-        "kind": "document",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "Timeline",
-        "caption": "choose the bounded action",
-        "kind": "trace",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "Owner",
-        "caption": "observe the consequence",
-        "kind": "person",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "Learning",
-        "caption": "record the recovery lesson",
-        "kind": "team",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "alert",
+        "label": "UNPAGED DATA LOSS",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "document",
+        "label": "AGREED TRIGGERS",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "search",
+        "label": "MONITORING GAP",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
-      },
-      {
-        "from": "learn",
-        "to": "observe",
-        "dashed": true
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "name the condition"
+        "node": "step-0",
+        "text": "Pip nearly skips reviewing a brief data-loss event because no pager fired."
       },
       {
-        "node": "decide",
-        "text": "choose the bounded action"
+        "node": "step-1",
+        "text": "Predetermined triggers can include degradation, loss, unexpected intervention, slow recovery, and monitoring failure."
       },
       {
-        "node": "act",
-        "text": "observe the consequence"
-      },
-      {
-        "node": "learn",
-        "text": "record the recovery lesson"
+        "node": "step-3",
+        "text": "Pip captures significant learning consistently, including manually discovered gaps, instead of reporting only selected outages."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "The incident review asks a better question"
   }
 }

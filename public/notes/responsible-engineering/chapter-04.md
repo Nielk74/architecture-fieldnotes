@@ -1,29 +1,31 @@
 # Chapter 4: Anticipating and Planning for Downstream Consequences
 
+*Pip’s adventure: The safeguard that locked someone out. Fictional teaching story; concepts follow the cited source.*
+
 Original learning notes. Source: text lines 2318–3086 in the supplied book.
 
-Safety requires looking beyond whether individual functions return the expected result. A protective feature can itself create harm when its assumptions fail, as the crash-cart authentication example demonstrates. Teams need varied perspectives and several forms of investigation: adversarial testing explores misuse, survivor testing examines the experience of harmed people, and stress or change testing reveals unexpected interactions. Future-regret and tabletop exercises make possible consequences and response gaps discussable before launch. These activities should produce concrete adjustments with owners, rather than end as speculative workshops. The objective is to reduce foreseeable harm while understanding the costs and limitations of the chosen safeguards.
+Pip adds a filter to the town’s help desk. Abuse falls; an ordinary request vanishes too. Residents help trace harms beyond functional correctness, test both misuse and recovery, and rehearse a crisis. Every safeguard needs an owner, evidence, and a way to revise it.
 
 ## Safety and harm
 
-Safety concerns whether software can cause physical, psychological, financial, interpersonal, allocative, representational, quality-of-service, or social-system harm. A conventional functional test cannot enumerate all these pathways.
+Pip’s town dashboard displays every number correctly. A resident points out that it exposes a colleague’s private activity. Safety includes physical, psychological, financial, interpersonal, allocative, representational, service-quality, and social-system harms—not just failing functions. Pip adds the overlooked interpersonal risk to the review; a green test suite cannot close it.
 
 ## Breadth and red teams
 
-Testing with varied people and adversarial “abuser” behavior exposes failures ordinary happy-path tests miss. The chapter contrasts abuser testing, which probes malicious misuse, with survivor testing, which asks whether an innocent harmed user has recovery and support.
+Pip tries to evade the town messenger’s block button; a resident tests recovering after unwanted contact. Abuser testing probes malicious misuse. Survivor testing checks whether harmed people can preserve evidence, report trouble, and obtain support. Varied participants reveal different failures. Closing an attack path does not automatically help someone already harmed.
 
 ## Future regret and tabletop
 
-Future-regret exercises imagine a decision becoming publicly regrettable; tabletop exercises have a group walk through a crisis and response. Both surface ethical consequences before an incident, though imagination cannot replace real evidence.
+Pip imagines tomorrow’s headline: thousands sent to the wrong appointment address. A future-regret exercise questions the decision; a tabletop walks the team through the crisis. Who corrects the address, alerts residents, and answers calls? The group assigns owners and changes the launch plan. Imagination surfaces gaps; it cannot replace evidence.
 
 ## Change and stress
 
-Complex systems produce unexpected interactions after changes. Stress tests, chaos experiments, and careful rollout reveal behavior under extreme load, weather, outages, or altered dependencies; safety controls also carry costs such as friction and false alarms.
+Pip disconnects the transit app during a simulated timetable change. The fallback still looks live, although its information is stale. Stress tests, chaos experiments, and careful rollouts expose interactions under load, outages, weather, or changed dependencies. Pip labels stale departures clearly, then checks the safeguard’s friction and false alarms.
 
 ## Teaching extension
 
-A voice assistant change intended to block abusive content causes a benign phrase to disappear from answers. The team must protect against misuse while avoiding broad quality regressions.
+Pip’s new help-desk filter blocks abuse but also removes an ordinary phrase. Residents need protection without losing useful answers.
 
-Both choices are defensible under different constraints; the responsible decision states the accepted consequence and the evidence that could change it.
+Pip records the harm, safeguard, owner, and evidence needed to change course. Fast protection still needs regression checks and recovery.
 
 Choose a feature with plausible misuse or failure. These practice scenarios are invented to apply the chapter; their consequences are not reported measurements.

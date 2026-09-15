@@ -1,44 +1,36 @@
 # Chapter 3: Code Efficiency
 
+*Pip’s adventure: The ten trips for one answer. Fictional teaching story; concepts follow the cited source.*
+
 Building Green Software — Anne Currie, Sarah Hsu, and Sara Bergman. First edition, March 2024.
 
 Source: printed pp. 31–51; text lines 1601–2385. References count literal newline-delimited lines in the supplied text.
 
 ## Overview
 
-Code efficiency avoids unnecessary computation for a defined result, but achieving it consumes developer time and expertise. The authors explain why reusable APIs and higher-level platforms became popular: they exchange some machine efficiency for development speed and maintained functionality. The practical response is to profile expensive behavior, choose efficient libraries and platforms, and question unnecessary work or retained data. Architecture matters because excessive layers and chatty services add processing. Fast execution, low energy use, and low carbon are not interchangeable; parallelism or extra hardware can buy speed. The chapter closes with the rebound problem: efficiency can make a service cheaper and increase demand, so improvements per operation do not guarantee falling totals.
+The cinema’s thumbnail queue grows, and Pip reaches for a rewrite. A trace interrupts the plan: one request fetches the same metadata ten times. Removing repeated work may help sooner than a specialized engine. Libraries and platforms trade some machine efficiency for developer productivity; service layers, unused features, and retained data also cost work. Pip compares equivalent output and checks whether saved computation permits smaller resources. Faster is not automatically lower energy or carbon. And if cheaper exports multiply, a better per-job result can still accompany rising totals.
 
 ## Key ideas
 
 ### Machine and developer productivity
 
-A reusable API may do more work than a custom implementation while saving development and maintenance effort. The book treats this as a trade-off rather than a mistake. Specialized optimization becomes easier to justify when heavily reused code or a high-volume service spreads that investment across many operations and users. Maintaining that specialization remains part of its cost. (Source: pp. 31–37.)
-
-Teaching extension: Improving a common image library can benefit thousands of applications, while hand-tuning a rarely used internal screen has limited reach.
+Pip sketches a custom image engine. A teammate points to the maintained library already doing the job. Reuse can spend extra machine work while saving development and maintenance effort; that is a trade-off, not a failure. Improving a widely shared library spreads specialist effort across many applications. Hand-tuning a rarely used screen does not. Pip checks volume, reuse, and who will maintain the clever new code before committing. (Source: pp. 31–37.)
 
 ### Profile the work that matters
 
-Profiling locates costly calls, repeated work, and poor algorithms before a rewrite is proposed. Faster execution is a clue rather than proof of lower carbon: more processors can reduce wall time while increasing resource use. Ask whether the improvement permits smaller or more densely shared resources, and preserve equivalent output and service requirements in the comparison. (Source: pp. 37–40.)
-
-Teaching extension: A trace finds repeated metadata retrieval. Reusing the result removes work without changing languages or weakening the response contract.
+Ten identical metadata lookups appear in Pip’s trace. The first experiment is smaller than a rewrite: reuse the result without changing correctness. Profiling finds expensive calls, algorithms, and repeated work. A faster run is only a clue—extra processors can buy speed while using more resources. Pip holds film quality and service requirements constant, then checks whether saved work allows a smaller or more densely shared allocation. (Source: pp. 37–40.)
 
 ### Service boundaries cost work
 
-Cross-process and network calls introduce serialization, transmission, and platform overhead. Excessive calls or duplicated middleware can dominate processing. Reducing those costs must be balanced against understandable interfaces, independent ownership, and maintainability. Neither a monolith nor microservices is automatically greener; architecture and operations together determine the outcome. Platform guidance can help avoid duplicating work the platform already performs. (Source: pp. 41–44.)
-
-Teaching extension: A pipeline batches metadata requests while retaining a clear service boundary, then checks latency and debugging consequences.
+Every department adds one helpful checkpoint to the thumbnail journey. Soon Pip’s request spends its day crossing services, serializing data, and repeating middleware work. Batching metadata requests may shorten that journey while preserving a clear ownership boundary. But fewer calls must not make interfaces or debugging harder to understand. Neither a monolith nor microservices wins automatically: Pip weighs processing overhead against independent ownership, maintenance, and the platform’s existing capabilities. (Source: pp. 41–44.)
 
 ### Avoid unnecessary features and data
 
-Lean product decisions eliminate work before optimization is needed. Unused features and rarely queried data still consume maintenance, storage, and processing. Retention and archive policies should follow actual needs. Client-side processing and smaller or reused ML models offer other opportunities, but include transfer costs and client hardware effects when evaluating them. Moving work does not erase it. (Source: pp. 44–47.)
-
-Teaching extension: An unused daily report becomes on-demand. Records that must be retained move to storage suited to their infrequent access.
+Pip discovers a report generated daily that nobody opens. Making it on-demand avoids work before optimization even begins. Rarely accessed records move to storage suited to their required retention. Unused features and data still cost maintenance and processing. Moving work to a client or using a smaller, reused ML model may help too—but Pip counts transfers and client hardware. Sending the bill elsewhere does not erase the work. (Source: pp. 44–47.)
 
 ### Efficiency can grow demand
 
-The Jevons discussion warns that cheaper operations can become more widely used and increase total resource demand. The authors still favor efficiency during the energy transition and reusable platforms that distribute its engineering cost. Their expectations about future energy abundance are an outlook, not a guarantee that every efficiency improvement will reduce absolute emissions today. (Source: pp. 47–51.)
-
-Teaching extension: Exports become half as expensive per job, but volume triples. The team reviews total energy alongside the per-export improvement.
+The cheaper export becomes a hit. In Pip’s fictional example, each job costs half as much, but demand triples. The celebration needs a second chart: total resource use can rise as unit efficiency improves. This is the rebound problem discussed through Jevons. The authors still favor efficiency and reusable platforms during the energy transition. Their outlook for future energy abundance is not a guarantee of falling absolute emissions today. (Source: pp. 47–51.)
 
 ## Misconceptions
 
@@ -52,7 +44,7 @@ Request volume can increase. Keep both unit and total measures.
 
 ## Decision practice — teaching extension
 
-Teaching extension. A thumbnail service repeatedly queries metadata and uses a familiar image library. Demand is rising, but specialist capacity is limited. The team can remove redundant calls and test a library upgrade, or build a hardware-specific conversion engine. Both options must preserve output quality.
+Pip’s thumbnail service repeats metadata calls while demand grows. A maintained image library is available; specialist time is scarce. Pip can remove duplicate work and test an upgrade or build a hardware-specific converter. Either route must preserve the film’s output quality.
 
 ### Remove repeated work and test a maintained library
 

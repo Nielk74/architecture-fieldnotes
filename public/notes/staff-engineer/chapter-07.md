@@ -1,25 +1,27 @@
 # Chapter 7: You’re a Role Model Now (Sorry)
 
+*Pip’s adventure: Everyone copies Pip's shortcut. Fictional teaching story; concepts follow the cited source.*
+
 Original learning summary of Tanya Reilly's The Staff Engineer’s Path (2022). Source: text lines 7680–8702.
 
-A role model sets standards through repeated behavior: taking ownership, communicating clearly, making room for others, and acting with technical and ethical judgment. The chapter distinguishes being an exemplar from becoming a gatekeeper or bottleneck.
+Pip sees colleagues copying a shortcut and an apology. Senior behavior sets standards. Ownership, communication, mentoring, and technical and ethical judgment should strengthen others’ capability. An exemplar is different from the workshop’s permanent approval queue.
 
 ## Exemplar
 
-An exemplar demonstrates standards in visible choices and makes the behavior reproducible for others. People notice what senior engineers reward, ignore, and excuse. Your reactions in a review or incident can establish a stronger norm than a written policy. Model the behavior you want others to repeat, including how you handle being wrong.
+Pip skips a review step, and next week it is the workshop’s new habit. People notice what senior engineers reward, ignore, and excuse. An exemplar makes useful standards visible and repeatable, including how to be wrong. Pip explains a rollback in the same forum as everyone else and acknowledges the mistaken assumption. That reaction can establish a stronger norm than a policy nobody sees practiced.
 
 ## Ownership
 
-Ownership means noticing consequential gaps and helping close them without claiming every task. Take responsibility for an outcome without making yourself the only person allowed to solve it. Help establish ownership, share context, and follow through on the gap. This makes the organization stronger rather than expanding a private collection of indispensable tasks.
+A support gap appears between teams. Pip takes responsibility for closing it, not for personally owning every future ticket. Ownership means noticing a consequential gap, sharing context, establishing who can act, and following through on the outcome. Pip helps the teams agree responsibility and keeps the handoff visible. The workshop gains capability instead of another private collection of tasks only one expert can touch.
 
 ## Mentoring
 
-Mentoring creates space for another engineer to reason and grow rather than supplying every answer. Make room for another person's reasoning and choices. Ask questions, offer context, and provide support appropriate to the stakes. If your intervention always ends with you doing the work, the immediate result may improve while the learner's independence does not.
+A newer engineer asks Pip how to roll out safely. Pip nearly takes the keyboard, then asks the learner to propose guardrails first. Mentoring makes room for another person’s reasoning, choices, and growth. Context and support should match the stakes. If every discussion ends with Pip doing the work, the immediate patch may improve while independence does not. The learner needs practice deciding, not merely watching expertise.
 
 ## Bottleneck
 
-A bottleneck forms when progress depends on one expert’s approval, availability, or hidden knowledge. Sharing knowledge and decision context reduces dependence on your availability. Delegating a task while retaining every approval can simply move the queue. Build other people's confidence and authority so that useful work continues when you are away.
+The release queue pauses whenever Pip leaves the workshop. Hidden knowledge and retained approvals have made one expert the bottleneck. Delegating tasks did not help while decisions still waited at the desk. Pip shares context, builds a checklist with colleagues, and transfers real decision authority. Confidence and knowledge should let useful work continue without Pip; being indispensable to every step is not the desired result.
 
 ## Teaching extension
 
-A newer engineer is taking ownership of a risky rollout. You can review every change or create a guardrail and coaching check-in. These invented practice choices are not reported incidents from the book. Use the reflection to apply the distinction to your own role.
+A newer workshop engineer owns a risky rollout. Pip can approve every change or agree guardrails and coaching check-ins. These invented practice choices are not reported incidents from the book. Use the reflection to apply the distinction to your own role.

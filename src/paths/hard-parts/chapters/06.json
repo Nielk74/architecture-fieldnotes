@@ -3,7 +3,7 @@
   "title": "Pulling Apart Operational Data",
   "part": "Boundaries & decomposition",
   "subtitle": "Separate data only when the system can carry the cost",
-  "summary": "Decomposing a monolithic database is a riskier boundary change than decomposing application code because data is a core business asset and its relationships are often implicit in tables, views, triggers, and foreign keys. The chapter balances six disintegrators—change control, connection management, scalability, fault tolerance, architectural quanta, and database type optimization—against data relationships and ACID transactions that favor integration. A five step evolutionary process turns the database into data domains, assigns tables, removes cross-domain artifacts, moves service access to domain schemas, and eventually extracts physical databases. The approach preserves useful local relationships while making cross-domain coupling explicit. Database choice is also a trade-off: relational, key-value, document, graph, column-family, NewSQL, cloud-native, and time-series systems optimize different workloads. The chapter ends by treating aggregate boundaries as a practical guide for choosing schema shape.",
+  "summary": "Pip separates delivery services, but reporting still consumes their shared database connections. Data ownership, transactions, and relationships make the next cut harder. The crew measures pressure, defines domains, and exposes hidden cross-schema dependencies before choosing new storage.",
   "source": {
     "startLine": 3575,
     "endLine": 4926,
@@ -12,39 +12,417 @@
   "concepts": [
     {
       "title": "Disintegration drivers",
-      "body": "Break apart data when a shared database prevents independent change, saturates connection pools, cannot scale with services, creates a single point of failure, collapses distinct architectural quanta, or forces every workload into one database type. These drivers justify investigation rather than automatically proving that decomposition is correct. Data relationships and transactions may outweigh them, so the decision requires measured evidence and an explicit trade-off analysis.",
-      "example": "If reporting queries consume nearly every connection, ticketing times out. A separate reporting domain may relieve contention, while tightly coupled payment tables can remain together until their transaction boundary is understood.",
-      "source": "text lines 3600–4018"
+      "body": "Pip watches reporting consume connections until parcel intake times out. A shared database can block independent change, scale, availability, quantum separation, or workload-specific technology. Those are disintegration drivers, not proof that splitting is correct. Pip weighs measured contention against data relationships and transactions that may need to stay together.",
+      "example": "",
+      "source": "text lines 3600–4018",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "CONNECTION PRESSURE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "database",
+            "label": "SHARED DATABASE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "TRANSACTION NEEDS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip watches reporting consume connections until parcel intake times out."
+          },
+          {
+            "node": "step-1",
+            "text": "A shared database can block independent change, scale, availability, quantum separation, or workload-specific technology."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip weighs measured contention against data relationships and transactions that may need to stay together."
+          }
+        ]
+      }
     },
     {
       "title": "Bounded data contracts",
-      "body": "A service should own the data it writes, while callers use a contract rather than another service's schema. A JSON response can rename fields or change representation, insulating the caller from a breaking database migration inside the owner’s bounded context. The separation is valuable only if services stop reaching across schemas directly; otherwise the database remains an accidental shared contract.",
-      "example": "A wishlist owner can remove an expiration column internally while continuing to send an expiration value in its response for a transition period. The consuming service need not know whether storage uses DATE, epoch time, or a default.",
-      "source": "text lines 3630–3704"
+      "body": "Pip renames a storage column and a neighboring service breaks. The owner should control writes and expose a contract, not its schema. Pip preserves the response field while changing internal representation within the bounded context. Direct cross-schema access would keep the accidental shared contract alive.",
+      "example": "",
+      "source": "text lines 3630–3704",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "INTERNAL SCHEMA",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "api",
+            "label": "OWNER'S CONTRACT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "service",
+            "label": "INSULATED CALLER",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip renames a storage column and a neighboring service breaks."
+          },
+          {
+            "node": "step-1",
+            "text": "The owner should control writes and expose a contract, not its schema."
+          },
+          {
+            "node": "step-3",
+            "text": "Direct cross-schema access would keep the accidental shared contract alive."
+          }
+        ]
+      }
     },
     {
       "title": "Connection and scale",
-      "body": "Distributed service instances each tend to own a connection pool, so a migration can multiply demand even before traffic grows. Quotas provide governance: begin with equal allocations, measure waits and maximum use with fitness functions, then tune quotas by service need. Quotas must be evaluated against instance counts; a distribution that fits one database can fail badly when services scale independently.",
-      "example": "Five services fit a 100-connection budget on paper, but fourteen scaled instances consume 242 connections. The measured quota can be reallocated toward services with waits, yet the database still needs a scaling plan.",
-      "source": "text lines 3706–3998"
+      "body": "Pip budgets 100 database connections for five services. Scaling to fourteen instances in the chapter’s example consumes 242: every instance brings its pool. Pip starts with quotas, measures waits and maximum use, then reallocates by need. Quotas must account for instance counts and cannot replace a database scaling plan.",
+      "example": "",
+      "source": "text lines 3706–3998",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "deployment",
+            "label": "14 INSTANCES",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "242 CONNECTIONS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "database",
+            "label": "100 BUDGET",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip budgets 100 database connections for five services."
+          },
+          {
+            "node": "step-1",
+            "text": "Scaling to fourteen instances in the chapter’s example consumes 242: every instance brings its pool."
+          },
+          {
+            "node": "step-3",
+            "text": "Quotas must account for instance counts and cannot replace a database scaling plan."
+          }
+        ]
+      }
     },
     {
       "title": "Five step extraction",
-      "body": "Data domains group tables and their local artifacts around a bounded context. The migration proceeds iteratively: analyze and define domains, assign tables, remove cross-domain artifacts, move service access to the domain schema, and separate schemas into physical databases. Local foreign keys and views can survive inside a domain; cross-domain joins, triggers, procedures, and views must become service calls or other explicit integration.",
-      "example": "Payment keeps contract and billing together but removes a customer join from its view. The Payment service then requests the customer name from Customer, making the former hidden dependency visible and governable.",
-      "source": "text lines 4116–4408"
+      "body": "Pip defines data domains, assigns tables, and removes cross-domain artifacts. Service access moves to domain schemas before those schemas become physical databases. Local keys and views can remain; cross-domain joins, triggers, procedures, and views need explicit integration. Pip replaces a hidden customer join with an owner’s API.",
+      "example": "",
+      "source": "text lines 4116–4408",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "blueprint",
+            "label": "DEFINE + ASSIGN",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "api",
+            "label": "EXPLICIT INTEGRATION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "database",
+            "label": "SEPARATE STORES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip defines data domains, assigns tables, and removes cross-domain artifacts."
+          },
+          {
+            "node": "step-1",
+            "text": "Service access moves to domain schemas before those schemas become physical databases."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip replaces a hidden customer join with an owner’s API."
+          }
+        ]
+      }
     },
     {
       "title": "Choose data technology",
-      "body": "A data domain is also a boundary for selecting a database suited to its workload. Relational systems offer strong relationships and transactions; key-value systems optimize direct lookup; documents fit aggregate-shaped records; graphs model traversals; column families handle wide distributed access; NewSQL and cloud-native systems trade familiar relational behavior against operational goals; time-series systems fit timestamped measurements. The chapter treats ratings as comparative adoption guidance, not a universal ranking.",
-      "example": "A knowledge base with document-shaped articles may benefit from a document store, while payments retain relational constraints. Moving only after the domain seam is understood limits the blast radius of technology experimentation.",
-      "source": "text lines 4409–4790"
+      "body": "Pip keeps payment relationships in relational storage and evaluates documents for articles. Key-value favors lookup, graphs traversal, column families wide distributed access, and time-series timestamped measurements. NewSQL and cloud-native choices balance relational behavior against operational goals. Pip chooses within an understood domain seam; comparative adoption guidance is not a universal technology ranking.",
+      "example": "",
+      "source": "text lines 4409–4790",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "WORKLOAD SHAPE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "balance",
+            "label": "STORAGE TRADE-OFFS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "boundary",
+            "label": "DOMAIN SEAM",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip keeps payment relationships in relational storage and evaluates documents for articles."
+          },
+          {
+            "node": "step-1",
+            "text": "Key-value favors lookup, graphs traversal, column families wide distributed access, and time-series timestamped measurements."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip chooses within an understood domain seam; comparative adoption guidance is not a universal technology ranking."
+          }
+        ]
+      }
     },
     {
       "title": "Aggregate boundaries",
-      "body": "Database structure should reflect how the application changes and transacts. A survey can model one aggregate when survey, questions, and responses are always loaded and changed together; separate aggregates with references may be better when each has an independent lifecycle. Aggregate boundaries help decide which relationships belong inside a data domain and which become distributed coordination.",
-      "example": "If editing a survey always requires its questions atomically, one aggregate preserves that transaction. If questions are reused or administered independently, references and explicit consistency rules may be safer than one giant record.",
-      "source": "text lines 4800–4925"
+      "body": "Pip edits a survey and its questions together. One aggregate can preserve that atomic change when their lifecycle is shared. Reusable or independently administered questions may instead need references and explicit consistency rules. Pip follows how data loads and changes, avoiding a giant record merely because tables are related.",
+      "example": "",
+      "source": "text lines 4800–4925",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "SURVEY + QUESTIONS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "boundary",
+            "label": "LOCAL AGGREGATE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "INDEPENDENT LIFECYCLES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip edits a survey and its questions together."
+          },
+          {
+            "node": "step-1",
+            "text": "One aggregate can preserve that atomic change when their lifecycle is shared."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip follows how data loads and changes, avoiding a giant record merely because tables are related."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -129,61 +507,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "shared",
-        "label": "SHARED DB",
-        "kind": "database",
-        "tone": "peach"
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "hard-parts"
       },
       {
-        "id": "domain",
-        "label": "DATA DOMAIN",
-        "kind": "boundary",
+        "id": "step-1",
+        "kind": "gauge",
+        "label": "CONNECTION PRESSURE",
         "tone": "sage"
       },
       {
-        "id": "contract",
-        "label": "ACCESS API",
-        "kind": "router",
+        "id": "step-2",
+        "kind": "database",
+        "label": "SHARED DATABASE",
         "tone": "lilac"
       },
       {
-        "id": "store",
-        "label": "DATA STORE",
-        "kind": "database",
+        "id": "step-3",
+        "kind": "balance",
+        "label": "TRANSACTION NEEDS",
         "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "shared",
-        "to": "domain"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "domain",
-        "to": "contract"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "contract",
-        "to": "store"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "shared",
-        "text": "Measure coupling, connection waits, scale pressure, failures, and transaction needs in the shared database."
+        "node": "step-0",
+        "text": "Pip watches reporting consume connections until parcel intake times out."
       },
       {
-        "node": "domain",
-        "text": "Group related tables and retain local constraints while marking cross-domain artifacts for refactoring."
+        "node": "step-1",
+        "text": "A shared database can block independent change, scale, availability, quantum separation, or workload-specific technology."
       },
       {
-        "node": "contract",
-        "text": "Route foreign data through an explicit service contract so callers no longer depend on the schema."
-      },
-      {
-        "node": "store",
-        "text": "Extract the schema into its own physical database only after the domain boundary and access behavior are stable."
+        "node": "step-3",
+        "text": "Pip weighs measured contention against data relationships and transactions that may need to stay together."
       }
     ]
+  },
+  "story": {
+    "course": "hard-parts",
+    "world": "islands",
+    "title": "The database refuses to split neatly"
   }
 }

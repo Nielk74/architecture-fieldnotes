@@ -1,24 +1,26 @@
 # Chapter 3: User Experience Design for Agentic Systems
 
+*Pip’s adventure: The guide that would not stop talking. Fictional teaching story; concepts follow the cited source.*
+
 Original learning notes. Source: text lines 2067–3118 in the supplied book.
 
-Agent interfaces must help users understand both what the system can do and what it is doing now. Text, graphical controls, voice, and video offer different advantages depending on the task, environment, and accessibility needs. Synchronous interaction needs responsive turn-taking and interruption handling; asynchronous work needs persistent state and useful notifications. Relevant context can maintain continuity, but retention also creates privacy and attention costs. Clear distinctions between a proposal, an ongoing action, and a completed result prevent mistaken reliance. Trust develops through predictable behavior, honest limits, and understandable recovery when an agent cannot complete a request.
+Pip’s guide keeps speaking after a visitor changes the date. The problem is not just the answer: people need clear turns, visible state, accessible alternatives, and control over actions. Pip redesigns the encounter around what visitors can understand and interrupt.
 
 ## Interaction modalities
 
-Text is searchable and asynchronous; graphical interfaces expose workflow state; voice supports hands-free interaction; video can demonstrate rich expression. The choice depends on task, accessibility, privacy, and the user’s environment.
+Pip offers spoken directions in a noisy museum. Voice enables hands-free use; text remains searchable and asynchronous. A screen preserves the room number and workflow state, while video can convey richer expression. Pip chooses modalities around task, accessibility, privacy, and the visitor’s environment.
 
 ## Turn-taking
 
-Agent conversations need clear turns, interruption handling, and recovery from ambiguity. A user should know whether the agent is listening, thinking, waiting for input, or ready to act.
+Pip hears “not Friday—Saturday” over the guide’s proposal. The interface must distinguish listening, thinking, waiting, and readiness to act. Pip stops obsolete speech and recomputes the booking proposal. Clear turns, interruption handling, and ambiguity recovery keep the visitor in control.
 
 ## Trust and transparency
 
-Effective UX explains capabilities, limitations, provenance, and uncertainty in terms users can act on. Trust comes from calibrated behavior and visible evidence, not from confident language or anthropomorphic styling.
+Pip’s guide confidently quotes last year’s admission figure. Fluent language and a friendly face do not establish trust. Pip labels the source date and admits that no newer value was found. Capabilities, limitations, provenance, and uncertainty must help visitors judge what to do.
 
 ## Control and accessibility
 
-Users need ways to edit, confirm, undo, or hand off consequential actions. Interfaces should work for people with different sensory, motor, language, and cognitive needs.
+Pip asks a visitor to confirm a booking by voice only. The visitor needs keyboard controls and a text alternative. Pip adds ways to edit, confirm, undo, or hand off consequential actions. Sensory, motor, language, and cognitive differences belong in the design.
 
 ## Teaching extension
 

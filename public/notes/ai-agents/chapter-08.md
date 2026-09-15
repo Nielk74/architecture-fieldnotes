@@ -1,24 +1,26 @@
 # Chapter 8: From One Agent to Many
 
+*Pip’s adventure: Too many guides at one desk. Fictional teaching story; concepts follow the cited source.*
+
 Original learning notes. Source: text lines 6601–8457 in the supplied book.
 
-One agent is often the simplest starting point, but a growing collection of tools and responsibilities can make a single context difficult to manage. Splitting work among specialists can clarify roles and permit independent testing and reuse. The split also creates a distributed system: information must move between agents, partial results must be combined, and failures must be contained. Sequential handoffs, parallel work, coordinators, shared state, and messaging infrastructure offer different latency and consistency trade-offs. Select the organization around the task and its dependencies. More agents are useful when specialization outweighs the additional calls, coordination, and operational complexity.
+Pip adds four specialist agents to the museum desk and visitors wait longer. Splitting work can improve focus, but creates interfaces, messages, and partial failures. Pip keeps specialists only where their boundaries justify the extra calls and coordination.
 
 ## Single-agent fit
 
-One agent is often suitable when tasks are modest, tools are manageable, and one context can hold the work. It minimizes latency, resource use, and coordination overhead.
+Pip’s meeting guide has three tools and a short history. One context holds the task comfortably. A single agent minimizes latency, resource use, and coordination overhead when responsibilities remain manageable. Pip measures a real limitation before recruiting another agent.
 
 ## Specialization
 
-Multiple agents divide work by role or capability, such as forecasting, procurement, or exception handling. Specialization can improve focus but creates interfaces and handoffs between agents.
+Pip separates exhibition stock analysis from supplier comparison. Specialists focus on different roles or capabilities. Their structured results need interfaces and handoffs before a coordinator can combine a recommendation. Pip tests those boundaries as carefully as each specialist.
 
 ## Communication patterns
 
-Agents may pass messages sequentially, work in parallel, or use a coordinator and shared state. The pattern determines latency, consistency, failure propagation, and how much context each agent sees.
+Pip lets two specialists check independent suppliers in parallel. Delivery estimates wait for the supplier choice they depend on. Sequential messages, parallel work, coordinators, and shared state distribute context differently. Pip weighs latency, consistency, and failure propagation before choosing the communication pattern.
 
 ## Coordination cost
 
-More agents add model calls, routing, synchronization, debugging, and operational expense. The chapter applies software architecture lessons: split when boundaries clarify work, not merely because multiagent systems are fashionable.
+Pip’s four-agent desk matches one agent’s quality but misses the response target. Extra agents add model calls, routing, synchronization, debugging, and operational expense. Pip removes the split that clarifies no useful boundary. Specialization must pay for its coordination, not merely look sophisticated.
 
 ## Teaching extension
 

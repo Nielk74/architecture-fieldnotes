@@ -1,44 +1,36 @@
 # Chapter 5: Carbon Awareness
 
+*Pip’s adventure: A race against sunrise. Fictional teaching story; concepts follow the cited source.*
+
 Building Green Software — Anne Currie, Sarah Hsu, and Sara Bergman. First edition, March 2024.
 
 Source: printed pp. 73–89; text lines 3084–3600. References count literal newline-delimited lines in the supplied text.
 
 ## Overview
 
-Carbon awareness responds to the changing emissions associated with electricity. Grid carbon intensity varies with location, generation, demand, and time, so the same computation can have different operational emissions in different conditions. The chapter distinguishes time shifting, location shifting, and demand shaping. Shifting changes execution timing or place; shaping changes the service offered. Forecasts can guide these decisions, but deadlines, available capacity, data constraints, and reliability remain part of the problem. The book illustrates the ideas with updates, charging, media processing, and hackathon projects from its publication period. The lesson is to create useful flexibility and act on an appropriate signal, rather than assuming a fixed overnight schedule or a cheap instance is automatically green.
+Pip’s film must be ready by morning, but the electricity forecast changes through the night. The same computation can have different operational emissions at different times or places. Pip learns three responses: time shifting, location shifting, and demand shaping. The first two move execution; the third changes the offering. None cancels a deadline, data constraint, capacity requirement, or service promise. Book-era updates, charging, media, and hackathon examples show the transferable idea: create useful flexibility, then act on a relevant electricity signal rather than assuming night or low price means green.
 
 ## Key ideas
 
 ### Intensity changes with time and place
 
-Electricity carbon intensity expresses CO₂e per unit of energy. A grid’s generation mix and demand change over time, and the plant meeting additional demand may differ from the average mix. Average and marginal perspectives answer different questions. A scheduling decision needs an identified signal, its location, and its time interval, rather than a broad assumption about the country. (Source: pp. 74–79.)
-
-Teaching extension: The media team compares hourly forecasts for its own region instead of assuming every night is cleaner than every afternoon.
+“The whole country is green,” says a poster. Pip needs a more precise clue: electricity carbon intensity for this region and hour, expressed as CO₂e per unit of energy. Generation and demand vary. The plant meeting extra demand may differ from the average mix, so average and marginal signals answer different questions. Pip labels the chosen signal and interval instead of treating a national reputation—or an overnight timetable—as a measurement. (Source: pp. 74–79.)
 
 ### Time shifting preserves the job
 
-A delayable job can execute during a cleaner interval without changing its intended result. This requires an execution window, expected duration, and a deadline. Updates, backups, and training are examples in the book, but their flexibility depends on the actual service. A carbon-aware policy must still finish the work when cleaner opportunities fail to arrive. (Source: pp. 80–81.)
-
-Teaching extension: An export may run any time from 18:00 to 06:00. Its two-hour duration limits which forecast windows are eligible.
+The cinema’s opening film needs two hours to render and must be ready by 06:00. Pip reaches for “Start,” then spots a cleaner electricity forecast at 02:00. There’s time to wait—but forecasts can change. Pip keeps the same film, quality, and deadline, and sets a fallback so a disappearing clean window cannot cancel the show. This is time shifting: move the work, not the promise. (Source: pp. 80–81.)
 
 ### Location shifting moves the execution
 
-Moving work to a cleaner region can reduce electricity-related emissions, but relocation has costs and constraints. Data transfer, service availability, capacity, latency, and jurisdictional requirements may rule out an otherwise attractive location. Time shifting often avoids some of these problems because the data and execution stay in the same place. (Source: pp. 82, 84–85.)
-
-Teaching extension: An eligible rendering job moves only if its data can remain within the approved region set and transfer costs do not erase the benefit.
+A distant region looks cleaner on Pip’s chart. Moving the export there might reduce electricity emissions, but can the data travel? Pip checks approved regions, transfer costs, capacity, availability, latency, and jurisdictional constraints before moving anything. A cleaner destination with no room for the job is not an option. Time shifting can avoid some relocation problems by keeping data and execution in place; neither route removes the service’s obligations. (Source: pp. 82, 84–85.)
 
 ### Demand shaping changes the offering
 
-Demand shaping adjusts the amount or quality of service in response to the carbon signal. The chapter draws an analogy to reducing video quality while preserving a call’s audio on a weak network. Product design must decide which functionality is essential and how users understand or choose a lighter mode. Shaping is different from doing the identical job later. (Source: pp. 83–84.)
-
-Teaching extension: A media app offers a lighter preview during a high-intensity period while preserving the user’s ability to request the essential full result.
+The electricity signal rises while a visitor requests a preview. Pip offers a lighter version, preserving the essential result and explaining the choice. This changes the offering: demand shaping, not simply running the identical job later. Like a video call keeping audio when video quality falls, the product needs an agreed minimum. Pip must know what users require and whether they can choose the lighter mode before reducing quality. (Source: pp. 83–84.)
 
 ### Forecasts support constrained decisions
 
-The examples combine electricity information with workload knowledge rather than optimizing the grid signal in isolation. Forecast quality, system capacity, and service objectives affect the result. Supplier features and hackathon outcomes in this chapter describe the book’s period. Their transferable lesson is how to add a carbon signal to a system that already knows its operational constraints. (Source: pp. 85–89.)
-
-Teaching extension: If the forecast is missing, the scheduler follows a documented deadline-preserving fallback and records why it could not make a carbon-based choice.
+Pip’s forecast looks perfect; the chosen worker is unavailable. Electricity information alone cannot schedule a film. Capacity, forecast quality, workload knowledge, and service objectives all constrain the decision. If the signal disappears, Pip follows a documented fallback and records why no carbon-based choice was possible. The book’s supplier and hackathon examples belong to its publication period. Their lasting lesson is to add a carbon signal to operational decisions, not replace every other constraint. (Source: pp. 85–89.)
 
 ## Misconceptions
 
@@ -52,7 +44,7 @@ That is location shifting. Shaping changes the service’s resource demand or qu
 
 ## Decision practice — teaching extension
 
-Teaching extension. A media export takes two hours and must finish by 06:00. A fictional forecast puts a cleaner interval at 02:00, but the forecast may change. The job must stay in its approved region. The team can delay this full export within its window or offer an immediate lightweight preview while the full export follows later.
+Pip’s film takes two hours to export and must finish by 06:00. A fictional forecast suggests cleaner electricity at 02:00, but it may change. The job must stay in its approved region. Pip can shift the full export or offer a lightweight preview now while the full result follows.
 
 ### Shift the complete export within its deadline
 

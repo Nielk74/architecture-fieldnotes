@@ -1,27 +1,53 @@
 # Chapter 9: Simplicity
 
-Reduce the behavior and coupling that operators must reason about
+*Pip’s adventure: One less switch to misunderstand. Fictional teaching story; concepts follow the cited source.*
 
-Simplicity supports reliability by reducing the amount of behavior that must be understood, tested, and changed safely. Essential complexity belongs to the problem; accidental complexity comes from chosen implementations and can often be removed. Predictable code, small APIs, and clear component responsibilities make failures easier to locate. Dead code and obsolete flags are liabilities even when they appear inactive, because they retain confusing and potentially executable paths. Version control provides a way to recover deleted code without leaving it embedded in production. Modularity also applies to releases and data formats: compatible interfaces let teams change one component without rebuilding the whole system. Small, understandable releases make effects easier to attribute and allow stability and development speed to reinforce each other.
+Source: text lines 3853–4118.
+
+Pip finds three ways to configure the same authorization rule. The service still needs authorization, but not every inherited complication. Clear modules, small interfaces, removed dead paths, and smaller releases make production behavior easier to understand and change.
 
 ## Essential and accidental complexity
 
-Essential complexity is imposed by the problem being solved; accidental complexity arises from how the solution is built. Serving correct results under load is a real requirement, while unnecessary layers or awkward implementation choices may add avoidable difficulty. SRE should challenge the latter because every extra behavior complicates diagnosis, testing, and change without necessarily delivering value to users.
+Pip finds three overlapping authorization configuration systems. Authorization is essential complexity imposed by the problem; redundant mechanisms may be accidental complexity in the solution. Every unnecessary behavior adds diagnostic, testing, and change costs. Pip challenges the extra layers without removing the real user requirement.
+
+Source: text lines 3853–4118.
 
 ## Delete dead behavior
 
-Unused code and permanently disabled features retain maintenance and reasoning costs. A flag may later change, reviving an untested path, while commented code distracts readers and becomes stale. After checking that a path is no longer needed, deletion removes those liabilities. Version history preserves the old implementation if future investigation requires it; production source need not serve as its archive.
+Pip spots a retired exporter behind a permanently disabled flag. Unused paths still cost maintenance and might revive untested when a flag changes. Pip verifies no supported deployment needs it, then deletes the dead behavior. Version history preserves the past without making production source its archive.
+
+Source: text lines 3853–4118.
 
 ## Small APIs and coherent modules
 
-A small API exposes only the operations needed for a clear purpose, reducing the surface that callers and maintainers must understand. Components with coherent responsibilities can be changed independently. Compatibility and versioning extend this independence across releases, avoiding a forced system-wide upgrade whenever one participant changes. A miscellaneous utility service with unrelated duties weakens that separation.
+Pip’s miscellaneous helper service makes every upgrade a group event. Small APIs and coherent responsibilities reduce what callers and maintainers must understand. Compatibility and versioning let a schema addition roll out while callers migrate later. Pip narrows the interface instead of forcing system-wide upgrades.
+
+Source: text lines 3853–4118.
 
 ## Small releases improve attribution
 
-A large release mixes many potential explanations for any performance or correctness change. Smaller releases narrow the set of suspects and make rollback or repair easier to reason about. Simple release procedures also help developers move faster because the effect of a change is visible sooner. The objective is understandable, controllable change rather than freezing a production system indefinitely.
+Pip ships fifty changes and cannot identify the latency regression. Smaller releases narrow suspects and simplify rollback or repair. Simple procedures expose effects sooner and help developers move faster. Pip aims for understandable, controllable change—not a production system frozen forever.
 
-## Apply it
+Source: text lines 3853–4118.
+
+## Transfer challenge: Delete a risky option
+
+A service has a legacy configuration flag that changes timeout behavior, is undocumented, and is never used in current traffic. Keeping it complicates testing.
+
+### Remove the dead flag after checking dependencies
+
+The state space shrinks and the remaining behavior is easier to reason about. A hidden consumer would need a migration path. The team searches callers, announces removal, and deletes the flag.
+
+### Keep every option for compatibility
+
+An unknown consumer is less likely to break. The unsupported path keeps complexity and failure modes alive. The flag remains and every future change must test it.
+
+Deleting an unused mode reduces the state space after compatibility is checked; keeping it preserves a hypothetical consumer at a permanent complexity cost.
+
+## Remove one unnecessary behavior
 
 Choose an obsolete feature flag or interface. Explain how to establish that it is unused, remove it, and verify that supported callers still work.
 
-Source: *Site Reliability Engineering*, chapter 9, text lines 3853–4118. This note is an original synthesis; the exercise is a teaching extension.
+- Accidental complexity
+- Dependency check
+- Small release

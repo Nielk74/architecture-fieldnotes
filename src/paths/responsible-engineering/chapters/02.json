@@ -3,7 +3,7 @@
   "title": "Creating AI Systems That Work Well for Everyone",
   "part": "Fairness",
   "subtitle": "Name the fairness goal and examine how different groups experience the system",
-  "summary": "AI systems can reproduce stereotypes or deliver unequal quality even when aggregate accuracy looks strong. Fairness definitions ask different questions about outcomes, qualifications, and errors, so selecting a metric requires context rather than treating every measure as interchangeable. Bias can enter through assumptions, representation in training data, labeling, and deployment conditions. Paired prompts and counterfactual comparisons help expose problematic associations, but generated content also needs informed human judgment. The image-generation case illustrates an iterative, cross-disciplinary response to harmful outputs. Improving fairness means identifying specific disparities and testing mitigations, while acknowledging that a single score cannot settle every social trade-off.",
+  "summary": "The town’s hiring system looks accurate, but Pip discovers unequal delivery behind the aggregate score. Fairness definitions examine different relationships among outcomes, qualifications, and errors; context determines which question matters. Bias can enter through assumptions, representation, labels, or deployment conditions. Pip uses paired prompts and counterfactual comparisons to expose associations, then asks informed reviewers to interpret them. The book’s image-generation case shows iterative, cross-disciplinary work. Identifying a specific disparity and testing a mitigation is more useful than treating one reassuring number as a complete answer.",
   "source": {
     "startLine": 746,
     "endLine": 1675,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Fairness definitions",
-      "body": "Fairness is not one interchangeable metric. Demographic parity asks whether groups receive an outcome at similar rates; equality of opportunity asks whether qualified people have comparable opportunities. A hiring-ad system can satisfy an overall exposure target while still excluding qualified people. Teams need to name the relevant fairness goal and examine errors across affected groups, rather than treating overall accuracy as evidence of fairness.",
-      "example": "Teaching extension: A hiring team distinguishes equal advertisement exposure across groups from equal selection rates among qualified applicants. It records which outcome each measure addresses before comparing results.",
-      "source": "text lines 746-1675"
+      "body": "The hiring dashboard tells Pip that advertisement exposure is balanced. A reviewer asks whether qualified applicants receive comparable opportunities. Those are different fairness questions: demographic parity compares outcome rates across groups; equality of opportunity concerns qualified people. An overall exposure target can coexist with exclusion. Pip names the relevant goal, records which outcome each measure addresses, and examines group-specific errors. Average accuracy cannot answer the fairness question by itself.",
+      "example": "",
+      "source": "text lines 746-1675",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "OUTCOME RATES",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "QUALIFICATIONS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "FAIRNESS GOAL",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks which fairness question the measure answers."
+          },
+          {
+            "node": "step-1",
+            "text": "Demographic parity compares outcome rates across groups."
+          },
+          {
+            "node": "step-3",
+            "text": "Choose a context-relevant goal and examine errors, not only averages."
+          }
+        ]
+      }
     },
     {
       "title": "Bias pathways",
-      "body": "Bias can enter through assumptions, selection of training data, the data itself, and operation. A model may inherit stereotypes, represent some groups sparsely, or encounter inputs unlike its training set. Locating the pathway suggests a mitigation.",
-      "example": "Teaching extension: A speech tool performs worse for one accent because that accent is scarce in its training recordings. The team investigates representation and labeling before assuming a different decision threshold will fix the problem.",
-      "source": "text lines 746-1675"
+      "body": "Pip’s speech tool understands one accent less well. Changing a threshold is tempting, but the team first inspects the pathway: assumptions, selected recordings, labels, the data itself, and operating conditions. The accent is scarcely represented in training. Models can inherit stereotypes or encounter inputs unlike those learned from. Locating the source of a disparity helps choose a mitigation instead of adjusting a convenient control and hoping.",
+      "example": "",
+      "source": "text lines 746-1675",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "TRAINING RECORDS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "colleague",
+            "label": "MISSED ACCENT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "trace",
+            "label": "BIAS PATHWAY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip investigates where the disparity entered."
+          },
+          {
+            "node": "step-1",
+            "text": "Inspect assumptions, representation, labels, and operating data."
+          },
+          {
+            "node": "step-3",
+            "text": "The pathway guides a mitigation; a threshold change is not an automatic fix."
+          }
+        ]
+      }
     },
     {
       "title": "Counterfactual tests",
-      "body": "Counterfactual fairness changes a sensitive attribute while holding other prompt or situation details constant, then compares outputs. Placeholder prompts and paired examples make stereotyped associations visible in generative systems.",
-      "example": "Teaching extension: Reviewers compare otherwise matching job-description prompts that vary a gender cue. Differences in suggested roles reveal an association to investigate, rather than proving every aspect of the system is fair.",
-      "source": "text lines 746-1675"
+      "body": "Pip places two matching job-description prompts side by side and changes only a gender cue. The suggested roles differ. Paired examples and placeholder prompts make stereotyped associations visible by holding details constant. This counterfactual test supplies a clue to investigate; it does not certify aspects of the system as fair. Pip asks reviewers to examine what changed and why it matters.",
+      "example": "",
+      "source": "text lines 746-1675",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "PROMPT A",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "PAIRED PROMPT B",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "experiment",
+            "label": "COMPARE OUTPUTS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip prepares a controlled comparison."
+          },
+          {
+            "node": "step-1",
+            "text": "Keep the original situation details fixed."
+          },
+          {
+            "node": "step-3",
+            "text": "A changed output exposes an association to investigate, not complete proof of fairness."
+          }
+        ]
+      }
     },
     {
       "title": "Accuracy and harm",
-      "body": "A system can be accurate on average while serving groups differently, and an output can be hard to label because captions or generated images have no single objectively correct answer. Fairness evaluation therefore combines metrics, human review, and context.",
-      "example": "Teaching extension: A captioning model has a strong overall score but repeatedly misidentifies assistive devices. Affected users help evaluate this concentrated harm that the aggregate score conceals.",
-      "source": "text lines 746-1675"
+      "body": "The captioning model earns an overall score but keeps misidentifying assistive devices. Pip invites affected users to examine that concentrated harm. Aggregate accuracy can hide unequal quality, and generated captions or images may lack one objectively correct answer. Fairness evaluation therefore needs metrics, informed human judgment, and context together. The team tests a specific mitigation rather than asking the average score to speak for every person.",
+      "example": "",
+      "source": "text lines 746-1675",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "STRONG AVERAGE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "phone",
+            "label": "REPEATED MISLABEL",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "listening",
+            "label": "AFFECTED USERS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip looks beyond the overall score."
+          },
+          {
+            "node": "step-1",
+            "text": "Average accuracy can conceal unequal quality."
+          },
+          {
+            "node": "step-3",
+            "text": "Combine metrics with affected people’s judgment and context."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -47,22 +299,22 @@
   ],
   "scenario": {
     "title": "Parity in job advertising",
-    "context": "An advertising system delivers doctor job ads more often to men, although gender targeting is not an intended product goal. The team has limited time and must decide how to measure and change delivery without eliminating legitimate relevance.",
+    "context": "Pip finds doctor job ads reaching men more often, despite no intended gender targeting. The town team has limited time to investigate delivery while preserving legitimate relevance.",
     "options": [
       {
         "label": "Audit delivery by group and add a parity safeguard",
-        "benefit": "Makes unequal opportunity visible and tests whether the intervention changes outcomes.",
-        "cost": "Monitoring and experimentation consume engineering time and may reduce some targeting efficiency.",
-        "consequence": "The team finds a delivery feedback loop and adjusts it before expanding campaigns."
+        "benefit": "The team can see unequal delivery and test whether a safeguard helps.",
+        "cost": "Monitoring and experiments take time and may reduce targeting efficiency.",
+        "consequence": "Pip and the reviewers find a delivery feedback loop and test changes before expanding the campaign."
       },
       {
         "label": "Leave targeting unchanged",
-        "benefit": "Avoids immediate disruption to advertisers and existing metrics.",
-        "cost": "The disparity remains hidden behind aggregate click-through rates.",
-        "consequence": "A later audit shows unequal opportunity, forcing a rushed policy and advertiser communication effort."
+        "benefit": "Advertisers see no immediate change to familiar metrics.",
+        "cost": "The disparity stays hidden behind aggregate click-through rates.",
+        "consequence": "A later audit forces rushed policy and advertiser communication. The unequal delivery did not disappear when Pip stopped looking."
       }
     ],
-    "debrief": "Both choices are defensible under different constraints; the responsible decision states the accepted consequence and the evidence that could change it."
+    "debrief": "Pip names the fairness goal and its trade-offs before changing delivery. An improved aggregate score cannot substitute for checking affected groups."
   },
   "quiz": [
     {
@@ -117,69 +369,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "n0",
-        "label": "FAIRNESS",
-        "kind": "whiteboard",
-        "tone": "sage",
-        "x": 100,
-        "y": 80
-      },
-      {
-        "id": "n1",
-        "label": "DATA",
-        "kind": "database",
-        "tone": "peach",
-        "x": 270,
-        "y": 80
-      },
-      {
-        "id": "n2",
-        "label": "TESTS",
-        "kind": "experiment",
-        "tone": "lilac",
-        "x": 100,
-        "y": 210
-      },
-      {
-        "id": "n3",
-        "label": "REVIEW",
-        "kind": "shield",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 270,
-        "y": 210
+        "course": "responsible-engineering"
+      },
+      {
+        "id": "step-1",
+        "kind": "gauge",
+        "label": "OUTCOME RATES",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "document",
+        "label": "QUALIFICATIONS",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "balance",
+        "label": "FAIRNESS GOAL",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "n0",
-        "to": "n1"
+        "from": "step-0",
+        "to": "step-1",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "n1",
-        "to": "n2"
+        "from": "step-1",
+        "to": "step-2",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "n2",
-        "to": "n3"
+        "from": "step-2",
+        "to": "step-3",
+        "flow": false,
+        "dashed": true
       }
     ],
     "steps": [
       {
-        "node": "n0",
-        "text": "Examine fairness using the chapter evidence."
+        "node": "step-0",
+        "text": "Pip asks which fairness question the measure answers."
       },
       {
-        "node": "n1",
-        "text": "Examine data using the chapter evidence."
+        "node": "step-1",
+        "text": "Demographic parity compares outcome rates across groups."
       },
       {
-        "node": "n2",
-        "text": "Examine tests using the chapter evidence."
-      },
-      {
-        "node": "n3",
-        "text": "Examine review using the chapter evidence."
+        "node": "step-3",
+        "text": "Choose a context-relevant goal and examine errors, not only averages."
       }
     ]
+  },
+  "story": {
+    "course": "responsible-engineering",
+    "world": "civic",
+    "title": "The job advert takes a biased route"
   }
 }

@@ -3,7 +3,7 @@
   "title": "Load Balancing at the Frontend",
   "part": "Distributed systems",
   "subtitle": "Route users across regions, then preserve their connections",
-  "summary": "Frontend load balancing operates at several levels because location choice and packet forwarding solve different problems. A latency-sensitive request usually benefits from a nearby healthy datacenter, while a large upload may benefit more from available bandwidth. DNS can steer traffic before a connection begins, but recursive resolvers hide user locations, aggregate many users, and cache answers. Capacity and network health therefore matter alongside distance. A virtual IP then distributes connections among backends while presenting one stable address. Connection tracking or consistent hashing preserves affinity as packets arrive and backend membership changes. Direct server response and packet encapsulation reduce forwarding constraints, with encapsulation adding packet overhead that must fit the network’s MTU.",
+  "summary": "Pip routes every request to the nearest region and overloads it. Global balancing needs demand, capacity, network conditions, and connection continuity. DNS caching and packet-forwarding choices add constraints that a simple geographic map cannot show.",
   "source": {
     "startLine": 7876,
     "endLine": 8106,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Global routing objectives",
-      "body": "The best destination depends on the request and the layer making the decision. Low round-trip latency matters for interactive queries, whereas throughput can dominate a large upload. Global routing must also account for available serving capacity, link congestion, and infrastructure health. Choosing the geographically nearest site alone can therefore send traffic to a destination that cannot serve it well.",
-      "example": "Teaching extension: A nearby region is congested, so an upload takes a less busy path even though its round-trip time is longer.",
-      "source": "text lines 7876–8106"
+      "body": "Pip sends a large upload to the geographically nearest site. Interactive queries favor round-trip latency, while uploads may favor throughput. Capacity, link congestion, and infrastructure health can outweigh distance. Pip chooses a less congested route when it serves the actual request better.",
+      "example": "",
+      "source": "text lines 7876–8106",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "phone",
+            "label": "REQUEST NEED",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "NEAREST OR CLEARER",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "CAPACITY + CONGESTION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip sends a large upload to the geographically nearest site."
+          },
+          {
+            "node": "step-1",
+            "text": "Interactive queries favor round-trip latency, while uploads may favor throughput."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip chooses a less congested route when it serves the actual request better."
+          }
+        ]
+      }
     },
     {
       "title": "DNS steering and resolver uncertainty",
-      "body": "Authoritative DNS responses can select a destination before the client opens a connection. Usually the query comes through a recursive resolver, so the observed address may represent many geographically dispersed users. Cached answers delay routing changes and make each response’s traffic impact uncertain. Resolver population estimates, client-subnet information where available, and capacity signals improve decisions without removing these limitations.",
-      "example": "Teaching extension: Changing a DNS answer does not immediately move clients whose resolver still holds the previous answer.",
-      "source": "text lines 7876–8106"
+      "body": "Pip changes a DNS answer, but old traffic keeps arriving. Recursive resolvers can represent dispersed users, and cached answers delay steering changes. Resolver populations, available client-subnet information, and capacity signals improve destination estimates. Pip accounts for uncertainty in how much traffic each authoritative answer will move.",
+      "example": "",
+      "source": "text lines 7876–8106",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "router",
+            "label": "RECURSIVE RESOLVER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "CACHED ANSWER",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "deployment",
+            "label": "DESTINATION CAPACITY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip changes a DNS answer, but old traffic keeps arriving."
+          },
+          {
+            "node": "step-1",
+            "text": "Recursive resolvers can represent dispersed users, and cached answers delay steering changes."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip accounts for uncertainty in how much traffic each authoritative answer will move."
+          }
+        ]
+      }
     },
     {
       "title": "VIP affinity and consistent hashing",
-      "body": "A virtual IP hides a backend pool behind one client-visible destination. Stateful connections need their packets to reach the same backend. A simple hash modulo the backend count remaps many connections when membership changes. Consistent hashing limits this remapping, while connection tracking can retain existing assignments. These mechanisms address connection continuity; they do not themselves prove that every backend has equal load.",
-      "example": "Teaching extension: Removing one of ten servers should disturb the connections assigned to that server rather than nearly the whole pool.",
-      "source": "text lines 7876–8106"
+      "body": "Pip removes one backend and nearly every connection changes destination. A virtual IP hides the pool, but stateful packets still need backend affinity. Hash-modulo membership changes remap broadly; consistent hashing limits disruption, and connection tracking can retain assignments. Pip distinguishes continuity from proof that backend load is equal.",
+      "example": "",
+      "source": "text lines 7876–8106",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "gateway",
+            "label": "VIRTUAL IP",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "CONSISTENT HASH",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "service",
+            "label": "CONNECTION AFFINITY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip removes one backend and nearly every connection changes destination."
+          },
+          {
+            "node": "step-1",
+            "text": "A virtual IP hides the pool, but stateful packets still need backend affinity."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip distinguishes continuity from proof that backend load is equal."
+          }
+        ]
+      }
     },
     {
       "title": "Direct replies and encapsulation",
-      "body": "Direct server response lets a backend reply to the client without sending the response through the load balancer, reducing forwarding work for response-heavy traffic. Forwarding by changing a destination MAC address restricts the backend pool to a shared layer-two domain. IP encapsulation removes that locality constraint by tunneling the packet to its backend, but the additional headers consume MTU space and can cause fragmentation.",
-      "example": "Teaching extension: A tunneled packet that fits on the public link may need a larger internal MTU after its outer headers are added.",
-      "source": "text lines 7876–8106"
+      "body": "Pip sends backend replies directly to clients to reduce load-balancer forwarding work. MAC rewriting confines backends to a shared layer-two domain. IP encapsulation permits remote backends by tunneling packets. Pip budgets outer-header MTU space because a public-link-sized packet may fragment on the internal path.",
+      "example": "",
+      "source": "text lines 7876–8106",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "DIRECT REPLY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "IP TUNNEL",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "MTU HEADROOM",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip sends backend replies directly to clients to reduce load-balancer forwarding work."
+          },
+          {
+            "node": "step-1",
+            "text": "MAC rewriting confines backends to a shared layer-two domain."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip budgets outer-header MTU space because a public-link-sized packet may fragment on the internal path."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,76 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Plan a frontend traffic shift",
     "nodes": [
       {
-        "id": "observe",
-        "label": "Client",
-        "caption": "User connection",
-        "kind": "person",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "DNS",
-        "caption": "Regional steering",
-        "kind": "router",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "VIP",
-        "caption": "Connection affinity",
-        "kind": "gateway",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "Backend",
-        "caption": "Request processing",
-        "kind": "service",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "phone",
+        "label": "REQUEST NEED",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "router",
+        "label": "NEAREST OR CLEARER",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "gauge",
+        "label": "CAPACITY + CONGESTION",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "A user needs a reachable destination before connecting."
+        "node": "step-0",
+        "text": "Pip sends a large upload to the geographically nearest site."
       },
       {
-        "node": "decide",
-        "text": "Choose a healthy region while accounting for resolver caching."
+        "node": "step-1",
+        "text": "Interactive queries favor round-trip latency, while uploads may favor throughput."
       },
       {
-        "node": "act",
-        "text": "Map packets to a backend while preserving connection affinity."
-      },
-      {
-        "node": "learn",
-        "text": "Serve the request; direct replies can avoid the balancer."
+        "node": "step-3",
+        "text": "Pip chooses a less congested route when it serves the actual request better."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "The nearest harbor is not the fastest route"
   }
 }

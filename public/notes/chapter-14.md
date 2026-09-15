@@ -1,19 +1,65 @@
 # Chapter 14: Event-Driven Architecture Style
 
-Event-driven architecture is a distributed asynchronous style built from components that receive and process events independently. The chapter first separates request-based and event-based interaction. A request is a deterministic operation, such as retrieving order history. An event is a situation to which the system reacts, such as a bid or a placed order. Requests favor certainty and workflow control; events suit dynamic action, responsiveness, scale, and extension (source lines 6539–6601, printed pp. 179–180).
+*Pip’s adventure: An order is accepted before it is finished. Fictional teaching story; concepts follow the cited source.*
 
-The broker topology has no central mediator. An initiating event enters a broker channel, one event processor performs a task, and that processor publishes a processing event. Other processors listen and react, often in parallel. Topics and publish/subscribe create strong decoupling and useful back pressure. A processor can advertise what it did even when nobody currently listens, creating a hook for future functionality. In the retail example, order-created reaches notification, payment, and inventory; payment then publishes success or denial, and fulfillment listens for success. The broker's strengths are responsiveness, performance, scale, fault tolerance, and extension. Its weaknesses are equally structural: no component owns the full workflow, failure can leave later work proceeding, and restart and recovery are difficult (lines 6602–6770; pp. 180–184).
+Source: printed pp. 179–209.
 
-The mediator topology addresses that gap. An initiating event enters a queue; the mediator issues commands to dedicated event channels, records progress, waits for acknowledgements, and can stop, repair, and restart a workflow. Simple, hard, and complex flows may be delegated to tools with the appropriate orchestration capability. In the order example, create-order completes first, payment, email, and inventory run in parallel, fulfillment follows their acknowledgements, and shipping comes later. The mediator knows when an expired card prevents progress and can resume after payment is fixed. The price is a coupling point that must scale, lower performance, and less independent processor behavior (lines 6771–6992; pp. 185–195).
+Pip’s bookshop accepts an order quickly, then discovers payment failed downstream. Events can improve responsiveness and extension, but the workflow still needs ownership, status, and recovery. Pip compares a reacting broker network with an explicitly coordinating mediator.
 
-Asynchronous communication improves responsiveness without necessarily improving end-to-end performance. A comment service can acknowledge a post quickly while moderation continues for seconds; the user still needs a later rejection or status path. Request-reply preserves asynchronous transport while providing a needed result through request and reply queues. Correlation IDs are the usual matching mechanism; temporary reply queues are simpler but add broker work (lines 6993–7153; pp. 195–196, 203–206).
+## Request or event
 
-Errors and delivery require explicit topology. A workflow event processor can receive a consumer error, repair and resubmit the message, or send it to a human dashboard. Resubmission can violate ordering, so messages sharing an account or other key may wait in a FIFO hold. Persistent queues and synchronous send protect the producer-to-queue boundary; client acknowledgement protects a message after dequeue; an ACID commit and final acknowledgement protect the queue-to-database boundary. These source techniques address loss windows, while idempotent consumers remain a teaching extension for possible duplicate delivery. Broadcasts let unknown subscribers observe facts, while shared databases and request-reply dependencies can still place processors in one quantum (lines 7041–7521; pp. 197–209).
+Pip asks for six months of order history, then places a new order. The first is a well-defined request; the second announces a situation downstream processors can react to. Synchronous orchestration favors certainty and control, while event-driven work favors responsive, scalable extension. Pip distinguishes the interaction itself, not simply whether a broker exists.
 
-The lesson's bookstore and expired-card scenario is a teaching extension. Its workload and policy are invented, while the broker/mediator choices, repair, acknowledgement, and ordering mechanisms are source-grounded. The visual makes the path logical: durable initiating event, broker or mediator, processors, repair queue, and persisted outcome. The key learner decision is whether control and recoverability repay the mediator's coupling.
+Source: pp. 179–180, 206.
 
-## Source map
+## Broker topology
 
-- Request/event distinction and broker: source lines 6539–6770, printed pp. 179–184.
-- Mediator workflow and trade-offs: source lines 6771–6992, printed pp. 185–195.
-- Asynchronous semantics, repair, delivery, broadcast, and request-reply: source lines 6993–7521, printed pp. 195–209.
+Pip publishes order-created and notification, payment, and inventory react. Broker channels connect initiating events, processors, and the processing events they publish. Topics support broadcast and back pressure; analytics can subscribe without changing publishers. Pip gains decoupling but no single component knows the whole workflow or when it is complete.
+
+Source: pp. 180–184.
+
+## Mediator topology
+
+Pip’s order mediator pauses when an expired card blocks payment. It tracks state, sends commands through dedicated queues, waits for acknowledgments, and can resume from a completed step. Parallel work, persistence, domain-specific mediators, and appropriate orchestration tools support more complex flows. Pip accepts central workflow coupling and possible scale or performance limits for clearer control and recovery.
+
+Source: pp. 185–195.
+
+## Responsiveness is not performance
+
+Pip’s comment post returns in 25 milliseconds while moderation takes 3,000. Fast acknowledgment improves responsiveness without necessarily shortening end-to-end processing. Rejected work still needs notification or status; acceptance is a promise, not completion. Pip uses correlation IDs for request-reply queues, or accepts the broker overhead of temporary reply queues.
+
+Source: pp. 195–196, 203–206.
+
+## Repair, ordering, and delivery
+
+Pip’s error processor normalizes “8756 SHARES” and resubmits the record. Repair or human escalation can disrupt order, so related account messages may need a temporary FIFO hold. Persistent queues, synchronous send, client acknowledgment, ACID persistence, and final queue acknowledgment address loss windows. Pip still handles duplicates idempotently; durability alone does not guarantee exactly one effect.
+
+Source: pp. 197–202.
+
+## Characteristics and hybrid use
+
+Pip adds analytics and audit subscribers to price events without changing the publisher. Broker and mediator flows can coexist, often improving scale, performance, fault tolerance, and evolution. Dynamic event trees reduce simplicity and testability, while shared data or request-reply coupling can still bind one quantum. Pip pays that complexity only where responsiveness and adaptability justify it.
+
+Source: pp. 203–209.
+
+## Transfer challenge: Order events with an expired card
+
+An online bookstore wants immediate order acknowledgement during traffic spikes. Notification, inventory, and payment can often proceed independently, but an order must not ship until payment is accepted. The team also needs a clear response when a card is expired and must decide whether to optimize for maximum throughput or controlled recovery with no forced synchronous page during a major sale window.
+
+### Broker topology
+
+Independent processors run in parallel, scale separately, and new subscribers can observe published events without changing existing senders. No central owner knows workflow completion; payment failure can leave inventory changed and makes restart and compensation difficult. The customer receives an order ID quickly and notification and inventory proceed beside payment. A denied payment needs explicit compensating events and operational repair because fulfillment cannot infer the whole state.
+
+### Mediator topology
+
+A mediator tracks steps, waits for acknowledgements, pauses on payment failure, and resumes after the card is repaired. The mediator adds coupling, state management, and a possible throughput bottleneck, reducing the broker's maximum parallelism. Inventory and notification can run in parallel, but shipping is held until all required acknowledgements arrive. The persisted workflow can restart at fulfillment after payment succeeds and the card is repaired.
+
+Choose the broker when decoupling, scale, and dynamic extension dominate; choose the mediator when a business workflow needs control, recovery, and a known completion state. A hybrid can use both for different parts of the process.
+
+## Name the promise your event makes
+
+Design one event flow and state what is acknowledged immediately, what outcome arrives later, how a failure is repaired, and which ordering key must be preserved.
+
+- Context
+- Decision
+- Trade-off

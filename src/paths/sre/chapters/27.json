@@ -3,7 +3,7 @@
   "title": "Reliable Product Launches at Scale",
   "part": "Data systems",
   "subtitle": "Coordinate launch risks before exposing users to them",
-  "summary": "A reliable launch requires more than production code: traffic spikes, client behavior, dependencies, rollout order, and hard external deadlines can combine into unfamiliar risks. Google’s Launch Coordination Engineers bring experience across products, connect stakeholders, and turn common failure lessons into practical review questions. The checklist must remain short enough to use, concrete enough to act on, and adaptable to novel products. Architecture and capacity reviews include downstream demand, while load tests establish behavior beyond ordinary traffic. Gradual rollouts, feature flags, and rollback plans make exposure controllable. Shared infrastructure simplifies common requirements. Launch coordination helps teams change safely, but it cannot by itself solve long-term architectural limits, growing toil, or disruptive infrastructure churn after launch.",
+  "summary": "Pip’s harbor launch plan forgets a shared imagery dependency. A coordinator connects the affected teams before publicity turns into production load. Practical checklists, staged activation, capacity forecasts, and bounded client behavior make launch readiness more than a final approval.",
   "source": {
     "startLine": 12623,
     "endLine": 13347,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Launch coordination as technical integration",
-      "body": "A launch coordinator connects teams whose individual plans interact: product development, SRE, infrastructure owners, and other stakeholders. Cross-product experience helps identify overlooked dependencies and make reliability risks explicit. The role combines technical review, follow-through, education, and a decision about readiness. Its value comes from helping a launch converge safely, not simply collecting approvals at the end of development.",
-      "example": "Teaching extension: A public event’s expected traffic is translated into requests to an imagery dependency whose owners were not initially on the launch plan.",
-      "source": "text lines 12623–13347"
+      "body": "Pip translates opening-day traffic into demand on the imagery service nobody invited. Launch coordination connects product, SRE, infrastructure, and other stakeholders whose plans interact. Technical review, education, follow-through, and readiness decisions expose dependencies early. Pip helps the launch converge safely instead of collecting signatures at the end.",
+      "example": "",
+      "source": "text lines 12623–13347",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "ferry",
+            "label": "PUBLIC LAUNCH",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "api",
+            "label": "HIDDEN DEPENDENCY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "COORDINATED READINESS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip translates opening-day traffic into demand on the imagery service nobody invited."
+          },
+          {
+            "node": "step-1",
+            "text": "Launch coordination connects product, SRE, infrastructure, and other stakeholders whose plans interact."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip helps the launch converge safely instead of collecting signatures at the end."
+          }
+        ]
+      }
     },
     {
       "title": "A curated, actionable checklist",
-      "body": "A useful launch checklist records consequential questions and directs teams toward practical actions or established infrastructure. Each item needs a reason to exist, ideally grounded in an observed failure. Reviewers remove obsolete requirements and adapt the underlying intent for unfamiliar products. Common low-risk launches can take a shorter path, preserving attention for launches whose architecture or exposure creates greater uncertainty.",
-      "example": "Teaching extension: A question about abuse protection links to the supported quota system instead of requiring each team to invent one.",
-      "source": "text lines 12623–13347"
+      "body": "Pip’s checklist asks about abuse protection and points to the supported quota system. Consequential questions need reasons, ideally grounded in observed failures, and actionable responses. Reviewers remove stale items and adapt their intent for unfamiliar products. Pip gives routine low-risk launches a shorter path so uncertain launches receive attention.",
+      "example": "",
+      "source": "text lines 12623–13347",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "ACTIONABLE CHECKLIST",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "shield",
+            "label": "SUPPORTED CONTROLS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "RISK-BASED REVIEW",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s checklist asks about abuse protection and points to the supported quota system."
+          },
+          {
+            "node": "step-1",
+            "text": "Consequential questions need reasons, ideally grounded in observed failures, and actionable responses."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip gives routine low-risk launches a shorter path so uncertain launches receive attention."
+          }
+        ]
+      }
     },
     {
       "title": "Staged exposure and feature controls",
-      "body": "Gradual rollout exposes a limited population first, observes behavior, and expands only after validation. Feature flags can separate code delivery from feature activation and permit independent reversal of a problematic feature. This is particularly useful for installed clients that cannot be replaced instantly. Rollout planning still needs clear owners, ordering, observation periods, and contingencies for an external deadline.",
-      "example": "Teaching extension: An app ships dormant functionality, then a server-controlled flag enables it for a small population while backend demand is observed.",
-      "source": "text lines 12623–13347"
+      "body": "Pip ships dormant app functionality before enabling it for a small population. Feature flags separate delivery from activation and allow independent reversal, especially for clients that cannot update instantly. Gradual exposure expands after observed validation. Pip assigns owners, ordering, observation periods, and deadline contingencies before the launch.",
+      "example": "",
+      "source": "text lines 12623–13347",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "phone",
+            "label": "INSTALLED CLIENT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gateway",
+            "label": "FEATURE FLAG",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "STAGED OBSERVATION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip ships dormant app functionality before enabling it for a small population."
+          },
+          {
+            "node": "step-1",
+            "text": "Feature flags separate delivery from activation and allow independent reversal, especially for clients that cannot update instantly."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip assigns owners, ordering, observation periods, and deadline contingencies before the launch."
+          }
+        ]
+      }
     },
     {
       "title": "Launch load and client behavior",
-      "body": "Publicity can produce traffic far above normal demand, and automated clients can multiply backend load without an increase in user count. Capacity planning should include request fan-out, redundancy, dependency capacity, and acquisition lead times. Load tests must examine overload behavior. Jittered schedules and bounded, backed-off retries prevent synchronized clients from turning a short service disruption into repeated traffic spikes.",
-      "example": "Teaching extension: Changing a mobile sync interval from ten minutes to one minute increases its periodic request load tenfold.",
-      "source": "text lines 12623–13347"
+      "body": "Pip changes mobile sync from ten minutes to one and multiplies periodic load tenfold. Capacity planning includes fan-out, redundancy, dependencies, acquisition lead times, and publicity spikes. Load tests must exercise overload, not only expected demand. Pip adds jitter and bounded backed-off retries so synchronized clients do not repeatedly amplify a disruption.",
+      "example": "",
+      "source": "text lines 12623–13347",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "10× SYNC LOAD",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "DEPENDENCY CAPACITY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "shield",
+            "label": "JITTER + RETRY LIMITS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip changes mobile sync from ten minutes to one and multiplies periodic load tenfold."
+          },
+          {
+            "node": "step-1",
+            "text": "Capacity planning includes fan-out, redundancy, dependencies, acquisition lead times, and publicity spikes."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip adds jitter and bounded backed-off retries so synchronized clients do not repeatedly amplify a disruption."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,76 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Specify a launch gate",
     "nodes": [
       {
-        "id": "observe",
-        "label": "Review",
-        "caption": "Launch risks",
-        "kind": "document",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "Canary",
-        "caption": "Limited exposure",
-        "kind": "deployment",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "Gate",
-        "caption": "Capacity evidence",
-        "kind": "gauge",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "Rollout",
-        "caption": "Staged expansion",
-        "kind": "router",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "ferry",
+        "label": "PUBLIC LAUNCH",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "api",
+        "label": "HIDDEN DEPENDENCY",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "team",
+        "label": "COORDINATED READINESS",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "Identify architecture, dependency, capacity, and client risks."
+        "node": "step-0",
+        "text": "Pip translates opening-day traffic into demand on the imagery service nobody invited."
       },
       {
-        "node": "decide",
-        "text": "Expose a small cohort and observe real behavior."
+        "node": "step-1",
+        "text": "Launch coordination connects product, SRE, infrastructure, and other stakeholders whose plans interact."
       },
       {
-        "node": "act",
-        "text": "Compare user outcomes and resource headroom with launch criteria."
-      },
-      {
-        "node": "learn",
-        "text": "Expand in stages or reverse the feature when criteria fail."
+        "node": "step-3",
+        "text": "Pip helps the launch converge safely instead of collecting signatures at the end."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "Opening day arrives all at once"
   }
 }

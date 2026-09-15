@@ -1,27 +1,53 @@
-# 17. Cheap and Accurate Enough: Sampling
+# Chapter 17: Cheap and Accurate Enough: Sampling
 
-Spend retention on signal and preserve sampling weights
+*Pip’s adventure: Which clues survived the sample?. Fictional teaching story; concepts follow the cited source.*
 
-Sampling reduces telemetry cost while retaining detailed examples for investigation, but its design determines which questions remain trustworthy. Constant probability is simple and can represent common traffic, yet rare errors or low-volume tenants may disappear. Head sampling decides early without knowing the outcome; tail sampling can favor interesting completed traces but requires buffering and coordination. Dynamic rates and sampling keys allocate attention across changing traffic and uncommon cohorts. These choices also affect analysis. When retention probabilities differ, counts and distributions must account for how much traffic each retained event represents. Such estimates remain uncertain, and no weight recovers a cohort that had no chance of retention. Cost control therefore needs both a selection policy and honest interpretation of the resulting evidence.
+Source: text lines 7403–8053.
+
+Pip reduces telemetry volume and loses a rare customer failure. Sampling preserves complete retained events, not every event. Head, tail, and adaptive choices see different information; known retention probabilities support honest estimates without recreating discarded details.
 
 ## Constant probability preserves examples
 
-Keeping each event with the same probability retains its full recorded attributes while reducing volume. It can represent frequent behavior well, but a small or rare cohort may leave no examples. Unlike aggregation, sampling preserves the context of retained requests; unlike complete capture, it cannot guarantee that the particular failure a customer reports survived.
+Pip retains each event with a constant 1% probability. Frequent behavior may remain representative, but one unusual failure is very likely absent. Sampling preserves the full recorded context of retained requests unlike aggregation. Pip cannot promise that a particular customer’s event survived or that every small cohort has an example.
+
+Source: text lines 7403–8053.
 
 ## Head and tail know different facts
 
-Head sampling decides near request entry, before the final status or duration is known. Tail sampling waits for outcome information and can preferentially retain errors or slow traces. That additional knowledge requires handling spans while the decision is pending and coordinating trace retention; collecting more outcome context is not operationally free.
+Pip wants to keep error traces after their outcome is known. Head sampling decides near entry, before final status or duration; tail sampling waits for that information. Errors and slow traces can then receive preference. Pip budgets pending-span handling and coordinated retention because the extra knowledge has operational costs.
+
+Source: text lines 7403–8053.
 
 ## Dynamic rates protect useful cohorts
 
-A rate can adapt to recent traffic to stay near a telemetry budget. Sampling by keys, such as tenant and outcome, can also keep high-volume sources from overwhelming rare populations. The key design matters: a globally adequate sample can still hide a quiet customer, and an error surge can overwhelm a policy that retains every error unconditionally.
+Pip’s busiest stall overwhelms quieter tenants in the global sample. Dynamic rates can adapt to recent volume and sampling keys such as tenant and outcome. Rare cohorts need deliberate retention, while keeping every error can fail during an error surge. Pip designs rates around both useful evidence and the telemetry budget.
+
+Source: text lines 7403–8053.
 
 ## Weights enable honest estimates
 
-For known nonzero retention probability p, a retained event represents an inverse-probability weight of 1/p. Unequal probabilities require weighted counts and distributions rather than naïve averages over retained rows. Weighting estimates the original population; it does not restore discarded request details, eliminate sampling variance, or justify inference about events assigned zero retention probability.
+Pip keeps successes at 1% and errors at 100%. Their inverse-probability weights are 100 and 1, so unequal retention requires weighted counts and distributions. Known nonzero probability supports estimates, not naïve averages over rows. Pip cannot restore discarded detail, remove variance, or infer populations given zero retention probability.
 
-## Apply it
+Source: text lines 7403–8053.
+
+## Transfer challenge: The sampled error rate looks enormous
+
+Every error is retained while only 1% of successes survive; the raw stored rows look mostly unhealthy.
+
+### Apply recorded inverse-probability weights
+
+Produces an estimate that accounts for unequal retention. Still has sampling uncertainty and cannot recreate missing examples. The estimated service rate differs from the intentionally error-heavy composition of stored rows.
+
+### Report the unweighted retained-row percentage
+
+Describes the composition of the stored sample. Misrepresents the service population under unequal selection. Stakeholders may infer a severe production failure from a deliberately biased sample.
+
+Name whether a result describes retained data or estimates original traffic, and preserve probabilities needed for the latter.
+
+## Design a sampling policy
 
 Specify how to preserve a rare customer cohort while keeping telemetry volume manageable.
 
-Source: *Observability Engineering*, chapter 17; supplied text lines 7403–8053. These notes are an original synthesis; examples and activities are illustrative.
+- Selection time and sampling key
+- Probability and recorded weight
+- Failure cases and uncertainty

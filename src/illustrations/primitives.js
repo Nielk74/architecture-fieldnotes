@@ -1,6 +1,8 @@
 import {peopleGeometry,peopleDescriptions} from './people.js';
+import {storyDescriptions,storyGeometry} from './story-geometry.js';
 // Role-specific SVG silhouettes. Shared palette, motion and labeling come from engine.js.
 export const primitiveDescriptions = {
+ ...storyDescriptions,
  ...peopleDescriptions,
  boundary:'Scope boundary: a dashed frame around related elements',
  source:'Data source: records emitted through an outgoing arrow',
@@ -23,6 +25,7 @@ export const primitiveDescriptions = {
  blueprint:'Architecture view: connected nodes on a drawing board',
 };
 export function roleGeometry(kind,p){
+ const story=storyGeometry(kind,p);if(story)return story;
  const people=peopleGeometry(kind,p);if(people)return people;
  const paper=p.top,side=p.left,front=p.right,ink=p.ink;
  const screen=inside=>`<path d="m-46-36 84-16 9 7v65l-84 17-9-7Z" fill="${side}"/><path d="m-37-29 84-16v65l-84 17Z" fill="${paper}"/><path d="m-37-16 84-16"/><circle cx="-29" cy="-24" r="2" fill="${ink}"/><circle cx="-21" cy="-26" r="2" fill="${ink}"/>${inside}`;

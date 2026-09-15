@@ -3,7 +3,7 @@
   "title": "Incorporating Societal Context",
   "part": "Context",
   "subtitle": "Make the people, assumptions, and feedback around software visible",
-  "summary": "A deployed system participates in a social environment that changes its behavior and is changed by it. Identifying agents, precepts, and artifacts makes people, beliefs, institutions, and infrastructure visible before they disappear inside a simplified technical model. Causal assumptions and feedback diagrams help teams discuss how an intervention might alter later inputs or outcomes. The health-care example shows why a convenient proxy can misrepresent the need the system is meant to address. The toxicity-classification case shows the value of examining data with specialists and responding constructively to criticism. A useful model remains open to revision as context changes.",
+  "summary": "Pip draws a benefits portal as inputs and outputs. Residents and caseworkers add documents, transport, institutions, beliefs, and changing practices: the surrounding social system matters. Agents, precepts, and artifacts make those forces visible. Explicit causal assumptions and loops show how an intervention might change later behavior and data. The book’s health-care example warns that a convenient proxy can misrepresent need; its toxicity-classification case shows the value of specialists and constructive criticism. Pip treats the model as revisable evidence for discussion, not a complete description of society.",
   "source": {
     "startLine": 1676,
     "endLine": 2317,
@@ -12,27 +12,285 @@
   "concepts": [
     {
       "title": "Societal context",
-      "body": "Societal context is a dynamic complex system surrounding software. It includes agents such as users and institutions, precepts or beliefs held by those agents, and artifacts such as laws, interfaces, datasets, and physical infrastructure.",
-      "example": "Teaching extension: A benefits portal depends on applicants’ access to documents, caseworkers’ practices, and local institutions. Its team studies those relationships instead of modeling eligibility as a form submission alone.",
-      "source": "text lines 1676-2317"
+      "body": "Pip draws the benefits portal as one form and one decision. Residents add missing pieces: access to documents, caseworker practices, local institutions, and physical infrastructure. Societal context is a changing complex system around the software. Its agents include people and institutions, its precepts include their beliefs, and its artifacts include interfaces, datasets, laws, and infrastructure. The submission alone cannot explain the outcome.",
+      "example": "",
+      "source": "text lines 1676-2317",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "browser",
+            "label": "PORTAL",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "stakeholders",
+            "label": "PEOPLE & PRACTICES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "boundary",
+            "label": "SOCIAL CONTEXT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip expands the initial input-output sketch."
+          },
+          {
+            "node": "step-1",
+            "text": "The interface is one artifact, not the whole system."
+          },
+          {
+            "node": "step-3",
+            "text": "Beliefs and infrastructure change the outcomes around the software."
+          }
+        ]
+      }
     },
     {
       "title": "Agents, precepts, artifacts",
-      "body": "Listing these three categories prevents an abstract model from erasing the people and institutions that shape outcomes. For SpeekSplendid, speech-impaired users, coaches, accessibility rules, microphones, language norms, and beliefs about “good” speech all matter.",
-      "example": "Teaching extension: In a tutoring service, learners and teachers are agents, beliefs about acceptable language are precepts, and microphones and lesson materials are artifacts. Naming them exposes whose assumptions shape the product.",
-      "source": "text lines 1676-2317"
+      "body": "The speech-coaching review begins with microphones. Pip asks who else belongs on the map. In SpeekSplendid, speech-impaired users and coaches are agents; beliefs about “good” speech and language norms are precepts; microphones and accessibility rules are artifacts. A tutoring example has learners, teachers, and lesson materials too. Naming the categories keeps an abstract model from erasing whose assumptions shape the service.",
+      "example": "",
+      "source": "text lines 1676-2317",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "listening",
+            "label": "AGENTS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "PRECEPTS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "phone",
+            "label": "ARTIFACTS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip names what the abstract model might otherwise hide."
+          },
+          {
+            "node": "step-1",
+            "text": "Users and coaches are agents."
+          },
+          {
+            "node": "step-3",
+            "text": "Microphones, rules, and interfaces are artifacts affecting the service."
+          }
+        ]
+      }
     },
     {
       "title": "Explicit causality",
-      "body": "Abstraction helps engineers reason about a system, but hidden assumptions can distort it. Writing causal assumptions explicitly makes a model discussable: a change in access may alter behavior, which changes data, which feeds a later decision.",
-      "example": "Teaching extension: A team writes down its assumption that adding appointment reminders will improve attendance, then checks whether unreliable transport could prevent that relationship from holding.",
-      "source": "text lines 1676-2317"
+      "body": "Pip expects appointment reminders to improve attendance. A resident asks, “Will the ferry arrive?” The assumed cause is now visible: a reminder may change behavior only when constraints permit it. Abstraction helps reasoning, but hidden assumptions distort it. Pip writes the causal relationship down so others can challenge it, including how changed access or behavior might alter data used in later decisions.",
+      "example": "",
+      "source": "text lines 1676-2317",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "REMINDER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "ferry",
+            "label": "TRANSPORT ACCESS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "target",
+            "label": "ATTENDANCE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip states a causal assumption explicitly."
+          },
+          {
+            "node": "step-1",
+            "text": "Reminders may influence attendance."
+          },
+          {
+            "node": "step-3",
+            "text": "Test the relationship instead of treating it as a guaranteed effect."
+          }
+        ]
+      }
     },
     {
       "title": "Causal loops",
-      "body": "Causal loop diagrams show reinforcing and balancing feedback rather than only a one-way pipeline. They help teams seek other perspectives, choose subject-matter collaborators, benchmark assumptions, and identify where an intervention may create a new effect.",
-      "example": "Teaching extension: A recommendation system gives popular creators more exposure, producing more clicks that further increase their ranking. A causal loop makes this reinforcing effect visible before interpreting clicks as independent evidence of quality.",
-      "source": "text lines 1676-2317"
+      "body": "Popular creators get more exposure, then more clicks, then a higher ranking. Pip draws the loop before treating clicks as independent proof of quality. Causal loop diagrams make reinforcing and balancing feedback discussable instead of showing only a one-way pipeline. The team can seek other perspectives, choose knowledgeable collaborators, and test assumptions. A loop suggests where an intervention might create another effect; it does not prove the prediction.",
+      "example": "",
+      "source": "text lines 1676-2317",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "browser",
+            "label": "MORE EXPOSURE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "MORE CLICKS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "HIGHER RANK",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-3",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks whether the evidence is feeding back on itself."
+          },
+          {
+            "node": "step-1",
+            "text": "Exposure increases the chance of clicks."
+          },
+          {
+            "node": "step-3",
+            "text": "Higher ranking increases exposure: a reinforcing loop to investigate."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -47,22 +305,22 @@
   ],
   "scenario": {
     "title": "Causal map for speech coaching",
-    "context": "SpeekSplendid scores speech and suggests coaching. Engineers must choose whether to model users, institutions, beliefs, and artifacts explicitly before launch.",
+    "context": "Pip joins the SpeekSplendid speech-coaching review. Should the team model users, institutions, beliefs, and artifacts before launch, or only the speech signal?",
     "options": [
       {
         "label": "Build a causal loop with affected experts",
-        "benefit": "Makes assumptions about coaching, language norms, and feedback discussable.",
-        "cost": "Workshops take time and diagrams simplify a complex social system.",
-        "consequence": "A speech-impaired participant identifies a harmful proxy, leading to a safer evaluation plan."
+        "benefit": "Affected experts can challenge assumptions about coaching and feedback.",
+        "cost": "Workshops take time, and diagrams still simplify social complexity.",
+        "consequence": "A speech-impaired participant identifies a harmful proxy. Pip helps the team revise the evaluation plan with that evidence."
       },
       {
         "label": "Model only the speech signal",
-        "benefit": "Keeps the prototype small and technically legible.",
-        "cost": "Social feedback and institutional context remain invisible.",
-        "consequence": "The prototype rewards a narrow accent and the team later discovers the issue through user abandonment."
+        "benefit": "The prototype remains small and technically legible.",
+        "cost": "Institutional context and social feedback stay outside the model.",
+        "consequence": "A narrow accent becomes the prototype’s success measure. Pip’s team learns about the missing perspective through user abandonment."
       }
     ],
-    "debrief": "Both choices are defensible under different constraints; the responsible decision states the accepted consequence and the evidence that could change it."
+    "debrief": "The map does not replace expertise. Pip uses it to expose assumptions and invite the people who can challenge them."
   },
   "quiz": [
     {
@@ -117,69 +375,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "n0",
-        "label": "AGENTS",
-        "kind": "stakeholders",
-        "tone": "sage",
-        "x": 100,
-        "y": 80
-      },
-      {
-        "id": "n1",
-        "label": "PRECEPTS",
-        "kind": "whiteboard",
-        "tone": "peach",
-        "x": 270,
-        "y": 80
-      },
-      {
-        "id": "n2",
-        "label": "ARTIFACTS",
-        "kind": "document",
-        "tone": "lilac",
-        "x": 100,
-        "y": 210
-      },
-      {
-        "id": "n3",
-        "label": "LOOPS",
-        "kind": "trace",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 270,
-        "y": 210
+        "course": "responsible-engineering"
+      },
+      {
+        "id": "step-1",
+        "kind": "browser",
+        "label": "PORTAL",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "stakeholders",
+        "label": "PEOPLE & PRACTICES",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "boundary",
+        "label": "SOCIAL CONTEXT",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "n0",
-        "to": "n1"
+        "from": "step-0",
+        "to": "step-1",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "n1",
-        "to": "n2"
+        "from": "step-1",
+        "to": "step-2",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "n2",
-        "to": "n3"
+        "from": "step-2",
+        "to": "step-3",
+        "flow": false,
+        "dashed": true
       }
     ],
     "steps": [
       {
-        "node": "n0",
-        "text": "Examine agents using the chapter evidence."
+        "node": "step-0",
+        "text": "Pip expands the initial input-output sketch."
       },
       {
-        "node": "n1",
-        "text": "Examine precepts using the chapter evidence."
+        "node": "step-1",
+        "text": "The interface is one artifact, not the whole system."
       },
       {
-        "node": "n2",
-        "text": "Examine artifacts using the chapter evidence."
-      },
-      {
-        "node": "n3",
-        "text": "Examine loops using the chapter evidence."
+        "node": "step-3",
+        "text": "Beliefs and infrastructure change the outcomes around the software."
       }
     ]
+  },
+  "story": {
+    "course": "responsible-engineering",
+    "world": "civic",
+    "title": "The form is only the front door"
   }
 }

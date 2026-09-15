@@ -7,7 +7,12 @@ export function setSceneStep(svg,index){
  if(!sequence.length)return;
  const step=sequence[((index%sequence.length)+sequence.length)%sequence.length];
  svg.dataset.step=String(index%sequence.length);
- svg.querySelectorAll('[data-iso-node]').forEach(n=>n.classList.toggle('iso-processing',n.dataset.isoNode===step.node));
+ svg.querySelectorAll('[data-teaching-frame]').forEach(frame=>{frame.style.display=Number(frame.dataset.teachingFrame)===((index%sequence.length)+sequence.length)%sequence.length?'inline':'none'});
+ svg.querySelectorAll('[data-iso-node]').forEach(n=>{
+  n.classList.toggle('iso-processing',n.dataset.isoNode===step.node);
+  const state=step.states?.[n.dataset.isoNode];
+  if(state)n.dataset.storyState=state;else delete n.dataset.storyState;
+ });
  svg.querySelectorAll('.iso-edge').forEach(e=>e.classList.toggle('iso-transmitting',e.dataset.from===step.node));
  const host=svg.closest('[data-scene-player]');
  if(host){const caption=host.querySelector('[data-scene-caption]');if(caption)caption.textContent=step.text;host.querySelectorAll('[data-scene-step]').forEach((b,i)=>{b.classList.toggle('active',i===index%sequence.length);b.setAttribute('aria-pressed',String(i===index%sequence.length))})}
@@ -27,6 +32,8 @@ export function startSceneMotion(){
  },200);
 }
 export function wireScenePlayer(host){
+ if(host.dataset.wired==='true')return;
+ host.dataset.wired='true';
  const svg=host.querySelector('svg');
  const initialPlay=host.querySelector('[data-scene-play]');if(initialPlay&&!motionEnabled()){initialPlay.textContent='▶ Play the sequence';initialPlay.setAttribute('aria-pressed','false')}
 

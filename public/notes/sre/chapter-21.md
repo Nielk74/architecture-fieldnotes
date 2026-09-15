@@ -1,23 +1,53 @@
 # Chapter 21: Handling Overload
 
-Source: text lines 8604–9019 of the supplied book extract.
+*Pip’s adventure: Keep the important bookings moving. Fictional teaching story; concepts follow the cited source.*
 
-Overload handling must protect individual tasks even when global load balancing works imperfectly. Resource measurements are more dependable than a fixed queries-per-second ceiling because request costs change. Per-customer quotas limit the damage one client can impose, while adaptive client throttling avoids spending backend capacity merely rejecting requests. Request criticality tells successive dependencies which work may be shed first; it is separate from latency sensitivity. Backends use local utilization to reject work before exhaustion, preserving throughput for requests they can serve. Retries may help when only a few tasks are busy, but request and client budgets prevent them from magnifying widespread overload. Connection maintenance and sudden connection bursts also consume resources and may need separate protection.
+Source: text lines 8604–9019.
+
+Pip’s service has the same request rate as yesterday but a new query exhausts CPU. Overload protection must follow resources, customer limits, and request criticality. Local throttling and bounded retries prevent rejection itself from becoming more load.
 
 ## Resource-based admission and customer quotas
 
-A request count is not a stable measure of load when requests vary in cost or software changes their resource needs. Model capacity using the limiting resources, such as CPU and memory, and assign customers negotiated usage limits. This helps contain a customer’s excess demand, although oversubscribed quotas still require attention when several customers approach their limits together.
+Pip’s new query type exhausts CPU below yesterday’s safe request rate. Request counts do not capture variable cost or changing software. Pip models limiting CPU and memory resources and negotiates customer usage quotas. Oversubscribed quotas still need planning when customers approach their limits together.
+
+Source: text lines 8604–9019.
 
 ## Adaptive client-side throttling
 
-Rejecting a request still consumes backend resources. A client can reduce that cost by tracking attempted requests and backend acceptances over a recent window, then dropping some attempts locally as rejection increases. The acceptance multiplier trades faster detection of recovery against more rejected traffic reaching the server. Sparse clients have weaker observations, so the mechanism’s usefulness depends on their request history.
+Pip’s client keeps sending requests only to receive quota rejections. Rejections cost backend resources too. Adaptive client throttling uses recent attempts and acceptances to drop some calls locally; the multiplier balances recovery detection against extra rejected traffic. Pip checks sparse-client history before trusting weak observations.
+
+Source: text lines 8604–9019.
 
 ## Criticality-aware overload protection
 
-Criticality identifies the user impact of losing a request. Propagating it through RPC dependencies lets each overloaded task discard lower-value work first using local CPU, memory, or executor-load signals. Latency sensitivity is a different dimension: an optional suggestion can need a very fast response while remaining safe to omit. Protection should preserve useful throughput rather than make an overloaded task refuse everything.
+Pip drops optional booking suggestions while preserving the main transaction. Criticality describes user impact and travels through RPC dependencies; tasks shed lower-value work using local pressure signals. Latency sensitivity is separate: optional suggestions may need speed without being essential. Pip protects useful throughput rather than making every overloaded task reject everything.
+
+Source: text lines 8604–9019.
 
 ## Bounded retries and connection costs
 
-An isolated busy backend may justify retrying elsewhere, but widespread overload makes additional attempts harmful. Per-request limits, aggregate client retry budgets, and explicit nonretryable overload responses constrain amplification. Only the layer directly above the rejecting dependency should retry. Resource accounting must also include connection setup and health checks; a burst of idle clients can overload a service without a large query rate.
+Pip retries a busy backend and then notices the whole fleet is overloaded. Per-request limits, aggregate retry budgets, and explicit nonretryable responses constrain amplification; only the immediate caller should retry. Connections and health checks also consume resources, even with few queries. Pip can use a proxy to absorb connection bursts while controlling forwarded work.
 
-The lesson’s examples, decision scenario, and exercise are original teaching extensions rather than reported incidents.
+Source: text lines 8604–9019.
+
+## Transfer challenge: Protect service under overload
+
+A recommendation backend is saturated and its queue is growing. Search results can omit recommendations, but checkout requests must remain available.
+
+### Shed optional work and degrade recommendations
+
+Critical capacity is preserved and users receive a reduced experience. The degraded response needs a clear user contract. The service rejects low-priority recommendation work and serves cached results.
+
+### Accept every request until queues drain
+
+No requests are rejected at the edge. Queue growth consumes memory and can take down checkout too. The shared process exhausts resources and loses both features.
+
+Lower-criticality work should give way before resource exhaustion harms essential requests. Protect shared tasks with utilization-based admission, and ensure clients do not replace shed traffic with uncontrolled retries.
+
+## Define overload admission
+
+For a service with critical transactions and optional enrichment, specify how excess demand will be handled before its resources are exhausted.
+
+- Resource signal
+- Criticality
+- Client behavior

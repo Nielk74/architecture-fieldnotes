@@ -1,19 +1,59 @@
 # Chapter 13: Service-Based Architecture Style
 
-Service-based architecture is presented as a pragmatic distributed midpoint between a monolith and very fine-grained services. Its basic topology has a separately deployed user interface, remote coarse-grained domain services, and commonly one monolithic database. The services are meaningful portions of an application rather than tiny operations. The chapter gives a typical range of four to twelve services, with about seven as an average, and notes that multiple instances can be added when throughput or failover requires them (source lines 6089–6160, printed pp. 163–164).
+*Pip’s adventure: A few useful services, not one per verb. Fictional teaching story; concepts follow the cited source.*
 
-Flexibility is the style's defining attraction. A UI may remain one application or be federated by domain. A database may remain central or be partitioned when services do not need one another's data. An API gateway or reverse proxy can sit in front to consolidate external access, security, metrics, auditing, and discovery. These variants should follow real boundaries: splitting data while services still need each other's rows introduces calls and duplication. The topology options are described at lines 6161–6231 (pp. 165–167).
+Source: printed pp. 163–177.
 
-Each domain service commonly contains its own API facade, business logic, and persistence, or an internal subdomain structure. The facade can orchestrate a business operation inside the service. In the book's checkout comparison, one coarse OrderService can generate an order ID, apply payment, and adjust inventory within a shared database transaction. An arrangement of finer remote services must cope with partial state, retries, sagas, and BASE eventual consistency. Coarse granularity therefore preserves more ACID behavior and reduces interservice traffic, but a change to the service may require testing and deploying a larger unit. The source treats this trade-off at lines 6232–6308 (pp. 167–169).
+Pip groups the expanding bookshop into coarse domain services with an independently deployed interface. This pragmatic style preserves local transactions and limits remote chatter. Shared data and broad service scope still constrain independent change and scaling.
 
-The shared database is a practical convenience and a coupling risk. A single shared entity library means a table change can force every service to update and redeploy, even services that do not use the table. Federated libraries aligned to logical domains reduce the blast radius. A common domain still affects all consumers and should be governed tightly. The source recommends making logical partitioning as fine-grained as coherent data domains allow (lines 6309–6398; pp. 169–171).
+## Coarse domain services
 
-The electronics recycling example shows the style's intended balance. Quoting and Item Status can scale for external demand, while receiving, assessment, accounting, recycling, and reporting remain at lower instance counts. Federated UIs and separate customer-facing and internal databases create security zones and two quanta. Assessment rules can change frequently inside one service, improving agility, testability, and deployability. The ratings at lines 6399–6538 (pp. 172–177) describe strong results in those qualities and availability, with moderate scalability and lower elasticity because services are coarse. Cost and simplicity are better than in more powerful distributed styles, and local transactions remain common.
+Pip groups quoting, receiving, assessment, accounting, status, recycling, and reporting into meaningful services. The basic style uses a separately deployed UI, remote coarse domains, and usually one shared database. The chapter commonly sees four to twelve services, averaging about seven. Pip adds instances and load balancing where actual throughput or fault-tolerance needs justify them.
 
-The lesson's quote-path scenario is a teaching extension. Its company, load profile, and choices are invented; the coarse service, shared data, ACID, gateway, domain partitioning, and fine-grained coordination consequences follow the chapter. The visual moves one domain request through a gateway and service facade to a shared database, emphasizing that local transaction scope and shared schema are separate decisions.
+Source: pp. 163–165.
 
-## Source map
+## Flexible topology variants
 
-- Basic topology and service instances: source lines 6089–6160, printed pp. 163–164.
-- UI/database/API variants and service granularity: source lines 6161–6308, printed pp. 165–169.
-- Database partitioning, recycling example, and ratings: source lines 6309–6538, printed pp. 169–177.
+Pip separates public quotation from internal receiving access. Service-based variants can federate UIs, split domain stores, and introduce gateways or reverse proxies. Separate databases help only when cross-domain data needs do not recreate calls and duplication. Pip fits security zones and workload boundaries rather than enforcing one topology.
+
+Source: pp. 165–167, 172–173.
+
+## Granularity and transactions
+
+Pip’s OrderService creates an ID, applies payment, and adjusts inventory through local components. An API facade can coordinate business and persistence work within one ACID transaction. Payment failure can roll back the related writes together. Finer remote services narrow change scope but make partial state, BASE, eventual consistency, and coordination explicit costs.
+
+Source: pp. 167–169, 177.
+
+## Partition shared data deliberately
+
+Pip changes invoicing and a universal entity library makes every service rebuild. Federated libraries aligned to coherent customer, invoice, or order domains narrow schema-change impact. A common library still creates a coordination hotspot. Pip governs shared changes and partitions logically rather than mistaking a convenient database for isolated ownership.
+
+Source: pp. 169–171.
+
+## A pragmatic characteristic profile
+
+Pip deploys an assessment change without stopping quotation when receiving fails. Domain services improve agility, testing, deployment, and availability while using fewer remote calls and preserving more consistency. Coarse services duplicate more functionality when scaled, limiting elasticity and scalability. Pip checks shared UI and database coupling before claiming several quanta or microservice-level independence.
+
+Source: pp. 172–177.
+
+## Transfer challenge: Scale the recycling quote path
+
+An electronics recycling company has seven business domains. Customer quote and item-status traffic is much higher than internal receiving and accounting traffic, while assessment rules change frequently. The company needs external data isolated from internal operations and wants to avoid a network call for every step of a quote or order transaction during normal working hours and support staff across sites.
+
+### Coarse domain services
+
+Quote and status can scale separately, while each domain keeps local orchestration and ACID data changes. A shared database and coarse service deployment still couple schema changes and replicate more code when scaling. The public services get multiple instances behind a gateway, while internal services stay single-instance. Assessment changes ship in one domain unit, and a public database is protected from direct internal access.
+
+### Fine-grained services
+
+Each operation can scale and deploy narrowly, potentially reducing the change scope for payment or inventory. The order flow now needs remote orchestration, contract versioning, retries, and eventual consistency across many services. A payment failure can leave an order and inventory reservation partially written. The team must build a saga and observability before the extra granularity is safe for customer support and reconciliation.
+
+The domains and traffic profile reward coarse service boundaries: they isolate meaningful change and scale hotspots without turning every transaction into a distributed workflow. Finer granularity can be useful when independent change is worth its coordination cost, but it is not an automatic improvement.
+
+## Choose a service boundary
+
+Map one product into three to eight coarse domain services. Identify the transaction that should remain local, the data partition it needs, and the service that deserves independent scaling.
+
+- Context
+- Decision
+- Trade-off

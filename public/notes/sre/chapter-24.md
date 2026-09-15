@@ -1,23 +1,53 @@
 # Chapter 24: Distributed Periodic Scheduling with Cron
 
-Source: text lines 10802–11198 of the supplied book extract.
+*Pip’s adventure: Did the nine o’clock job already start?. Fictional teaching story; concepts follow the cited source.*
 
-Moving cron from one machine to a distributed service introduces a difficult question: after a failure, did a scheduled job actually launch? Different jobs tolerate missed or duplicate launches differently, and irreversible side effects make duplication especially dangerous. Google’s design uses replicated scheduler state and one elected leader, which records launch boundaries synchronously before and after contacting the datacenter scheduler. Each occurrence has an identity including its scheduled time. A successor can reconcile unfinished launches only if external operations are idempotent or their outcomes can be inspected reliably. Replication and snapshots preserve scheduling state, while limited dependencies support availability. Reliable scheduling therefore requires more than a calendar and failover; it requires explicit semantics for partially completed work.
+Source: text lines 10802–11198.
+
+Pip’s scheduler leader disappears after submitting a report. A replacement must distinguish missing work from an ambiguous duplicate. Replicated launch state, identifiable occurrences, and inspectable external outcomes matter because recording intent cannot make an external action atomic.
 
 ## Launch semantics and idempotency
 
-An idempotent operation can be repeated without changing the intended result beyond its first successful execution. Some periodic jobs tolerate both repetition and an occasional omission; others, such as sending a newsletter, cannot safely run twice. The scheduler must understand which risk matters. The chapter generally prefers a missed launch over an ambiguous duplicate, with job owners monitoring outcomes and choosing appropriate recovery.
+Pip safely repeats cleanup but must not send the harbor newsletter twice. Idempotency means repetition adds no unintended effect beyond the first successful execution. Jobs differ in tolerance for duplicates and omissions; the chapter generally prefers a missed launch over an ambiguous duplicate. Pip assigns outcome monitoring and recovery choices to job owners.
+
+Source: text lines 10802–11198.
 
 ## Synchronous replicated launch state
 
-Only the elected leader launches jobs. Before contacting the external scheduler, it synchronously records the beginning of a particular launch through consensus; afterward it records completion of the launch attempt. Followers retain enough state to identify unfinished work after failover. The old leader must stop interacting with the scheduler when leadership ends, or two leaders could act on the same occurrence.
+Pip’s elected leader records a launch beginning through consensus before contacting the external scheduler. It records completion of the attempt afterward, leaving followers enough state for failover. A replacement sees an unfinished 09:00 occurrence. Pip ensures the old leader stops external interaction when leadership ends so two leaders cannot launch it.
+
+Source: text lines 10802–11198.
 
 ## Reconciling partial external operations
 
-Replicating an intention does not make its external side effect atomic. A leader can crash after submitting a job but before recording success. Recovery therefore needs idempotent operations or a reliable way to inspect their outcomes. Precomputed job names containing the scheduled occurrence allow the successor to find completed or running work and launch only the missing pieces.
+Pip’s leader crashes after submitting report-0900 but before recording success. Replicated intent does not atomically cover an external side effect. The successor needs idempotency or reliable outcome inspection. Pip uses a precomputed occurrence-specific name to find running or completed work and submit only missing pieces.
+
+Source: text lines 10802–11198.
 
 ## State durability and dependency design
 
-A replicated operation log preserves recent scheduler decisions, while snapshots compact accumulated history and make reconstruction practical. The design stores small critical state with the cron service and protects snapshots separately, reducing reliance on general-purpose storage during normal operation. Replica placement must cover relevant failure domains, and recovery speed matters because a technically successful but late failover can still miss frequent schedules.
+Pip restores scheduling from a snapshot plus later log entries. The replicated log preserves recent decisions; snapshots compact history for practical reconstruction. Small critical state stays with cron and snapshots receive separate protection, reducing normal dependence on general storage. Pip checks failure-domain placement and recovery speed because late failover can still miss frequent jobs.
 
-The lesson’s examples, decision scenario, and exercise are original teaching extensions rather than reported incidents.
+Source: text lines 10802–11198.
+
+## Transfer challenge: Reconcile a billing launch
+
+A scheduler leader submits the 09:00 billing job, then fails before recording completion. The external scheduler can look up jobs by a unique occurrence identifier.
+
+### Look up the recorded occurrence before continuing
+
+The successor can distinguish existing work from a missing submission. External outcome lookup must be reliable and include completed jobs. The new leader finds billing-0900 and avoids submitting that occurrence again.
+
+### Submit again whenever completion is missing
+
+This quickly covers submissions that genuinely never happened. A missing local completion record does not prove no external job ran. The same billing occurrence may execute twice and produce duplicate effects.
+
+A durable schedule is insufficient when submission can succeed just before the leader fails. Identify each occurrence and reconcile the external result; a concurrency lock alone does not prevent a completed billing run from being charged again later.
+
+## Recover an ambiguous launch
+
+A scheduler leader fails after submitting a recurring job but before logging completion. Describe the evidence its successor needs before acting.
+
+- Occurrence ID
+- Replicated state
+- Reconciliation

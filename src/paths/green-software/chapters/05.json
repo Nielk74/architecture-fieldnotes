@@ -1,37 +1,352 @@
 {
   "number": 5,
   "subtitle": "Choose when, where, or how much work runs.",
-  "summary": "Carbon awareness responds to the changing emissions associated with electricity. Grid carbon intensity varies with location, generation, demand, and time, so the same computation can have different operational emissions in different conditions. The chapter distinguishes time shifting, location shifting, and demand shaping. Shifting changes execution timing or place; shaping changes the service offered. Forecasts can guide these decisions, but deadlines, available capacity, data constraints, and reliability remain part of the problem. The book illustrates the ideas with updates, charging, media processing, and hackathon projects from its publication period. The lesson is to create useful flexibility and act on an appropriate signal, rather than assuming a fixed overnight schedule or a cheap instance is automatically green.",
+  "summary": "Pip’s film must be ready by morning, but the electricity forecast changes through the night. The same computation can have different operational emissions at different times or places. Pip learns three responses: time shifting, location shifting, and demand shaping. The first two move execution; the third changes the offering. None cancels a deadline, data constraint, capacity requirement, or service promise. Book-era updates, charging, media, and hackathon examples show the transferable idea: create useful flexibility, then act on a relevant electricity signal rather than assuming night or low price means green.",
   "concepts": [
     {
       "title": "Intensity changes with time and place",
-      "body": "Electricity carbon intensity expresses CO₂e per unit of energy. A grid’s generation mix and demand change over time, and the plant meeting additional demand may differ from the average mix. Average and marginal perspectives answer different questions. A scheduling decision needs an identified signal, its location, and its time interval, rather than a broad assumption about the country.",
-      "example": "Teaching extension: The media team compares hourly forecasts for its own region instead of assuming every night is cleaner than every afternoon.",
-      "source": "pp. 74–79"
+      "body": "“The whole country is green,” says a poster. Pip needs a more precise clue: electricity carbon intensity for this region and hour, expressed as CO₂e per unit of energy. Generation and demand vary. The plant meeting extra demand may differ from the average mix, so average and marginal signals answer different questions. Pip labels the chosen signal and interval instead of treating a national reputation—or an overnight timetable—as a measurement.",
+      "example": "",
+      "source": "pp. 74–79",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "leaf",
+            "label": "GRID MIX",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "THIS HOUR",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "CHOSEN SIGNAL",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks for evidence about the actual execution interval."
+          },
+          {
+            "node": "step-1",
+            "text": "Generation and demand affect electricity emissions."
+          },
+          {
+            "node": "step-3",
+            "text": "Record whether the method uses an average or marginal perspective."
+          }
+        ]
+      }
     },
     {
       "title": "Time shifting preserves the job",
-      "body": "A delayable job can execute during a cleaner interval without changing its intended result. This requires an execution window, expected duration, and a deadline. Updates, backups, and training are examples in the book, but their flexibility depends on the actual service. A carbon-aware policy must still finish the work when cleaner opportunities fail to arrive.",
-      "example": "Teaching extension: An export may run any time from 18:00 to 06:00. Its two-hour duration limits which forecast windows are eligible.",
-      "source": "pp. 80–81"
+      "body": "The cinema’s opening film needs two hours to render and must be ready by 06:00. Pip reaches for “Start,” then spots a cleaner electricity forecast at 02:00. There’s time to wait—but forecasts can change. Pip keeps the same film, quality, and deadline, and sets a fallback so a disappearing clean window cannot cancel the show. This is time shifting: move the work, not the promise.",
+      "example": "",
+      "source": "pp. 80–81",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "queue",
+            "label": "SAME FILM",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "02:00 WINDOW",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "cinema",
+            "label": "06:00 READY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip must preserve the morning screening."
+          },
+          {
+            "node": "step-1",
+            "text": "The same film still needs two hours of work."
+          },
+          {
+            "node": "step-3",
+            "text": "Use a deadline-preserving fallback if that window disappears."
+          }
+        ]
+      }
     },
     {
       "title": "Location shifting moves the execution",
-      "body": "Moving work to a cleaner region can reduce electricity-related emissions, but relocation has costs and constraints. Data transfer, service availability, capacity, latency, and jurisdictional requirements may rule out an otherwise attractive location. Time shifting often avoids some of these problems because the data and execution stay in the same place.",
-      "example": "Teaching extension: An eligible rendering job moves only if its data can remain within the approved region set and transfer costs do not erase the benefit.",
-      "source": "pp. 82, 84–85"
+      "body": "A distant region looks cleaner on Pip’s chart. Moving the export there might reduce electricity emissions, but can the data travel? Pip checks approved regions, transfer costs, capacity, availability, latency, and jurisdictional constraints before moving anything. A cleaner destination with no room for the job is not an option. Time shifting can avoid some relocation problems by keeping data and execution in place; neither route removes the service’s obligations.",
+      "example": "",
+      "source": "pp. 82, 84–85",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "leaf",
+            "label": "CLEANER REGION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gateway",
+            "label": "DATA & CAPACITY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "service",
+            "label": "ELIGIBLE RUN",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip considers moving execution, not just changing its label."
+          },
+          {
+            "node": "step-1",
+            "text": "The candidate region has a lower electricity estimate."
+          },
+          {
+            "node": "step-3",
+            "text": "Move only when the complete execution remains feasible."
+          }
+        ]
+      }
     },
     {
       "title": "Demand shaping changes the offering",
-      "body": "Demand shaping adjusts the amount or quality of service in response to the carbon signal. The chapter draws an analogy to reducing video quality while preserving a call’s audio on a weak network. Product design must decide which functionality is essential and how users understand or choose a lighter mode. Shaping is different from doing the identical job later.",
-      "example": "Teaching extension: A media app offers a lighter preview during a high-intensity period while preserving the user’s ability to request the essential full result.",
-      "source": "pp. 83–84"
+      "body": "The electricity signal rises while a visitor requests a preview. Pip offers a lighter version, preserving the essential result and explaining the choice. This changes the offering: demand shaping, not simply running the identical job later. Like a video call keeping audio when video quality falls, the product needs an agreed minimum. Pip must know what users require and whether they can choose the lighter mode before reducing quality.",
+      "example": "",
+      "source": "pp. 83–84",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "CARBON SIGNAL",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "browser",
+            "label": "LIGHTER PREVIEW",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "cinema",
+            "label": "ESSENTIAL RESULT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip checks what the visitor actually needs."
+          },
+          {
+            "node": "step-1",
+            "text": "The electricity signal triggers an agreed response."
+          },
+          {
+            "node": "step-3",
+            "text": "Keep essential functionality and explain the experience to the user."
+          }
+        ]
+      }
     },
     {
       "title": "Forecasts support constrained decisions",
-      "body": "The examples combine electricity information with workload knowledge rather than optimizing the grid signal in isolation. Forecast quality, system capacity, and service objectives affect the result. Supplier features and hackathon outcomes in this chapter describe the book’s period. Their transferable lesson is how to add a carbon signal to a system that already knows its operational constraints.",
-      "example": "Teaching extension: If the forecast is missing, the scheduler follows a documented deadline-preserving fallback and records why it could not make a carbon-based choice.",
-      "source": "pp. 85–89"
+      "body": "Pip’s forecast looks perfect; the chosen worker is unavailable. Electricity information alone cannot schedule a film. Capacity, forecast quality, workload knowledge, and service objectives all constrain the decision. If the signal disappears, Pip follows a documented fallback and records why no carbon-based choice was possible. The book’s supplier and hackathon examples belong to its publication period. Their lasting lesson is to add a carbon signal to operational decisions, not replace every other constraint.",
+      "example": "",
+      "source": "pp. 85–89",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "FORECAST",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "deployment",
+            "label": "CAPACITY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "FALLBACK",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip combines the signal with workload knowledge."
+          },
+          {
+            "node": "step-1",
+            "text": "A forecast can change or disappear."
+          },
+          {
+            "node": "step-3",
+            "text": "The documented fallback still meets the service promise."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -46,7 +361,7 @@
   ],
   "scenario": {
     "title": "A render with a morning deadline",
-    "context": "Teaching extension. A media export takes two hours and must finish by 06:00. A fictional forecast puts a cleaner interval at 02:00, but the forecast may change. The job must stay in its approved region. The team can delay this full export within its window or offer an immediate lightweight preview while the full export follows later.",
+    "context": "Pip’s film takes two hours to export and must finish by 06:00. A fictional forecast suggests cleaner electricity at 02:00, but it may change. The job must stay in its approved region. Pip can shift the full export or offer a lightweight preview now while the full result follows.",
     "options": [
       {
         "label": "Shift the complete export within its deadline",
@@ -116,46 +431,63 @@
   "visual": {
     "nodes": [
       {
-        "id": "forecast",
-        "label": "FORECAST",
-        "kind": "gauge",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "green-software"
+      },
+      {
+        "id": "step-1",
+        "kind": "queue",
+        "label": "SAME FILM",
         "tone": "sage"
       },
       {
-        "id": "queue",
-        "label": "DEADLINE",
-        "kind": "queue",
+        "id": "step-2",
+        "kind": "clock",
+        "label": "02:00 WINDOW",
         "tone": "lilac"
       },
       {
-        "id": "run",
-        "label": "RUN WORK",
-        "kind": "service",
+        "id": "step-3",
+        "kind": "cinema",
+        "label": "06:00 READY",
         "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "forecast",
-        "to": "queue"
+        "from": "step-0",
+        "to": "step-1",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "queue",
-        "to": "run"
+        "from": "step-1",
+        "to": "step-2",
+        "flow": false,
+        "dashed": true
+      },
+      {
+        "from": "step-2",
+        "to": "step-3",
+        "flow": false,
+        "dashed": true
       }
     ],
     "steps": [
       {
-        "node": "forecast",
-        "text": "Read intensity for the eligible region and time intervals."
+        "node": "step-0",
+        "text": "Pip must preserve the morning screening."
       },
       {
-        "node": "queue",
-        "text": "Keep the job queued only while a feasible completion window remains."
+        "node": "step-1",
+        "text": "The same film still needs two hours of work."
       },
       {
-        "node": "run",
-        "text": "Execute within the deadline and record the actual result."
+        "node": "step-3",
+        "text": "Use a deadline-preserving fallback if that window disappears."
       }
     ]
   },
@@ -166,5 +498,10 @@
     "endLine": 3600,
     "pages": "73–89",
     "reference": "pp. 73–89; text lines 3084–3600"
+  },
+  "story": {
+    "course": "green-software",
+    "world": "cinema",
+    "title": "A race against sunrise"
   }
 }

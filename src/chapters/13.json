@@ -3,7 +3,7 @@
   "title": "Service-Based Architecture Style",
   "part": "Architecture styles",
   "subtitle": "Find a pragmatic middle ground around real domains",
-  "summary": "Service-based architecture is a flexible distributed style built from separately deployed, coarse-grained domain services, often four to twelve of them, around a shared database. A user interface may be monolithic or federated, and an API gateway can centralize security, metrics, auditing, or discovery. Coarse granularity lets a domain service orchestrate a business request internally and preserve ACID transactions, avoiding much of the coordination required by fine-grained services. The shared database and entity libraries still create coupling, so logical partitioning and domain-specific libraries reduce schema-change impact. Separate customer and internal quanta can improve security and scaling. Service-based architecture scores well for agility, testability, deployability, availability, and cost, with moderate scalability and elasticity. It is a pragmatic fit when domain modularity matters but microservice-level complexity is unnecessary.",
+  "summary": "Pip groups the expanding bookshop into coarse domain services with an independently deployed interface. This pragmatic style preserves local transactions and limits remote chatter. Shared data and broad service scope still constrain independent change and scaling.",
   "source": {
     "startLine": 6089,
     "endLine": 6538,
@@ -12,33 +12,348 @@
   "concepts": [
     {
       "title": "Coarse domain services",
-      "body": "The basic topology has a separately deployed user interface, remote coarse-grained services, and usually one monolithic database. A service represents a meaningful portion of the application, such as quoting or assessment, rather than one tiny operation. There are commonly four to twelve services, with about seven as an average. Each service can have one or more instances and can be load balanced when throughput or fault tolerance requires it.",
-      "example": "An electronics recycler can deploy Quoting, Receiving, Assessment, Accounting, Item Status, Recycling, and Reporting services. Only high-volume customer-facing services need multiple instances at first during launch.",
-      "source": "pp. 163–165"
+      "body": "Pip groups quoting, receiving, assessment, accounting, status, recycling, and reporting into meaningful services. The basic style uses a separately deployed UI, remote coarse domains, and usually one shared database. The chapter commonly sees four to twelve services, averaging about seven. Pip adds instances and load balancing where actual throughput or fault-tolerance needs justify them.",
+      "example": "",
+      "source": "pp. 163–165",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "browser",
+            "label": "SEPARATE UI",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "COARSE DOMAINS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "database",
+            "label": "SHARED DATABASE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip groups quoting, receiving, assessment, accounting, status, recycling, and reporting into meaningful services."
+          },
+          {
+            "node": "step-1",
+            "text": "The basic style uses a separately deployed UI, remote coarse domains, and usually one shared database."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip adds instances and load balancing where actual throughput or fault-tolerance needs justify them."
+          }
+        ]
+      }
     },
     {
       "title": "Flexible topology variants",
-      "body": "Service-based architecture can federate the user interface by domain, split the database into domain-scoped stores, or add an API gateway or reverse proxy. Separate databases are useful only when a service does not need another service's data; otherwise calls and duplication create new coupling. An API layer can consolidate external access and cross-cutting concerns. This flexibility lets the architecture match security zones and workload boundaries rather than enforcing one topology.",
-      "example": "A public quotation UI and database can sit behind a gateway while internal receiving screens use a separate zone. Internal services may update customer-facing data through one-way access across a firewall.",
-      "source": "pp. 165–167, 172–173"
+      "body": "Pip separates public quotation from internal receiving access. Service-based variants can federate UIs, split domain stores, and introduce gateways or reverse proxies. Separate databases help only when cross-domain data needs do not recreate calls and duplication. Pip fits security zones and workload boundaries rather than enforcing one topology.",
+      "example": "",
+      "source": "pp. 165–167, 172–173",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "gateway",
+            "label": "PUBLIC ACCESS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "INTERNAL DOMAIN",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "database",
+            "label": "DOMAIN STORE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip separates public quotation from internal receiving access."
+          },
+          {
+            "node": "step-1",
+            "text": "Service-based variants can federate UIs, split domain stores, and introduce gateways or reverse proxies."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip fits security zones and workload boundaries rather than enforcing one topology."
+          }
+        ]
+      }
     },
     {
       "title": "Granularity and transactions",
-      "body": "A domain service commonly contains an API facade, business logic, and persistence, or is internally split into subdomains. Its facade can orchestrate placing an order, generating an ID, applying payment, and adjusting inventory through local components. Because these operations can share a database transaction, ACID commit and rollback remain available within the service. Finer-grained remote services gain narrower change scope but require BASE, eventual consistency, and explicit coordination.",
-      "example": "If payment fails inside a coarse OrderService transaction, the order insert and inventory update can roll back together. Splitting those actions into remote services leaves partial state that a saga must repair.",
-      "source": "pp. 167–169, 177"
+      "body": "Pip’s OrderService creates an ID, applies payment, and adjusts inventory through local components. An API facade can coordinate business and persistence work within one ACID transaction. Payment failure can roll back the related writes together. Finer remote services narrow change scope but make partial state, BASE, eventual consistency, and coordination explicit costs.",
+      "example": "",
+      "source": "pp. 167–169, 177",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "api",
+            "label": "ORDER FACADE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "component",
+            "label": "LOCAL OPERATIONS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "database",
+            "label": "ACID TRANSACTION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s OrderService creates an ID, applies payment, and adjusts inventory through local components."
+          },
+          {
+            "node": "step-1",
+            "text": "An API facade can coordinate business and persistence work within one ACID transaction."
+          },
+          {
+            "node": "step-3",
+            "text": "Finer remote services narrow change scope but make partial state, BASE, eventual consistency, and coordination explicit costs."
+          }
+        ]
+      }
     },
     {
       "title": "Partition shared data deliberately",
-      "body": "A shared database is convenient but schema changes can affect every service. One shared entity library forces all consumers to change and redeploy even when they do not use the changed table. Federated libraries aligned with logical domains, such as customer, invoicing, and order, reduce the impact to relevant services. A common library remains a coordination hotspot, so its changes should be tightly governed. Make logical partitions as fine-grained as coherent data domains allow.",
-      "example": "Changing an invoicing table can update invoicing_entities_lib and the invoicing service while leaving tracking and quoting untouched. A common customer table still requires coordination among every consumer.",
-      "source": "pp. 169–171"
+      "body": "Pip changes invoicing and a universal entity library makes every service rebuild. Federated libraries aligned to coherent customer, invoice, or order domains narrow schema-change impact. A common library still creates a coordination hotspot. Pip governs shared changes and partitions logically rather than mistaking a convenient database for isolated ownership.",
+      "example": "",
+      "source": "pp. 169–171",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "SHARED SCHEMA",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "plugin",
+            "label": "DOMAIN ENTITY LIBRARIES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "GOVERNED COMMON DATA",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip changes invoicing and a universal entity library makes every service rebuild."
+          },
+          {
+            "node": "step-1",
+            "text": "Federated libraries aligned to coherent customer, invoice, or order domains narrow schema-change impact."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip governs shared changes and partitions logically rather than mistaking a convenient database for isolated ownership."
+          }
+        ]
+      }
     },
     {
       "title": "A pragmatic characteristic profile",
-      "body": "Service-based architecture is domain-partitioned and can contain one or several quanta depending on shared UI and data. Separate services improve agility, testability, deployability, and availability because a domain change or service outage can be contained. Coarse services use fewer network calls and preserve more consistency, but they replicate more functionality when scaled, limiting scalability and elasticity. Its simplicity and cost advantages come from accepting less power than finer-grained distributed styles.",
-      "example": "An assessment rule change can be tested and deployed in one service, while a failed Receiving service need not stop Quoting. If all services share one database, their quantum and schema coupling remain shared.",
-      "source": "pp. 172–177"
+      "body": "Pip deploys an assessment change without stopping quotation when receiving fails. Domain services improve agility, testing, deployment, and availability while using fewer remote calls and preserving more consistency. Coarse services duplicate more functionality when scaled, limiting elasticity and scalability. Pip checks shared UI and database coupling before claiming several quanta or microservice-level independence.",
+      "example": "",
+      "source": "pp. 172–177",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "deployment",
+            "label": "DOMAIN RELEASE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "CONTAINED FAILURE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "COARSE-SERVICE LIMITS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip deploys an assessment change without stopping quotation when receiving fails."
+          },
+          {
+            "node": "step-1",
+            "text": "Domain services improve agility, testing, deployment, and availability while using fewer remote calls and preserving more consistency."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip checks shared UI and database coupling before claiming several quanta or microservice-level independence."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -123,61 +438,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "ui",
-        "label": "DOMAIN UI",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "fundamentals"
+      },
+      {
+        "id": "step-1",
         "kind": "browser",
-        "tone": "peach"
-      },
-      {
-        "id": "gateway",
-        "label": "API GATEWAY",
-        "kind": "router",
-        "tone": "lilac"
-      },
-      {
-        "id": "service",
-        "label": "ORDER SVC",
-        "kind": "service",
+        "label": "SEPARATE UI",
         "tone": "sage"
       },
       {
-        "id": "database",
-        "label": "SHARED DB",
+        "id": "step-2",
+        "kind": "service",
+        "label": "COARSE DOMAINS",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
         "kind": "database",
+        "label": "SHARED DATABASE",
         "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "ui",
-        "to": "gateway"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "gateway",
-        "to": "service"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "service",
-        "to": "database"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "ui",
-        "text": "A domain user starts one coarse business request."
+        "node": "step-0",
+        "text": "Pip groups quoting, receiving, assessment, accounting, status, recycling, and reporting into meaningful services."
       },
       {
-        "node": "gateway",
-        "text": "An optional gateway applies access, security, metrics, and discovery concerns."
+        "node": "step-1",
+        "text": "The basic style uses a separately deployed UI, remote coarse domains, and usually one shared database."
       },
       {
-        "node": "service",
-        "text": "The domain facade orchestrates order work inside one separately deployed service."
-      },
-      {
-        "node": "database",
-        "text": "A local transaction commits or rolls back against shared data, while domain partitioning limits schema impact."
+        "node": "step-3",
+        "text": "Pip adds instances and load balancing where actual throughput or fault-tolerance needs justify them."
       }
     ]
+  },
+  "story": {
+    "course": "fundamentals",
+    "world": "bookshop",
+    "title": "A few useful services, not one per verb"
   }
 }

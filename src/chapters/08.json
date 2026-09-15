@@ -3,7 +3,7 @@
   "title": "Component-Based Thinking",
   "part": "Foundations",
   "subtitle": "Partition behavior into useful building blocks",
-  "summary": "Components are the physical packaging of logical modules and the fundamental building blocks architects use to shape a system. They may be libraries, layers, subsystems, event processors, or independently deployed services. Architects define and govern top-level components with collaborators, while developers refine them into classes and functions; the initial design is a draft that should evolve through implementation feedback. Partitioning can follow technical capabilities, such as presentation and persistence, or business domains and workflows. Technical layers make categories easy to find but smear workflows across the system and can amplify team and data coupling. Domain partitioning aligns components with business change and supports cross-functional ownership, while duplicating customization in several places. Component identification is iterative: assign requirements, analyze roles and characteristics, and restructure. Avoid the entity trap, where database entities become fake architecture. Actor/actions, event storming, and workflow analysis are alternative discovery tools. Differing architecture quanta can finally guide monolithic versus distributed deployment.",
+  "summary": "Pip sketches CustomerManager and OrderManager for the bookshop, then realizes the diagram mirrors storage rather than work. Component-based thinking uses responsibilities, workflows, and iterative feedback. Deployment choices follow quality and coupling needs after those boundaries become clearer.",
   "source": {
     "startLine": 4045,
     "endLine": 4692,
@@ -12,39 +12,417 @@
   "concepts": [
     {
       "title": "Component scope",
-      "body": "A component is a physical packaging of related code at a higher level than individual classes or functions. Libraries often share the caller’s process, while services run in their own address space and communicate over networks or messages. Components may also be layers, subsystems, or event-processor units. The useful level depends on the architecture; a tiny service may not need an extra component hierarchy.",
-      "example": "A Java library can package validation in the same process as its caller. A payment service packages code and its runtime separately, exposing a network contract and independent deployment boundary.",
-      "source": "pp. 99–100"
+      "body": "Pip packages validation as a library but runs payment as a service. A component physically packages related code above individual classes or functions. Libraries may share a process; services use separate address spaces and network or message contracts. Layers, subsystems, and event processors can also be components; Pip avoids an unnecessary hierarchy inside a tiny service.",
+      "example": "",
+      "source": "pp. 99–100",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "plugin",
+            "label": "IN-PROCESS LIBRARY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "REMOTE SERVICE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "boundary",
+            "label": "APPROPRIATE SCOPE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip packages validation as a library but runs payment as a service."
+          },
+          {
+            "node": "step-1",
+            "text": "A component physically packages related code above individual classes or functions."
+          },
+          {
+            "node": "step-3",
+            "text": "Layers, subsystems, and event processors can also be components; Pip avoids an unnecessary hierarchy inside a tiny service."
+          }
+        ]
+      }
     },
     {
       "title": "Architect and developer roles",
-      "body": "Architects define, refine, manage, and govern components with business, development, QA, operations, and subject-matter collaborators. Components are usually their lowest direct architectural level; developers and tech leads own most class and function design. Architects should avoid micromanagement and treat the first component design as a draft that implementation can correct. This division preserves accountability while empowering the team to learn.",
-      "example": "An architect sets an Inventory component boundary and its quality goals. The team later moves a reservation rule into a subcomponent after tests reveal a distinct workflow, updating the design together.",
-      "source": "pp. 100–102, 107–109"
+      "body": "Pip proposes an inventory boundary and quality goals with the team. Architects define and govern components with business, development, QA, operations, and domain partners; developers own most class and function design. Tests later reveal a reservation subcomponent worth separating. Pip revises the draft collaboratively instead of micromanaging implementation.",
+      "example": "",
+      "source": "pp. 100–102, 107–109",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "blueprint",
+            "label": "INITIAL BOUNDARY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "team",
+            "label": "IMPLEMENTATION OWNERS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "experiment",
+            "label": "FEEDBACK + REVISION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip proposes an inventory boundary and quality goals with the team."
+          },
+          {
+            "node": "step-1",
+            "text": "Architects define and govern components with business, development, QA, operations, and domain partners; developers own most class and function design."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip revises the draft collaboratively instead of micromanaging implementation."
+          }
+        ]
+      }
     },
     {
       "title": "Technical versus domain partitioning",
-      "body": "Technical partitioning groups presentation, business rules, services, persistence, or other capabilities. It makes categories easy to locate and can limit dependencies between layers, but a business workflow crosses every layer. Domain partitioning groups top-level components around workflows or bounded domains, keeping a change closer together. It better reflects business change and team ownership, but customization may appear in multiple domains.",
-      "example": "In a sandwich system, a layered layout spreads CatalogCheckout across UI, service, and database layers; a domain layout keeps Purchase or MakeOrder as the top-level unit with internal technical subparts.",
-      "source": "pp. 102–107"
+      "body": "Pip traces one purchase through presentation, rules, and persistence folders. Technical partitioning makes technical categories visible but spreads business change across them. Domain partitioning groups workflows, keeping change and ownership closer while potentially repeating customization. Pip compares those costs before choosing top-level bookshop components.",
+      "example": "",
+      "source": "pp. 102–107",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "component",
+            "label": "TECHNICAL LAYERS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "parcel",
+            "label": "PURCHASE WORKFLOW",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "boundary",
+            "label": "DOMAIN PARTITION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip traces one purchase through presentation, rules, and persistence folders."
+          },
+          {
+            "node": "step-1",
+            "text": "Technical partitioning makes technical categories visible but spreads business change across them."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip compares those costs before choosing top-level bookshop components."
+          }
+        ]
+      }
     },
     {
       "title": "Iterative identification",
-      "body": "Component discovery cycles through initial candidates, requirement assignment, role and responsibility analysis, architecture-characteristic analysis, and restructuring. The first set is necessarily provisional because unknown requirements and implementation details appear later. Granularity needs balance: fine-grained components create excessive communication, while coarse components hide coupling and harm deployability, testability, and modularity. Feedback turns a diagram into an increasingly useful design and keeps ownership understandable.",
-      "example": "A bid-capture component initially serves both bidders and an auctioneer. Different reliability and scale needs emerge, so the architect splits auctioneer capture and refines its links to tracking and streaming.",
-      "source": "pp. 107–109, 113–114"
+      "body": "Pip’s first bid-capture component serves both bidders and auctioneers. Requirements, responsibilities, and quality analysis reveal different reliability and scale needs. Component discovery iterates from candidates through assignment and restructuring as implementation teaches more. Pip balances excessive fine-grained communication against coarse boundaries that hide coupling and harm testing or deployment.",
+      "example": "",
+      "source": "pp. 107–109, 113–114",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "blueprint",
+            "label": "FIRST CANDIDATES",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "DIFFERENT NEEDS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "component",
+            "label": "REFINED COMPONENTS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s first bid-capture component serves both bidders and auctioneers."
+          },
+          {
+            "node": "step-1",
+            "text": "Requirements, responsibilities, and quality analysis reveal different reliability and scale needs."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip balances excessive fine-grained communication against coarse boundaries that hide coupling and harm testing or deployment."
+          }
+        ]
+      }
     },
     {
       "title": "Discovery techniques and traps",
-      "body": "The entity trap maps database entities to Manager components, confusing data relationships with application workflows and yielding an ORM-shaped design. Actor/actions works for distinct roles and activities; event storming discovers messages and handlers; workflow analysis models activities without requiring messaging. None is universally superior. Choose a technique that fits the domain, process, and architecture constraints, then iterate with feedback. The method should reveal responsibilities, not merely mirror storage.",
-      "example": "Instead of CustomerManager, OrderManager, and ReputationManager by table, an auction team maps bidder actions, auctioneer actions, and system events to capture, tracking, streaming, session, and payment components.",
-      "source": "pp. 109–113"
+      "body": "Pip’s Manager-per-table diagram misses auctioneer actions and system events. The entity trap confuses storage relationships with workflow responsibilities. Actor/actions, event storming, and workflow analysis reveal different useful views; none is universally superior. Pip selects a domain-appropriate technique and iterates toward capture, tracking, streaming, session, and payment responsibilities.",
+      "example": "",
+      "source": "pp. 109–113",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "ENTITY TRAP",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "person",
+            "label": "ACTOR ACTIONS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "message",
+            "label": "WORKFLOW EVENTS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s Manager-per-table diagram misses auctioneer actions and system events."
+          },
+          {
+            "node": "step-1",
+            "text": "The entity trap confuses storage relationships with workflow responsibilities."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip selects a domain-appropriate technique and iterates toward capture, tracking, streaming, session, and payment responsibilities."
+          }
+        ]
+      }
     },
     {
       "title": "Quantum and deployment choice",
-      "body": "After components are sketched, differing architecture characteristics can reveal multiple quanta. One coherent set may favor a monolith with a simple deployment and database. Distinct quality profiles, such as high-scale bidder streams versus high-reliability auctioneer capture, can justify distributed units. This choice follows coupling and operational needs; it is not a reflexive preference for many services. Deployment complexity must remain part of the trade-off.",
-      "example": "An auction can keep an authoritative tracker together while distributing read-only video and bid streams, if their load and availability profiles demand separate scaling and deployment.",
-      "source": "pp. 114–116"
+      "body": "Pip compares authoritative auction tracking with high-volume read streams. One coherent quality profile may fit a simple monolith and database; distinct profiles can justify several quanta. Distribution follows real coupling and operational needs, not enthusiasm for many services. Pip budgets deployment complexity before separating the bookshop’s workloads.",
+      "example": "",
+      "source": "pp. 114–116",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "AUTHORITATIVE TRACKER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "message",
+            "label": "ELASTIC STREAMS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "DEPLOYMENT TRADE-OFF",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip compares authoritative auction tracking with high-volume read streams."
+          },
+          {
+            "node": "step-1",
+            "text": "One coherent quality profile may fit a simple monolith and database; distinct profiles can justify several quanta."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip budgets deployment complexity before separating the bookshop’s workloads."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -129,65 +507,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "roles",
-        "label": "ROLES",
-        "kind": "team",
-        "tone": "peach"
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "fundamentals"
       },
       {
-        "id": "candidates",
-        "label": "CANDIDATES",
-        "kind": "component",
+        "id": "step-1",
+        "kind": "plugin",
+        "label": "IN-PROCESS LIBRARY",
         "tone": "sage"
       },
       {
-        "id": "qualities",
-        "label": "QUALITIES",
-        "kind": "target",
+        "id": "step-2",
+        "kind": "service",
+        "label": "REMOTE SERVICE",
         "tone": "lilac"
       },
       {
-        "id": "deploy",
-        "label": "DEPLOYMENT",
-        "kind": "deployment",
-        "tone": "honey"
+        "id": "step-3",
+        "kind": "boundary",
+        "label": "APPROPRIATE SCOPE",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "roles",
-        "to": "candidates"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "candidates",
-        "to": "qualities"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "qualities",
-        "to": "deploy"
-      },
-      {
-        "from": "deploy",
-        "to": "candidates"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "roles",
-        "text": "List the roles, workflows, and system-triggered events that the application must support."
+        "node": "step-0",
+        "text": "Pip packages validation as a library but runs payment as a service."
       },
       {
-        "node": "candidates",
-        "text": "Create coarse component candidates and assign behaviors, avoiding a direct copy of database entities."
+        "node": "step-1",
+        "text": "A component physically packages related code above individual classes or functions."
       },
       {
-        "node": "qualities",
-        "text": "Compare responsibilities and architecture characteristics; split or merge candidates whose profiles do not fit."
-      },
-      {
-        "node": "deploy",
-        "text": "Use the resulting quanta and coupling to choose a simple monolith or distributed deployment, then feed implementation evidence back."
+        "node": "step-3",
+        "text": "Layers, subsystems, and event processors can also be components; Pip avoids an unnecessary hierarchy inside a tiny service."
       }
     ]
+  },
+  "story": {
+    "course": "fundamentals",
+    "world": "bookshop",
+    "title": "A component is more than a table with a manager"
   }
 }

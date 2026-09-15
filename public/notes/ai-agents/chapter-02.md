@@ -1,24 +1,26 @@
 # Chapter 2: Designing Agent Systems
 
+*Pip’s adventure: One ticket before the whole museum. Fictional teaching story; concepts follow the cited source.*
+
 Original learning notes. Source: text lines 1195–2066 in the supplied book.
 
-The ecommerce support example starts with a small useful task: interpret a customer request, inspect order information, choose the appropriate action, and report the result. This provides a concrete way to connect model selection, tools, context, and orchestration instead of designing an unlimited assistant. Capability must be weighed against cost, latency, and deployment constraints. Evaluation supplies feedback about whether the assembled system actually performs the intended workflow. Iterative changes and phased exposure to real users reveal ambiguity and integration failures that a demonstration can miss. Expand only after the initial slice has clear success criteria and evidence from representative cases.
+Pip wants a guide that can do everything. The team starts with one ticket cancellation: understand, look up, act, confirm. A narrow useful task makes model trade-offs, context mistakes, and evaluation failures visible before the museum expands the agent’s role.
 
 ## System components
 
-The chapter’s design view combines a foundation model with instructions, context, tools, memory, orchestration, and evaluation. A useful agent is therefore a system assembled around the model, not a prompt alone.
+Pip’s cancellation demo says “done” before anything happens. The model needs instructions, context, tools, memory, orchestration, and evaluation around it. Pip connects ticket lookup, cancellation, and conversation state. The orchestrator waits for the tool’s result before confirming success.
 
 ## Model selection
 
-Choosing a model weighs capability, latency, cost, context length, modality, and deployment constraints. General pretrained models offer breadth; specialized or smaller models may be cheaper and easier to control for a narrow task.
+Pip tries two models on the same cancellation cases. Capability competes with latency, cost, context length, modality, and deployment constraints. A smaller specialized model may suit this narrow task better than a broad one. Pip compares wrong actions, end-to-end delay, and expense before choosing.
 
 ## Context engineering
 
-The system must assemble relevant user input, retrieved facts, tool results, and instructions in a form the model can use. Irrelevant or conflicting context consumes limits and can steer the agent away from the task.
+Pip’s guide mixes yesterday’s booking into today’s refund. Context engineering assembles relevant instructions, user input, retrieved facts, and tool results. Pip supplies this ticket and its applicable policy, leaving unrelated purchases out. Conflicting or irrelevant context consumes limits and can redirect the task.
 
 ## Evaluation loop
 
-The example agent is tested with an evaluation script and representative cases. Design proceeds by observing failures, changing one part, and rerunning checks, rather than assuming a successful demo generalizes.
+Pip fixes cancellations; address changes suddenly break. A successful demo did not cover the whole workflow. Pip observes failures, changes one component, and reruns representative evaluation cases. Both request groups must pass before the next rollout.
 
 ## Teaching extension
 

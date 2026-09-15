@@ -3,7 +3,7 @@
   "title": "Architecture Decisions",
   "part": "Techniques & people",
   "subtitle": "Make the why durable enough to guide implementation",
-  "summary": "Architecture decisions guide teams toward technical choices that support a system's structure and important characteristics. The chapter traces three anti-patterns: avoiding a decision, revisiting an undocumented decision endlessly, and communicating a decision only through messages that get lost. Architects should decide at the last responsible moment, collaborate with implementers, and justify choices in both business and technical terms. An architecturally significant decision affects structure, nonfunctional characteristics, dependencies, interfaces, or construction techniques, including technology choices. Architecture Decision Records make that reasoning durable through a concise title, status, context, decision, consequences, and useful compliance and notes sections. Statuses preserve approval and supersession history; context captures forces, decision states an affirmative choice and why, and consequences expose benefits and costs. ADRs can document standards and architecture, especially when a fitness function can check compliance. A single accessible system of record prevents repeated debate and forgotten guidance.",
+  "summary": "Pip’s team debates the same cache choice every sprint because its reasoning lives only in email. A timely, focused architecture decision record preserves context, consequences, status, and governance. The next crew can then understand the choice before replacing it.",
   "source": {
     "startLine": 9589,
     "endLine": 10138,
@@ -12,33 +12,348 @@
   "concepts": [
     {
       "title": "Three Decision Traps",
-      "body": "Covering Your Assets defers a choice out of fear, blocking progress; the remedy is the last responsible moment plus close collaboration and feedback. Groundhog Day repeats debate because the decision lacks a complete justification. Email-Driven Architecture loses the decision because transient messages become the only record. The traps form a progression, so a useful decision needs timing, reasoning, and durable communication.",
-      "example": "A team postpones choosing a cache until a release is blocked, then argues every sprint about why the choice was made. A short ADR could preserve the decision and the constraints that led to it.",
-      "source": "pp. 281–283"
+      "body": "Pip postpones the cache decision until release is blocked, then repeats the debate every sprint. Covering Your Assets delays from fear; Groundhog Day loses justification; Email-Driven Architecture loses the durable record. Pip decides at the last responsible moment with collaboration and feedback. Timing, reasoning, and accessible communication address the connected traps.",
+      "example": "",
+      "source": "pp. 281–283",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "DEFERRED CHOICE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "team",
+            "label": "REPEATED DEBATE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "DURABLE ADR",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip postpones the cache decision until release is blocked, then repeats the debate every sprint."
+          },
+          {
+            "node": "step-1",
+            "text": "Covering Your Assets delays from fear; Groundhog Day loses justification; Email-Driven Architecture loses the durable record."
+          },
+          {
+            "node": "step-3",
+            "text": "Timing, reasoning, and accessible communication address the connected traps."
+          }
+        ]
+      }
     },
     {
       "title": "Architecturally Significant",
-      "body": "A decision is architecturally significant when it changes structure, important nonfunctional characteristics, dependencies, interfaces, or construction techniques. That includes a technology choice when it affects performance, scalability, security, or another key characteristic. The category helps an architect focus documentation on choices that constrain other teams or shape future change, rather than labeling every coding preference an architecture decision for teams.",
-      "example": "Choosing a message broker because throughput and elasticity matter changes dependencies and communication interfaces. Choosing a local variable name generally does not alter the architecture's structure or characteristics.",
-      "source": "pp. 283–284"
+      "body": "Pip documents a broker choice but not every local variable name. Architecturally significant decisions shape structure, important nondomain qualities, dependencies, interfaces, or construction techniques. Technology qualifies when its effects constrain performance, scale, security, or other key needs. Pip focuses records on choices that shape other teams and future change.",
+      "example": "",
+      "source": "pp. 283–284",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "queue",
+            "label": "BROKER CHOICE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "boundary",
+            "label": "STRUCTURAL EFFECT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "terminal",
+            "label": "LOCAL DESIGN",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip documents a broker choice but not every local variable name."
+          },
+          {
+            "node": "step-1",
+            "text": "Architecturally significant decisions shape structure, important nondomain qualities, dependencies, interfaces, or construction techniques."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip focuses records on choices that shape other teams and future change."
+          }
+        ]
+      }
     },
     {
       "title": "ADR Shape and Status",
-      "body": "An ADR is a short, focused record, usually one or two pages. Its core sections are Title, Status, Context, Decision, and Consequences; Compliance and Notes add governance and metadata. Proposed, Accepted, and Superseded statuses show the decision's lifecycle. A Request for Comments status can time-box review, and links between superseded records preserve why the system changed and change over time.",
-      "example": "ADR 42 records asynchronous messaging as Accepted. Later, ADR 68 records REST as Accepted and explicitly supersedes 42, so a future reader can see both the current interface and the original reasoning.",
-      "source": "pp. 285–287"
+      "body": "Pip opens a short ADR with Title, Status, Context, Decision, and Consequences. Compliance and Notes add governance and metadata; Proposed, Accepted, and Superseded show lifecycle. Timeboxed Request for Comments can invite review. When a later decision replaces it, Pip links the records so current behavior and historical reasoning remain visible.",
+      "example": "",
+      "source": "pp. 285–287",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "FOCUSED RECORD",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "STATUS LIFECYCLE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "SUPERSEDES LINK",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip opens a short ADR with Title, Status, Context, Decision, and Consequences."
+          },
+          {
+            "node": "step-1",
+            "text": "Compliance and Notes add governance and metadata; Proposed, Accepted, and Superseded show lifecycle."
+          },
+          {
+            "node": "step-3",
+            "text": "When a later decision replaces it, Pip links the records so current behavior and historical reasoning remain visible."
+          }
+        ]
+      }
     },
     {
       "title": "Context, Decision, Consequences",
-      "body": "Context names the forces and alternatives that require a choice. Decision should use an affirmative statement and emphasize why, because implementation details can be rediscovered while rationale is easily lost. Consequences state good and bad impacts and the trade-off between characteristics over time. Together, these sections explain enough of the architecture to prevent a tempting refactor from repeating an old mistake.",
-      "example": "An ADR can explain that asynchronous review posting reduced perceived response time, while accepting harder moderation failure handling because responsiveness mattered more to stakeholders in that context.",
-      "source": "pp. 287–289"
+      "body": "Pip records why review posting became asynchronous. Context names forces and alternatives; the affirmative decision explains why; consequences expose both benefits and costs. Responsiveness improved while moderation failure handling became harder. Pip preserves rationale that code cannot reliably reveal, preventing a tempting refactor from repeating an old mistake.",
+      "example": "",
+      "source": "pp. 287–289",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "CONTEXT + WHY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "message",
+            "label": "ASYNC REVIEW",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "ACCEPTED CONSEQUENCES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip records why review posting became asynchronous."
+          },
+          {
+            "node": "step-1",
+            "text": "Context names forces and alternatives; the affirmative decision explains why; consequences expose both benefits and costs."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip preserves rationale that code cannot reliably reveal, preventing a tempting refactor from repeating an old mistake."
+          }
+        ]
+      }
     },
     {
       "title": "Compliance and One Record",
-      "body": "Compliance asks how a decision will be measured and governed, manually or through an automated fitness function. ADRs should live where all affected readers can reach them, with one file or page per decision. A wiki or shared structure can separate application, integration, and enterprise scope. Using ADRs for standards forces the organization to explain why a rule exists and whether its consequences are acceptable.",
-      "example": "A layered architecture ADR states that shared services belong in one package and links to an ArchUnit check. A new developer can read the reason and run the check instead of relying on a forwarded email.",
-      "source": "pp. 289–293"
+      "body": "Pip’s new developer finds the layer-rule ADR and its executable check in one shared place. Compliance explains manual or automated governance; one file or page keeps each decision focused. Application, integration, and enterprise scopes may have separate shared organization. Pip uses the same discipline for standards so readers can understand and test a rule instead of forwarding old email.",
+      "example": "",
+      "source": "pp. 289–293",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "ACCESSIBLE ADR",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "FITNESS CHECK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "AFFECTED READERS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s new developer finds the layer-rule ADR and its executable check in one shared place."
+          },
+          {
+            "node": "step-1",
+            "text": "Compliance explains manual or automated governance; one file or page keeps each decision focused."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip uses the same discipline for standards so readers can understand and test a rule instead of forwarding old email."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -123,75 +438,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "forces",
-        "label": "FORCES",
-        "kind": "balance",
-        "tone": "peach"
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "fundamentals"
       },
       {
-        "id": "adr",
-        "label": "ADR",
-        "kind": "document",
+        "id": "step-1",
+        "kind": "clock",
+        "label": "DEFERRED CHOICE",
         "tone": "sage"
       },
       {
-        "id": "status",
-        "label": "STATUS",
-        "kind": "gateway",
+        "id": "step-2",
+        "kind": "team",
+        "label": "REPEATED DEBATE",
         "tone": "lilac"
       },
       {
-        "id": "build",
-        "label": "IMPLEMENT",
-        "kind": "component",
-        "tone": "honey"
-      },
-      {
-        "id": "check",
-        "label": "FITNESS",
-        "kind": "gauge",
+        "id": "step-3",
+        "kind": "document",
+        "label": "DURABLE ADR",
         "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "forces",
-        "to": "adr"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "adr",
-        "to": "status"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "status",
-        "to": "build"
-      },
-      {
-        "from": "build",
-        "to": "check"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "forces",
-        "text": "Gather domain, technical, business, and team forces before the last responsible moment."
+        "node": "step-0",
+        "text": "Pip postpones the cache decision until release is blocked, then repeats the debate every sprint."
       },
       {
-        "node": "adr",
-        "text": "Record context, alternatives, an affirmative decision, and its technical and business why."
+        "node": "step-1",
+        "text": "Covering Your Assets delays from fear; Groundhog Day loses justification; Email-Driven Architecture loses the durable record."
       },
       {
-        "node": "status",
-        "text": "Make approval and supersession visible so the decision has a clear lifecycle."
-      },
-      {
-        "node": "build",
-        "text": "Teams implement against one accessible system of record instead of an email chain."
-      },
-      {
-        "node": "check",
-        "text": "Measure compliance with a fitness function or a deliberate review and update the ADR when forces change."
+        "node": "step-3",
+        "text": "Timing, reasoning, and accessible communication address the connected traps."
       }
     ]
+  },
+  "story": {
+    "course": "fundamentals",
+    "world": "bookshop",
+    "title": "The decision keeps coming back"
   }
 }

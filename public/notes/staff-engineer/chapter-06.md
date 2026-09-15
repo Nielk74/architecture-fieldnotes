@@ -1,25 +1,27 @@
 # Chapter 6: Why Have We Stopped?
 
+*Pip’s adventure: The project that kept polishing the wrong door. Fictional teaching story; concepts follow the cited source.*
+
 Original learning summary of Tanya Reilly's The Staff Engineer’s Path (2022). Source: text lines 6513–7679.
 
-Stopping well is part of execution. A project needs a meaningful definition of done, feedback about whether the problem was solved, and a conscious decision to continue, change direction, or stop. Momentum is useful only when it remains connected to the goal.
+Pip’s dashboard rewrite stalls despite a busy workshop. Stopping well means checking the desired outcome, diagnosing obstacles, and choosing whether to continue, change direction, or stop. A shared definition of done and honest feedback keep momentum connected to a useful destination.
 
 ## Stopping rule
 
-A stopping rule names evidence that the goal is met, no longer worthwhile, or needs a different approach. When movement stops, diagnose the obstacle before pushing harder. The team may lack a decision, a skill, shared understanding, or confidence that the destination is still useful. Different obstacles need different interventions; more status meetings do not solve all of them.
+Pip asks for more speed; the workshop asks which obstacle to solve. Is a decision missing, a skill unavailable, understanding uneven, or the destination no longer worthwhile? A stopping rule names evidence that the goal is met or needs reconsideration. Pip checks the agreed adoption threshold instead of adding another status meeting. Different reasons for stopping need different interventions—not one louder instruction to move.
 
 ## Feedback
 
-Feedback compares the result with the intended outcome and supplies information for the next decision. Talk with the people doing the work and compare their accounts with the plan. A quiet dependency or unresolved disagreement may be invisible in a progress chart. Surface uncomfortable information early enough that it can still change the route.
+The progress chart looks calm. A conversation with the people doing the work reveals an unresolved disagreement and a quiet dependency. Feedback compares the actual result with the intended outcome, supplying evidence for the next choice. Pip listens to those accounts alongside support tickets and usage data. Uncomfortable information matters while it can still change the route; a tidy chart is not a reason to ignore it.
 
 ## Momentum
 
-Momentum is useful movement toward a goal; activity without a goal can preserve a failing project. Busy people and many completed tasks can coexist with a stalled outcome. Make the next concrete step and its owner visible. If the original goal no longer makes sense, renegotiate it instead of using activity to avoid that conversation.
+Tickets close all week, but the regulatory fix remains blocked behind Pip’s dashboard rewrite. Momentum means useful movement toward a goal, not visible busyness. Pip names the next concrete step and its owner, then asks whether the old milestone still serves the destination. If the goal has changed, renegotiating it is execution. More activity cannot make an obsolete objective worth reaching.
 
 ## Finishing
 
-Finishing includes rollout, follow-through, documentation, and checking that the problem was actually addressed. The last part of a project often contains unglamorous coordination: adoption, cleanup, communication, and operational handoff. Keep ownership clear through that work. A system that is technically ready but nobody can confidently operate has not reached the destination.
+Pip calls the service ready; the operations team asks who supports it. Finishing includes rollout, adoption, cleanup, documentation, communication, and follow-through. The final handoff needs explicit owners and a check that the original problem was addressed. Pip stays attentive through this unglamorous coordination. A technically complete system that nobody can confidently operate has not reached the workshop’s shared finish line.
 
 ## Teaching extension
 
-A dashboard rewrite has missed its adoption goal twice. The team has built useful components, but continuing would delay a regulatory fix. These invented practice choices are not reported incidents from the book. Use the reflection to apply the distinction to your own role.
+Pip’s dashboard rewrite misses its adoption goal twice. Some components are useful, but continuing delays a regulatory fix. Should the workshop keep polishing? These invented practice choices are not reported incidents from the book. Use the reflection to apply the distinction to your own role.

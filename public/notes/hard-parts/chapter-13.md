@@ -1,17 +1,59 @@
-# Chapter 13 — Contracts
+# Chapter 13: Contracts
 
-The chapter defines a contract as the format used by architectural parts to convey information or dependencies (text lines 8357–8390). That broad definition includes SOAP, REST, gRPC, internal libraries, caches, and other integration points. Contracts cut across static and dynamic coupling: they are the glue between parts, and a frequently changing shared contract can create rippling changes throughout a distributed system.
+*Pip’s adventure: The manifest carries too much. Fictional teaching story; concepts follow the cited source.*
 
-Contracts occupy a spectrum from strict to loose. A strict remote method call governs names, parameters, types, ordering, and other details. Strict JSON can do the same when a schema declares required properties, types, and value constraints (text lines 8391–8415). The benefits are fidelity, versioning, build-time verification, and clear documentation. The costs are tight coupling and the management burden of supporting too many versions or weak deprecation policies (text lines 8416–8508).
+Source: text lines 8357–8721.
 
-Loose contracts use resources or simple name/value pairs. REST models resources, so adding unrelated information need not break a client that uses only a stable subset. GraphQL can provide a consumer-specific view of a profile rather than forcing every consumer to accept every field (text lines 8416–8457). Loose contracts let services evolve internal models and technology independently, but they make missing fields, misspellings, types, and validation someone’s application and governance problem. Loose does not mean semantically empty: a consumer still needs particular facts.
+Pip sends a whole customer dossier when the next service needs only a name. Contracts can be strict or loose, but both need intentional scope. Consumer expectations and build checks help the delivery network evolve without making every internal change everybody’s problem.
 
-Consumer-driven contracts address the tension between flexibility and fidelity. Instead of the provider pushing one agreement, each consumer specifies what it requires, and the provider runs those expectations in its build or deployment pipeline (text lines 8557–8648). The approach permits each consumer to choose an appropriate degree of strictness and keeps a loose integration testable. It requires engineering maturity, reliable continuous integration, and two cooperating mechanisms rather than one.
+## Contract spectrum
 
-Stamp coupling passes a large structure even though a participant accesses only a small portion. A complete industry-standard travel document may justify this shape, because the document itself is the shared semantic object. Accidental stamp coupling is different: over-specifying a Profile contract for Wishlist means unrelated fields can break a consumer and forces unnecessary coordination (text lines 8649–8721). The practical rule is need to know: carry the information the participant actually requires, then govern the agreement with an appropriate check.
+Pip must agree what a delivery message means before choosing its transport. Strict contracts govern names, types, ordering, and required details; loose forms allow flexible values or resources. The choice affects coupling, evolution, verification, documentation, and application logic. Pip chooses technology after the contract, not the other way around.
 
-Two misconceptions are especially costly. JSON does not determine contract looseness; a schema can make JSON strict. Likewise, adding every possible field does not guarantee future safety; it creates change and bandwidth coupling. For a provider serving wishlist, billing, and support, separate consumer expectations are often more resilient than one oversized schema, provided the team can keep checks green.
+Source: text lines 8370–8432.
 
-Modern teaching extension: ask learners to write three contracts for one provider and mark which fields each consumer truly reads. Add one deliberately irrelevant provider change and observe which agreements break. References: supplied early-release text lines 8357–8721.
+## Strict contracts
 
-Contract design also deserves an ownership decision. Someone must decide which fields are semantic commitments, who can deprecate them, and how consumers learn about a change. A small contract can still be difficult when its meaning is ambiguous. Conversely, a strict contract can be appropriate where exact values are safety or business requirements. The useful boundary is the information and behavior that must remain stable for this particular consumer.
+Pip’s typed shipment contract catches an invalid quantity during CI. Strict agreements provide fidelity, documentation, versioning, and build-time verification. A shared contract change can still force coordinated consumer and provider changes. Pip limits version sprawl before compatibility support becomes its own integration burden.
+
+Source: text lines 8388–8408; 8460–8508.
+
+## Loose contracts
+
+Pip sends customer name and status without exposing the full internal model. Loose name/value contracts let services and technology evolve independently. Consumers still depend on meaning and required information. Pip handles missing fields, spelling, types, validation, and governance rather than confusing flexibility with no coupling.
+
+Source: text lines 8441–8457; 8515–8554.
+
+## Consumer-driven checks
+
+Pip’s wishlist needs only a display name from Profile. The consumer specifies required fields and behavior instead of accepting a provider-pushed universal contract. Profile runs that expectation in its build or deployment checks alongside other consumers’ needs. Pip gains fidelity with looser coupling, paying for two cooperating mechanisms and engineering discipline.
+
+Source: text lines 8557–8648.
+
+## Stamp coupling
+
+Pip sends an entire profile for one name and breaks a consumer after an unrelated field change. Stamp coupling passes large structures whose recipients use small portions. A genuine standard itinerary may justify carrying the whole document. Pip otherwise uses need-to-know contracts to reduce bandwidth and accidental change coupling.
+
+Source: text lines 8649–8721.
+
+## Transfer challenge: Share a customer profile
+
+A profile provider serves wishlist, billing, and support teams. Wishlist needs only a display name; billing needs address fields; support needs contact preferences. Teams deploy independently and the provider’s internal model changes frequently. Decide how to keep consumers reliable while avoiding a single oversized agreement.
+
+### Consumer contracts
+
+Each consumer governs only the fields it needs and the provider verifies them continuously. Teams must maintain contract tests and disciplined CI across several agreements. A profile refactor preserves Wishlist because its name contract remains green. Billing can evolve its address expectations separately, with failures visible before deployment.
+
+### Strict shared schema
+
+One explicit versioned schema gives strong fidelity, documentation, and build-time validation. All consumers inherit coupling to schema changes and must manage version retirement. The provider catches invalid responses early, but adding an unrelated preference field or changing an address type requires coordinated version planning across consumers.
+
+Consumer-specific contracts fit different needs and independent evolution. A strict shared schema is reasonable where exact fidelity and common governance outweigh change coupling; scope and maturity decide the balance.
+
+## Write a bounded contract
+
+Choose one provider and three consumers. Define the minimum fields each needs, identify one strict rule, and specify the fitness check that catches a breaking provider change.
+
+- Context
+- Decision
+- Trade-off

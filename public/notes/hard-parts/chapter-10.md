@@ -1,18 +1,53 @@
 # Chapter 10: Distributed Data Access
 
-When a service needs data owned by another domain, direct table access is tempting but breaks bounded contexts. The chapter compares four access patterns using the Wishlist and Catalog example (text lines 6557–6587).
+*Pip’s adventure: A fast answer from a possibly old copy. Fictional teaching story; concepts follow the cited source.*
 
-Inter-service communication keeps ownership clear. The consumer asks the owner through a contract that hides schema details. The cost is network latency, runtime dependency, and possible aggregation across several calls (text lines 6587–6621). Timeouts and degraded behavior must be part of the design. Column schema replication copies selected fields into the consumer’s schema. It makes reads local and can avoid service dependency, but values become stale, synchronization is required, and the consumer’s relationship to ownership needs governance (text lines 6623–6661).
+Source: text lines 6557–6855.
 
-Replicated caching keeps synchronized copies in each service’s memory. It is exceptionally responsive and can remain available after the owner goes down once the cache is populated. The costs are startup ordering, product and network configuration, memory multiplied by service instances, and poor fit for large or rapidly changing data (text lines 6663–6729). A centralized distributed cache does not provide the same benefit: it remains a remote dependency and can blur ownership (text lines 6671–6685).
+Pip needs product details while Catalog is unreachable. Calling the owner, copying selected fields, replicating a cache, or sharing a schema offer different freshness and independence. Pip chooses from the actual read pattern, not from speed alone.
 
-A shared data domain puts tables in one schema. SQL joins, foreign keys, views, triggers, and stored procedures remain available, and no replication or network call is needed. The price is a broader bounded context, wider change impact, ownership governance, and potentially excessive data access (text lines 6731–6780). It is a conscious integration choice, not a shortcut.
+## Inter-service calls
 
-The decision should quantify data volume, update rate, latency target, availability needs, instance count, and consistency promise. The chapter’s final case chooses replicated caching for small, mostly static expert profiles: roughly 1.2 MB across 900 experts, with known service instance limits (text lines 6780–6848). It preserves User Management as the sole writer while allowing Ticket Assignment fast local reads. The startup dependency and licensing cost are recorded consequences.
+Pip’s delivery wishlist asks Catalog for a description. The owner’s API hides storage and avoids synchronization. Each request adds latency and an availability dependency; many calls can hurt throughput and resilience. Pip defines timeouts, retries, and unavailable behavior before depending on the answer.
 
-Teaching extension: write an access decision record for one cross-domain read. Include the owner, selected pattern, freshness guarantee, outage behavior, synchronization or contract mechanism, and a fitness function for lag or latency. Revisit the choice if data volume or update rate changes; the pattern is workload-dependent.
+Source: text lines 6577–6621.
 
-The final Sysops Squad decision is a compact example of evidence-based selection. The team rejects a shared data domain because the ticket service already uses a ticket schema and the domains should remain separate; it rejects calls because performance and availability matter; it chooses a replicated cache after estimating volume and instances (text lines 6780–6848). The recorded startup dependency and licensing cost prevent the decision from being sold as a free optimization. Those consequences are part of the architecture and must be operated deliberately.
+## Column replication
 
-Do not hide these costs behind the word “cache.” A copied value needs a source of truth, an update path, a freshness target, and an answer for cold start. If those answers are missing, the design has created a second database without the governance needed to keep it trustworthy.
-That governance keeps local copies trustworthy over time.
+Pip copies only product name and thumbnail into the wishlist store. Column replication makes reads local and independent. Values can become stale, and synchronization, monitoring, and write ownership need explicit rules. Catalog remains the writer while Pip tracks refresh events and lag.
+
+Source: text lines 6623–6661.
+
+## Replicated cache
+
+Pip considers caching the book’s 900 mostly static expert profiles. Two owner instances plus four assignment instances multiply in-memory copies. Replicated caches provide fast reads and resilience after population, but large or volatile data strains memory and propagation. Pip checks startup dependence on an owner or populated peer before relying on independent operation.
+
+Source: text lines 6663–6729, 6780–6848.
+
+## Shared data domain
+
+Pip joins Wishlist and Product directly in one schema. A shared data domain preserves local constraints, views, triggers, procedures, query performance, and consistency without replication. The broader bounded context makes schema changes, governance, access controls, and ownership less isolated. Pip accepts coordinated changes explicitly instead of describing the services as independent.
+
+Source: text lines 6731–6780.
+
+## Transfer challenge: Serve expert profiles
+
+Ticket Assignment needs skill, zones, and scheduled availability from User Management. The data is 1.2 MB total, relatively static, and must be read quickly. Ticket Assignment may run four instances; User Management may run two. The services are separate domains and the assignment path cannot tolerate repeated network latency.
+
+### Replicate cache
+
+Reads are local and fast, and assignment keeps running after the owner is temporarily unavailable once populated. Memory multiplies across instances and the first instance depends on owner startup and cache-product configuration. User Management owns writes and populates a read-only replica. The team measures memory, startup sequencing, update lag, and product licensing before rollout.
+
+### Service calls
+
+No duplicate memory or synchronization stream; User Management remains the sole source. Every assignment depends on network latency and User Management availability. Ticket Assignment requests profiles with timeouts and retries. During owner outages assignment slows or pauses, but profile freshness and deployment setup remain simple.
+
+Small, static data and strict latency favor replicated caching, provided startup and memory costs are acceptable. Volatile or large data would shift the balance toward calls or another pattern.
+
+## Select an access pattern
+
+For one cross-domain read, quantify payload size, update rate, latency target, instance count, availability need, and consistency promise, then select and defend one access pattern.
+
+- Context
+- Decision
+- Trade-off

@@ -1,25 +1,27 @@
 # Chapter 3: Creating the Big Picture
 
+*Pip’s adventure: Four doors, four incompatible keys. Fictional teaching story; concepts follow the cited source.*
+
 Original learning summary of Tanya Reilly's The Staff Engineer’s Path (2022). Source: text lines 2581–4070.
 
-A big-picture technical leader turns scattered problems into a coherent direction. Vision describes a desired future, strategy describes the coordinated choices to reach it, and written artifacts align people without requiring the staff engineer to become a permanent bottleneck.
+Four teams bring Pip incompatible APIs. A vision describes the useful future; strategy coordinates choices to reach it. Pip involves the affected teams and writes the reasoning so they can make compatible local decisions without queuing at one desk.
 
 ## Vision
 
-A technical vision describes a coherent future state and why it matters to users and the organization. Describe the future in terms that let people make compatible choices. A useful vision connects the technical landscape to the organization's needs, so it helps people decide what belongs in that future and what should gradually disappear.
+Four teams arrive with incompatible API plans. Pip asks what the workshop should make possible: teams safely evolving APIs without a central queue. That is a technical vision—a coherent future and why it matters to users and the organization. It connects the technical landscape to real needs. Colleagues can use it to decide what belongs in the future and what should gradually disappear.
 
 ## Strategy
 
-A strategy is a set of coordinated choices and actions, including what will not be pursued. A vision names a destination; strategy makes choices about reaching it. Account for the starting position, constraints, and priorities. A list of desirable technologies is not enough because it does not resolve competition for people, time, and attention.
+Pip’s vision earns nods, but the teams still need a route. Strategy chooses coordinated actions and priorities under present constraints, including what not to pursue. Compatibility first, migration next, deletion later: the sequence makes trade-offs visible. A shopping list of attractive technologies would not resolve competition for people, time, and attention. Pip starts from the workshop’s actual position rather than confusing the destination with the plan.
 
 ## Alignment
 
-Alignment means affected people share enough context to make compatible decisions without constant escalation. Bring people into the process before presenting a finished answer. Understanding their constraints can change the plan and creates shared ownership. Agreement that a document sounds good is weaker than teams being able to explain how it changes their next decision.
+Pip brings a polished proposal to the workshop; a team points out a constraint that breaks it. Next time, they work together earlier. Alignment means affected people share enough context to make compatible decisions without constant escalation. Participation can improve the plan and its ownership. Polite agreement with a document is weaker evidence than each team explaining how the shared API principle changes its next choice.
 
 ## Writing
 
-Writing creates durable institutional memory and lets readers challenge reasoning asynchronously. Make the audience, purpose, and needed response clear. A written artifact can be reviewed, revisited, and updated as circumstances change. It helps people outside the original conversation see both the proposed direction and the reasoning behind it.
+A colleague misses Pip’s meeting but still needs to decide. A written RFC carries the audience, purpose, proposed direction, requested response, and reasoning beyond that meeting. It preserves rejected alternatives and invites asynchronous challenge. Pip updates it when circumstances change. Writing creates institutional memory that can be reviewed and revisited; it does not require everyone to find Pip whenever a question appears.
 
 ## Teaching extension
 
-Four teams propose incompatible data APIs. You have one quarter to reduce duplicate work and cannot centralize every implementation decision. These invented practice choices are not reported incidents from the book. Use the reflection to apply the distinction to your own role.
+Four workshop teams bring Pip incompatible data APIs. One quarter remains to reduce duplication without centralizing every implementation choice. These invented practice choices are not reported incidents from the book. Use the reflection to apply the distinction to your own role.

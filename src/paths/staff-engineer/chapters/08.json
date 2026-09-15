@@ -3,7 +3,7 @@
   "title": "Good Influence at Scale",
   "part": "Leveling Up",
   "subtitle": "Help others succeed beyond your immediate team",
-  "summary": "Influence at scale comes from relationships, teaching, writing, and structures that let good decisions travel. Staff engineers build bridges across teams, form coalitions, and adapt a message to stakeholders rather than relying on authority they do not possess.",
+  "summary": "Pip’s redesign proposal lands badly. Without authority, influence depends on trust, evidence, relationships, and understanding other people’s needs. Listening, teaching, writing, and connecting teams let good judgment travel through the workshop without requiring Pip to own every outcome.",
   "source": {
     "startLine": 8703,
     "endLine": 9789,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Influence",
-      "body": "Influence changes decisions through trust, evidence, and relationships when formal authority is absent. Advice works better when you understand what the other person is trying to accomplish and whether they want advice. Ask before prescribing. Trust and relevant context make a recommendation usable; seniority alone does not make it the right answer.",
-      "example": "Teaching extension: A support report and a design note persuade through evidence rather than rank.",
-      "source": "text lines 8703–9789"
+      "body": "Pip arrives with a redesign; the owning team wanted help understanding a support report. Influence works through trust, evidence, and relationships when formal authority is absent. Pip asks what the team is trying to achieve and whether advice would help before prescribing a solution. Seniority does not make the recommendation right. Relevant context makes a design note usable; rank alone cannot supply it.",
+      "example": "",
+      "source": "text lines 8703–9789",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "UNASKED PROPOSAL",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "listening",
+            "label": "ACTUAL NEED",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "trace",
+            "label": "RELEVANT EVIDENCE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks whether advice would be useful."
+          },
+          {
+            "node": "step-1",
+            "text": "A technically sound proposal may miss the request."
+          },
+          {
+            "node": "step-3",
+            "text": "Trust and evidence make a recommendation usable."
+          }
+        ]
+      }
     },
     {
       "title": "Stakeholders",
-      "body": "Stakeholders experience different consequences and hold information needed for a workable decision. Listen for the constraints behind a position rather than treating disagreement as ignorance. Different teams may have legitimate goals that the proposed change affects differently. Understanding those needs helps you find an intervention that people can actually sustain.",
-      "example": "Teaching extension: Support, product, and engineering name different consequences of the same outage.",
-      "source": "text lines 8703–9789"
+      "body": "Support sees customer frustration; engineering sees a fragile dependency; product sees an interrupted journey. Pip listens for the constraints behind each position instead of treating disagreement as ignorance. Stakeholders experience different consequences and hold information a workable decision needs. Their goals may all be legitimate. The workshop needs an intervention people can sustain, not a winner in a contest over whose perspective counts.",
+      "example": "",
+      "source": "text lines 8703–9789",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "colleague",
+            "label": "SUPPORT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "team",
+            "label": "ENGINEERING & PRODUCT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "stakeholders",
+            "label": "SHARED CONSEQUENCES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks who experiences the consequences."
+          },
+          {
+            "node": "step-1",
+            "text": "Support sees the customer’s recurring pain."
+          },
+          {
+            "node": "step-3",
+            "text": "Find a workable intervention across those perspectives."
+          }
+        ]
+      }
     },
     {
       "title": "Teaching",
-      "body": "Teaching scales judgment by giving groups models, examples, and practice they can apply independently. Repeated individual advice can become a shared guide, workshop, or other teaching opportunity. Choose a format that lets people practice and ask questions. The purpose is to help them apply judgment later, rather than requiring your presence for each repeat problem.",
-      "example": "Teaching extension: A brown-bag session lets teams practice the new review technique.",
-      "source": "text lines 8703–9789"
+      "body": "The same review question reaches Pip from three teams. Instead of answering privately forever, Pip organizes a shared practice session with examples and room for questions. Teaching scales judgment when colleagues can apply it later without the teacher present. A guide or workshop should build that independence. Repeating the answer to a larger audience is not enough if nobody gets to try the reasoning.",
+      "example": "",
+      "source": "text lines 8703–9789",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "queue",
+            "label": "REPEATED QUESTION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "workshop",
+            "label": "PRACTICE SESSION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "INDEPENDENT JUDGMENT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip notices the same question arriving repeatedly."
+          },
+          {
+            "node": "step-1",
+            "text": "Private answers keep the dependency alive."
+          },
+          {
+            "node": "step-3",
+            "text": "Help teams apply the judgment without Pip present."
+          }
+        ]
+      }
     },
     {
       "title": "Bridge",
-      "body": "A bridge translates between teams or disciplines while preserving the important meaning on both sides. Connect people who have complementary knowledge, and translate the context each side is missing. Often the highest-value contribution is enabling a conversation or removing an obstacle. A catalyst helps useful work happen without needing to own its eventual credit.",
-      "example": "Teaching extension: The staff engineer translates customer language into a decision the owning team can act on.",
-      "source": "text lines 8703–9789"
+      "body": "A customer describes a confusing failure; the owning team discusses API contracts. Pip translates the missing context and brings the people together. A bridge preserves important meaning on both sides, connecting complementary knowledge. Sometimes removing an obstacle or enabling a conversation is the most valuable contribution. Pip can act as a catalyst without owning the eventual project—or collecting its credit.",
+      "example": "",
+      "source": "text lines 8703–9789",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "colleague",
+            "label": "CUSTOMER CONTEXT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "handoff",
+            "label": "TRANSLATE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "OWNING TEAM",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip connects people with complementary knowledge."
+          },
+          {
+            "node": "step-1",
+            "text": "Preserve the customer’s meaning."
+          },
+          {
+            "node": "step-3",
+            "text": "The owning team can act without Pip claiming the whole outcome."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -47,22 +299,22 @@
   ],
   "scenario": {
     "title": "Build influence",
-    "context": "Support reports recurring customer pain, but the owning team distrusts architecture proposals. You have no authority to mandate a redesign.",
+    "context": "Support brings Pip recurring customer pain. The owning workshop team distrusts architecture proposals, and Pip cannot mandate a redesign.",
     "options": [
       {
         "label": "Listen and bridge",
-        "benefit": "Clarifies the decision and creates a workable path through the stated constraint.",
-        "cost": "Listening may reveal that the proposed technical fix is not the customer’s highest-cost problem.",
-        "consequence": "You collect support examples, invite the team into the diagnosis, and co-author a small experiment."
+        "benefit": "Customer examples and team constraints shape a shared experiment.",
+        "cost": "Listening may overturn Pip’s preferred technical solution.",
+        "consequence": "Pip invites support and the owners into the diagnosis. Together they choose a small experiment with a clear purpose."
       },
       {
         "label": "Publish a mandate",
-        "benefit": "Feels faster or safer in the immediate moment and preserves a familiar habit.",
-        "cost": "A mandate spends relationship capital and invites quiet resistance.",
-        "consequence": "The proposal may be technically sound, but the team lacks ownership and quietly routes around it."
+        "benefit": "A redesign is quick to announce.",
+        "cost": "An unsupported mandate spends trust and invites resistance.",
+        "consequence": "The proposal lacks ownership. The team routes around it, even if some technical ideas were sound."
       }
     ],
-    "debrief": "Both options respond to a real constraint. The stronger choice makes ownership and consequences visible, then creates a point to learn and adjust."
+    "debrief": "Influence begins with understanding the problem other people have. Pip earns a useful role in the conversation rather than assuming one."
   },
   "quiz": [
     {
@@ -117,69 +369,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "listening",
-        "label": "LISTENING",
-        "kind": "listening",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
-      },
-      {
-        "id": "stakeholders",
-        "label": "STAKEHOLDERS",
-        "kind": "stakeholders",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
-      },
-      {
-        "id": "whiteboard",
-        "label": "WHITEBOARD",
-        "kind": "whiteboard",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
-      },
-      {
-        "id": "colleague",
-        "label": "COLLEAGUE",
-        "kind": "colleague",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 500,
-        "y": 100
+        "course": "staff-engineer"
+      },
+      {
+        "id": "step-1",
+        "kind": "document",
+        "label": "UNASKED PROPOSAL",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "listening",
+        "label": "ACTUAL NEED",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "trace",
+        "label": "RELEVANT EVIDENCE",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "listening",
-        "to": "stakeholders"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "stakeholders",
-        "to": "whiteboard"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "whiteboard",
-        "to": "colleague"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "listening",
-        "text": "Use this listening view to make the next decision visible."
+        "node": "step-0",
+        "text": "Pip asks whether advice would be useful."
       },
       {
-        "node": "stakeholders",
-        "text": "Use this stakeholders view to make the next decision visible."
+        "node": "step-1",
+        "text": "A technically sound proposal may miss the request."
       },
       {
-        "node": "whiteboard",
-        "text": "Use this whiteboard view to make the next decision visible."
-      },
-      {
-        "node": "colleague",
-        "text": "Use this colleague view to make the next decision visible."
+        "node": "step-3",
+        "text": "Trust and evidence make a recommendation usable."
       }
     ]
+  },
+  "story": {
+    "course": "staff-engineer",
+    "world": "workshop",
+    "title": "The proposal nobody asked for"
   }
 }

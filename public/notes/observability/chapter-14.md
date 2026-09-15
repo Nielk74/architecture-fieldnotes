@@ -1,27 +1,53 @@
-# 14. Observability and the Software Supply Chain
+# Chapter 14: Observability and the Software Supply Chain
 
-Trace the build system as a distributed service
+*Pip’s adventure: The slow build is waiting, not testing. Fictional teaching story; concepts follow the cited source.*
 
-Slack’s software supply-chain case applies observability to the path from code change through testing and deployment. At scale, this path contains interacting services, runners, queues, and test workloads, so unexplained build delays and flaky failures resemble production debugging problems. Shared instrumentation libraries and rich span dimensions make those interactions searchable. Engineers can distinguish queueing from execution, associate failures with commits or test suites, and investigate what changed instead of treating a red CI result as a complete explanation. Links from familiar workflow surfaces help people reach the relevant evidence. The chapter’s contribution is operational visibility into delivery infrastructure: teams can test hypotheses, apply changes, and verify recovery using the same exploratory practices employed for customer-facing systems.
+Source: text lines 5812–6225.
+
+Pip’s market release stalls in CI and another rerun reveals nothing. Build pipelines are distributed systems too. Connected operations, shared context, and direct links from build results let feature owners investigate delays without becoming build-system specialists.
 
 ## CI is also a distributed system
 
-A build may coordinate webhooks, schedulers, worker fleets, test services, and deployment machinery. Its final status compresses many interactions and cannot explain every delay or failure. Instrumenting this path as connected operations reveals where work waited or failed, giving developers a way to investigate the delivery system rather than repeatedly rerun it.
+Pip’s slow build spends its time waiting for a runner. Webhooks, schedulers, workers, tests, and deployment machinery form a distributed workflow. A final pass or fail compresses those interactions. Pip traces the path to distinguish waiting from execution instead of repeatedly rerunning it.
+
+Source: text lines 5812–6225.
 
 ## Shared clients spread useful context
 
-Slack’s case uses shared instrumentation libraries to make trace emission and common dimensions easier to adopt across its CI services. Consistent context lets engineers connect activity across boundaries and compare runs. Useful attributes reflect this domain, such as the relevant commit, test suite, or execution environment, rather than only generic host measurements.
+Pip adds commit, suite, and environment fields to build spans. Slack’s case uses shared instrumentation libraries for common dimensions and trace emission across CI services. Consistent context connects boundaries and comparable runs. Pip can group failures by the same suite and revision, not merely host health.
+
+Source: text lines 5812–6225.
 
 ## Bring evidence into the workflow
 
-Telemetry becomes more useful when the interfaces people already use provide a route into relevant traces and queries. A CI failure or operational alert should connect its recipient to the affected run and dimensions. This reduces the effort of reconstructing context and helps engineers who are not build-system specialists investigate their own failures.
+Pip opens a failed build result directly into its trace and suite query. Evidence belongs in interfaces developers already use. Preserved run identity and dimensions remove reconstruction work. Pip makes the investigation accessible to the feature owner rather than only the build specialist.
+
+Source: text lines 5812–6225.
 
 ## Compare changes and validate recovery
 
-When build behavior changes, compare cohorts and revisions to identify what is different, then inspect fresh telemetry after an intervention. Slack’s examples show investigation as a sequence of hypotheses and observed results. A revert or configuration change is therefore an experiment whose effect must be checked, rather than evidence by itself that the incident is resolved.
+Pip reverts a suspected CI change and watches fresh runs. Slack’s examples connect cohort and revision comparisons with successive hypotheses and observations. A revert is an experiment, not proof of recovery. Pip verifies whether the affected failure pattern actually disappears after the intervention.
 
-## Apply it
+Source: text lines 5812–6225.
+
+## Transfer challenge: Reruns hide a queue problem
+
+Developers repeatedly rerun slow CI jobs, but most elapsed time precedes test execution.
+
+### Trace scheduling and runner allocation
+
+Can distinguish queue delay from test runtime. Needs instrumentation across CI service boundaries. The improvement effort can target scheduling capacity or coordination rather than the assertions.
+
+### Optimize individual tests first
+
+May shorten execution for those tests. May barely affect total build time if waiting dominates. Faster tests can leave developers waiting nearly as long for the build.
+
+Measure where elapsed time is actually spent before choosing the optimization target.
+
+## Instrument the delivery path
 
 Map one code change from CI trigger to test completion and identify where unexplained time could accumulate.
 
-Source: *Observability Engineering*, chapter 14; supplied text lines 5812–6225. These notes are an original synthesis; examples and activities are illustrative.
+- Operations and boundaries
+- Commit and test dimensions
+- Evidence that verifies an improvement

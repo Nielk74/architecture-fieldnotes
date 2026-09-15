@@ -3,7 +3,7 @@
   "title": "Negotiation and Leadership Skills",
   "part": "Techniques & people",
   "subtitle": "Turn disagreement into a better shared decision",
-  "summary": "Architecture decisions are challenged by stakeholders, developers, and other architects, so negotiation and leadership are part of the architect's technical work. The chapter recommends translating emphatic language into the underlying concern, gathering facts before negotiating, and narrowing broad demands to the subsystem that truly needs them. Demonstration in a production-like environment beats an abstract argument; calm reasoning preserves relationships. With developers, explain the reason before the constraint and invite them to test a disputed alternative, allowing evidence and buy-in to emerge. Leadership rests on the four Cs: communication, collaboration, clarity, and conciseness. Architects should balance visionary thinking with budget, time, team skill, trade-offs, and technical limits. They lead by example and grammar that invites participation, become available to the team, and create personal trust. Managing meetings protects developer flow: qualify invitations, use agendas, keep architect-called meetings purposeful, and make time to sit with or visit the development team.",
+  "summary": "Pip hears an impossible-sounding demand and starts by finding the real concern. Measurements, local experiments, and calm collaboration make trade-offs discussable. Clear, concise leadership protects both stakeholder trust and the team’s ability to work.",
   "source": {
     "startLine": 11843,
     "endLine": 12533,
@@ -12,33 +12,348 @@
   "concepts": [
     {
       "title": "Translate the Demand",
-      "body": "Stakeholder phrases such as zero downtime or lightning fast are signals about priority, not complete requirements. An architect should identify the underlying concern, research the numbers, and turn vague language into a shared discussion of measurable outcomes. Narrowing a demand to the part of the system that needs it can reduce unnecessary cost. Cost and time are useful evidence, but opening with them can derail trust.",
-      "example": "Five nines means about five minutes and thirty-five seconds of downtime per year. Asking which trading operation actually needs that target may produce a narrower, affordable requirement than applying it to every component.",
-      "source": "pp. 347–350"
+      "body": "Pip hears “zero downtime” and asks which bookshop operation truly needs the guarantee. Vague demands signal priorities, not complete requirements. Five nines allows about five minutes thirty-five seconds yearly; narrowing the scope may avoid unnecessary cost. Pip researches measurable outcomes and builds shared understanding before opening with a budget objection.",
+      "example": "",
+      "source": "pp. 347–350",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "listening",
+            "label": "UNDERLYING CONCERN",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "MEASURABLE TARGET",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "boundary",
+            "label": "NECESSARY SCOPE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip hears “zero downtime” and asks which bookshop operation truly needs the guarantee."
+          },
+          {
+            "node": "step-1",
+            "text": "Vague demands signal priorities, not complete requirements."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip researches measurable outcomes and builds shared understanding before opening with a budget objection."
+          }
+        ]
+      }
     },
     {
       "title": "Demonstrate and Stay Calm",
-      "body": "When architects disagree about REST, messaging, or another choice, a test in a production-like environment provides evidence specific to their system. General claims found by searching cannot settle local latency, throughput, or failure behavior. Avoid personal or argumentative escalation; pause when necessary and return with clear reasoning. Calm leadership protects collaboration while leaving room for either side to discover they were wrong.",
-      "example": "Two architects build a small comparison with representative payloads, network conditions, and load. The measurements expose whether messaging's buffering helps this system instead of relying on a universal claim about speed.",
-      "source": "pp. 350–351"
+      "body": "Pip and another architect disagree about REST and messaging. They test representative payloads, network conditions, load, latency, throughput, and failures in a production-like setting. Generic claims cannot settle local behavior. Pip stays calm, pauses if needed, and returns with evidence that leaves both people room to learn.",
+      "example": "",
+      "source": "pp. 350–351",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "api",
+            "label": "REST OPTION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "queue",
+            "label": "MESSAGING OPTION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "experiment",
+            "label": "LOCAL COMPARISON",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip and another architect disagree about REST and messaging."
+          },
+          {
+            "node": "step-1",
+            "text": "They test representative payloads, network conditions, load, latency, throughput, and failures in a production-like setting."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip stays calm, pauses if needed, and returns with evidence that leaves both people room to learn."
+          }
+        ]
+      }
     },
     {
       "title": "Collaborate with Developers",
-      "body": "An architect should explain why a constraint exists before asking a developer to follow it. Stating the reason first lets the developer hear the justification and shifts the discussion toward solving the remaining problem. Invite a developer to show how a preferred alternative meets the required characteristic; if it succeeds, the architect learns, and if it fails, the developer sees the evidence and can support the decision.",
-      "example": "Instead of ordering a closed layer, explain that change control requires database calls through the business layer, then work with the developer on a fast path for simple queries within that rule.",
-      "source": "pp. 351–352"
+      "body": "Pip explains why controlled database access needs a closed layer before asking for compliance. The developer proposes a faster alternative. Pip invites a demonstration that it meets the required characteristic and works through the remaining constraints together. Evidence can improve either person’s view instead of turning the discussion into an order.",
+      "example": "",
+      "source": "pp. 351–352",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "REASON FIRST",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "terminal",
+            "label": "DEVELOPER ALTERNATIVE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "TESTED CONSTRAINT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip explains why controlled database access needs a closed layer before asking for compliance."
+          },
+          {
+            "node": "step-1",
+            "text": "The developer proposes a faster alternative."
+          },
+          {
+            "node": "step-3",
+            "text": "Evidence can improve either person’s view instead of turning the discussion into an order."
+          }
+        ]
+      }
     },
     {
       "title": "The Four Cs",
-      "body": "Communication, collaboration, clarity, and conciseness work together to prevent accidental complexity and build respect across the entire project. Essential complexity reflects a genuinely hard problem; accidental complexity is difficulty the architect has introduced through needless design or explanation. The four Cs help stakeholders and teams understand the real problem, form solutions together, and keep the architecture approachable in daily work.",
-      "example": "A clear one-page topology with a concise reason for a boundary lets a team discuss a real availability constraint. An elaborate diagram full of unexplained flows may create the appearance of expertise while obscuring the decision.",
-      "source": "pp. 353–355"
+      "body": "Pip replaces an elaborate unexplained diagram with one clear page and a boundary rationale. Communication, collaboration, clarity, and conciseness keep the architecture approachable. Essential complexity belongs to the problem; unnecessary design or explanation adds accidental complexity. Pip uses the four Cs to expose the real availability issue and form a solution together.",
+      "example": "",
+      "source": "pp. 353–355",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "blueprint",
+            "label": "CLEAR TOPOLOGY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "CONCISE RATIONALE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "SHARED SOLUTION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip replaces an elaborate unexplained diagram with one clear page and a boundary rationale."
+          },
+          {
+            "node": "step-1",
+            "text": "Communication, collaboration, clarity, and conciseness keep the architecture approachable."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip uses the four Cs to expose the real availability issue and form a solution together."
+          }
+        ]
+      }
     },
     {
       "title": "Lead by Example and Protect Flow",
-      "body": "A pragmatic visionary combines future-aware thinking with budget, time, skills, trade-offs, and technical limitations. Leadership comes from useful behavior and respect rather than title: ask questions, use people's names correctly, offer help, and turn a demand into a favor when appropriate. Protect developer flow by qualifying meetings, requesting agendas, avoiding unnecessary interruptions, and making visible time for the team consistently.",
-      "example": "An architect asks to attend only the relevant part of a meeting, then schedules a needed design session near the day boundary. They sit with the team or visit regularly so questions surface before implementation drifts.",
-      "source": "pp. 355–363"
+      "body": "Pip questions an unnecessary meeting and offers focused design time near a day boundary. A pragmatic visionary combines future needs with budget, time, skills, trade-offs, and technical limits. Respectful questions, correct names, useful help, and regular availability build leadership beyond a title. Pip protects developer flow while remaining present enough for concerns to surface early.",
+      "example": "",
+      "source": "pp. 355–363",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "PROTECTED FLOW",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "listening",
+            "label": "RESPECTFUL HELP",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "mentor",
+            "label": "PRAGMATIC LEADERSHIP",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip questions an unnecessary meeting and offers focused design time near a day boundary."
+          },
+          {
+            "node": "step-1",
+            "text": "A pragmatic visionary combines future needs with budget, time, skills, trade-offs, and technical limits."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip protects developer flow while remaining present enough for concerns to surface early."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -123,75 +438,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "signal",
-        "label": "SIGNAL",
-        "kind": "message",
-        "tone": "peach"
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "fundamentals"
       },
       {
-        "id": "evidence",
-        "label": "EVIDENCE",
-        "kind": "document",
-        "tone": "honey"
-      },
-      {
-        "id": "conversation",
-        "label": "COLLAB",
-        "kind": "team",
-        "tone": "lilac"
-      },
-      {
-        "id": "decision",
-        "label": "TRADE-OFF",
-        "kind": "balance",
+        "id": "step-1",
+        "kind": "listening",
+        "label": "UNDERLYING CONCERN",
         "tone": "sage"
       },
       {
-        "id": "team",
-        "label": "TEAM FLOW",
-        "kind": "team",
+        "id": "step-2",
+        "kind": "clock",
+        "label": "MEASURABLE TARGET",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "boundary",
+        "label": "NECESSARY SCOPE",
         "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "signal",
-        "to": "evidence"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "evidence",
-        "to": "conversation"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "conversation",
-        "to": "decision"
-      },
-      {
-        "from": "decision",
-        "to": "team"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "signal",
-        "text": "Listen for the priority hidden in a stakeholder's emphatic requirement."
+        "node": "step-0",
+        "text": "Pip hears “zero downtime” and asks which bookshop operation truly needs the guarantee."
       },
       {
-        "node": "evidence",
-        "text": "Research the numbers, test alternatives, and scope the requirement to the affected subsystem."
+        "node": "step-1",
+        "text": "Vague demands signal priorities, not complete requirements."
       },
       {
-        "node": "conversation",
-        "text": "State the reason first, invite the other person's view, and keep disagreement calm."
-      },
-      {
-        "node": "decision",
-        "text": "Agree on a clear trade-off using business value, technical limits, and consequences."
-      },
-      {
-        "node": "team",
-        "text": "Protect developer flow and lead through availability, respect, and follow-through."
+        "node": "step-3",
+        "text": "Pip researches measurable outcomes and builds shared understanding before opening with a budget objection."
       }
     ]
+  },
+  "story": {
+    "course": "fundamentals",
+    "world": "bookshop",
+    "title": "Pip asks what “zero downtime” protects"
   }
 }

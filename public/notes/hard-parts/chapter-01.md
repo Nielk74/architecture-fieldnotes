@@ -1,15 +1,53 @@
 # Chapter 1: What Happens When There Are No Best Practices?
 
-The chapter opens by challenging the language of “best practices.” Architectural problems are shaped by a particular organization, technology environment, data, history, and constraints, so a solution that worked elsewhere may not transfer. The architect’s central skill is trade-off analysis: identify the forces, understand their interaction, and select the “least worst” combination. “Best” implies that all competing qualities can be maximized; the chapter argues that architecture usually requires balancing qualities that pull in opposite directions (text lines 196–255).
+*Pip’s adventure: The least-worst crossing. Fictional teaching story; concepts follow the cited source.*
 
-The book’s subject is deliberately structural: the things that are difficult to change later. It introduces the Sysops Squad, a support-ticket application whose monolith handles customer registration, billing, experts, ticketing, notifications, surveys, knowledge-base work, and reporting. The single database stores operational records and reporting views. Customers experience lost tickets, bad assignments, freezes, crashes, and unavailable ticket entry. This setting makes the architectural problem concrete: data persists beyond individual systems, and a change to one structural area can affect many business capabilities (text lines 256–336).
+Source: text lines 196–799.
 
-Architecture Decision Records provide a compact way to preserve the reasoning. The context names the problem and alternatives; the decision states the choice and justification; consequences record effects and trade-offs. An ADR is valuable later because it records why a boundary or style was accepted, rather than leaving only a diagram that can be misread as universal advice (text lines 337–379).
+Pip’s island delivery system freezes while reports run. Splitting it might help, but the team cannot maximize speed, safety, and migration simplicity together. Pip records the least-worst decision and gives its important promises executable checks.
 
-The chapter then introduces architecture fitness functions. A fitness function is any mechanism that performs an objective integrity assessment of one architectural characteristic or a combination of characteristics. A dependency-cycle check is atomic. A test combining security and performance concerns is holistic. Vague characteristics such as agility must be decomposed into measurable contributors such as deployability, testability, and cycle time. Fitness functions govern architecture characteristics; ordinary tests validate domain behavior that requires domain knowledge (text lines 380–506).
+## Least-worst trade-offs
 
-Continuous feedback is the governance mechanism. A build can check component cycles, enforce layered dependencies, or measure a performance threshold. Dynamic checks can account for context, such as concurrent users and performance per user. Some concerns, such as legal review, remain manual, but should run as often as practical. The chapter relates this to continuous integration and DevOps: automation replaces fragile, late, repetitive review with fast feedback in the normal delivery flow (text lines 507–590).
+Pip wants faster deliveries, safer releases, and a migration finished tomorrow. The constraints pull in different directions; no design maximizes them all. Pip compares consequences and chooses the least-worst balance for this network. Advice from another organization may fail when business, data, or technology constraints change.
 
-The chapter also warns against overusing fitness functions. An impossible web of rules frustrates teams; the purpose is an executable checklist for important principles that urgency might otherwise crowd out. The Equifax example illustrates why continuous governance matters: a known framework vulnerability remained in older systems despite warnings and scans. A reusable pipeline check could have failed affected builds and alerted security teams (text lines 591–799).
+Source: text lines 196–255.
 
-Teaching extension: write an ADR for one boundary in a system you know. Include two alternatives, one measurable fitness function, and the cost you accept. Then label which parts are architecture characteristics and which require domain tests. The exercise is an application of the chapter’s method, not a claim made by the supplied text.
+## ADRs preserve reasoning
+
+Pip finds a service boundary nobody can explain. An ADR records context and alternatives, the decision with justification, and consequences including trade-offs. Pip documents why reporting moved and what migration and release complexity it introduced. Later crews inherit reasoning, not a topology mistaken for a timeless rule.
+
+Source: text lines 337–379.
+
+## Fitness functions
+
+Pip promises an agile network, then asks what can be measured. Fitness functions objectively assess architectural characteristics: atomic checks catch cycles; holistic checks examine interacting qualities such as security and performance. Pip measures deployability, testability, or cycle time rather than a vague aspiration. Domain tests still check business behavior, not those architectural properties.
+
+Source: text lines 380–506.
+
+## Feedback and governance
+
+Pip’s quarterly review finds months of new dependency violations. Continuous automated fitness checks would expose erosion during delivery. Pip adds the layer and dependency rules to CI, while scheduling necessary manual reviews as often as practical. Rapid feedback makes safeguards harder to postpone under release pressure.
+
+Source: text lines 507–590.
+
+## Transfer challenge: Protect the ticket path
+
+The Sysops Squad monolith freezes during reporting and occasionally loses availability for ticket entry. The team has limited migration time and must make its reasoning reviewable. It can first document an ADR and add continuous architecture checks, or immediately split reporting without executable governance.
+
+### ADR plus checks
+
+Makes trade-offs explicit and provides ongoing evidence that boundaries and quality rules remain intact. Consumes initial engineering time and requires choosing measurable checks. The team records the migration context, then catches dependency cycles and layer violations in the build while the split proceeds.
+
+### Split first
+
+Moves quickly toward isolating the reporting load and may show visible operational relief sooner. The reasoning and safeguards remain implicit, so later changes can recreate coupling or weaken the intended boundary. Reporting is extracted, but a later shortcut reconnects it to ticket code; the team must reconstruct why the boundary mattered during an incident.
+
+The chapter’s point is disciplined decision making under uncertainty. Documentation and measurable feedback do not remove trade-offs, but they make them inspectable and governable as the architecture changes.
+
+## Write a decision record
+
+Choose one structural decision in a system you know and write a compact ADR with measurable architectural checks.
+
+- Context
+- Decision
+- Trade-off

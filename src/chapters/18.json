@@ -3,7 +3,7 @@
   "title": "Choosing the Appropriate Architecture Style",
   "part": "Architecture styles",
   "subtitle": "Choose the least-worst fit for this domain and its constraints",
-  "summary": "There is no universally correct architecture style: style selection is a contextual trade-off among domain shape, required architecture characteristics, data, organization, process, team capability, and operations. Technology fashion shifts because prior pain, ecosystem change, new capabilities, acceleration, domain change, technology change, and external pressures alter the available choices. Architects should look for domain/architecture isomorphism, where a problem's structure naturally matches a style, and should decide whether one quantum is enough or different parts need different characteristics. Data placement and service communication follow from that analysis; synchronous communication is the default because it is easier, while asynchronous communication is reserved for a demonstrated need. The Silicon Sandwiches examples show a modular monolith and a microkernel can both fit a simple system, while Going, Going, Gone uses microservices and queues to separate demanding auction characteristics. The resulting design is a defensible set of trade-offs, not a single answer key.",
+  "summary": "Pip has several plausible architectures for the growing bookshop. The choice depends on domain shape, data, organizational readiness, and qualities that need separate scopes. Communication follows those constraints; examples show trade-offs rather than one universal winner.",
   "source": {
     "startLine": 9199,
     "endLine": 9588,
@@ -12,33 +12,348 @@
   "concepts": [
     {
       "title": "Why Styles Shift",
-      "body": "Architecture fashion follows experience and changing conditions. Pain in earlier systems exposes new trade-offs; tools and platforms alter what is practical; new capabilities can create a new paradigm; and faster ecosystem change keeps the decision space moving. Domain evolution, technology strategy, mergers, licensing, and other external pressures also reshape a reasonable choice. Trends are evidence to examine, not a substitute for analysis.",
-      "example": "A team may hear that containers are now standard, but its choice still depends on deployment skills, required elasticity, and the cost of changing a stable system. A new capability matters when it changes those forces.",
-      "source": "pp. 267–268"
+      "body": "Pip hears that every modern shop should use the same new platform. Styles shift with earlier pain, tools, new capabilities, ecosystem change, and external pressures such as mergers or licensing. A trend matters when it changes practical forces. Pip checks skills, elasticity needs, and migration cost before replacing a stable system.",
+      "example": "",
+      "source": "pp. 267–268",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "CHANGING ECOSYSTEM",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "deployment",
+            "label": "NEW PLATFORM",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "LOCAL FORCES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip hears that every modern shop should use the same new platform."
+          },
+          {
+            "node": "step-1",
+            "text": "Styles shift with earlier pain, tools, new capabilities, ecosystem change, and external pressures such as mergers or licensing."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip checks skills, elasticity needs, and migration cost before replacing a stable system."
+          }
+        ]
+      }
     },
     {
       "title": "Decision Inputs",
-      "body": "Before choosing a style, understand the domain, the architecture characteristics that affect structure, the existing data architecture, organizational constraints, development and operations processes, and team knowledge. A style that relies on mature automation or Agile practice can be a poor fit for an organization that cannot yet support those practices. Data experts and architects must reason together because schemas and legacy integrations constrain structure.",
-      "example": "A regulated organization planning an acquisition may favor open integration boundaries, even when a closed vendor solution looks simpler. The organizational strategy changes the architecture forces alongside functional requirements.",
-      "source": "pp. 269–270"
+      "body": "Pip invites data experts and operators before choosing a style. Domain, structural qualities, existing data, organizational constraints, process, and team knowledge all shape feasibility. A design requiring mature automation can fail where that practice is absent. Pip includes legacy integration and strategic needs rather than evaluating topology alone.",
+      "example": "",
+      "source": "pp. 269–270",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "DATA CONSTRAINTS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "team",
+            "label": "TEAM CAPABILITY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "STRATEGIC CONTEXT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip invites data experts and operators before choosing a style."
+          },
+          {
+            "node": "step-1",
+            "text": "Domain, structural qualities, existing data, organizational constraints, process, and team knowledge all shape feasibility."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip includes legacy integration and strategic needs rather than evaluating topology alone."
+          }
+        ]
+      }
     },
     {
       "title": "Isomorphism and Quanta",
-      "body": "Domain/architecture isomorphism asks whether the shape of the problem resembles the topology of a style. Customizable products align with microkernel plug-ins; systems needing many discrete processors can align with space-based approaches. Quantum analysis asks whether one set of characteristics serves the whole system. One quantum supports a monolith; different characteristics imply distributed boundaries and more coordination. This test keeps topology purposeful.",
-      "example": "An auction has many bidders, a high-rate read stream, and a slower payment provider. Treating each as one deployment unit would force conflicting scale and latency choices, so separate quanta are useful.",
-      "source": "pp. 269–270, 274–277"
+      "body": "Pip’s customizable product resembles a plug-in core, while many parallel processors suggest a different topology. Domain/architecture isomorphism asks whether problem shape fits style shape. Quantum analysis distinguishes one shared quality profile from different profiles needing distributed boundaries. Pip uses both tests to justify topology and its added coordination.",
+      "example": "",
+      "source": "pp. 269–270, 274–277",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "plugin",
+            "label": "CUSTOMIZATION SHAPE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "PARALLEL PROCESSORS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "boundary",
+            "label": "QUALITY SCOPES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s customizable product resembles a plug-in core, while many parallel processors suggest a different topology."
+          },
+          {
+            "node": "step-1",
+            "text": "Domain/architecture isomorphism asks whether problem shape fits style shape."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip uses both tests to justify topology and its added coordination."
+          }
+        ]
+      }
     },
     {
       "title": "Communication as a Consequence",
-      "body": "After deciding where data lives, choose how parts communicate. Synchronous calls are convenient and easier to design and debug, so they are the default. Asynchronous communication can improve performance, elasticity, or isolation, but introduces synchronization, race conditions, deadlocks, and harder debugging. The choice should follow a real constraint rather than a preference for fashionable distributed mechanisms when constraints demand it.",
-      "example": "A payment provider that processes one request every half second can be protected by a queue when many auctions finish together. A simple internal lookup with short work may remain synchronous.",
-      "source": "p. 270, 275–276"
+      "body": "Pip locates data before deciding how components should communicate. Synchronous calls are convenient to design and debug; asynchronous work can improve scale, elasticity, or isolation with races and coordination costs. A half-second payment provider needs buffering when auctions finish together. Pip queues that constrained workload while keeping a simple short lookup synchronous.",
+      "example": "",
+      "source": "p. 270, 275–276",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "DATA LOCATION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "api",
+            "label": "SIMPLE LOOKUP",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "queue",
+            "label": "BURST BUFFER",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip locates data before deciding how components should communicate."
+          },
+          {
+            "node": "step-1",
+            "text": "Synchronous calls are convenient to design and debug; asynchronous work can improve scale, elasticity, or isolation with races and coordination costs."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip queues that constrained workload while keeping a simple short lookup synchronous."
+          }
+        ]
+      }
     },
     {
       "title": "Case Study Trade-offs",
-      "body": "Silicon Sandwiches can use a domain-partitioned modular monolith with one database, or a microkernel whose plug-ins isolate customization; both retain a simple deployment. Going, Going, Gone needs finer separation for bidder, auctioneer, streams, tracking, and payment. Microservices plus asynchronous queues handle unequal characteristics, but orchestration, data separation, and network calls still create performance and reliability work. Each option exposes costs.",
-      "example": "A microkernel BFF adaptor can tailor generic backend data for iOS without moving every device concern into the core. In GGG, BidTracker buffers different bid streams before ordering them.",
-      "source": "pp. 271–277"
+      "body": "Pip compares the book’s two businesses before drawing the shop’s next boundary. Silicon Sandwiches can use a modular monolith or customization microkernel with simple deployment. Going, Going, Gone separates unequal bidder, auctioneer, stream, tracking, and payment needs through services and queues. Pip retains the costs of orchestration, data separation, and network calls alongside each benefit.",
+      "example": "",
+      "source": "pp. 271–277",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "plugin",
+            "label": "SANDWICH VARIANTS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "message",
+            "label": "AUCTION STREAMS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "CASE-SPECIFIC COSTS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip compares the book’s two businesses before drawing the shop’s next boundary."
+          },
+          {
+            "node": "step-1",
+            "text": "Silicon Sandwiches can use a modular monolith or customization microkernel with simple deployment."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip retains the costs of orchestration, data separation, and network calls alongside each benefit."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -123,75 +438,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "forces",
-        "label": "FORCES",
-        "kind": "balance",
-        "tone": "peach"
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "fundamentals"
       },
       {
-        "id": "characteristics",
-        "label": "-ILITIES",
-        "kind": "gauge",
-        "tone": "honey"
-      },
-      {
-        "id": "style",
-        "label": "STYLE FIT",
-        "kind": "blueprint",
+        "id": "step-1",
+        "kind": "clock",
+        "label": "CHANGING ECOSYSTEM",
         "tone": "sage"
       },
       {
-        "id": "data",
-        "label": "DATA FLOW",
-        "kind": "blueprint",
+        "id": "step-2",
+        "kind": "deployment",
+        "label": "NEW PLATFORM",
         "tone": "lilac"
       },
       {
-        "id": "topology",
-        "label": "TOPOLOGY",
-        "kind": "blueprint",
+        "id": "step-3",
+        "kind": "balance",
+        "label": "LOCAL FORCES",
         "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "forces",
-        "to": "style"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "characteristics",
-        "to": "style"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "style",
-        "to": "data"
-      },
-      {
-        "from": "data",
-        "to": "topology"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "forces",
-        "text": "Start with the domain, organization, teams, process, and external pressures."
+        "node": "step-0",
+        "text": "Pip hears that every modern shop should use the same new platform."
       },
       {
-        "node": "characteristics",
-        "text": "Identify the architecture characteristics that must shape the solution."
+        "node": "step-1",
+        "text": "Styles shift with earlier pain, tools, new capabilities, ecosystem change, and external pressures such as mergers or licensing."
       },
       {
-        "node": "style",
-        "text": "Test domain and style isomorphism and decide whether one quantum is enough."
-      },
-      {
-        "node": "data",
-        "text": "Choose data ownership and the communication mode that the constraints require."
-      },
-      {
-        "node": "topology",
-        "text": "Record the least-worst topology, its trade-offs, decisions, and fitness checks."
+        "node": "step-3",
+        "text": "Pip checks skills, elasticity needs, and migration cost before replacing a stable system."
       }
     ]
+  },
+  "story": {
+    "course": "fundamentals",
+    "world": "bookshop",
+    "title": "Pip chooses a style for this shop, not this year’s fashion"
   }
 }

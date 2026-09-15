@@ -1,44 +1,36 @@
 # Chapter 9: Measurement
 
+*Pip’s adventure: Two dashboards, one missing boundary. Fictional teaching story; concepts follow the cited source.*
+
 Building Green Software — Anne Currie, Sarah Hsu, and Sara Bergman. First edition, March 2024.
 
 Source: printed pp. 135–155; text lines 5077–5850. References count literal newline-delimited lines in the supplied text.
 
 ## Overview
 
-Measurement begins by defining the software boundary and the useful work being compared. The chapter combines three ingredients: energy, the carbon intensity of its electricity supply, and the allocated embodied emissions of hardware. It discusses direct measurements, estimates, and proxies, with attention to granularity and consistent comparison. Organizational inventories and a software intensity rate answer different questions; a lower rate need not mean a lower total. The book’s Software Carbon Intensity discussion excludes market-based reductions from the software rate so operational changes remain visible. Tool reports also differ in coverage and reporting delay. The aim is evidence that directs an improvement, with assumptions stated clearly enough to understand what a changed number actually means.
+Two dashboards give Pip different footprints for the same cinema. Before choosing the smaller number, Pip asks what each report includes. A comparison needs a software boundary, a period, and equivalent useful work. Energy, the electricity’s carbon intensity, and allocated hardware emissions must use compatible units. Direct measurements, estimates, and proxies offer different coverage and delays. Organizational inventories and a software intensity rate answer different questions; lower emissions per export need not mean lower totals. The book’s SCI approach separates market-based reductions so software changes remain visible. Pip records assumptions before announcing an improvement.
 
 ## Key ideas
 
 ### Choose boundaries before numbers
 
-A software footprint can span servers, clients, networks, storage, and background activity. Define both the system and measurement period before comparing alternatives. Consistency prevents an apparent reduction caused only by moving work outside the counted boundary. A useful functional unit, such as a completed export of agreed quality, makes the comparison meaningful as workload size changes. (Source: pp. 135–137, 149–150.)
-
-Teaching extension: Two export versions use the same input, quality, period, and included components; retries and client-side work remain visible.
+Pip’s new converter looks cleaner until a teammate notices that decoding moved to the viewer’s phone. The report simply stopped counting it. Pip redraws the boundary: servers, clients, networks, storage, background work, and the measurement period. Both versions must produce equivalent completed exports at agreed quality. That functional unit makes comparison useful as volume changes. A boundary should reveal shifted work, not turn an accounting omission into a victory. (Source: pp. 135–137, 149–150.)
 
 ### Combine energy and electricity data carefully
 
-A device meter measures energy within its physical boundary, while instrumentation or models may provide a narrower estimate. Carbon intensity needs matching time and location. Background consumption and battery charging affect interpretation. Average and marginal signals answer different questions. Record which signal and method were used rather than treating every number labeled carbon as interchangeable. (Source: pp. 136–139.)
-
-Teaching extension: A lab reports wall-meter energy and notes the idle baseline separately. It labels whether the result is total device consumption or the increment associated with the task.
+The wall meter and processor counters disagree. Pip checks their boundaries: the meter includes the device, while instrumentation or a model may estimate only part of it. Background consumption and battery charging complicate the reading. Electricity intensity must match time and location; average and marginal signals answer different questions. Pip reports the idle baseline separately and labels total versus incremental consumption. A number called carbon is not automatically comparable to another. (Source: pp. 136–139.)
 
 ### Allocate hardware over the same period
 
-Embodied emissions come from equipment production and disposal. A software estimate needs a justified allocation for its share of hardware and useful lifetime. The emissions are already incurred; allocation makes comparisons possible but cannot remove them physically. Supplier data may be incomplete, so assumptions about lifetime, device type, and shared use must be visible in the result. (Source: pp. 141–143.)
-
-Teaching extension: A fictional 600 kg device used exclusively for five years contributes an allocation of 120 kg per year, not 600 kg every day.
+Pip’s ledger charges a device’s entire manufacturing footprint to today’s film. That cannot be the daily allocation. For a fictional 600 kg device used exclusively for five years, the allocation is 120 kg per year. A software estimate must justify its hardware share and useful lifetime over the same period. Production and disposal emissions remain physically incurred. Where supplier data is incomplete, Pip exposes assumptions about device type, lifetime, and shared use. (Source: pp. 141–143.)
 
 ### A software rate differs from an inventory
 
-The book describes SCI as (E × I + M) / R: energy times electricity intensity plus allocated hardware emissions, divided by useful work. Organizational scopes classify emissions by ownership and purchasing relationships, while SCI follows a software boundary. Moving hosting can change an organization’s scope category without removing physical emissions. Keep units and the measurement period consistent across the formula. (Source: pp. 145–151.)
-
-Teaching extension: For fictional inputs of 2 kWh, 100 g CO₂e/kWh, 40 g allocated hardware, and 20 completed exports, the rate is 12 g CO₂e per export.
+Pip writes SCI as (E × I + M) / R. Energy times electricity intensity, plus allocated hardware emissions, is divided by useful work. With fictional inputs of 2 kWh, 100 g CO₂e/kWh, 40 g hardware, and 20 exports, the rate is 12 g CO₂e per export. Units and periods must match. Organizational scopes classify ownership and purchases instead: moving hosting can change a scope category without removing physical emissions. (Source: pp. 145–151.)
 
 ### Separate reductions, proxies, and reporting methods
 
-Cost, CPU activity, and energy can indicate change but have different limitations. Discounts can lower bills without changing resource use. Market-based purchases and offsets serve different accounting purposes from reducing a workload’s physical demand. The authors keep them out of their actionable software metric. Compare tools by coverage, allocation, time resolution, and delay rather than ranking raw totals from unlike methods. (Source: pp. 139–145, 151–155.)
-
-Teaching extension: A report distinguishes a billing discount from reduced resource hours and labels estimated emissions separately from directly observed energy.
+The invoice falls after a discount. Pip checks the worker hours: unchanged. Cost, CPU activity, and energy are useful clues with different limits. Offsets and market-based purchases have accounting purposes distinct from reducing physical workload demand; the authors exclude them from this actionable software metric. Pip labels estimates and reductions separately, then compares reporting coverage, allocation, time resolution, and delay. Choosing the lowest number from incompatible methods would tell no reliable story. (Source: pp. 139–145, 151–155.)
 
 ## Misconceptions
 
@@ -52,7 +44,7 @@ The rate may fall while the amount of useful work grows. Report totals as well a
 
 ## Decision practice — teaching extension
 
-Teaching extension. A team receives a monthly provider report and an internal estimate built from energy and regional intensity. Their totals differ. One includes market-based accounting and omits some hardware; the other has a different boundary. The team wants to evaluate a new export implementation without creating a misleading comparison.
+Pip receives a monthly provider report and an internal energy-based estimate. Their cinema totals differ: market-based accounting, hardware coverage, and boundaries are not aligned. Pip needs to evaluate a new export implementation without treating unlike reports as a before-and-after comparison.
 
 ### Align methods for a like-for-like experiment
 

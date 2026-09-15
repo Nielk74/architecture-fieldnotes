@@ -3,7 +3,7 @@
   "title": "User Experience Design for Agentic Systems",
   "part": "Experience",
   "subtitle": "Make interaction state, control, and recovery understandable to users",
-  "summary": "Agent interfaces must help users understand both what the system can do and what it is doing now. Text, graphical controls, voice, and video offer different advantages depending on the task, environment, and accessibility needs. Synchronous interaction needs responsive turn-taking and interruption handling; asynchronous work needs persistent state and useful notifications. Relevant context can maintain continuity, but retention also creates privacy and attention costs. Clear distinctions between a proposal, an ongoing action, and a completed result prevent mistaken reliance. Trust develops through predictable behavior, honest limits, and understandable recovery when an agent cannot complete a request.",
+  "summary": "Pip’s guide keeps speaking after a visitor changes the date. The problem is not just the answer: people need clear turns, visible state, accessible alternatives, and control over actions. Pip redesigns the encounter around what visitors can understand and interrupt.",
   "source": {
     "startLine": 2067,
     "endLine": 3118,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Interaction modalities",
-      "body": "Text is searchable and asynchronous; graphical interfaces expose workflow state; voice supports hands-free interaction; video can demonstrate rich expression. The choice depends on task, accessibility, privacy, and the user’s environment.",
-      "example": "Teaching extension: A warehouse worker can request an item location by voice, while the screen preserves its aisle and shelf number for reference in a noisy room.",
-      "source": "text lines 2067-3118"
+      "body": "Pip offers spoken directions in a noisy museum. Voice enables hands-free use; text remains searchable and asynchronous. A screen preserves the room number and workflow state, while video can convey richer expression. Pip chooses modalities around task, accessibility, privacy, and the visitor’s environment.",
+      "example": "",
+      "source": "text lines 2067-3118",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "listening",
+            "label": "VOICE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "browser",
+            "label": "PERSISTENT TEXT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "person",
+            "label": "VISITOR NEEDS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip offers spoken directions in a noisy museum."
+          },
+          {
+            "node": "step-1",
+            "text": "Voice enables hands-free use; text remains searchable and asynchronous."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip chooses modalities around task, accessibility, privacy, and the visitor’s environment."
+          }
+        ]
+      }
     },
     {
       "title": "Turn-taking",
-      "body": "Agent conversations need clear turns, interruption handling, and recovery from ambiguity. A user should know whether the agent is listening, thinking, waiting for input, or ready to act.",
-      "example": "Teaching extension: A user interrupts a spoken booking proposal to change the date. The assistant cancels the obsolete speech and recomputes the proposal using the new date.",
-      "source": "text lines 2067-3118"
+      "body": "Pip hears “not Friday—Saturday” over the guide’s proposal. The interface must distinguish listening, thinking, waiting, and readiness to act. Pip stops obsolete speech and recomputes the booking proposal. Clear turns, interruption handling, and ambiguity recovery keep the visitor in control.",
+      "example": "",
+      "source": "text lines 2067-3118",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "listening",
+            "label": "INTERRUPTION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "OBSOLETE TURN",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "browser",
+            "label": "REVISED PROPOSAL",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip hears “not Friday—Saturday” over the guide’s proposal."
+          },
+          {
+            "node": "step-1",
+            "text": "The interface must distinguish listening, thinking, waiting, and readiness to act."
+          },
+          {
+            "node": "step-3",
+            "text": "Clear turns, interruption handling, and ambiguity recovery keep the visitor in control."
+          }
+        ]
+      }
     },
     {
       "title": "Trust and transparency",
-      "body": "Effective UX explains capabilities, limitations, provenance, and uncertainty in terms users can act on. Trust comes from calibrated behavior and visible evidence, not from confident language or anthropomorphic styling.",
-      "example": "Teaching extension: A research assistant labels a figure as coming from last year’s report and states that it has not found a newer value, allowing the reader to judge its usefulness.",
-      "source": "text lines 2067-3118"
+      "body": "Pip’s guide confidently quotes last year’s admission figure. Fluent language and a friendly face do not establish trust. Pip labels the source date and admits that no newer value was found. Capabilities, limitations, provenance, and uncertainty must help visitors judge what to do.",
+      "example": "",
+      "source": "text lines 2067-3118",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "LAST YEAR'S SOURCE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "alert",
+            "label": "NO NEWER VALUE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "person",
+            "label": "INFORMED CHOICE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s guide confidently quotes last year’s admission figure."
+          },
+          {
+            "node": "step-1",
+            "text": "Fluent language and a friendly face do not establish trust."
+          },
+          {
+            "node": "step-3",
+            "text": "Capabilities, limitations, provenance, and uncertainty must help visitors judge what to do."
+          }
+        ]
+      }
     },
     {
       "title": "Control and accessibility",
-      "body": "Users need ways to edit, confirm, undo, or hand off consequential actions. Interfaces should work for people with different sensory, motor, language, and cognitive needs.",
-      "example": "Teaching extension: A scheduling interface offers keyboard-accessible controls to edit attendees and inspect the proposed invitation before sending. A text alternative supports users who cannot use speech.",
-      "source": "text lines 2067-3118"
+      "body": "Pip asks a visitor to confirm a booking by voice only. The visitor needs keyboard controls and a text alternative. Pip adds ways to edit, confirm, undo, or hand off consequential actions. Sensory, motor, language, and cognitive differences belong in the design.",
+      "example": "",
+      "source": "text lines 2067-3118",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "phone",
+            "label": "VOICE-ONLY BARRIER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "browser",
+            "label": "KEYBOARD + TEXT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "handoff",
+            "label": "REVIEW OR HANDOFF",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks a visitor to confirm a booking by voice only."
+          },
+          {
+            "node": "step-1",
+            "text": "The visitor needs keyboard controls and a text alternative."
+          },
+          {
+            "node": "step-3",
+            "text": "Sensory, motor, language, and cognitive differences belong in the design."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -117,69 +369,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "n0",
-        "label": "USER",
-        "kind": "person",
-        "tone": "sage",
-        "x": 100,
-        "y": 80
-      },
-      {
-        "id": "n1",
-        "label": "MODALITY",
-        "kind": "agent",
-        "tone": "peach",
-        "x": 270,
-        "y": 80
-      },
-      {
-        "id": "n2",
-        "label": "UNCERTAINTY",
-        "kind": "alert",
-        "tone": "lilac",
-        "x": 100,
-        "y": 210
-      },
-      {
-        "id": "n3",
-        "label": "CONTROL",
-        "kind": "handoff",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 270,
-        "y": 210
+        "course": "ai-agents"
+      },
+      {
+        "id": "step-1",
+        "kind": "listening",
+        "label": "VOICE",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "browser",
+        "label": "PERSISTENT TEXT",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "person",
+        "label": "VISITOR NEEDS",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "n0",
-        "to": "n1"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n1",
-        "to": "n2"
+        "from": "step-0",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n2",
-        "to": "n3"
+        "from": "step-0",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "n0",
-        "text": "Inspect user in the chapter workflow."
+        "node": "step-0",
+        "text": "Pip offers spoken directions in a noisy museum."
       },
       {
-        "node": "n1",
-        "text": "Inspect modality in the chapter workflow."
+        "node": "step-1",
+        "text": "Voice enables hands-free use; text remains searchable and asynchronous."
       },
       {
-        "node": "n2",
-        "text": "Inspect uncertainty in the chapter workflow."
-      },
-      {
-        "node": "n3",
-        "text": "Inspect control in the chapter workflow."
+        "node": "step-3",
+        "text": "Pip chooses modalities around task, accessibility, privacy, and the visitor’s environment."
       }
     ]
+  },
+  "story": {
+    "course": "ai-agents",
+    "world": "museum",
+    "title": "The guide that would not stop talking"
   }
 }

@@ -1,27 +1,53 @@
-# 2. How Debugging Practices Differ Between Observability and Monitoring
+# Chapter 2: How Debugging Practices Differ Between Observability and Monitoring
 
-Follow evidence beyond the familiar dashboard
+*Pip’s adventure: Pip resists yesterday’s explanation. Fictional teaching story; concepts follow the cited source.*
 
-Monitoring and exploratory debugging answer different questions. A threshold efficiently recognizes a condition chosen in advance, while an investigation must discover which combination of circumstances produced the current symptom. The chapter challenges a familiar workflow: recognize a graph shape, recall an earlier incident, and apply its fix. That shortcut can mistake a downstream effect for its cause. Moving between unrelated tools also forces responders to reconstruct context mentally. Retained event dimensions support a more explicit sequence of comparisons in which each result guides the next question. Shared query paths make reasoning inspectable by colleagues, so diagnostic skill depends less on being the person with the longest memory of previous outages.
+Source: text lines 1280–1658.
+
+The market’s latency graph looks familiar, so Pip nearly applies last week’s fix. Instead, Pip compares affected and unaffected requests, preserves context across tools, and shares the reasoning. A repeatable investigation is more useful than another private hunch.
 
 ## Recognition has limits
 
-A dashboard compresses selected measurements into a recognizable picture. That makes it valuable for checking known conditions, but encourages matching today’s graph to yesterday’s failure. Similar symptoms can originate from different mechanisms. Treat the familiar pattern as a hypothesis to test, especially before applying a repair that changes the system and obscures the original evidence.
+Pip recognizes last week’s database graph and reaches for the same repair. Dashboards compress known measurements into useful patterns, but similar symptoms can have different mechanisms. Today’s delay might be resource contention rather than an inefficient query. Pip tests the hypothesis before a change obscures the original evidence.
+
+Source: text lines 1280–1658.
 
 ## Comparative investigation
 
-Start with an observed symptom and identify the requests that exhibit it. Compare that population with requests that do not, then narrow along dimensions that distinguish them. Each comparison should reduce uncertainty or challenge an explanation. This makes the investigation repeatable even for a responder who has never encountered the failure before.
+Pip selects the market requests that actually fail. Comparing them with successful requests reveals whether deployment or endpoint distinguishes the populations. Each narrowing should reduce uncertainty or challenge an explanation. Pip follows a method a first-time responder can repeat without remembering a past outage.
+
+Source: text lines 1280–1658.
 
 ## Context continuity
 
-Switching tools is costly when identifiers, time windows, and populations do not align. The responder then performs an implicit join in memory and may correlate measurements from different requests. Carrying request context through the investigation makes these relationships explicit and lets other engineers check the evidence behind a proposed explanation.
+Pip clicks a trace link and lands on an unrelated dashboard. Mismatched IDs, windows, and populations force a risky join in the responder’s memory. Pip carries the actual request context across tools. Explicit relationships let colleagues check evidence instead of accepting a correlation between different requests.
+
+Source: text lines 1280–1658.
 
 ## Expertise becomes shareable
 
-Experienced engineers remain valuable, but intuition should not be the only route to a diagnosis. Saved investigation paths reveal which questions were asked and why a hypothesis changed. Colleagues can retrace those steps and learn a method rather than memorize a conclusion, reducing dependence on the same escalation expert during every unfamiliar incident.
+Pip hands over the failing cohort and ruled-out hypotheses. Saved investigation paths show which questions changed the explanation. Experienced intuition remains useful without being the only route to diagnosis. Colleagues learn a method they can retrace, reducing dependence on one escalation expert.
 
-## Apply it
+Source: text lines 1280–1658.
+
+## Transfer challenge: The familiar spike
+
+An engineer proposes a cache restart because the dashboard resembles last month’s outage.
+
+### Compare affected requests with the previous hypothesis
+
+Tests whether cache behavior explains the present failures. Takes investigation time before a targeted intervention. The proposed cache intervention is supported or challenged by current request evidence.
+
+### Restart the cache immediately
+
+May restore service quickly if the old failure has returned. Can hide evidence and disrupt healthy traffic if the resemblance is misleading. A transient improvement may leave the actual source of the incident unexplained.
+
+Mitigation urgency matters, but record what supports the cache hypothesis and verify the result against the affected population.
+
+## Expose a debugging assumption
 
 Revisit a familiar incident diagnosis and turn one intuition into a comparison another engineer could repeat.
 
-Source: *Observability Engineering*, chapter 2; supplied text lines 1280–1658. These notes are an original synthesis; examples and activities are illustrative.
+- Observed symptom
+- Alternative explanation
+- Query that distinguishes the two

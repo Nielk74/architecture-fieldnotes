@@ -1,23 +1,53 @@
 # Chapter 25: Data Processing Pipelines
 
-Source: text lines 11199–11531 of the supplied book extract.
+*Pip’s adventure: The next batch starts before the last one ends. Fictional teaching story; concepts follow the cited source.*
 
-Periodic pipelines become fragile when growth makes execution time approach the scheduling interval. Uneven chunks hold up downstream stages, restarts discard work, and overlapping runs or synchronized workers overload shared infrastructure. Making the schedule more frequent can even reduce progress. The chapter presents Workflow as an alternative for workloads that are fundamentally continuous. A Task Master journals work state, while stateless workers claim leased tasks and publish results transactionally. Unique output names, valid leases, configuration versions, and server identity checks prevent obsolete or misdirected workers from corrupting committed results. Local processing can be coordinated through global reference tasks for failover. The lesson is to design processing semantics, observability, and recovery around the workload’s real continuity requirements.
+Source: text lines 11199–11531.
+
+Pip shortens the harbor report schedule and creates overlapping work instead of fresher results. Pip investigates startup delays, stragglers, and shared-resource peaks, then uses explicit task state and leases so late workers cannot overwrite valid results.
 
 ## The periodicity limit
 
-A scheduled pipeline needs time for resource acquisition and processing before its next run. As data grows, a shorter interval can create overlapping jobs or repeatedly terminate nearly completed work. Increasing frequency does not remove startup delays or stragglers. When results must be updated continuously, explicit continuous processing can fit the requirement better than a batch design pushed beyond its timing assumptions.
+Pip schedules a twenty-minute computation every ten minutes. Resource acquisition, startup delay, processing, and stragglers must fit the interval. More frequent runs can overlap or repeatedly terminate nearly finished work. Pip considers continuous processing when the requirement is continuous freshness rather than pushing batch timing beyond its assumptions.
+
+Source: text lines 11199–11531.
 
 ## Stragglers and synchronized resource demand
 
-Partitioning work does not guarantee equal execution time: one customer’s large shard may determine the completion of a whole stage. Starting thousands of workers together can overload dependencies, while periodic jobs with different schedules occasionally align into large combined peaks. More workers or naive retries can worsen these problems. Inspect shared-resource usage and expose progress during execution, including runs that never finish.
+Pip’s report stage waits for one customer’s oversized shard. Partitioning does not guarantee equal runtime, and simultaneous workers can overwhelm dependencies. Different periodic jobs can align into larger shared-resource peaks. Pip measures progress even in unfinished runs before adding workers or retries that might worsen contention.
+
+Source: text lines 11199–11531.
 
 ## Leases and immutable task identity
 
-Workflow records authoritative task state in a Task Master and gives workers temporary leases. A worker may commit only while its lease and referenced configuration remain valid. Unique output filenames prevent an obsolete worker from overwriting a successor’s work, while a server token detects communication with the wrong Task Master. These controls protect committed results even when redundant computation happens during failures.
+Pip’s stalled worker resumes after its lease expires. The Task Master permits commits only with a valid lease and referenced configuration. Unique output names prevent overwriting a successor, while a server token detects the wrong master. Pip may tolerate duplicate computation without accepting obsolete results.
+
+Source: text lines 11199–11531.
 
 ## Durable coordination and continuity
 
-The Task Master keeps working state in memory and journals changes durably; workers remain replaceable. Keeping pointers rather than full datasets in the master limits its memory burden. For cross-site continuity, local pipelines coordinate reference tasks through a global workflow, recording unfinished work that another site can claim. Correctness can require blocking when global coordination is unavailable rather than acknowledging an unrecorded completion.
+Pip restores task coordination after a site stops reporting. The Task Master keeps in-memory state, journals changes durably, and stores pointers rather than whole datasets. A global workflow records reference tasks another local pipeline can claim. Pip may block without global coordination rather than acknowledge an unrecorded completion.
 
-The lesson’s examples, decision scenario, and exercise are original teaching extensions rather than reported incidents.
+Source: text lines 11199–11531.
+
+## Transfer challenge: A batch interval stops fitting
+
+An hourly pipeline now takes seventy minutes including scheduling delay. A few large work units stall completion, and restarting a run discards completed computation.
+
+### Move continuous work into durable leased tasks
+
+Progress survives worker replacement and completion is explicitly recorded. The design needs lease, configuration, and output-identity checks. An obsolete worker cannot commit after a successor takes its lease.
+
+### Schedule the full pipeline every thirty minutes
+
+New attempts are initiated more frequently. Runtime still exceeds the interval and overlapping attempts contend for resources. The pipeline accumulates runs or repeatedly discards almost-complete work.
+
+Shortening a schedule cannot overcome startup delay or a slow indivisible chunk. For continuous freshness requirements, explicit leased work and validated commits can preserve progress through worker replacement instead of restarting whole runs.
+
+## Design a recoverable pipeline
+
+A periodic pipeline now runs longer than its interval. Outline a continuous work model and explain what happens when a worker resumes after losing its lease.
+
+- Timing limit
+- Authoritative state
+- Stale worker

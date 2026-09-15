@@ -1,27 +1,53 @@
-# 11. Observability-Driven Development
+# Chapter 11: Observability-Driven Development
 
-Finish a change by observing it in production
+*Pip’s adventure: Watch the feature while its intent is still fresh. Fictional teaching story; concepts follow the cited source.*
 
-Observability-driven development makes production behavior part of the development feedback loop. Tests check anticipated behavior under controlled conditions, but cannot reproduce every interaction among real users, dependencies, and concurrent changes. Engineers therefore design instrumentation while writing code and inspect the result after deployment. The chapter also distinguishes locating a problem from debugging its implementation: telemetry can reveal the failing component and triggering context, after which a debugger or profiler may be the appropriate tool. This practice reduces the distance between an engineer’s intent and the user’s actual experience. A change is better understood when its author can compare old and new behavior, recognize unexpected effects, and verify a correction using the same relevant population.
+Source: text lines 4486–4813.
+
+Pip adds a new allocation rule and records its decisions while writing it. Tests establish expectations; production telemetry reveals combinations they missed. The investigation narrows to a component, then becomes a regression test and a verified fix.
 
 ## Instrument while intent is fresh
 
-While writing a feature, the engineer knows which decisions and outcomes matter. That is a good time to record the context needed to recognize whether the code behaves as intended. Retrofitting instrumentation during an incident often requires another deployment and another occurrence of the failure before the missing evidence becomes available.
+Pip records the allocation branch and resulting resource assignment while writing the feature. The author still knows which decisions and outcomes matter. Waiting until an incident can require another deployment and another failure before evidence exists. Pip instruments intent while the context is fresh.
+
+Source: text lines 4486–4813.
 
 ## Observe after deployment
 
-A passing test suite does not show how a change behaves under production traffic. Compare relevant outcomes after deployment, including the affected build or feature cohort, while the change is still fresh in the author’s mind. Fast feedback makes unexpected behavior easier to connect with the decisions that introduced it.
+Pip’s passing tests are followed by a live build comparison. Equivalent routes and the affected feature cohort reveal production latency and error changes. Fast feedback connects unexpected behavior to decisions still fresh in the author’s mind. Pip observes after deployment instead of treating tests as a complete account of live behavior.
+
+Source: text lines 4486–4813.
 
 ## Locate before inspecting code
 
-Observability helps identify where a problem occurs and which circumstances trigger it across a running system. Once that narrows to a component or operation, a traditional debugger or profiler may be better suited to investigating code internals. These tools work at different scopes and can be combined using the context discovered in production.
+Pip’s trace narrows the delay to serialization under one input combination. Observability locates where and under which circumstances a running system behaves wrongly. A debugger or profiler can then examine that component’s internals in a local reproduction. Pip combines tools at their appropriate scopes.
+
+Source: text lines 4486–4813.
 
 ## Tests and telemetry complement each other
 
-Tests encode expectations and make repeatable checks before release. Production telemetry reveals behavior under combinations the tests did not represent. An unexpected observation can become a new test, while instrumentation can verify that the resulting fix helps real requests. Neither feedback source alone supplies every answer about software behavior.
+Pip turns the production-only combination into a regression test. Tests encode repeatable expectations; telemetry exposes combinations those tests did not represent. Instrumentation then verifies that the fix helps real requests. Pip keeps both feedback sources because neither answers every question alone.
 
-## Apply it
+Source: text lines 4486–4813.
+
+## Transfer challenge: The tests pass, the feature slows down
+
+A new recommendation feature passes CI but increases latency only for large accounts.
+
+### Compare feature cohorts and account size
+
+Can isolate the production condition missing from tests. Requires feature and account context in telemetry. The production finding can guide both a targeted fix and a regression test.
+
+### Extend the generic unit suite first
+
+Can improve checks for known implementation behavior. May miss the large-account condition unless production evidence guides it. Additional tests may pass while the same account-size regression persists.
+
+Use the observed cohort to focus investigation and then strengthen the regression tests.
+
+## Plan the after-deploy check
 
 Choose a feature and specify how its author will verify production behavior.
 
-Source: *Observability Engineering*, chapter 11; supplied text lines 4486–4813. These notes are an original synthesis; examples and activities are illustrative.
+- Expected user outcome
+- Instrumented cohort and comparison
+- Observation that triggers follow-up

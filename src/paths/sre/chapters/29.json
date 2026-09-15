@@ -3,7 +3,7 @@
   "title": "Dealing with Interrupts",
   "part": "People and practice",
   "subtitle": "Protect focused engineering time by concentrating interrupts",
-  "summary": "Operational work includes urgent pages, slower customer tickets, and ongoing duties such as rollouts. Distributing each arrival across the whole team can make everyone interruptible, sacrificing the sustained attention needed for engineering. The chapter proposes separating periods devoted to interrupts from periods devoted to projects. A designated responder gives urgent work clear ownership; ticket rotations and transferable operational roles keep the rest of the team focused. On-call weeks should not also carry normal project expectations. Handoffs preserve unfinished work and expose recurring ticket causes. Teams should examine and reduce those causes through automation, service changes, and reasonable request policies. Quietly helping the queue outside the rotation can hide understaffing or excessive demand instead of solving it.",
+  "summary": "Pip tries to finish a design while answering every new request. Different work needs different response windows. Dedicated rotations, real handoffs, and honest demand measurement protect focused time while keeping urgent production work owned.",
   "source": {
     "startLine": 13942,
     "endLine": 14247,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Different interrupts need different response policies",
-      "body": "Pages, tickets, and ongoing operational duties differ in urgency, volume, and ownership. A production emergency needs a clear immediate responder, while a request for review may wait within an agreed response window. Choosing coverage requires considering backlog and severity alongside human costs. Treating every arrival as equally urgent unnecessarily interrupts work that needs concentration without necessarily improving service to users.",
-      "example": "Teaching extension: A configuration review enters the ticket queue, while an active serving outage goes directly to the primary on-call engineer.",
-      "source": "text lines 13942–14247"
+      "body": "Pip receives a configuration review request during a booking outage. Pages, tickets, and ongoing duties differ in urgency, volume, and ownership. The emergency gets an immediate responder; review waits within an agreed window. Pip weighs backlog, severity, and human costs rather than treating every arrival as urgent.",
+      "example": "",
+      "source": "text lines 13942–14247",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "ACTIVE OUTAGE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "REVIEW TICKET",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "RESPONSE WINDOWS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip receives a configuration review request during a booking outage."
+          },
+          {
+            "node": "step-1",
+            "text": "Pages, tickets, and ongoing duties differ in urgency, volume, and ownership."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip weighs backlog, severity, and human costs rather than treating every arrival as urgent."
+          }
+        ]
+      }
     },
     {
       "title": "Polarized time for projects and interrupts",
-      "body": "Switching between deep project work and unpredictable operational demands has a cost beyond the minutes spent answering. Assigning substantial blocks to one work mode helps engineers know what success means that day. Primary on-call work should take priority during its block; quiet periods can accommodate interruptible cleanup. A project with an immovable deadline may require moving that engineer’s on-call assignment.",
-      "example": "Teaching extension: An engineer’s on-call week contains incident response and documentation cleanup, while the next week protects their design project.",
-      "source": "text lines 13942–14247"
+      "body": "Pip’s design session fragments into unpredictable operational interruptions. Context switching costs more than the minutes spent answering. Substantial blocks separate primary on-call priorities from protected project work; quiet duty periods suit interruptible cleanup. Pip moves a rotation assignment when an immovable project deadline cannot coexist with it.",
+      "example": "",
+      "source": "text lines 13942–14247",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "ON-CALL BLOCK",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "terminal",
+            "label": "PROJECT BLOCK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "CONTEXT-SWITCH COST",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s design session fragments into unpredictable operational interruptions."
+          },
+          {
+            "node": "step-1",
+            "text": "Context switching costs more than the minutes spent answering."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip moves a rotation assignment when an immovable project deadline cannot coexist with it."
+          }
+        ]
+      }
     },
     {
       "title": "Rotations and transferable responsibility",
-      "body": "Concentrate tickets in an explicitly staffed rotation rather than assigning them randomly across the team. If volume exceeds one person’s capacity, add appropriate coverage without making everyone permanently interruptible. Document ongoing work and hand it over so a multiweek rollout does not follow its original owner into every project week. Clear ownership prevents both dropped work and diffuse responsibility.",
-      "example": "Teaching extension: A push-manager handoff transfers rollout state, verification steps, and remaining actions to the next person on interrupts.",
-      "source": "text lines 13942–14247"
+      "body": "Pip’s multiweek rollout follows its original owner into every project week. An explicitly staffed rotation concentrates tickets; more demand may require more coverage, not permanently interrupting everyone. Pip documents rollout state, verification, and next actions for handoff. Transferable ownership prevents both dropped work and diffuse responsibility.",
+      "example": "",
+      "source": "text lines 13942–14247",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "team",
+            "label": "STAFFED ROTATION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "ROLLOUT STATE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "handoff",
+            "label": "TRANSFERRED OWNER",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s multiweek rollout follows its original owner into every project week."
+          },
+          {
+            "node": "step-1",
+            "text": "An explicitly staffed rotation concentrates tickets; more demand may require more coverage, not permanently interrupting everyone."
+          },
+          {
+            "node": "step-3",
+            "text": "Transferable ownership prevents both dropped work and diffuse responsibility."
+          }
+        ]
+      }
     },
     {
       "title": "Reduce demand instead of enduring the queue",
-      "body": "Regularly review ticket classes and handoffs to identify repeated causes rather than merely surviving each shift. Automation, clearer interfaces, and reasonable support policies can remove work. Requesters can supply necessary information or perform steps that do not require SRE privileges. Hidden help from off-rotation engineers obscures actual capacity, so the team needs an honest view of demand and sustainable coverage.",
-      "example": "Teaching extension: Repeated incomplete capacity requests lead to a documented request format that asks customers to prepare the needed configuration.",
-      "source": "text lines 13942–14247"
+      "body": "Pip finds that most capacity tickets arrive without essential information. Regular review of ticket classes reveals causes that automation, clearer interfaces, or support policies can remove. Requesters can prepare steps that need no SRE privilege. Pip stops hiding demand through off-rotation help and measures sustainable coverage honestly.",
+      "example": "",
+      "source": "text lines 13942–14247",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "REPEATED TICKETS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "api",
+            "label": "CLEAR REQUEST FORMAT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "HONEST DEMAND",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip finds that most capacity tickets arrive without essential information."
+          },
+          {
+            "node": "step-1",
+            "text": "Regular review of ticket classes reveals causes that automation, clearer interfaces, or support policies can remove."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip stops hiding demand through off-rotation help and measures sustainable coverage honestly."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,76 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Protect a project week",
     "nodes": [
       {
-        "id": "observe",
-        "label": "Arrivals",
-        "caption": "Urgency classes",
-        "kind": "alert",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "Rotation",
-        "caption": "Clear ownership",
-        "kind": "team",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "Handoff",
-        "caption": "Transferred state",
-        "kind": "document",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "Focus",
-        "caption": "Protected projects",
-        "kind": "person",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "alert",
+        "label": "ACTIVE OUTAGE",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "document",
+        "label": "REVIEW TICKET",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "clock",
+        "label": "RESPONSE WINDOWS",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-0",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
+        "from": "step-0",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "Pages, tickets, and ongoing duties have different urgency."
+        "node": "step-0",
+        "text": "Pip receives a configuration review request during a booking outage."
       },
       {
-        "node": "decide",
-        "text": "Assigned responders own interrupts for a defined block."
+        "node": "step-1",
+        "text": "Pages, tickets, and ongoing duties differ in urgency, volume, and ownership."
       },
       {
-        "node": "act",
-        "text": "Transfer unfinished work and recurring problem evidence."
-      },
-      {
-        "node": "learn",
-        "text": "Other engineers retain sustained time for durable improvements."
+        "node": "step-3",
+        "text": "Pip weighs backlog, severity, and human costs rather than treating every arrival as urgent."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "Every message cannot interrupt the same engineer"
   }
 }

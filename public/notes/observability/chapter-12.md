@@ -1,27 +1,53 @@
-# 12. Using Service-Level Objectives for Reliability
+# Chapter 12: Using Service-Level Objectives for Reliability
 
-Define reliability around a user’s successful work
+*Pip’s adventure: Agree what counts as a good checkout. Fictional teaching story; concepts follow the cited source.*
 
-Service-level objectives turn reliability from an undefined demand for perfection into a measurable agreement about acceptable service. An indicator describes a user-relevant outcome, an objective sets its target over a window, and the remaining allowance becomes an error budget. These choices require judgment: a technically convenient metric may miss the task customers actually need to complete. The chapter connects objectives with structured event data, allowing individual requests to be evaluated against success and latency criteria while retaining the context needed to investigate failures. The purpose is a shared basis for prioritizing reliability and change. Targets should reflect business needs and measurement limitations, with teams reviewing whether the chosen indicator still represents the experience they intend to protect.
+Source: text lines 4814–5231.
+
+Pip’s market crew argues over a healthy host graph while customers abandon payments. A user-relevant indicator, explicit objective window, and error allowance give the discussion a shared basis. Retained event context explains which experiences spend that allowance.
 
 ## Choose a user-relevant indicator
 
-A service-level indicator measures an aspect of the experience the service must deliver, such as successful requests or completion within an acceptable duration. Infrastructure health may explain a problem but is not automatically the outcome users need. Define the eligible population and what counts as good so the indicator has a clear meaning.
+Pip defines a good checkout as an eligible attempt completing successfully within the agreed latency threshold. An SLI measures an experience the service must deliver. Infrastructure health can explain trouble without being the user’s desired outcome. Pip states eligibility and the good-event rule before calculating a percentage.
+
+Source: text lines 4814–5231.
 
 ## An objective includes a window
 
-An SLO specifies the desired level of an indicator over a time period. A percentage without a population and window leaves its meaning ambiguous. The target should express the reliability the business needs, rather than the maximum number of nines that sounds impressive or the best historical performance the team happened to observe.
+Pip proposes “99.9%” and a teammate asks, “Of what, over when?” An SLO specifies an indicator’s desired level over a time window. Population and window make the percentage meaningful. Pip chooses the reliability the business needs, not impressive nines or its best accidental historical performance.
+
+Source: text lines 4814–5231.
 
 ## The error budget is an allowance
 
-The complement of the objective describes the tolerated fraction of bad outcomes. For an event-based SLO, translate that fraction into requests using the eligible volume in the window. This allowance supports conversations about reliability work and delivery risk; it is not a prediction that failures will arrive evenly or a promise that each user experiences the same reliability.
+Pip counts one million eligible requests against a 99.9% objective. Its complement permits 1,000 bad outcomes in that window. The error budget supports decisions about delivery risk and reliability work. Pip does not assume failures arrive evenly or every stall receives the same reliability.
+
+Source: text lines 4814–5231.
 
 ## Event criteria retain diagnostic context
 
-Evaluate each eligible event against the agreed good-or-bad condition while keeping its useful attributes. The same data can then identify which builds, routes, or customers contribute failures. An objective tells the team whether reliability is acceptable; the event context helps explain why the measured experience is changing.
+Pip classifies each eligible event using the agreed good-or-bad rule. Failing latency events retain endpoint, build, and customer attributes. The SLO says whether reliability is acceptable; context helps explain the change. Pip can move from the objective into the population that actually needs investigation.
 
-## Apply it
+Source: text lines 4814–5231.
+
+## Transfer challenge: Healthy servers, failed purchases
+
+Every host is reachable, but customers cannot finish checkout during payment retries.
+
+### Define an indicator around completed checkout attempts
+
+Measures the user outcome affected by retries. Requires an explicit eligibility and success definition. Reliability discussions can track the work customers actually complete.
+
+### Use host reachability as the only objective
+
+Is easy to collect and useful for infrastructure checks. Can declare success while the user journey fails. A healthy infrastructure score can coexist with a continuing purchase failure.
+
+Choose the objective at the service outcome, keeping host health as explanatory evidence.
+
+## Write an event-based SLO
 
 Specify an objective for one user task with enough detail that two engineers would count it the same way.
 
-Source: *Observability Engineering*, chapter 12; supplied text lines 4814–5231. These notes are an original synthesis; examples and activities are illustrative.
+- Eligible requests and exclusions
+- Good-event rule
+- Target, window, and budget

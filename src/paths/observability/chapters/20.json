@@ -3,7 +3,7 @@
   "title": "Observability’s Stakeholders and Allies",
   "part": "Spreading Observability Culture",
   "subtitle": "Help adjacent teams answer their own questions",
-  "summary": "Observability data can help more than incident responders. Support needs to understand a customer’s current failure, customer success and product teams need to see how workflows are actually used, and sales or executives need evidence about valuable features and strategic accounts. These groups become allies when telemetry helps them accomplish their own goals, not merely when engineering informs them about a tooling project. The chapter also distinguishes this use from traditional business intelligence. Fast, fresh, request-level exploration is useful for immediate operational questions, while exact accounting and longer-term reporting may require different data guarantees. Adoption should connect these complementary views and preserve clear expectations about accuracy, sampling, access, and the decisions each dataset can support.",
+  "summary": "Pip’s support colleague has a customer request the dashboards missed. Different stakeholders need different outcomes from telemetry. Detailed operational exploration can inform product and account decisions, but sampled evidence must not masquerade as an exact billing ledger.",
   "source": {
     "startLine": 9085,
     "endLine": 9492,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Support can identify customer impact",
-      "body": "A support engineer often receives the first concrete account of a customer’s difficulty. Request-level context can help establish whether the issue is ongoing, which workflow is affected, and whether it matches a broader incident. Giving support a useful investigation path reduces dependence on vague status updates and improves the specificity of escalations to engineering.",
-      "example": "Support searches a reported request to see whether its failure belongs to the current incident.",
-      "source": "text lines 9085–9492"
+      "body": "Pip receives a specific failed request from support. Request context establishes whether the issue continues, which workflow failed, and whether it belongs to a broader incident. A useful investigation path makes escalation precise. Pip gives support evidence rather than another vague service-status update.",
+      "example": "",
+      "source": "text lines 9085–9492",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "listening",
+            "label": "SUPPORT REPORT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "trace",
+            "label": "REPORTED REQUEST",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "search",
+            "label": "INCIDENT MATCH",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip receives a specific failed request from support."
+          },
+          {
+            "node": "step-1",
+            "text": "Request context establishes whether the issue continues, which workflow failed, and whether it belongs to a broader incident."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip gives support evidence rather than another vague service-status update."
+          }
+        ]
+      }
     },
     {
       "title": "Product and success compare actual use",
-      "body": "Feature uptake alone does not explain whether customers are achieving their goals. Event sequences and attributes can reveal which paths people try, where they fail, or whether a capability appears only in demos rather than normal workflows. These observations help product and customer-success teams test their assumptions and evaluate the effect of guidance or changes.",
-      "example": "Compare workflow completion before and after onboarding assistance for the relevant customer cohort.",
-      "source": "text lines 9085–9492"
+      "body": "Pip sees feature uptake rise but checkout completion remain poor. Event sequences and attributes reveal attempted paths, failures, and demo-only use. Product and customer-success teams can compare relevant cohorts before and after guidance or changes. Pip tests whether customers achieve their goals instead of counting activation alone.",
+      "example": "",
+      "source": "text lines 9085–9492",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "FEATURE UPTAKE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "trace",
+            "label": "WORKFLOW SEQUENCE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "person",
+            "label": "GOAL COMPLETION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip sees feature uptake rise but checkout completion remain poor."
+          },
+          {
+            "node": "step-1",
+            "text": "Event sequences and attributes reveal attempted paths, failures, and demo-only use."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip tests whether customers achieve their goals instead of counting activation alone."
+          }
+        ]
+      }
     },
     {
       "title": "Allies need their own useful outcomes",
-      "body": "Sales and executives can use telemetry to understand which accounts depend on which features and where performance affects important workflows. Adoption gains support when those questions are answered in language connected to their decisions. Simply adding stakeholders to a project update does not give them a reason to champion the investment.",
-      "example": "An account’s actual feature usage helps prioritize reliability work for its renewal discussion.",
-      "source": "text lines 9085–9492"
+      "body": "Pip’s account team needs to know which feature a renewing customer actually depends on. Sales and leaders gain allies’ reasons to invest when telemetry answers decisions about usage and performance. Project updates alone do not create that usefulness. Pip translates observed workflows into priorities without replacing evidence with stakeholder enthusiasm.",
+      "example": "",
+      "source": "text lines 9085–9492",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "market",
+            "label": "ACCOUNT WORKFLOW",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "ACTUAL USAGE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "DECISION-RELEVANT OUTCOME",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s account team needs to know which feature a renewing customer actually depends on."
+          },
+          {
+            "node": "step-1",
+            "text": "Sales and leaders gain allies’ reasons to invest when telemetry answers decisions about usage and performance."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip translates observed workflows into priorities without replacing evidence with stakeholder enthusiasm."
+          }
+        ]
+      }
     },
     {
       "title": "Operational exploration is not accounting",
-      "body": "Observability favors fresh, fast answers and may use sampling or incomplete scans with explicit accuracy trade-offs. Business reporting can require exact totals and longer historical horizons. Use the operational view to investigate detailed behavior, but do not silently treat approximate telemetry as an authoritative billing ledger; connect complementary systems where their guarantees differ.",
-      "example": "A sampled request dataset helps diagnose usage changes but does not determine an exact invoice.",
-      "source": "text lines 9085–9492"
+      "body": "Pip nearly calculates an invoice from sampled requests. Operational exploration values fresh, fast answers and may trade accuracy through sampling or incomplete scans. Accounting may require exact totals and longer history. Pip uses telemetry to investigate behavior and connects complementary systems without silently promoting estimates into a billing ledger.",
+      "example": "",
+      "source": "text lines 9085–9492",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "trace",
+            "label": "SAMPLED TELEMETRY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "balance",
+            "label": "DIFFERENT GUARANTEES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "EXACT LEDGER",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip nearly calculates an invoice from sampled requests."
+          },
+          {
+            "node": "step-1",
+            "text": "Operational exploration values fresh, fast answers and may trade accuracy through sampling or incomplete scans."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip uses telemetry to investigate behavior and connects complementary systems without silently promoting estimates into a billing ledger."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -118,68 +370,68 @@
     "nodes": [
       {
         "id": "step-0",
-        "label": "SUPPORT",
-        "kind": "trace",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "observability"
       },
       {
         "id": "step-1",
-        "label": "PRODUCT",
-        "kind": "experiment",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
+        "kind": "listening",
+        "label": "SUPPORT REPORT",
+        "tone": "sage"
       },
       {
         "id": "step-2",
-        "label": "ALLIES",
-        "kind": "alert",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
+        "kind": "trace",
+        "label": "REPORTED REQUEST",
+        "tone": "lilac"
       },
       {
         "id": "step-3",
-        "label": "BI / OPERATIONS",
-        "kind": "leaf",
-        "tone": "honey",
-        "x": 500,
-        "y": 100
+        "kind": "search",
+        "label": "INCIDENT MATCH",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
         "from": "step-0",
-        "to": "step-1"
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-1",
-        "to": "step-2"
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-2",
-        "to": "step-3"
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
         "node": "step-0",
-        "text": "Support searches a reported request to see whether its failure belongs to the current incident."
+        "text": "Pip receives a specific failed request from support."
       },
       {
         "node": "step-1",
-        "text": "Compare workflow completion before and after onboarding assistance for the relevant customer cohort."
-      },
-      {
-        "node": "step-2",
-        "text": "An account’s actual feature usage helps prioritize reliability work for its renewal discussion."
+        "text": "Request context establishes whether the issue continues, which workflow failed, and whether it belongs to a broader incident."
       },
       {
         "node": "step-3",
-        "text": "A sampled request dataset helps diagnose usage changes but does not determine an exact invoice."
+        "text": "Pip gives support evidence rather than another vague service-status update."
       }
     ]
+  },
+  "story": {
+    "course": "observability",
+    "world": "market",
+    "title": "Support brings the first useful clue"
   }
 }

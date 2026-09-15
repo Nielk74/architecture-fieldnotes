@@ -1,17 +1,59 @@
 # Chapter 3: Architectural Modularity
 
-Modularity is presented as a response to constant business and technical change. Mergers, acquisitions, competition, consumer demand, automation, containers, cloud infrastructure, DevOps, and delivery pipelines all put pressure on foundational structure. Software architecture must adapt more frequently than a building’s physical structure. The chapter’s question is practical: can breaking a large system into smaller parts address the organization’s current problems, and can that case be explained to sponsors? (text lines 1201–1268).
+*Pip’s adventure: Reporting steals the delivery desk. Fictional teaching story; concepts follow the cited source.*
 
-A monolithic deployment has a shared capacity and failure boundary. When the application grows, adding another server duplicates the whole application rather than providing targeted capacity for the function under pressure. Modularity partitions the system into separately deployable units, allowing domain or function-level allocation of resources. This is useful for the Sysops Squad because ticket entry, reporting, billing, survey processing, and administration do not have identical load or availability requirements (text lines 1269–1282).
+Source: text lines 1201–1476.
 
-The chapter describes several architectural drivers. Maintainability improves when developers can understand a smaller area and apply changes within a cohesive boundary. Testability improves when tests can be grouped and run at an appropriate scope, with better completeness and fewer unrelated failures. Deployability improves when a small fix does not require releasing the entire system. These benefits depend on real boundaries and appropriate delivery automation; merely creating process names does not reduce coupling (text lines 1283–1364).
+Pip’s reports consume the same resources as parcel intake. Modularity could separate change, capacity, and failure boundaries, but moving code alone will not remove shared dependencies. Pip builds the business case around measurable customer problems.
 
-Scalability and elasticity are related but distinct. Separate units can receive resources independently for sustained load or bursts. Synchronous communication can undermine that benefit because a workflow waits on the slowest dependency, coupling operational behavior across services. Availability and fault tolerance improve when a failure in one deployment unit leaves unrelated functions responsive. Replicating a monolith is an expensive substitute, especially when the same defect exists in every copy. Synchronous dependencies and shared infrastructure remain caveats (text lines 1365–1430).
+## Why modularize
 
-The Sysops Squad business case maps observed symptoms to these drivers. Changes are risky and testing is broad, so modular boundaries could narrow change and test scope. Reporting and customer ticketing compete for database resources, so separation could address freezes and provide independent capacity. Survey or reporting faults should not make core ticket entry unavailable. The proposed ADR also records costs: migration delays, additional expense, managing multiple deployments, and breaking apart the database and delivery pipeline (text lines 1431–1476).
+Pip adds a machine, but it duplicates the entire delivery application. One monolith shares capacity and failure boundaries across functions. Separately deployable modules can align change, capacity, and failures with domain needs. Pip isolates reporting only after connecting the work to business and technical change.
 
-The chapter does not claim modularity is free or universally superior. The strongest case connects a concrete business problem to a characteristic the proposed boundary can improve, then states what the organization must pay or operate differently. A design that improves one quality can reduce another, especially when synchronous calls, shared data, or operational immaturity preserve common failure paths.
+Source: text lines 1201–1282.
 
-Teaching extension: make a one-page business case linking three current symptoms to modularity drivers, measurable signals, and migration consequences. The mapping is a learning exercise derived from the chapter’s method.
+## Maintainability
 
-The Sysops case also shows why architecture work needs explicit sponsorship. The team does not claim that distributed structure is inherently good; it explains how the proposed boundaries address ticket availability, reporting load, testing scope, and release risk. It also admits the work will delay features and require new operational responsibilities. That candor is part of the decision, not an afterthought.
+Pip opens the entire codebase for a tiny assignment change. Smaller cohesive modules can reduce understanding and review scope, shortening feedback and limiting accidental effects. Pip checks whether assignment has a stable contract. Shared code, shared data, or synchronous tangles can merely move complexity across a network.
+
+Source: text lines 1283–1342.
+
+## Test and deploy
+
+Pip’s routing fix waits for an unrelated reporting release. Modularity can narrow tests and deployment risk around changed behavior. Pip gives routing focused tests and an independent release cadence. The team must also build, deploy, and monitor multiple units; pipelines and architecture reinforce each other.
+
+Source: text lines 1343–1364.
+
+## Scale and elasticity
+
+Pip scales parcel intake for a festival without enlarging surveys. Separate units support sustained scalability and burst elasticity. A synchronous wait on survey processing would still tie intake to its slowest dependency. Pip checks the end-to-end call chain before declaring the boundary independent.
+
+Source: text lines 1365–1382.
+
+## Fault tolerance
+
+Pip’s survey processor runs out of memory. Independent queued work can keep parcel creation responsive. Replicating a monolith is a weak, costly substitute when the same defect can fell every copy. Pip removes unnecessary synchronous failure paths; deployment separation alone cannot protect callers.
+
+Source: text lines 1383–1476.
+
+## Transfer challenge: Make a business case
+
+Support sponsors will fund architectural work only if it addresses customer-visible failures. Metrics show that reporting loads the database while ticket creation spikes. The team can split reporting and ticketing into independently deployed units now, or optimize the monolith and defer structural change.
+
+### Split domains
+
+Targets fault isolation, independent scale, smaller test scope, and safer release cadence. Requires migration effort, database work, and additional deployment operations. Ticketing remains responsive while reporting is scaled separately; the team accepts migration cost and must evolve its pipeline.
+
+### Tune monolith
+
+Avoids immediate migration cost and keeps one deployment and data model. Reporting and ticketing retain shared capacity and failure scope, limiting independent change. Indexes and caching may postpone freezes, but a future reporting change still shares release risk with customer ticket entry.
+
+The chapter treats modularity as a reasoned business decision. A persuasive case connects observed problems to qualities modularity can improve and states migration consequences openly.
+
+## Build the case
+
+Map three observed system problems to modularity drivers, then write one consequence and one measurable signal for each.
+
+- Context
+- Decision
+- Trade-off

@@ -3,7 +3,7 @@
   "title": "Analyzing Events to Achieve Observability",
   "part": "Fundamentals of Observability",
   "subtitle": "Turn a symptom into a sequence of comparisons",
-  "summary": "The core analysis loop turns exploratory debugging into a method another person can follow. Begin with the complaint or alert, verify the observed change, and search for dimensions that distinguish the anomalous population. If the result is insufficient, narrow the population and repeat. Wide events make these comparisons possible because the relevant attributes remain associated with individual requests. Automated comparison can rank differences between an anomaly and its baseline, saving the investigator from checking every field manually. Those rankings are clues, not automatic causal verdicts. The investigation succeeds when the evidence supports an explanation and a useful next action; collecting more telemetry without changing how it is analyzed does not produce this capability.",
+  "summary": "Pip hears that “the market is slow” and starts by finding the affected requests. Comparisons narrow the population one useful distinction at a time. Automated difference ranking speeds the search, but Pip must still test the explanation.",
   "source": {
     "startLine": 3449,
     "endLine": 3796,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Verify the starting observation",
-      "body": "Begin with what prompted the investigation rather than a favored explanation. Establish whether a change is visible and which requests and time range it concerns. A complaint may be precise about customer pain but imprecise about the failing component. Verifying that initial observation prevents the rest of the analysis from being built on an unsupported assumption.",
-      "example": "Confirm a latency increase for the reported endpoint before blaming its database.",
-      "source": "text lines 3449–3796"
+      "body": "Pip hears a stall owner blame the database for slow checkout. The complaint identifies pain, not necessarily the failing component. Pip verifies the latency change, requests, and time range before selecting a cause. The investigation begins with observed behavior rather than a favored explanation.",
+      "example": "",
+      "source": "text lines 3449–3796",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "listening",
+            "label": "USER COMPLAINT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "VERIFIED WINDOW",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "search",
+            "label": "AFFECTED REQUESTS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip hears a stall owner blame the database for slow checkout."
+          },
+          {
+            "node": "step-1",
+            "text": "The complaint identifies pain, not necessarily the failing component."
+          },
+          {
+            "node": "step-3",
+            "text": "The investigation begins with observed behavior rather than a favored explanation."
+          }
+        ]
+      }
     },
     {
       "title": "Search distinguishing dimensions",
-      "body": "Inspect sample events, group by fields, and filter values to find what separates unusual behavior from ordinary behavior. The best next dimension is one that changes the question meaningfully. An attribute common to both populations may provide little discrimination even when it appears on every failing request.",
-      "example": "An availability zone appears in nearly all slow requests but only a minority of normal requests.",
-      "source": "text lines 3449–3796"
+      "body": "Pip finds one availability zone in nearly all slow requests but few normal ones. Samples, groups, and filters reveal distinguishing dimensions. A field appearing in every failure is weak evidence if it is equally common in successes. Pip chooses comparisons that meaningfully change the question.",
+      "example": "",
+      "source": "text lines 3449–3796",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "SLOW COHORT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "message",
+            "label": "NORMAL COHORT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "DISTINGUISHING ZONE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip finds one availability zone in nearly all slow requests but few normal ones."
+          },
+          {
+            "node": "step-1",
+            "text": "Samples, groups, and filters reveal distinguishing dimensions."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip chooses comparisons that meaningfully change the question."
+          }
+        ]
+      }
     },
     {
       "title": "Repeat on a narrower population",
-      "body": "The first useful difference may locate only part of the problem. Filter to that population and continue comparing until the investigation supports a concrete explanation or action. This repeated narrowing preserves the link between each clue and the next question, rather than requiring a sudden intuitive jump to a component name.",
-      "example": "After finding the affected zone, compare instance types and operation paths inside it.",
-      "source": "text lines 3449–3796"
+      "body": "Pip narrows to the affected zone, then compares instance types and operation paths. The first difference may identify only part of the problem. Repeated filtering and comparison connect each clue to the next question. Pip continues until evidence supports a concrete explanation or action, not an intuitive leap.",
+      "example": "",
+      "source": "text lines 3449–3796",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "router",
+            "label": "AFFECTED ZONE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "INSTANCE TYPES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "trace",
+            "label": "OPERATION PATH",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip narrows to the affected zone, then compares instance types and operation paths."
+          },
+          {
+            "node": "step-1",
+            "text": "The first difference may identify only part of the problem."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip continues until evidence supports a concrete explanation or action, not an intuitive leap."
+          }
+        ]
+      }
     },
     {
       "title": "Automate comparison, interpret the result",
-      "body": "A tool can compare field distributions inside an anomaly with a baseline and rank their differences. This speeds the laborious search across many dimensions. The ranking does not establish causation: several attributes may describe the same cohort, so the investigator must examine relationships and validate the proposed explanation with further evidence.",
-      "example": "Region and instance type both rank highly because the affected capacity uses that combination.",
-      "source": "text lines 3449–3796"
+      "body": "Pip’s comparison tool ranks region and instance type as unusually common in failures. Automated distribution comparison accelerates searching many dimensions. The ranking is not causation: both fields may describe one cohort. Pip examines their relationship and gathers further evidence before accepting the explanation.",
+      "example": "",
+      "source": "text lines 3449–3796",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "RANKED DIFFERENCES",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "OVERLAPPING ATTRIBUTES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "experiment",
+            "label": "VALIDATE CAUSE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s comparison tool ranks region and instance type as unusually common in failures."
+          },
+          {
+            "node": "step-1",
+            "text": "Automated distribution comparison accelerates searching many dimensions."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip examines their relationship and gathers further evidence before accepting the explanation."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -118,68 +370,68 @@
     "nodes": [
       {
         "id": "step-0",
-        "label": "VERIFY",
-        "kind": "trace",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "observability"
       },
       {
         "id": "step-1",
-        "label": "COMPARE",
-        "kind": "experiment",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
+        "kind": "listening",
+        "label": "USER COMPLAINT",
+        "tone": "sage"
       },
       {
         "id": "step-2",
-        "label": "NARROW",
-        "kind": "alert",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
+        "kind": "clock",
+        "label": "VERIFIED WINDOW",
+        "tone": "lilac"
       },
       {
         "id": "step-3",
-        "label": "INTERPRET",
-        "kind": "leaf",
-        "tone": "honey",
-        "x": 500,
-        "y": 100
+        "kind": "search",
+        "label": "AFFECTED REQUESTS",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
         "from": "step-0",
-        "to": "step-1"
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-1",
-        "to": "step-2"
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-2",
-        "to": "step-3"
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
         "node": "step-0",
-        "text": "Confirm a latency increase for the reported endpoint before blaming its database."
+        "text": "Pip hears a stall owner blame the database for slow checkout."
       },
       {
         "node": "step-1",
-        "text": "An availability zone appears in nearly all slow requests but only a minority of normal requests."
-      },
-      {
-        "node": "step-2",
-        "text": "After finding the affected zone, compare instance types and operation paths inside it."
+        "text": "The complaint identifies pain, not necessarily the failing component."
       },
       {
         "node": "step-3",
-        "text": "Region and instance type both rank highly because the affected capacity uses that combination."
+        "text": "The investigation begins with observed behavior rather than a favored explanation."
       }
     ]
+  },
+  "story": {
+    "course": "observability",
+    "world": "market",
+    "title": "Follow the clue, then test it"
   }
 }

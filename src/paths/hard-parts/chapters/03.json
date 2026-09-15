@@ -3,18 +3,504 @@
   "title": "Architectural Modularity",
   "part": "Boundaries & decomposition",
   "subtitle": "Tie modular boundaries to the qualities that matter",
-  "summary": "Architectural modularity is a response to business and technical change. A large monolith cannot gain capacity simply by adding another server when every copy contains the same whole application, and failures or releases affect unrelated functionality. The chapter explains why modularity can improve maintainability, testability, deployability, scalability and elasticity, and availability or fault tolerance. These benefits have limits: synchronous calls between services add coordination and reduce elasticity, and dependent services can still fail together. Modularity is therefore a business case, not an automatic virtue. The Sysops Squad team maps reported problems to measurable drivers, discovers that reporting causes freezes, and records both benefits and migration consequences in an ADR. The decision also includes database decomposition, pipeline work, cost, and delayed features.",
-  "source": {"startLine": 1201, "endLine": 1476, "reference": "text lines 1201–1476"},
+  "summary": "Pip’s reports consume the same resources as parcel intake. Modularity could separate change, capacity, and failure boundaries, but moving code alone will not remove shared dependencies. Pip builds the business case around measurable customer problems.",
+  "source": {
+    "startLine": 1201,
+    "endLine": 1476,
+    "reference": "text lines 1201–1476"
+  },
   "concepts": [
-    {"title": "Why modularize", "body": "Business change, mergers, acquisitions, competition, and technical shifts force software architecture to adapt. A monolithic deployment has one capacity and failure boundary: adding another machine duplicates the whole application rather than isolating the part under pressure. Modularity partitions functionality into separately deployable units so teams can align capacity, change, and failure scope with domain needs.", "example": "Teaching extension: isolating reporting from ticket entry lets report traffic consume a separate deployment and keeps the customer path available during analysis workloads.", "source": "text lines 1201–1282"},
-    {"title": "Maintainability", "body": "Smaller, cohesive modules reduce the amount of code a developer must understand to make a change. This can shorten feedback loops and reduce accidental effects in unrelated areas. The benefit depends on real boundaries: a distributed system whose parts remain tangled through shared code, data, or synchronous chains merely moves complexity elsewhere.", "example": "Teaching extension: a change to ticket assignment can be reviewed within the assignment module and its contract instead of rerunning every unrelated billing and survey test.", "source": "text lines 1283–1342"},
-    {"title": "Test and deploy", "body": "Modularity can narrow test scope and improve completeness by grouping relevant tests with the changed behavior. It can also reduce deployment risk because a small change need not release the entire application. These gains require delivery practices that can build, deploy, and monitor multiple units; architecture and pipeline design reinforce each other.", "example": "Teaching extension: a ticket-routing fix can deploy weekly after its focused tests pass, while reporting follows its own release cadence.", "source": "text lines 1343–1364"},
-    {"title": "Scale and elasticity", "body": "Separate deployment units allow a heavily used function to receive resources independently. That improves scalability for sustained load and elasticity for bursts. Communication can erode the gain: when many services must synchronously complete one transaction, the workflow inherits the slowest dependency and the services become operationally entangled.", "example": "Teaching extension: ticket intake can scale during a promotion while low-volume survey processing remains unchanged, provided intake does not synchronously wait on survey work.", "source": "text lines 1365–1382"},
-    {"title": "Fault tolerance", "body": "Modularity can isolate a catastrophic failure to one deployment unit, allowing unrelated functions to remain responsive. Replicating the whole monolith is a costly weak substitute when the same defect can fell every copy. Synchronous dependency chains remain a caveat: a failing service can still make its callers unavailable, which is why asynchronous communication can support fault isolation.", "example": "Teaching extension: a survey processor running out of memory should not make ticket creation unavailable when survey work is queued independently.", "source": "text lines 1383–1476"}
+    {
+      "title": "Why modularize",
+      "body": "Pip adds a machine, but it duplicates the entire delivery application. One monolith shares capacity and failure boundaries across functions. Separately deployable modules can align change, capacity, and failures with domain needs. Pip isolates reporting only after connecting the work to business and technical change.",
+      "example": "",
+      "source": "text lines 1201–1282",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "deployment",
+            "label": "WHOLE APPLICATION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "REPORTING PRESSURE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "service",
+            "label": "SEPARATE REPORTING",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip adds a machine, but it duplicates the entire delivery application."
+          },
+          {
+            "node": "step-1",
+            "text": "One monolith shares capacity and failure boundaries across functions."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip isolates reporting only after connecting the work to business and technical change."
+          }
+        ]
+      }
+    },
+    {
+      "title": "Maintainability",
+      "body": "Pip opens the entire codebase for a tiny assignment change. Smaller cohesive modules can reduce understanding and review scope, shortening feedback and limiting accidental effects. Pip checks whether assignment has a stable contract. Shared code, shared data, or synchronous tangles can merely move complexity across a network.",
+      "example": "",
+      "source": "text lines 1283–1342",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "TINY CHANGE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "component",
+            "label": "COHESIVE MODULE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "boundary",
+            "label": "STABLE CONTRACT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip opens the entire codebase for a tiny assignment change."
+          },
+          {
+            "node": "step-1",
+            "text": "Smaller cohesive modules can reduce understanding and review scope, shortening feedback and limiting accidental effects."
+          },
+          {
+            "node": "step-3",
+            "text": "Shared code, shared data, or synchronous tangles can merely move complexity across a network."
+          }
+        ]
+      }
+    },
+    {
+      "title": "Test and deploy",
+      "body": "Pip’s routing fix waits for an unrelated reporting release. Modularity can narrow tests and deployment risk around changed behavior. Pip gives routing focused tests and an independent release cadence. The team must also build, deploy, and monitor multiple units; pipelines and architecture reinforce each other.",
+      "example": "",
+      "source": "text lines 1343–1364",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "experiment",
+            "label": "FOCUSED TESTS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "deployment",
+            "label": "ROUTING RELEASE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "service",
+            "label": "REPORTING CADENCE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s routing fix waits for an unrelated reporting release."
+          },
+          {
+            "node": "step-1",
+            "text": "Modularity can narrow tests and deployment risk around changed behavior."
+          },
+          {
+            "node": "step-3",
+            "text": "The team must also build, deploy, and monitor multiple units; pipelines and architecture reinforce each other."
+          }
+        ]
+      }
+    },
+    {
+      "title": "Scale and elasticity",
+      "body": "Pip scales parcel intake for a festival without enlarging surveys. Separate units support sustained scalability and burst elasticity. A synchronous wait on survey processing would still tie intake to its slowest dependency. Pip checks the end-to-end call chain before declaring the boundary independent.",
+      "example": "",
+      "source": "text lines 1365–1382",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "parcel",
+            "label": "FESTIVAL LOAD",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "INTAKE CAPACITY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "SYNCHRONOUS WAIT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip scales parcel intake for a festival without enlarging surveys."
+          },
+          {
+            "node": "step-1",
+            "text": "Separate units support sustained scalability and burst elasticity."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip checks the end-to-end call chain before declaring the boundary independent."
+          }
+        ]
+      }
+    },
+    {
+      "title": "Fault tolerance",
+      "body": "Pip’s survey processor runs out of memory. Independent queued work can keep parcel creation responsive. Replicating a monolith is a weak, costly substitute when the same defect can fell every copy. Pip removes unnecessary synchronous failure paths; deployment separation alone cannot protect callers.",
+      "example": "",
+      "source": "text lines 1383–1476",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "SURVEY FAILURE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "queue",
+            "label": "INDEPENDENT WORK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "storefront",
+            "label": "INTAKE STILL OPEN",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s survey processor runs out of memory."
+          },
+          {
+            "node": "step-1",
+            "text": "Independent queued work can keep parcel creation responsive."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip removes unnecessary synchronous failure paths; deployment separation alone cannot protect callers."
+          }
+        ]
+      }
+    }
   ],
-  "misconceptions": [{"claim": "Splitting a monolith automatically improves every quality.", "correction": "Modularity introduces network, deployment, and coordination costs; its value must be matched to concrete problems and measured qualities."}, {"claim": "Independent services guarantee fault tolerance.", "correction": "Synchronous callers can still fail with a dependency, and shared data or infrastructure can preserve a common failure boundary."}],
-  "scenario": {"title": "Make a business case", "context": "Support sponsors will fund architectural work only if it addresses customer-visible failures. Metrics show that reporting loads the database while ticket creation spikes. The team can split reporting and ticketing into independently deployed units now, or optimize the monolith and defer structural change.", "options": [{"label": "Split domains", "benefit": "Targets fault isolation, independent scale, smaller test scope, and safer release cadence.", "cost": "Requires migration effort, database work, and additional deployment operations.", "consequence": "Ticketing remains responsive while reporting is scaled separately; the team accepts migration cost and must evolve its pipeline."}, {"label": "Tune monolith", "benefit": "Avoids immediate migration cost and keeps one deployment and data model.", "cost": "Reporting and ticketing retain shared capacity and failure scope, limiting independent change.", "consequence": "Indexes and caching may postpone freezes, but a future reporting change still shares release risk with customer ticket entry."}], "debrief": "The chapter treats modularity as a reasoned business decision. A persuasive case connects observed problems to qualities modularity can improve and states migration consequences openly."},
-  "quiz": [{"question": "Why does adding a second server not solve monolith growth by itself?", "options": ["Each server contains the same whole application", "The application cannot use memory", "A monolith has no users"], "answer": 0, "explanation": "Replicating the full application duplicates its resource needs and failure behavior rather than scaling one domain independently."}, {"question": "Which factor can weaken modularity’s elasticity benefit?", "options": ["Synchronous dependency chains in one transaction", "Focused tests", "Separate deployment cadence"], "answer": 0, "explanation": "Synchronous calls make a workflow wait on dependent services and can couple their operational behavior."}, {"question": "What makes a modularity proposal persuasive to business sponsors?", "options": ["Naming a fashionable style", "Matching concrete problems to benefits and recording consequences", "Promising zero migration cost"], "answer": 1, "explanation": "The Sysops Squad case connects freezes, availability, and change pain to modularity drivers and costs."}],
-  "exercise": {"title": "Build the case", "prompt": "Map three observed system problems to modularity drivers, then write one consequence and one measurable signal for each.", "fields": [{"label": "Context", "placeholder": "Business problem and current architecture"}, {"label": "Decision", "placeholder": "Boundary or modular change proposed"}, {"label": "Trade-off", "placeholder": "Benefit, cost, and measurable signal"}]},
-  "visual": {"nodes": [{"id": "monolith", "label": "MONOLITH", "kind": "deployment", "tone": "peach"}, {"id": "ticket", "label": "TICKETING", "kind": "service", "tone": "sage"}, {"id": "reports", "label": "REPORTING", "kind": "service", "tone": "lilac"}, {"id": "fault", "label": "FAULT CHECK", "kind": "gauge", "tone": "peach"}], "edges": [{"from": "monolith", "to": "ticket"}, {"from": "monolith", "to": "reports"}, {"from": "ticket", "to": "fault"}, {"from": "reports", "to": "fault"}], "steps": [{"node": "monolith", "text": "Locate the shared capacity and failure boundary behind the symptom."}, {"node": "ticket", "text": "Give customer ticket work a cohesive deployment boundary."}, {"node": "reports", "text": "Move reporting load to a unit that can scale and fail separately."}, {"node": "fault", "text": "Check whether communication or shared data still joins the failure paths."}]}
+  "misconceptions": [
+    {
+      "claim": "Splitting a monolith automatically improves every quality.",
+      "correction": "Modularity introduces network, deployment, and coordination costs; its value must be matched to concrete problems and measured qualities."
+    },
+    {
+      "claim": "Independent services guarantee fault tolerance.",
+      "correction": "Synchronous callers can still fail with a dependency, and shared data or infrastructure can preserve a common failure boundary."
+    }
+  ],
+  "scenario": {
+    "title": "Make a business case",
+    "context": "Support sponsors will fund architectural work only if it addresses customer-visible failures. Metrics show that reporting loads the database while ticket creation spikes. The team can split reporting and ticketing into independently deployed units now, or optimize the monolith and defer structural change.",
+    "options": [
+      {
+        "label": "Split domains",
+        "benefit": "Targets fault isolation, independent scale, smaller test scope, and safer release cadence.",
+        "cost": "Requires migration effort, database work, and additional deployment operations.",
+        "consequence": "Ticketing remains responsive while reporting is scaled separately; the team accepts migration cost and must evolve its pipeline."
+      },
+      {
+        "label": "Tune monolith",
+        "benefit": "Avoids immediate migration cost and keeps one deployment and data model.",
+        "cost": "Reporting and ticketing retain shared capacity and failure scope, limiting independent change.",
+        "consequence": "Indexes and caching may postpone freezes, but a future reporting change still shares release risk with customer ticket entry."
+      }
+    ],
+    "debrief": "The chapter treats modularity as a reasoned business decision. A persuasive case connects observed problems to qualities modularity can improve and states migration consequences openly."
+  },
+  "quiz": [
+    {
+      "question": "Why does adding a second server not solve monolith growth by itself?",
+      "options": [
+        "Each server contains the same whole application",
+        "The application cannot use memory",
+        "A monolith has no users"
+      ],
+      "answer": 0,
+      "explanation": "Replicating the full application duplicates its resource needs and failure behavior rather than scaling one domain independently."
+    },
+    {
+      "question": "Which factor can weaken modularity’s elasticity benefit?",
+      "options": [
+        "Synchronous dependency chains in one transaction",
+        "Focused tests",
+        "Separate deployment cadence"
+      ],
+      "answer": 0,
+      "explanation": "Synchronous calls make a workflow wait on dependent services and can couple their operational behavior."
+    },
+    {
+      "question": "What makes a modularity proposal persuasive to business sponsors?",
+      "options": [
+        "Naming a fashionable style",
+        "Matching concrete problems to benefits and recording consequences",
+        "Promising zero migration cost"
+      ],
+      "answer": 1,
+      "explanation": "The Sysops Squad case connects freezes, availability, and change pain to modularity drivers and costs."
+    }
+  ],
+  "exercise": {
+    "title": "Build the case",
+    "prompt": "Map three observed system problems to modularity drivers, then write one consequence and one measurable signal for each.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Business problem and current architecture"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Boundary or modular change proposed"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Benefit, cost, and measurable signal"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "hard-parts"
+      },
+      {
+        "id": "step-1",
+        "kind": "deployment",
+        "label": "WHOLE APPLICATION",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "gauge",
+        "label": "REPORTING PRESSURE",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "service",
+        "label": "SEPARATE REPORTING",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
+      },
+      {
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
+      },
+      {
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "Pip adds a machine, but it duplicates the entire delivery application."
+      },
+      {
+        "node": "step-1",
+        "text": "One monolith shares capacity and failure boundaries across functions."
+      },
+      {
+        "node": "step-3",
+        "text": "Pip isolates reporting only after connecting the work to business and technical change."
+      }
+    ]
+  },
+  "story": {
+    "course": "hard-parts",
+    "world": "islands",
+    "title": "Reporting steals the delivery desk"
+  }
 }

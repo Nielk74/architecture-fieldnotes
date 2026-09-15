@@ -1,37 +1,352 @@
 {
   "number": 12,
   "subtitle": "Assess each area with evidence, then choose the next practice.",
-  "summary": "The Green Software Maturity Matrix is presented as a self-assessment guide for improving organizational practice. The book describes five levels—Aspiring, Aware, Acting, Awesome, and Inspiring—and multiple axes rather than a single uniform score. Early progress can include training, inventories, manual cleanup, and rightsizing. Later stages add consistent processes, broader measurement, automation, and decisions informed by dynamic electricity data. Product management, device support, servers, education, commitments, and measurement can develop at different speeds. The framework is the version discussed in the supplied 2024 text, not a current certification. Its useful purpose is to identify supported evidence and the next achievable improvement, without mistaking an ambitious target or a successful pilot for organization-wide capability.",
+  "summary": "One cinema team automates rightsizing, and someone proposes an “Inspiring” badge for the whole organization. Pip asks what the other teams can demonstrate. The book’s Green Software Maturity Matrix describes five levels—Aspiring, Aware, Acting, Awesome, and Inspiring—across several axes. Training, inventories, and manual cleanup can begin the journey; repeatable processes, broader measurement, automation, and dynamic electricity response develop later. Operations, product management, device support, and education may advance unevenly. This is the supplied 2024 framework, not a current certification. Pip uses it to choose an evidenced next practice, not reward an ambitious label.",
   "concepts": [
     {
       "title": "A maturity model guides improvement",
-      "body": "The matrix offers a vocabulary for describing current practice and what comes next. The five level names summarize movement from individual interest through repeatable work to quantitative continuous improvement. The chapter frames it for organizational leaders and advocates. Its detailed criteria belong to the version in the book; the course uses them for learning rather than issuing a certification.",
-      "example": "Teaching extension: A team cites an inventory and repeated review records as evidence instead of choosing a level because its aspiration sounds impressive.",
-      "source": "pp. 181–184"
+      "body": "Pip reaches for the highest badge, then opens the evidence folder. The maturity matrix describes practices and next steps, not an award earned by enthusiasm. Its five levels move from interest toward repeatable work and quantitative improvement, giving leaders and advocates a shared vocabulary. Pip brings inventory and recurring review records instead of an aspiration. The criteria belong to the book’s version; this learning exercise does not issue a certification.",
+      "example": "",
+      "source": "pp. 181–184",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "target",
+            "label": "ASPIRATION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "EVIDENCE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "blueprint",
+            "label": "NEXT PRACTICE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip checks the evidence before choosing a level."
+          },
+          {
+            "node": "step-1",
+            "text": "An aspiration describes intent."
+          },
+          {
+            "node": "step-3",
+            "text": "Use the book’s framework to choose the next action, not issue certification."
+          }
+        ]
+      }
     },
     {
       "title": "Early action does not require perfect telemetry",
-      "body": "Initial practices include identifying unused resources, rightsizing, choosing suitable hosting, and developing operational skills. Retrospective data and qualified proxies can support this stage while measurement improves. The book stresses beginning where the organization is. Building an elaborate real-time measurement system before acting on visible waste can delay useful progress without resolving the simplest resource problems.",
-      "example": "Teaching extension: The operations team inventories unused environments and performs a reviewed cleanup while it establishes a more complete measurement baseline.",
-      "source": "pp. 184–186"
+      "body": "The cinema wants perfect real-time telemetry before touching an idle environment. Pip proposes a reviewed inventory and cleanup while the baseline improves. Early practice can use retrospective data and qualified proxies to rightsize resources, choose suitable hosting, and build operational skills. The book encourages starting from actual capability. Elaborate measurement may help later, but it need not delay action on visible waste whose owners and recovery needs can already be checked.",
+      "example": "",
+      "source": "pp. 184–186",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "VISIBLE WASTE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "INVENTORY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "IMPROVING DATA",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip starts from the organization’s actual capability."
+          },
+          {
+            "node": "step-1",
+            "text": "An unused environment is already visible."
+          },
+          {
+            "node": "step-3",
+            "text": "Improve measurement while acting with transparent evidence."
+          }
+        ]
+      }
     },
     {
       "title": "Repeatability separates pilots from practice",
-      "body": "The Acting level emphasizes defined processes, broader emissions knowledge, recurring review, and deliberate attention to product waste and device longevity. Later levels bring automation and quantitative response. A single project can demonstrate a technique without proving the organization consistently applies it. Evidence should show scope, ownership, recurrence, and how exceptions are handled.",
-      "example": "Teaching extension: One team’s cleanup becomes a documented monthly process with owners and review evidence across the service inventory.",
-      "source": "pp. 186–188"
+      "body": "Pip’s pilot clears a room of unused workers. Next month, another team recreates them. A successful project is not yet a repeatable practice. The Acting level emphasizes defined processes, broader emissions knowledge, recurring review, product waste, and device longevity; later levels add automation and quantitative response. Pip assigns owners, documents scope, schedules reviews, and records exceptions. The evidence must show the practice happens beyond one memorable cleanup.",
+      "example": "",
+      "source": "pp. 186–188",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "experiment",
+            "label": "ONE PILOT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "team",
+            "label": "OWNERS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "REPEAT REVIEW",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip notices waste return after a successful trial."
+          },
+          {
+            "node": "step-1",
+            "text": "A pilot proves a technique in one scope."
+          },
+          {
+            "node": "step-3",
+            "text": "Recurring review and exception evidence establish repeatability."
+          }
+        ]
+      }
     },
     {
       "title": "Assess axes independently",
-      "body": "The matrix covers commitments, footprint, metrics, operations, electricity, end-user devices, servers, product management, and education. Different groups own these areas and may have different capabilities. A strong operational practice cannot compensate for an unknown device-support policy in an honest assessment. Recording separate evidence and gaps makes the next steps more useful than an unsupported overall average.",
-      "example": "Teaching extension: Operations has repeatable rightsizing, but device support is ad hoc. The assessment records both rather than calling every area mature.",
-      "source": "pp. 188–191"
+      "body": "The operations team celebrates repeatable rightsizing, but nobody owns older-phone support. Pip draws separate columns rather than averaging the gap away. The matrix covers commitments, footprint, metrics, operations, electricity, end-user devices, servers, product management, and education. Different owners may have different capabilities. Strong server practice cannot establish a missing device policy. Recording each axis’s evidence and uncertainty gives Pip a more useful next step than an unsupported overall score.",
+      "example": "",
+      "source": "pp. 188–191",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "deployment",
+            "label": "OPERATIONS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "phone",
+            "label": "DEVICE SUPPORT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "whiteboard",
+            "label": "SEPARATE AXES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip refuses to hide an uneven picture."
+          },
+          {
+            "node": "step-1",
+            "text": "Operations has one demonstrated strength."
+          },
+          {
+            "node": "step-3",
+            "text": "Assess evidence independently across the matrix’s axes."
+          }
+        ]
+      }
     },
     {
       "title": "Distinguish annual claims from continuous response",
-      "body": "The higher-level vision includes real-time and forecast data, carbon budgets, and electricity use matched to carbon-free supply by time and location. Annual purchases or broad future commitments do not demonstrate that operational capability. The book also limits the matrix’s focus to greenhouse-gas-related software practice; it does not establish performance on every environmental concern.",
-      "example": "Teaching extension: A yearly renewable-energy claim is recorded under commitments, while actual scheduling and interval data are requested for electricity practices.",
-      "source": "pp. 181, 187–192"
+      "body": "A poster promises renewable electricity over a year. Pip asks for the time and place of actual operation. Higher maturity envisions real-time and forecast data, budgets, and use matched to carbon-free supply by interval and location. Annual purchases or future commitments do not demonstrate that capability. Pip records the claim under commitments and seeks operational evidence separately. The book’s matrix also focuses on greenhouse-gas-related software practice, not every environmental concern.",
+      "example": "",
+      "source": "pp. 181, 187–192",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "ANNUAL CLAIM",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "ACTUAL INTERVAL",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "leaf",
+            "label": "MATCHED SUPPLY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip separates a commitment from operational capability."
+          },
+          {
+            "node": "step-1",
+            "text": "An annual purchase does not describe every operating hour."
+          },
+          {
+            "node": "step-3",
+            "text": "Continuous matching needs evidence beyond the annual claim."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -46,7 +361,7 @@
   ],
   "scenario": {
     "title": "An honest maturity review",
-    "context": "Teaching extension. A company has automated rightsizing in one platform team, an annual emissions report, and enthusiastic volunteers. Other teams provision manually, and there is no defined older-device support policy. Leaders want a useful next-quarter plan based on the book’s matrix.",
+    "context": "Pip reviews a cinema company with one rightsizing pilot, an annual emissions report, and keen volunteers. Other teams still provision manually; older-device support has no policy. Leaders need an honest next-quarter plan using the book’s matrix, not a badge based on the strongest team.",
     "options": [
       {
         "label": "Assess each axis and expand one repeatable practice",
@@ -116,46 +431,63 @@
   "visual": {
     "nodes": [
       {
-        "id": "evidence",
-        "label": "EVIDENCE",
-        "kind": "document",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "green-software"
+      },
+      {
+        "id": "step-1",
+        "kind": "deployment",
+        "label": "OPERATIONS",
         "tone": "sage"
       },
       {
-        "id": "axes",
-        "label": "SEPARATE AXES",
-        "kind": "whiteboard",
+        "id": "step-2",
+        "kind": "phone",
+        "label": "DEVICE SUPPORT",
         "tone": "lilac"
       },
       {
-        "id": "next",
-        "label": "NEXT PRACTICE",
-        "kind": "target",
+        "id": "step-3",
+        "kind": "whiteboard",
+        "label": "SEPARATE AXES",
         "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "evidence",
-        "to": "axes"
+        "from": "step-0",
+        "to": "step-1",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "axes",
-        "to": "next"
+        "from": "step-1",
+        "to": "step-2",
+        "flow": false,
+        "dashed": true
+      },
+      {
+        "from": "step-2",
+        "to": "step-3",
+        "flow": false,
+        "dashed": true
       }
     ],
     "steps": [
       {
-        "node": "evidence",
-        "text": "Collect records of practices that actually operate."
+        "node": "step-0",
+        "text": "Pip refuses to hide an uneven picture."
       },
       {
-        "node": "axes",
-        "text": "Assess operations, measurement, and device support independently."
+        "node": "step-1",
+        "text": "Operations has one demonstrated strength."
       },
       {
-        "node": "next",
-        "text": "Choose one achievable improvement with an owner and review."
+        "node": "step-3",
+        "text": "Assess evidence independently across the matrix’s axes."
       }
     ]
   },
@@ -166,5 +498,10 @@
     "endLine": 6981,
     "pages": "181–192",
     "reference": "pp. 181–192; text lines 6579–6981"
+  },
+  "story": {
+    "course": "green-software",
+    "world": "cinema",
+    "title": "Pip's badge needs evidence"
   }
 }

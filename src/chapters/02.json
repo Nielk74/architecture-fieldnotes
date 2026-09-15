@@ -3,7 +3,7 @@
   "title": "Architectural Thinking",
   "part": "Foundations",
   "subtitle": "See the forces behind a design decision",
-  "summary": "Architectural thinking is a way of seeing software through structure, constraints, and consequences. It starts by treating architecture and design as a shared, evolving activity between architects and developers rather than a handoff across a barrier. Architects need broad technical awareness alongside selected areas of depth, because recognizing several viable approaches is often more useful than preserving expertise in one tool. Every choice carries trade-offs: extensibility can increase exposure, coupling, or operational difficulty. The architect therefore translates business drivers into architectural concerns such as scale, performance, security, or availability, then chooses a contextually suitable balance. Staying hands-on through production work, proof of concepts, architecture stories, bug fixes, automation, and reviews keeps decisions grounded in implementation reality without making the architect a delivery bottleneck.",
+  "summary": "Pip sketches the growing bookshop, then a developer finds a boundary that makes testing awkward. Architectural thinking connects structure with implementation feedback, broad alternatives, and business priorities. Pip stays hands-on without becoming the person every release must wait for.",
   "source": {
     "startLine": 1323,
     "endLine": 1767,
@@ -12,33 +12,348 @@
   "concepts": [
     {
       "title": "Architecture and design",
-      "body": "Architecture identifies important structural concerns, characteristics, patterns, and major components; design fills in the detailed classes, screens, and code. The boundary is porous: decisions change as implementation reveals new constraints. A bidirectional relationship lets developers challenge architectural assumptions and lets architects coach, refine, and keep the solution aligned with its purpose. Shared feedback also exposes feasibility problems while they are still inexpensive to change.",
-      "example": "A team discovers that a proposed service boundary makes a core workflow awkward to test. The architect joins the redesign, changes the boundary, and updates the rationale before the coupling becomes expensive.",
-      "source": "pp. 23–25"
+      "body": "Pip’s proposed bookshop service boundary makes a core workflow difficult to test. Architecture addresses structure, characteristics, patterns, and major components; design supplies detailed classes, screens, and code. The porous boundary needs feedback in both directions. Pip joins the developers, revises the seam, and records the rationale while change is still inexpensive.",
+      "example": "",
+      "source": "pp. 23–25",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "blueprint",
+            "label": "PROPOSED STRUCTURE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "experiment",
+            "label": "IMPLEMENTATION FEEDBACK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "JOINT REDESIGN",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s proposed bookshop service boundary makes a core workflow difficult to test."
+          },
+          {
+            "node": "step-1",
+            "text": "Architecture addresses structure, characteristics, patterns, and major components; design supplies detailed classes, screens, and code."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip joins the developers, revises the seam, and records the rationale while change is still inexpensive."
+          }
+        ]
+      }
     },
     {
       "title": "Breadth and depth",
-      "body": "Developers commonly invest in deep working expertise, while architects gain value by widening the set of technologies and solution patterns they can recognize. Breadth does not mean shallow opinions or trying to retain mastery of everything. It means knowing enough about alternatives and their constraints to ask useful questions, while maintaining a few areas of depth for credibility and practical judgment.",
-      "example": "An architect familiar with relational databases, event streams, and caches can compare five plausible designs, then prototype the two that fit the workload instead of defaulting to the tool used last year.",
-      "source": "pp. 25–30"
+      "body": "Pip almost chooses last year’s database without considering alternatives. Architectural breadth means recognizing technologies, patterns, and constraints well enough to ask useful questions. A few deep areas sustain practical judgment without demanding mastery of everything. Pip compares relational storage, event streams, and caches, then prototypes the plausible fits.",
+      "example": "",
+      "source": "pp. 25–30",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "RELATIONAL OPTION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "message",
+            "label": "EVENT STREAM",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "cache",
+            "label": "CACHE OPTION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip almost chooses last year’s database without considering alternatives."
+          },
+          {
+            "node": "step-1",
+            "text": "Architectural breadth means recognizing technologies, patterns, and constraints well enough to ask useful questions."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip compares relational storage, event streams, and caches, then prototypes the plausible fits."
+          }
+        ]
+      }
     },
     {
       "title": "Trade-off analysis",
-      "body": "No architecture answer is universally correct because deployment environment, budget, culture, skills, time, and business priorities change the balance. For an auction, publish-subscribe topics make adding consumers easier and decouple producers, while queues isolate contracts, access, and consumer scaling. Good architectural thinking names both benefits and liabilities before deciding which concern matters most here. The decision should also state which assumption would cause the team to revisit it.",
-      "example": "A bid topic simplifies adding analytics, but a regulated payment consumer may need a separate queue and contract so access and backlog can be monitored tightly.",
-      "source": "pp. 30–34"
+      "body": "Pip’s rare-book auction needs both analytics and controlled payment access. Publish-subscribe eases new consumers and producer decoupling; queues isolate contracts, access, and consumer scale. Budget, skills, culture, time, environment, and priorities change the balance. Pip records benefits, liabilities, the local choice, and the assumption that would justify revisiting it.",
+      "example": "",
+      "source": "pp. 30–34",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "SHARED BID TOPIC",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "queue",
+            "label": "ISOLATED PAYMENT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "LOCAL TRADE-OFF",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s rare-book auction needs both analytics and controlled payment access."
+          },
+          {
+            "node": "step-1",
+            "text": "Publish-subscribe eases new consumers and producer decoupling; queues isolate contracts, access, and consumer scale."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip records benefits, liabilities, the local choice, and the assumption that would justify revisiting it."
+          }
+        ]
+      }
     },
     {
       "title": "Business drivers",
-      "body": "Architects convert domain goals into structural concerns. A request for growth may imply scalability and elasticity; a safety-sensitive workflow may imply reliability, recoverability, and auditability. The translation requires domain knowledge and collaboration because the same word, such as fast or available, can hide different thresholds. The resulting characteristics guide design and trade-off discussion. Stakeholders supply the meaning and priorities behind the engineering vocabulary.",
-      "example": "For an end-of-day pricing system, speed alone is insufficient: the design also needs availability, scale, restartability, reliability, and checks that the calculated prices are correct.",
-      "source": "pp. 33–34"
+      "body": "Pip hears “finish pricing by closing time” and asks what happens after an interruption. Growth may imply scale and elasticity; critical workflows may need reliability, recovery, and auditability. Words such as fast or available hide different thresholds. Pip works with domain stakeholders to turn business meaning into prioritized structural concerns.",
+      "example": "",
+      "source": "pp. 33–34",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "storefront",
+            "label": "CLOSING-TIME NEED",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "listening",
+            "label": "DOMAIN QUESTIONS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "target",
+            "label": "STRUCTURAL PRIORITIES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip hears “finish pricing by closing time” and asks what happens after an interruption."
+          },
+          {
+            "node": "step-1",
+            "text": "Growth may imply scale and elasticity; critical workflows may need reliability, recovery, and auditability."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip works with domain stakeholders to turn business meaning into prioritized structural concerns."
+          }
+        ]
+      }
     },
     {
       "title": "Hands-on without bottlenecks",
-      "body": "Architects should keep technical depth, but owning framework code on the critical path turns them into a delivery bottleneck. Safer ways to stay close include production-quality proofs of concept, technical-debt or architecture stories, bug fixes, automation, fitness functions, and frequent code reviews. These activities expose real implementation pain and distribute ownership to the team. They also create concrete evidence for future architectural decisions.",
-      "example": "While developers build the shared deployment framework, the architect prototypes two caching approaches, automates a dependency check, and reviews the business service that will ship next iteration.",
-      "source": "pp. 34–36"
+      "body": "Pip volunteers to own the framework every release depends on, then notices the bottleneck. Hands-on architecture can instead use production-quality prototypes, debt work, fixes, automation, fitness functions, and reviews. Pip compares caching approaches and automates a dependency check while developers own delivery. Real implementation evidence improves later decisions without centralizing critical-path work.",
+      "example": "",
+      "source": "pp. 34–36",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "HANDS-ON PROTOTYPE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "DEPENDENCY CHECK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "DISTRIBUTED OWNERSHIP",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip volunteers to own the framework every release depends on, then notices the bottleneck."
+          },
+          {
+            "node": "step-1",
+            "text": "Hands-on architecture can instead use production-quality prototypes, debt work, fixes, automation, fitness functions, and reviews."
+          },
+          {
+            "node": "step-3",
+            "text": "Real implementation evidence improves later decisions without centralizing critical-path work."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -123,65 +438,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "driver",
-        "label": "GOAL",
-        "kind": "target",
-        "tone": "peach"
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "fundamentals"
       },
       {
-        "id": "concern",
-        "label": "CONCERN",
-        "kind": "gauge",
+        "id": "step-1",
+        "kind": "blueprint",
+        "label": "PROPOSED STRUCTURE",
         "tone": "sage"
       },
       {
-        "id": "choice",
-        "label": "TRADE-OFF",
-        "kind": "balance",
+        "id": "step-2",
+        "kind": "experiment",
+        "label": "IMPLEMENTATION FEEDBACK",
         "tone": "lilac"
       },
       {
-        "id": "feedback",
-        "label": "FEEDBACK",
-        "kind": "message",
-        "tone": "honey"
+        "id": "step-3",
+        "kind": "team",
+        "label": "JOINT REDESIGN",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "driver",
-        "to": "concern"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "concern",
-        "to": "choice"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "choice",
-        "to": "feedback"
-      },
-      {
-        "from": "feedback",
-        "to": "concern"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "driver",
-        "text": "Stakeholders state the outcome, constraint, or risk that makes the system valuable."
+        "node": "step-0",
+        "text": "Pip’s proposed bookshop service boundary makes a core workflow difficult to test."
       },
       {
-        "node": "concern",
-        "text": "Translate that domain language into a small set of structural characteristics such as scale, security, or recovery."
+        "node": "step-1",
+        "text": "Architecture addresses structure, characteristics, patterns, and major components; design supplies detailed classes, screens, and code."
       },
       {
-        "node": "choice",
-        "text": "Compare candidate designs by benefits and costs in this environment, then select the least-worst balance."
-      },
-      {
-        "node": "feedback",
-        "text": "Developers test the decision in real code and feed discoveries back into the architecture."
+        "node": "step-3",
+        "text": "Pip joins the developers, revises the seam, and records the rationale while change is still inexpensive."
       }
     ]
+  },
+  "story": {
+    "course": "fundamentals",
+    "world": "bookshop",
+    "title": "Pip’s first architecture sketch meets real code"
   }
 }

@@ -1,37 +1,358 @@
 {
   "number": 6,
   "subtitle": "Keep working hardware useful for longer.",
-  "summary": "Hardware brings emissions into a system before software starts running. Manufacturing, transport, and eventual disposal create a carbon burden that operational energy alone cannot describe. The chapter argues for longer device life and higher useful utilization, particularly for consumer devices whose manufacturing impact can be substantial. Software matters because compatibility and security support can determine whether working equipment remains useful. Cloud users influence allocation and supplier choices; owners of physical systems also control repair, reuse, shutdown, and replacement. Specialized hardware may save operational energy but can be hard to repurpose. E-waste broadens the concern to materials and people. The practical aim is to prevent unnecessary replacement while retaining secure, reliable service.",
+  "summary": "A working phone cannot enter Pip’s new cinema app. The preview wants a newer chip, but ordinary playback still works. Manufacturing, transport, and disposal mean replacement has consequences beyond runtime electricity. Pip investigates compatibility, security support, repair, reuse, and useful utilization before asking for new hardware. Cloud customers and physical owners have different controls; specialized processors also trade efficient execution against fit and repurposing. E-waste affects materials and people. The goal is longer useful life without abandoning secure, reliable service—not changing an accounting lifetime and pretending past emissions vanished.",
   "concepts": [
     {
       "title": "Embodied carbon is already spent",
-      "body": "Manufacturing equipment creates emissions before use. Allocating those emissions over a longer useful life changes the footprint attributed to each year or task; it does not remove emissions already released. The practical benefit is obtaining more value from existing equipment and potentially delaying another manufacturing cycle. Utilization and longevity are therefore complementary hardware-efficiency levers.",
-      "example": "Teaching extension: A fictional 1,200 kg embodied footprint allocated over four years is 300 kg per year; over six years it is 200. The original 1,200 kg is not erased.",
-      "source": "pp. 91–94, 98"
+      "body": "Pip finds an old device’s manufacturing footprint in the ledger. Extending its useful life does not rub out those emissions. In this fictional allocation, 1,200 kg over four years is 300 kg per year; over six, 200 kg. The original 1,200 kg remains. What changes physically is the useful service obtained and, potentially, the need for another manufacturing cycle. Pip combines longer life with higher useful utilization instead of confusing allocation with reversal.",
+      "example": "",
+      "source": "pp. 91–94, 98",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "phone",
+            "label": "MADE ALREADY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "LONGER USE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "ALLOCATION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip separates accounting from physical history."
+          },
+          {
+            "node": "step-1",
+            "text": "Production emissions have already occurred."
+          },
+          {
+            "node": "step-3",
+            "text": "A longer allocation period does not erase the original footprint."
+          }
+        ]
+      }
     },
     {
       "title": "Compatibility affects replacement",
-      "body": "Software-defined obsolescence occurs when support ends or software requirements exclude otherwise working equipment. Backward-compatible paths can keep core functionality accessible on older devices. Security support matters too: longevity is not an instruction to leave people with unpatched systems. The book asks application developers and manufacturers to support useful devices for longer, with explicit maintenance and testing effort.",
-      "example": "Teaching extension: An optional visual effect gets a fallback so a supported older phone can still perform the main task.",
-      "source": "pp. 94–96"
+      "body": "A visitor stops Pip at the cinema door. “Yesterday, my phone worked.” The new preview needs a chip the phone lacks; ordinary playback still works. Pip almost recommends an upgrade, then pauses: software is retiring a working device. That is software-defined obsolescence. Pip builds a simpler preview and keeps security updates and device tests on the maintenance list. Less sparkle, longer useful life—but continued support is part of the bargain.",
+      "example": "",
+      "source": "pp. 94–96",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "phone",
+            "label": "WORKING PHONE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "terminal",
+            "label": "SIMPLE PREVIEW",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "shield",
+            "label": "MAINTAIN SUPPORT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip notices a visitor excluded by the update."
+          },
+          {
+            "node": "step-1",
+            "text": "Ordinary playback still works on the older phone.",
+            "states": {
+              "step-1": "blocked"
+            }
+          },
+          {
+            "node": "step-3",
+            "text": "Keep security updates, testing, and maintenance—not just compatibility.",
+            "states": {
+              "step-1": "ready"
+            }
+          }
+        ]
+      }
     },
     {
       "title": "Cloud and owned hardware offer different controls",
-      "body": "Cloud customers usually delegate asset management but still influence capacity demand and resource choice. Owners of physical infrastructure can directly change replacement timing, repair practices, and off-peak shutdown. Both should avoid unused allocation. Reusing equipment and reducing resource requirements can reduce pressure for new hardware, while actual energy and reliability needs still affect replacement decisions.",
-      "example": "Teaching extension: A lab reuses a supported server after verifying capacity and recovery, instead of replacing it solely because an accounting interval ended.",
-      "source": "pp. 96–99"
+      "body": "The cinema’s owned server reaches its accounting replacement date. Pip checks support, capacity, energy, reliability, and recovery instead of ordering automatically. Owners can choose repair, reuse, replacement timing, and off-peak shutdown directly. Cloud customers usually delegate asset management, but their allocation and resource choices still influence demand. Both can avoid unused capacity and reduce resource requirements. Reuse is an opportunity to investigate, not an instruction to ignore failing or unsupported equipment.",
+      "example": "",
+      "source": "pp. 96–99",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "OWNED SERVER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "deployment",
+            "label": "CLOUD CAPACITY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "REUSE EVIDENCE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip investigates before replacing equipment."
+          },
+          {
+            "node": "step-1",
+            "text": "Physical owners can repair, reuse, or schedule shutdown."
+          },
+          {
+            "node": "step-3",
+            "text": "Support, reliability, and energy evidence guide the decision."
+          }
+        ]
+      }
     },
     {
       "title": "Specialization has a lifetime trade-off",
-      "body": "A specialized processor can perform a known task efficiently. Its benefit depends on utilization, workload fit, skills, and how long it remains useful. General-purpose equipment is often easier to repurpose when the problem changes. A short-lived specialized device may fail to justify its manufacturing burden even if one benchmark shows excellent energy efficiency.",
-      "example": "Teaching extension: A media accelerator is evaluated against a multi-year demand forecast and its reuse options, not only its best per-frame benchmark.",
-      "source": "pp. 99–101"
+      "body": "A shiny media accelerator wins Pip’s per-frame benchmark. Will it keep winning after the festival? Specialized hardware can use less operational energy for a suitable task, but its manufacturing burden, utilization, required expertise, and useful lifetime still count. A general-purpose machine may find another job when demand changes. Pip checks sustained workload and reuse options before choosing: a brilliant benchmark on a soon-discarded device may be a poor lifetime bargain.",
+      "example": "",
+      "source": "pp. 99–101",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "cache",
+            "label": "ACCELERATOR",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "queue",
+            "label": "SUSTAINED WORK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "USEFUL LIFETIME",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip looks beyond the winning benchmark."
+          },
+          {
+            "node": "step-1",
+            "text": "Specialized hardware can fit one task very efficiently."
+          },
+          {
+            "node": "step-3",
+            "text": "Consider repurposing and lifetime when demand changes."
+          }
+        ]
+      }
     },
     {
       "title": "Reuse and repair address e-waste",
-      "body": "Discarded electronics represent wasted material value and can harm people and ecosystems when handled badly. Software teams can reduce avoidable disposal by supporting older hardware and considering secondhand equipment. The chapter also discusses manufacturer targets and repair initiatives from its period. A commitment is not evidence of delivery; supplier questions should seek support, repair, and lifecycle evidence.",
-      "example": "Teaching extension: Procurement asks about spare parts and supported lifetime, while the app team tests core flows on the oldest supported device.",
-      "source": "pp. 101–105"
+      "body": "Pip finds working devices beside the disposal bin. Their materials still have value, and badly handled e-waste can harm people and ecosystems. Supporting older hardware, repairing equipment, and considering secondhand devices can prevent avoidable disposal. Pip asks suppliers for spare parts, support lifetime, and lifecycle evidence while the app team tests its oldest supported phone. Book-era manufacturer targets and repair initiatives are commitments to examine, not proof that delivery happened.",
+      "example": "",
+      "source": "pp. 101–105",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "phone",
+            "label": "WORKING DEVICE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "workshop",
+            "label": "REPAIR",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "leaf",
+            "label": "MATERIALS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip notices value left in discarded equipment."
+          },
+          {
+            "node": "step-1",
+            "text": "A working device may still meet a real need."
+          },
+          {
+            "node": "step-3",
+            "text": "Ask for evidence about support and responsible lifecycle handling."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -46,7 +367,7 @@
   ],
   "scenario": {
     "title": "Keep the older client in the product",
-    "context": "Teaching extension. A media app plans an enhanced preview feature that needs hardware acceleration absent from older, still security-supported devices. The core playback flow works on those devices. The team must choose whether to maintain a simpler preview path or raise its hardware minimum. Testing capacity is limited.",
+    "context": "Pip’s cinema app adds an enhanced preview requiring acceleration that older, security-supported phones lack. Playback still works on them. Keeping a simpler preview adds testing and maintenance; raising the hardware minimum simplifies development but excludes working devices. Pip’s team has limited testing capacity.",
     "options": [
       {
         "label": "Keep a compatible core path",
@@ -116,46 +437,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "device",
-        "label": "EXISTING KIT",
-        "kind": "browser",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "green-software"
+      },
+      {
+        "id": "step-1",
+        "kind": "phone",
+        "label": "WORKING PHONE",
         "tone": "sage"
       },
       {
-        "id": "support",
-        "label": "SUPPORT",
-        "kind": "shield",
+        "id": "step-2",
+        "kind": "terminal",
+        "label": "SIMPLE PREVIEW",
         "tone": "lilac"
       },
       {
-        "id": "life",
-        "label": "LONGER LIFE",
-        "kind": "clock",
+        "id": "step-3",
+        "kind": "shield",
+        "label": "MAINTAIN SUPPORT",
         "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "device",
-        "to": "support"
+        "from": "step-0",
+        "to": "step-1",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "support",
-        "to": "life"
+        "from": "step-1",
+        "to": "step-2",
+        "flow": false,
+        "dashed": true
+      },
+      {
+        "from": "step-2",
+        "to": "step-3",
+        "flow": false,
+        "dashed": true
       }
     ],
     "steps": [
       {
-        "node": "device",
-        "text": "A working device already carries manufacturing emissions."
+        "node": "step-0",
+        "text": "Pip notices a visitor excluded by the update."
       },
       {
-        "node": "support",
-        "text": "Compatibility and security maintenance preserve its useful functions."
+        "node": "step-1",
+        "text": "Ordinary playback still works on the older phone.",
+        "states": {
+          "step-1": "blocked"
+        }
       },
       {
-        "node": "life",
-        "text": "Additional useful service can delay replacement and its manufacturing impact."
+        "node": "step-3",
+        "text": "Keep security updates, testing, and maintenance—not just compatibility.",
+        "states": {
+          "step-1": "ready"
+        }
       }
     ]
   },
@@ -166,5 +510,10 @@
     "endLine": 4143,
     "pages": "91–105",
     "reference": "pp. 91–105; text lines 3601–4143"
+  },
+  "story": {
+    "course": "green-software",
+    "world": "cinema",
+    "title": "The perfectly good phone"
   }
 }

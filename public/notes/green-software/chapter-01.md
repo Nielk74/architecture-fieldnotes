@@ -1,38 +1,32 @@
 # Chapter 1: Introduction to Green Software
 
+*Pip’s adventure: The cinema that used energy while everyone slept. Fictional teaching story; concepts follow the cited source.*
+
 Building Green Software — Anne Currie, Sarah Hsu, and Sara Bergman. First edition, March 2024.
 
 Source: printed pp. 1–14; text lines 634–1142. References count literal newline-delimited lines in the supplied text.
 
 ## Overview
 
-Green software starts with a physical question: what resources does a useful result require, and what emissions follow? The authors distinguish energy efficiency, hardware efficiency, and carbon awareness. Reducing processing is one lever; sharing machines, keeping devices useful, and moving flexible work to cleaner electricity are others. The introduction previews a practical route through these decisions, beginning with operations and suitable platforms before expensive custom optimization. It also connects sustainability to developer productivity, cost, reliability, and security. The goal is software that meets real needs while reducing its impact. Measurement guides that work, but a lack of perfect carbon data does not prevent an initial investigation of obvious waste.
+Pip arrives to help reopen the town cinema. The films are ready, yet idle workers hum through the night and a working phone cannot run the new app. A faster converter will not solve everything. Pip follows three clues: electricity used, hardware kept useful, and the carbon intensity of electricity when work runs. Operations and suitable platforms offer a starting point before a costly rewrite. The screening must still be useful, secure, and reliable. Pip starts measuring obvious waste; perfect carbon data can come later.
 
 ## Key ideas
 
 ### Three complementary levers
 
-Energy efficiency reduces electricity for useful work. Hardware efficiency improves equipment utilization and longevity. Carbon awareness changes when, where, or how much work runs in response to electricity emissions. These approaches can reinforce one another, but improving one does not establish that the complete system has become greener. Follow both the useful result and the resources supporting it. (Source: pp. 1–3.)
-
-Teaching extension: A media service removes duplicate conversions, shares workers, and schedules flexible exports using grid data. Each change addresses a different part of its footprint.
+Pip finds three switches, but none says “make green.” Removing duplicate conversions reduces electricity for the same film: energy efficiency. Sharing workers and supporting older phones improves hardware use: hardware efficiency. Scheduling flexible exports using electricity emissions data is carbon awareness. Pip can combine these levers, but one improved number is not the whole footprint. The test follows both the useful result and every resource supporting it. (Source: pp. 1–3.)
 
 ### Start with operations
 
-The introduction emphasizes avoiding idle and oversized resources because improvements can often use existing operational tools. A faster program on an unchanged, mostly idle server may leave much of the footprint in place. Platform choices and workload flexibility help convert software improvements into fewer active resources while retaining the service that users actually need. (Source: pp. 6–9.)
-
-Teaching extension: An unused weekend worker prompts an ownership and restart check before the team considers rewriting its conversion engine.
+The converter finishes sooner. Pip cheers—until the dedicated worker keeps humming through an empty weekend. Faster code has left idle allocation untouched. Pip checks who owns the worker and whether it can restart, then investigates sharing or scheduling it. Existing operational tools and suitable platforms can turn an improvement into fewer active resources. Rewriting the engine can wait until Pip knows what work the audience actually needs. (Source: pp. 6–9.)
 
 ### Design for flexibility
 
-Separating urgent interactions from delayable work makes demand shifting possible. Demand shaping changes the service offered when electricity is more carbon intensive. Both require product decisions: a deadline, quality level, or freshness expectation must be explicit before a system can adapt. Flexibility comes from design rather than a green label attached to an unchanged workload. (Source: pp. 10–12.)
-
-Teaching extension: Playback stays immediate, while an optional high-resolution download can finish by morning. Users can see when it will be ready.
+“A film now, or a download by morning?” Pip asks the audience. Playback must stay immediate; the optional high-resolution copy can wait. That deadline creates room for demand shifting. Offering a lighter version during a high-carbon period would instead be demand shaping. Pip writes down quality, freshness, and delivery promises before adapting anything. Flexibility comes from product design, not from painting a green label on an unchanged workload. (Source: pp. 10–12.)
 
 ### Keep devices and software useful
 
-Dropping compatibility or security support can encourage replacement of working equipment. The introduction therefore treats device longevity as a software concern alongside server electricity. Its broader vision retains usability, security, resilience, and developer productivity. A sustainable design must still serve people well enough to remain useful and adopted, with attention to both clients and infrastructure. (Source: pp. 11–14.)
-
-Teaching extension: The app keeps a lightweight playback path on supported older phones while offering additional effects on newer hardware.
+A visitor’s older phone still works, but the cinema app demands a newer chip. Pip keeps a lightweight playback path and reserves extra effects for newer devices. Compatibility and security support help working equipment stay useful instead of pushing people toward replacement. Servers are only part of the story. Pip’s greener design must also remain usable, secure, resilient, and practical for its developers—or the audience and team will abandon it. (Source: pp. 11–14.)
 
 ## Misconceptions
 
@@ -46,7 +40,7 @@ An inventory can expose unused resources and unnecessary work. Start with transp
 
 ## Decision practice — teaching extension
 
-Teaching extension. A media team has one week available. Its export must finish by 08:00 but usually finishes much earlier. The dedicated worker stays on between jobs. There is also a CPU-heavy conversion function. The team can investigate operating schedules or begin replacing that function, but cannot complete both this week.
+Pip has one week before the screening. Exports must finish by 08:00, but a dedicated worker stays on between jobs. Its converter also consumes heavy CPU. Pip can investigate restart and operating schedules or begin replacing the converter—not complete both this week.
 
 ### Make the worker restartable and scheduled
 

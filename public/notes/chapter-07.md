@@ -1,17 +1,59 @@
-# Chapter 7 — Scope of Architecture Characteristics
+# Chapter 7: Scope of Architecture Characteristics
 
-Chapter 7 revises a traditional assumption: architecture characteristics belong to the whole system. That assumption suited monoliths, but modern styles make it possible for parts of a system to have different deployment and operational profiles. An application can be well designed in code yet fail its performance or elasticity goal because a dependent database cannot support the same behavior. Architects need a scope that includes all components whose coupling affects the characteristic (source pp. 91–92, lines 3724–3814).
+*Pip’s adventure: The database still sets the limit. Fictional teaching story; concepts follow the cited source.*
 
-The chapter introduces the architecture quantum as “an independently deployable artifact with high functional cohesion and synchronous connascence.” An independently deployable artifact includes everything required to function, including a database. High functional cohesion means the unit serves a purposeful workflow or responsibility. Synchronous connascence means the participants wait on one another; their operational qualities must be compatible for the duration of that call. A service that is much more scalable than a synchronous dependency can still experience timeouts and reliability problems (pp. 92–93, lines 3815–3890).
+Source: printed pp. 91–98.
 
-The scope changes with communication style. Static sharing can make services connascent when a common class changes. Dynamic coupling may be synchronous or asynchronous. In a synchronous call, the caller waits for the callee. Asynchronous communication permits fire-and-forget behavior and can buffer differences in operational characteristics. The auction/payment example shows why this matters: if payment handles one transaction every 500 milliseconds while many auctions end together, synchronous calls may time out. A queue can absorb the burst and let payment work proceed separately, at the cost of explicit processing and reconciliation (pp. 92–94, lines 3833–3907).
+Pip adds bookshop application instances and discovers the database remains the bottleneck. Architectural qualities must be evaluated across the dependencies that determine them. Quanta, synchronous waiting, and bounded contexts help Pip find the right scope.
 
-Domain-driven design supplies a complementary boundary. A bounded context keeps its model visible internally and opaque outside. Rather than force a shared Customer class across an organization, separate contexts can represent customers according to their own workflows and reconcile differences at integration points. Shared artifacts might appear reusable, but they also introduce coordination, coupling, and change complexity (p. 94, lines 3891–3927).
+## Why scope narrows
 
-The Going, Going, Gone auction kata demonstrates the practical result. Nationwide scale and real-time bidding imply scalability, elasticity, and performance. Payment and a previous fraud lawsuit make security worth explicit investigation. Ordered live and online bids raise reliability concerns. Most significantly, bidder feedback, the auctioneer, and online bidders do not share the same failure impact or load. Feedback needs availability, scalability, and performance. The auctioneer needs especially strong availability, reliability, scale, elasticity, performance, and security. Online bidders need reliability, availability, scale, and elasticity (pp. 94–98, lines 3928–4044).
+Pip scales the catalog application while its single database runs out of connections. An elastic or fast codebase cannot meet goals its dependencies prevent. System-wide averages and code-only measures can both hide the relevant constraint. Pip scopes characteristics around actual coupling and failure impact, especially for operational evolution.
 
-The architecture quantum gives the architect a way to reason about these profiles earlier. If one quantum contains one coherent set of characteristics, a monolith may provide simplicity. If several quanta have different needs, a distributed or hybrid design may be justified. This is a scope decision rather than an automatic argument for microservices. The architect still weighs deployment complexity, data ownership, communication style, ordering, and operational capability.
+Source: pp. 91–92.
 
-The JSON auction scenario and visual are teaching extensions. They simulate a split and a payment buffer to expose the trade-off; they do not claim measured latency or a universal service boundary. The exercise asks the learner to identify a workflow, include synchronous dependencies, and decide whether asynchronous communication changes a real constraint.
+## Architecture quantum
 
-Source boundary: this lesson covers Chapter 7, printed pages 91–98 and supplied text lines 3724–4044. Later chapters develop distributed architecture styles in greater detail; this lesson uses only the supplied introduction to quanta and bounded contexts.
+Pip’s order service waits synchronously for tax calculation. The chapter defines a quantum as an independently deployable artifact with high functional cohesion and synchronous connascence, including required infrastructure. Its purposeful workflow and waiting dependencies must have compatible operational qualities. Pip uses the quantum as a reasoning scope, not merely a process label.
+
+Source: pp. 92–93.
+
+## Synchronous and asynchronous
+
+Pip’s auction burst reaches payment, which handles one transaction every 500 milliseconds. Synchronous waiting couples scale, latency, and reliability into timeout chains. A queue can buffer rate differences and change the operational scope. Pip also defines pending status, retries, and reconciliation instead of treating asynchronous delivery as free decoupling.
+
+Source: pp. 92–94.
+
+## Bounded contexts
+
+Pip tries to share one Customer class between reputation and payment. A bounded context keeps its domain model meaningful inside and opaque outside. Each workflow can represent a participant differently and reconcile at an explicit integration point. Pip exchanges needed data instead of coupling every context to every internal field.
+
+Source: pp. 93–94.
+
+## Auction quanta
+
+Pip studies Going, Going, Gone before adding a rare-book auction. Feedback needs fast, available scale; auctioneer capture adds especially strong reliability, ordering, security, and elasticity; bidders need reliable elastic access. Distinct profiles can justify separate quanta and a hybrid architecture. Pip protects authoritative capture differently from thousands of read streams.
+
+Source: pp. 94–98.
+
+## Transfer challenge: Give an auction three operating profiles
+
+An online auction has one authoritative auctioneer, hundreds or thousands of bidders, and a live bid/video feedback stream. Bids must be ordered; bidder views should scale elastically; the auctioneer cannot lose the connection during a live sale. Payment processing is slower than auction completion bursts. Decide where to draw operational boundaries and which link should buffer demand.
+
+### One synchronous quantum
+
+A single transaction path simplifies ordering and consistency reasoning across auction, bidder, and payment behavior. The slowest dependency constrains the whole unit, and scaling a bursty bidder view may force the authoritative path to scale and deploy with it. The system keeps a shared deployment and blocking calls. When many auctions end together, payment latency propagates into auction operations unless capacity is over-provisioned or work is delayed.
+
+### Split by workflow
+
+Auctioneer capture, bidder access, feedback, and payment can receive different availability, scale, and elasticity targets; queues absorb bursts. Ordering, data ownership, observability, and eventual processing require explicit contracts and operational coordination. The auction records ordered bids, publishes feedback, and enqueues payment work. Bidder traffic scales independently while the team monitors reconciliation and delayed payment outcomes.
+
+The quantum is a reasoning boundary, not a promise that distributed systems are always better. If one set of qualities suffices, a monolith may be simpler. Different profiles and synchronous bottlenecks justify finer boundaries and possibly asynchronous links.
+
+## Mark your quality boundaries
+
+Choose a system with at least two workflows. Draw or describe the independently deployable units, name one synchronous dependency, and decide whether an asynchronous boundary would change a key trade-off.
+
+- Context
+- Decision
+- Trade-off

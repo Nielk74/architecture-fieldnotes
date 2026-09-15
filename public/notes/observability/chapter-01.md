@@ -1,27 +1,53 @@
-# 1. What Is Observability?
+# Chapter 1: What Is Observability?
 
-Ask questions you did not know to prepare
+*Pip’s adventure: The market is green, one stall is broken. Fictional teaching story; concepts follow the cited source.*
 
-Observability describes what engineers can learn from a running system, rather than a collection of installed products. Modern applications produce failures through interactions among users, versions, dependencies, and infrastructure; those combinations cannot all be predicted before deployment. The chapter therefore makes exploratory analysis a requirement. Request-level records must retain enough dimensions and distinct values to let investigators narrow an unfamiliar symptom into a specific population. Metrics, logs, and traces may contribute evidence, but their presence alone says little about which questions remain answerable. The practical test is whether an engineer can explain an unexpected state using existing telemetry, without first modifying the application to capture the missing clue.
+Source: text lines 653–1279.
+
+Pip’s night-market dashboard is green while one stall cannot take payments. Observability means being able to explain unexpected behavior from existing telemetry. Pip follows request identities and combined context instead of accepting a reassuring fleet average.
 
 ## Observable state
 
-The control-theory origin concerns inferring internal state from external outputs. Applied to software, the useful question is whether existing telemetry lets you explain unexpected behavior. A green status page cannot establish this ability. Try investigating an unfamiliar customer complaint and notice whether you must deploy additional logging before you can distinguish competing explanations.
+Pip receives a checkout complaint only involving one promotion and payment provider. Observability’s control-theory origin concerns inferring internal state from external outputs. For software, Pip asks whether existing telemetry can distinguish explanations without deploying new logging. A green status page cannot prove that ability.
+
+Source: text lines 653–1279.
 
 ## Cardinality preserves identity
 
-Cardinality counts the distinct values a field can hold. A request identifier has many more possible values than an HTTP method. Those identifying values can be exactly what separates one broken customer experience from millions of healthy ones. Removing them to fit an aggregation scheme can make the interesting population impossible to recover later.
+Pip groups requests by tenant and finds one completely unavailable stall. Cardinality counts distinct values: request IDs have many more than HTTP methods. Those identities can separate a broken experience from millions of healthy ones. Pip avoids discarding the very field needed to recover the interesting population.
+
+Source: text lines 653–1279.
 
 ## Dimensionality preserves context
 
-Dimensionality concerns how many attributes describe an event, not how many values one attribute takes. A request might record its build, route, tenant, region, duration, and feature flags. Keeping these together permits questions about their combinations. Separate totals for each attribute cannot reliably reconstruct which conditions occurred on the same request.
+Pip’s new build is slow only in one region with one feature flag. Dimensionality counts attributes, not the distinct values of one field. Recording build, route, tenant, region, duration, and flags together preserves their combinations. Separate totals cannot reconstruct which conditions shared the same request.
+
+Source: text lines 653–1279.
 
 ## Explorability is a capability
 
-Useful investigation moves through questions that change as evidence arrives. The system must support new filters, groupings, and comparisons quickly enough to maintain that reasoning loop. A large dashboard library covers prepared questions; explorability lets the investigator follow a clue beyond that library without changing the deployed application first.
+Pip filters slow requests, groups by build, then compares dependency calls. Each clue changes the next question. Explorability supports new filters, groupings, and comparisons quickly enough to sustain that reasoning loop. Prepared dashboards remain useful, but Pip must be able to move beyond them without first changing the application.
 
-## Apply it
+Source: text lines 653–1279.
+
+## Transfer challenge: An invisible tenant outage
+
+Fleet success is 99.9%, but one customer reports that every checkout fails.
+
+### Inspect requests grouped by tenant
+
+Finds whether failures concentrate in that customer’s population. Requires identity fields and careful access to request data. The investigation can separate this customer’s failures from healthy traffic.
+
+### Raise the global success threshold
+
+May detect a larger range of aggregate degradations. Still cannot explain which customer is affected. A stricter threshold may page again without resolving the customer-specific question.
+
+An aggregate is a useful starting signal; identifying the affected population requires retained request context.
+
+## Design an answerable question
 
 Choose one customer complaint your dashboards cannot explain. Specify the request fields and comparisons that would make it investigable.
 
-Source: *Observability Engineering*, chapter 1; supplied text lines 653–1279. These notes are an original synthesis; examples and activities are illustrative.
+- Unexpected symptom
+- Fields that preserve the combination
+- First comparison and next question

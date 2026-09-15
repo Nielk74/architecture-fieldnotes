@@ -1,23 +1,53 @@
 # Chapter 23: Managing Critical State: Distributed Consensus for Reliability
 
-Source: text lines 9889–10801 of the supplied book extract.
+*Pip’s adventure: Two sides cannot both own the same lock. Fictional teaching story; concepts follow the cited source.*
 
-Critical shared state needs agreement despite crashes, delayed messages, and partitions. Heartbeats alone cannot distinguish a failed peer from an unreachable one, so informal failover can create competing leaders and corrupt data. Consensus protocols preserve safety while progress depends on enough communicating replicas. Replicated state machines turn agreement into useful services by executing deterministic operations in the same order. Paxos establishes agreement; Multi-Paxos uses a stable leader to reduce repeated coordination. Replicated stores, leases, queues, and leader election build on these foundations. Deployment then becomes a trade-off among quorum survival, geographical latency, resource cost, and client requirements. Monitor leadership, replica lag, committed progress, and durable-write latency, and retain independent backups because replication also reproduces operator mistakes.
+Source: text lines 9889–10801.
+
+Pip’s booking coordinator splits across a network partition. Preserving one agreed critical state may require some nodes to stop accepting work. Consensus, ordered operations, stable leadership, and carefully placed quorums make that trade-off explicit.
 
 ## CAP, safety, and availability
 
-During a network partition, a distributed system cannot both serve every node’s requests and guarantee one consistent view of critical state. Consensus chooses to preserve agreement, potentially pausing operations where a quorum is unavailable. Safety means conflicting decisions are not committed; liveness means decisions eventually advance. An asynchronous network cannot guarantee bounded progress, so operational redundancy and eventual communication are essential alongside protocol correctness.
+Pip’s minority partition wants to assign its own lock owner. During a partition, serving every node conflicts with one consistent view of critical state. Consensus preserves safety by refusing conflicting commits, potentially pausing without a quorum; liveness concerns eventual progress. Pip still needs eventual communication and redundancy because an asynchronous network cannot guarantee bounded progress.
+
+Source: text lines 9889–10801.
 
 ## Replicated state machines and ordered operations
 
-A replicated state machine applies the same deterministic operations in the same order at multiple replicas. Consensus establishes that order; execution turns it into a datastore, queue, configuration service, or coordination primitive. Replicas that missed decisions must catch up. Read semantics still matter: reading any replica may return stale state, while a strongly consistent read requires a mechanism establishing that its view is current.
+Pip gives replicas the same balance updates in different orders and gets different outcomes. A replicated state machine needs deterministic operations applied in the same agreed order. Consensus establishes that order; missed decisions need catch-up. Pip also defines reads: any replica may be stale, while strong reads need a mechanism establishing currentness.
+
+Source: text lines 9889–10801.
 
 ## Paxos and stable-leader Multi-Paxos
 
-Paxos reaches agreement through numbered proposals, persistent acceptor commitments, and overlapping majorities. Its protocol rules preserve previously accepted decisions as proposals advance. A single agreement becomes an ordered sequence through a higher-level replicated log. Multi-Paxos lets an established leader reuse its prepared leadership across operations, reducing normal coordination. Competing proposers can delay progress, so election timing, randomized backoff, and leadership stability affect availability.
+Pip’s coordinator uses numbered proposals, persistent acceptor commitments, and overlapping majorities. Paxos preserves prior accepted decisions as proposals advance; a higher-level log orders repeated agreements. Stable-leader Multi-Paxos reuses established leadership for normal operations. Pip monitors elections, randomized backoff, and competing proposers because safe decisions alone do not ensure timely progress.
+
+Source: text lines 9889–10801.
 
 ## Quorum placement and operational trade-offs
 
-A majority system with five replicas can proceed with three, tolerating two unavailable replicas if the survivors communicate and have sufficient capacity. Placing replicas in independent failure domains improves resilience but increases coordination latency. Stable leaders can bottleneck bandwidth, and losing a fast quorum member can increase latency even without losing availability. Track replica health, lag, leadership changes, and committed progress rather than assuming running processes imply a functioning service.
+Pip places five replicas across independent sites. Three communicating survivors can tolerate two unavailable replicas if they have capacity. Distance and losing a fast quorum member can increase latency; a leader may bottleneck bandwidth. Pip tracks health, lag, leadership changes, and committed progress instead of equating running processes with a functioning consensus service.
 
-The lesson’s examples, decision scenario, and exercise are original teaching extensions rather than reported incidents.
+Source: text lines 9889–10801.
+
+## Transfer challenge: Choose coordination for critical state
+
+A leader election service loses a node during a zone network partition. Clients must avoid two writers accepting conflicting configuration.
+
+### Use a consensus protocol with explicit failure assumptions
+
+A quorum rule protects consistency during node loss. Unavailable writes are a deliberate availability cost. The system rejects writes without quorum and repairs membership after the partition.
+
+### Let each zone continue writing independently
+
+Each zone keeps serving without waiting for quorum. Divergent state requires difficult reconciliation and may corrupt consumers. Both zones progress, then disagree about the authoritative value.
+
+Preserving one configuration history requires a quorum and safe leadership, not independent writers in each partition. The side without a quorum pauses writes; restored replicas catch up before participating normally.
+
+## Place a consensus quorum
+
+Plan a five-replica configuration service across failure domains. Explain which failures preserve progress and what clients observe when no quorum is reachable.
+
+- Placement
+- Client semantics
+- Operational evidence

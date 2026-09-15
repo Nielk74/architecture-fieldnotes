@@ -1,19 +1,53 @@
 # Chapter 4: Architectural Decomposition
 
-Chapter 4 distinguishes the reason for modularity from the method of decomposition. Once sponsors approve structural change, the team must decide how to proceed without turning a monolith into a distributed Big Ball of Mud. The “elephant migration” instinct—extracting one convenient feature at a time without a structure plan—can produce an unstructured set of services with the same coupling problems and more operational complexity (text lines 1477–1535).
+*Pip’s adventure: Finding a seam in the old system. Fictional teaching story; concepts follow the cited source.*
 
-The first question is feasibility: is the codebase decomposable? A Big Ball of Mud has little useful internal structure. Event handlers may reach directly into database calls, and responsibilities may be hard to name or isolate. Architecture restructuring therefore starts with understanding the codebase’s internal organization and deciding whether it is salvageable. No single metric gives the answer; architects combine tools with judgment (text lines 1536–1585).
+Source: text lines 1477–1753.
 
-Coupling metrics provide evidence. Afferent coupling counts incoming connections to an artifact; efferent coupling counts outgoing connections. A shared Address class illustrates why the distinction matters: reuse is convenient in a monolith, but high incoming use makes the class a difficult extraction point. Tools such as dependency analyzers can provide matrices and aggregate views of package and component relationships (text lines 1586–1635).
+Pip is asked to pull the delivery monolith apart. First the crew checks whether useful seams exist. Component extraction fits recognizable boundaries; tactical forking may suit tangled code, with duplication and convergence costs made explicit.
 
-The chapter also introduces abstractness and instability as derived measures. Abstractness describes the ratio of abstract artifacts to concrete implementation artifacts. Instability describes the balance between outgoing and total coupling. Together with distance from the main sequence, these measures provide another perspective on whether components are balanced, concrete, abstract, stable, or difficult to change. They support investigation rather than replacing architectural judgment (text lines 1636–1685).
+## Decomposition is how
 
-Two approaches follow from the evidence. Component-based decomposition is extraction: refactor and refine logical components incrementally, often moving first toward a service-based architecture. Tactical forking is pragmatic for a badly structured system: clone the monolith, give teams copies, and remove unwanted parts until coarse-grained services remain. Forking can make progress possible when extracting hidden boundaries would be too risky, but it duplicates code and creates convergence and governance work (text lines 1686–1733).
+Pip spots an easy component to extract and reaches for the scissors. Modularity explains why to partition; decomposition explains how. Opportunistic extraction can create a distributed Big Ball of Mud. Pip first assesses decomposability, then chooses component-based extraction or tactical forking from the code’s actual structure.
 
-The chapter’s Sysops Squad decision chooses component-based decomposition because the code has identifiable components, despite some difficult shared areas. It records the method and its consequences, including migration cost and the need to adapt release operations. The selection is conditional: a different codebase with no stable internal structure might justify tactical forking.
+Source: text lines 1477–1535.
 
-Teaching extension: take a small dependency sample, count incoming and outgoing references, and write a short recommendation. State which evidence supports extraction or forking, and name the cost your choice creates. This exercise operationalizes the chapter’s assessment method.
+## Big Ball of Mud
 
-The important output is a migration approach that fits the evidence. Extraction preserves more of the existing structure and can move through a service-based stepping stone. Forking accepts duplication to make progress through a badly tangled codebase. In either case, the team should make the boundary and its consequences visible, then use dependency checks to keep later changes from recreating the original tangle.
+Pip follows a delivery screen straight into several database classes. A Big Ball of Mud lacks useful internal boundaries. Coupling tools inform whether the system is salvageable, but no magic score decides it. Pip weighs tactical forking when naming and preserving extraction seams would be unreliable.
 
-That evidence-based choice is the chapter’s durable lesson for migration planning.
+Source: text lines 1536–1585.
+
+## Afferent and efferent
+
+Pip moves an Address class and breaks half the network. Afferent coupling counts incoming connections; efferent coupling counts outgoing ones. Shared assets with many users need explicit treatment before extraction. Pip maps both directions rather than assuming reuse inside a monolith will remain easy across services.
+
+Source: text lines 1586–1635.
+
+## Two migration paths
+
+Pip extracts recognizable components incrementally in one area. In a tangled area, teams fork the monolith and remove unwanted behavior from each copy. Component-based decomposition can approach service-based architecture; tactical forking preserves coarse behavior when structure is poor. Pip budgets duplicated maintenance and later convergence instead of treating either path as free.
+
+Source: text lines 1636–1733.
+
+## Transfer challenge: Choose the migration path
+
+The ticketing system has a large reporting component but also many direct UI-to-database calls and shared utility classes. The team must start a funded migration while limiting the risk of creating distributed mud. It can use component extraction where boundaries are visible and tactical forking where they are not.
+
+### Component path
+
+Preserves incremental control and makes dependencies explicit as components are refined. Requires analysis and refactoring before visible service separation. Reporting is decomposed along clear domains, while high-coupling utilities are redesigned before extraction.
+
+### Tactical fork
+
+Provides a pragmatic start when the codebase lacks reliable internal structure. Duplicates code and creates convergence and governance work across copies. Teams remove unrelated behavior from ticket and reporting copies, then must reconcile shared fixes and retire duplication.
+
+The choice follows evidence about structure. Extraction rewards coherent components; forking limits the need to understand every tangled dependency but carries duplicated-system costs.
+
+## Assess a codebase
+
+Use a small dependency sample to decide whether component extraction or tactical forking is safer, and justify the choice.
+
+- Context
+- Decision
+- Trade-off

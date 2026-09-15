@@ -3,7 +3,7 @@
   "title": "Simplicity",
   "part": "Operations",
   "subtitle": "Reduce the behavior and coupling that operators must reason about",
-  "summary": "Simplicity supports reliability by reducing the amount of behavior that must be understood, tested, and changed safely. Essential complexity belongs to the problem; accidental complexity comes from chosen implementations and can often be removed. Predictable code, small APIs, and clear component responsibilities make failures easier to locate. Dead code and obsolete flags are liabilities even when they appear inactive, because they retain confusing and potentially executable paths. Version control provides a way to recover deleted code without leaving it embedded in production. Modularity also applies to releases and data formats: compatible interfaces let teams change one component without rebuilding the whole system. Small, understandable releases make effects easier to attribute and allow stability and development speed to reinforce each other.",
+  "summary": "Pip finds three ways to configure the same authorization rule. The service still needs authorization, but not every inherited complication. Clear modules, small interfaces, removed dead paths, and smaller releases make production behavior easier to understand and change.",
   "source": {
     "startLine": 3853,
     "endLine": 4118,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Essential and accidental complexity",
-      "body": "Essential complexity is imposed by the problem being solved; accidental complexity arises from how the solution is built. Serving correct results under load is a real requirement, while unnecessary layers or awkward implementation choices may add avoidable difficulty. SRE should challenge the latter because every extra behavior complicates diagnosis, testing, and change without necessarily delivering value to users.",
-      "example": "Teaching extension: A service still needs authorization, but three overlapping authorization configuration mechanisms may be removable complexity.",
-      "source": "text lines 3853–4118"
+      "body": "Pip finds three overlapping authorization configuration systems. Authorization is essential complexity imposed by the problem; redundant mechanisms may be accidental complexity in the solution. Every unnecessary behavior adds diagnostic, testing, and change costs. Pip challenges the extra layers without removing the real user requirement.",
+      "example": "",
+      "source": "text lines 3853–4118",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "shield",
+            "label": "ESSENTIAL AUTHORIZATION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "component",
+            "label": "OVERLAPPING MECHANISMS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "AVOIDABLE COMPLEXITY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip finds three overlapping authorization configuration systems."
+          },
+          {
+            "node": "step-1",
+            "text": "Authorization is essential complexity imposed by the problem; redundant mechanisms may be accidental complexity in the solution."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip challenges the extra layers without removing the real user requirement."
+          }
+        ]
+      }
     },
     {
       "title": "Delete dead behavior",
-      "body": "Unused code and permanently disabled features retain maintenance and reasoning costs. A flag may later change, reviving an untested path, while commented code distracts readers and becomes stale. After checking that a path is no longer needed, deletion removes those liabilities. Version history preserves the old implementation if future investigation requires it; production source need not serve as its archive.",
-      "example": "Teaching extension: Remove the retired exporter and its flag after verifying no supported deployment uses them.",
-      "source": "text lines 3853–4118"
+      "body": "Pip spots a retired exporter behind a permanently disabled flag. Unused paths still cost maintenance and might revive untested when a flag changes. Pip verifies no supported deployment needs it, then deletes the dead behavior. Version history preserves the past without making production source its archive.",
+      "example": "",
+      "source": "text lines 3853–4118",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "DEAD EXPORTER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "USAGE CHECK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "VERSION HISTORY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip spots a retired exporter behind a permanently disabled flag."
+          },
+          {
+            "node": "step-1",
+            "text": "Unused paths still cost maintenance and might revive untested when a flag changes."
+          },
+          {
+            "node": "step-3",
+            "text": "Version history preserves the past without making production source its archive."
+          }
+        ]
+      }
     },
     {
       "title": "Small APIs and coherent modules",
-      "body": "A small API exposes only the operations needed for a clear purpose, reducing the surface that callers and maintainers must understand. Components with coherent responsibilities can be changed independently. Compatibility and versioning extend this independence across releases, avoiding a forced system-wide upgrade whenever one participant changes. A miscellaneous utility service with unrelated duties weakens that separation.",
-      "example": "Teaching extension: A backward-compatible schema addition lets one service upgrade while its callers migrate later.",
-      "source": "text lines 3853–4118"
+      "body": "Pip’s miscellaneous helper service makes every upgrade a group event. Small APIs and coherent responsibilities reduce what callers and maintainers must understand. Compatibility and versioning let a schema addition roll out while callers migrate later. Pip narrows the interface instead of forcing system-wide upgrades.",
+      "example": "",
+      "source": "text lines 3853–4118",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "api",
+            "label": "SMALL PURPOSEFUL API",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "component",
+            "label": "COHERENT MODULE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "deployment",
+            "label": "INDEPENDENT UPGRADE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s miscellaneous helper service makes every upgrade a group event."
+          },
+          {
+            "node": "step-1",
+            "text": "Small APIs and coherent responsibilities reduce what callers and maintainers must understand."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip narrows the interface instead of forcing system-wide upgrades."
+          }
+        ]
+      }
     },
     {
       "title": "Small releases improve attribution",
-      "body": "A large release mixes many potential explanations for any performance or correctness change. Smaller releases narrow the set of suspects and make rollback or repair easier to reason about. Simple release procedures also help developers move faster because the effect of a change is visible sooner. The objective is understandable, controllable change rather than freezing a production system indefinitely.",
-      "example": "Teaching extension: Deploying one cache-policy change makes a new latency regression easier to attribute than deploying fifty unrelated changes.",
-      "source": "text lines 3853–4118"
+      "body": "Pip ships fifty changes and cannot identify the latency regression. Smaller releases narrow suspects and simplify rollback or repair. Simple procedures expose effects sooner and help developers move faster. Pip aims for understandable, controllable change—not a production system frozen forever.",
+      "example": "",
+      "source": "text lines 3853–4118",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "deployment",
+            "label": "SMALL RELEASE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "VISIBLE EFFECT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "ROLLBACK OR REPAIR",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip ships fifty changes and cannot identify the latency regression."
+          },
+          {
+            "node": "step-1",
+            "text": "Smaller releases narrow suspects and simplify rollback or repair."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip aims for understandable, controllable change—not a production system frozen forever."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,81 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Simplicity: FLAG to COMPONENT to DELETE to VERIFY",
     "nodes": [
       {
-        "id": "observe",
-        "label": "FLAG",
-        "caption": "inputs and constraints",
-        "kind": "document",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "COMPONENT",
-        "caption": "choose the operating rule",
-        "kind": "component",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "DELETE",
-        "caption": "observe the effect",
-        "kind": "terminal",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "VERIFY",
-        "caption": "feed learning back",
-        "kind": "shield",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "shield",
+        "label": "ESSENTIAL AUTHORIZATION",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "component",
+        "label": "OVERLAPPING MECHANISMS",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "balance",
+        "label": "AVOIDABLE COMPLEXITY",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
-      },
-      {
-        "from": "learn",
-        "to": "observe",
-        "dashed": true
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "inputs and constraints"
+        "node": "step-0",
+        "text": "Pip finds three overlapping authorization configuration systems."
       },
       {
-        "node": "decide",
-        "text": "choose the operating rule"
+        "node": "step-1",
+        "text": "Authorization is essential complexity imposed by the problem; redundant mechanisms may be accidental complexity in the solution."
       },
       {
-        "node": "act",
-        "text": "observe the effect"
-      },
-      {
-        "node": "learn",
-        "text": "feed learning back"
+        "node": "step-3",
+        "text": "Pip challenges the extra layers without removing the real user requirement."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "One less switch to misunderstand"
   }
 }

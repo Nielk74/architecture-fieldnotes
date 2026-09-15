@@ -3,7 +3,7 @@
   "title": "Tracking Outages",
   "part": "Operations",
   "subtitle": "Group alerts into incidents and find recurring costs across services",
-  "summary": "Detailed postmortems explain major incidents, but they miss the cumulative burden of many small events. An outage tracker preserves notifications and their context so teams can group related alerts, annotate response, and analyze patterns over time. The chapter distinguishes acknowledgment and escalation from incident organization: one mechanism ensures somebody receives a page, while another turns many notifications into a usable operational history. Flexible tags connect events with causes and actions without demanding a perfect taxonomy in advance. Counts become useful when compared with prior periods and interpreted alongside severity, effort, and monitoring behavior. Cross-team visibility can reveal shared infrastructure problems or a dependency owner who has not been notified. The same record also improves shift handoffs and weekly service reviews.",
+  "summary": "Pip counts twelve failures until the crew traces all twelve alerts to one network incident. Keeping notification evidence, acknowledgments, context, and incident identity separate makes history useful. Tags and impact measures then help the team choose what to improve.",
   "source": {
     "startLine": 6268,
     "endLine": 6432,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Notifications and incidents are different units",
-      "body": "One outage may generate many alerts across services, while some notifications are false positives or audit events rather than outages. Grouping related notifications into an incident preserves their evidence without treating each page as a separate failure. Tracking both alerts per incident and incidents over time distinguishes notification noise from the frequency of underlying service problems.",
-      "example": "Teaching extension: A network interruption generates twelve service alerts grouped into one incident, while the twelve notifications remain available for analysis.",
-      "source": "text lines 6268–6432"
+      "body": "Pip’s network interruption triggers twelve service alerts. Notifications may describe one incident, false positives, or audit events rather than twelve distinct outages. Pip groups related alerts while preserving their evidence. Tracking alerts per incident and incident frequency distinguishes noisy notification from recurring service failure.",
+      "example": "",
+      "source": "text lines 6268–6432",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "TWELVE ALERTS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "ONE NETWORK INCIDENT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "TWO COUNTS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s network interruption triggers twelve service alerts."
+          },
+          {
+            "node": "step-1",
+            "text": "Notifications may describe one incident, false positives, or audit events rather than twelve distinct outages."
+          },
+          {
+            "node": "step-3",
+            "text": "Tracking alerts per incident and incident frequency distinguishes noisy notification from recurring service failure."
+          }
+        ]
+      }
     },
     {
       "title": "Capture context with low workflow friction",
-      "body": "Outalator passively records notifications and follow-up replies, then allows annotations and important details to be highlighted. This adds history to existing response workflows instead of requiring every responder to reconstruct events later. Escalator has a separate responsibility: it tracks acknowledgment and escalates unanswered notifications. A received or acknowledged page is therefore not equivalent to an explained or resolved incident.",
-      "example": "Teaching extension: An acknowledgment confirms receipt, while an incident annotation records that rerouting restored traffic.",
-      "source": "text lines 6268–6432"
+      "body": "Pip acknowledges a page but has not restored bookings. Outalator records notifications, replies, annotations, and highlighted context with low workflow friction. Escalator separately tracks acknowledgment and escalates unanswered notifications. Pip records the successful reroute explicitly: receipt is neither explanation nor resolution.",
+      "example": "",
+      "source": "text lines 6268–6432",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "PAGE + REPLIES",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "INCIDENT ANNOTATION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "alert",
+            "label": "ACKNOWLEDGMENT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip acknowledges a page but has not restored bookings."
+          },
+          {
+            "node": "step-1",
+            "text": "Outalator records notifications, replies, annotations, and highlighted context with low workflow friction."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip records the successful reroute explicitly: receipt is neither explanation nor resolution."
+          }
+        ]
+      }
     },
     {
       "title": "Flexible tags support useful comparisons",
-      "body": "Tags add cause, action, and other metadata to events so teams can find related problems and trends. Hierarchical conventions allow a broad category to grow more specific when needed, while free-form use lets teams discover what distinctions are useful. Inconsistent spelling and vague labels still reduce analytical value, so conventions should mature with actual use rather than prevent initial adoption.",
-      "example": "Teaching extension: Use cause:network and, when established, cause:network:switch to compare broad and specific recurring failures.",
-      "source": "text lines 6268–6432"
+      "body": "Pip cannot compare switch incidents because each has a different label. Tags add causes, actions, and metadata; hierarchical conventions can evolve from cause:network to cause:network:switch. Free-form use discovers useful distinctions before conventions mature. Pip standardizes meaningful spelling without making taxonomy design a barrier to recording incidents.",
+      "example": "",
+      "source": "text lines 6268–6432",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "EVENT TAGS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "NETWORK / SWITCH",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "search",
+            "label": "RELATED INCIDENTS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip cannot compare switch incidents because each has a different label."
+          },
+          {
+            "node": "step-1",
+            "text": "Tags add causes, actions, and metadata; hierarchical conventions can evolve from cause:network to cause:network:switch."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip standardizes meaningful spelling without making taxonomy design a barrier to recording incidents."
+          }
+        ]
+      }
     },
     {
       "title": "Interpret trends before choosing investments",
-      "body": "Incident history supports baseline comparisons, cross-service patterns, and the identification of recurring infrastructure costs. Raw counts alone do not establish severity or the best investment: high counts can reflect noisy monitoring, client misuse, or many inexpensive incidents. Combine frequency with impact and response effort. Shared visibility also helps responders recognize that a dependency owner may need notification even when their own alerts remained quiet.",
-      "example": "Teaching extension: A common database delay across five services can justify a shared fix that looks too costly for one isolated incident.",
-      "source": "text lines 6268–6432"
+      "body": "Pip sees the same database delay across five services. Incident history reveals baselines, cross-service patterns, and shared infrastructure costs. Raw counts may reflect noisy monitoring or cheap incidents, so Pip combines frequency, impact, and response effort. Shared evidence can justify a common fix and alert an otherwise quiet dependency owner.",
+      "example": "",
+      "source": "text lines 6268–6432",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "SHARED DELAY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "trace",
+            "label": "FIVE SERVICE HISTORIES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "IMPACT + EFFORT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip sees the same database delay across five services."
+          },
+          {
+            "node": "step-1",
+            "text": "Incident history reveals baselines, cross-service patterns, and shared infrastructure costs."
+          },
+          {
+            "node": "step-3",
+            "text": "Shared evidence can justify a common fix and alert an otherwise quiet dependency owner."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,81 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Alert history becomes evidence for engineering priorities",
     "nodes": [
       {
-        "id": "observe",
-        "label": "ALERTS",
-        "caption": "retain original notifications",
-        "kind": "alert",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "INCIDENT",
-        "caption": "group related events",
-        "kind": "document",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "TAGS",
-        "caption": "record causes and actions",
-        "kind": "document",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "REVIEW",
-        "caption": "compare frequency and effort",
-        "kind": "team",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "alert",
+        "label": "TWELVE ALERTS",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "router",
+        "label": "ONE NETWORK INCIDENT",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "gauge",
+        "label": "TWO COUNTS",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
-      },
-      {
-        "from": "learn",
-        "to": "observe",
-        "dashed": true
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "retain original notifications"
+        "node": "step-0",
+        "text": "Pip’s network interruption triggers twelve service alerts."
       },
       {
-        "node": "decide",
-        "text": "group related events"
+        "node": "step-1",
+        "text": "Notifications may describe one incident, false positives, or audit events rather than twelve distinct outages."
       },
       {
-        "node": "act",
-        "text": "record causes and actions"
-      },
-      {
-        "node": "learn",
-        "text": "compare frequency and effort"
+        "node": "step-3",
+        "text": "Tracking alerts per incident and incident frequency distinguishes noisy notification from recurring service failure."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "Twelve alerts, one outage"
   }
 }

@@ -1,44 +1,36 @@
 # Chapter 13: Where Do We Go from Here?
 
+*Pip’s adventure: The next screening starts with a plan. Fictional teaching story; concepts follow the cited source.*
+
 Building Green Software — Anne Currie, Sarah Hsu, and Sara Bergman. First edition, March 2024.
 
 Source: printed pp. 193–202; text lines 6982–7347. References count literal newline-delimited lines in the supplied text.
 
 ## Overview
 
-The final chapter turns the book’s ideas into an action sequence. The authors challenge less mature organizations to seek large reductions through inventories, manual rightsizing, stopping unused workloads, and using suitable platforms. Their 50% challenge is an ambition for the settings they describe, not a guaranteed result for every system. Like-for-like comparisons should account for the useful work delivered, while cost remains a rough proxy. Later progress adds repeatable processes, automation, carbon-aware design, supplier evidence, and longer device support. The chapter argues that green software must also remain productive, secure, resilient, and useful. Its closing epilogue broadens the discussion to water, pollution, and material impacts that a carbon-focused course cannot fully cover.
+The screening works, but Pip’s notebook still holds idle environments, unsupported assumptions, and a tempting rewrite. The final chapter turns those findings into a staged program: inventory, reviewed cleanup, suitable platforms, then repeatability, automation, and carbon-aware design. The authors’ 50% challenge is an ambition for wasteful early-maturity settings, not a universal guarantee. Pip compares equivalent useful work, keeps totals visible, and treats cost as a rough proxy. Developer effort, security, resilience, and usefulness remain part of the plan. The epilogue also leaves questions about water, pollution, and materials beyond a carbon-only account.
 
 ## Key ideas
 
 ### Start with a bounded cleanup
 
-The proposed first phase targets obvious operational waste: abandoned resources, oversized allocations, unnecessary operating hours, and unsuitable resource choices. The authors frame a large reduction challenge for organizations early in their journey. Actual results depend on the baseline. Manual, reviewed changes can be a sensible beginning before a team invests in more elaborate automation. (Source: pp. 193–197.)
-
-Teaching extension: A team limits its first month to the export fleet and verifies unused allocations, owners, and restart procedures.
+Pip wants a grand green launch; the inventory is incomplete. The first month stays bounded: inspect the export fleet, find owners, test restarts, and check abandoned allocations, unnecessary hours, and oversized resources. Suitable platform choices matter too. The authors challenge early-maturity organizations to seek large reductions, but the baseline determines what is possible. A reviewed manual cleanup can establish evidence before Pip builds elaborate automation or promises a percentage. (Source: pp. 193–197.)
 
 ### Compare equivalent useful output
 
-A falling bill is difficult to interpret when demand, season, or price changes. The chapter calls for like-for-like comparisons using a relevant output measure, such as orders or visitors. Cost is an initial proxy rather than a direct carbon instrument. Preserve resource evidence and total values too so the report does not hide growth or shifted work behind a favorable ratio. (Source: pp. 196–197.)
-
-Teaching extension: A report compares resource hours per completed export and total monthly resource hours, and records changed prices separately.
+The monthly bill shrinks after fewer visitors request films. Pip cannot call that an efficiency gain without checking equivalent useful output. Demand, season, and price may all change the comparison. Pip reports resource hours per completed export and total monthly hours, recording discounts separately. Cost remains an initial proxy, not a direct carbon measure. A favorable ratio must not hide growth or work shifted beyond the report. (Source: pp. 196–197.)
 
 ### Build repeatable operations before deep tuning
 
-The next phase turns cleanup into routine practice and designs workloads for shifting or shaping. Performance bottlenecks still deserve attention, especially for always-on work, but a code improvement has limited physical effect if the same underused resources remain allocated. The book’s ordering prioritizes operations and flexible design before expensive specialist tuning for ordinary teams. (Source: pp. 197–199.)
-
-Teaching extension: After a manual sizing trial succeeds, ownership and review become recurring work before the team automates the safe policy.
+The first sizing trial succeeds. Pip makes ownership and review routine before automating the policy. Next come workloads designed for shifting or shaping. Hotspots still deserve profiling, especially in always-on work, but faster code has limited physical effect if the same underused capacity remains reserved. For ordinary teams, the book prioritizes operations and flexible design before costly specialist tuning. Pip follows evidence rather than the glamour of a rewrite. (Source: pp. 197–199.)
 
 ### Demand useful green platforms
 
-The authors argue that services and shared code can spread the cost of difficult optimization across many users. Supplier and community commitments need evidence and pressure from consumers. Developer productivity, security, resilience, performance, and sustainability must coexist for broad adoption. Choosing a platform is therefore a continuing relationship, not a one-time acceptance of marketing claims. (Source: pp. 198–202.)
-
-Teaching extension: A platform review asks for resource-allocation behavior, emissions-method boundaries, and a demonstrated path for flexible workloads.
+A platform arrives with a green promise. Pip asks how it allocates resources, defines its emissions boundary, and supports flexible workloads. Shared services and code can spread difficult optimization across many users, but supplier and community commitments still need evidence and pressure from consumers. Productivity, security, resilience, performance, and sustainability must coexist. Choosing the platform starts an ongoing relationship; a convincing marketing page does not finish the engineering. (Source: pp. 198–202.)
 
 ### Keep the wider impact visible
 
-The book’s final outlook extends beyond carbon to water, pollution, and ecological damage from material extraction. These concerns may require additional expertise and evidence rather than conversion into a single carbon number. Its predictions about the future energy market and regulation are arguments from the publication period. A practical plan can act on current internal evidence without treating those predictions as established requirements. (Source: pp. 194–195, 202.)
-
-Teaching extension: The roadmap includes a separate question about facility water use and hardware sourcing, with an owner to investigate beyond the carbon baseline.
+Pip closes the carbon ledger, then notices water pipes beneath the facility and materials inside every device. The epilogue widens the questions to water, pollution, and extraction’s ecological damage. These need evidence and sometimes other expertise, not conversion into one convenient carbon number. Pip assigns owners to investigate. The book’s energy-market and regulatory predictions remain publication-era arguments; internal evidence can guide action without treating those predictions as established requirements. (Source: pp. 194–195, 202.)
 
 ## Misconceptions
 
@@ -52,7 +44,7 @@ Resource bills may fall while implementation, testing, maintenance, and opportun
 
 ## Decision practice — teaching extension
 
-Teaching extension. A media organization has no complete resource inventory and suspects several idle environments. It also wants a live carbon dashboard and a low-level rewrite of its busiest service. One small team is available for the initiative. The roadmap must show useful results without losing service reliability.
+Pip has one small team, no complete resource inventory, and several suspected idle cinema environments. A live carbon dashboard and a low-level rewrite also beckon. The six-month plan must produce useful evidence and improvements while keeping the screening reliable. Which work comes first?
 
 ### Inventory, clean up, then standardize
 

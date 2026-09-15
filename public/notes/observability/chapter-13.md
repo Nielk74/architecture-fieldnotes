@@ -1,27 +1,53 @@
-# 13. Acting on and Debugging SLO-Based Alerts
+# Chapter 13: Acting on and Debugging SLO-Based Alerts
 
-Alert while there is still time to protect the budget
+*Pip’s adventure: The budget alarm rings before the allowance is gone. Fictional teaching story; concepts follow the cited source.*
 
-An exhausted error budget is a late signal for action. The chapter examines alerts that estimate whether present behavior threatens the objective soon enough for responders to intervene. Such forecasts depend on the recent baseline, the lookahead horizon, traffic patterns, and the way older events leave a rolling window. They are conditional projections, not knowledge of future failures. Event-level evaluation also avoids treating every request in a partly degraded interval as bad merely because an aggregate threshold failed. Once alerted, responders need the failing events and their context to investigate impact and causes. Combining budget-aware detection with exploratory diagnosis makes the alert a starting point for protecting user experience rather than another isolated warning about a component.
+Source: text lines 5232–5811.
+
+Pip’s remaining budget looks comfortable while failures are arriving fast. Acting on burn requires context about rate, baseline, and window history. Event-level evaluation reveals partial impact and connects the warning to the requests worth investigating.
 
 ## Budget consumption needs context
 
-Burn describes how quickly failures consume the permitted unreliability. A short period of elevated errors may threaten the objective even while substantial budget remains. Alerting should leave enough time for a useful response, considering current consumption and the objective’s window rather than waiting for the remaining budget to reach zero.
+Pip sees rapid failures consuming a still-substantial allowance. Burn describes the pace of error-budget consumption. A short surge can threaten the objective before the budget reaches zero. Pip alerts early enough for useful response, considering current consumption and the objective’s window.
+
+Source: text lines 5232–5811.
 
 ## A forecast depends on its baseline
 
-A lookahead projection extends recent behavior into a future horizon. A very short baseline reacts quickly but may overreact to a brief burst; a long baseline smooths noise but can dilute a new failure. The responder should understand which behavior was extrapolated and recognize that changing traffic or remediation can invalidate the projection.
+Pip projects a five-minute burst across the coming hours. A short baseline reacts quickly but can exaggerate brief noise; a long baseline can dilute a new failure. Lookahead extends recent behavior, not certainty. Pip checks what was extrapolated and whether traffic changes or mitigation invalidate it.
+
+Source: text lines 5232–5811.
 
 ## Rolling windows can recover
 
-In a sliding-window objective, older events eventually leave the evaluated population. Forecasts that consider the window’s history can account for failures aging out, rather than assuming every old error remains forever. This matters when estimating future compliance or interpreting a recovering budget; improvement in the displayed budget is not necessarily proof of a new technical fix.
+Pip’s sliding-window budget improves without a new deployment. Older failures have aged out of the evaluated population. History-aware forecasts can account for that expiration rather than keeping old errors forever. Pip distinguishes window mechanics from evidence that a technical fix improved current behavior.
+
+Source: text lines 5232–5811.
 
 ## Count failing events accurately
 
-A good-minute/bad-minute measure can classify an entire interval as bad when only some requests violated the condition. Event-based evaluation counts the individual failures instead and retains their attributes. This gives a more precise account of partial outages and a direct path from the budget alert to the requests a responder should investigate.
+Pip finds 6% of requests violating the latency condition. Marking the whole minute bad would count more than those affected events. Event-based evaluation preserves individual failures and their attributes. Pip follows the budget alert directly to the requests behind this partial outage.
 
-## Apply it
+Source: text lines 5232–5811.
+
+## Transfer challenge: A sharp but brief burn
+
+A short error burst generates an alarming budget forecast just as a mitigation is deployed.
+
+### Inspect current failing events and the forecast baseline
+
+Tests whether burn persists after the intervention. Requires checking fresh data rather than relying on the alert alone. The response can be adjusted to the actual post-mitigation rate of failure.
+
+### Treat the original forecast as a certain future breach
+
+Keeps attention on a potentially serious event. Can misrepresent the future if the underlying error rate has changed. The team may continue acting on conditions that no longer hold.
+
+Use the alert to mobilize, then update the diagnosis with fresh evidence and the forecast’s assumptions.
+
+## Explain a budget forecast
 
 Draft the information a responder needs alongside a predictive alert.
 
-Source: *Observability Engineering*, chapter 13; supplied text lines 5232–5811. These notes are an original synthesis; examples and activities are illustrative.
+- Baseline and lookahead
+- Affected event population
+- Fresh evidence after mitigation

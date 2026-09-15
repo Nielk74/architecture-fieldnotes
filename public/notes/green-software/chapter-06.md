@@ -1,44 +1,36 @@
 # Chapter 6: Hardware Efficiency
 
+*Pip’s adventure: The perfectly good phone. Fictional teaching story; concepts follow the cited source.*
+
 Building Green Software — Anne Currie, Sarah Hsu, and Sara Bergman. First edition, March 2024.
 
 Source: printed pp. 91–105; text lines 3601–4143. References count literal newline-delimited lines in the supplied text.
 
 ## Overview
 
-Hardware brings emissions into a system before software starts running. Manufacturing, transport, and eventual disposal create a carbon burden that operational energy alone cannot describe. The chapter argues for longer device life and higher useful utilization, particularly for consumer devices whose manufacturing impact can be substantial. Software matters because compatibility and security support can determine whether working equipment remains useful. Cloud users influence allocation and supplier choices; owners of physical systems also control repair, reuse, shutdown, and replacement. Specialized hardware may save operational energy but can be hard to repurpose. E-waste broadens the concern to materials and people. The practical aim is to prevent unnecessary replacement while retaining secure, reliable service.
+A working phone cannot enter Pip’s new cinema app. The preview wants a newer chip, but ordinary playback still works. Manufacturing, transport, and disposal mean replacement has consequences beyond runtime electricity. Pip investigates compatibility, security support, repair, reuse, and useful utilization before asking for new hardware. Cloud customers and physical owners have different controls; specialized processors also trade efficient execution against fit and repurposing. E-waste affects materials and people. The goal is longer useful life without abandoning secure, reliable service—not changing an accounting lifetime and pretending past emissions vanished.
 
 ## Key ideas
 
 ### Embodied carbon is already spent
 
-Manufacturing equipment creates emissions before use. Allocating those emissions over a longer useful life changes the footprint attributed to each year or task; it does not remove emissions already released. The practical benefit is obtaining more value from existing equipment and potentially delaying another manufacturing cycle. Utilization and longevity are therefore complementary hardware-efficiency levers. (Source: pp. 91–94, 98.)
-
-Teaching extension: A fictional 1,200 kg embodied footprint allocated over four years is 300 kg per year; over six years it is 200. The original 1,200 kg is not erased.
+Pip finds an old device’s manufacturing footprint in the ledger. Extending its useful life does not rub out those emissions. In this fictional allocation, 1,200 kg over four years is 300 kg per year; over six, 200 kg. The original 1,200 kg remains. What changes physically is the useful service obtained and, potentially, the need for another manufacturing cycle. Pip combines longer life with higher useful utilization instead of confusing allocation with reversal. (Source: pp. 91–94, 98.)
 
 ### Compatibility affects replacement
 
-Software-defined obsolescence occurs when support ends or software requirements exclude otherwise working equipment. Backward-compatible paths can keep core functionality accessible on older devices. Security support matters too: longevity is not an instruction to leave people with unpatched systems. The book asks application developers and manufacturers to support useful devices for longer, with explicit maintenance and testing effort. (Source: pp. 94–96.)
-
-Teaching extension: An optional visual effect gets a fallback so a supported older phone can still perform the main task.
+A visitor stops Pip at the cinema door. “Yesterday, my phone worked.” The new preview needs a chip the phone lacks; ordinary playback still works. Pip almost recommends an upgrade, then pauses: software is retiring a working device. That is software-defined obsolescence. Pip builds a simpler preview and keeps security updates and device tests on the maintenance list. Less sparkle, longer useful life—but continued support is part of the bargain. (Source: pp. 94–96.)
 
 ### Cloud and owned hardware offer different controls
 
-Cloud customers usually delegate asset management but still influence capacity demand and resource choice. Owners of physical infrastructure can directly change replacement timing, repair practices, and off-peak shutdown. Both should avoid unused allocation. Reusing equipment and reducing resource requirements can reduce pressure for new hardware, while actual energy and reliability needs still affect replacement decisions. (Source: pp. 96–99.)
-
-Teaching extension: A lab reuses a supported server after verifying capacity and recovery, instead of replacing it solely because an accounting interval ended.
+The cinema’s owned server reaches its accounting replacement date. Pip checks support, capacity, energy, reliability, and recovery instead of ordering automatically. Owners can choose repair, reuse, replacement timing, and off-peak shutdown directly. Cloud customers usually delegate asset management, but their allocation and resource choices still influence demand. Both can avoid unused capacity and reduce resource requirements. Reuse is an opportunity to investigate, not an instruction to ignore failing or unsupported equipment. (Source: pp. 96–99.)
 
 ### Specialization has a lifetime trade-off
 
-A specialized processor can perform a known task efficiently. Its benefit depends on utilization, workload fit, skills, and how long it remains useful. General-purpose equipment is often easier to repurpose when the problem changes. A short-lived specialized device may fail to justify its manufacturing burden even if one benchmark shows excellent energy efficiency. (Source: pp. 99–101.)
-
-Teaching extension: A media accelerator is evaluated against a multi-year demand forecast and its reuse options, not only its best per-frame benchmark.
+A shiny media accelerator wins Pip’s per-frame benchmark. Will it keep winning after the festival? Specialized hardware can use less operational energy for a suitable task, but its manufacturing burden, utilization, required expertise, and useful lifetime still count. A general-purpose machine may find another job when demand changes. Pip checks sustained workload and reuse options before choosing: a brilliant benchmark on a soon-discarded device may be a poor lifetime bargain. (Source: pp. 99–101.)
 
 ### Reuse and repair address e-waste
 
-Discarded electronics represent wasted material value and can harm people and ecosystems when handled badly. Software teams can reduce avoidable disposal by supporting older hardware and considering secondhand equipment. The chapter also discusses manufacturer targets and repair initiatives from its period. A commitment is not evidence of delivery; supplier questions should seek support, repair, and lifecycle evidence. (Source: pp. 101–105.)
-
-Teaching extension: Procurement asks about spare parts and supported lifetime, while the app team tests core flows on the oldest supported device.
+Pip finds working devices beside the disposal bin. Their materials still have value, and badly handled e-waste can harm people and ecosystems. Supporting older hardware, repairing equipment, and considering secondhand devices can prevent avoidable disposal. Pip asks suppliers for spare parts, support lifetime, and lifecycle evidence while the app team tests its oldest supported phone. Book-era manufacturer targets and repair initiatives are commitments to examine, not proof that delivery happened. (Source: pp. 101–105.)
 
 ## Misconceptions
 
@@ -52,7 +44,7 @@ Replacement adds manufacturing impact. Compare useful life, workload fit, utiliz
 
 ## Decision practice — teaching extension
 
-Teaching extension. A media app plans an enhanced preview feature that needs hardware acceleration absent from older, still security-supported devices. The core playback flow works on those devices. The team must choose whether to maintain a simpler preview path or raise its hardware minimum. Testing capacity is limited.
+Pip’s cinema app adds an enhanced preview requiring acceleration that older, security-supported phones lack. Playback still works on them. Keeping a simpler preview adds testing and maintenance; raising the hardware minimum simplifies development but excludes working devices. Pip’s team has limited testing capacity.
 
 ### Keep a compatible core path
 

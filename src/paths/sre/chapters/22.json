@@ -3,7 +3,7 @@
   "title": "Addressing Cascading Failures",
   "part": "Distributed systems",
   "subtitle": "Break the feedback loops that turn overload into collapse",
-  "summary": "Cascading failures grow through positive feedback: a failing replica shifts work to survivors, which then fail and reduce capacity further. CPU pressure, memory growth, garbage collection, queues, and retries can reinforce one another, so the visible symptom may be far from the initiating problem. Capacity planning reduces exposure but cannot replace tested overload behavior. Servers should reject excess work cheaply or produce cheaper useful results, and callers should bound retries and propagate deadlines. Cold caches and slow startup make recovery capacity smaller than steady-state capacity. Test both overload and the return from overload, including unresponsive optional dependencies. During an incident, restoring stability may require sharply reducing traffic, correcting the trigger, and then warming capacity gradually.",
+  "summary": "Pip removes an overloaded replica and its peers fail next. Cascades reduce capacity while creating more work. The crew sheds load, preserves useful responses, bounds retries, and restores traffic only as recovering capacity can support it.",
   "source": {
     "startLine": 9020,
     "endLine": 9888,
@@ -12,27 +12,285 @@
   "concepts": [
     {
       "title": "Positive feedback and reduced recovery capacity",
-      "body": "A cascade occurs when failure increases the conditions that cause further failure. Removing an overloaded replica sends more requests to its peers; slower completion also retains memory and threads longer. Once many replicas are restarting, the service has less capacity than before the incident. Returning traffic to its former normal level may therefore sustain the collapse instead of ending it.",
-      "example": "Teaching extension: A fleet once serving ten thousand requests per second cannot recover at nine thousand while only a tenth of its replicas are healthy.",
-      "source": "text lines 9020–9888"
+      "body": "Pip removes an overloaded replica and sends its traffic to already struggling peers. Slow requests retain threads and memory, reinforcing failure. Restarting replicas leave less capacity than before the incident. A fleet formerly serving 10,000 requests per second cannot recover at 9,000 with only a tenth healthy; Pip lowers load accordingly.",
+      "example": "",
+      "source": "text lines 9020–9888",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "OVERLOADED REPLICA",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "REDISTRIBUTED TRAFFIC",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "LESS RECOVERY CAPACITY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-3",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip removes an overloaded replica and sends its traffic to already struggling peers."
+          },
+          {
+            "node": "step-1",
+            "text": "Slow requests retain threads and memory, reinforcing failure."
+          },
+          {
+            "node": "step-3",
+            "text": "A fleet formerly serving 10,000 requests per second cannot recover at 9,000 with only a tenth healthy; Pip lowers load accordingly."
+          }
+        ]
+      }
     },
     {
       "title": "Load shedding, degradation, and deadlines",
-      "body": "Load shedding rejects some work before resource exhaustion, while graceful degradation reduces the work needed to produce a useful response. Small, appropriate queues prevent requests from waiting past usefulness. Propagating the original deadline and cancellation down the dependency tree prevents servers from spending scarce resources on work whose caller has already stopped waiting. These paths need testing because normal traffic may rarely exercise them.",
-      "example": "Teaching extension: An overloaded search server skips optional enrichment and cancels downstream work when the user’s remaining deadline expires.",
-      "source": "text lines 9020–9888"
+      "body": "Pip skips optional enrichment to preserve useful search results. Load shedding rejects work before exhaustion; graceful degradation reduces work per useful response. Small queues, original deadlines, and propagated cancellation avoid serving requests after callers stop waiting. Pip tests these rarely used paths before an overload depends on them.",
+      "example": "",
+      "source": "text lines 9020–9888",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "plugin",
+            "label": "OPTIONAL ENRICHMENT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "queue",
+            "label": "SMALL QUEUE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "DEADLINE + CANCEL",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip skips optional enrichment to preserve useful search results."
+          },
+          {
+            "node": "step-1",
+            "text": "Load shedding rejects work before exhaustion; graceful degradation reduces work per useful response."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip tests these rarely used paths before an overload depends on them."
+          }
+        ]
+      }
     },
     {
       "title": "Retry budgets and randomized backoff",
-      "body": "A retry budget limits additional attempts, either for one logical request or across a process, so errors cannot generate unlimited new load. Exponential backoff spaces attempts farther apart, and jitter prevents many clients from retrying simultaneously. These mechanisms serve different purposes and should work together. Retrying at several dependency layers multiplies attempts, so retry ownership and nonretryable error signals must be explicit.",
-      "example": "Teaching extension: Three layers allowing four attempts each can turn one user action into sixty-four attempts at an overloaded database.",
-      "source": "text lines 9020–9888"
+      "body": "Pip finds three retrying layers allowing four attempts each. One user action can become sixty-four database attempts. Budgets limit total amplification, exponential backoff spaces attempts, and jitter prevents synchronized retries. Pip assigns retry ownership and explicit nonretryable signals so these complementary mechanisms work together.",
+      "example": "",
+      "source": "text lines 9020–9888",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "ONE USER ACTION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "THREE RETRY LAYERS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "database",
+            "label": "64 ATTEMPTS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip finds three retrying layers allowing four attempts each."
+          },
+          {
+            "node": "step-1",
+            "text": "One user action can become sixty-four database attempts."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip assigns retry ownership and explicit nonretryable signals so these complementary mechanisms work together."
+          }
+        ]
+      }
     },
     {
       "title": "Testing and recovering beyond the breaking point",
-      "body": "Load tests should cross the failure threshold and then observe recovery, using both gradual and sudden traffic increases. Cold caches, restarted processes, and blackholed optional backends can expose hidden capacity dependencies. During a cascade, fix or contain the trigger, reduce traffic enough for surviving capacity, and restore load gradually. Restarting everything indiscriminately can worsen the incident by discarding warm caches and usable capacity.",
-      "example": "Teaching extension: After a cache-related collapse, a small admitted traffic stream warms recovering servers before the operator raises the limit.",
-      "source": "text lines 9020–9888"
+      "body": "Pip load-tests beyond failure and watches whether the service recovers. Gradual and sudden traffic, cold caches, restarts, and blackholed optional backends reveal hidden dependencies. During a cascade, Pip contains the trigger and admits enough traffic to warm surviving capacity gradually. Restarting everything could discard the very caches and capacity needed for recovery.",
+      "example": "",
+      "source": "text lines 9020–9888",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "experiment",
+            "label": "CROSS BREAKING POINT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "cache",
+            "label": "WARM RECOVERY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "GRADUAL LOAD",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip load-tests beyond failure and watches whether the service recovers."
+          },
+          {
+            "node": "step-1",
+            "text": "Gradual and sudden traffic, cold caches, restarts, and blackholed optional backends reveal hidden dependencies."
+          },
+          {
+            "node": "step-3",
+            "text": "Restarting everything could discard the very caches and capacity needed for recovery."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,76 +373,77 @@
     ]
   },
   "visual": {
-    "title": "Trace a cascade",
     "nodes": [
       {
-        "id": "observe",
-        "label": "Slowdown",
-        "caption": "Retained resources",
-        "kind": "service",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "Retries",
-        "caption": "Amplified demand",
-        "kind": "queue",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "Budget",
-        "caption": "Bounded attempts",
-        "kind": "gauge",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "Recovery",
-        "caption": "Gradual recovery",
-        "kind": "shield",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "alert",
+        "label": "OVERLOADED REPLICA",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "router",
+        "label": "REDISTRIBUTED TRAFFIC",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "gauge",
+        "label": "LESS RECOVERY CAPACITY",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
+      },
+      {
+        "from": "step-3",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "Longer requests retain threads and memory."
+        "node": "step-0",
+        "text": "Pip removes an overloaded replica and sends its traffic to already struggling peers."
       },
       {
-        "node": "decide",
-        "text": "Additional attempts increase pressure on the same dependency."
+        "node": "step-1",
+        "text": "Slow requests retain threads and memory, reinforcing failure."
       },
       {
-        "node": "act",
-        "text": "Limit amplification and space retries with jittered backoff."
-      },
-      {
-        "node": "learn",
-        "text": "Reduce demand enough for surviving capacity to stabilize."
+        "node": "step-3",
+        "text": "A fleet formerly serving 10,000 requests per second cannot recover at 9,000 with only a tenth healthy; Pip lowers load accordingly."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "The recovering fleet cannot carry yesterday’s load"
   }
 }

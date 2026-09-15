@@ -1,27 +1,53 @@
-# 18. Telemetry Management with Pipelines
+# Chapter 18: Telemetry Management with Pipelines
 
-Treat the telemetry pipeline as a service
+*Pip’s adventure: Fresh clues are stuck behind yesterday’s log storm. Fictional teaching story; concepts follow the cited source.*
 
-A telemetry pipeline mediates between applications that emit data and backends that store or analyze it. This creates a place to buffer bursts, route records, normalize formats, enrich context, and apply filtering or sampling policies. Slack’s case shows why those responsibilities become operationally significant at scale. A backend outage need not immediately erase application evidence if buffers can hold and replay it, but queues cannot absorb sustained overload forever. Processing mistakes can silently corrupt the very data used to diagnose incidents. Pipelines therefore need their own checks for correctness, capacity, freshness, and availability. Their purpose is to keep useful evidence flowing under changing conditions, with explicit trade-offs about what is delayed, transformed, or dropped.
+Source: text lines 8054–8666.
+
+Pip’s telemetry exports successfully but describes old conditions. Pipeline stages control reception, buffering, transformation, and delivery. Each stage can alter the evidence; visible backlog, age, and loss policies help the crew tell recovery from delayed ingestion.
 
 ## Components separate responsibilities
 
-A receiver accepts data, a buffer temporarily holds it, a processor transforms it, and an exporter sends it onward. These roles can be chained or combined depending on the workload. Separating responsibilities creates places to control flow and routing without requiring every application to implement each backend’s format and delivery behavior itself.
+Pip separates the telemetry path into receiver, buffer, processor, and exporter. One accepts, one holds, one transforms, and one sends. Chaining or combining those responsibilities creates explicit flow and routing controls. Pip avoids making every market application implement every destination’s format and delivery behavior.
+
+Source: text lines 8054–8666.
 
 ## Buffers absorb temporary disruption
 
-A queue or local disk buffer can preserve telemetry when a backend is briefly unavailable or traffic spikes. Replay then catches up after recovery. Capacity is finite: if input persistently exceeds output, the backlog grows until something must change. Buffering buys time; it does not remove the need for throughput and overload policies.
+Pip’s backend outage fills a local telemetry buffer. The queue or disk can preserve data temporarily and replay after recovery. If input persistently exceeds output, finite capacity eventually runs out. Pip treats buffering as time to act, not a replacement for throughput and overload policies.
+
+Source: text lines 8054–8666.
 
 ## Transformation changes evidence
 
-Pipelines may normalize formats, redact sensitive values, add infrastructure metadata, or filter low-value data. Each transformation affects what downstream users can ask and trust. Validate schemas, timestamps, and retained context, because an apparently healthy delivery rate can conceal incorrect values or records dropped by an overly broad rule.
+Pip’s timestamp filter silently removes valid recent spans. Normalization, redaction, enrichment, and filtering change what downstream investigators can ask and trust. A healthy delivery rate does not establish correct evidence. Pip validates schemas, timestamps, and retained context alongside export availability.
+
+Source: text lines 8054–8666.
 
 ## Freshness and history can compete
 
-During a log storm, processing the entire backlog first may leave responders looking at stale conditions. Prioritizing fresh evidence can help current diagnosis, with historical backfill handled later if capacity permits. Make this policy visible and monitor age, loss, and backlog so users understand whether a quiet graph means recovery or delayed ingestion.
+Pip’s log storm leaves the dashboard hours behind. Processing all history first can hide current failure or recovery. Pip prioritizes fresh evidence when useful and handles backfill later if capacity permits. Visible policies and monitoring of age, loss, and backlog explain what a quiet graph actually means.
 
-## Apply it
+Source: text lines 8054–8666.
+
+## Transfer challenge: The application recovered, the graph did not
+
+A telemetry backlog keeps showing old errors after a service fix.
+
+### Measure event age and prioritize fresh ingestion
+
+Lets responders distinguish current behavior from delayed history. Requires explicit backlog and backfill policy. Responders can assess recovery now while keeping backlog work visible.
+
+### Continue interpreting arrival-time graphs as current state
+
+Keeps the existing pipeline simple. Can falsely suggest the intervention failed. Old failures may be mistaken for current failures and prompt unnecessary intervention.
+
+Separate when work happened from when its telemetry arrived before drawing a recovery conclusion.
+
+## Plan for telemetry overload
 
 Describe how a pipeline behaves when a backend is unavailable and then recovers.
 
-Source: *Observability Engineering*, chapter 18; supplied text lines 8054–8666. These notes are an original synthesis; examples and activities are illustrative.
+- Buffer capacity and maximum age
+- Overload or sampling policy
+- Checks for freshness and correctness

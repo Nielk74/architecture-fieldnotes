@@ -1,24 +1,26 @@
 # Chapter 12: Protecting Agentic Systems
 
+*Pip’s adventure: The exhibit label tries to give orders. Fictional teaching story; concepts follow the cited source.*
+
 Original learning notes. Source: text lines 10988–12091 in the supplied book.
 
-An agent’s attack surface includes the model, retrieved information, stored memory, tools, and communication between components. Malicious instructions in data can redirect behavior, while compromised dependencies or poisoned records can influence later decisions. Security must therefore extend beyond filtering the final answer. Provenance and integrity checks protect information; scoped permissions and isolation limit actions; monitoring and recovery help contain failures that get through. The chapter also treats internal misconfiguration, inconsistent state, and goal mismatch as sources of damage. Complementary controls should prevent one mistaken decision from becoming unrestricted authority, and testing must examine the complete route from input to effect.
+Pip’s guide reads an exhibit page that tells it to export visitor records. The page is evidence, not authority. Pip follows the route from untrusted input through memory and tools, then layers controls so one mistaken model decision cannot become unrestricted action.
 
 ## Agent threat surface
 
-An agent combines model reasoning, external data, tools, and repeated autonomous actions. Each boundary creates a way for an attacker or a faulty dependency to influence behavior. Protecting only the final chat response leaves tool permissions, retrieved content, data provenance, and communication between agents exposed. Security analysis must follow the complete path from input to effect.
+Pip follows a suspicious page into the guide’s memory and a proposed tool call. Models, external data, tools, and repeated actions each introduce boundaries an attacker or faulty dependency can influence. Filtering the final chat response leaves those routes exposed. Pip checks permissions, provenance, and inter-agent communication along the complete input-to-effect path.
 
 ## Prompt and goal attacks
 
-Untrusted content can redirect an agent, while ambiguous goals can produce actions that satisfy literal wording but violate intent. Instructions, data, and tools need distinct trust boundaries and validation.
+Pip’s supplier page orders the guide to export visitor records. Untrusted content can redirect behavior; ambiguous goals can satisfy wording while violating intent. Pip separates instructions, data, and tool authority. The service independently denies export permission even if the model follows the hostile text.
 
 ## Data and supply chain
 
-Poisoned data, exfiltration, insecure dependencies, and compromised tools can alter what an agent believes or does. Provenance, least privilege, isolation, and revalidation limit blast radius.
+Pip rejects a connector update whose integrity check fails. Poisoned data, exfiltration, insecure dependencies, and compromised tools can change beliefs or actions. Retrieved records retain provenance so a poisoned source can be withdrawn. Least privilege, isolation, and revalidation limit the damage.
 
 ## Defense in depth
 
-Controls combine policy, scoped identity, confirmation, sandboxing, monitoring, red teaming, and recovery. No single filter reliably handles adaptive behavior, so layers should fail safely and leave an audit trail.
+Pip’s document agent has read-only storage, isolated execution, and logged tool requests. Policy, scoped identity, confirmation, sandboxing, monitoring, red teaming, and recovery provide complementary controls. A malicious document may still change model behavior. Pip makes attempted effects restricted, visible, and recoverable rather than trusting one filter.
 
 ## Teaching extension
 

@@ -3,7 +3,7 @@
   "title": "Using Service-Level Objectives for Reliability",
   "part": "Observability for Teams",
   "subtitle": "Define reliability around a user’s successful work",
-  "summary": "Service-level objectives turn reliability from an undefined demand for perfection into a measurable agreement about acceptable service. An indicator describes a user-relevant outcome, an objective sets its target over a window, and the remaining allowance becomes an error budget. These choices require judgment: a technically convenient metric may miss the task customers actually need to complete. The chapter connects objectives with structured event data, allowing individual requests to be evaluated against success and latency criteria while retaining the context needed to investigate failures. The purpose is a shared basis for prioritizing reliability and change. Targets should reflect business needs and measurement limitations, with teams reviewing whether the chosen indicator still represents the experience they intend to protect.",
+  "summary": "Pip’s market crew argues over a healthy host graph while customers abandon payments. A user-relevant indicator, explicit objective window, and error allowance give the discussion a shared basis. Retained event context explains which experiences spend that allowance.",
   "source": {
     "startLine": 4814,
     "endLine": 5231,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Choose a user-relevant indicator",
-      "body": "A service-level indicator measures an aspect of the experience the service must deliver, such as successful requests or completion within an acceptable duration. Infrastructure health may explain a problem but is not automatically the outcome users need. Define the eligible population and what counts as good so the indicator has a clear meaning.",
-      "example": "Eligible checkout attempts are good when they complete successfully within the agreed latency threshold.",
-      "source": "text lines 4814–5231"
+      "body": "Pip defines a good checkout as an eligible attempt completing successfully within the agreed latency threshold. An SLI measures an experience the service must deliver. Infrastructure health can explain trouble without being the user’s desired outcome. Pip states eligibility and the good-event rule before calculating a percentage.",
+      "example": "",
+      "source": "text lines 4814–5231",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "person",
+            "label": "USER OUTCOME",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "ELIGIBILITY RULE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "DEFINED SLI",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip defines a good checkout as an eligible attempt completing successfully within the agreed latency threshold."
+          },
+          {
+            "node": "step-1",
+            "text": "An SLI measures an experience the service must deliver."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip states eligibility and the good-event rule before calculating a percentage."
+          }
+        ]
+      }
     },
     {
       "title": "An objective includes a window",
-      "body": "An SLO specifies the desired level of an indicator over a time period. A percentage without a population and window leaves its meaning ambiguous. The target should express the reliability the business needs, rather than the maximum number of nines that sounds impressive or the best historical performance the team happened to observe.",
-      "example": "At least 99.9% of eligible requests should satisfy the success condition over the selected window.",
-      "source": "text lines 4814–5231"
+      "body": "Pip proposes “99.9%” and a teammate asks, “Of what, over when?” An SLO specifies an indicator’s desired level over a time window. Population and window make the percentage meaningful. Pip chooses the reliability the business needs, not impressive nines or its best accidental historical performance.",
+      "example": "",
+      "source": "text lines 4814–5231",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "target",
+            "label": "99.9% TARGET",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "ELIGIBLE POPULATION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "DEFINED WINDOW",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip proposes “99.9%” and a teammate asks, “Of what, over when?”"
+          },
+          {
+            "node": "step-1",
+            "text": "An SLO specifies an indicator’s desired level over a time window."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip chooses the reliability the business needs, not impressive nines or its best accidental historical performance."
+          }
+        ]
+      }
     },
     {
       "title": "The error budget is an allowance",
-      "body": "The complement of the objective describes the tolerated fraction of bad outcomes. For an event-based SLO, translate that fraction into requests using the eligible volume in the window. This allowance supports conversations about reliability work and delivery risk; it is not a prediction that failures will arrive evenly or a promise that each user experiences the same reliability.",
-      "example": "A 99.9% target permits 1,000 bad outcomes among one million eligible requests.",
-      "source": "text lines 4814–5231"
+      "body": "Pip counts one million eligible requests against a 99.9% objective. Its complement permits 1,000 bad outcomes in that window. The error budget supports decisions about delivery risk and reliability work. Pip does not assume failures arrive evenly or every stall receives the same reliability.",
+      "example": "",
+      "source": "text lines 4814–5231",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "1,000,000 REQUESTS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "1,000 BAD ALLOWED",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "SHARED RISK",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip counts one million eligible requests against a 99.9% objective."
+          },
+          {
+            "node": "step-1",
+            "text": "Its complement permits 1,000 bad outcomes in that window."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip does not assume failures arrive evenly or every stall receives the same reliability."
+          }
+        ]
+      }
     },
     {
       "title": "Event criteria retain diagnostic context",
-      "body": "Evaluate each eligible event against the agreed good-or-bad condition while keeping its useful attributes. The same data can then identify which builds, routes, or customers contribute failures. An objective tells the team whether reliability is acceptable; the event context helps explain why the measured experience is changing.",
-      "example": "Requests failing the latency criterion remain available for grouping by endpoint and deployment.",
-      "source": "text lines 4814–5231"
+      "body": "Pip classifies each eligible event using the agreed good-or-bad rule. Failing latency events retain endpoint, build, and customer attributes. The SLO says whether reliability is acceptable; context helps explain the change. Pip can move from the objective into the population that actually needs investigation.",
+      "example": "",
+      "source": "text lines 4814–5231",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "EVENT CRITERIA",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "alert",
+            "label": "BAD EVENTS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "search",
+            "label": "BUILD + ENDPOINT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip classifies each eligible event using the agreed good-or-bad rule."
+          },
+          {
+            "node": "step-1",
+            "text": "Failing latency events retain endpoint, build, and customer attributes."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip can move from the objective into the population that actually needs investigation."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -118,68 +370,68 @@
     "nodes": [
       {
         "id": "step-0",
-        "label": "INDICATOR",
-        "kind": "trace",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "observability"
       },
       {
         "id": "step-1",
-        "label": "OBJECTIVE",
-        "kind": "experiment",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
+        "kind": "person",
+        "label": "USER OUTCOME",
+        "tone": "sage"
       },
       {
         "id": "step-2",
-        "label": "BUDGET",
-        "kind": "alert",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
+        "kind": "document",
+        "label": "ELIGIBILITY RULE",
+        "tone": "lilac"
       },
       {
         "id": "step-3",
-        "label": "FAILED EVENTS",
-        "kind": "leaf",
-        "tone": "honey",
-        "x": 500,
-        "y": 100
+        "kind": "gauge",
+        "label": "DEFINED SLI",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
         "from": "step-0",
-        "to": "step-1"
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-1",
-        "to": "step-2"
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-2",
-        "to": "step-3"
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
         "node": "step-0",
-        "text": "Eligible checkout attempts are good when they complete successfully within the agreed latency threshold."
+        "text": "Pip defines a good checkout as an eligible attempt completing successfully within the agreed latency threshold."
       },
       {
         "node": "step-1",
-        "text": "At least 99.9% of eligible requests should satisfy the success condition over the selected window."
-      },
-      {
-        "node": "step-2",
-        "text": "A 99.9% target permits 1,000 bad outcomes among one million eligible requests."
+        "text": "An SLI measures an experience the service must deliver."
       },
       {
         "node": "step-3",
-        "text": "Requests failing the latency criterion remain available for grouping by endpoint and deployment."
+        "text": "Pip states eligibility and the good-event rule before calculating a percentage."
       }
     ]
+  },
+  "story": {
+    "course": "observability",
+    "world": "market",
+    "title": "Agree what counts as a good checkout"
   }
 }

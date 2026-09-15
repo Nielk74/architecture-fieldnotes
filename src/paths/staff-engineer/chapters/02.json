@@ -3,7 +3,7 @@
   "title": "Three Maps",
   "part": "The Big Picture",
   "subtitle": "Orient yourself, understand the terrain, choose a destination",
-  "summary": "The three maps are a way to navigate a staff role: the locator map shows where your work sits, the topographic map shows organizational terrain and decision paths, and the treasure map keeps the destination and current position visible. Together they prevent local optimization from replacing useful perspective.",
+  "summary": "Pip finds three maps. The locator shows where the work fits; the topographic map reveals organizational terrain and decision paths; the treasure map connects today’s position to a shared destination. Comparing them keeps the workshop’s nearest problem from becoming its only priority.",
   "source": {
     "startLine": 1405,
     "endLine": 2580,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Locator map",
-      "body": "The locator map keeps the engineer oriented: what is important now, where the work sits, and what perspective is missing. Zoom out beyond your own team: which company goal does your project support, and how large is it in that wider landscape? This map counteracts the tendency to treat the nearest problem as the organization's most important problem.",
-      "example": "Teaching extension: A service map locates the payment team’s ownership boundary.",
-      "source": "text lines 1405–2580"
+      "body": "The payment team waves Pip over: their problem feels like the whole workshop. Pip opens the locator map and zooms out. Which company goal does this project serve? How large is it in the wider landscape, and whose perspective is missing? Locating ownership helps, but orientation also means judging relative importance. The nearest problem is not automatically the organization’s most important one.",
+      "example": "",
+      "source": "text lines 1405–2580",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "PAYMENTS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "boundary",
+            "label": "COMPANY GOAL",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "target",
+            "label": "RELATIVE PRIORITY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip steps back from the loudest nearby request."
+          },
+          {
+            "node": "step-1",
+            "text": "Locate the project and its ownership."
+          },
+          {
+            "node": "step-3",
+            "text": "Compare its importance with other needs and perspectives."
+          }
+        ]
+      }
     },
     {
       "title": "Topographic map",
-      "body": "The topographic map records terrain such as reporting lines, informal power, decision forums, and cultural hazards. Formal reporting lines are only part of the terrain. Learn where decisions actually happen, who holds relevant knowledge, and which past experiences explain resistance. Comparing maps with colleagues exposes assumptions that an org chart cannot show.",
-      "example": "Teaching extension: A topographic map marks the security approver who is not on the org chart.",
-      "source": "text lines 1405–2580"
+      "body": "The org chart gives Pip a route that never reaches approval. A colleague sketches another: informal influence, the actual decision forum, and a security expert absent from the chart. This is the topographic map. Past experiences and cultural hazards help explain resistance. Pip compares maps with others, learning who holds knowledge and where decisions happen rather than mistaking reporting lines for the whole terrain.",
+      "example": "",
+      "source": "text lines 1405–2580",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "ORG CHART",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "listening",
+            "label": "INFORMAL CONTEXT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gateway",
+            "label": "REAL APPROVAL",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip checks where decisions actually happen."
+          },
+          {
+            "node": "step-1",
+            "text": "Formal reporting lines provide only part of the map."
+          },
+          {
+            "node": "step-3",
+            "text": "The actual approval path explains the bottleneck."
+          }
+        ]
+      }
     },
     {
       "title": "Treasure map",
-      "body": "The treasure map connects a destination to the current position and the route, making progress and detours discussable. Identify a destination worth reaching, where the organization stands today, and the next part of the route. The map is a device for discussing direction, not a promise that every obstacle is already known or that the route cannot change.",
-      "example": "Teaching extension: A treasure map shows the target, present state, and next expedition step.",
-      "source": "text lines 1405–2580"
+      "body": "Pip draws a flag over “safe independent releases.” The treasure map needs more than a destination: where is the workshop now, and what is the next part of the route? Colleagues mark obstacles and discuss a detour. The map makes direction and progress discussable. It is not a promise that every hazard is known or that reaching the flag will follow the first line drawn.",
+      "example": "",
+      "source": "text lines 1405–2580",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "CURRENT POSITION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "blueprint",
+            "label": "NEXT STEP",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "target",
+            "label": "DESTINATION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip makes direction discussable."
+          },
+          {
+            "node": "step-1",
+            "text": "Agree the current position."
+          },
+          {
+            "node": "step-3",
+            "text": "Keep the worthwhile destination visible."
+          }
+        ]
+      }
     },
     {
       "title": "Local maximum",
-      "body": "A local maximum is a solution that improves the nearby situation while making the wider objective harder to reach. A team can optimize its own delivery while increasing work for everyone downstream. Looking at the wider map reveals when a local improvement undermines the shared destination. The response may be coordination or a different objective, rather than harder local optimization.",
-      "example": "Teaching extension: A team declines a local cache win because it blocks the reliability destination.",
-      "source": "text lines 1405–2580"
+      "body": "A local cache makes one team faster but blocks the shared reliability plan. Pip steps back from the glowing team metric. A local maximum improves the nearby situation while making the wider destination harder to reach; downstream colleagues may carry the extra work. The answer may be coordination or a different objective, not harder optimization. Pip asks what improves the workshop’s outcome, not just this corner.",
+      "example": "",
+      "source": "text lines 1405–2580",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "cache",
+            "label": "LOCAL GAIN",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "handoff",
+            "label": "DOWNSTREAM COST",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "target",
+            "label": "SHARED OUTCOME",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip checks who pays for a local improvement."
+          },
+          {
+            "node": "step-1",
+            "text": "A cache improves one team’s metric."
+          },
+          {
+            "node": "step-3",
+            "text": "Judge the change against the shared destination."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -47,22 +299,22 @@
   ],
   "scenario": {
     "title": "Reconcile the maps",
-    "context": "The locator map says payments is the priority, the technology map shows a fragile identity dependency, and the topographic map reveals security approval as the real bottleneck.",
+    "context": "Pip’s locator map prioritizes payments. An identity dependency looks fragile; the topographic map reveals security approval as the bottleneck. The owners see different routes.",
     "options": [
       {
         "label": "Reconcile maps",
-        "benefit": "Clarifies the decision and creates a workable path through the stated constraint.",
-        "cost": "Reconciling maps delays the visible payment fix while owners resolve the identity and approval dependency.",
-        "consequence": "You convene the owners, compare the conflicting views, and choose a route that addresses the dependency and approval path."
+        "benefit": "Owners can address the dependency and approval path together.",
+        "cost": "The visible payment fix waits while the owners compare constraints.",
+        "consequence": "Pip brings the owners together; their combined maps reveal a route through identity and security approval."
       },
       {
         "label": "Follow the loudest map",
-        "benefit": "Feels faster or safer in the immediate moment and preserves a familiar habit.",
-        "cost": "Following the loudest map spends a quarter without changing the underlying terrain.",
-        "consequence": "Payments gets a local fix while identity and approval delays remain; the next project inherits the same terrain."
+        "benefit": "The loudest team sees a quick local fix.",
+        "cost": "The underlying identity and approval constraints remain.",
+        "consequence": "Payments changes, but the next project meets the same bottleneck. Pip’s busy quarter has not changed the terrain."
       }
     ],
-    "debrief": "Both options respond to a real constraint. The stronger choice makes ownership and consequences visible, then creates a point to learn and adjust."
+    "debrief": "The maps answer different questions. Pip needs their combined perspective to avoid a local fix that leaves the shared destination out of reach."
   },
   "quiz": [
     {
@@ -117,69 +369,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "locator",
-        "label": "LOCATOR",
-        "kind": "document",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
-      },
-      {
-        "id": "technology",
-        "label": "TECHNOLOGY",
-        "kind": "document",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
-      },
-      {
-        "id": "org",
-        "label": "ORG",
-        "kind": "document",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
-      },
-      {
-        "id": "maps",
-        "label": "MAPS",
-        "kind": "document",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 500,
-        "y": 100
+        "course": "staff-engineer"
+      },
+      {
+        "id": "step-1",
+        "kind": "service",
+        "label": "PAYMENTS",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "boundary",
+        "label": "COMPANY GOAL",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "target",
+        "label": "RELATIVE PRIORITY",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "locator",
-        "to": "technology"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "technology",
-        "to": "org"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "org",
-        "to": "maps"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "locator",
-        "text": "Use this locator view to make the next decision visible."
+        "node": "step-0",
+        "text": "Pip steps back from the loudest nearby request."
       },
       {
-        "node": "technology",
-        "text": "Use this technology view to make the next decision visible."
+        "node": "step-1",
+        "text": "Locate the project and its ownership."
       },
       {
-        "node": "org",
-        "text": "Use this org view to make the next decision visible."
-      },
-      {
-        "node": "maps",
-        "text": "Use this maps view to make the next decision visible."
+        "node": "step-3",
+        "text": "Compare its importance with other needs and perspectives."
       }
     ]
+  },
+  "story": {
+    "course": "staff-engineer",
+    "world": "workshop",
+    "title": "Three maps of the same workshop"
   }
 }

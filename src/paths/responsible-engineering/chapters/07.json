@@ -3,7 +3,7 @@
   "title": "Building a Culture of Responsible Software Engineering",
   "part": "Culture",
   "subtitle": "Make responsible choices part of education, decisions, and incentives",
-  "summary": "Principles have little effect unless people can apply them under delivery pressure. Building responsible engineering culture combines explicit policy, practical education, a review process, and incentives that support raising concerns. Reviews need to examine benefits and harms, make adjustments, and reach a decision with accountable ownership. Measurement and feedback reveal whether these practices improve outcomes or merely add ceremony. The RESIN Challenge shows a complementary route: games and onboarding activities can make principles familiar before engineers begin projects. Bottom-up initiative can grow with leadership support, but lasting change also requires resources and ordinary workflows that turn a concern into engineering action.",
+  "summary": "Pip flags a risk before the town’s launch. Nobody owns it. Principles become useful only when reviews, training, resources, and incentives turn concerns into engineering work. The team gives the issue an owner, tests the safeguard, and carries the lesson into onboarding.",
   "source": {
     "startLine": 4488,
     "endLine": 5044,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Policy and principles",
-      "body": "Policy names the values that the review must protect; a benefits classifier therefore records fairness, privacy, safety, and accountability as requirements.",
-      "example": "Teaching extension: a launch review for a benefits classifier names applicants, reviewers, and appeal owners before approving release.",
-      "source": "text lines 4488-5044"
+      "body": "Pip’s benefits classifier reaches launch review with requirements: fairness, privacy, safety, and accountability. Residents, reviewers, and appeal owners help fill them. Policy names the values the decision must protect; it cannot remain a poster beside the release button.",
+      "example": "",
+      "source": "text lines 4488-5044",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP AT REVIEW",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "FOUR VALUES",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "person",
+            "label": "AFFECTED PEOPLE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "shield",
+            "label": "LAUNCH REQUIREMENTS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip brings the classifier to review."
+          },
+          {
+            "node": "step-1",
+            "text": "Principles name protected values."
+          },
+          {
+            "node": "step-3",
+            "text": "Make values part of the launch decision."
+          }
+        ]
+      }
     },
     {
       "title": "Education and process",
-      "body": "Education and process make responsibility repeatable: intake, analysis, adjustment, and decision give reviewers a path through an ambiguous launch.",
-      "example": "Teaching extension: the team turns the review into an intake card, an affected-group consultation, and a documented go/no-go gate.",
-      "source": "text lines 4488-5044"
+      "body": "Pip brings an ambiguous launch to review. The team follows intake, analysis, adjustment, then decision: consult affected groups, revise the design, document go or no-go. Education makes that process usable again next time.",
+      "example": "",
+      "source": "text lines 4488-5044",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP BRINGS A CASE",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "listening",
+            "label": "INTAKE + ANALYSIS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "whiteboard",
+            "label": "ADJUSTMENT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "GO / NO-GO",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip presents an ambiguous decision."
+          },
+          {
+            "node": "step-1",
+            "text": "Intake and analysis gather perspectives."
+          },
+          {
+            "node": "step-3",
+            "text": "Document the decision and teach the process."
+          }
+        ]
+      }
     },
     {
       "title": "Incentives and ownership",
-      "body": "Incentives and ownership determine whether concerns become engineering work; leaders must assign resources and an escalation path instead of relying on slogans.",
-      "example": "Teaching extension: an engineering lead funds a privacy review and recognizes the person who found a harmful proxy feature.",
-      "source": "text lines 4488-5044"
+      "body": "Pip reports a harmful proxy feature; the deadline still dominates the board. A lead funds the review, assigns an owner, and recognizes the discovery. Incentives, resources, and escalation turn responsibility into work.",
+      "example": "",
+      "source": "text lines 4488-5044",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP RAISES RISK",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "HARMFUL PROXY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "colleague",
+            "label": "FUNDED OWNER",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "workshop",
+            "label": "ENGINEERING WORK",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip reports a concern."
+          },
+          {
+            "node": "step-1",
+            "text": "A harmful proxy needs investigation."
+          },
+          {
+            "node": "step-3",
+            "text": "Reward the work that makes safeguards real."
+          }
+        ]
+      }
     },
     {
       "title": "Learning and measurement",
-      "body": "Learning and measurement close the loop through postmortems, consultations, user feedback, and outcome indicators that reveal whether safeguards worked.",
-      "example": "Teaching extension: a failure library records a rejected launch, its contributing conditions, and the outcome after the safeguard ships.",
-      "source": "text lines 4488-5044"
+      "body": "Pip reopens a rejected launch after its safeguard ships. Postmortems, consultations, user feedback, and outcome indicators test whether it helped. The team records conditions and results in a failure library, not just a success slogan.",
+      "example": "",
+      "source": "text lines 4488-5044",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP REVISITS",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "shield",
+            "label": "SAFEGUARD SHIPPED",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "listening",
+            "label": "OUTCOME FEEDBACK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "FAILURE LIBRARY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip returns after the change."
+          },
+          {
+            "node": "step-1",
+            "text": "Shipping a safeguard is not the outcome."
+          },
+          {
+            "node": "step-3",
+            "text": "Record conditions and results for future teams."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -47,7 +299,7 @@
   ],
   "scenario": {
     "title": "Responsible review and incentives",
-    "context": "A product group faces a deadline while its responsibility review identifies unresolved privacy and safety questions. Leaders want delivery, and engineers need a process that rewards raising concerns.",
+    "context": "The town wants its new service launched. Pip’s review finds unresolved privacy and safety questions; engineers need resources and support to act.",
     "options": [
       {
         "label": "Fund a staged review and recognize risk work",
@@ -62,7 +314,7 @@
         "consequence": "The champion leaves; lessons are lost and a later team repeats the same failure."
       }
     ],
-    "debrief": "Both choices are defensible under different constraints; the responsible decision states the accepted consequence and the evidence that could change it."
+    "debrief": "Pip’s concern needs an accountable owner and resources. Champions can begin change; repeatable practice must survive their departure."
   },
   "quiz": [
     {
@@ -117,69 +369,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "n0",
-        "label": "POLICY",
-        "kind": "document",
-        "tone": "sage",
-        "x": 100,
-        "y": 80
-      },
-      {
-        "id": "n1",
-        "label": "TRAINING",
-        "kind": "colleague",
-        "tone": "peach",
-        "x": 270,
-        "y": 80
-      },
-      {
-        "id": "n2",
-        "label": "PROCESS",
-        "kind": "whiteboard",
-        "tone": "lilac",
-        "x": 100,
-        "y": 210
-      },
-      {
-        "id": "n3",
-        "label": "LEARNING",
-        "kind": "experiment",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP AT REVIEW",
         "tone": "honey",
-        "x": 270,
-        "y": 210
+        "course": "responsible-engineering"
+      },
+      {
+        "id": "step-1",
+        "kind": "document",
+        "label": "FOUR VALUES",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "person",
+        "label": "AFFECTED PEOPLE",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "shield",
+        "label": "LAUNCH REQUIREMENTS",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "n0",
-        "to": "n1"
+        "from": "step-0",
+        "to": "step-1",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "n1",
-        "to": "n2"
+        "from": "step-1",
+        "to": "step-2",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "n2",
-        "to": "n3"
+        "from": "step-2",
+        "to": "step-3",
+        "flow": false,
+        "dashed": true
       }
     ],
     "steps": [
       {
-        "node": "n0",
-        "text": "The policy node names the values and affected people before a product decision."
+        "node": "step-0",
+        "text": "Pip brings the classifier to review."
       },
       {
-        "node": "n1",
-        "text": "The process node turns those values into intake, analysis, adjustment, and a decision."
+        "node": "step-1",
+        "text": "Principles name protected values."
       },
       {
-        "node": "n2",
-        "text": "The learning node records failures, feedback, and measures for the next review."
-      },
-      {
-        "node": "n3",
-        "text": "The ownership node assigns resources and escalation so concerns become action."
+        "node": "step-3",
+        "text": "Make values part of the launch decision."
       }
     ]
+  },
+  "story": {
+    "course": "responsible-engineering",
+    "world": "civic",
+    "title": "The concern that finally got an owner"
   }
 }

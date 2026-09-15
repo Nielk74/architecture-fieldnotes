@@ -1,27 +1,53 @@
-# 20. Observability’s Stakeholders and Allies
+# Chapter 20: Observability’s Stakeholders and Allies
 
-Help adjacent teams answer their own questions
+*Pip’s adventure: Support brings the first useful clue. Fictional teaching story; concepts follow the cited source.*
 
-Observability data can help more than incident responders. Support needs to understand a customer’s current failure, customer success and product teams need to see how workflows are actually used, and sales or executives need evidence about valuable features and strategic accounts. These groups become allies when telemetry helps them accomplish their own goals, not merely when engineering informs them about a tooling project. The chapter also distinguishes this use from traditional business intelligence. Fast, fresh, request-level exploration is useful for immediate operational questions, while exact accounting and longer-term reporting may require different data guarantees. Adoption should connect these complementary views and preserve clear expectations about accuracy, sampling, access, and the decisions each dataset can support.
+Source: text lines 9085–9492.
+
+Pip’s support colleague has a customer request the dashboards missed. Different stakeholders need different outcomes from telemetry. Detailed operational exploration can inform product and account decisions, but sampled evidence must not masquerade as an exact billing ledger.
 
 ## Support can identify customer impact
 
-A support engineer often receives the first concrete account of a customer’s difficulty. Request-level context can help establish whether the issue is ongoing, which workflow is affected, and whether it matches a broader incident. Giving support a useful investigation path reduces dependence on vague status updates and improves the specificity of escalations to engineering.
+Pip receives a specific failed request from support. Request context establishes whether the issue continues, which workflow failed, and whether it belongs to a broader incident. A useful investigation path makes escalation precise. Pip gives support evidence rather than another vague service-status update.
+
+Source: text lines 9085–9492.
 
 ## Product and success compare actual use
 
-Feature uptake alone does not explain whether customers are achieving their goals. Event sequences and attributes can reveal which paths people try, where they fail, or whether a capability appears only in demos rather than normal workflows. These observations help product and customer-success teams test their assumptions and evaluate the effect of guidance or changes.
+Pip sees feature uptake rise but checkout completion remain poor. Event sequences and attributes reveal attempted paths, failures, and demo-only use. Product and customer-success teams can compare relevant cohorts before and after guidance or changes. Pip tests whether customers achieve their goals instead of counting activation alone.
+
+Source: text lines 9085–9492.
 
 ## Allies need their own useful outcomes
 
-Sales and executives can use telemetry to understand which accounts depend on which features and where performance affects important workflows. Adoption gains support when those questions are answered in language connected to their decisions. Simply adding stakeholders to a project update does not give them a reason to champion the investment.
+Pip’s account team needs to know which feature a renewing customer actually depends on. Sales and leaders gain allies’ reasons to invest when telemetry answers decisions about usage and performance. Project updates alone do not create that usefulness. Pip translates observed workflows into priorities without replacing evidence with stakeholder enthusiasm.
+
+Source: text lines 9085–9492.
 
 ## Operational exploration is not accounting
 
-Observability favors fresh, fast answers and may use sampling or incomplete scans with explicit accuracy trade-offs. Business reporting can require exact totals and longer historical horizons. Use the operational view to investigate detailed behavior, but do not silently treat approximate telemetry as an authoritative billing ledger; connect complementary systems where their guarantees differ.
+Pip nearly calculates an invoice from sampled requests. Operational exploration values fresh, fast answers and may trade accuracy through sampling or incomplete scans. Accounting may require exact totals and longer history. Pip uses telemetry to investigate behavior and connects complementary systems without silently promoting estimates into a billing ledger.
 
-## Apply it
+Source: text lines 9085–9492.
+
+## Transfer challenge: The sales dashboard counts demos as adoption
+
+A heavily demonstrated feature appears popular, but customer success sees little regular use.
+
+### Compare demo traffic with real workflow cohorts
+
+Tests whether the usage supports the adoption claim. Requires context that distinguishes origins and outcomes. Product and success teams can distinguish interest during demonstrations from continuing use.
+
+### Report the total call count as product success
+
+Provides a simple, available measure. Conflates demonstrations with successful customer workflows. The organization may invest on the basis of activity that does not represent adoption.
+
+A stakeholder question often needs request context beyond a convenient aggregate.
+
+## Create one practical ally
 
 Choose a nonengineering team and design a query that answers a question it already cares about.
 
-Source: *Observability Engineering*, chapter 20; supplied text lines 9085–9492. These notes are an original synthesis; examples and activities are illustrative.
+- Stakeholder decision
+- Required event context
+- Accuracy and access expectations

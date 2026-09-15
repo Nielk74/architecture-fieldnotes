@@ -1,23 +1,53 @@
 # Chapter 26: Data Integrity: What You Read Is What You Wrote
 
-Source: text lines 11532–12622 of the supplied book extract.
+*Pip’s adventure: The backup exists, but the booking is still gone. Fictional teaching story; concepts follow the cited source.*
 
-Data integrity is judged through users’ ability to access correct data, so intact but inaccessible backups are not a sufficient success condition. Recovery requirements should determine backup frequency, retention, location, and format. Replication protects against some failures but promptly copies bad deletions and corruption, making independent defenses necessary. The chapter combines soft deletion, tiered backups, and out-of-band validation to detect problems early and preserve recoverable history. At large scale, sharding and incremental work reduce copying costs, while long incremental chains complicate restores. Gmail and Google Music recovery cases show the value of rehearsed procedures and the difficulty of delayed detection, cross-store references, and offline media logistics. Continuous end-to-end restore tests provide evidence that recovery still works as systems evolve.
+Source: text lines 11532–12622.
+
+Pip verifies a backup checksum and discovers that restoring usable bookings takes far too long. Recovery needs compatible data, metadata, capacity, and application access. Independent protection and early invariant checks help preserve a recovery point that actually works.
 
 ## Recovery as the objective
 
-A backup is useful for disaster recovery only when the application can load it and make data available within an acceptable time. Archive retention alone does not demonstrate this capability. Define how much recent data can be lost and how long users can wait, then test the whole restore path, including capacity, dependencies, format compatibility, and post-processing needed for actual user access.
+Pip’s export passes its checksum but rebuilding indexes exceeds the acceptable outage. Disaster recovery means the application can load and serve data, not merely retain an archive. Pip defines tolerated data loss and waiting time. The restore test includes capacity, dependencies, format compatibility, and post-processing through real user access.
+
+Source: text lines 11532–12622.
 
 ## Independent layers of protection
 
-Replication copies valid changes quickly, but also propagates accidental deletion and corruption. Soft deletion preserves a limited opportunity to undo mistakes; tiered backups provide older or more isolated recovery points. The layers should differ enough to survive relevant common failures. Retention and deletion delays must also fit the product’s privacy commitments, rather than accumulating copies indefinitely.
+Pip’s accidental deletion reaches every replica. Replication propagates bad changes as well as good ones. Soft deletion and tiered backups offer different undo windows and isolated older recovery points. Pip designs independence against common failures while keeping retention and deletion delays consistent with privacy commitments.
+
+Source: text lines 11532–12622.
 
 ## Early validation of application invariants
 
-Storage consistency does not guarantee that application relationships remain correct. Independent validators can check invariants such as whether a listed file has corresponding contents, detecting slow corruption before usable recovery points disappear. Validators need monitoring, investigation logs, ownership, and rate limits so they do not overload serving systems. Product teams define meaningful invariants while shared infrastructure can provide the execution framework.
+Pip finds metadata pointing to missing audio before another backup cycle copies the defect. Storage consistency does not guarantee application relationships. Independent validators check product-defined invariants with ownership, monitoring, logs, and rate limits. Pip detects slow corruption early without overloading the service that the checks protect.
+
+Source: text lines 11532–12622.
 
 ## Restore engineering at scale
 
-Large datasets require parallel, well-balanced shards and incremental processing to make verification and restoration timely. However, a long sequence of dependent incremental backups increases restore complexity and failure exposure. Recovery must also reconcile data and metadata from compatible points in time. Automated end-to-end exercises reveal missing media, insufficient capacity, broken tools, and schema drift before a real incident forces reliance on them.
+Pip parallelizes restore across balanced shards and verifies that recovered objects are reachable in the application. Incremental processing speeds large datasets, but long dependent backup chains add recovery complexity and failure exposure. Data and metadata must come from compatible points. Pip rehearses end to end to reveal missing media, capacity shortages, broken tools, and schema drift.
 
-The lesson’s examples, decision scenario, and exercise are original teaching extensions rather than reported incidents.
+Source: text lines 11532–12622.
+
+## Transfer challenge: Prove what users received
+
+A replicated profile store returns data after a regional failover. A checksum mismatch appears on one replica, but serving traffic is still possible from two healthy copies.
+
+### Quarantine the mismatched replica and validate before repair
+
+Users read from verified copies and the corruption boundary stays known. The healthy copies carry more load during validation. The team routes around the replica, verifies checksums, and rebuilds it.
+
+### Accept the replica and repair asynchronously
+
+Availability remains high and repair starts immediately. Bad data can spread or be read before repair completes. A later read exposes corrupted profile data to customers.
+
+Isolating a suspect copy prevents unverified data from reaching users, but replica repair covers only some failure modes. Also test recovery from application corruption that reaches every replica, including restoring coherent data and metadata.
+
+## Prove a data recovery
+
+Choose a harmful deletion or corruption scenario and define a restore exercise that ends with correct data available through the application.
+
+- Loss scenario
+- Recovery point
+- Proof

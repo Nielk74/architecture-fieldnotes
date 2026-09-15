@@ -1,31 +1,283 @@
 {
   "number": 1,
   "subtitle": "Follow software back to electricity, hardware, and useful work.",
-  "summary": "Green software starts with a physical question: what resources does a useful result require, and what emissions follow? The authors distinguish energy efficiency, hardware efficiency, and carbon awareness. Reducing processing is one lever; sharing machines, keeping devices useful, and moving flexible work to cleaner electricity are others. The introduction previews a practical route through these decisions, beginning with operations and suitable platforms before expensive custom optimization. It also connects sustainability to developer productivity, cost, reliability, and security. The goal is software that meets real needs while reducing its impact. Measurement guides that work, but a lack of perfect carbon data does not prevent an initial investigation of obvious waste.",
+  "summary": "Pip arrives to help reopen the town cinema. The films are ready, yet idle workers hum through the night and a working phone cannot run the new app. A faster converter will not solve everything. Pip follows three clues: electricity used, hardware kept useful, and the carbon intensity of electricity when work runs. Operations and suitable platforms offer a starting point before a costly rewrite. The screening must still be useful, secure, and reliable. Pip starts measuring obvious waste; perfect carbon data can come later.",
   "concepts": [
     {
       "title": "Three complementary levers",
-      "body": "Energy efficiency reduces electricity for useful work. Hardware efficiency improves equipment utilization and longevity. Carbon awareness changes when, where, or how much work runs in response to electricity emissions. These approaches can reinforce one another, but improving one does not establish that the complete system has become greener. Follow both the useful result and the resources supporting it.",
-      "example": "Teaching extension: A media service removes duplicate conversions, shares workers, and schedules flexible exports using grid data. Each change addresses a different part of its footprint.",
-      "source": "pp. 1–3"
+      "body": "Pip finds three switches, but none says “make green.” Removing duplicate conversions reduces electricity for the same film: energy efficiency. Sharing workers and supporting older phones improves hardware use: hardware efficiency. Scheduling flexible exports using electricity emissions data is carbon awareness. Pip can combine these levers, but one improved number is not the whole footprint. The test follows both the useful result and every resource supporting it.",
+      "example": "",
+      "source": "pp. 1–3",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "LESS WORK",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "phone",
+            "label": "LONGER LIFE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "leaf",
+            "label": "CLEANER TIME",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip traces the resources behind a useful film."
+          },
+          {
+            "node": "step-1",
+            "text": "Remove duplicate conversions: energy efficiency."
+          },
+          {
+            "node": "step-3",
+            "text": "Use an electricity signal to schedule flexible work: carbon awareness."
+          }
+        ]
+      }
     },
     {
       "title": "Start with operations",
-      "body": "The introduction emphasizes avoiding idle and oversized resources because improvements can often use existing operational tools. A faster program on an unchanged, mostly idle server may leave much of the footprint in place. Platform choices and workload flexibility help convert software improvements into fewer active resources while retaining the service that users actually need.",
-      "example": "Teaching extension: An unused weekend worker prompts an ownership and restart check before the team considers rewriting its conversion engine.",
-      "source": "pp. 6–9"
+      "body": "The converter finishes sooner. Pip cheers—until the dedicated worker keeps humming through an empty weekend. Faster code has left idle allocation untouched. Pip checks who owns the worker and whether it can restart, then investigates sharing or scheduling it. Existing operational tools and suitable platforms can turn an improvement into fewer active resources. Rewriting the engine can wait until Pip knows what work the audience actually needs.",
+      "example": "",
+      "source": "pp. 6–9",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "IDLE WORKER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "terminal",
+            "label": "RESTART TEST",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "SCHEDULE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip checks why faster code left the footprint unchanged."
+          },
+          {
+            "node": "step-1",
+            "text": "The dedicated worker stays allocated with no jobs."
+          },
+          {
+            "node": "step-3",
+            "text": "Schedule or share capacity while preserving the audience’s deadline."
+          }
+        ]
+      }
     },
     {
       "title": "Design for flexibility",
-      "body": "Separating urgent interactions from delayable work makes demand shifting possible. Demand shaping changes the service offered when electricity is more carbon intensive. Both require product decisions: a deadline, quality level, or freshness expectation must be explicit before a system can adapt. Flexibility comes from design rather than a green label attached to an unchanged workload.",
-      "example": "Teaching extension: Playback stays immediate, while an optional high-resolution download can finish by morning. Users can see when it will be ready.",
-      "source": "pp. 10–12"
+      "body": "“A film now, or a download by morning?” Pip asks the audience. Playback must stay immediate; the optional high-resolution copy can wait. That deadline creates room for demand shifting. Offering a lighter version during a high-carbon period would instead be demand shaping. Pip writes down quality, freshness, and delivery promises before adapting anything. Flexibility comes from product design, not from painting a green label on an unchanged workload.",
+      "example": "",
+      "source": "pp. 10–12",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "browser",
+            "label": "WATCH NOW",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "queue",
+            "label": "DOWNLOAD LATER",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "DEADLINE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks what the audience needs immediately."
+          },
+          {
+            "node": "step-1",
+            "text": "Playback stays available now."
+          },
+          {
+            "node": "step-3",
+            "text": "An explicit deadline makes shifting possible."
+          }
+        ]
+      }
     },
     {
       "title": "Keep devices and software useful",
-      "body": "Dropping compatibility or security support can encourage replacement of working equipment. The introduction therefore treats device longevity as a software concern alongside server electricity. Its broader vision retains usability, security, resilience, and developer productivity. A sustainable design must still serve people well enough to remain useful and adopted, with attention to both clients and infrastructure.",
-      "example": "Teaching extension: The app keeps a lightweight playback path on supported older phones while offering additional effects on newer hardware.",
-      "source": "pp. 11–14"
+      "body": "A visitor’s older phone still works, but the cinema app demands a newer chip. Pip keeps a lightweight playback path and reserves extra effects for newer devices. Compatibility and security support help working equipment stay useful instead of pushing people toward replacement. Servers are only part of the story. Pip’s greener design must also remain usable, secure, resilient, and practical for its developers—or the audience and team will abandon it.",
+      "example": "",
+      "source": "pp. 11–14",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "phone",
+            "label": "OLDER PHONE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "shield",
+            "label": "SUPPORT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "cinema",
+            "label": "PLAYBACK",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip notices a working phone excluded by the app."
+          },
+          {
+            "node": "step-1",
+            "text": "The older phone can still play the film."
+          },
+          {
+            "node": "step-3",
+            "text": "Keep the essential experience useful without requiring every extra effect."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -40,7 +292,7 @@
   ],
   "scenario": {
     "title": "The first week of a green initiative",
-    "context": "Teaching extension. A media team has one week available. Its export must finish by 08:00 but usually finishes much earlier. The dedicated worker stays on between jobs. There is also a CPU-heavy conversion function. The team can investigate operating schedules or begin replacing that function, but cannot complete both this week.",
+    "context": "Pip has one week before the screening. Exports must finish by 08:00, but a dedicated worker stays on between jobs. Its converter also consumes heavy CPU. Pip can investigate restart and operating schedules or begin replacing the converter—not complete both this week.",
     "options": [
       {
         "label": "Make the worker restartable and scheduled",
@@ -110,64 +362,63 @@
   "visual": {
     "nodes": [
       {
-        "id": "work",
-        "label": "USEFUL WORK",
-        "kind": "target",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "green-software"
+      },
+      {
+        "id": "step-1",
+        "kind": "terminal",
+        "label": "LESS WORK",
         "tone": "sage"
       },
       {
-        "id": "energy",
-        "label": "ELECTRICITY",
-        "kind": "gauge",
+        "id": "step-2",
+        "kind": "phone",
+        "label": "LONGER LIFE",
         "tone": "lilac"
       },
       {
-        "id": "hardware",
-        "label": "HARDWARE",
-        "kind": "deployment",
-        "tone": "peach"
-      },
-      {
-        "id": "impact",
-        "label": "EMISSIONS",
+        "id": "step-3",
         "kind": "leaf",
-        "tone": "honey"
+        "label": "CLEANER TIME",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "work",
-        "to": "energy"
+        "from": "step-0",
+        "to": "step-1",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "work",
-        "to": "hardware"
+        "from": "step-0",
+        "to": "step-2",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "energy",
-        "to": "impact"
-      },
-      {
-        "from": "hardware",
-        "to": "impact"
+        "from": "step-0",
+        "to": "step-3",
+        "flow": false,
+        "dashed": true
       }
     ],
     "steps": [
       {
-        "node": "work",
-        "text": "Identify the result the user actually needs."
+        "node": "step-0",
+        "text": "Pip traces the resources behind a useful film."
       },
       {
-        "node": "energy",
-        "text": "Processing and waiting both have electricity consequences."
+        "node": "step-1",
+        "text": "Remove duplicate conversions: energy efficiency."
       },
       {
-        "node": "hardware",
-        "text": "Equipment carries manufacturing and end-of-life emissions."
-      },
-      {
-        "node": "impact",
-        "text": "Compare the combined impact for the same useful result."
+        "node": "step-3",
+        "text": "Use an electricity signal to schedule flexible work: carbon awareness."
       }
     ]
   },
@@ -196,5 +447,10 @@
     "endLine": 1142,
     "pages": "1–14",
     "reference": "pp. 1–14; text lines 634–1142"
+  },
+  "story": {
+    "course": "green-software",
+    "world": "cinema",
+    "title": "The cinema that used energy while everyone slept"
   }
 }

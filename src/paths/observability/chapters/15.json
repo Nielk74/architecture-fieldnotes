@@ -3,7 +3,7 @@
   "title": "Build Versus Buy and Return on Investment",
   "part": "Observability at Scale",
   "subtitle": "Compare ownership costs, not only invoices",
-  "summary": "A build-versus-buy decision should compare the full cost of delivering an effective observability capability. License prices are visible, while engineering time, infrastructure, hiring, upgrades, integration, and ongoing support are often hidden inside existing budgets. The chapter adds opportunity cost: people maintaining a bespoke platform cannot spend the same time advancing the product. Building can nevertheless develop valuable expertise and deeply fit internal workflows, provided the organization can sustain product management and usability as well as technical implementation. Buying can shorten time to value but still introduces integration work and commercial constraints. The decision therefore needs a shared horizon, realistic adoption expectations, and explicit assumptions about what each option enables the business to do.",
+  "summary": "Pip compares an observability invoice with a “free” internal stack. Maintenance and displaced product work change the calculation. Both options need a common horizon, required investigative outcomes, and honest assumptions about adoption, integration, and recurring effort.",
   "source": {
     "startLine": 6226,
     "endLine": 6675,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Total ownership includes ongoing work",
-      "body": "The price of software is only one part of running an observability capability. Infrastructure, recruitment, upgrades, incident response, integration, and support also consume resources. An open-source stack can be a good choice, but treating existing employees’ time as free hides costs and makes the comparison with a visible commercial invoice misleading.",
-      "example": "Three engineers maintaining a supposedly free stack belong in its ownership estimate.",
-      "source": "text lines 6226–6675"
+      "body": "Pip calls the market’s observability stack free while three engineers maintain it. Ownership includes infrastructure, hiring, upgrades, incidents, integration, and support as well as software price. Open source can still be the right choice. Pip counts employee time so an invisible labor cost is not compared unfairly with a visible invoice.",
+      "example": "",
+      "source": "text lines 6226–6675",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "FREE SOFTWARE?",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "team",
+            "label": "MAINTENANCE CREW",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "TOTAL OWNERSHIP",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip calls the market’s observability stack free while three engineers maintain it."
+          },
+          {
+            "node": "step-1",
+            "text": "Ownership includes infrastructure, hiring, upgrades, incidents, integration, and support as well as software price."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip counts employee time so an invisible labor cost is not compared unfairly with a visible invoice."
+          }
+        ]
+      }
     },
     {
       "title": "Opportunity cost changes the comparison",
-      "body": "Engineering effort has an alternative use. Time spent developing a telemetry backend may displace customer features or reliability improvements elsewhere. Include that forgone work when comparing options, particularly if observability tooling is not the company’s product. A lower invoice does not necessarily mean the organization retains more capacity for its core goals.",
-      "example": "A quarter spent building query infrastructure delays a revenue-generating product release.",
-      "source": "text lines 6226–6675"
+      "body": "Pip spends a quarter building query infrastructure and delays a customer feature. Engineering time has an alternative use. Forgone product and reliability improvements belong in the build-versus-buy comparison, especially when tooling is not the business’s product. Pip asks which choice preserves capacity for core goals, not only which invoice is smaller.",
+      "example": "",
+      "source": "text lines 6226–6675",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "workshop",
+            "label": "QUERY PLATFORM",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "DELAYED FEATURE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "OPPORTUNITY COST",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip spends a quarter building query infrastructure and delays a customer feature."
+          },
+          {
+            "node": "step-1",
+            "text": "Engineering time has an alternative use."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip asks which choice preserves capacity for core goals, not only which invoice is smaller."
+          }
+        ]
+      }
     },
     {
       "title": "An internal platform is a product",
-      "body": "A successful bespoke platform needs requirements discovery, usable workflows, prioritization, support, and adoption. Technical feasibility alone does not establish that colleagues will use it effectively. Building may create strong internal expertise and customized integration, but the organization must fund those product responsibilities alongside storage, ingestion, and query implementation.",
-      "example": "A technically fast backend sees little use because investigation requires undocumented workarounds.",
-      "source": "text lines 6226–6675"
+      "body": "Pip’s fast internal backend attracts few investigators. Requirements, usable workflows, prioritization, support, and adoption are product responsibilities. Custom integration and expertise can justify building, but storage and queries alone do not fund those duties. Pip fixes undocumented investigation workarounds rather than treating technical feasibility as product success.",
+      "example": "",
+      "source": "text lines 6226–6675",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "FAST BACKEND",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "person",
+            "label": "STRUGGLING USER",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "PRODUCT SUPPORT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s fast internal backend attracts few investigators."
+          },
+          {
+            "node": "step-1",
+            "text": "Requirements, usable workflows, prioritization, support, and adoption are product responsibilities."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip fixes undocumented investigation workarounds rather than treating technical feasibility as product success."
+          }
+        ]
+      }
     },
     {
       "title": "Compare benefits on a common horizon",
-      "body": "Evaluate both options over the same period and against the same required outcomes. Buying may deliver useful investigation sooner; building may provide fit or control that matters locally. Include migration and integration work, distinguish recurring from initial costs, and state assumptions clearly enough to revisit the choice when scale or organizational needs change.",
-      "example": "Compare a year of operating costs and adoption effort rather than a monthly invoice against a one-time prototype.",
-      "source": "text lines 6226–6675"
+      "body": "Pip compares a monthly invoice with a one-time prototype and rejects the mismatch. Both options need the same horizon and required outcomes. Buying may deliver useful investigation sooner; building may provide locally important fit or control. Pip separates initial, recurring, migration, and integration costs, recording assumptions for later reassessment.",
+      "example": "",
+      "source": "text lines 6226–6675",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "COMMON HORIZON",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "balance",
+            "label": "FIT VS TIME TO VALUE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "REVISITABLE ASSUMPTIONS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip compares a monthly invoice with a one-time prototype and rejects the mismatch."
+          },
+          {
+            "node": "step-1",
+            "text": "Both options need the same horizon and required outcomes."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip separates initial, recurring, migration, and integration costs, recording assumptions for later reassessment."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -118,68 +370,68 @@
     "nodes": [
       {
         "id": "step-0",
-        "label": "TOTAL COST",
-        "kind": "trace",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "observability"
       },
       {
         "id": "step-1",
-        "label": "ALTERNATIVES",
-        "kind": "experiment",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
+        "kind": "terminal",
+        "label": "FREE SOFTWARE?",
+        "tone": "sage"
       },
       {
         "id": "step-2",
-        "label": "INTERNAL USERS",
-        "kind": "alert",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
+        "kind": "team",
+        "label": "MAINTENANCE CREW",
+        "tone": "lilac"
       },
       {
         "id": "step-3",
-        "label": "TIME HORIZON",
-        "kind": "leaf",
-        "tone": "honey",
-        "x": 500,
-        "y": 100
+        "kind": "document",
+        "label": "TOTAL OWNERSHIP",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
         "from": "step-0",
-        "to": "step-1"
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-1",
-        "to": "step-2"
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-2",
-        "to": "step-3"
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
         "node": "step-0",
-        "text": "Three engineers maintaining a supposedly free stack belong in its ownership estimate."
+        "text": "Pip calls the market’s observability stack free while three engineers maintain it."
       },
       {
         "node": "step-1",
-        "text": "A quarter spent building query infrastructure delays a revenue-generating product release."
-      },
-      {
-        "node": "step-2",
-        "text": "A technically fast backend sees little use because investigation requires undocumented workarounds."
+        "text": "Ownership includes infrastructure, hiring, upgrades, incidents, integration, and support as well as software price."
       },
       {
         "node": "step-3",
-        "text": "Compare a year of operating costs and adoption effort rather than a monthly invoice against a one-time prototype."
+        "text": "Pip counts employee time so an invisible labor cost is not compared unfairly with a visible invoice."
       }
     ]
+  },
+  "story": {
+    "course": "observability",
+    "world": "market",
+    "title": "The free stack has a busy crew behind it"
   }
 }

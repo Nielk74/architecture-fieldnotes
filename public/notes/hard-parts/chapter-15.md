@@ -1,19 +1,59 @@
-# Chapter 15 — Build Your Own Trade-Off Analysis
+# Chapter 15: Build Your Own Trade-Off Analysis
 
-Architecture rarely offers a universal best choice. The chapter’s method starts by defining a decision space carefully. A MECE list is mutually exclusive and combinatorially exhaustive: alternatives should not overlap and should cover the relevant possibilities (text lines 9079–9135). Comparing a simple message queue with an entire enterprise service bus is invalid because they are different scopes. A sound list keeps the comparison fair and checks that a relevant capability has not been omitted.
+*Pip’s adventure: Pip must explain the choice. Fictional teaching story; concepts follow the cited source.*
 
-Next, find the context. A generic scorecard can favor a solution that lacks a capability required by the actual system. The chapter calls this the “out of context” trap (text lines 9136–9188). Iterative design helps: sketch candidate architectures, play what-if games, and notice which dimensions become fixed or constrain later decisions. Narrow context often simplifies a decision because irrelevant options and characteristics fall away.
+Source: text lines 9079–9500.
 
-Model relevant domain cases rather than reasoning only from abstractions. The payment example tests three scenarios: updating card processing, adding reward points, and using multiple payment types (text lines 9189–9248). Separate services look attractive for maintainability, deployability, and extensibility, until a multi-payment workflow requires coordination that affects performance and consistency. Scenarios reveal the real choice: which outcome matters more in this context?
+Pip has a board full of architecture scores and no decision. The delivery crew needs comparable options, real domain cases, and a short account of accepted consequences. Experiments and fitness checks make the chosen risks observable after the meeting ends.
 
-The analysis must be communicable. Technical research can become overwhelming, especially for stakeholders who need to choose between outcomes rather than inspect every mechanism. The chapter recommends reducing evidence to a bottom line, such as immediate credit-approval start versus responsiveness and fault tolerance (text lines 9249–9288). The reduction should preserve the decisive trade-off and its consequences, not pretend that one option has no costs.
+## MECE choices
 
-Finally, resist snake oil and forced evangelism. Experience is valuable but narrow, and enthusiastic advocates tend to amplify benefits and minimize costs. Scenario analysis and fitness functions make claims testable. The monorepo example uses checks to prevent accidental cross-project coupling while gathering evidence about the chosen approach (text lines 9289–9500). Testing lets an organization move from qualitative judgment toward quantitative knowledge about its own ecosystem.
+Pip compares one queue with an entire integration platform and gets a misleading winner. Alternatives must be mutually exclusive and combinatorially exhaustive at a comparable scope. Pip lists meaningful messaging options without overlapping categories or omitting viable choices. A well-formed decision space makes later trade-offs honest.
 
-The resulting decision record should name the context, options, drivers, modeled cases, selection, consequences, and one observable risk check. This is more useful than an abstract ranking because it can be revisited when workload, team maturity, or business priorities change. An architect’s value lies in making the trade-offs visible and helping the organization choose deliberately.
+Source: text lines 9100–9135.
 
-Modern teaching extension: have learners build a two-option matrix, then force a third scenario that stresses the losing option’s strongest weakness. End with one sentence stakeholders can act on and one fitness function that would reveal drift. References: supplied early-release text lines 9079–9500.
+## Find the context
 
-An analysis is also a communication artifact with a life beyond the meeting. Record assumptions such as expected load, team maturity, availability targets, and tolerated staleness. If one assumption changes, rerun the affected scenarios rather than treating the original selection as a permanent rule. This keeps architecture adaptable while preserving the reasoning that made the decision understandable.
+Pip’s reusable library wins a generic scorecard until island teams require independent deployments and isolation. Context reveals capabilities the real solution must have. Pip narrows options with sample architectures and what-if questions. Fixing one influential dimension exposes which other choices remain possible.
 
-The record should also name its review trigger and owner.
+Source: text lines 9136–9188.
+
+## Model domain cases
+
+Pip tests payment designs by changing cards, adding reward points, and combining payment types. Maintenance, extension, and complex domain workflows stress different architectural qualities. Separate services can improve extensibility while coordination harms performance and consistency. Pip uses those cases instead of assuming a generic matrix predicts the winner.
+
+Source: text lines 9189–9248.
+
+## Communicate the bottom line
+
+Pip replaces a crowded scorecard with the decision stakeholders actually face. Synchronous approval guarantees initiation before the request ends; asynchronous submission improves responsiveness and survives coordinator downtime. The bottom line aggregates outcome-level benefits, costs, and assumptions without erasing nuance. Pip makes priorities reviewable rather than reciting every research detail.
+
+Source: text lines 9249–9288.
+
+## Test the choice
+
+Pip accepts a shared repository but worries about cross-project imports. An objective fitness function rejects forbidden dependencies while build and repository metrics track consequences. Local experiments turn qualitative expectations into evidence about this ecosystem. Pip tests the chosen risk instead of defending the approach through evangelism.
+
+Source: text lines 9289–9500.
+
+## Transfer challenge: Choose a messaging topology
+
+A bidding platform broadcasts bid changes to capture, tracking, analytics, and history consumers. Capture and tracking need independent scaling and access controls; analytics wants a broad stream; history may evolve its fields frequently. The team must choose between one shared topic and separate point-to-point queues, then explain the decision to operations and product stakeholders.
+
+### Shared topic
+
+Adding a new consumer is easy and one publication path supports broad extensibility. Consumers share a broad contract, data access, and operational profile; sensitive fields may reach every subscriber. History joins quickly, but a contract change or queue-depth policy affects unrelated consumers. The team must govern a large event shape and shared scaling behavior.
+
+### Individual queues
+
+Each consumer receives a tailored contract with separate security, monitoring, and scaling controls. The producer manages more routes and adding consumers requires explicit integration work. Tracking scales independently and history can evolve its fields. Operations gains clear queue metrics, while the team accepts more configuration and delivery paths.
+
+The right answer depends on whether extensibility or heterogeneous contracts, security, and independent operations drive the decision. Scenario evidence makes those priorities visible instead of hiding them in a generic score.
+
+## Build a decision record
+
+Select one architecture decision. Create a MECE option list, name the context and drivers, model three domain scenarios, and state the bottom-line trade-off plus one fitness check.
+
+- Context
+- Decision
+- Trade-off

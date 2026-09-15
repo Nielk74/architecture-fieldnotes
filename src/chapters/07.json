@@ -3,7 +3,7 @@
   "title": "Scope of Architecture Characteristics",
   "part": "Foundations",
   "subtitle": "Find the boundaries where qualities actually differ",
-  "summary": "Architecture characteristics do not always belong to an entire system. Monoliths encouraged system-wide thinking, but modern styles often contain independently deployable parts with different operational needs. The chapter introduces the architecture quantum: an independently deployable artifact with high functional cohesion and synchronous connascence. Its scope includes everything required to work independently, including a database. Synchronous calls bind the operational qualities of participants because one waits for the other; asynchronous communication can buffer differences and permit more variation. Domain-driven bounded contexts provide a way to keep models coherent inside a boundary while reconciling them at integration points. In the auction case, bidder feedback, the auctioneer, and online bidders need different availability, scale, elasticity, performance, reliability, and security profiles. Thinking in quanta can reveal a hybrid architecture earlier and guide deployment, data ownership, coupling, and communication choices.",
+  "summary": "Pip adds bookshop application instances and discovers the database remains the bottleneck. Architectural qualities must be evaluated across the dependencies that determine them. Quanta, synchronous waiting, and bounded contexts help Pip find the right scope.",
   "source": {
     "startLine": 3724,
     "endLine": 4044,
@@ -12,33 +12,348 @@
   "concepts": [
     {
       "title": "Why scope narrows",
-      "body": "System-level evaluation was a safe default when applications were monoliths, but it can hide mismatched dependencies. A performant or elastic code base cannot succeed if its database or another dependent component fails the same goal. Architects therefore need a scope that includes the components affecting a characteristic, especially for operational qualities and evolutionary design. The boundary should follow actual coupling and failure impact.",
-      "example": "A read-heavy catalog can scale its application instances, yet a single database with a low connection limit becomes the real ceiling. Evaluating only application code misses the architecture’s bottleneck.",
-      "source": "pp. 91–92"
+      "body": "Pip scales the catalog application while its single database runs out of connections. An elastic or fast codebase cannot meet goals its dependencies prevent. System-wide averages and code-only measures can both hide the relevant constraint. Pip scopes characteristics around actual coupling and failure impact, especially for operational evolution.",
+      "example": "",
+      "source": "pp. 91–92",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "MORE APP INSTANCES",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "database",
+            "label": "CONNECTION CEILING",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "boundary",
+            "label": "RELEVANT SCOPE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip scales the catalog application while its single database runs out of connections."
+          },
+          {
+            "node": "step-1",
+            "text": "An elastic or fast codebase cannot meet goals its dependencies prevent."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip scopes characteristics around actual coupling and failure impact, especially for operational evolution."
+          }
+        ]
+      }
     },
     {
       "title": "Architecture quantum",
-      "body": "An architecture quantum is an independently deployable artifact with high functional cohesion and synchronous connascence. Independence includes required infrastructure such as a database. Functional cohesion means the quantum serves a purposeful workflow or bounded responsibility. Synchronous calls belong to one operational unit because a caller waits and their qualities must remain compatible during the call. It is a reasoning scope, not merely a deployment label.",
-      "example": "A microservice that owns its order data and synchronously calls a tax service may form one quantum for that workflow if both must be deployed and scaled together to meet its response behavior.",
-      "source": "pp. 92–93"
+      "body": "Pip’s order service waits synchronously for tax calculation. The chapter defines a quantum as an independently deployable artifact with high functional cohesion and synchronous connascence, including required infrastructure. Its purposeful workflow and waiting dependencies must have compatible operational qualities. Pip uses the quantum as a reasoning scope, not merely a process label.",
+      "example": "",
+      "source": "pp. 92–93",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "ORDER WORKFLOW",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "api",
+            "label": "SYNCHRONOUS TAX",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "boundary",
+            "label": "OPERATIONAL QUANTUM",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s order service waits synchronously for tax calculation."
+          },
+          {
+            "node": "step-1",
+            "text": "The chapter defines a quantum as an independently deployable artifact with high functional cohesion and synchronous connascence, including required infrastructure."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip uses the quantum as a reasoning scope, not merely a process label."
+          }
+        ]
+      }
     },
     {
       "title": "Synchronous and asynchronous",
-      "body": "Synchronous connascence couples runtime characteristics: if one service waits on another, mismatched scale, latency, or reliability creates timeouts and failure chains. Asynchronous communication permits fire-and-forget behavior and can buffer temporary rate differences. The choice carries trade-offs, but it changes the scope at which an architect must reason about quality and failure. Buffering also requires explicit status, retries, and reconciliation decisions.",
-      "example": "If payment handles one transaction every 500 milliseconds while auctions end in bursts, a queue can buffer payment requests instead of allowing synchronous calls to time out.",
-      "source": "pp. 92–94"
+      "body": "Pip’s auction burst reaches payment, which handles one transaction every 500 milliseconds. Synchronous waiting couples scale, latency, and reliability into timeout chains. A queue can buffer rate differences and change the operational scope. Pip also defines pending status, retries, and reconciliation instead of treating asynchronous delivery as free decoupling.",
+      "example": "",
+      "source": "pp. 92–94",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "AUCTION BURST",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "queue",
+            "label": "PAYMENT BUFFER",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "500 ms / PAYMENT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s auction burst reaches payment, which handles one transaction every 500 milliseconds."
+          },
+          {
+            "node": "step-1",
+            "text": "Synchronous waiting couples scale, latency, and reliability into timeout chains."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip also defines pending status, retries, and reconciliation instead of treating asynchronous delivery as free decoupling."
+          }
+        ]
+      }
     },
     {
       "title": "Bounded contexts",
-      "body": "Domain-driven design’s bounded context keeps a domain model visible internally and opaque outside. Rather than force one organization-wide Customer class, each context can model the entity for its own workflow and reconcile differences at an integration point. This supports functional cohesion and limits shared artifacts that otherwise create coordination and coupling. The boundary protects local meaning while making integration deliberate.",
-      "example": "A bidder reputation context and a payment context can each represent a participant differently, exchanging only the data needed at their boundary instead of sharing every internal field.",
-      "source": "pp. 93–94"
+      "body": "Pip tries to share one Customer class between reputation and payment. A bounded context keeps its domain model meaningful inside and opaque outside. Each workflow can represent a participant differently and reconcile at an explicit integration point. Pip exchanges needed data instead of coupling every context to every internal field.",
+      "example": "",
+      "source": "pp. 93–94",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "component",
+            "label": "REPUTATION MODEL",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "api",
+            "label": "EXPLICIT INTEGRATION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "component",
+            "label": "PAYMENT MODEL",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip tries to share one Customer class between reputation and payment."
+          },
+          {
+            "node": "step-1",
+            "text": "A bounded context keeps its domain model meaningful inside and opaque outside."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip exchanges needed data instead of coupling every context to every internal field."
+          }
+        ]
+      }
     },
     {
       "title": "Auction quanta",
-      "body": "The Going, Going, Gone case separates bidder feedback, the auctioneer, and online bidders because their characteristics differ. Feedback needs availability, scale, and performance; the auctioneer needs especially strong availability, reliability, ordering, security, scale, and elasticity; bidders need reliable, available, scalable, elastic access. This granularity can lead to a hybrid architecture instead of one system-wide target. The most critical path deserves the clearest guarantees.",
-      "example": "A live auctioneer capture path may receive one authoritative stream, while thousands of bidder streams need elastic read distribution. Treating both as one target obscures their different failure impacts.",
-      "source": "pp. 94–98"
+      "body": "Pip studies Going, Going, Gone before adding a rare-book auction. Feedback needs fast, available scale; auctioneer capture adds especially strong reliability, ordering, security, and elasticity; bidders need reliable elastic access. Distinct profiles can justify separate quanta and a hybrid architecture. Pip protects authoritative capture differently from thousands of read streams.",
+      "example": "",
+      "source": "pp. 94–98",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "AUCTIONEER CAPTURE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "message",
+            "label": "BIDDER STREAMS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "DIFFERENT QUALITY NEEDS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip studies Going, Going, Gone before adding a rare-book auction."
+          },
+          {
+            "node": "step-1",
+            "text": "Feedback needs fast, available scale; auctioneer capture adds especially strong reliability, ordering, security, and elasticity; bidders need reliable elastic access."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip protects authoritative capture differently from thousands of read streams."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -123,65 +438,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "workflow",
-        "label": "WORKFLOW",
-        "kind": "blueprint",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "fundamentals"
+      },
+      {
+        "id": "step-1",
+        "kind": "service",
+        "label": "MORE APP INSTANCES",
         "tone": "sage"
       },
       {
-        "id": "sync",
-        "label": "SYNC CALL",
-        "kind": "router",
+        "id": "step-2",
+        "kind": "database",
+        "label": "CONNECTION CEILING",
         "tone": "lilac"
       },
       {
-        "id": "quantum",
-        "label": "QUANTUM",
-        "kind": "deployment",
+        "id": "step-3",
+        "kind": "boundary",
+        "label": "RELEVANT SCOPE",
         "tone": "peach"
-      },
-      {
-        "id": "event",
-        "label": "ASYNC BUFFER",
-        "kind": "queue",
-        "tone": "honey"
       }
     ],
     "edges": [
       {
-        "from": "workflow",
-        "to": "sync"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "sync",
-        "to": "quantum"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "quantum",
-        "to": "event"
-      },
-      {
-        "from": "event",
-        "to": "workflow"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "workflow",
-        "text": "Identify a purposeful workflow and the domain model that must remain coherent for it."
+        "node": "step-0",
+        "text": "Pip scales the catalog application while its single database runs out of connections."
       },
       {
-        "node": "sync",
-        "text": "Trace blocking calls and include each dependency whose response is required to complete the workflow."
+        "node": "step-1",
+        "text": "An elastic or fast codebase cannot meet goals its dependencies prevent."
       },
       {
-        "node": "quantum",
-        "text": "Treat the cohesive, independently deployable set as the scope for operational characteristics."
-      },
-      {
-        "node": "event",
-        "text": "Where rate or quality differences should not block the caller, introduce an asynchronous buffer and explicit reconciliation."
+        "node": "step-3",
+        "text": "Pip scopes characteristics around actual coupling and failure impact, especially for operational evolution."
       }
     ]
+  },
+  "story": {
+    "course": "fundamentals",
+    "world": "bookshop",
+    "title": "The database still sets the limit"
   }
 }

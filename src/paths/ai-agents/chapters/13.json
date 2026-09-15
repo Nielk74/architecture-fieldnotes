@@ -3,7 +3,7 @@
   "title": "Human-Agent Collaboration",
   "part": "Collaboration",
   "subtitle": "Match autonomy to demonstrated capability and preserve informed human control",
-  "summary": "Human-agent collaboration depends on deciding which work an agent may perform, when it should clarify uncertainty, and when a person must take over. Delegation can begin with suggestions and drafts, then expand as observed performance supports greater independence. A useful handoff includes the current state, evidence, uncertainty, and decision still needed, so the reviewer can continue without reconstructing the whole interaction. Interfaces, training, and stakeholder feedback help people understand both capability and limits. Oversight also needs action records and routes to correction. The goal is calibrated reliance: neither unquestioning acceptance nor rejection of useful automation regardless of evidence.",
+  "summary": "Pip delegates routine museum work, then reaches an uncertain eligibility decision. A useful handoff preserves evidence and state, not just “ask a human.” The team expands autonomy through observed performance, accessible controls, and feedback from the people who rely on the guide.",
   "source": {
     "startLine": 12092,
     "endLine": 12759,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Roles and autonomy",
-      "body": "Roles and autonomy set who may act: reversible routine work can be delegated, while ambiguous eligibility decisions remain with an accountable human.",
-      "example": "Teaching extension: a claims agent may draft routine status updates but must hand an eligibility decision to a trained reviewer with its evidence.",
-      "source": "text lines 12092-12759"
+      "body": "Pip delegates routine status drafts. Reversible work can suit agent autonomy. An ambiguous ticket-eligibility decision stays with an accountable human. The guide hands over evidence instead of awarding itself authority.",
+      "example": "",
+      "source": "text lines 12092-12759",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "agent",
+            "label": "ROUTINE DRAFT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "balance",
+            "label": "UNCERTAIN ELIGIBILITY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "colleague",
+            "label": "HUMAN DECISION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip delegates routine status drafts."
+          },
+          {
+            "node": "step-1",
+            "text": "Reversible work can suit agent autonomy."
+          },
+          {
+            "node": "step-3",
+            "text": "The guide hands over evidence instead of awarding itself authority."
+          }
+        ]
+      }
     },
     {
       "title": "Uncertainty and handoffs",
-      "body": "Uncertainty and handoffs preserve continuity when evidence is missing or stakes rise; the agent must state why it stopped and what state the reviewer inherits.",
-      "example": "Teaching extension: the handoff payload includes the uncertain field, tool results, current state, and a resume action so the reviewer can continue safely.",
-      "source": "text lines 12092-12759"
+      "body": "Pip’s guide stops at an uncertain field. The handoff explains why it stopped. Tool results, current state, and a resume action accompany the uncertainty. The reviewer continues safely without reconstructing the interaction.",
+      "example": "",
+      "source": "text lines 12092-12759",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "UNCERTAIN FIELD",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "STATE + EVIDENCE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "handoff",
+            "label": "SAFE CONTINUATION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s guide stops at an uncertain field."
+          },
+          {
+            "node": "step-1",
+            "text": "The handoff explains why it stopped."
+          },
+          {
+            "node": "step-3",
+            "text": "The reviewer continues safely without reconstructing the interaction."
+          }
+        ]
+      }
     },
     {
       "title": "Stakeholder alignment",
-      "body": "Stakeholder alignment calibrates reliance through representative tasks, phased rollout, training, and feedback from users and support teams.",
-      "example": "Teaching extension: support, compliance, and affected claimants review a staged rollout and add cases to the evaluation set before wider use.",
-      "source": "text lines 12092-12759"
+      "body": "Pip stages the museum rollout. Visitors, support, and relevant specialists test representative tasks. Training and feedback calibrate reliance before wider use. The team adds overlooked cases to evaluation.",
+      "example": "",
+      "source": "text lines 12092-12759",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "museum",
+            "label": "STAGED ROLLOUT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "stakeholders",
+            "label": "REPRESENTATIVE USERS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "experiment",
+            "label": "NEW EVALUATION CASES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip stages the museum rollout."
+          },
+          {
+            "node": "step-1",
+            "text": "Visitors, support, and relevant specialists test representative tasks."
+          },
+          {
+            "node": "step-3",
+            "text": "The team adds overlooked cases to evaluation."
+          }
+        ]
+      }
     },
     {
       "title": "Oversight and trust",
-      "body": "Oversight and trust require auditability, escalation, correction, and undo; observed performance and controls matter more than a convincing demonstration.",
-      "example": "Teaching extension: an audit log records agent actions, human overrides, and undo paths so trust follows observed behavior rather than fluent language.",
-      "source": "text lines 12092-12759"
+      "body": "Pip watches a reviewer override the guide. An audit records actions, overrides, and undo paths. Escalation and correction make oversight practical. Trust follows observed performance and controls, not a convincing demonstration.",
+      "example": "",
+      "source": "text lines 12092-12759",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "trace",
+            "label": "ACTION RECORD",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "colleague",
+            "label": "HUMAN OVERRIDE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "UNDO PATH",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip watches a reviewer override the guide."
+          },
+          {
+            "node": "step-1",
+            "text": "An audit records actions, overrides, and undo paths."
+          },
+          {
+            "node": "step-3",
+            "text": "Trust follows observed performance and controls, not a convincing demonstration."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -117,69 +369,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "n0",
-        "label": "HUMAN",
-        "kind": "person",
-        "tone": "sage",
-        "x": 100,
-        "y": 80
-      },
-      {
-        "id": "n1",
-        "label": "AGENT",
-        "kind": "agent",
-        "tone": "peach",
-        "x": 270,
-        "y": 80
-      },
-      {
-        "id": "n2",
-        "label": "HANDOFF",
-        "kind": "handoff",
-        "tone": "lilac",
-        "x": 100,
-        "y": 210
-      },
-      {
-        "id": "n3",
-        "label": "TRUST",
-        "kind": "stakeholders",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 270,
-        "y": 210
+        "course": "ai-agents"
+      },
+      {
+        "id": "step-1",
+        "kind": "agent",
+        "label": "ROUTINE DRAFT",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "balance",
+        "label": "UNCERTAIN ELIGIBILITY",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "colleague",
+        "label": "HUMAN DECISION",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "n0",
-        "to": "n1"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n1",
-        "to": "n2"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n2",
-        "to": "n3"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "n0",
-        "text": "The human node sets the autonomy boundary for routine and high-stakes work."
+        "node": "step-0",
+        "text": "Pip delegates routine status drafts."
       },
       {
-        "node": "n1",
-        "text": "The agent node performs bounded tasks and exposes uncertainty rather than guessing."
+        "node": "step-1",
+        "text": "Reversible work can suit agent autonomy."
       },
       {
-        "node": "n2",
-        "text": "The handoff node transfers reason, state, evidence, and ownership to a reviewer."
-      },
-      {
-        "node": "n3",
-        "text": "The stakeholder node feeds observed outcomes back into governance and trust."
+        "node": "step-3",
+        "text": "The guide hands over evidence instead of awarding itself authority."
       }
     ]
+  },
+  "story": {
+    "course": "ai-agents",
+    "world": "museum",
+    "title": "The guide knows when to ask"
   }
 }

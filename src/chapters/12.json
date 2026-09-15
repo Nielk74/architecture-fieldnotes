@@ -3,7 +3,7 @@
   "title": "Microkernel Architecture Style",
   "part": "Architecture styles",
   "subtitle": "Keep the happy path steady while volatile features plug in",
-  "summary": "Microkernel architecture divides a monolithic application into a minimal core system and independent plug-ins. The core can mean the minimum needed to run or the stable happy path; volatile, client-specific, or jurisdiction-specific rules move into plug-ins. A registry discovers available modules, and a standard contract defines behavior, inputs, and outputs. Plug-ins may be compile-time libraries or runtime modules, and they may communicate locally, through messaging, or over REST. Remote plug-ins improve decoupling, scaling, and runtime change but turn the system into a distributed architecture with new failure and cost. The style fits products and business domains with strong customization, such as IDEs, browsers, claims rules, and tax forms. It improves extensibility and isolation while keeping a core-system coupling point.",
+  "summary": "Pip adds a specialized assessment rule and avoids another branch in the core. Microkernel architecture puts variants behind plug-in contracts and a registry. Local, runtime, and remote modules change deployment costs, while the core remains an important shared entry point.",
   "source": {
     "startLine": 5679,
     "endLine": 6088,
@@ -12,33 +12,348 @@
   "concepts": [
     {
       "title": "Core and plug-ins",
-      "body": "The core system contains the minimum capability needed to run, or the general happy path with little custom processing. Plug-ins are standalone components for specialized features, client customization, and volatile rules. Moving branching complexity out of the core lowers cyclomatic complexity and makes changes easier to isolate. Ideally plug-ins do not depend on one another; the core locates and invokes the one appropriate to the request.",
-      "example": "A device assessment core accepts a device identifier, looks up its plug-in, and invokes a standard assessment operation. Adding a new phone model changes the registry and adds one component instead of another branch in the core.",
-      "source": "pp. 149–151"
+      "body": "Pip adds a device-assessment variant beside the bookshop’s resale workflow. A minimal core handles general behavior and locates a specialized plug-in. Keeping customization and volatile rules outside reduces core branching and isolates change; plug-ins ideally avoid depending on one another. Pip registers the new module instead of adding another core conditional.",
+      "example": "",
+      "source": "pp. 149–151",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "MINIMAL CORE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "MODULE REGISTRY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "plugin",
+            "label": "SPECIALIZED RULE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip adds a device-assessment variant beside the bookshop’s resale workflow."
+          },
+          {
+            "node": "step-1",
+            "text": "A minimal core handles general behavior and locates a specialized plug-in."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip registers the new module instead of adding another core conditional."
+          }
+        ]
+      }
     },
     {
       "title": "Local or runtime extension",
-      "body": "Compile-based plug-ins can be simple shared libraries or packages but require redeploying the monolith when changed. Runtime plug-ins can be added or removed independently through a module framework, improving deployment scope and customization. Both remain behind the core's entry point in the common monolithic topology. The core may itself be layered or modular, and the presentation can be embedded or separate.",
-      "example": "An IDE can install a formatter without changing its editor core. A packaged customer product may compile approved modules into one release, while a hosted product can load runtime modules under a managed registry.",
-      "source": "pp. 151–155"
+      "body": "Pip chooses between packaged and runtime rule modules. Compile-based libraries are simple but changes redeploy the monolith; runtime frameworks can add or remove modules independently. Both commonly remain behind the core entry point, whose internal structure and presentation can vary. Pip chooses lifecycle flexibility deliberately rather than assuming every plug-in is independently deployable.",
+      "example": "",
+      "source": "pp. 151–155",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "plugin",
+            "label": "COMPILED MODULE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "plugin",
+            "label": "RUNTIME MODULE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gateway",
+            "label": "CORE ENTRY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip chooses between packaged and runtime rule modules."
+          },
+          {
+            "node": "step-1",
+            "text": "Compile-based libraries are simple but changes redeploy the monolith; runtime frameworks can add or remove modules independently."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip chooses lifecycle flexibility deliberately rather than assuming every plug-in is independently deployable."
+          }
+        ]
+      }
     },
     {
       "title": "Remote plug-ins change the boundary",
-      "body": "A plug-in can be invoked by REST or messaging as a standalone service. This offers independent scaling, runtime changes without a special module framework, and asynchronous processing. However, every request still enters through the core, so the system remains one architectural quantum around that coupling point. Remote access adds network latency, security, deployment complexity, cost, and an unavailable-plug-in failure mode. The requirement should decide the boundary.",
-      "example": "A slow device assessment can run asynchronously and notify the core when complete. If the assessment endpoint is unavailable, the core needs a retry or status path that a local plug-in would not require.",
-      "source": "pp. 155–156"
+      "body": "Pip moves a slow assessment plug-in behind messaging. Remote REST or message modules allow independent scale, runtime changes, and asynchronous work, but all requests still enter through the core. That coupling keeps the chapter’s topology one quantum. Pip adds latency, security, cost, deployment, unavailable-result, retry, and status handling to the decision.",
+      "example": "",
+      "source": "pp. 155–156",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "gateway",
+            "label": "CORE ENTRY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "queue",
+            "label": "REMOTE REQUEST",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "service",
+            "label": "ASSESSMENT PLUG-IN",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip moves a slow assessment plug-in behind messaging."
+          },
+          {
+            "node": "step-1",
+            "text": "Remote REST or message modules allow independent scale, runtime changes, and asynchronous work, but all requests still enter through the core."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip adds latency, security, cost, deployment, unavailable-result, retry, and status handling to the decision."
+          }
+        ]
+      }
     },
     {
       "title": "Registry and contract",
-      "body": "The registry records how to find each module, its name, data contract, and possibly its protocol. A standard plug-in contract states behavior plus input and output data; an adapter can translate a third-party module into that standard. The core should pass needed data to a plug-in rather than make every plug-in reach a shared database. A plug-in may own a private store for rules or specialized data.",
-      "example": "An assessment contract can expose assess, register, and deregister operations plus a report, resale flag, value, and price. The core displays the report without interpreting product-specific rule details.",
-      "source": "pp. 156–158"
+      "body": "Pip’s registry identifies each module, contract, location, and possibly protocol. The standard specifies behavior plus inputs and outputs; an adapter can normalize a third-party implementation. Pip passes required data rather than letting every plug-in access shared storage. A specialized module may still own a private rules store.",
+      "example": "",
+      "source": "pp. 156–158",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "REGISTRY + CONTRACT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "plugin",
+            "label": "ADAPTED MODULE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "database",
+            "label": "PRIVATE RULES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s registry identifies each module, contract, location, and possibly protocol."
+          },
+          {
+            "node": "step-1",
+            "text": "The standard specifies behavior plus inputs and outputs; an adapter can normalize a third-party implementation."
+          },
+          {
+            "node": "step-3",
+            "text": "A specialized module may still own a private rules store."
+          }
+        ]
+      }
     },
     {
       "title": "Where it fits and what it costs",
-      "body": "Products with user customization and domains with many changing variants fit microkernel well. Eclipse, browsers, Jenkins, claims processing, and tax preparation illustrate a stable driver with extensible rules. The style is technically partitioned and can also reflect domain boundaries. Its main strengths are simplicity, cost, isolation, and extensibility; monolithic deployment weakens elasticity and fault tolerance. Independent modules improve testability and deployment only when contracts and runtime management are done well.",
-      "example": "A claims core handles filing and settlement flow while jurisdiction plug-ins hold local rules. Adding a jurisdiction should leave other rule modules untouched, but the core still needs a compatible contract and safe module lifecycle.",
-      "source": "pp. 158–161"
+      "body": "Pip expects new resale variants to arrive frequently. Microkernels fit customizable products and changing rule domains, as IDEs, browsers, Jenkins, claims, and tax systems illustrate. Simplicity, cost, isolation, and extensibility help, while monolithic failure and elasticity limits remain. Pip earns testing and deployment benefits through sound contracts and module lifecycle management.",
+      "example": "",
+      "source": "pp. 158–161",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "plugin",
+            "label": "CHANGING VARIANTS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "STABLE DRIVER",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "EXTENSIBILITY + LIMITS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip expects new resale variants to arrive frequently."
+          },
+          {
+            "node": "step-1",
+            "text": "Microkernels fit customizable products and changing rule domains, as IDEs, browsers, Jenkins, claims, and tax systems illustrate."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip earns testing and deployment benefits through sound contracts and module lifecycle management."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -123,65 +438,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "core",
-        "label": "CORE SYSTEM",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "fundamentals"
+      },
+      {
+        "id": "step-1",
         "kind": "service",
+        "label": "MINIMAL CORE",
         "tone": "sage"
       },
       {
-        "id": "registry",
-        "label": "PLUGIN MAP",
-        "kind": "router",
-        "tone": "lilac"
-      },
-      {
-        "id": "plugin",
-        "label": "PLUGIN",
-        "kind": "plugin",
-        "tone": "peach"
-      },
-      {
-        "id": "contract",
-        "label": "CONTRACT",
+        "id": "step-2",
         "kind": "document",
+        "label": "MODULE REGISTRY",
         "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "plugin",
+        "label": "SPECIALIZED RULE",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "core",
-        "to": "registry"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "registry",
-        "to": "plugin"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "core",
-        "to": "contract"
-      },
-      {
-        "from": "plugin",
-        "to": "contract"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "core",
-        "text": "The stable happy path receives a request without embedding every variant rule."
+        "node": "step-0",
+        "text": "Pip adds a device-assessment variant beside the bookshop’s resale workflow."
       },
       {
-        "node": "registry",
-        "text": "The core resolves the context to a registered plug-in and invocation mode."
+        "node": "step-1",
+        "text": "A minimal core handles general behavior and locates a specialized plug-in."
       },
       {
-        "node": "plugin",
-        "text": "The selected module performs volatile or client-specific processing in isolation."
-      },
-      {
-        "node": "contract",
-        "text": "A standard input and output contract returns a result the core can display or continue."
+        "node": "step-3",
+        "text": "Pip registers the new module instead of adding another core conditional."
       }
     ]
+  },
+  "story": {
+    "course": "fundamentals",
+    "world": "bookshop",
+    "title": "The bookshop gains a new rule without rewriting its core"
   }
 }

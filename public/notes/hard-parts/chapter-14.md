@@ -1,15 +1,53 @@
-# Chapter 14 — Managing Analytical Data
+# Chapter 14: Managing Analytical Data
 
-Analytical and operational data have different purposes. The chapter starts with a practical question: an architecture may split operational databases into smaller parts while still needing combined data for reporting, statistics, and predictive planning (text lines 8722–8732). Operational workloads emphasize current transactional behavior. Analytical workloads need historical data, aggregation, specialized queries, and calculations that may be expensive on a busy transactional store (text lines 8732–8746). The architecture must therefore decide how to copy, transform, govern, and expose data.
+*Pip’s adventure: Tomorrow’s forecast must not block today’s parcel. Fictional teaching story; concepts follow the cited source.*
 
-The Data Warehouse is the early centralized answer. Data is extracted from many sources, transformed into an analytical shape, loaded into the warehouse, and queried there (text lines 8738–8760). This separates analytical queries from operational load and can provide a consistent schema for recurring reports. Its trade-offs are substantial: extraction and transformation pipelines cost time and money; a centralized schema can be rigid; and freshness depends on the loading process. The warehouse may also require large upfront modeling work before a question is known to be useful (text lines 8760–8836).
+Source: text lines 8722–9078.
 
-The Data Lake reacts against those costs. It retains centralized storage and pipelines but reverses transform-and-load into load-and-transform. Raw data is loaded in its natural format, and transformation occurs when an analyst or data scientist has a concrete use (text lines 8836–8888). This avoids transforming data that no one will use and supports exploratory work. It does not make quality, metadata, lineage, or transformation disappear. Those responsibilities move toward the consumers and toward the processes that curate reusable datasets; without discipline, a lake can become difficult to discover and trust.
+Pip’s planning query competes with live parcel intake. Operational transactions and historical analysis need different shapes and ownership. The crew compares a warehouse, a lake, and domain-owned analytical products without hiding who must ensure quality and freshness.
 
-The chapter then presents Data Mesh as an example of a newer capability that responds to centralized analytical limits (text lines 8889–9078). The significant architectural shift is also organizational: domains own analytical data products, while shared governance and self-service capabilities establish common expectations. This can align data with the teams that understand its meaning, but it requires ownership, documentation, quality practices, and collaboration. A distributed data model without those capabilities only distributes confusion.
+## Two data purposes
 
-A good decision names the analytical questions and their consumers. Recurring finance metrics may justify curated warehouse pipelines. Exploratory machine learning may benefit from raw lake storage. Domain-owned products may fit an organization where teams can publish and govern datasets. These are combinations and trade-offs, not mutually exclusive labels. In every case, protect operational transaction paths from analytical query pressure and make freshness, quality, access, and transformation costs explicit.
+Pip runs years of regional delivery totals against live intake. Operational stores favor current transactions and updates; analytics favor history, aggregation, and prediction. Their workloads and schemas differ, so direct joins can destabilize transactions. Pip decides how analytical copies are shaped, owned, and queried off the critical path.
 
-Modern teaching extension: trace one metric from operational source to analytical consumer. Record who owns each transformation, how fresh the result must be, and which check detects a bad or undocumented dataset. References: supplied early-release text lines 8722–9078.
+Source: text lines 8726–8746.
 
-This tracing exercise exposes a frequent hidden cost: the same raw source may be transformed differently by several consumers, producing competing definitions of a metric. A warehouse addresses that through central modeling; a lake makes the variation visible but needs curation; a mesh assigns the meaning to a domain while requiring shared discovery and governance. The architecture should make that choice explicit instead of allowing accidental duplication.
+## Data warehouse
+
+Pip needs repeatable regional revenue figures. A warehouse extracts sources, transforms them into a designed analytical schema, loads centrally, then supports analysis. Central governance and predictable queries help the finance crew. Pip budgets pipelines, transformation, storage, freshness, and maintenance rather than treating the reporting table as free.
+
+Source: text lines 8738–8836.
+
+## Data lake
+
+Pip stores raw orders, clicks, and sensor files before a forecast is requested. A lake loads natural formats and transforms later for a concrete consumer. It avoids premature transformation while retaining centralized storage and pipelines. Pip assigns discovery, quality, interpretation, and repeated transformation work so deferred modeling does not become nobody’s job.
+
+Source: text lines 8836–8888.
+
+## Data Mesh direction
+
+Pip asks logistics to own delivery events and sales to own revenue data. Data Mesh shifts toward domain-owned analytical products, federated governance, and self-service capabilities. Shared discoverability and quality rules replace one team transforming everything. Pip checks organizational readiness because responsibility, not only data, becomes distributed.
+
+Source: text lines 8889–9078.
+
+## Transfer challenge: Build planning analytics
+
+An online retailer wants predictive inventory planning while checkout must remain reliable. Data comes from orders, warehouses, suppliers, and customer behavior. Analysts need reproducible metrics; data scientists need raw history; domain teams vary in their ability to document datasets. Choose an analytical arrangement and define where quality and ownership sit.
+
+### Warehouse first
+
+Curated schemas and centralized governance support consistent reporting and protected operational workloads. Upfront extraction and transformation are expensive, and new exploratory uses wait for pipeline work. Finance gets trusted weekly metrics quickly, but a new forecasting feature requires another modeled pipeline and may lag behind changing source data.
+
+### Lake with domains
+
+Raw history supports exploration and domain teams can publish curated datasets as needs emerge. Consumers face discovery and quality variation, while governance and ownership require organizational discipline. Data science starts from raw events, while inventory publishes a documented feature dataset. Shared checks are needed to prevent opaque, duplicated transformations.
+
+Predictable recurring metrics favor curated warehouse paths; exploratory and distributed ownership needs favor lake or mesh practices. The decision must name who pays for freshness, quality, and transformation.
+
+## Trace an analytical product
+
+Pick one analytical question. Map its operational sources, transformation point, owner, freshness expectation, quality checks, and consumer access path.
+
+- Context
+- Decision
+- Trade-off

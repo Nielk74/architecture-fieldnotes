@@ -1,24 +1,26 @@
 # Chapter 6: Knowledge and Memory
 
+*Pip’s adventure: The guide remembers the wrong address. Fictional teaching story; concepts follow the cited source.*
+
 Original learning notes. Source: text lines 4798–5524 in the supplied book.
 
-Knowledge retrieval supplies information beyond the model’s parameters, while memory preserves useful history from earlier interactions and actions. Neither is the same as the limited context provided to a particular invocation. Lexical retrieval helps with exact names and terms; vector search can find related meanings despite different wording. Graph-based retrieval adds explicit relationships but requires additional construction, validation, and maintenance. Working memory and notes help organize evidence for the current task, while persistent records need selection and updating over time. Choose these mechanisms according to the information the task needs: storing more material does not ensure that the right material reaches the model.
+Pip’s museum guide remembers an old delivery address beautifully—and uses it wrongly. Retrieval, working context, and persistent memory solve different problems. Pip chooses what to fetch, retain, update, or remove so yesterday’s useful information does not become today’s mistake.
 
 ## Context windows
 
-An agent’s context window limits what can be supplied to a model invocation. Context engineering decides what to retain, summarize, retrieve, or discard so relevant evidence survives without overwhelming the model.
+Pip’s long conversation crowds out the visitor’s actual request. A context window limits one model invocation. Pip summarizes older turns but preserves the ticket ID, unresolved request, and relevant policy explicitly. Context engineering decides what to retain, retrieve, summarize, or discard.
 
 ## Full-text retrieval
 
-Keyword retrieval such as BM25 finds exact terms and names efficiently. It can miss paraphrases and semantic matches, so ranking, chunking, and query formulation affect what evidence reaches the agent.
+Pip searches the museum maintenance manual for E-417. Keyword retrieval such as BM25 finds exact terms and names efficiently. It may miss paraphrases; ranking, chunks, and query wording shape the evidence returned. Pip tries broader wording only after checking the precise fault-code match.
 
 ## Semantic vectors
 
-Embeddings represent text as dense vectors; nearest-neighbor search retrieves by meaning. It handles paraphrase but can blur precise terms and inherits errors from embedding, chunking, and index choices.
+Pip hears “stop emails” and finds “Disable subscription notifications.” Embeddings represent text as dense vectors; nearest-neighbor search can match meaning across different wording. Precise terms can blur, and embedding, chunking, or index choices can fail. Pip checks that the retrieved article applies to this museum product.
 
 ## Memory lifecycle
 
-Persistent memory needs explicit rules for what is written, how it is retrieved, when it is updated, and when it is removed. Episodic records of prior interactions serve a different purpose from reusable knowledge or procedures. A memory store can help preserve context across tasks, but stale, incorrect, or irrelevant memories can also propagate mistakes into later decisions.
+Pip’s guide retrieves both the visitor’s old and new address. Persistent memory needs rules for writing, retrieval, updating, and removal. Episodes record prior interactions; reusable knowledge and procedures serve different purposes. Pip updates the active preference and filters stale or irrelevant records before they spread mistakes.
 
 ## Teaching extension
 

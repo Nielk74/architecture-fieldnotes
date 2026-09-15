@@ -3,7 +3,7 @@
   "title": "Embedding an SRE to Recover from Operational Overload",
   "part": "People and practice",
   "subtitle": "Help an overloaded team regain the ability to improve itself",
-  "summary": "An embedded SRE helps an overloaded team change how it works rather than becoming another permanent ticket handler. The engagement starts with learning the service, observing daily work, and identifying both current stress and future trouble such as knowledge gaps, weak capacity planning, and unexplained alerts. Sharing context includes writing a strong blameless postmortem and distinguishing removable toil from necessary operational work. SLOs supply a quantitative basis for choosing changes and defending engineering time. The embedded engineer guides team members through a few durable fixes, reviews their work, and explains the reasoning behind decisions. An after-action report and continued follow-up help the team sustain progress after the temporary assignment ends.",
+  "summary": "Pip arrives to help an overloaded harbor team. First Pip shadows the work and listens. Shared SLO reasoning, blameless reviews, and a few team-owned improvements build lasting capacity; personally fixing everything would only create a new dependency.",
   "source": {
     "startLine": 14248,
     "endLine": 14493,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Observe before prescribing",
-      "body": "An outsider first needs enough service and team context to understand why operational habits developed. Shadowing on-call reveals where time and stress accumulate, including small issues with disproportionate emotional impact. The goal is to identify how recurring work scales with service growth and what prevents reliability improvements. Simply increasing ticket-handling capacity leaves those underlying mechanisms intact.",
-      "example": "Teaching extension: An embedded engineer watches the shift and discovers that a supposedly rare manual repair happens several times every day.",
-      "source": "text lines 14248–14493"
+      "body": "Pip watches a shift before proposing automation. A supposedly rare repair happens several times daily and causes disproportionate stress. Shadowing reveals service context, habits, growth-related work, and obstacles to improvement. Pip targets those mechanisms rather than merely increasing ticket-handling capacity.",
+      "example": "",
+      "source": "text lines 14248–14493",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "listening",
+            "label": "SHADOW THE SHIFT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "RECURRING REPAIR",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "search",
+            "label": "UNDERLYING CAUSE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip watches a shift before proposing automation."
+          },
+          {
+            "node": "step-1",
+            "text": "A supposedly rare repair happens several times daily and causes disproportionate stress."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip targets those mechanisms rather than merely increasing ticket-handling capacity."
+          }
+        ]
+      }
     },
     {
       "title": "Find latent sources of overload",
-      "body": "The chapter calls future operational trouble kindling: neglected knowledge, growing internal tools, unexamined alerts, and capacity plans based only on yesterday’s emergency. Waiting for a promised replacement can also postpone useful fixes indefinitely. Identifying these conditions makes prevention concrete. A component’s developer ownership does not excuse an on-call team from understanding the impact and urgency of its failure.",
-      "example": "Teaching extension: A serving-critical service has no shared failure model, so every incident requires locating its single knowledgeable developer.",
-      "source": "text lines 14248–14493"
+      "body": "Pip finds a critical component understood by only one developer. Neglected knowledge, growing tools, unexamined alerts, and reactive capacity plans are kindling for future overload. Waiting forever for a promised replacement can postpone useful fixes. Pip helps on-call engineers understand impact and urgency even when developers own the component.",
+      "example": "",
+      "source": "text lines 14248–14493",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "person",
+            "label": "SINGLE EXPERT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "alert",
+            "label": "LATENT KINDLING",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "SHARED FAILURE MODEL",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip finds a critical component understood by only one developer."
+          },
+          {
+            "node": "step-1",
+            "text": "Neglected knowledge, growing tools, unexamined alerts, and reactive capacity plans are kindling for future overload."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip helps on-call engineers understand impact and urgency even when developers own the component."
+          }
+        ]
+      }
     },
     {
       "title": "Use SLOs and postmortems to share reasoning",
-      "body": "A service objective connects operational decisions to measured user impact and helps distinguish necessary response from distracting noise. A well-written blameless postmortem shows how system conditions and available information shaped decisions, then identifies durable improvements. Demonstrating this process collaboratively is more useful than criticizing old documents, especially when the team has experienced postmortems as punishment.",
-      "example": "Teaching extension: The embedded SRE and responder trace a recurring alert to no user-visible impact and review the alert’s purpose against the SLO.",
-      "source": "text lines 14248–14493"
+      "body": "Pip reviews a recurring alert with the responder against measured user impact. An SLO separates necessary response from distracting noise. A collaborative blameless postmortem traces conditions and available information into durable improvements. Pip demonstrates the reasoning instead of criticizing documents from a team that may have experienced reviews as punishment.",
+      "example": "",
+      "source": "text lines 14248–14493",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "target",
+            "label": "USER-RELEVANT SLO",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "listening",
+            "label": "JOINT REVIEW",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "DURABLE ACTION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip reviews a recurring alert with the responder against measured user impact."
+          },
+          {
+            "node": "step-1",
+            "text": "An SLO separates necessary response from distracting noise."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip demonstrates the reasoning instead of criticizing documents from a team that may have experienced reviews as punishment."
+          }
+        ]
+      }
     },
     {
       "title": "Coach changes the team can sustain",
-      "body": "The embedded engineer should help team members implement a few manageable, lasting fixes, acting as a reviewer and explaining the underlying principles. Doing all the repairs personally teaches dependence rather than ownership. Clear explanations let the team apply the same reasoning to later choices. An after-action report records successful decisions and remaining work, followed by availability for reviews as improvement continues.",
-      "example": "Teaching extension: A teammate automates a repeated repair with review support, then uses the same reasoning to propose the next reduction in toil.",
-      "source": "text lines 14248–14493"
+      "body": "Pip reviews a teammate’s repair automation instead of writing every fix personally. A few manageable improvements and clear explanations build local ownership. The teammate can apply the principles to the next toil problem. Pip records outcomes and remaining work in an after-action report and remains available for review.",
+      "example": "",
+      "source": "text lines 14248–14493",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "mentor",
+            "label": "COACHING",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "terminal",
+            "label": "TEAM-OWNED FIX",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "AFTER-ACTION REPORT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip reviews a teammate’s repair automation instead of writing every fix personally."
+          },
+          {
+            "node": "step-1",
+            "text": "A few manageable improvements and clear explanations build local ownership."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip records outcomes and remaining work in an after-action report and remains available for review."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,76 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Plan a team recovery engagement",
     "nodes": [
       {
-        "id": "observe",
-        "label": "Observe",
-        "caption": "Team context",
-        "kind": "gauge",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "Explain",
-        "caption": "Shared reasoning",
-        "kind": "document",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "Coach",
-        "caption": "Local implementation",
-        "kind": "mentor",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "Sustain",
-        "caption": "Lasting capability",
-        "kind": "team",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "listening",
+        "label": "SHADOW THE SHIFT",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "clock",
+        "label": "RECURRING REPAIR",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "search",
+        "label": "UNDERLYING CAUSE",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "Learn the service, stressors, and recurring work."
+        "node": "step-0",
+        "text": "Pip watches a shift before proposing automation."
       },
       {
-        "node": "decide",
-        "text": "Use SLOs and a blameless postmortem to share the reasons for change."
+        "node": "step-1",
+        "text": "A supposedly rare repair happens several times daily and causes disproportionate stress."
       },
       {
-        "node": "act",
-        "text": "Team members implement durable fixes with review support."
-      },
-      {
-        "node": "learn",
-        "text": "The team applies the principles after the embedding ends."
+        "node": "step-3",
+        "text": "Pip targets those mechanisms rather than merely increasing ticket-handling capacity."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "Pip joins the tired crew without taking over"
   }
 }

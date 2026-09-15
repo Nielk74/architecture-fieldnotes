@@ -1,19 +1,59 @@
 # Chapter 12: Microkernel Architecture Style
 
-Microkernel architecture, also called plug-in architecture, separates a minimal core system from independent plug-in components. The core can mean the smallest runtime needed to operate, or the stable happy path with little custom processing. Plug-ins contain specialized features, client customization, and volatile rules. This separation reduces branching complexity in the core and makes variants easier to add, test, and maintain. The source introduces the topology and the core at lines 5679–5800 (printed pp. 149–151).
+*Pip’s adventure: The bookshop gains a new rule without rewriting its core. Fictional teaching story; concepts follow the cited source.*
 
-The device-assessment example makes the difference concrete. A long chain of conditionals for every phone and tablet model makes the core grow more difficult to understand. A registry can map a device identifier to a plug-in, and the core can invoke a standard assessment operation. Adding a model then means adding a component and a registry entry. The core may itself be layered or modular, and the presentation may be embedded or separate. The common deployment still shares one database, so the plug-in boundary is a way to isolate application behavior, not a promise that every concern is independent.
+Source: printed pp. 149–161.
 
-Plug-ins may be compile-based or runtime-based. Shared libraries and packages are simple, but a change requires redeploying the monolith. Runtime modules can be installed or removed without redeploying the core, improving extensibility and narrowing change risk when the module framework and lifecycle controls are sound. Plug-ins should ideally be independent of one another and communicate point-to-point with the core. REST or messaging can make a plug-in a standalone service, bringing independent scaling and asynchronous work. It also turns the architecture into a distributed one: requests still pass through the core, and an unavailable endpoint now blocks or delays work. These choices and their costs are covered at lines 5801–5920 (pp. 151–156).
+Pip adds a specialized assessment rule and avoids another branch in the core. Microkernel architecture puts variants behind plug-in contracts and a registry. Local, runtime, and remote modules change deployment costs, while the core remains an important shared entry point.
 
-The registry records a module name, contract, and invocation details. A standard contract defines behavior, input, and output; an adapter can protect the core from a third-party module's custom contract. The source's assessment contract includes operations to assess, register, and deregister and returns a report, resale flag, value, and recommended price. The core need not interpret every product-specific report. Plug-ins generally receive the data they need from the core rather than reaching into a shared database, though a plug-in may own a private store for its rules. These boundaries are described at lines 5921–5983 (pp. 156–158).
+## Core and plug-ins
 
-Products and domains with many variants are especially good candidates. IDEs, browsers, release tools, claims processing, and tax preparation all have a relatively stable driver plus extensions. Claims rules can be isolated by jurisdiction; tax worksheets can be plug-ins under a summary form. The characteristic discussion at lines 5984–6088 (pp. 158–161) describes simplicity and cost as strengths, extensibility and modularity as useful advantages, and monolithic deployment as a limit on elasticity and fault tolerance. The style can be technically partitioned and, when variants map strongly to domains or clients, domain-partitioned too.
+Pip adds a device-assessment variant beside the bookshop’s resale workflow. A minimal core handles general behavior and locates a specialized plug-in. Keeping customization and volatile rules outside reduces core branching and isolates change; plug-ins ideally avoid depending on one another. Pip registers the new module instead of adding another core conditional.
 
-The insurance scenario is a teaching extension. Its regional changes, on-premises constraint, and rollback expectations are invented; the core, registry, contract, local-versus-remote, and volatility trade-offs are source-grounded. The visual animates a stable request through registry lookup to a volatile plug-in and a shared contract. The exercise asks learners to specify an extension point and its lifecycle, making the coupling at the core and contract visible rather than implying that plug-ins remove all dependencies.
+Source: pp. 149–151.
 
-## Source map
+## Local or runtime extension
 
-- Core, topology, and plug-in isolation: source lines 5679–5800, printed pp. 149–153.
-- Local/runtime modules, remote access, and data ownership: source lines 5801–5920, printed pp. 151–156.
-- Registry, contracts, examples, and ratings: source lines 5921–6088, printed pp. 156–161.
+Pip chooses between packaged and runtime rule modules. Compile-based libraries are simple but changes redeploy the monolith; runtime frameworks can add or remove modules independently. Both commonly remain behind the core entry point, whose internal structure and presentation can vary. Pip chooses lifecycle flexibility deliberately rather than assuming every plug-in is independently deployable.
+
+Source: pp. 151–155.
+
+## Remote plug-ins change the boundary
+
+Pip moves a slow assessment plug-in behind messaging. Remote REST or message modules allow independent scale, runtime changes, and asynchronous work, but all requests still enter through the core. That coupling keeps the chapter’s topology one quantum. Pip adds latency, security, cost, deployment, unavailable-result, retry, and status handling to the decision.
+
+Source: pp. 155–156.
+
+## Registry and contract
+
+Pip’s registry identifies each module, contract, location, and possibly protocol. The standard specifies behavior plus inputs and outputs; an adapter can normalize a third-party implementation. Pip passes required data rather than letting every plug-in access shared storage. A specialized module may still own a private rules store.
+
+Source: pp. 156–158.
+
+## Where it fits and what it costs
+
+Pip expects new resale variants to arrive frequently. Microkernels fit customizable products and changing rule domains, as IDEs, browsers, Jenkins, claims, and tax systems illustrate. Simplicity, cost, isolation, and extensibility help, while monolithic failure and elasticity limits remain. Pip earns testing and deployment benefits through sound contracts and module lifecycle management.
+
+Source: pp. 158–161.
+
+## Transfer challenge: Jurisdiction rules for a claims product
+
+An insurer has a stable claims workflow but rules vary by region and change often. Customers install the product on premises with limited outbound network access. A new region must be added without rewriting tested rules for existing regions, and an operations team wants a clear rollback path when a rule module is defective and regulatory audits arrive for every installed customer.
+
+### Runtime local plug-ins
+
+Each region's rules stay isolated and can be installed or rolled back without a full product redeploy. The product needs a module registry, compatibility checks, lifecycle controls, and tests for core-to-plug-in contracts. A new regional package can be registered on the customer's site and disabled if validation fails. The core remains available, while a bad module is contained to claims using that region.
+
+### Remote rules services
+
+Rules can scale and release independently, and a central team can update them without visiting each installation. On-prem installations now depend on connectivity, endpoint security, remote availability, and versioned network contracts. Central updates are convenient for connected customers, but an outage or firewall change can block claims processing. The product must define offline behavior or accept the new distributed risk for disconnected sites.
+
+The stable workflow and volatile regional rules point toward a microkernel. Local runtime modules preserve on-prem operation; remote services are justified only when their operational benefits outweigh the network boundary and the product's deployment context.
+
+## Specify an extension point
+
+Design a plug-in boundary for a product or business process. Define the stable core behavior, the volatile module, one registry entry, and the contract fields needed to test compatibility.
+
+- Context
+- Decision
+- Trade-off

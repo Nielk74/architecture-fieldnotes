@@ -1,23 +1,53 @@
 # Chapter 22: Addressing Cascading Failures
 
-Source: text lines 9020–9888 of the supplied book extract.
+*Pip’s adventure: The recovering fleet cannot carry yesterday’s load. Fictional teaching story; concepts follow the cited source.*
 
-Cascading failures grow through positive feedback: a failing replica shifts work to survivors, which then fail and reduce capacity further. CPU pressure, memory growth, garbage collection, queues, and retries can reinforce one another, so the visible symptom may be far from the initiating problem. Capacity planning reduces exposure but cannot replace tested overload behavior. Servers should reject excess work cheaply or produce cheaper useful results, and callers should bound retries and propagate deadlines. Cold caches and slow startup make recovery capacity smaller than steady-state capacity. Test both overload and the return from overload, including unresponsive optional dependencies. During an incident, restoring stability may require sharply reducing traffic, correcting the trigger, and then warming capacity gradually.
+Source: text lines 9020–9888.
+
+Pip removes an overloaded replica and its peers fail next. Cascades reduce capacity while creating more work. The crew sheds load, preserves useful responses, bounds retries, and restores traffic only as recovering capacity can support it.
 
 ## Positive feedback and reduced recovery capacity
 
-A cascade occurs when failure increases the conditions that cause further failure. Removing an overloaded replica sends more requests to its peers; slower completion also retains memory and threads longer. Once many replicas are restarting, the service has less capacity than before the incident. Returning traffic to its former normal level may therefore sustain the collapse instead of ending it.
+Pip removes an overloaded replica and sends its traffic to already struggling peers. Slow requests retain threads and memory, reinforcing failure. Restarting replicas leave less capacity than before the incident. A fleet formerly serving 10,000 requests per second cannot recover at 9,000 with only a tenth healthy; Pip lowers load accordingly.
+
+Source: text lines 9020–9888.
 
 ## Load shedding, degradation, and deadlines
 
-Load shedding rejects some work before resource exhaustion, while graceful degradation reduces the work needed to produce a useful response. Small, appropriate queues prevent requests from waiting past usefulness. Propagating the original deadline and cancellation down the dependency tree prevents servers from spending scarce resources on work whose caller has already stopped waiting. These paths need testing because normal traffic may rarely exercise them.
+Pip skips optional enrichment to preserve useful search results. Load shedding rejects work before exhaustion; graceful degradation reduces work per useful response. Small queues, original deadlines, and propagated cancellation avoid serving requests after callers stop waiting. Pip tests these rarely used paths before an overload depends on them.
+
+Source: text lines 9020–9888.
 
 ## Retry budgets and randomized backoff
 
-A retry budget limits additional attempts, either for one logical request or across a process, so errors cannot generate unlimited new load. Exponential backoff spaces attempts farther apart, and jitter prevents many clients from retrying simultaneously. These mechanisms serve different purposes and should work together. Retrying at several dependency layers multiplies attempts, so retry ownership and nonretryable error signals must be explicit.
+Pip finds three retrying layers allowing four attempts each. One user action can become sixty-four database attempts. Budgets limit total amplification, exponential backoff spaces attempts, and jitter prevents synchronized retries. Pip assigns retry ownership and explicit nonretryable signals so these complementary mechanisms work together.
+
+Source: text lines 9020–9888.
 
 ## Testing and recovering beyond the breaking point
 
-Load tests should cross the failure threshold and then observe recovery, using both gradual and sudden traffic increases. Cold caches, restarted processes, and blackholed optional backends can expose hidden capacity dependencies. During a cascade, fix or contain the trigger, reduce traffic enough for surviving capacity, and restore load gradually. Restarting everything indiscriminately can worsen the incident by discarding warm caches and usable capacity.
+Pip load-tests beyond failure and watches whether the service recovers. Gradual and sudden traffic, cold caches, restarts, and blackholed optional backends reveal hidden dependencies. During a cascade, Pip contains the trigger and admits enough traffic to warm surviving capacity gradually. Restarting everything could discard the very caches and capacity needed for recovery.
 
-The lesson’s examples, decision scenario, and exercise are original teaching extensions rather than reported incidents.
+Source: text lines 9020–9888.
+
+## Transfer challenge: Stop a retry cascade
+
+A profile service slows, and three clients retry failed calls. CPU is rising from retries even though incoming traffic is flat.
+
+### Add jitter, limits, and a retry budget
+
+Retry pressure becomes bounded and less synchronized. Some requests fail sooner and need a fallback. The team caps retries per request and uses a process budget while repairing the dependency.
+
+### Increase every client timeout and retry count
+
+Longer timeouts may tolerate a brief dependency pause. The cascade consumes more capacity and delays recovery. The added retries deepen the overload and widen the outage.
+
+The retries are adding load even though original demand is flat. Bound total retry traffic, add randomized backoff, and address the dependency’s trigger. Recovery may require temporarily reducing demand below its former safe level.
+
+## Trace a cascade
+
+Draw a feedback chain from one slow dependency to resource exhaustion. Specify how to break it and how to demonstrate recovery.
+
+- Feedback
+- Limits
+- Recovery test

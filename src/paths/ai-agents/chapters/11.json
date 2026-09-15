@@ -3,7 +3,7 @@
   "title": "Improvement Loops",
   "part": "Iteration",
   "subtitle": "Turn observed failures into prioritized experiments and verified changes",
-  "summary": "An improvement loop begins by collecting and organizing evidence from production, evaluation, and user reports. Diagnosis and categorization turn that evidence into candidate changes, while prioritization directs limited effort toward consequential recurring problems. Shadow deployments observe candidates without letting them control live outcomes; controlled comparisons test whether a proposed improvement actually helps. Changes can affect context, prompts, orchestration, or trained model behavior, so regression evaluation must cover more than the original failing case. Human review remains useful for ambiguous judgments. Recording decisions and results connects feedback, experimentation, and learning, allowing the next team member to understand why the system changed.",
+  "summary": "Pip’s new routing rule looks better on a handful of requests. Before it controls museum actions, the team links feedback to traces, prioritizes consequential failures, and rehearses the candidate without live authority. A fix must survive both new evidence and old regression cases.",
   "source": {
     "startLine": 9934,
     "endLine": 10987,
@@ -12,27 +12,285 @@
   "concepts": [
     {
       "title": "Feedback pipelines",
-      "body": "Feedback collects outcomes, user reports, traces, and evaluation results, then routes them to analysis and improvement. Automation helps handle volume, but human review is needed for ambiguous or high-impact cases.",
-      "example": "Teaching extension: User reports about incorrect refund amounts are linked to corresponding traces and grouped by failure cause. Reviewed cases become candidates for a policy-context fix rather than an undifferentiated complaint count.",
-      "source": "text lines 9934-10987"
+      "body": "Pip receives complaints about wrong refund amounts. The feedback pipeline connects user reports, outcomes, traces, and evaluation results. Automation groups recurring causes; humans review ambiguous or high-impact cases. Pip turns reviewed evidence into a policy-context fix instead of an undifferentiated complaint count.",
+      "example": "",
+      "source": "text lines 9934-10987",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "listening",
+            "label": "USER REPORTS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "trace",
+            "label": "LINKED EVIDENCE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "whiteboard",
+            "label": "REVIEWED CAUSE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip receives complaints about wrong refund amounts."
+          },
+          {
+            "node": "step-1",
+            "text": "The feedback pipeline connects user reports, outcomes, traces, and evaluation results."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip turns reviewed evidence into a policy-context fix instead of an undifferentiated complaint count."
+          }
+        ]
+      }
     },
     {
       "title": "Shadow experiments",
-      "body": "Shadow mode runs a candidate system alongside the baseline without exposing its actions. Comparing outcomes estimates whether a change helps before it receives real authority.",
-      "example": "Teaching extension: A candidate agent reads copies of real cancellation requests and proposes actions to an isolated test endpoint. Its output is compared with the baseline, but it cannot cancel live orders.",
-      "source": "text lines 9934-10987"
+      "body": "Pip gives a candidate copies of real cancellation requests. Shadow mode compares proposed outcomes with the baseline without granting live authority. The candidate can call only an isolated test endpoint. Pip observes whether it helps before it may cancel a visitor’s ticket.",
+      "example": "",
+      "source": "text lines 9934-10987",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "COPIED REQUESTS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "agent",
+            "label": "SHADOW CANDIDATE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "shield",
+            "label": "NO LIVE WRITES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip gives a candidate copies of real cancellation requests."
+          },
+          {
+            "node": "step-1",
+            "text": "Shadow mode compares proposed outcomes with the baseline without granting live authority."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip observes whether it helps before it may cancel a visitor’s ticket."
+          }
+        ]
+      }
     },
     {
       "title": "Prioritization",
-      "body": "Improvements compete for limited engineering attention. Teams weigh frequency, severity, user value, confidence, and cost rather than optimizing a single metric.",
-      "example": "Teaching extension: A team prioritizes frequent incorrect order selections over a rare cosmetic phrasing issue, considering user harm, occurrence rate, and the effort required to fix each.",
-      "source": "text lines 9934-10987"
+      "body": "Pip can fix wrong ticket selection or a rare awkward phrase. The team weighs frequency, severity, user value, confidence, and cost. The repeated harmful selection wins this round. Pip records the trade-off because improvement competes for limited engineering attention.",
+      "example": "",
+      "source": "text lines 9934-10987",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "WRONG TICKET",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "message",
+            "label": "COSMETIC PHRASE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "PRIORITY DECISION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip can fix wrong ticket selection or a rare awkward phrase."
+          },
+          {
+            "node": "step-1",
+            "text": "The team weighs frequency, severity, user value, confidence, and cost."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip records the trade-off because improvement competes for limited engineering attention."
+          }
+        ]
+      }
     },
     {
       "title": "Continuous evaluation",
-      "body": "Every change can introduce regression or overfit to the last failure. A stable benchmark plus newly discovered cases keeps the loop honest and provides evidence for release decisions.",
-      "example": "Teaching extension: A revised policy prompt improves returns but also changes address-modification behavior. The full regression set is rerun before deciding whether the overall change is acceptable.",
-      "source": "text lines 9934-10987"
+      "body": "Pip’s revised policy prompt improves returns and breaks address changes. A fix can regress other behavior or overfit the latest failure. Pip combines a stable benchmark with newly discovered cases and reruns the full set. Release decisions follow overall evidence, not one repaired example.",
+      "example": "",
+      "source": "text lines 9934-10987",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "REVISED PROMPT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "alert",
+            "label": "NEW REGRESSION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "experiment",
+            "label": "FULL EVALUATION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-3",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s revised policy prompt improves returns and breaks address changes."
+          },
+          {
+            "node": "step-1",
+            "text": "A fix can regress other behavior or overfit the latest failure."
+          },
+          {
+            "node": "step-3",
+            "text": "Release decisions follow overall evidence, not one repaired example."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -117,69 +375,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "n0",
-        "label": "FEEDBACK",
-        "kind": "listening",
-        "tone": "sage",
-        "x": 100,
-        "y": 80
-      },
-      {
-        "id": "n1",
-        "label": "SHADOW",
-        "kind": "experiment",
-        "tone": "peach",
-        "x": 270,
-        "y": 80
-      },
-      {
-        "id": "n2",
-        "label": "BASELINE",
-        "kind": "trace",
-        "tone": "lilac",
-        "x": 100,
-        "y": 210
-      },
-      {
-        "id": "n3",
-        "label": "RELEASE",
-        "kind": "shield",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 270,
-        "y": 210
+        "course": "ai-agents"
+      },
+      {
+        "id": "step-1",
+        "kind": "listening",
+        "label": "USER REPORTS",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "trace",
+        "label": "LINKED EVIDENCE",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "whiteboard",
+        "label": "REVIEWED CAUSE",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "n0",
-        "to": "n1"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n1",
-        "to": "n2"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n2",
-        "to": "n3"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "n0",
-        "text": "Inspect feedback in the chapter workflow."
+        "node": "step-0",
+        "text": "Pip receives complaints about wrong refund amounts."
       },
       {
-        "node": "n1",
-        "text": "Inspect shadow in the chapter workflow."
+        "node": "step-1",
+        "text": "The feedback pipeline connects user reports, outcomes, traces, and evaluation results."
       },
       {
-        "node": "n2",
-        "text": "Inspect baseline in the chapter workflow."
-      },
-      {
-        "node": "n3",
-        "text": "Inspect release in the chapter workflow."
+        "node": "step-3",
+        "text": "Pip turns reviewed evidence into a policy-context fix instead of an undifferentiated complaint count."
       }
     ]
+  },
+  "story": {
+    "course": "ai-agents",
+    "world": "museum",
+    "title": "The promising fix earns a rehearsal"
   }
 }

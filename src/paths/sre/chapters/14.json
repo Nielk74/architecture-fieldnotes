@@ -3,7 +3,7 @@
   "title": "Managing Incidents",
   "part": "Operations",
   "subtitle": "Separate command, operations, communication, and planning during an incident",
-  "summary": "A technically capable team can prolong an outage when everyone changes production independently and nobody maintains the overall picture. Incident management makes responsibilities explicit so technical response and coordination can proceed together. The commander assigns roles and tracks priorities; operations controls production changes; communication keeps stakeholders informed; planning handles continuity and longer-term needs. A recognized coordination channel and a live incident document let new participants understand what has happened without interrupting the responder repeatedly. Command transfers require explicit acknowledgment, particularly across time zones. Declare an incident early when impact, duration, or cross-team work justifies coordination. Practicing these roles during exercises and substantial operational changes makes the process familiar before an emergency, reducing confusion without requiring the commander to solve every technical problem.",
+  "summary": "Pip’s booking outage attracts three teams and several promising fixes. Clear incident roles keep those interventions coordinated. A common record, early declaration, and an acknowledged handoff let responders work independently without losing the overall recovery picture.",
   "source": {
     "startLine": 5838,
     "endLine": 6052,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "The commander holds the overall picture",
-      "body": "The incident commander coordinates the response, assigns responsibilities, tracks priorities, and removes obstacles. They initially hold any role not yet delegated, but should delegate as workload grows. Separating command from detailed troubleshooting protects attention for the incident’s overall state, needed help, and recovery direction. Authority becomes clear enough that each participant can work independently within an assigned scope.",
-      "example": "Teaching extension: A commander recruits a database specialist while the operations lead continues a traffic mitigation.",
-      "source": "text lines 5838–6052"
+      "body": "Pip coordinates the outage while a specialist investigates the database. The incident commander initially holds undelegated roles, then assigns responsibilities as work grows. Tracking priorities, obstacles, help, and recovery direction requires attention separate from detailed troubleshooting. Pip delegates technical work while retaining the overall picture.",
+      "example": "",
+      "source": "text lines 5838–6052",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "colleague",
+            "label": "INCIDENT COMMANDER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "database",
+            "label": "SPECIALIST WORK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "blueprint",
+            "label": "OVERALL PRIORITIES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip coordinates the outage while a specialist investigates the database."
+          },
+          {
+            "node": "step-1",
+            "text": "The incident commander initially holds undelegated roles, then assigns responsibilities as work grows."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip delegates technical work while retaining the overall picture."
+          }
+        ]
+      }
     },
     {
       "title": "Only coordinated operations change production",
-      "body": "The operations lead directs technical work and is the focal point for changes to the affected system. Other participants provide expertise through that structure rather than independently deploying promising fixes. This prevents conflicting interventions and preserves understanding of the system’s state. Communication and planning roles remove status requests and continuity tasks from the people making operational changes.",
-      "example": "Teaching extension: A developer proposes a configuration fix to the operations lead instead of applying it from a separate terminal.",
-      "source": "text lines 5838–6052"
+      "body": "Pip sees a developer about to apply a second configuration fix. The operations lead coordinates production changes so interventions do not conflict or obscure state. Specialists propose work through that structure. Communication and planning roles absorb status and continuity needs, freeing operators to focus.",
+      "example": "",
+      "source": "text lines 5838–6052",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "PROPOSED FIX",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "handoff",
+            "label": "OPERATIONS LEAD",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "service",
+            "label": "COORDINATED CHANGE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip sees a developer about to apply a second configuration fix."
+          },
+          {
+            "node": "step-1",
+            "text": "The operations lead coordinates production changes so interventions do not conflict or obscure state."
+          },
+          {
+            "node": "step-3",
+            "text": "Communication and planning roles absorb status and continuity needs, freeing operators to focus."
+          }
+        ]
+      }
     },
     {
       "title": "Maintain a common operational record",
-      "body": "A recognized communication channel and live incident document expose the current impact, roles, actions, and unresolved questions. The record lets arriving responders catch up and preserves failed attempts so they are not repeated blindly. Keep essential information easy to find and choose tools that remain available during the incident; relying exclusively on the service being repaired creates a circular dependency.",
-      "example": "Teaching extension: The document records that the old binary did not resolve the outage, preventing the next shift from repeating that rollback.",
-      "source": "text lines 5838–6052"
+      "body": "Pip’s replacement asks whether the old binary was tried. A live record and recognized channel show impact, roles, actions, failed attempts, and open questions. Pip highlights the unsuccessful rollback so nobody repeats it blindly. The record must stay reachable without depending exclusively on the broken service.",
+      "example": "",
+      "source": "text lines 5838–6052",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "LIVE INCIDENT RECORD",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "trace",
+            "label": "FAILED ATTEMPTS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "SHARED CHANNEL",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s replacement asks whether the old binary was tried."
+          },
+          {
+            "node": "step-1",
+            "text": "A live record and recognized channel show impact, roles, actions, failed attempts, and open questions."
+          },
+          {
+            "node": "step-3",
+            "text": "The record must stay reachable without depending exclusively on the broken service."
+          }
+        ]
+      }
     },
     {
       "title": "Declare early and hand off explicitly",
-      "body": "An incident process is easier to start before coordination becomes chaotic. The chapter suggests triggers including customer visibility, a second team’s involvement, or a prolonged unresolved investigation. At handoff, the outgoing commander briefs the replacement, obtains explicit acceptance, and informs participants. Practicing the process during drills or cross-team work keeps these habits available when pressure is high.",
-      "example": "Teaching extension: A replacement commander acknowledges the transfer before the outgoing lead leaves the response channel.",
-      "source": "text lines 5838–6052"
+      "body": "Pip declares an incident before cross-team work becomes chaotic. Customer visibility, another team’s involvement, or prolonged investigation can justify early coordination. The outgoing commander briefs a replacement, receives explicit acceptance, and tells participants. Pip practices that handoff during drills rather than discovering the process under pressure.",
+      "example": "",
+      "source": "text lines 5838–6052",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "DECLARE EARLY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "handoff",
+            "label": "EXPLICIT ACCEPTANCE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "INFORM PARTICIPANTS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip declares an incident before cross-team work becomes chaotic."
+          },
+          {
+            "node": "step-1",
+            "text": "Customer visibility, another team’s involvement, or prolonged investigation can justify early coordination."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip practices that handoff during drills rather than discovering the process under pressure."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,81 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Clear incident roles support coordinated action",
     "nodes": [
       {
-        "id": "observe",
-        "label": "COMMAND",
-        "caption": "assign priorities and ownership",
-        "kind": "person",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "OPERATIONS",
-        "caption": "coordinate production changes",
-        "kind": "colleague",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "COMMUNICATION",
-        "caption": "publish status and impact",
-        "kind": "person",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "PLANNING",
-        "caption": "prepare handoffs and recovery work",
-        "kind": "document",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "colleague",
+        "label": "INCIDENT COMMANDER",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "database",
+        "label": "SPECIALIST WORK",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "blueprint",
+        "label": "OVERALL PRIORITIES",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
-      },
-      {
-        "from": "learn",
-        "to": "observe",
-        "dashed": true
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "assign priorities and ownership"
+        "node": "step-0",
+        "text": "Pip coordinates the outage while a specialist investigates the database."
       },
       {
-        "node": "decide",
-        "text": "coordinate production changes"
+        "node": "step-1",
+        "text": "The incident commander initially holds undelegated roles, then assigns responsibilities as work grows."
       },
       {
-        "node": "act",
-        "text": "publish status and impact"
-      },
-      {
-        "node": "learn",
-        "text": "prepare handoffs and recovery work"
+        "node": "step-3",
+        "text": "Pip delegates technical work while retaining the overall picture."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "Too many rescuers, conflicting fixes"
   }
 }

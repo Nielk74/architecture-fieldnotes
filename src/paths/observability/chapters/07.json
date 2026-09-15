@@ -3,7 +3,7 @@
   "title": "Instrumentation with OpenTelemetry",
   "part": "Fundamentals of Observability",
   "subtitle": "Separate instrumentation from its destination",
-  "summary": "OpenTelemetry offers a shared approach to generating and transporting telemetry without binding application code to one backend. The chapter separates the instrumentation interfaces from the implementation that processes and exports the resulting data. This distinction lets library authors expose useful operations while application owners configure how telemetry is handled. Automatic instrumentation is a practical starting point for common frameworks and network calls, but it cannot know the business decisions hidden in custom code. Manual spans and attributes supply that missing context. The useful adoption path is therefore incremental: establish working collection, verify continuity across services, and enrich the operations needed to answer actual questions about customers and application behavior.",
+  "summary": "Pip installs instrumentation and immediately sees HTTP calls, but not the promotion rule behind a failed checkout. OpenTelemetry separates recording operations from handling and exporting them. Custom domain context completes the baseline without binding every library to one backend.",
   "source": {
     "startLine": 3085,
     "endLine": 3448,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "API and SDK have different jobs",
-      "body": "Instrumentation calls an API to describe operations and add context. An SDK supplies the configured implementation that processes those calls and arranges telemetry handling. Keeping these roles separate allows reusable libraries to include instrumentation without dictating a particular backend or application-wide export configuration to every program that uses them.",
-      "example": "A shared client library creates spans while the application configures where they go.",
-      "source": "text lines 3085–3448"
+      "body": "Pip’s shared client library creates spans through the instrumentation API. The SDK supplies the configured implementation that processes those calls and handles telemetry. Keeping the roles separate leaves application-wide export choices to the application. Pip can reuse instrumented libraries without forcing every caller to adopt one destination.",
+      "example": "",
+      "source": "text lines 3085–3448",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "plugin",
+            "label": "LIBRARY API",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "component",
+            "label": "CONFIGURED SDK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "APPLICATION POLICY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s shared client library creates spans through the instrumentation API."
+          },
+          {
+            "node": "step-1",
+            "text": "The SDK supplies the configured implementation that processes those calls and handles telemetry."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip can reuse instrumented libraries without forcing every caller to adopt one destination."
+          }
+        ]
+      }
     },
     {
       "title": "Export is a replaceable boundary",
-      "body": "Exporters translate and send telemetry to a destination, while a collector can receive and process data outside the application. This separation reduces the amount of application instrumentation that must change when the destination changes. It does not make every backend identical: supported attributes, processing, and analysis capabilities still require validation.",
-      "example": "A backend migration changes export configuration while preserving application span creation.",
-      "source": "text lines 3085–3448"
+      "body": "Pip changes telemetry backends without rewriting span creation. Exporters translate and send data; a collector can receive and process it outside the application. That replaceable boundary limits instrumentation changes. Pip still validates supported attributes, processing, and analysis because destinations are not interchangeable in every capability.",
+      "example": "",
+      "source": "text lines 3085–3448",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "trace",
+            "label": "APPLICATION SPANS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "EXPORT / COLLECT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "database",
+            "label": "NEW DESTINATION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip changes telemetry backends without rewriting span creation."
+          },
+          {
+            "node": "step-1",
+            "text": "Exporters translate and send data; a collector can receive and process it outside the application."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip still validates supported attributes, processing, and analysis because destinations are not interchangeable in every capability."
+          }
+        ]
+      }
     },
     {
       "title": "Automatic coverage establishes a baseline",
-      "body": "Automatic instrumentation can describe common framework activity and outbound calls without manually wrapping every operation. This quickly exposes service relationships and timing. However, generic libraries do not know why a discount was selected or which business workflow a request follows, so automatic coverage should be evaluated against the questions the team actually needs to answer.",
-      "example": "HTTP spans exist, but identifying the failed promotion requires a domain attribute.",
-      "source": "text lines 3085–3448"
+      "body": "Pip’s automatic coverage shows framework work and outbound HTTP timing. It quickly exposes service relationships without wrapping every operation manually. Generic libraries do not know why a discount was chosen. Pip evaluates coverage against real investigative questions before declaring instrumentation complete.",
+      "example": "",
+      "source": "text lines 3085–3448",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "api",
+            "label": "AUTOMATIC HTTP SPANS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "SERVICE RELATIONSHIPS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "alert",
+            "label": "MISSING PROMOTION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s automatic coverage shows framework work and outbound HTTP timing."
+          },
+          {
+            "node": "step-1",
+            "text": "It quickly exposes service relationships without wrapping every operation manually."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip evaluates coverage against real investigative questions before declaring instrumentation complete."
+          }
+        ]
+      }
     },
     {
       "title": "Custom context completes the picture",
-      "body": "Manual instrumentation records meaningful application operations and attributes absent from generic coverage. Add context where the code makes decisions whose outcomes may matter later, and attach it to the relevant span. Consistent names help teams compare those values across requests and services rather than rediscovering a different vocabulary at every boundary.",
-      "example": "Record the chosen pricing rule on the span that evaluates the order.",
-      "source": "text lines 3085–3448"
+      "body": "Pip records the chosen pricing rule where the order code evaluates it. Manual instrumentation adds meaningful operations and attributes beyond generic coverage. Consistent names support comparison across services and requests. Pip attaches context to the relevant span instead of inventing another vocabulary at every boundary.",
+      "example": "",
+      "source": "text lines 3085–3448",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "PRICING DECISION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "trace",
+            "label": "RELEVANT SPAN",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "CONSISTENT ATTRIBUTE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip records the chosen pricing rule where the order code evaluates it."
+          },
+          {
+            "node": "step-1",
+            "text": "Manual instrumentation adds meaningful operations and attributes beyond generic coverage."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip attaches context to the relevant span instead of inventing another vocabulary at every boundary."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -118,68 +370,68 @@
     "nodes": [
       {
         "id": "step-0",
-        "label": "API / SDK",
-        "kind": "trace",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "observability"
       },
       {
         "id": "step-1",
-        "label": "EXPORT",
-        "kind": "experiment",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
+        "kind": "plugin",
+        "label": "LIBRARY API",
+        "tone": "sage"
       },
       {
         "id": "step-2",
-        "label": "AUTO COVERAGE",
-        "kind": "alert",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
+        "kind": "component",
+        "label": "CONFIGURED SDK",
+        "tone": "lilac"
       },
       {
         "id": "step-3",
-        "label": "CUSTOM CONTEXT",
-        "kind": "leaf",
-        "tone": "honey",
-        "x": 500,
-        "y": 100
+        "kind": "router",
+        "label": "APPLICATION POLICY",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
         "from": "step-0",
-        "to": "step-1"
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-1",
-        "to": "step-2"
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-2",
-        "to": "step-3"
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
         "node": "step-0",
-        "text": "A shared client library creates spans while the application configures where they go."
+        "text": "Pip’s shared client library creates spans through the instrumentation API."
       },
       {
         "node": "step-1",
-        "text": "A backend migration changes export configuration while preserving application span creation."
-      },
-      {
-        "node": "step-2",
-        "text": "HTTP spans exist, but identifying the failed promotion requires a domain attribute."
+        "text": "The SDK supplies the configured implementation that processes those calls and handles telemetry."
       },
       {
         "node": "step-3",
-        "text": "Record the chosen pricing rule on the span that evaluates the order."
+        "text": "Pip can reuse instrumented libraries without forcing every caller to adopt one destination."
       }
     ]
+  },
+  "story": {
+    "course": "observability",
+    "world": "market",
+    "title": "Automatic spans miss the promotion that mattered"
   }
 }

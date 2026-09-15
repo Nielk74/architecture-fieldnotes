@@ -1,17 +1,59 @@
-# Chapter 5 — Identifying Architectural Characteristics
+# Chapter 5: Identifying Architectural Characteristics
 
-Chapter 5 moves from defining architecture characteristics to discovering them. The architect needs domain understanding and stakeholder collaboration to decide whether scalability, fault tolerance, security, performance, or another quality actually drives the design (source pp. 65–66, lines 2806–2896). The chapter warns against a generic architecture that supports every “-ility.” Each added characteristic complicates the system, so the useful target is a simple set motivated by the domain. The Vasa case illustrates the danger of satisfying an ambitious collection of requirements until the whole design becomes unstable.
+*Pip’s adventure: Listen before choosing the architecture. Fictional teaching story; concepts follow the cited source.*
 
-The translation problem is central. Stakeholders speak of mergers, satisfaction, time to market, advantage, time, and budget; architects speak of interoperability, scalability, agility, availability, testability, deployability, and simplicity. A mapping is helpful but not mechanical. Time to market, for example, requires agility plus testability and deployability. An end-of-day pricing deadline implies availability, scale, reliability, recoverability, auditability, and correctness as well as performance. The architect must ask what happens when the process is interrupted or produces a wrong answer, not just how fast the happy path runs (pp. 65–67, lines 2897–2990).
+Source: printed pp. 65–75.
 
-Requirements provide explicit clues, while domain knowledge supplies implicit ones. A student registration system that has ten hours for 1,000 users may still need to handle nearly all users in the last ten minutes. Meal ordering is likely bursty around meals. A mapping service introduces a reliability and fallback question: must ordering fail when traffic information is unavailable, or can it proceed with less efficient directions? Mobile accessibility may influence page performance and delivery design. Franchise owners and overseas plans may imply feasibility, customization, and internationalization concerns. These clues must be validated with stakeholders rather than turned into speculative structure (pp. 66–74, lines 2991–3155).
+Pip translates the bookshop’s growth plans into engineering concerns, then checks what the words really mean. Requirements are clues, domain knowledge supplies questions, and collaboration establishes priorities. A timeboxed design exercise exposes assumptions before implementation makes them costly.
 
-Architecture katas provide deliberate practice. A kata contains a domain description, users, requirements, and additional context. Teams design for a short period, present their work, and compare missed trade-offs and alternative solutions. The point is repeated practice in deriving characteristics before implementation, especially because architects rarely get many opportunities to create an entire architecture in ordinary projects (pp. 67–69, lines 2944–2990).
+## Translate domain concerns
 
-The Silicon Sandwiches case applies the method. User scale suggests scalability; mealtime behavior suggests elasticity; mapping creates dependency and fallback questions; mobile access influences performance; promotions suggest customizability; payment implies security hygiene; franchises create cost and feasibility pressure; overseas plans suggest internationalization; inexpensive labor elevates usability. The chapter separates explicit and implicit findings and emphasizes that not every concern needs special architectural structure. Customizability might justify a plug-in style, or it might be handled by a design pattern if other priorities win (pp. 69–74, lines 2991–3178).
+Pip hears that pricing must finish by closing time. Business goals may imply scale, availability, reliability, recovery, auditability, and correctness—not merely speed. Mergers can suggest interoperability; faster delivery can suggest testability and deployability. Pip uses shared domain language and a short contextual list to avoid losing meaning in translation.
 
-Stakeholders should generally choose the top three characteristics rather than attempt a complete ranking. The architect can then ask which candidate is least important and whether it can move into ordinary application design. There is no universal correct list; expensive or unnecessary characteristics are the failure mode. Decisions belong in a collaboration among architects, developers, project managers, operations, analysts, and domain experts, avoiding the Ivory Tower Architect anti-pattern (pp. 73–75, lines 3179–3228).
+Source: pp. 65–67.
 
-The JSON franchise scenario and visual are teaching extensions with simulated consequences. They apply the chapter’s translation method and do not claim measured traffic or a universal launch priority. The exercise is an intentionally small architecture kata: record context, three selected qualities, one deferred concern, and the evidence that would trigger reconsideration.
+## Read explicit requirements
 
-Source boundary: this lesson covers Chapter 5, printed pages 65–75 and supplied text lines 2806–3228. Detailed definitions and governance mechanisms from Chapters 4 and 6 are referenced only to preserve the chapter’s boundaries.
+Pip reads “1,000 registrations over ten hours” and assumes even traffic. The chapter’s example concentrates registrations in the final ten minutes. User counts, external services, mobile access, and payments are clues to scale, fallback, performance, and security questions. Pip validates workload and constraints rather than automatically adding every possible capability.
+
+Source: pp. 66–72.
+
+## Use implicit domain knowledge
+
+Pip expects lunch-order demand to peak around meals, then asks stakeholders to confirm. User habits, failure impact, and operational context reveal implicit availability, elasticity, recovery, or reliability needs. A mapping dependency also prompts a graceful-fallback question. Pip requires importance and structural consequences before turning domain intuition into architecture.
+
+Source: pp. 70–74.
+
+## Practice with architecture katas
+
+Pip practices with the chapter’s sandwich-ordering kata before redesigning the shop. A compact brief, users, requirements, and context support a timeboxed design and presentation. Franchises and overseas plans raise scale, customization, internationalization, and mobile questions. Feedback trains domain reasoning and trade-off analysis; the point is not one winning diagram.
+
+Source: pp. 67–69.
+
+## Prioritize and collaborate
+
+Pip asks stakeholders for their top three characteristics instead of a forced full ranking. The least important candidate may belong in ordinary design rather than special structure. Budget, feasibility, skills, and timing constrain the answer. Pip includes developers, operations, analysts, and domain partners in deciding whether promotions need plug-ins or simpler design patterns.
+
+Source: pp. 65–75.
+
+## Transfer challenge: Prepare a franchise ordering launch
+
+A franchised food company is launching mobile ordering. It expects thousands of users now and perhaps millions later, with intense meal-time bursts. Shops need national and local promotions, overseas expansion is possible, mapping services may fail, and the corporate budget favors inexpensive staff. The team can fund three structural priorities in the first release. Select a focused set and explain what you would leave to application design.
+
+### Scale and resilience
+
+Handles growth and meal-time bursts while keeping ordering available when a mapping dependency fails. Local customization and internationalization may rely on simpler design mechanisms, increasing future change effort. The system sets capacity and burst targets, isolates mapping with a fallback, and uses third-party payment handling. Local promotions use configurable workflow code until evidence justifies a plug-in structure.
+
+### Customization and portability
+
+Makes franchise variations and future overseas deployment easier to introduce without rewriting core behavior. Extra extension points and localization structure consume early budget and may leave peak ordering less robust. The architecture isolates promotion and locale variation behind explicit contracts. The team must cap launch scope or accept that meal-time scaling and mapping resilience need later investment.
+
+The chapter’s method does not prescribe one priority order. Translate the domain, surface implicit traffic and failure behavior, ask stakeholders for the top three, and verify whether each concern changes structure enough to justify its cost.
+
+## Run a mini architecture kata
+
+Write a four-sentence domain brief, then derive three driving characteristics from explicit requirements and implicit context. Explain one characteristic you would defer and what evidence would change that decision.
+
+- Context
+- Decision
+- Trade-off

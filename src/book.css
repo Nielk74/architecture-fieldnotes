@@ -20,3 +20,13 @@
 /* Let the explanation start with its animated model on a phone. */
 @media(max-width:680px){.book-intro .book-split>.chapter-scene{grid-row:1}.book-intro .book-split>.chapter-prose{grid-row:2}}
 .pip-collection-link{display:inline-block;color:#795991;font-size:11px;margin-top:10px;text-underline-offset:3px}
+/* The scene is part of the story, with labels and controls usable on a phone. */
+.chapter-scene .iso-subtitle,.dimension-art .iso-subtitle{font-size:15px;font-weight:600;letter-spacing:0}
+.chapter-scene .iso-label{font-size:12px;letter-spacing:0}
+.scene-controls{flex-wrap:wrap}
+.scene-step-buttons{display:flex;flex-wrap:wrap;gap:6px}
+.scene-step-buttons button{min-width:40px;min-height:40px}
+.scene-controls>[data-scene-play]{min-height:40px}
+.chapter-scene:has(.teaching-scene){padding:12px;background:#eee8f3}
+.chapter-scene .teaching-scene{height:auto;max-height:none!important;aspect-ratio:480/420}
+@media(max-width:680px){[data-concept-illustration]{grid-row:1}.book-split>#chapter-concept{grid-row:2}.scene-step-buttons button{min-width:44px;min-height:44px}.scene-controls>[data-scene-play]{min-height:44px}.chapter-scene .iso-scene{max-height:240px}}

@@ -1,19 +1,65 @@
 # Chapter 9: Foundations
 
-Chapter 9 establishes why architecture styles matter. A style is a named relationship among components that carries a topology and default expectations about qualities such as performance, deployability, and scalability. The name is useful shorthand: “browser plus web server” or “layered monolith” lets an experienced team start a conversation quickly. It is still a hypothesis. Variants in deployment, data ownership, and communication can change the actual behavior behind the same label. The chapter's opening discussion of styles and fundamental patterns appears at source lines 4693–4777 (printed pp. 119–121).
+*Pip’s adventure: The network joins the design meeting. Fictional teaching story; concepts follow the cited source.*
 
-The first contrast is structural. A Big Ball of Mud has no durable, recognizable organization. Dependencies spread broadly, short-term repairs accumulate, and nobody can confidently predict the side effects of a change. A unitary system keeps the software on one machine, a reasonable fit for constrained environments but a poor long-term answer when functionality grows. Client/server then separates front end and back end. Desktop plus database server, browser plus web server, and three-tier systems are historical forms of that separation (source lines 4778–4920; pp. 120–123). The Java serialization anecdote is a reminder that a fashionable architectural assumption can leave a long compatibility tail after the fashion has passed.
+Source: printed pp. 119–132.
 
-The chapter's central classification separates monolithic deployments from distributed deployments. A monolith has one deployment unit; a distributed system has multiple units joined by remote access protocols. Distribution can offer more performance, scale, and availability, but it also makes the network part of the architecture. The eight fallacies name the assumptions that must be rejected: the network is not reliably available, latency is not zero, bandwidth is finite, and a private network is not automatically secure. Topology changes, responsibility is spread across many administrators, transport consumes money and infrastructure, and network equipment is heterogeneous. These are connected problems rather than eight isolated slogans. A large payload can consume bandwidth and increase latency; a topology change can invalidate yesterday's timeout budget. The full fallacy discussion is at source lines 4921–5107 (pp. 123–130).
+Pip gives the bookshop an architecture label, but the label cannot answer where data lives or what happens when a call fails. Styles provide shorthand for topology and trade-offs. Distribution adds real operational work and assumptions worth questioning early.
 
-The chapter closes with three distributed concerns. Logs are spread across services, so diagnosis needs a way to follow one request across many formats and locations. Transactions that were straightforward ACID commits inside a monolith often become eventually consistent across deployment units. Sagas and BASE techniques can manage progress and compensation, but they require explicit state and recovery design. Finally, contracts between separately owned components must be created, versioned, and retired carefully. Those concerns appear at source lines 5108–5184 (pp. 131–132).
+## A style is a compact design vocabulary
 
-The most useful decision rule is to choose a style for a characteristic the product really needs, then test the assumptions at the proposed boundary. A distributed design should have measured latency, payload size, capacity, security zones, and an operational owner. A simple starting topology is often an asset when demand is uncertain; a distributed boundary becomes sensible when a measured need outweighs its failure and coordination costs.
+Pip calls the bookshop client/server and a teammate asks where the database runs. A style names component relationships and default topology, deployment, data, and quality assumptions. Variants and local decisions can change the behavior. Pip uses the vocabulary to narrow questions, not to guarantee strengths from a label.
 
-The scenario and exercise in this lesson are teaching extensions. They apply the book's trade-offs to a clinic schedule and ask the learner to name a boundary and a measurement; the clinic and any numeric workload are invented for practice. The visual follows one request from a client across a network edge to a remote service and system of record, making the fallacies and eventual consistency visible without claiming a measured production result.
+Source: pp. 119–121.
 
-## Source map
+## From mud to partitioning
 
-- Style vocabulary and fundamental patterns: source lines 4693–4920, printed pp. 119–123.
-- Monolithic/distributed distinction and eight network fallacies: source lines 4921–5107, printed pp. 123–130.
-- Distributed logging, transactions, and contract maintenance: source lines 5108–5184, printed pp. 131–132.
+Pip’s kiosk can keep interface, rules, and storage on one computer. A unitary design can fit constraints; a Big Ball of Mud instead lacks discernible internal structure. Growing retail can separate browser, application, and database tiers through client/server variants. Pip gains separation while explicitly adding network assumptions, not merely escaping one machine.
+
+Source: pp. 120–122.
+
+## Monolith or distributed deployment
+
+Pip splits checkout and inventory so inventory can scale independently. A monolith is one deployment unit; distributed architectures connect multiple units through remote protocols. Distribution may improve needed performance, scale, or availability but introduces failures and coordination. Pip budgets network calls, security, compatible contracts, and partial-result handling before claiming independence.
+
+Source: pp. 123–124.
+
+## The network fallacies are coupled
+
+Pip fetches a 500-kilobyte customer record for a 200-byte name. Networks fail, have latency tails, finite bandwidth, security needs, changing topology, multiple administrators, cost, and heterogeneous equipment. These eight fallacies interact: payload, congestion, topology, and equipment affect other qualities. Pip sends necessary data and measures typical and high-percentile behavior.
+
+Source: pp. 124–130.
+
+## Distributed work needs operational design
+
+Pip stores an order before remote payment fails. Distributed work needs correlated telemetry, maintained and versioned contracts, and explicit eventual-consistency design instead of one easy ACID commit. A saga can record progress and compensation using BASE-style approaches. Pip includes recovery and contract retirement in architecture, not as additions after the first incident.
+
+Source: pp. 131–132.
+
+## Simple decisions have long shadows
+
+Pip considers a universal protocol because today’s platform makes it convenient. The chapter’s Java-serialization warning shows how fashionable topology choices can remain through compatibility obligations. Simple designs and explicit assumptions reduce the long shadow of architectural bets. Pip records users, expected lifetime, and removal cost before turning a temporary preference into permanent coupling.
+
+Source: pp. 122–123.
+
+## Transfer challenge: Keep the clinic schedule together or split it
+
+A clinic scheduling product has a browser interface, appointment rules, reminders, and a relational database. It serves 20 clinics today, with modest traffic, a small operations team, and a six-month delivery deadline. Marketing may add a national booking campaign next year, but the volume and requirements are not yet measured. The team must choose a deployment shape while preserving correct appointment availability and affordable operations.
+
+### Layered monolith
+
+One deployment and one transaction boundary keep the system simple and inexpensive while the team learns the domain. All code scales and deploys together, and a failure or risky change can affect every clinic. The team can ship the first release quickly and use a shared database transaction for booking. Before a national campaign, it must measure bottlenecks and extract only a proven hot path if the monolith cannot meet demand.
+
+### Distributed booking services
+
+Booking, reminders, and availability can be deployed and scaled independently, with a smaller failure domain for each service. The team must operate secured endpoints, version contracts, trace requests, and handle latency and eventual consistency across booking and availability. A reminder outage need not stop booking, but a network or consistency failure can create uncertainty about a newly reserved slot. The team needs explicit reconciliation and operational ownership before launch.
+
+Context matters: uncertain demand and a small team favor a simple starting point, while a measured, extreme booking hotspot may justify distribution. The style should follow the characteristics the product actually needs and the team's ability to operate them; neither option wins universally.
+
+## Name the boundary before you split it
+
+Choose one real or invented product and record the current topology, the characteristic that may require a change, and the network assumption you would measure before introducing a remote boundary.
+
+- Context
+- Decision
+- Trade-off

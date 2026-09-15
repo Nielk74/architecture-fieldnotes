@@ -3,18 +3,504 @@
   "title": "Reuse Patterns",
   "part": "Distributed decisions",
   "subtitle": "Treat reuse as a trade-off, not a virtue",
-  "summary": "Reuse becomes harder after functionality is distributed because a shared decision can create coupling across otherwise independent services. The chapter compares code replication, shared libraries, shared services, and sidecars or service meshes. Replication gives each service autonomy and avoids runtime dependency, but duplicated fixes can drift. Libraries centralize implementation at compile time; coarse libraries reduce dependency count but widen change impact, while fine-grained libraries limit impact but multiply dependencies. Shared services centralize runtime behavior and make updates easier to isolate, yet introduce network latency, security concerns, scaling pressure, and a runtime failure dependency. Sidecars and service meshes place common operational capabilities beside services, separating technical concerns from domain logic, but add configuration and infrastructure complexity. The broader lesson is that abstraction becomes genuine reuse only when it changes at a slower rate than its consumers. Platform teams should offer capabilities without turning every domain into a synchronized release train.",
-  "source": {"startLine": 5480, "endLine": 6002, "reference": "text lines 5480–6002"},
+  "summary": "Pip wants every island service to reuse a helpful capability. Copies, libraries, services, and sidecars each move the maintenance and coupling costs somewhere different. Pip asks which behavior is truly shared before creating a platform dependency.",
+  "source": {
+    "startLine": 5480,
+    "endLine": 6002,
+    "reference": "text lines 5480–6002"
+  },
   "concepts": [
-    {"title": "Replicate code", "body": "Copying a small common capability into each service preserves deployment and runtime independence. Teams can tailor behavior locally and avoid a shared library release. The price is duplicated maintenance, inconsistent fixes, and possible semantic drift. Replication is most reasonable when the code is small, stable, or likely to diverge legitimately; it is dangerous when correctness must be identical everywhere.", "example": "Each service can implement a short request validation rule locally. A security fix then requires finding and updating every copy, so a repository-wide fitness check is useful.", "source": "text lines 5518–5588"},
-    {"title": "Share libraries", "body": "A shared library centralizes code at compile time. Coarse-grained libraries reduce the number of dependencies but cause more consumers to rebuild when anything changes. Fine-grained libraries narrow change impact but increase dependency management. Versioning can reduce synchronized releases, yet the library remains a static coupling point that deserves ownership and compatibility policy.", "example": "A broad platform library containing logging, auth, and HTTP helpers reaches many services. Splitting auth into a focused package limits rebuilds but creates more version decisions.", "source": "text lines 5593–5659"},
-    {"title": "Share services", "body": "A shared service exposes common functionality at runtime, allowing one implementation to change independently of consumers. Every call pays network and security latency, and the shared service must scale as all dependents scale. Its outage can affect many services, and an incompatible response can break consumers at runtime. This pattern fits behavior that is genuinely centralized and stable enough to justify the dependency.", "example": "A currency conversion service can centralize regulated rates, but checkout must define timeout, fallback, and version behavior because the converter is now on the request path.", "source": "text lines 5663–5721"},
-    {"title": "Sidecars and mesh", "body": "Sidecars package common operational capabilities with each service, while a service mesh links those proxies for traffic, security, and observability concerns. This keeps domain code focused and can standardize cross-cutting behavior. The operational layer still adds deployment, configuration, and debugging complexity, so it should solve a repeated platform problem rather than decorate a small system.", "example": "A proxy can enforce mutual TLS and retries for several services without adding those concerns to order code. Teams still need to understand policy precedence and proxy failure modes.", "source": "text lines 5759–5795"},
-    {"title": "Reuse via platforms", "body": "Reuse is valuable when an abstraction changes slowly relative to its consumers. A platform can offer stable capabilities while allowing domains to own their pace and context. Centralizing every customer or ticket concept often destroys useful domain-specific meaning. Evaluate whether the proposed reusable thing is truly the same behavior, and record costs in coupling, coordination, and operational dependency.", "example": "An insurer may define customer differently in claims and underwriting. A shared identity platform can reuse authentication while leaving each domain’s customer model local.", "source": "text lines 5891–5987"}
+    {
+      "title": "Replicate code",
+      "body": "Pip copies a tiny stable validation rule into each delivery service. Replication preserves deployment and runtime independence and allows legitimate local tailoring. A security fix now has to reach every copy. Pip accepts duplication only with maintenance checks; rules requiring identical correctness are dangerous candidates for semantic drift.",
+      "example": "",
+      "source": "text lines 5518–5588",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "SMALL LOCAL COPIES",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "deployment",
+            "label": "INDEPENDENT RELEASES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "shield",
+            "label": "FIX EVERY COPY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip copies a tiny stable validation rule into each delivery service."
+          },
+          {
+            "node": "step-1",
+            "text": "Replication preserves deployment and runtime independence and allows legitimate local tailoring."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip accepts duplication only with maintenance checks; rules requiring identical correctness are dangerous candidates for semantic drift."
+          }
+        ]
+      }
+    },
+    {
+      "title": "Share libraries",
+      "body": "Pip’s broad helper library forces unrelated rebuilds after an authentication change. Coarse libraries reduce dependency count; fine-grained ones narrow change impact but add version management. Versioning can ease synchronized releases without removing static coupling. Pip assigns ownership and compatibility policy to the shared package.",
+      "example": "",
+      "source": "text lines 5593–5659",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "plugin",
+            "label": "BROAD LIBRARY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "component",
+            "label": "FOCUSED AUTH PACKAGE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "VERSION POLICY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s broad helper library forces unrelated rebuilds after an authentication change."
+          },
+          {
+            "node": "step-1",
+            "text": "Coarse libraries reduce dependency count; fine-grained ones narrow change impact but add version management."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip assigns ownership and compatibility policy to the shared package."
+          }
+        ]
+      }
+    },
+    {
+      "title": "Share services",
+      "body": "Pip centralizes currency conversion behind a service. One runtime implementation can change independently, but every caller pays network and security latency. The converter must scale with dependents and can spread outages or incompatible responses. Pip defines timeout, fallback, and version behavior before putting it on the delivery payment path.",
+      "example": "",
+      "source": "text lines 5663–5721",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "api",
+            "label": "RATE SERVICE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "NETWORK COST",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "shield",
+            "label": "FALLBACK CONTRACT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip centralizes currency conversion behind a service."
+          },
+          {
+            "node": "step-1",
+            "text": "One runtime implementation can change independently, but every caller pays network and security latency."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip defines timeout, fallback, and version behavior before putting it on the delivery payment path."
+          }
+        ]
+      }
+    },
+    {
+      "title": "Sidecars and mesh",
+      "body": "Pip places an operational proxy beside each service. Sidecars and a service mesh can standardize traffic, security, and observability while keeping domain code focused. Mutual TLS and retries still bring policy, deployment, configuration, and debugging complexity. Pip adopts the layer for a repeated platform problem, not decoration.",
+      "example": "",
+      "source": "text lines 5759–5795",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "DOMAIN CODE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gateway",
+            "label": "SIDECAR PROXY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "MESH POLICIES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip places an operational proxy beside each service."
+          },
+          {
+            "node": "step-1",
+            "text": "Sidecars and a service mesh can standardize traffic, security, and observability while keeping domain code focused."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip adopts the layer for a repeated platform problem, not decoration."
+          }
+        ]
+      }
+    },
+    {
+      "title": "Reuse via platforms",
+      "body": "Pip notices that dispatch and billing mean different things by customer. A stable identity platform can share authentication without centralizing both domain models. Reuse pays when an abstraction changes slowly relative to consumers and represents genuinely common behavior. Pip records the coordination and operational dependencies along with the saved code.",
+      "example": "",
+      "source": "text lines 5891–5987",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "person",
+            "label": "SHARED IDENTITY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "component",
+            "label": "DISPATCH CUSTOMER",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "component",
+            "label": "BILLING CUSTOMER",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip notices that dispatch and billing mean different things by customer."
+          },
+          {
+            "node": "step-1",
+            "text": "A stable identity platform can share authentication without centralizing both domain models."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip records the coordination and operational dependencies along with the saved code."
+          }
+        ]
+      }
+    }
   ],
-  "misconceptions": [{"claim": "The most reusable implementation is always the best architecture.", "correction": "Reuse creates coupling. Replication may preserve autonomy, while a shared artifact can impose release, runtime, or governance costs."}, {"claim": "A shared service removes dependency because its code is centralized.", "correction": "It replaces compile-time duplication with runtime network, security, scaling, and availability dependencies."}],
-  "scenario": {"title": "Reuse an authorization rule", "context": "Six services need authorization checks. The rule is currently stable but regulated changes are expected twice a year. Services deploy independently across regions, and an authorization outage must not take down read-only browsing. Choose a reuse technique that balances consistency, latency, and operational independence.", "options": [{"label": "Shared service", "benefit": "One implementation receives regulatory fixes and produces consistent decisions.", "cost": "Every request adds network dependency, latency, and an outage mode.", "consequence": "Services call a versioned authorization API with cached safe reads and explicit fail-closed rules for protected actions. Platform operations must scale and monitor the service globally."}, {"label": "Versioned library", "benefit": "Checks run locally with no runtime hop and remain available during network incidents.", "cost": "Six services must adopt releases and may temporarily run different rule versions.", "consequence": "A focused library is published with compatibility tests and a rollout deadline. Browsing stays independent, while the platform tracks version drift until all services upgrade."}], "debrief": "The slower change rate favors reuse, but runtime and compile-time coupling differ. Security-critical behavior may justify central runtime policy; availability-sensitive paths may prefer local code with disciplined version governance."},
-  "quiz": [{"question": "What is the main cost of code replication?", "options": ["Runtime network latency", "Duplicated maintenance and possible drift", "A single shared outage"], "answer": 1, "explanation": "Replication keeps runtime independence but requires repeated fixes and consistency checks."}, {"question": "How do fine-grained libraries trade off against coarse-grained ones?", "options": ["Fewer dependencies and wider impact", "More dependencies and narrower change impact", "No compile-time coupling"], "answer": 1, "explanation": "Fine-grained packages limit who is affected but increase dependency management."}, {"question": "When does an abstraction become useful reuse?", "options": ["When every domain uses identical names", "When it changes more slowly than its consumers", "When it forces simultaneous releases"], "answer": 1, "explanation": "The chapter frames reuse around relative rates of change; a fast-changing shared abstraction spreads churn."}],
-  "exercise": {"title": "Choose a reuse boundary", "prompt": "Take one capability used by at least three services. Compare replication, library, shared service, and sidecar options against its change rate, latency, failure, security, and ownership needs.", "fields": [{"label": "Context", "placeholder": "Capability, consumers, and current pain"}, {"label": "Decision", "placeholder": "Reuse technique and version or runtime contract"}, {"label": "Trade-off", "placeholder": "Coupling accepted and fitness signal to monitor"}]},
-  "visual": {"nodes": [{"id": "domains", "label": "DOMAIN CODE", "kind": "component", "tone": "sage"}, {"id": "choice", "label": "REUSE CHOICE", "kind": "balance", "tone": "peach"}, {"id": "platform", "label": "PLATFORM", "kind": "service", "tone": "lilac"}, {"id": "policy", "label": "RELEASE RULE", "kind": "blueprint", "tone": "sage"}], "edges": [{"from": "domains", "to": "choice"}, {"from": "choice", "to": "platform"}, {"from": "platform", "to": "policy"}], "steps": [{"node": "domains", "text": "Identify the capability, its consumers, and whether their behavior is truly the same."}, {"node": "choice", "text": "Compare duplicated code, compile-time libraries, runtime services, and operational sidecars."}, {"node": "platform", "text": "Deliver the selected capability with explicit latency, failure, scale, and security boundaries."}, {"node": "policy", "text": "Set ownership, compatibility, and rollout rules that prevent reuse from becoming synchronized change."}]}
+  "misconceptions": [
+    {
+      "claim": "The most reusable implementation is always the best architecture.",
+      "correction": "Reuse creates coupling. Replication may preserve autonomy, while a shared artifact can impose release, runtime, or governance costs."
+    },
+    {
+      "claim": "A shared service removes dependency because its code is centralized.",
+      "correction": "It replaces compile-time duplication with runtime network, security, scaling, and availability dependencies."
+    }
+  ],
+  "scenario": {
+    "title": "Reuse an authorization rule",
+    "context": "Six services need authorization checks. The rule is currently stable but regulated changes are expected twice a year. Services deploy independently across regions, and an authorization outage must not take down read-only browsing. Choose a reuse technique that balances consistency, latency, and operational independence.",
+    "options": [
+      {
+        "label": "Shared service",
+        "benefit": "One implementation receives regulatory fixes and produces consistent decisions.",
+        "cost": "Every request adds network dependency, latency, and an outage mode.",
+        "consequence": "Services call a versioned authorization API with cached safe reads and explicit fail-closed rules for protected actions. Platform operations must scale and monitor the service globally."
+      },
+      {
+        "label": "Versioned library",
+        "benefit": "Checks run locally with no runtime hop and remain available during network incidents.",
+        "cost": "Six services must adopt releases and may temporarily run different rule versions.",
+        "consequence": "A focused library is published with compatibility tests and a rollout deadline. Browsing stays independent, while the platform tracks version drift until all services upgrade."
+      }
+    ],
+    "debrief": "The slower change rate favors reuse, but runtime and compile-time coupling differ. Security-critical behavior may justify central runtime policy; availability-sensitive paths may prefer local code with disciplined version governance."
+  },
+  "quiz": [
+    {
+      "question": "What is the main cost of code replication?",
+      "options": [
+        "Runtime network latency",
+        "Duplicated maintenance and possible drift",
+        "A single shared outage"
+      ],
+      "answer": 1,
+      "explanation": "Replication keeps runtime independence but requires repeated fixes and consistency checks."
+    },
+    {
+      "question": "How do fine-grained libraries trade off against coarse-grained ones?",
+      "options": [
+        "Fewer dependencies and wider impact",
+        "More dependencies and narrower change impact",
+        "No compile-time coupling"
+      ],
+      "answer": 1,
+      "explanation": "Fine-grained packages limit who is affected but increase dependency management."
+    },
+    {
+      "question": "When does an abstraction become useful reuse?",
+      "options": [
+        "When every domain uses identical names",
+        "When it changes more slowly than its consumers",
+        "When it forces simultaneous releases"
+      ],
+      "answer": 1,
+      "explanation": "The chapter frames reuse around relative rates of change; a fast-changing shared abstraction spreads churn."
+    }
+  ],
+  "exercise": {
+    "title": "Choose a reuse boundary",
+    "prompt": "Take one capability used by at least three services. Compare replication, library, shared service, and sidecar options against its change rate, latency, failure, security, and ownership needs.",
+    "fields": [
+      {
+        "label": "Context",
+        "placeholder": "Capability, consumers, and current pain"
+      },
+      {
+        "label": "Decision",
+        "placeholder": "Reuse technique and version or runtime contract"
+      },
+      {
+        "label": "Trade-off",
+        "placeholder": "Coupling accepted and fitness signal to monitor"
+      }
+    ]
+  },
+  "visual": {
+    "nodes": [
+      {
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "hard-parts"
+      },
+      {
+        "id": "step-1",
+        "kind": "terminal",
+        "label": "SMALL LOCAL COPIES",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "deployment",
+        "label": "INDEPENDENT RELEASES",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "shield",
+        "label": "FIX EVERY COPY",
+        "tone": "peach"
+      }
+    ],
+    "edges": [
+      {
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
+      },
+      {
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
+      },
+      {
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
+      }
+    ],
+    "steps": [
+      {
+        "node": "step-0",
+        "text": "Pip copies a tiny stable validation rule into each delivery service."
+      },
+      {
+        "node": "step-1",
+        "text": "Replication preserves deployment and runtime independence and allows legitimate local tailoring."
+      },
+      {
+        "node": "step-3",
+        "text": "Pip accepts duplication only with maintenance checks; rules requiring identical correctness are dangerous candidates for semantic drift."
+      }
+    ]
+  },
+  "story": {
+    "course": "hard-parts",
+    "world": "islands",
+    "title": "The shared helper becomes everybody’s problem"
+  }
 }

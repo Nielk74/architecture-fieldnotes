@@ -1,24 +1,26 @@
 # Chapter 7: Learning in Agentic Systems
 
+*Pip’s adventure: A lesson that survives the next visitor. Fictional teaching story; concepts follow the cited source.*
+
 Original learning notes. Source: text lines 5525–6600 in the supplied book.
 
-Agent learning can improve later behavior without retraining the model. Examples, retrieved experience, and stored reflections alter the context used for subsequent attempts; their usefulness depends on the quality and relevance of the feedback retained. Parametric approaches instead change model weights, using demonstrations, preferences, or task-specific reward signals. These methods offer different forms of specialization and impose different data, training, and evaluation costs. Learning is an optional investment, not a prerequisite for a useful agent. Compare the expected improvement with added latency and maintenance, and check whether a change helps representative tasks rather than merely reproducing a successful remembered case.
+Pip’s guide repeats a failed route. The team can improve context with reviewed examples and reflections, or invest in changing model weights. Pip tests whether each lesson generalizes: remembering one success is not the same as improving the next visitor’s experience.
 
 ## Nonparametric learning
 
-Nonparametric techniques improve behavior without changing model weights, for example by adding examples, reflections, or retrieved experience. They are easier to revise but consume context and can overfit to remembered cases.
+Pip saves a reviewed example of an ambiguous ticket cancellation. Nonparametric learning changes behavior through examples, reflections, or retrieved experience without updating weights. The guidance is easy to revise but consumes context. Pip tests unfamiliar cases so remembered successes do not become overfitting.
 
 ## Exemplar learning
 
-Providing successful examples in a prompt guides behavior through pattern matching. More examples can help, but context limits and example quality constrain the benefit.
+Pip replaces twenty irrelevant greetings with three reviewed partial-refund examples. Exemplars guide behavior through patterns in the prompt. Quality and context limits constrain how much more examples help. Pip evaluates amount and currency selection rather than counting demonstrations.
 
 ## Reflexion
 
-The Reflexion loop performs an action sequence, logs the trial, generates a self-critique after failure, updates memory, and injects the reflection on a later run. The loop adds latency and can preserve a bad critique.
+Pip’s guide requests shipment details before identifying the order. Reflexion logs the trial, critiques the failure, updates memory, and injects the reflection into a later attempt. Pip checks whether the sequence actually improves. The extra loop adds latency and can preserve a mistaken critique.
 
 ## Fine-tuning
 
-Parameter updates adapt weights to a dataset and can make behavior more consistent. Training costs, data quality, regressions, and evaluation burden mean learning is not automatically worth the investment.
+Pip trains on reviewed structured tool calls. Fine-tuning updates model weights and can make behavior more consistent. Training costs, data quality, regressions, and evaluation burden may outweigh the benefit. Pip checks held-out requests before promoting the model, not just the examples it learned.
 
 ## Teaching extension
 

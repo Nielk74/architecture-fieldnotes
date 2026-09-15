@@ -1,4 +1,7 @@
 import {roleGeometry, primitiveDescriptions} from './primitives.js';
+import {renderCourseBot,courseThemes} from './course-sidekicks.js';
+import {renderTeachingScene} from './teaching.js';
+import {threeBeatSequence} from './sequence.js';
 export {primitiveDescriptions} from './primitives.js';
 /** Small, dependency-free SVG scene renderer. Scene data is separate from geometry. */
 export const palettes = {
@@ -13,6 +16,11 @@ const number = (value, fallback) => Number.isFinite(value) ? value : fallback;
 const types = new Set(['block', 'database', 'document', 'gateway', 'person', ...Object.keys(primitiveDescriptions)]);
 
 function geometry(node, p) {
+  if(node.kind==='pip') {
+    const course=Object.hasOwn(courseThemes,node.course)?node.course:'fundamentals';
+    const bot=renderCourseBot({course,xp:number(node.xp,0)}).replace(/^<svg[^>]*>/,'').replace(/<\/svg>$/,'');
+    return `<g class="story-pip-avatar" data-story-course="${escape(course)}" data-story-xp="${number(node.xp,0)}" fill="none" transform="translate(-51 -66) scale(.57)">${bot}</g>`;
+  }
   const role=roleGeometry(node.kind,p);if(role)return role;
   const w = number(node.width, 100), h = number(node.height, 37), a = w / 2, d = w / 4;
   if (node.kind === 'database') return `<path d="M${-a} 0v${h}a${a} 16 0 0 0 ${w} 0V0" fill="${p.right}"/><ellipse cy="${h}" rx="${a}" ry="16" fill="${p.left}"/><path d="M${-a} 0v${h}m${w} 0V0M${-a} ${h/2}a${a} 16 0 0 0 ${w} 0" fill="none"/><ellipse rx="${a}" ry="16" fill="${p.top}"/><text y="4" class="iso-label" fill="${p.ink}">${escape(node.label)}</text>`;
@@ -23,8 +31,9 @@ function geometry(node, p) {
 }
 
 /** Returns an accessible SVG string. IDs are local data attributes, so scenes can repeat. */
-export function renderScene({ title, nodes = [], edges = [], platform = true, className = '', theme = 'sage', sequence = [] }) {
+export function renderScene({ title, nodes = [], edges = [], platform = true, className = '', theme = 'sage', sequence = [], teaching }) {
   const effectId=`iso-light-${++sceneSerial}`;
+  sequence=sequence.length?sequence:nodes.map(n=>({node:n.id,text:n.caption||n.label}));
   if (!title) throw new Error('An illustration needs an accessible title.');
   const byId = new Map();
   nodes.forEach(n => {
@@ -33,6 +42,17 @@ export function renderScene({ title, nodes = [], edges = [], platform = true, cl
     if (n.kind && !types.has(n.kind)) throw new Error(`Unknown illustration primitive: ${n.kind}`);
     byId.set(n.id, n);
   });
+  sequence.forEach(step=>{
+    if(!byId.has(step.node))throw new Error('An illustration step references a missing node.');
+    for(const [id,state] of Object.entries(step.states||{})) {
+      if(!byId.has(id)||!['working','idle','off','blocked','ready'].includes(state))throw new Error('Invalid illustration state.');
+    }
+  });
+  sequence=threeBeatSequence(sequence);
+  if(teaching){
+    if(nodes.length!==1||nodes[0].kind!=='pip')throw new Error('Teaching scenes need their course Pip presenter.');
+    return renderTeachingScene({title,nodes,sequence,teaching},geometry(nodes[0],palettes[theme]||palettes.sage));
+  }
   const connections = edges.map((edge, i) => {
     const from = byId.get(edge.from), to = byId.get(edge.to);
     if (!from || !to) throw new Error('An illustration edge references a missing node.');

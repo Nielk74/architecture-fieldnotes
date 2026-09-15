@@ -3,7 +3,7 @@
   "title": "Efficient Data Storage",
   "part": "Observability at Scale",
   "subtitle": "Store for unpredictable questions and fresh answers",
-  "summary": "Observability storage must support an unusual combination: high-volume event ingestion, arbitrary filtering and grouping, rapid queries, fresh data, and resilience during incidents. Pre-aggregating into fixed time series sacrifices the context needed for unfamiliar questions, while indexing every possible field can become prohibitively expensive. The chapter uses Honeycomb’s Retriever to illustrate a different trade-off. Time-bounded segments reduce the search space, and column-oriented data within them limits reads to fields a query actually uses. Append-only ingestion accommodates out-of-order events through segment timestamp ranges rather than constant rewriting. This is a reference design, not a universal prescription. Its value lies in connecting physical storage choices to the speed, fidelity, and availability required by an engineer’s investigation loop.",
+  "summary": "Pip needs a new tenant-build comparison during an incident. Storage tuned only for prepared queries cannot help. Event-level attributes, bounded time scans, and selective column reads preserve investigative flexibility while controlling cost.",
   "source": {
     "startLine": 6676,
     "endLine": 7402,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "The workload determines the design",
-      "body": "Investigators do not know every useful field or grouping in advance. Storage must therefore retain event-level attributes and answer new combinations quickly, including newly arrived data. Optimizing only prepared queries can leave unfamiliar investigations slow or impossible. Freshness and fault tolerance matter too, because responders need to verify changes while production is already under stress.",
-      "example": "A previously unused tenant-build combination must be queryable during an incident.",
-      "source": "text lines 6676–7402"
+      "body": "Pip asks about a tenant-build combination nobody previously queried. Investigation needs new groupings over retained event attributes, including fresh arrivals. Prepared-query optimization alone may make unfamiliar questions slow or impossible. Pip also checks fault tolerance because the store must help verify changes while production is under stress.",
+      "example": "",
+      "source": "text lines 6676–7402",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "search",
+            "label": "UNPLANNED QUERY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "RETAINED ATTRIBUTES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "FRESH EVIDENCE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks about a tenant-build combination nobody previously queried."
+          },
+          {
+            "node": "step-1",
+            "text": "Investigation needs new groupings over retained event attributes, including fresh arrivals."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip also checks fault tolerance because the store must help verify changes while production is under stress."
+          }
+        ]
+      }
     },
     {
       "title": "Time segments bound the scan",
-      "body": "Retriever groups incoming data into append-only segments and records their oldest and newest event timestamps. Queries select segments whose ranges overlap the requested interval. Events need not arrive in exact timestamp order, but mixing very old backfill with fresh data can widen many segment ranges and increase the amount a later query must scan.",
-      "example": "A narrow time query skips segments entirely outside its interval.",
-      "source": "text lines 6676–7402"
+      "body": "Pip queries a narrow incident window in Retriever. Append-only segments record their oldest and newest event timestamps so nonoverlapping segments can be skipped. Events need not arrive in exact timestamp order. Pip avoids mixing very old backfill broadly with fresh events, which widens ranges and increases later scans.",
+      "example": "",
+      "source": "text lines 6676–7402",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "QUERY WINDOW",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "database",
+            "label": "TIME SEGMENTS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "trace",
+            "label": "LATE BACKFILL",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip queries a narrow incident window in Retriever."
+          },
+          {
+            "node": "step-1",
+            "text": "Append-only segments record their oldest and newest event timestamps so nonoverlapping segments can be skipped."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip avoids mixing very old backfill broadly with fresh events, which widens ranges and increases later scans."
+          }
+        ]
+      }
     },
     {
       "title": "Columns reduce unnecessary reads",
-      "body": "Within relevant segments, column-oriented storage lets a query read the fields it filters, groups, or returns instead of every attribute in every event. Sparse and repeated values can also compress efficiently. Reconstructing full rows requires additional work, so the design balances analytical scans with the need to inspect individual events and traces.",
-      "example": "A latency-by-build query reads timestamp, duration, and build rather than all request headers.",
-      "source": "text lines 6676–7402"
+      "body": "Pip groups latency by build without reading every request header. Column storage reads filtered, grouped, and returned fields within relevant segments. Sparse and repeated values can compress efficiently. Pip balances fast analytical scans against the extra work needed to reconstruct full events and traces.",
+      "example": "",
+      "source": "text lines 6676–7402",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "SELECTED FIELDS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "database",
+            "label": "COLUMN READS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "trace",
+            "label": "FULL EVENT INSPECTION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip groups latency by build without reading every request header."
+          },
+          {
+            "node": "step-1",
+            "text": "Column storage reads filtered, grouped, and returned fields within relevant segments."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip balances fast analytical scans against the extra work needed to reconstruct full events and traces."
+          }
+        ]
+      }
     },
     {
       "title": "Avoid preselecting every future question",
-      "body": "A traditional metric series gains efficiency when the same label combinations repeat. Unique request-like attributes undermine that assumption by generating many distinct combinations. The chapter instead emphasizes retained events and efficient reads without requiring every interesting dimension to be predicted and specially indexed, preserving flexibility for the next unfamiliar investigation.",
-      "example": "Turning request IDs into metric labels creates new series rather than reusable aggregate buckets.",
-      "source": "text lines 6676–7402"
+      "body": "Pip considers making every request ID a metric label. Unique request-like values create new series instead of reusable aggregate combinations. The chapter favors retained events and efficient reads without preselecting or specially indexing every future dimension. Pip preserves flexibility for the next unfamiliar question.",
+      "example": "",
+      "source": "text lines 6676–7402",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "UNIQUE REQUEST IDS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "SERIES EXPLOSION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "database",
+            "label": "RETAINED EVENTS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip considers making every request ID a metric label."
+          },
+          {
+            "node": "step-1",
+            "text": "Unique request-like values create new series instead of reusable aggregate combinations."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip preserves flexibility for the next unfamiliar question."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -118,68 +370,68 @@
     "nodes": [
       {
         "id": "step-0",
-        "label": "QUERY NEEDS",
-        "kind": "trace",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "observability"
       },
       {
         "id": "step-1",
-        "label": "TIME SEGMENTS",
-        "kind": "experiment",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
+        "kind": "search",
+        "label": "UNPLANNED QUERY",
+        "tone": "sage"
       },
       {
         "id": "step-2",
-        "label": "COLUMNS",
-        "kind": "alert",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
+        "kind": "document",
+        "label": "RETAINED ATTRIBUTES",
+        "tone": "lilac"
       },
       {
         "id": "step-3",
-        "label": "FLEXIBLE READS",
-        "kind": "leaf",
-        "tone": "honey",
-        "x": 500,
-        "y": 100
+        "kind": "clock",
+        "label": "FRESH EVIDENCE",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
         "from": "step-0",
-        "to": "step-1"
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-1",
-        "to": "step-2"
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-2",
-        "to": "step-3"
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
         "node": "step-0",
-        "text": "A previously unused tenant-build combination must be queryable during an incident."
+        "text": "Pip asks about a tenant-build combination nobody previously queried."
       },
       {
         "node": "step-1",
-        "text": "A narrow time query skips segments entirely outside its interval."
-      },
-      {
-        "node": "step-2",
-        "text": "A latency-by-build query reads timestamp, duration, and build rather than all request headers."
+        "text": "Investigation needs new groupings over retained event attributes, including fresh arrivals."
       },
       {
         "node": "step-3",
-        "text": "Turning request IDs into metric labels creates new series rather than reusable aggregate buckets."
+        "text": "Pip also checks fault tolerance because the store must help verify changes while production is under stress."
       }
     ]
+  },
+  "story": {
+    "course": "observability",
+    "world": "market",
+    "title": "Store evidence for the question Pip has not asked yet"
   }
 }

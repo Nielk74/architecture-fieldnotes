@@ -1,37 +1,352 @@
 {
   "number": 9,
   "subtitle": "Make carbon numbers comparable and useful for decisions.",
-  "summary": "Measurement begins by defining the software boundary and the useful work being compared. The chapter combines three ingredients: energy, the carbon intensity of its electricity supply, and the allocated embodied emissions of hardware. It discusses direct measurements, estimates, and proxies, with attention to granularity and consistent comparison. Organizational inventories and a software intensity rate answer different questions; a lower rate need not mean a lower total. The book’s Software Carbon Intensity discussion excludes market-based reductions from the software rate so operational changes remain visible. Tool reports also differ in coverage and reporting delay. The aim is evidence that directs an improvement, with assumptions stated clearly enough to understand what a changed number actually means.",
+  "summary": "Two dashboards give Pip different footprints for the same cinema. Before choosing the smaller number, Pip asks what each report includes. A comparison needs a software boundary, a period, and equivalent useful work. Energy, the electricity’s carbon intensity, and allocated hardware emissions must use compatible units. Direct measurements, estimates, and proxies offer different coverage and delays. Organizational inventories and a software intensity rate answer different questions; lower emissions per export need not mean lower totals. The book’s SCI approach separates market-based reductions so software changes remain visible. Pip records assumptions before announcing an improvement.",
   "concepts": [
     {
       "title": "Choose boundaries before numbers",
-      "body": "A software footprint can span servers, clients, networks, storage, and background activity. Define both the system and measurement period before comparing alternatives. Consistency prevents an apparent reduction caused only by moving work outside the counted boundary. A useful functional unit, such as a completed export of agreed quality, makes the comparison meaningful as workload size changes.",
-      "example": "Teaching extension: Two export versions use the same input, quality, period, and included components; retries and client-side work remain visible.",
-      "source": "pp. 135–137, 149–150"
+      "body": "Pip’s new converter looks cleaner until a teammate notices that decoding moved to the viewer’s phone. The report simply stopped counting it. Pip redraws the boundary: servers, clients, networks, storage, background work, and the measurement period. Both versions must produce equivalent completed exports at agreed quality. That functional unit makes comparison useful as volume changes. A boundary should reveal shifted work, not turn an accounting omission into a victory.",
+      "example": "",
+      "source": "pp. 135–137, 149–150",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "boundary",
+            "label": "SAME BOUNDARY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "phone",
+            "label": "CLIENT WORK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "cinema",
+            "label": "EQUIVALENT OUTPUT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip notices a saving caused by moving work outside the report."
+          },
+          {
+            "node": "step-1",
+            "text": "Fix the same system and measurement period."
+          },
+          {
+            "node": "step-3",
+            "text": "Compare equivalent completed exports at agreed quality."
+          }
+        ]
+      }
     },
     {
       "title": "Combine energy and electricity data carefully",
-      "body": "A device meter measures energy within its physical boundary, while instrumentation or models may provide a narrower estimate. Carbon intensity needs matching time and location. Background consumption and battery charging affect interpretation. Average and marginal signals answer different questions. Record which signal and method were used rather than treating every number labeled carbon as interchangeable.",
-      "example": "Teaching extension: A lab reports wall-meter energy and notes the idle baseline separately. It labels whether the result is total device consumption or the increment associated with the task.",
-      "source": "pp. 136–139"
+      "body": "The wall meter and processor counters disagree. Pip checks their boundaries: the meter includes the device, while instrumentation or a model may estimate only part of it. Background consumption and battery charging complicate the reading. Electricity intensity must match time and location; average and marginal signals answer different questions. Pip reports the idle baseline separately and labels total versus incremental consumption. A number called carbon is not automatically comparable to another.",
+      "example": "",
+      "source": "pp. 136–139",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "ENERGY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "leaf",
+            "label": "TIME & LOCATION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "METHOD",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks what each measurement includes."
+          },
+          {
+            "node": "step-1",
+            "text": "A wall meter and processor estimate have different boundaries."
+          },
+          {
+            "node": "step-3",
+            "text": "Record background use, assumptions, and total versus incremental consumption."
+          }
+        ]
+      }
     },
     {
       "title": "Allocate hardware over the same period",
-      "body": "Embodied emissions come from equipment production and disposal. A software estimate needs a justified allocation for its share of hardware and useful lifetime. The emissions are already incurred; allocation makes comparisons possible but cannot remove them physically. Supplier data may be incomplete, so assumptions about lifetime, device type, and shared use must be visible in the result.",
-      "example": "Teaching extension: A fictional 600 kg device used exclusively for five years contributes an allocation of 120 kg per year, not 600 kg every day.",
-      "source": "pp. 141–143"
+      "body": "Pip’s ledger charges a device’s entire manufacturing footprint to today’s film. That cannot be the daily allocation. For a fictional 600 kg device used exclusively for five years, the allocation is 120 kg per year. A software estimate must justify its hardware share and useful lifetime over the same period. Production and disposal emissions remain physically incurred. Where supplier data is incomplete, Pip exposes assumptions about device type, lifetime, and shared use.",
+      "example": "",
+      "source": "pp. 141–143",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "phone",
+            "label": "600 kg DEVICE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "FIVE YEARS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "120 kg / YEAR",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip checks an illustrative hardware allocation."
+          },
+          {
+            "node": "step-1",
+            "text": "The fictional device carries 600 kg of embodied emissions."
+          },
+          {
+            "node": "step-3",
+            "text": "Allocate 120 kg per year; past emissions do not disappear."
+          }
+        ]
+      }
     },
     {
       "title": "A software rate differs from an inventory",
-      "body": "The book describes SCI as (E × I + M) / R: energy times electricity intensity plus allocated hardware emissions, divided by useful work. Organizational scopes classify emissions by ownership and purchasing relationships, while SCI follows a software boundary. Moving hosting can change an organization’s scope category without removing physical emissions. Keep units and the measurement period consistent across the formula.",
-      "example": "Teaching extension: For fictional inputs of 2 kWh, 100 g CO₂e/kWh, 40 g allocated hardware, and 20 completed exports, the rate is 12 g CO₂e per export.",
-      "source": "pp. 145–151"
+      "body": "Pip writes SCI as (E × I + M) / R. Energy times electricity intensity, plus allocated hardware emissions, is divided by useful work. With fictional inputs of 2 kWh, 100 g CO₂e/kWh, 40 g hardware, and 20 exports, the rate is 12 g CO₂e per export. Units and periods must match. Organizational scopes classify ownership and purchases instead: moving hosting can change a scope category without removing physical emissions.",
+      "example": "",
+      "source": "pp. 145–151",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "E × I",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "phone",
+            "label": "+ M",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "cinema",
+            "label": "÷ EXPORTS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip computes the book’s software intensity rate."
+          },
+          {
+            "node": "step-1",
+            "text": "2 kWh × 100 g/kWh = 200 g electricity emissions."
+          },
+          {
+            "node": "step-3",
+            "text": "240 g ÷ 20 equivalent exports = 12 g per export."
+          }
+        ]
+      }
     },
     {
       "title": "Separate reductions, proxies, and reporting methods",
-      "body": "Cost, CPU activity, and energy can indicate change but have different limitations. Discounts can lower bills without changing resource use. Market-based purchases and offsets serve different accounting purposes from reducing a workload’s physical demand. The authors keep them out of their actionable software metric. Compare tools by coverage, allocation, time resolution, and delay rather than ranking raw totals from unlike methods.",
-      "example": "Teaching extension: A report distinguishes a billing discount from reduced resource hours and labels estimated emissions separately from directly observed energy.",
-      "source": "pp. 139–145, 151–155"
+      "body": "The invoice falls after a discount. Pip checks the worker hours: unchanged. Cost, CPU activity, and energy are useful clues with different limits. Offsets and market-based purchases have accounting purposes distinct from reducing physical workload demand; the authors exclude them from this actionable software metric. Pip labels estimates and reductions separately, then compares reporting coverage, allocation, time resolution, and delay. Choosing the lowest number from incompatible methods would tell no reliable story.",
+      "example": "",
+      "source": "pp. 139–145, 151–155",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "DISCOUNT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "SAME HOURS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "COMPARE METHODS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip looks behind the smaller bill."
+          },
+          {
+            "node": "step-1",
+            "text": "A discount changes price."
+          },
+          {
+            "node": "step-3",
+            "text": "Compare scope and methods; keep market-based accounting distinct."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -46,7 +361,7 @@
   ],
   "scenario": {
     "title": "Two dashboards disagree",
-    "context": "Teaching extension. A team receives a monthly provider report and an internal estimate built from energy and regional intensity. Their totals differ. One includes market-based accounting and omits some hardware; the other has a different boundary. The team wants to evaluate a new export implementation without creating a misleading comparison.",
+    "context": "Pip receives a monthly provider report and an internal energy-based estimate. Their cinema totals differ: market-based accounting, hardware coverage, and boundaries are not aligned. Pip needs to evaluate a new export implementation without treating unlike reports as a before-and-after comparison.",
     "options": [
       {
         "label": "Align methods for a like-for-like experiment",
@@ -116,60 +431,63 @@
   "visual": {
     "nodes": [
       {
-        "id": "energy",
-        "label": "ENERGY",
-        "kind": "gauge",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "green-software"
+      },
+      {
+        "id": "step-1",
+        "kind": "boundary",
+        "label": "SAME BOUNDARY",
         "tone": "sage"
       },
       {
-        "id": "intensity",
-        "label": "INTENSITY",
-        "kind": "leaf",
+        "id": "step-2",
+        "kind": "phone",
+        "label": "CLIENT WORK",
         "tone": "lilac"
       },
       {
-        "id": "embodied",
-        "label": "HARDWARE",
-        "kind": "deployment",
+        "id": "step-3",
+        "kind": "cinema",
+        "label": "EQUIVALENT OUTPUT",
         "tone": "peach"
-      },
-      {
-        "id": "unit",
-        "label": "PER RESULT",
-        "kind": "target",
-        "tone": "honey"
       }
     ],
     "edges": [
       {
-        "from": "energy",
-        "to": "intensity"
+        "from": "step-0",
+        "to": "step-1",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "intensity",
-        "to": "unit"
+        "from": "step-1",
+        "to": "step-2",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "embodied",
-        "to": "unit"
+        "from": "step-2",
+        "to": "step-3",
+        "flow": false,
+        "dashed": true
       }
     ],
     "steps": [
       {
-        "node": "energy",
-        "text": "Measure or estimate energy over the stated period."
+        "node": "step-0",
+        "text": "Pip notices a saving caused by moving work outside the report."
       },
       {
-        "node": "intensity",
-        "text": "Match that energy to an appropriate time and location factor."
+        "node": "step-1",
+        "text": "Fix the same system and measurement period."
       },
       {
-        "node": "embodied",
-        "text": "Add hardware emissions allocated to the same period and software share."
-      },
-      {
-        "node": "unit",
-        "text": "Divide the sum by equivalent useful work and retain the total."
+        "node": "step-3",
+        "text": "Compare equivalent completed exports at agreed quality."
       }
     ]
   },
@@ -194,5 +512,10 @@
     "endLine": 5850,
     "pages": "135–155",
     "reference": "pp. 135–155; text lines 5077–5850"
+  },
+  "story": {
+    "course": "green-software",
+    "world": "cinema",
+    "title": "Two dashboards, one missing boundary"
   }
 }

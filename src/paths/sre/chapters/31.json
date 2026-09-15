@@ -3,7 +3,7 @@
   "title": "Communication and Collaboration in SRE",
   "part": "People and practice",
   "subtitle": "Turn shared operational knowledge into coordinated engineering",
-  "summary": "Communication in SRE must carry a shared picture of service health across teams, sites, and specialties. Production meetings connect operational evidence to design decisions: participants examine changes, metrics, outages, alert quality, and outstanding improvements. They should leave with the same understanding rather than a collection of individual status reports. Cross-site engineering adds coordination costs, so written decisions, clear component ownership, and sustained maintenance commitments matter. The Viceroy case shows how a common product vision can unite duplicated monitoring efforts, while contributor churn can dilute ownership. The DFP migration illustrates early collaboration between infrastructure and business-logic experts, agreed interfaces, and output comparison before rollout. Reliability improves when production experience shapes development through a continuing, mutually respectful relationship.",
+  "summary": "Pip’s production meeting has become a list of busy people. The crew returns it to service behavior: changes, incidents, trends, and assigned improvements. Shared agendas and clear ownership help development partners and remote colleagues contribute.",
   "source": {
     "startLine": 14494,
     "endLine": 15052,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Production meetings as a feedback mechanism",
-      "body": "A production meeting builds a common understanding of the services a team operates. Reviewing upcoming changes, trends, incidents, and paging behavior connects observed performance to architecture and implementation choices. It should generate assigned improvements and revisit previous actions. This service-centered purpose differs from reporting how busy each person has been, and including development partners completes the feedback path into product changes.",
-      "example": "Teaching extension: A weekly review links growing query latency to a recent data-model change and assigns a joint investigation.",
-      "source": "text lines 14494–15052"
+      "body": "Pip replaces status-by-person with a review of the harbor service. Changes, trends, incidents, and paging connect observed behavior to architecture and implementation. A growing query delay leads to a jointly owned investigation with developers. Pip revisits earlier actions so the meeting closes the production feedback loop.",
+      "example": "",
+      "source": "text lines 14494–15052",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "SERVICE TRENDS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "team",
+            "label": "DEVELOPMENT PARTNERS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "ASSIGNED IMPROVEMENTS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip replaces status-by-person with a review of the harbor service."
+          },
+          {
+            "node": "step-1",
+            "text": "Changes, trends, incidents, and paging connect observed behavior to architecture and implementation."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip revisits earlier actions so the meeting closes the production feedback loop."
+          }
+        ]
+      }
     },
     {
       "title": "Shared agendas and inclusive participation",
-      "body": "Preparing a collaborative agenda before the meeting lets participants supply evidence, questions, and links without competing for speaking time. Distributed teams need deliberate participation because larger rooms can dominate remote colleagues. A chair keeps discussion useful and ensures decisions and actions are recorded. Relevant partners can contribute through representatives or written input when full attendance is impractical.",
-      "example": "Teaching extension: A remote engineer adds an overlooked failure trend to the agenda and supplies its dashboard before discussion begins.",
-      "source": "text lines 14494–15052"
+      "body": "Pip’s remote colleague cannot get a word into the crowded room. A shared agenda prepared beforehand collects evidence, questions, and links. The chair makes participation deliberate and records decisions and actions. Pip welcomes representatives or written input when relevant partners cannot all attend.",
+      "example": "",
+      "source": "text lines 14494–15052",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "SHARED AGENDA",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "person",
+            "label": "REMOTE COLLEAGUE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "INCLUSIVE DISCUSSION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s remote colleague cannot get a word into the crowded room."
+          },
+          {
+            "node": "step-1",
+            "text": "A shared agenda prepared beforehand collects evidence, questions, and links."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip welcomes representatives or written input when relevant partners cannot all attend."
+          }
+        ]
+      }
     },
     {
       "title": "Cross-site ownership and common direction",
-      "body": "Distributed projects gain access to more expertise but pay for communication delay and incomplete local context. A common vision, documented decisions, and clearly owned components reduce those costs. Contributions need maintenance commitment beyond the initial patch. The Viceroy collaboration benefited from merging complementary work, but also showed how short-lived contributors and informal local decisions can leave remote owners or delivered features unsupported.",
-      "example": "Teaching extension: Two dashboard teams agree on a shared data interface and name maintainers for the components each team contributes.",
-      "source": "text lines 14494–15052"
+      "body": "Pip merges complementary dashboard work from two sites. Distributed expertise brings communication delays and incomplete local context. A common vision, recorded decisions, owned components, and continuing maintenance commitments reduce those costs. The chapter’s Viceroy experience reminds Pip that a useful patch can still leave remote owners and features unsupported.",
+      "example": "",
+      "source": "text lines 14494–15052",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "blueprint",
+            "label": "COMMON DIRECTION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "component",
+            "label": "OWNED COMPONENTS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "handoff",
+            "label": "MAINTENANCE COMMITMENT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip merges complementary dashboard work from two sites."
+          },
+          {
+            "node": "step-1",
+            "text": "Distributed expertise brings communication delays and incomplete local context."
+          },
+          {
+            "node": "step-3",
+            "text": "The chapter’s Viceroy experience reminds Pip that a useful patch can still leave remote owners and features unsupported."
+          }
+        ]
+      }
     },
     {
       "title": "Early collaboration with product engineering",
-      "body": "Product engineers often know business behavior best, while SREs bring experience with infrastructure, production failure, and scale. Defining interfaces together early lets the groups proceed independently without concealing important dependencies. The DFP migration paired infrastructure design with business-logic changes and compared old and new generated outputs before rollout, allowing discrepancies to be fixed while deployment and operational preparation continued.",
-      "example": "Teaching extension: A replacement indexing pipeline must produce matching results before traffic is moved, even though its database schema and extraction method change.",
-      "source": "text lines 14494–15052"
+      "body": "Pip defines interfaces with product engineers before the migration hardens. Product brings business behavior; SRE brings infrastructure, failure, and scale experience. The chapter’s DFP migration compared old and new generated outputs while infrastructure and business logic changed. Pip resolves discrepancies before traffic moves, allowing operational preparation and implementation to proceed together.",
+      "example": "",
+      "source": "text lines 14494–15052",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "api",
+            "label": "JOINT INTERFACES",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "OLD VS NEW OUTPUT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "deployment",
+            "label": "VALIDATED MIGRATION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip defines interfaces with product engineers before the migration hardens."
+          },
+          {
+            "node": "step-1",
+            "text": "Product brings business behavior; SRE brings infrastructure, failure, and scale experience."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip resolves discrepancies before traffic moves, allowing operational preparation and implementation to proceed together."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,76 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Build a shared production decision",
     "nodes": [
       {
-        "id": "observe",
-        "label": "Evidence",
-        "caption": "Production facts",
-        "kind": "gauge",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "Discussion",
-        "caption": "Shared understanding",
-        "kind": "team",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "Decision",
-        "caption": "Recorded ownership",
-        "kind": "document",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "Delivery",
-        "caption": "Verified improvement",
-        "kind": "deployment",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "gauge",
+        "label": "SERVICE TRENDS",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "team",
+        "label": "DEVELOPMENT PARTNERS",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "document",
+        "label": "ASSIGNED IMPROVEMENTS",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "Bring service metrics, changes, and incident experience."
+        "node": "step-0",
+        "text": "Pip replaces status-by-person with a review of the harbor service."
       },
       {
-        "node": "decide",
-        "text": "Product and SRE establish one shared understanding."
+        "node": "step-1",
+        "text": "Changes, trends, incidents, and paging connect observed behavior to architecture and implementation."
       },
       {
-        "node": "act",
-        "text": "Record the chosen action, rationale, and owner."
-      },
-      {
-        "node": "learn",
-        "text": "Verify the improvement and bring its result into the next review."
+        "node": "step-3",
+        "text": "Pip revisits earlier actions so the meeting closes the production feedback loop."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "The meeting turns a trend into a shared fix"
   }
 }

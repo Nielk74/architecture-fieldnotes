@@ -3,7 +3,7 @@
   "title": "Monitoring in Production",
   "part": "Operations",
   "subtitle": "Connect production traces to user outcomes and an operational response",
-  "summary": "Production monitoring must explain more than whether the agent’s infrastructure is running. Model calls, tool invocations, retries, and user outcomes can fail independently, so traces and logs need shared identifiers and workflow context. The chapter connects instrumentation, log and trace storage, dashboards, and alerting into an operational feedback system. Version information helps distinguish a deployment regression from ordinary variation, while semantic measures reveal misunderstood intent or unhelpful results that uptime cannot show. Useful signals lead to owners and response paths. Product, model, and infrastructure teams need a common view so repeated calls, high cost, or abandonment become actionable service problems.",
+  "summary": "Pip’s museum dashboard shows healthy machines while cancellations fail. Agent monitoring needs connected model calls, tools, outcomes, and user experience—not uptime alone. Pip follows shared request IDs and version information until the signals lead to an owner and an action.",
   "source": {
     "startLine": 9145,
     "endLine": 9933,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Monitoring layers",
-      "body": "Production monitoring spans infrastructure, agent behavior, tools, outcomes, and user experience. CPU or uptime alone cannot reveal a misunderstood intent or a harmful action.",
-      "example": "Teaching extension: The service’s uptime remains normal while order cancellations fail because a tool credential expired. Tool-error and completed-task measures reveal the failure that machine health misses.",
-      "source": "text lines 9145-9933"
+      "body": "Pip sees healthy uptime while visitors cannot cancel tickets. An expired tool credential explains the contradiction. Monitoring spans infrastructure, agent behavior, tools, outcomes, and user experience. Pip measures completed tasks and tool errors alongside machine health.",
+      "example": "",
+      "source": "text lines 9145-9933",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "HEALTHY MACHINES",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "api",
+            "label": "EXPIRED CREDENTIAL",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "person",
+            "label": "FAILED CANCELLATION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip sees healthy uptime while visitors cannot cancel tickets."
+          },
+          {
+            "node": "step-1",
+            "text": "An expired tool credential explains the contradiction."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip measures completed tasks and tool errors alongside machine health."
+          }
+        ]
+      }
     },
     {
       "title": "Traces and logs",
-      "body": "A trace links a request to model invocations, tool calls, latency, and results; logs preserve searchable event detail. Together they make a probabilistic workflow inspectable while respecting data sensitivity.",
-      "example": "Teaching extension: A shared request identifier links the user’s message, two model calls, and a timed-out shipping lookup. The responder can locate the delay without joining unrelated customer records.",
-      "source": "text lines 9145-9933"
+      "body": "Pip follows one request identifier through two model calls and a timed-out shipping lookup. Traces connect calls, latency, and results; logs preserve searchable event detail. Together they expose the workflow without joining unrelated visitors’ records. Pip keeps sensitive data out of unnecessary telemetry.",
+      "example": "",
+      "source": "text lines 9145-9933",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "REQUEST ID",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "trace",
+            "label": "MODEL + TOOL CALLS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "TIMEOUT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip follows one request identifier through two model calls and a timed-out shipping lookup."
+          },
+          {
+            "node": "step-1",
+            "text": "Traces connect calls, latency, and results; logs preserve searchable event detail."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip keeps sensitive data out of unnecessary telemetry."
+          }
+        ]
+      }
     },
     {
       "title": "Signal versus noise",
-      "body": "Monitoring asks whether intent was understood, the right tool selected, and the result useful. Thresholds and sampling should distinguish true regressions from natural variation to avoid overreaction.",
-      "example": "Teaching extension: Morning traffic naturally increases total token consumption, so the team compares cost per completed task and failure rates before treating the higher total as a regression.",
-      "source": "text lines 9145-9933"
+      "body": "Pip sees token totals climb with morning visitors. More traffic is not automatically a regression. Intent, tool choice, usefulness, thresholds, and sampling help distinguish natural variation from failure. Pip compares cost per completed task and failure rates before reacting.",
+      "example": "",
+      "source": "text lines 9145-9933",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "market",
+            "label": "MORNING TRAFFIC",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "TOTAL TOKENS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "COST PER SUCCESS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip sees token totals climb with morning visitors."
+          },
+          {
+            "node": "step-1",
+            "text": "More traffic is not automatically a regression."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip compares cost per completed task and failure rates before reacting."
+          }
+        ]
+      }
     },
     {
       "title": "Alerts and response",
-      "body": "An alert is valuable when it maps to an owner and an action. Dashboards, alerts, and post-incident analysis turn production behavior into learning and feed improvements.",
-      "example": "Teaching extension: A sustained rise in failed cancellation tool calls alerts the owning team with the affected version and response procedure. A small isolated latency fluctuation remains diagnostic data.",
-      "source": "text lines 9145-9933"
+      "body": "Pip’s cancellation failures keep rising. An alert names the owner, affected version, and response procedure. An isolated latency wobble remains diagnostic data instead of another page. Dashboards, alerts, and incident analysis create learning only when signals lead to useful action.",
+      "example": "",
+      "source": "text lines 9145-9933",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "SUSTAINED FAILURE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "colleague",
+            "label": "OWNING TEAM",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "RESPONSE PROCEDURE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s cancellation failures keep rising."
+          },
+          {
+            "node": "step-1",
+            "text": "An alert names the owner, affected version, and response procedure."
+          },
+          {
+            "node": "step-3",
+            "text": "Dashboards, alerts, and incident analysis create learning only when signals lead to useful action."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -117,69 +369,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "n0",
-        "label": "INTENT",
-        "kind": "person",
-        "tone": "sage",
-        "x": 100,
-        "y": 80
-      },
-      {
-        "id": "n1",
-        "label": "TRACE",
-        "kind": "trace",
-        "tone": "peach",
-        "x": 270,
-        "y": 80
-      },
-      {
-        "id": "n2",
-        "label": "SIGNAL",
-        "kind": "alert",
-        "tone": "lilac",
-        "x": 100,
-        "y": 210
-      },
-      {
-        "id": "n3",
-        "label": "RESPONSE",
-        "kind": "colleague",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 270,
-        "y": 210
+        "course": "ai-agents"
+      },
+      {
+        "id": "step-1",
+        "kind": "service",
+        "label": "HEALTHY MACHINES",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "api",
+        "label": "EXPIRED CREDENTIAL",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "person",
+        "label": "FAILED CANCELLATION",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "n0",
-        "to": "n1"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n1",
-        "to": "n2"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n2",
-        "to": "n3"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "n0",
-        "text": "Inspect intent in the chapter workflow."
+        "node": "step-0",
+        "text": "Pip sees healthy uptime while visitors cannot cancel tickets."
       },
       {
-        "node": "n1",
-        "text": "Inspect trace in the chapter workflow."
+        "node": "step-1",
+        "text": "An expired tool credential explains the contradiction."
       },
       {
-        "node": "n2",
-        "text": "Inspect signal in the chapter workflow."
-      },
-      {
-        "node": "n3",
-        "text": "Inspect response in the chapter workflow."
+        "node": "step-3",
+        "text": "Pip measures completed tasks and tool errors alongside machine health."
       }
     ]
+  },
+  "story": {
+    "course": "ai-agents",
+    "world": "museum",
+    "title": "Green dashboards, stranded visitors"
   }
 }

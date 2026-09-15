@@ -3,7 +3,7 @@
   "title": "Pipeline Architecture Style",
   "part": "Architecture styles",
   "subtitle": "Turn one long operation into small, composable passes",
-  "summary": "Pipeline architecture, also called pipes and filters, sends data through a one-way sequence of independent filters. Pipes are usually point-to-point and unidirectional; filters are self-contained, generally stateless, and should perform one task. A producer starts the flow, transformers change data, testers route it according to criteria, and a consumer ends it by displaying or persisting a result. These small abstractions compose well, as Unix shells, ETL, EDI, MapReduce, and telemetry processing demonstrate. Modularity and simplicity are strong, but the common monolithic deployment still limits elasticity, scalability, fault tolerance, and recovery. The most useful design question is whether a task can be expressed as a clear stream of transformations and tests, with payloads small enough for the required throughput.",
+  "summary": "Pip turns incoming records into useful catalog data through focused filters. One-way pipes make composition understandable, but do not promise separate processes or independent scaling. The crew tests each transformation and the failure boundary of the whole pipeline.",
   "source": {
     "startLine": 5487,
     "endLine": 5678,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "One-way pipes",
-      "body": "Pipes carry payloads from one filter to the next, usually in a point-to-point, unidirectional flow. Smaller payloads generally improve performance. The pipe hides how a filter is implemented, while the direction makes the processing order easy to see. A pipeline is therefore a topology for composing work, rather than a promise that every stage runs in a separate process or can scale independently.",
-      "example": "A telemetry record can travel from a Kafka reader to a duration test, then to a calculator, and finally to a database output. Each pipe carries only what the next filter needs.",
-      "source": "pp. 143–145"
+      "body": "Pip passes a telemetry record from reader to duration test, calculator, then storage. Pipes usually connect filters point to point in one direction. Small payloads and hidden filter implementation keep processing order clear. Pip treats the pipeline as composition, not proof that stages are separate processes or independently scalable.",
+      "example": "",
+      "source": "pp. 143–145",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "source",
+            "label": "READ RECORD",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "terminal",
+            "label": "TEST + CALCULATE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "database",
+            "label": "STORE RESULT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": false,
+            "flow": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": false,
+            "flow": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip passes a telemetry record from reader to duration test, calculator, then storage."
+          },
+          {
+            "node": "step-1",
+            "text": "Pipes usually connect filters point to point in one direction."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip treats the pipeline as composition, not proof that stages are separate processes or independently scalable."
+          }
+        ]
+      }
     },
     {
       "title": "Four focused filters",
-      "body": "A producer starts a process and sends data outward. A transformer accepts input, changes some or all of it, and forwards the result. A tester evaluates criteria and may route or stop the flow. A consumer terminates the pipeline by persisting or presenting the final result. Filters should be independent, generally stateless, and focused on one task; composite behavior emerges from their sequence.",
-      "example": "A producer reads service metrics, a tester identifies uptime records, a transformer calculates uptime, and a consumer stores the metric. Duration records can branch to a different transformer without changing the producer.",
-      "source": "pp. 143–146"
+      "body": "Pip’s producer emits records; a tester chooses the relevant kind. A transformer changes and forwards data; a consumer persists or presents the final result. Independent, generally stateless filters each do one task. Pip branches duration and uptime processing without changing the producer’s responsibility.",
+      "example": "",
+      "source": "pp. 143–146",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "source",
+            "label": "PRODUCER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "TESTER",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "terminal",
+            "label": "TRANSFORM → CONSUME",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s producer emits records; a tester chooses the relevant kind."
+          },
+          {
+            "node": "step-1",
+            "text": "A transformer changes and forwards data; a consumer persists or presents the final result."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip branches duration and uptime processing without changing the producer’s responsibility."
+          }
+        ]
+      }
     },
     {
       "title": "Composition creates reuse",
-      "body": "Because filters expose simple directional boundaries, teams can recombine them for new flows. The Unix word-frequency example demonstrates that a short sequence of ordinary commands can solve a task more clearly than one large algorithm. Adding a tester after an existing branch can extend telemetry processing without rewriting prior filters. Composition works best when data contracts are small and each filter's behavior is predictable.",
-      "example": "The same normalization transformer can feed a search index pipeline and a reporting pipeline. A new connection-wait tester can be inserted after uptime classification to collect another metric.",
-      "source": "pp. 144–146"
+      "body": "Pip reuses normalization in both search-index and reporting flows. Simple directional contracts let predictable filters combine into larger behavior. The Unix word-frequency example shows ordinary commands composing a clear solution. Pip adds a connection-wait tester after classification without rewriting the earlier filters.",
+      "example": "",
+      "source": "pp. 144–146",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "NORMALIZE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "search",
+            "label": "SEARCH INDEX",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "REPORT PIPELINE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip reuses normalization in both search-index and reporting flows."
+          },
+          {
+            "node": "step-1",
+            "text": "Simple directional contracts let predictable filters combine into larger behavior."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip adds a connection-wait tester after classification without rewriting the earlier filters."
+          }
+        ]
+      }
     },
     {
       "title": "A useful fit and its limits",
-      "body": "Pipelines fit simple, one-way processing: document conversion, ETL, shell commands, telemetry streams, and mediator routes. The separation gives better modularity and slightly better testing and deployment than a less structured monolith. Yet a typical pipeline remains one deployment unit and one quantum. A failure or memory exhaustion in one filter can affect the whole application, and scaling or recovering individual stages is not a natural strength.",
-      "example": "A batch import can be easy to test filter by filter, but a runaway parsing filter can still crash the monolithic process. Scaling only parsing requires additional concurrency techniques the style does not naturally provide.",
-      "source": "pp. 145–148"
+      "body": "Pip tests an import filter by filter, then a runaway parser exhausts the process. Pipelines suit one-way conversion, ETL, shell work, telemetry, and mediation with useful modularity. A typical monolithic pipeline still shares one deployment quantum and failure boundary. Pip needs additional concurrency or deployment design to scale and recover stages independently.",
+      "example": "",
+      "source": "pp. 145–148",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "RUNAWAY PARSER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "alert",
+            "label": "PROCESS FAILURE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "boundary",
+            "label": "ONE QUANTUM",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip tests an import filter by filter, then a runaway parser exhausts the process."
+          },
+          {
+            "node": "step-1",
+            "text": "Pipelines suit one-way conversion, ETL, shell work, telemetry, and mediation with useful modularity."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip needs additional concurrency or deployment design to scale and recover stages independently."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -117,61 +369,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "producer",
-        "label": "PRODUCER",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "fundamentals"
+      },
+      {
+        "id": "step-1",
         "kind": "source",
-        "tone": "peach"
-      },
-      {
-        "id": "tester",
-        "label": "TESTER",
-        "kind": "gateway",
-        "tone": "lilac"
-      },
-      {
-        "id": "transformer",
-        "label": "TRANSFORMER",
-        "kind": "terminal",
+        "label": "READ RECORD",
         "tone": "sage"
       },
       {
-        "id": "consumer",
-        "label": "CONSUMER",
+        "id": "step-2",
+        "kind": "terminal",
+        "label": "TEST + CALCULATE",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
         "kind": "database",
+        "label": "STORE RESULT",
         "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "producer",
-        "to": "tester"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "tester",
-        "to": "transformer"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": false,
+        "flow": true
       },
       {
-        "from": "transformer",
-        "to": "consumer"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": false,
+        "flow": true
       }
     ],
     "steps": [
       {
-        "node": "producer",
-        "text": "A source emits one record into a directional pipe."
+        "node": "step-0",
+        "text": "Pip passes a telemetry record from reader to duration test, calculator, then storage."
       },
       {
-        "node": "tester",
-        "text": "The tester checks a criterion and routes unmatched records away from this flow."
+        "node": "step-1",
+        "text": "Pipes usually connect filters point to point in one direction."
       },
       {
-        "node": "transformer",
-        "text": "The matching record is transformed into the metric or document shape needed next."
-      },
-      {
-        "node": "consumer",
-        "text": "The consumer ends the one-way flow by storing or presenting the result."
+        "node": "step-3",
+        "text": "Pip treats the pipeline as composition, not proof that stages are separate processes or independently scalable."
       }
     ]
+  },
+  "story": {
+    "course": "fundamentals",
+    "world": "bookshop",
+    "title": "Pip builds a book-record assembly line"
   }
 }

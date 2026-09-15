@@ -1,27 +1,53 @@
-# 3. Lessons from Scaling Without Observability
+# Chapter 3: Lessons from Scaling Without Observability
 
-What Parse learned when every outage was different
+*Pip’s adventure: One stall borrows everybody’s workers. Fictional teaching story; concepts follow the cited source.*
 
-Parse’s growth exposed the limits of an operational approach built around familiar failures. Shared tenants and a fixed pool of Ruby workers allowed one slow backend to consume capacity and impair unrelated requests. Dashboards designed after one noisy customer incident could not anticipate the next customer’s workload. Even impressive global reliability obscured a shard that was completely unavailable to its users. The case does not condemn the original stack: shipping quickly had helped Parse find demand. Its lesson is that successful early choices require new operating capabilities as scale changes. High-cardinality exploration in Scuba made unfamiliar incidents investigable through shared evidence and reduced dependence on veterans who previously carried the diagnosis in their heads.
+Source: text lines 1659–2169.
+
+Pip’s market slows broadly after one backend stalls. The Parse case helps Pip recognize shared worker exhaustion and uneven tenant impact. Rich identifiers and fast comparisons reveal today’s unusual workload without assuming yesterday’s customer is still the culprit.
 
 ## Shared capacity spreads symptoms
 
-Parse’s API workers waited on several backends while serving many tenants. When one backend slowed, pending requests consumed the fixed worker pool, causing unrelated work to suffer. Broad slowness therefore did not mean every dependency independently failed. Understanding how scarce execution capacity was shared mattered more than simply locating the slowest chart.
+Pip’s market workers wait on one slow backend and healthy stalls begin to suffer. The Parse case describes pending requests consuming a fixed shared API-worker pool. Broad symptoms do not imply independent failure in every dependency. Pip traces scarce execution capacity rather than merely choosing the slowest chart.
+
+Source: text lines 1659–2169.
 
 ## Yesterday’s culprit is insufficient
 
-After one popular mobile application overwhelmed Parse, the team built controls and dashboards around that customer. New applications soon brought different workloads, making that specific prediction less useful. The lesson is to preserve the ability to identify whichever tenant and operation are unusual now, rather than assume the previous offender remains the important one.
+Pip builds a dashboard around yesterday’s busiest stall. At Parse, controls for one popular mobile app did not predict the next applications’ different workloads. The case’s Norwegian-band application could not explain a new tenant’s geolocation burst. Pip preserves the ability to identify whichever tenant and operation are unusual now.
+
+Source: text lines 1659–2169.
 
 ## Global success hides local failure
 
-The case describes apparently strong overall reliability alongside a shard that was completely down for its users. An aggregate averages over populations whose experiences can differ radically. Tenant and shard context are therefore essential for discovering uneven impact; a small global failure fraction does not imply a small disruption for every customer.
+Pip celebrates global success until one shard’s users report total failure. The Parse case shows strong platform-wide reliability coexisting with a completely unavailable shard. Averages combine populations with radically different experiences. Pip retains tenant and shard context because small global impact can mean complete local disruption.
+
+Source: text lines 1659–2169.
 
 ## Scuba changed the debugging method
 
-Scuba enabled fast filtering and grouping over identifiers with many distinct values. Parse engineers could start from a symptom and follow comparisons to unfamiliar causes, rather than rely on remembered outage patterns. The practical gain included sharing those investigation steps, so curiosity and analytical skill became useful without years of accumulated incident history.
+Pip follows a failing tenant into its shard and query patterns. Scuba enabled Parse engineers to filter and group quickly over high-cardinality identifiers. The investigation could follow unfamiliar causes instead of remembered outage shapes. Pip shares the steps so curiosity and analysis help newer responders too.
 
-## Apply it
+Source: text lines 1659–2169.
+
+## Transfer challenge: A new noisy neighbor
+
+A new mobile app spikes while the dashboard for the previous troublesome tenant is quiet.
+
+### Group current slow requests by tenant and backend
+
+Can identify a different workload and its shared-capacity effects. Needs request context across the tenant and dependency boundaries. The team can choose tenant controls or a dependency mitigation based on the current workload.
+
+### Add capacity to all API workers
+
+May buy immediate breathing room. Costs more and can leave the backend bottleneck and tenant attribution unresolved. Extra workers may fill with the same blocked work while the initiating workload remains unidentified.
+
+Temporary capacity can support mitigation, but finding the current cohort explains why the familiar tenant dashboard was unhelpful.
+
+## Separate cause from shared symptoms
 
 Map how one slow dependency could affect healthy tenants in a shared service.
 
-Source: *Observability Engineering*, chapter 3; supplied text lines 1659–2169. These notes are an original synthesis; examples and activities are illustrative.
+- Resource shared by tenants
+- How waiting propagates
+- Fields that identify the initiating workload

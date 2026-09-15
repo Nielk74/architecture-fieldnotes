@@ -1,44 +1,36 @@
 # Chapter 11: Co-Benefits
 
+*Pip’s adventure: Three visitors, one abandoned service. Fictional teaching story; concepts follow the cited source.*
+
 Building Green Software — Anne Currie, Sarah Hsu, and Sara Bergman. First edition, March 2024.
 
 Source: printed pp. 167–179; text lines 6151–6578. References count literal newline-delimited lines in the supplied text.
 
 ## Overview
 
-Sustainability often shares mechanisms with cost control, reliability, performance, security, and data management. This chapter explains these co-benefits as a way to make change practical when teams face competing priorities. Removing idle resources can reduce both spending and exposure; tested recovery can reduce dependence on permanently reserved capacity; suitable compute and storage can improve efficiency. Better data handling can avoid repeated transformations and unnecessary retention. These relationships are opportunities rather than universal equivalences. Cost can change without carbon changing, and reliability still has real engineering requirements. The authors encourage integrating sustainability into existing product and operational decisions, with a case that names the benefits, the implementation effort, and the constraints that remain.
+Security, finance, and the projection crew bring Pip different requests. An abandoned service connects them: it costs money, consumes resources, and exposes an endpoint. Sustainability can share mechanisms with cost control, reliability, performance, security, and data management. Tested recovery and suitable compute or storage may help too. But a discount is not a carbon reduction, and backups still protect real needs. Pip builds a proposal naming who benefits, what changes physically, what effort it takes, and which constraints remain. Sustainability becomes part of ordinary engineering decisions.
 
 ## Key ideas
 
 ### Cost and carbon can share a cause
 
-Rightsizing, retiring unused services, and using suitable shared platforms can reduce both cost and resource demand. FinOps connects technology, finance, and business around spending decisions, offering an existing collaboration pattern. The relationship is conditional: a cheaper tariff or discount does not necessarily change electricity or hardware. Explain the resource mechanism behind the proposed savings. (Source: pp. 167–169.)
-
-Teaching extension: Finance and engineering inspect an idle service together, distinguishing reduced resource hours from a new contractual discount.
+Finance offers Pip a discount; security points to an idle preview service. Both may lower a bill, but only releasing unused allocation directly changes resource demand. Rightsizing and suitable shared platforms can join cost and carbon goals through the same mechanism. FinOps provides an existing collaboration pattern across technology, finance, and business. Pip brings resource-hour evidence to that conversation instead of assuming every cheaper tariff means less electricity or hardware. (Source: pp. 167–169.)
 
 ### Resilience can reduce idle redundancy
 
-Reliability concerns consistent useful service; resilience concerns recovering from disruption. The chapter favors automation, recovery, and operational awareness over unexamined reliance on idle duplicate systems. This does not mean removing every backup or replica. Recovery time, data protection, correlated failure, and test results determine how much reserved capacity a service actually needs. (Source: pp. 170–172.)
-
-Teaching extension: A team tests recovery onto fresh capacity before deciding whether a permanently idle standby can be reduced.
+A standby server waits forever for an outage. Pip asks whether tested recovery onto fresh capacity could reduce that idle reservation. Reliability concerns consistent useful service; resilience concerns recovering from disruption. Automation and recovery evidence can replace unexamined assumptions—not every backup or replica. Before reducing anything, Pip tests recovery time, data protection, and correlated failures. An elegant diagram is no substitute for knowing the cinema can actually recover. (Source: pp. 170–172.)
 
 ### Performance should fit the task
 
-A suitable compute or storage option can improve performance and efficiency together. The fastest possible response is not always the user’s requirement, and infrequently accessed retained data may not need the same storage as active records. Fit matters more than a generic maximum-performance label. Include the resource and lifecycle costs associated with the chosen arrangement. (Source: pp. 172–173.)
-
-Teaching extension: Current media metadata remains quickly accessible, while rarely requested historical material uses an archive with an accepted retrieval delay.
+Pip puts every old film record on the fastest storage, then discovers most are rarely opened. The audience agrees to a retrieval delay for historical material while current metadata stays quick. Suitable compute and storage can improve efficiency and performance together, but “maximum performance” is not every user’s requirement. Pip checks resource and lifecycle costs against the actual task instead of buying speed that nobody needs. (Source: pp. 172–173.)
 
 ### Security can eliminate wasteful work
 
-Abandoned services expand the attack surface, and malicious traffic can consume resources without legitimate value. Removing unused systems and preventing abusive requests can therefore support sustainability and security together. Necessary protections also perform work; the chapter’s argument is to reduce waste through good security, not to disable checks or encryption for a superficially smaller compute number. (Source: pp. 174–175.)
-
-Teaching extension: A retired preview service no longer needs patching or background resources, and its unused public endpoint disappears.
+An abandoned preview endpoint still needs patching and receives unwanted traffic. Pip verifies it is unused before retiring it, removing both resource demand and exposure. Preventing abusive requests can also avoid work without legitimate value. Necessary checks and encryption still perform useful protection. The security co-benefit is reducing waste through good security—not disabling safeguards to make a CPU chart look smaller. (Source: pp. 174–175.)
 
 ### Data design connects multiple benefits
 
-Unnecessary storage and repeated transformations consume resources and create operational complexity. Suitable data models, deliberate retention, and clean inputs can improve correctness, performance, and sustainability. Product and data teams must decide what information is useful and how long it is needed. The chapter uses these shared concerns to argue for sustainability as a regular design consideration. (Source: pp. 175–179.)
-
-Teaching extension: Two pipeline stages agree on a compatible representation, removing a repeated conversion while retaining needed fields.
+Two cinema pipeline stages keep converting the same records back and forth. Pip brings the teams together around a compatible representation, preserving needed fields while removing repeated work. Suitable models, clean inputs, and deliberate retention can improve correctness, performance, and sustainability. Product and data teams must decide what remains useful and for how long. The gain comes from avoiding unnecessary transformations and storage, not declaring every byte expendable. (Source: pp. 175–179.)
 
 ## Misconceptions
 
@@ -52,7 +44,7 @@ Recovery objectives and data protection remain essential. Replace assumptions wi
 
 ## Decision practice — teaching extension
 
-Teaching extension. A team maintains a rarely used report endpoint. Security wants fewer exposed systems, finance wants lower recurring cost, and users occasionally need historical reports. The team can retire the endpoint and provide an archive workflow or consolidate it into an actively maintained service. Neither choice can discard required records.
+Pip maintains an occasional report endpoint. Security wants less exposure, finance wants lower cost, and visitors still need historical reports. Pip can retire it with an archive workflow or consolidate it into a maintained service. Neither choice may discard required records.
 
 ### Retire the endpoint and provide archived reports
 

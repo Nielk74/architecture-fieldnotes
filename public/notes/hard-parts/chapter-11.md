@@ -1,15 +1,53 @@
-# Chapter 11 — Managing Distributed Workflows
+# Chapter 11: Managing Distributed Workflows
 
-Distributed architecture turns a domain workflow into a coordination problem. The chapter begins by placing coordination beside communication and consistency as a dimension of dynamic coupling (text lines 6868–6880). Coordination means combining services to perform domain work; it does not mean that a clever topology makes the domain disappear. The central decision is whether a workflow should be orchestrated or choreographed.
+*Pip’s adventure: Who knows where the delivery got stuck?. Fictional teaching story; concepts follow the cited source.*
 
-Orchestration introduces a mediator for one workflow. The mediator manages workflow state, calls, optional behavior, notification, retries, and error handling (text lines 6880–6910). The example order process calls order placement and payment synchronously, then fulfillment and email asynchronously where strict timing is unnecessary (text lines 6911–6937). Failure paths are where this design earns its complexity: a rejected payment causes notification and an order-state update; a backorder requires a refund and another state correction (text lines 6938–6960). The mediator is valuable because these paths use communication already present in the normal workflow. It also creates a potential throughput bottleneck, single point of failure, and service coupling (text lines 6961–6990).
+Source: text lines 6856–7311.
 
-Choreography starts with a service and lets each participant emit the next command or event. It can look simpler because there is no mediator (text lines 6991–7018). Yet a failed payment needs alternate messages, and a backorder can require compensating messages to email, payment, and order placement (text lines 7019–7045). Every added failure path can add another link. This gives the chapter’s important distinction: semantic coupling is imposed by the business workflow, while implementation coupling is what the architecture adds (text lines 7046–7070). An architect cannot reduce the required steps, but can avoid smearing a domain workflow across unnecessary technical layers.
+Pip’s parcel is paid for but cannot ship. A coordinator can own the recovery, or participants can exchange corrective messages. Either way, the business dependencies remain, and somebody must make workflow status understandable.
 
-The state question is separate from the coordination style. A front controller lets the first service own workflow state and makes order status easy to query, but adds pseudo-mediator behavior and communication chatter (text lines 7071–7105). Stateless choreography reconstructs a current snapshot by querying each service. That can scale well but makes status expensive and complex. Stamp coupling carries workflow state inside messages, avoiding repeated queries while enlarging contracts and failing to provide one just-in-time status owner (text lines 7106–7145).
+## Orchestration
 
-Two common mistakes follow. Choreography is not automatically superior: it trades a central coupling point for distributed error and state logic. Orchestration does not remove coupling: it makes the workflow explicit in one place while the domain dependencies remain. For a complex support-ticket workflow with many alternate paths and an operator status requirement, an orchestrator is usually easier to reason about. A simple, high-throughput chain with rare failures may favor choreography.
+Pip asks a delivery orchestrator where the parcel stopped. It owns workflow-specific state, calls, optional paths, errors, retries, and notifications—not every enterprise integration. A backorder triggers payment compensation and a status update. Pip gains visible recovery while accepting a bottleneck, failure point, and coupling to participants.
 
-Modern teaching extension: draw both styles for one workflow, including two failure paths. Mark every new communication edge, state owner, retry, and compensation. Then ask an operator how they would answer “Where is this request now?” The exercise makes the chapter’s trade-off observable rather than ideological. References: supplied early-release text lines 6856–7311.
+Source: text lines 6880–6950.
 
-The chapter’s ticketing discussion also reinforces that coordination should be evaluated against concrete workflow behavior. Count synchronous waits, asynchronous notifications, recovery actions, and status reads. That inventory helps distinguish a genuinely simple event chain from a workflow whose complexity is merely hidden inside callbacks. It also gives a useful baseline for revisiting the choice when traffic, error frequency, or reporting requirements change.
+## Choreography
+
+Pip follows order, payment, fulfillment, and email events without a mediator. Each choreographed participant performs a local step and triggers another. A backorder now needs corrective links to payment, email, and order placement. Pip counts failure-path knowledge too: enough links can recreate a distributed mediator.
+
+Source: text lines 6951–7008.
+
+## Semantic coupling
+
+Pip redraws delivery assignment across technical layers, but its dependencies remain. Skills, schedules, and locations are inherent semantic coupling in the business workflow. Topology cannot eliminate those required relationships. Pip groups the domain workflow to avoid adding accidental coordination across persistence, rules, and presentation.
+
+Source: text lines 7009–7060.
+
+## Workflow state
+
+Pip asks for status in a choreographed delivery. A front controller stores progress but adds pseudo-mediation and chatter. Stateless queries reconstruct a snapshot with latency; stamped messages carry state with larger contracts and no single status owner. Pip chooses where transient state lives before an operator needs to find it.
+
+Source: text lines 7061–7145.
+
+## Transfer challenge: Coordinate ticket assignment
+
+A support platform must accept a ticket, match skills, check schedules, assign an engineer, and report status. Matching rules change often, failures need clear recovery, and operators want to query progress. Traffic is moderate today but may grow. Choose a coordination style while accounting for error paths and the cost of putting workflow knowledge in domain services.
+
+### Workflow orchestrator
+
+One component owns progress, retries, alternate paths, and a status view. The mediator adds coupling, a throughput chokepoint, and a workflow failure concern. A failed schedule lookup is retried and then routed to an explicit exception state. Operators query one workflow record, while the team monitors mediator load and availability.
+
+### Service choreography
+
+Services can process the normal chain without a central coordinator and avoid one workflow bottleneck. Each participant must understand failure notifications, state reconstruction, and compensation. Skill matching emits a schedule request and later events complete assignment. A partial failure requires several services to publish corrective events, increasing operational investigation work.
+
+The number of alternate paths and the need for an authoritative status view favor orchestration here. A simpler, high-throughput chain with rare errors could justify choreography. The domain semantics remain the same in either design.
+
+## Map both workflow paths
+
+Draw the happy path and two failure paths for a multi-service workflow. Compare orchestration and choreography, then record who owns transient state and how an operator queries it.
+
+- Context
+- Decision
+- Trade-off

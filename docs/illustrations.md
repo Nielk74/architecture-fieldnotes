@@ -1,8 +1,20 @@
 # Fieldnotes illustration framework
 
+## Current teaching standard
+
+An illustration should explain the concept even before its paragraph is read. Pip presents the evidence rather than standing beside three renamed icons. Keep each explanatory sequence to **one, two, or three frames maximum**; a single useful view is preferable to unnecessary steps. Use short captions and leave important evidence visible while highlighting the relevant part. Real exercise states, such as a pipeline record’s journey, are not slideshow frames.
+
+`src/illustrations/teaching-recipes.js` supplies 174 authored demonstrations across all 137 chapters, including the original hardcoded chapter. `teaching.js` renders minimalist tables, proportional bars, shared-axis timelines, before/after comparisons, unit-correct equations, and directed relationship maps. These coexist with the story-specific isometric scenes. Examples include distinct request values for cardinality, overlapping spans rather than summed durations, actual energy arithmetic, shared mutation ownership, and delegated decisions.
+
+Each teaching recipe declares `kind`, a short `title`, the concrete data, an example-boundary `note`, and at most three `frames` selecting a row, column, or item. Optional `captions` override the lesson’s scene captions. The main concept paragraph stays unchanged. Numeric examples must label assumptions and are not measured results. `chapterScene()` selects the authored example by course, chapter, and concept; the caller supplies real course XP for Pip.
+
+`sequence.js` limits explanatory playback to three beats while preserving accumulated object states. The chapter shell builds its controls from the rendered sequence, not a separate count. Manual steps, global pause, and motion preferences share the existing director. Standalone exports contain inline chart typography and one visible frame; they need no page scripts or fonts.
+
+`tests/teaching-illustrations.spec.js` checks chapter coverage, the frame limit, arithmetic, distinct-value counts, timing overlap, SVG text overlap/clipping, keyboard playback, and concept exports. These checks complement actual phone and desktop inspection; they do not replace editorial judgment.
+
 This is a small SVG composition system, extracted from the chapter’s original isometric hero. It has no runtime dependencies. The hero, dimension explorer, live deployment sketch, organizational scenes, checkpoint, and decision-record illustration all use the same geometry and motion.
 
-Open `/illustrations.html` for the live studio: preview 35 recipes, change palettes, copy scene data, and download self-contained static SVGs. It is included in production builds.
+Open `/illustrations.html` for the live studio: preview 148 chapter/preset recipes and their concept illustrations, change palettes, copy scene data, and download self-contained static SVGs. It is included in production builds.
 
 ## Add a scene
 
@@ -52,7 +64,7 @@ All labels and attribute text are escaped. Node IDs are scene-local data attribu
 
 ## Coordinate and drawing rules
 
-The canvas is always `480 × 375` and scales with its container. `(x, y)` is the center of a block’s top diamond, database top ellipse, or custom primitive origin. Objects draw back-to-front by `y`. Position transforms are on an outer group; float animation is on an inner group so animation cannot replace placement.
+The isometric canvas is `480 × 375`; front-facing teaching surfaces use `480 × 420`. Both scale with their container. `(x, y)` is the center of a block’s top diamond, database top ellipse, or custom primitive origin. Objects draw back-to-front by `y`. Position transforms are on an outer group; float animation is on an inner group so animation cannot replace placement.
 
 Start from a recipe with the right arrangement. Keep nodes roughly within x=100–380 and y=75–250, allow about 100 units beneath each origin for its shape and caption, and keep labels short. Connections join projected centers behind objects. They show relationships rather than exact protocol routes. At phone size, put detailed explanations in the HTML caption rather than shrinking long SVG labels.
 
@@ -78,7 +90,7 @@ The studio’s SVG export is intentionally static and embeds its text styling; i
 
 ## Book-wide chapters and logical motion
 
-`src/chapters/visuals.js` exports `chapterScene(chapter)`, which turns the chapter's semantic `visual.nodes`, `visual.edges`, and `visual.steps` into a shared isometric recipe. Nodes are deliberately short-labeled and positioned from a small set of readable layouts. The book app and studio use the same function. The studio now includes 12 original scenes and 23 chapter scenes.
+`src/chapters/visuals.js` exports `chapterScene(chapter)`, which turns the chapter's semantic `visual.nodes`, `visual.edges`, and `visual.steps` into a shared isometric recipe. Nodes are deliberately short-labeled and positioned from a small set of readable layouts. The book app and studio use the same function. The studio includes 12 original presets and 136 data-driven chapter scenes. Its Concept selector opens the chapter’s individual illustrations without adding hundreds of thumbnails.
 
 A scene can include `sequence: [{ node: 'service', text: 'The service validates the request.' }, ...]`. The renderer embeds this data safely. `src/illustrations/motion.js` provides `startSceneMotion()`, `setSceneStep(svg, index)`, and `wireScenePlayer(host)`. The director registers newly mounted SVGs, advances visible sequences, marks active nodes and outgoing connections, and updates the player caption. Removed scenes are unregistered. Background tabs and the global pause suspend automatic advancement. Device reduction also suspends motion when system mode is explicitly selected.
 
@@ -86,7 +98,7 @@ Use a `[data-scene-player]` wrapper with numbered `[data-scene-step]` buttons, `
 
 The added SVG classes `.iso-shadow`, `.iso-traveler`, `.iso-work-ring`, and `.iso-scan` share CSS animation. Keep meaningful step order in the recipe; do not rely on painter order to tell the story. A teaching animation illustrates the stated scenario, not every possible runtime execution or an empirical benchmark.
 
-Pip's ten forms use cumulative XP thresholds: 0, 100, 400, 900, 1600, 2400, 4000, 6500, 9500, 12400. `nextEvolution(xp)` supplies the next milestone. Every avatar uses the combined earned XP from the independently persisted path ledgers from `src/progress.js`.
+Pip's ten forms use cumulative XP thresholds: 0, 100, 400, 900, 1600, 2400, 4000, 6500, 9500, 12400. `nextEvolution(xp)` supplies the next milestone. Overall avatars use combined earned XP from the independently persisted path ledgers in `src/progress.js`; course-specific Pip presenters use only that course’s earned XP.
 
 ### Explicit motion preference
 
@@ -104,7 +116,7 @@ Chapter 11 pilots a separate Skip link, staged quiz selection followed by Check 
 
 ## Semantic shapes (book-wide review)
 
-The renderer now has 24 kinds: the five original primitives plus 19 role-specific shapes in `src/illustrations/primitives.js`. `primitiveDescriptions` powers the studio's visual key. Set `kind` deliberately in a recipe; the renderer never guesses from a label. Keep databases for persistent stores, cache chips for memory, deployment enclosures for runtime units, and neutral boundaries for scopes such as a team. A service tower is a visual metaphor for executing software, not a claim that each service occupies physical hardware.
+The renderer extends the five original primitives through `primitives.js`, `people.js`, and `story-geometry.js`. Inspect the exported `primitiveDescriptions` for the current vocabulary. `primitiveDescriptions` powers the studio's visual key. Set `kind` deliberately in a recipe; the renderer never guesses from a label. Keep databases for persistent stores, cache chips for memory, deployment enclosures for runtime units, and neutral boundaries for scopes such as a team. A service tower is a visual metaphor for executing software, not a claim that each service occupies physical hardware.
 
 | Role | Kind | Visual cue |
 | --- | --- | --- |

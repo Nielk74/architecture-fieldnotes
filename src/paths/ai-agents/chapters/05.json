@@ -3,7 +3,7 @@
   "title": "Orchestration",
   "part": "Workflows",
   "subtitle": "Choose a planning pattern and supply the context each step needs",
-  "summary": "Orchestration determines how an agent selects tools, manages state, and uses each result to continue its work. A direct reflex can suit a simple predictable task; ReAct incorporates observations into successive actions; a planner-executor design separates task decomposition from execution. Research and reflection patterns add opportunities to explore or revise, but also add calls, delay, and failure paths. Context engineering connects these patterns to execution by assembling the relevant instructions, evidence, and workflow state for each invocation. Compare approaches on representative tasks, including how often plans must adapt, and use the simplest pattern that meets the required quality and latency.",
+  "summary": "Pip plans a perfect museum tour; one exhibit has moved. A direct rule, an observation-driven loop, or a planner and executor may each fit different work. Pip compares useful adaptation with the calls, delay, and failure paths each pattern introduces.",
   "source": {
     "startLine": 3834,
     "endLine": 4797,
@@ -12,27 +12,291 @@
   "concepts": [
     {
       "title": "Reflex and ReAct",
-      "body": "A reflex agent maps an input directly to an action. ReAct interleaves reasoning-like planning with actions and observations, allowing the next step to use tool results but potentially producing long or hard-to-control trajectories.",
-      "example": "Teaching extension: A reflex routes a known password-reset request directly to its tool. A ReAct-style assistant instead checks an account, observes that it is locked, and chooses the next recovery step from that result.",
-      "source": "text lines 3834-4797"
+      "body": "Pip routes a known opening-hours request directly to its tool. That reflex maps input to action. For a blocked booking, ReAct interleaves planning, actions, and observations so later steps use returned facts. Pip bounds the loop: adaptive trajectories can become long and difficult to control.",
+      "example": "",
+      "source": "text lines 3834-4797",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "router",
+            "label": "DIRECT REFLEX",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "api",
+            "label": "OBSERVE RESULT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "agent",
+            "label": "REVISE NEXT ACTION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip routes a known opening-hours request directly to its tool."
+          },
+          {
+            "node": "step-1",
+            "text": "That reflex maps input to action."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip bounds the loop: adaptive trajectories can become long and difficult to control."
+          }
+        ]
+      }
     },
     {
       "title": "Planner-executor",
-      "body": "A planner first decomposes a task and an executor carries out steps. Separation can improve clarity, debugging, and cost control, but stale plans and coordination between phases must be handled.",
-      "example": "Teaching extension: A planner divides a vendor comparison into price, delivery, and support checks. When an executor finds a discontinued product, it reports the blocked step so the plan can change.",
-      "source": "text lines 3834-4797"
+      "body": "Pip’s planner divides a tour into rooms, timing, and access. An executor discovers that one exhibit has closed. Planner-executor separation aids clarity, debugging, and cost control, but plans can become stale. Pip reports the blocked step so planning and execution reconnect.",
+      "example": "",
+      "source": "text lines 3834-4797",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "blueprint",
+            "label": "TOUR PLAN",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "agent",
+            "label": "EXECUTOR",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "alert",
+            "label": "BLOCKED STEP",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-3",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s planner divides a tour into rooms, timing, and access."
+          },
+          {
+            "node": "step-1",
+            "text": "An executor discovers that one exhibit has closed."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip reports the blocked step so planning and execution reconnect."
+          }
+        ]
+      }
     },
     {
       "title": "Query decomposition",
-      "body": "A complex question is broken into subquestions, retrieved or researched iteratively, then synthesized. This improves coverage when knowledge is external, while increasing calls and opportunities for unsupported joins.",
-      "example": "Teaching extension: A question about opening a new office becomes separate searches for staffing, rent, and network availability. The final synthesis reconciles the locations and dates used in those searches.",
-      "source": "text lines 3834-4797"
+      "body": "Pip researches a new exhibition’s staffing, transport, and insurance. Query decomposition breaks the question into subquestions for iterative retrieval and synthesis. Pip reconciles dates and locations before combining the findings. More coverage brings more calls and opportunities for unsupported joins.",
+      "example": "",
+      "source": "text lines 3834-4797",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "search",
+            "label": "SUBQUESTIONS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "SEPARATE EVIDENCE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "blueprint",
+            "label": "CHECKED SYNTHESIS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip researches a new exhibition’s staffing, transport, and insurance."
+          },
+          {
+            "node": "step-1",
+            "text": "Query decomposition breaks the question into subquestions for iterative retrieval and synthesis."
+          },
+          {
+            "node": "step-3",
+            "text": "More coverage brings more calls and opportunities for unsupported joins."
+          }
+        ]
+      }
     },
     {
       "title": "Reflection and research",
-      "body": "Reflection agents critique an attempt and revise it; deep-research patterns coordinate planning, tool use, and synthesis. Both need explicit state and evaluation because a critique can repeat the same error.",
-      "example": "Teaching extension: A report-review step notices that the draft compares prices from different years and asks for comparable evidence. The revision is checked against the sources rather than accepted merely because it was critiqued.",
-      "source": "text lines 3834-4797"
+      "body": "Pip’s draft compares ticket prices from different years. A reflection step critiques the attempt and requests comparable sources. Deep research coordinates planning, tools, and synthesis; both patterns need explicit state and evaluation. Pip checks the revision against evidence because a critique can repeat an error.",
+      "example": "",
+      "source": "text lines 3834-4797",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "MISMATCHED YEARS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "agent",
+            "label": "CRITIQUE + REVISE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "SOURCE CHECK",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-3",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s draft compares ticket prices from different years."
+          },
+          {
+            "node": "step-1",
+            "text": "A reflection step critiques the attempt and requests comparable sources."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip checks the revision against evidence because a critique can repeat an error."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -117,69 +381,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "n0",
-        "label": "TASK",
-        "kind": "whiteboard",
-        "tone": "sage",
-        "x": 100,
-        "y": 80
-      },
-      {
-        "id": "n1",
-        "label": "PLAN",
-        "kind": "agent",
-        "tone": "peach",
-        "x": 270,
-        "y": 80
-      },
-      {
-        "id": "n2",
-        "label": "OBSERVE",
-        "kind": "trace",
-        "tone": "lilac",
-        "x": 100,
-        "y": 210
-      },
-      {
-        "id": "n3",
-        "label": "SYNTHESIZE",
-        "kind": "document",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 270,
-        "y": 210
+        "course": "ai-agents"
+      },
+      {
+        "id": "step-1",
+        "kind": "router",
+        "label": "DIRECT REFLEX",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "api",
+        "label": "OBSERVE RESULT",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "agent",
+        "label": "REVISE NEXT ACTION",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "n0",
-        "to": "n1"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n1",
-        "to": "n2"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n2",
-        "to": "n3"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "n0",
-        "text": "Inspect task in the chapter workflow."
+        "node": "step-0",
+        "text": "Pip routes a known opening-hours request directly to its tool."
       },
       {
-        "node": "n1",
-        "text": "Inspect plan in the chapter workflow."
+        "node": "step-1",
+        "text": "That reflex maps input to action."
       },
       {
-        "node": "n2",
-        "text": "Inspect observe in the chapter workflow."
-      },
-      {
-        "node": "n3",
-        "text": "Inspect synthesize in the chapter workflow."
+        "node": "step-3",
+        "text": "Pip bounds the loop: adaptive trajectories can become long and difficult to control."
       }
     ]
+  },
+  "story": {
+    "course": "ai-agents",
+    "world": "museum",
+    "title": "The plan meets a missing exhibit"
   }
 }

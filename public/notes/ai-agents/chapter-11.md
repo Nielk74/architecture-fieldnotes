@@ -1,24 +1,26 @@
 # Chapter 11: Improvement Loops
 
+*Pip’s adventure: The promising fix earns a rehearsal. Fictional teaching story; concepts follow the cited source.*
+
 Original learning notes. Source: text lines 9934–10987 in the supplied book.
 
-An improvement loop begins by collecting and organizing evidence from production, evaluation, and user reports. Diagnosis and categorization turn that evidence into candidate changes, while prioritization directs limited effort toward consequential recurring problems. Shadow deployments observe candidates without letting them control live outcomes; controlled comparisons test whether a proposed improvement actually helps. Changes can affect context, prompts, orchestration, or trained model behavior, so regression evaluation must cover more than the original failing case. Human review remains useful for ambiguous judgments. Recording decisions and results connects feedback, experimentation, and learning, allowing the next team member to understand why the system changed.
+Pip’s new routing rule looks better on a handful of requests. Before it controls museum actions, the team links feedback to traces, prioritizes consequential failures, and rehearses the candidate without live authority. A fix must survive both new evidence and old regression cases.
 
 ## Feedback pipelines
 
-Feedback collects outcomes, user reports, traces, and evaluation results, then routes them to analysis and improvement. Automation helps handle volume, but human review is needed for ambiguous or high-impact cases.
+Pip receives complaints about wrong refund amounts. The feedback pipeline connects user reports, outcomes, traces, and evaluation results. Automation groups recurring causes; humans review ambiguous or high-impact cases. Pip turns reviewed evidence into a policy-context fix instead of an undifferentiated complaint count.
 
 ## Shadow experiments
 
-Shadow mode runs a candidate system alongside the baseline without exposing its actions. Comparing outcomes estimates whether a change helps before it receives real authority.
+Pip gives a candidate copies of real cancellation requests. Shadow mode compares proposed outcomes with the baseline without granting live authority. The candidate can call only an isolated test endpoint. Pip observes whether it helps before it may cancel a visitor’s ticket.
 
 ## Prioritization
 
-Improvements compete for limited engineering attention. Teams weigh frequency, severity, user value, confidence, and cost rather than optimizing a single metric.
+Pip can fix wrong ticket selection or a rare awkward phrase. The team weighs frequency, severity, user value, confidence, and cost. The repeated harmful selection wins this round. Pip records the trade-off because improvement competes for limited engineering attention.
 
 ## Continuous evaluation
 
-Every change can introduce regression or overfit to the last failure. A stable benchmark plus newly discovered cases keeps the loop honest and provides evidence for release decisions.
+Pip’s revised policy prompt improves returns and breaks address changes. A fix can regress other behavior or overfit the latest failure. Pip combines a stable benchmark with newly discovered cases and reruns the full set. Release decisions follow overall evidence, not one repaired example.
 
 ## Teaching extension
 

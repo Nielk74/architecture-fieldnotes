@@ -3,7 +3,7 @@
   "title": "Designing Agent Systems",
   "part": "Design",
   "subtitle": "Build a narrow, measurable workflow before expanding the system",
-  "summary": "The ecommerce support example starts with a small useful task: interpret a customer request, inspect order information, choose the appropriate action, and report the result. This provides a concrete way to connect model selection, tools, context, and orchestration instead of designing an unlimited assistant. Capability must be weighed against cost, latency, and deployment constraints. Evaluation supplies feedback about whether the assembled system actually performs the intended workflow. Iterative changes and phased exposure to real users reveal ambiguity and integration failures that a demonstration can miss. Expand only after the initial slice has clear success criteria and evidence from representative cases.",
+  "summary": "Pip wants a guide that can do everything. The team starts with one ticket cancellation: understand, look up, act, confirm. A narrow useful task makes model trade-offs, context mistakes, and evaluation failures visible before the museum expands the agent’s role.",
   "source": {
     "startLine": 1195,
     "endLine": 2066,
@@ -12,27 +12,285 @@
   "concepts": [
     {
       "title": "System components",
-      "body": "The chapter’s design view combines a foundation model with instructions, context, tools, memory, orchestration, and evaluation. A useful agent is therefore a system assembled around the model, not a prompt alone.",
-      "example": "Teaching extension: An order assistant combines a language model, an order lookup, a cancellation tool, and stored conversation state. Its orchestrator waits for the cancellation result before confirming success.",
-      "source": "text lines 1195-2066"
+      "body": "Pip’s cancellation demo says “done” before anything happens. The model needs instructions, context, tools, memory, orchestration, and evaluation around it. Pip connects ticket lookup, cancellation, and conversation state. The orchestrator waits for the tool’s result before confirming success.",
+      "example": "",
+      "source": "text lines 1195-2066",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "agent",
+            "label": "MODEL",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "api",
+            "label": "CANCEL TICKET",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "CONFIRMED RESULT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s cancellation demo says “done” before anything happens."
+          },
+          {
+            "node": "step-1",
+            "text": "The model needs instructions, context, tools, memory, orchestration, and evaluation around it."
+          },
+          {
+            "node": "step-3",
+            "text": "The orchestrator waits for the tool’s result before confirming success."
+          }
+        ]
+      }
     },
     {
       "title": "Model selection",
-      "body": "Choosing a model weighs capability, latency, cost, context length, modality, and deployment constraints. General pretrained models offer breadth; specialized or smaller models may be cheaper and easier to control for a narrow task.",
-      "example": "Teaching extension: Two models answer the same set of cancellation requests. The team compares incorrect actions, end-to-end latency, and cost before choosing the smaller model for the narrow workflow.",
-      "source": "text lines 1195-2066"
+      "body": "Pip tries two models on the same cancellation cases. Capability competes with latency, cost, context length, modality, and deployment constraints. A smaller specialized model may suit this narrow task better than a broad one. Pip compares wrong actions, end-to-end delay, and expense before choosing.",
+      "example": "",
+      "source": "text lines 1195-2066",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "agent",
+            "label": "TWO MODELS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "QUALITY + LATENCY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "COST + CAPABILITY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip tries two models on the same cancellation cases."
+          },
+          {
+            "node": "step-1",
+            "text": "Capability competes with latency, cost, context length, modality, and deployment constraints."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip compares wrong actions, end-to-end delay, and expense before choosing."
+          }
+        ]
+      }
     },
     {
       "title": "Context engineering",
-      "body": "The system must assemble relevant user input, retrieved facts, tool results, and instructions in a form the model can use. Irrelevant or conflicting context consumes limits and can steer the agent away from the task.",
-      "example": "Teaching extension: Before proposing a refund, the system supplies the current order, the applicable policy passage, and the customer’s request, leaving unrelated earlier purchases out of the context.",
-      "source": "text lines 1195-2066"
+      "body": "Pip’s guide mixes yesterday’s booking into today’s refund. Context engineering assembles relevant instructions, user input, retrieved facts, and tool results. Pip supplies this ticket and its applicable policy, leaving unrelated purchases out. Conflicting or irrelevant context consumes limits and can redirect the task.",
+      "example": "",
+      "source": "text lines 1195-2066",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "CURRENT TICKET",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "APPLICABLE POLICY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "agent",
+            "label": "RELEVANT CONTEXT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s guide mixes yesterday’s booking into today’s refund."
+          },
+          {
+            "node": "step-1",
+            "text": "Context engineering assembles relevant instructions, user input, retrieved facts, and tool results."
+          },
+          {
+            "node": "step-3",
+            "text": "Conflicting or irrelevant context consumes limits and can redirect the task."
+          }
+        ]
+      }
     },
     {
       "title": "Evaluation loop",
-      "body": "The example agent is tested with an evaluation script and representative cases. Design proceeds by observing failures, changing one part, and rerunning checks, rather than assuming a successful demo generalizes.",
-      "example": "Teaching extension: A prompt change fixes cancellation requests but starts mishandling address changes. Rerunning both case groups exposes the regression before rollout.",
-      "source": "text lines 1195-2066"
+      "body": "Pip fixes cancellations; address changes suddenly break. A successful demo did not cover the whole workflow. Pip observes failures, changes one component, and reruns representative evaluation cases. Both request groups must pass before the next rollout.",
+      "example": "",
+      "source": "text lines 1195-2066",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "experiment",
+            "label": "CHANGED PROMPT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "alert",
+            "label": "ADDRESS REGRESSION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "RERUN BOTH CASES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-3",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip fixes cancellations; address changes suddenly break."
+          },
+          {
+            "node": "step-1",
+            "text": "A successful demo did not cover the whole workflow."
+          },
+          {
+            "node": "step-3",
+            "text": "Both request groups must pass before the next rollout."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -117,69 +375,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "n0",
-        "label": "MODEL",
-        "kind": "agent",
-        "tone": "sage",
-        "x": 100,
-        "y": 80
-      },
-      {
-        "id": "n1",
-        "label": "CONTEXT",
-        "kind": "document",
-        "tone": "peach",
-        "x": 270,
-        "y": 80
-      },
-      {
-        "id": "n2",
-        "label": "TOOLS",
-        "kind": "api",
-        "tone": "lilac",
-        "x": 100,
-        "y": 210
-      },
-      {
-        "id": "n3",
-        "label": "EVAL",
-        "kind": "experiment",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 270,
-        "y": 210
+        "course": "ai-agents"
+      },
+      {
+        "id": "step-1",
+        "kind": "agent",
+        "label": "MODEL",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "api",
+        "label": "CANCEL TICKET",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "document",
+        "label": "CONFIRMED RESULT",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "n0",
-        "to": "n1"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n1",
-        "to": "n2"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n2",
-        "to": "n3"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "n0",
-        "text": "Inspect model in the chapter workflow."
+        "node": "step-0",
+        "text": "Pip’s cancellation demo says “done” before anything happens."
       },
       {
-        "node": "n1",
-        "text": "Inspect context in the chapter workflow."
+        "node": "step-1",
+        "text": "The model needs instructions, context, tools, memory, orchestration, and evaluation around it."
       },
       {
-        "node": "n2",
-        "text": "Inspect tools in the chapter workflow."
-      },
-      {
-        "node": "n3",
-        "text": "Inspect eval in the chapter workflow."
+        "node": "step-3",
+        "text": "The orchestrator waits for the tool’s result before confirming success."
       }
     ]
+  },
+  "story": {
+    "course": "ai-agents",
+    "world": "museum",
+    "title": "One ticket before the whole museum"
   }
 }

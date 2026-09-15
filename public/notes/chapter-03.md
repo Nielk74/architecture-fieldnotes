@@ -1,15 +1,59 @@
-# Chapter 3 — Modularity
+# Chapter 3: Modularity
 
-Chapter 3 establishes modularity as a foundation for architectural reasoning. A module is a logical grouping of related code: classes, functions, or similar artifacts. Packages and namespaces give languages different ways to express that grouping, but a module need not be a separate process or deployment unit (source pp. 37–40, lines 1768–1940). This distinction matters when a team later restructures a monolith. A convenient package boundary may still hide coupling that makes extraction difficult. The chapter frames modularity as an organizing principle that requires continuous energy because software systems tend toward disorder.
+*Pip’s adventure: Books belong together for a reason. Fictional teaching story; concepts follow the cited source.*
 
-Cohesion asks whether the contents of a module belong together. The chapter orders seven forms from functional cohesion, where everything supports one responsibility, through sequential, communicational, procedural, temporal, logical, and coincidental cohesion (pp. 40–41, lines 1942–2030). The ordering is a guide, not an automatic refactoring command. A Customer Maintenance group might include order operations when those operations are small and deeply dependent on customer knowledge; separating them may be useful when order behavior grows or changes independently. Lack of Cohesion in Methods, or LCOM, provides a structural signal by showing groups of methods that do not share fields. It can reveal an accidental class grouping, but it cannot decide whether the grouping makes logical sense (pp. 41–44, lines 2031–2152).
+Source: printed pp. 37–53.
 
-Coupling describes connections among artifacts. Afferent coupling counts incoming connections and efferent coupling counts outgoing connections. Abstractness measures abstract artifacts relative to concrete ones, and instability measures outgoing coupling relative to all incoming and outgoing coupling. Distance from the main sequence combines abstractness and instability to identify imbalances. A class with too much concrete implementation and too little abstraction can become brittle in the zone of pain; a class with excessive abstraction can become hard to use in the zone of uselessness (pp. 44–48, lines 2153–2245). These values are evidence for investigation, not universal thresholds. The source repeatedly warns that metrics require interpretation.
+Pip organizes the bookshop code, but tidy folders do not guarantee useful modules. Cohesion, coupling, and connascence reveal what actually changes together. Metrics raise questions; the domain’s meaning decides whether a boundary helps.
 
-Connascence adds a more descriptive view of what must change together. Static connascence includes agreement on names, types, meanings or conventions, positions, and algorithms. Dynamic connascence concerns execution order, timing, related values, and shared identity at runtime (pp. 48–50, lines 2246–2314). The properties of strength, locality, and degree help an architect assess impact. A magic value is a stronger, less readable agreement than a named constant; a high-strength relationship inside one component is generally safer than the same relationship between distant services. The practical guidance is to minimize total connascence, minimize what crosses encapsulation boundaries, and maximize what stays within them. As distance grows, prefer weaker relationships (pp. 50–52, lines 2315–2376).
+## Logical modules
 
-The chapter unifies older incoming/outgoing coupling measures with connascence, then acknowledges their limits. These tools often operate at code level, whereas architectural decisions may depend on communication style and runtime behavior. They are valuable for unfamiliar code bases, migration, and technical-debt analysis, but “why” a dependency exists remains a human question (pp. 52–53, lines 2377–2417).
+Pip groups customer behavior in a package without creating a new service. A module is a logical collection of related classes, functions, or code; packages and namespaces provide language-specific organization. It need not be a separate process or deployable file. Pip lets the logical seam guide future extraction while avoiding unnecessary coupling now.
 
-The JSON scenario and visual are teaching extensions. They invent a retail module and a refactoring loop to make locality and coupling observable; the outcomes are illustrative, not measurements. The exercise should produce a small boundary decision with one dependency and a concrete way to test or weaken it.
+Source: pp. 37–40.
 
-Source boundary: this lesson covers only Chapter 3, printed pages 37–53 and supplied text lines 1768–2417. Component deployment and architecture quantum are introduced in later chapters and are not treated as conclusions here.
+## Cohesion
+
+Pip splits customer creation from update and creates more cross-module calls. Cohesion asks how strongly parts belong together: functional is strongest, followed by sequential, communicational, procedural, temporal, logical, and coincidental relationships. Change patterns and coupling determine whether a split helps. Pip uses LCOM as a structural warning, not a final design verdict.
+
+Source: pp. 40–44.
+
+## Coupling and balance
+
+Pip measures incoming afferent and outgoing efferent dependencies. Abstractness compares abstract with concrete artifacts; instability is outgoing coupling divided by total coupling. Distance from the main sequence combines them, warning of overly concrete pain or overly abstract uselessness. Pip interprets the metrics in context: a stable abstract contract and volatile concrete adapter can be appropriate.
+
+Source: pp. 44–48.
+
+## Connascence
+
+Pip changes a magic order-status number and breaks another component. Connascence means one change requires another to preserve correctness. Static forms involve names, types, meanings, positions, or algorithms; dynamic forms involve execution, timing, related values, or identity. Pip replaces the hidden meaning with a named constant, considering strength, locality, and the number affected.
+
+Source: pp. 48–52.
+
+## Modularity guidance
+
+Pip finds a harmless local convention copied across distant services. Page-Jones’s guidance minimizes total and cross-boundary connascence while concentrating necessary relationships inside encapsulation. Weaker forms suit greater distance; static dependencies are often easier for tools to expose than dynamic ones. Pip checks intent and affected scope rather than expecting a metric to settle the boundary.
+
+Source: pp. 50–53.
+
+## Transfer challenge: Split the order workspace
+
+A retail monolith has one CustomerWorkspace module containing customer creation, profile updates, order lookup, order cancellation, and notification. Order operations are growing quickly, but they use customer identifiers and a shared database. The team wants clearer ownership without creating a web of calls that makes everyday changes harder. Decide whether to keep the grouping, split orders, or create a smaller boundary first.
+
+### Keep one module
+
+Shared customer knowledge stays local, so workflows require fewer calls and remain easy to follow while order behavior is still small. The module may accumulate unrelated responsibilities and make ownership, testing, and future extraction less clear. The team keeps a cohesive workflow for now and records a measurement baseline. If order code grows independently, rising lack of cohesion becomes evidence for a later split.
+
+### Extract Order module
+
+Order behavior gains a focused boundary that can evolve and be tested with a clearer responsibility. Customer and order data now require an explicit contract; poorly chosen calls can introduce stronger cross-boundary coupling. Order lookup and cancellation move behind a contract, while customer data remains authoritative in its module. The team must choose stable names and avoid leaking internal representations.
+
+The right boundary depends on behavior, change, and coupling rather than a naming rule. A split that increases communication and hidden dependencies may be worse than a larger cohesive module; a growing accidental grouping may justify extraction.
+
+## Map one boundary
+
+Choose a small code area or imagined feature. List the behavior that belongs together, name one dependency crossing the boundary, and propose a refactoring or measurement that would make the relationship easier to change.
+
+- Context
+- Boundary
+- Trade-off

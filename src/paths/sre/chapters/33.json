@@ -3,7 +3,7 @@
   "title": "Lessons Learned from Other Industries",
   "part": "People and practice",
   "subtitle": "Adapt reliability practices to the consequences of failure",
-  "summary": "Interviews with people from other reliability-sensitive industries reveal common concerns: preparedness, incident learning, repetitive work, and disciplined decisions. Their implementations differ because the costs of failure, pace of change, and operating constraints differ. Realistic simulators can provide practice where live failure would endanger people; drills, training, and multiple defenses make readiness more than an assumption. Incident analysis also includes near misses, exposing weaknesses before harm occurs. Automation can improve precision and response speed, yet that same speed can magnify incorrect actions, so some settings require human verification or independent stopping authority. The chapter encourages learning across industries while rejecting a universal recipe: practices should be chosen in light of actual risk, not copied solely because they work in web services.",
+  "summary": "Pip looks beyond software for ideas about safe operations. Other industries show the value of practiced readiness, near-miss learning, and disciplined decisions. Their exact drills and automation boundaries cannot be copied without considering what failure could harm.",
   "source": {
     "startLine": 15596,
     "endLine": 16039,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Preparedness shaped by consequences",
-      "body": "Readiness combines training, exercises, capacity, and layers of protection, but the appropriate exercise depends on what failure could harm. The chapter’s interviewees describe realistic simulation, controlled live drills, and site-specific certification. These are different ways to build practiced responses. A software team should carry over the principle of demonstrated preparedness without assuming that deliberate live disruption is acceptable in every industry.",
-      "example": "Teaching extension: A team uses a realistic simulator when testing the failure on a live system would expose people to unacceptable harm.",
-      "source": "text lines 15596–16039"
+      "body": "Pip admires another industry’s live drill but checks the consequences before copying it. Training, exercises, capacity, and protective layers build readiness in different ways. The interviews include simulation, controlled live practice, and site-specific certification. Pip chooses demonstrated preparedness without assuming deliberate live disruption is acceptable everywhere.",
+      "example": "",
+      "source": "text lines 15596–16039",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "experiment",
+            "label": "REALISTIC SIMULATION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "shield",
+            "label": "FAILURE CONSEQUENCES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "DEMONSTRATED READINESS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip admires another industry’s live drill but checks the consequences before copying it."
+          },
+          {
+            "node": "step-1",
+            "text": "Training, exercises, capacity, and protective layers build readiness in different ways."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip chooses demonstrated preparedness without assuming deliberate live disruption is acceptable everywhere."
+          }
+        ]
+      }
     },
     {
       "title": "Learning from incidents and near misses",
-      "body": "Incident analysis asks what happened, how the response worked, and what should change to prevent recurrence. Near misses provide similar evidence even when luck or an existing barrier prevented harm. The interviews show both safety and regulatory motivations for review, alongside examples of blameless learning. Examining conditions and improving procedures is more useful than treating the absence of damage as proof of safety.",
-      "example": "Teaching extension: A recovered deployment error is reviewed because a narrowly avoided customer outage still exposed a weak safeguard.",
-      "source": "text lines 15596–16039"
+      "body": "Pip’s deployment error nearly causes an outage, then a safeguard catches it. A near miss still reveals conditions worth reviewing. Incident analysis examines events, response, and prevention, with safety, regulatory, and blameless-learning motivations across the interviews. Pip does not confuse luck or an existing barrier with proof that the system is safe.",
+      "example": "",
+      "source": "text lines 15596–16039",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "NEAR MISS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "shield",
+            "label": "BARRIER HELD",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "LEARNING REVIEW",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s deployment error nearly causes an outage, then a safeguard catches it."
+          },
+          {
+            "node": "step-1",
+            "text": "A near miss still reveals conditions worth reviewing."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip does not confuse luck or an existing barrier with proof that the system is safe."
+          }
+        ]
+      }
     },
     {
       "title": "Automation can reduce or amplify risk",
-      "body": "Automation can remove repetitive effort, improve consistency, and act faster than humans. The same speed can cause extensive harm when an action or configuration is wrong. The chapter contrasts settings that favor deliberate human oversight with settings that require automated response or identity checks. Choosing the boundary means examining the operation’s failure consequences and the controls that detect or stop incorrect behavior.",
-      "example": "Teaching extension: A repetitive data-entry step gains an automated identity check, while an irreversible operation retains independent verification.",
-      "source": "text lines 15596–16039"
+      "body": "Pip automates a repetitive identity check but retains independent verification for an irreversible action. Automation offers consistency and speed while potentially amplifying a wrong configuration or decision. Different settings need different human and machine boundaries. Pip chooses controls that detect or stop incorrect effects according to the operation’s consequences.",
+      "example": "",
+      "source": "text lines 15596–16039",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "AUTOMATED CHECK",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "colleague",
+            "label": "INDEPENDENT REVIEW",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "CONSEQUENCE-BASED BOUNDARY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip automates a repetitive identity check but retains independent verification for an irreversible action."
+          },
+          {
+            "node": "step-1",
+            "text": "Automation offers consistency and speed while potentially amplifying a wrong configuration or decision."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip chooses controls that detect or stop incorrect effects according to the operation’s consequences."
+          }
+        ]
+      }
     },
     {
       "title": "Structured decisions in different environments",
-      "body": "A rational decision makes its inputs, assumptions, and criteria explicit before the result is known. Some industries use controlled experiments; others rely on carefully developed procedures or independent risk-control authority. Stable systems with severe failure consequences may change conservatively, while rapidly evolving services need adaptable reasoning. The transferable lesson is disciplined evaluation, not a requirement that every organization adopt the same pace or process.",
-      "example": "Teaching extension: A team agrees on the evidence needed to change a critical control instead of allowing the most senior person’s preference to decide.",
-      "source": "text lines 15596–16039"
+      "body": "Pip’s most senior colleague prefers a new critical control. The team records inputs, assumptions, criteria, and required evidence before knowing the result. Experiments, established procedures, or independent risk authority may fit different environments and change rates. Pip borrows disciplined evaluation, not a universal pace or process.",
+      "example": "",
+      "source": "text lines 15596–16039",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "EXPLICIT CRITERIA",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "experiment",
+            "label": "APPROPRIATE EVIDENCE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "REVIEWABLE DECISION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s most senior colleague prefers a new critical control."
+          },
+          {
+            "node": "step-1",
+            "text": "The team records inputs, assumptions, criteria, and required evidence before knowing the result."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip borrows disciplined evaluation, not a universal pace or process."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,76 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Evaluate an industry analogy",
     "nodes": [
       {
-        "id": "observe",
-        "label": "Practice",
-        "caption": "Safety purpose",
-        "kind": "document",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "Consequences",
-        "caption": "Different stakes",
-        "kind": "balance",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "Adapt",
-        "caption": "Local safeguards",
-        "kind": "shield",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "Test",
-        "caption": "Observed benefit",
-        "kind": "experiment",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "experiment",
+        "label": "REALISTIC SIMULATION",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "shield",
+        "label": "FAILURE CONSEQUENCES",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "document",
+        "label": "DEMONSTRATED READINESS",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "Identify a concrete reliability mechanism from another setting."
+        "node": "step-0",
+        "text": "Pip admires another industry’s live drill but checks the consequences before copying it."
       },
       {
-        "node": "decide",
-        "text": "Compare what failure can harm in each environment."
+        "node": "step-1",
+        "text": "Training, exercises, capacity, and protective layers build readiness in different ways."
       },
       {
-        "node": "act",
-        "text": "Choose controls and training that fit local conditions."
-      },
-      {
-        "node": "learn",
-        "text": "Evaluate whether the adapted practice addresses the actual risk."
+        "node": "step-3",
+        "text": "Pip chooses demonstrated preparedness without assuming deliberate live disruption is acceptable everywhere."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "Borrow the lesson, not somebody else’s risk"
   }
 }

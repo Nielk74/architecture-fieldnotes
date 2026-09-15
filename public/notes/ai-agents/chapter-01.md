@@ -1,24 +1,26 @@
 # Chapter 1: Introduction to Agents
 
+*Pip’s adventure: The museum guide meets a closed gallery. Fictional teaching story; concepts follow the cited source.*
+
 Original learning notes. Source: text lines 620–1194 in the supplied book.
 
-Agency concerns the ability to choose and revise actions using observations, rather than merely execute a predetermined script. Foundation models make this practical by interpreting varied requests and generating structured tool calls, but the complete agent also needs orchestration, memory, tools, and supporting infrastructure. Different applications require different degrees of initiative and human involvement. A conversational assistant, a bounded business task, and a more autonomous workflow therefore need different expectations. Frameworks can supply useful building blocks, but do not determine whether a design actually needs autonomy. Begin by identifying the adaptation the task requires and the limits within which actions should occur.
+Pip’s museum guide sends visitors toward a closed gallery. A script would keep going; an agent can observe the closure and revise its plan. Pip gives the guide current information, bounded tools, and a clear limit on what it may decide.
 
 ## Agent
 
-An autonomous agent interprets inputs, reasons over context, chooses actions, and interacts with an environment toward a goal. Unlike a fixed script, it can adapt to ambiguous situations, but its autonomy makes boundaries and evaluation necessary.
+Pip’s museum guide finds the next gallery closed. An agent interprets inputs, reasons over context, and chooses actions toward a goal. Unlike a fixed script, it can use that observation to revise the route. Pip tests the adaptation and limits its authority before letting visitors rely on it.
 
 ## Pretraining
 
-Large pretrained generative models learn broad language and world patterns before being adapted to tasks. Their capabilities include natural-language understanding, structured generation, context use, and multimodal synthesis; pretraining does not guarantee current or correct answers.
+Pip’s guide recognizes a visitor’s refund request. Pretraining supplies broad language and world patterns, structured generation, context use, and multimodal capabilities. It does not establish this ticket’s current eligibility. Pip retrieves the purchase record before the guide answers.
 
 ## Tool use
 
-Tools let an agent retrieve information or perform actions outside model weights. Tool calls extend capability but introduce permissions, failures, latency, and data contracts that the surrounding system must manage.
+Pip asks how many exhibition tickets remain. The guide calls a stock tool instead of trusting remembered information. Tools reach outside model weights, but bring permissions, failures, latency, and data contracts. Pip checks the returned quantity and handles unavailable results explicitly.
 
 ## Agent types
 
-Business-task, conversational, and autonomous agents differ in workflow and degree of initiative. The type helps set expectations about human involvement, context, and acceptable failure.
+Pip first lets the guide explain museum policy. A bounded business-task agent can also prepare an authorized return label; conversational and autonomous agents have different initiative. That extra action needs permissions and result handling. Pip sets human involvement, context, and acceptable failure for the actual role.
 
 ## Teaching extension
 

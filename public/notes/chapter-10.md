@@ -1,19 +1,59 @@
 # Chapter 10: Layered Architecture Style
 
-Layered architecture is the familiar default for many applications because it is simple, inexpensive, and aligned with common team boundaries. The usual logical layers are presentation, business, persistence, and database, although small systems may combine layers and larger systems may add more. Each layer hides details behind a responsibility: presentation handles interaction, business applies rules, persistence manages retrieval, and the database stores durable state. The source describes logical responsibilities and physical deployment variants at lines 5185–5297 (printed pp. 133–135).
+*Pip’s adventure: Four desks copy the same order. Fictional teaching story; concepts follow the cited source.*
 
-The important distinction is technical partitioning. A customer domain is not kept together; its UI, business rules, persistence objects, and database structures are distributed across the horizontal stack. This makes role specialization easy, but it makes a domain change cross several teams and contracts. The style is therefore a natural starting point when requirements are uncertain, but it is less comfortable for a large domain-driven system whose change boundaries should follow business concepts.
+Source: printed pp. 133–141.
 
-Layers can be closed or open. In a closed layer, a request must go through the next layer below it. The presentation layer reaches the database through business and persistence, preserving isolation as long as those contracts remain stable. A layer can then be replaced, such as changing a UI technology, without exposing its neighbors to implementation details. The source explains this isolation at lines 5298–5366 (pp. 135–136). An open layer permits a bypass. A fast read might skip a business layer that has no work to perform, or a new open services layer might hold shared utilities while allowing business code to reach persistence directly. The speed and governance benefit comes with coupling: a presentation component that knows persistence can be affected by persistence changes. The architecture must document which layers are open and why (lines 5367–5422; pp. 136–138).
+Pip sends a bookshop request through presentation, business, persistence, and database layers. Clear roles can isolate change, but pass-through work adds cost. Deliberately opened paths need documented coupling trade-offs, especially as one deployable application grows.
 
-The architecture sinkhole is the warning that separation can become ceremony. A request may be passed through four layers with no aggregation, calculation, validation, or transformation, producing extra objects and processing before the database returns an unchanged value. Some sinkhole requests are normal. The chapter proposes examining their proportion; if most requests are pass-through, the style may be a poor fit, or carefully governed open paths may be warranted. This discussion appears at lines 5423–5461 (pp. 138–139).
+## Horizontal responsibilities
 
-Layering remains a good choice for a small site, a tight budget, or a team that is still learning the problem. It can provide a stable home while a later style is evaluated, provided the team limits premature reuse and keeps inheritance shallow. Its monolithic deployment is the long-term cost: every change redeploys the unit, testing becomes broader and riskier, and one component can bring down the whole application. Scalability and elasticity are weak because the system is one quantum; performance is limited by closed paths and sinkholes. The characteristic ratings and their reasons appear at lines 5462–5486 (pp. 139–141).
+Pip follows a customer view through presentation, eligibility rules, persistence, and durable storage. Layered architecture groups horizontal technical responsibilities, which may share or separate physical deployments. The customer domain consequently crosses every layer. Pip keeps contracts clear so replacing a browser need not rewrite eligibility rules.
 
-The lesson's clinic dashboard is a teaching extension. Its slow read path and workload are invented to let learners compare a closed route with one documented open read. The visual animates a request through presentation, business, persistence, and database layers; it shows a deliberate bypass as a decision about a contract rather than as a universal shortcut. The learner should leave able to state what each layer does, why isolation matters, and what coupling an open path introduces.
+Source: pp. 133–135.
 
-## Source map
+## Closed layers isolate change
 
-- Topology, responsibilities, and physical variants: source lines 5185–5297, printed pp. 133–135.
-- Closed/open layers and isolation: source lines 5298–5422, printed pp. 135–138.
-- Sinkholes, use cases, and characteristic trade-offs: source lines 5423–5486, printed pp. 138–141.
+Pip’s screen calls business logic, which calls persistence, which accesses the database. A closed layer requires passing through the immediately lower layer. The extra step hides lower-level details and can isolate replacement behind stable contracts. Pip enforces that boundary so schema mapping changes do not leak upward.
+
+Source: pp. 135–136.
+
+## Open layers trade speed for coupling
+
+Pip opens a reporting read path directly to persistence when business processing adds no value. Open layers allow bypasses or shared utilities with fewer objects and processing steps. They also expose more callers to lower-level changes. Pip documents the approved read exception while keeping writes through business rules.
+
+Source: pp. 135–138.
+
+## The architecture sinkhole
+
+Pip finds 80% of dashboard reads copied unchanged through four layers. Such sinkholes add object creation, processing, and memory without rules, aggregation, calculation, or transformation. Some pass-through is normal; a dominant proportion questions the fit. Pip measures the path and considers carefully opening layers while accepting the new coupling.
+
+Source: pp. 138–139.
+
+## A pragmatic starting point
+
+Pip starts the small bookshop with familiar, inexpensive layers under a tight deadline. Clear boundaries, limited reuse, and shallow inheritance preserve options while requirements emerge. A growing monolith redeploys together, expands tests, and shares failure with weak independent scale or elasticity. Pip treats the simple one-quantum starting point as a revisitable choice.
+
+Source: pp. 137–141.
+
+## Transfer challenge: The clinic portal's read path
+
+A clinic portal has a layered monolith. Appointment writes must apply authorization and conflict rules, but the reception dashboard reads a prepared list of today's appointments. The dashboard is now slow because every row passes unchanged through presentation, business, persistence, and database code. The team has little budget and wants to preserve a replaceable UI while reducing the measured read overhead.
+
+### Keep every layer closed
+
+One consistent path preserves the strongest isolation and keeps all callers behind familiar contracts. Pass-through work remains on a high-volume read path, adding processing and making the sinkhole worse. The UI remains easy to replace, but the team may need caching and more hardware for a problem caused by unnecessary work. The choice is defensible if the read share is small or rules may soon appear.
+
+### Open a read path
+
+A documented read model can bypass business pass-through code and reduce latency and object creation for this specific use. The dashboard now couples to persistence or a read contract, so schema changes require an explicit compatibility plan. Measured dashboard latency improves while writes remain closed. The team records the exception, tests the read contract, and revisits it if reporting rules become substantive before broadening the exception to other screens.
+
+The right boundary follows the work performed. Closed layers buy isolation, while an open path can be a deliberate response to a measured sinkhole. A style and its layer rules should serve the dominant requests and the team's ability to govern change.
+
+## Draw one request honestly
+
+Choose a request in a small application. Identify the layers it crosses, mark each boundary open or closed, and justify one boundary using measured work rather than convention.
+
+- Context
+- Decision
+- Trade-off

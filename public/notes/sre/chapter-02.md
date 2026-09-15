@@ -1,27 +1,53 @@
 # Chapter 2: The Production Environment at Google, from the Viewpoint of an SRE
 
-Follow a request through scheduling, discovery, storage, and capacity
+*Pip’s adventure: The booking task moves, its name stays. Fictional teaching story; concepts follow the cited source.*
 
-Google’s production environment separates the machine that supplies resources from the server process that implements a service. Borg schedules many copies of a job, replaces failed tasks, and allocates resources across failure domains. Because tasks move, naming and discovery must resolve a stable identity to a changing network location. Durable storage, coordination, and networking provide further shared foundations. The Shakespeare example connects these abstractions: a batch job builds an index, while an online request passes through frontends and backends to retrieve it. Placement is a reliability decision as well as a latency decision. Spare tasks cover maintenance and failure, and regional data replicas avoid distant reads. These are architectural relationships to understand, not a requirement to reproduce Google’s internal tools.
+Source: text lines 1147–1484.
+
+Pip’s booking process restarts on another machine. The crew separates resource identity, running tasks, stable names, and durable storage. Scheduling and capacity must account for correlated failures and the traffic that survives while replacements start.
 
 ## Machines, servers, jobs, and tasks
 
-In this chapter, a machine is a physical or virtual resource and a server is a running program that offers a service. A job describes work submitted to Borg; its tasks are individual running copies. Separating these identities allows many services to share machines and lets a failed task restart elsewhere without tying the service permanently to one host.
+Pip mistakes a machine for the booking server running on it. In the chapter, a machine is physical or virtual capacity; a server is a service-providing program. Borg jobs describe work, and tasks are individual running copies. Pip can move a failed task without permanently tying the service to one host.
+
+Source: text lines 1147–1484.
 
 ## Scheduling and failure domains
 
-Borg places tasks according to their resource requests and supervises their execution. Placement must consider correlated failure: several replicas on one rack can all disappear with its switch. Resource allocation and distribution therefore work together. Replacing a crashed task restores a process, but enough surviving capacity must remain to handle requests while replacement is underway.
+Pip puts four booking replicas on one rack and loses them with its switch. Borg schedules resource requests and supervises execution, but placement must consider correlated failure. Pip spreads replicas across failure domains. Enough surviving capacity must serve requests while crashed tasks are replaced.
+
+Source: text lines 1147–1484.
 
 ## Discovery, storage, and coordination
 
-A moving task needs a stable name that resolves to its current address. BNS supplies that indirection, while Chubby supports consistent coordination and naming information. Durable data lives in shared storage layers rather than depending on a task’s local scratch disk. Colossus, Bigtable, and Spanner illustrate different layers and consistency choices; they are not interchangeable substitutes for every workload.
+Pip’s rescheduled task still calls an obsolete address. BNS provides stable-name indirection; Chubby supports consistent coordination and naming information. Durable data belongs in shared storage rather than task-local scratch space. Pip distinguishes Colossus, Bigtable, and Spanner as different storage layers and consistency choices, not interchangeable tools.
+
+Source: text lines 1147–1484.
 
 ## A request consumes regional capacity
 
-The example search service combines an offline indexing pipeline with online serving. Load balancing selects suitable frontends and backends, and regional replicas reduce data-access latency. Task counts must cover the forecast peak plus the tasks unavailable during maintenance and failure. Moving traffic to another region trades local redundancy cost against additional latency and the destination’s available capacity.
+Pip estimates capacity for 750 booking requests per second. At 80 requests per task, ten tasks cover demand before spares. The chapter’s search example combines offline indexing, online serving, load balancing, and regional replicas. Pip adds maintenance and failure headroom, checking destination capacity and latency before shifting regions.
 
-## Apply it
+Source: text lines 1147–1484.
+
+## Transfer challenge: Place work on shared machines
+
+A cluster has homogeneous machines but a memory-heavy indexing job competes with latency-sensitive search servers. The scheduler can place both through a shared resource allocator or reserve machines by service.
+
+### Use shared allocation with explicit requests
+
+Unused capacity can serve either workload and placement stays adaptable. Bad requests can cause noisy-neighbor pressure unless monitored. The team measures saturation and adjusts requests as demand changes.
+
+### Reserve dedicated machines
+
+Latency-sensitive work gets predictable headroom and simpler local diagnosis. Reservation strands capacity and makes hardware growth expensive. Search remains stable, but idle reserved machines lower overall utilization.
+
+Shared allocation trades local predictability for adaptable capacity; resource requests and health evidence decide whether the trade remains safe.
+
+## Trace a request and its failure domains
 
 Sketch a search request from regional entry point to persistent index. Calculate serving and spare tasks for a peak of 750 QPS at 80 QPS per task.
 
-Source: *Site Reliability Engineering*, chapter 2, text lines 1147–1484. This note is an original synthesis; the exercise is a teaching extension.
+- Request path
+- Task placement
+- Spare capacity

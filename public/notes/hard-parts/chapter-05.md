@@ -1,19 +1,65 @@
 # Chapter 5: Component-Based Decomposition Patterns
 
-Chapter 5 supplies a sequence for incrementally turning a structured monolith into domain services. The goal is controlled refinement, not a sudden rearrangement of deployment units. The patterns start with evidence about logical components and end with a service boundary. Each step makes a different kind of coupling or cohesion visible, allowing the team to govern the migration as it proceeds (text lines 1754–1811).
+*Pip’s adventure: From a tangled map to delivery domains. Fictional teaching story; concepts follow the cited source.*
 
-Identify and Size Components begins with an inventory of logical components and measurements such as statements and files. Names alone are unreliable: a component may be much larger than its neighbors or hide several responsibilities. In the Sysops Squad example, Reporting accounts for about one third of the codebase, so the team breaks it into Reporting Shared, Ticket Reports, Expert Reports, and Financial Reports. Size is a signal for investigation, combined with responsibility and coupling (text lines 1812–2450).
+Source: text lines 1754–3574.
 
-Gather Common Domain Components separates shared business processing from shared infrastructure. Notification, validation, formatting, and similar behavior may be domain functionality used by some workflows. Logging, metrics, and security are operational infrastructure used broadly. The distinction matters because a shared domain component has business ownership and change pressure, while a broad infrastructure dependency has a different role. Both can become coupling hubs if their scope is left vague (text lines 2451–2758).
+Pip inventories the delivery code before moving it. Oversized reporting becomes visible, hidden components are flattened, and dependencies guide the extraction order. The crew groups business capabilities before turning them into deployable services.
 
-Flatten Components addresses nesting that hides the real logical structure. Making components visible at a common level helps the team inspect their responsibilities and dependencies. Flattening is a clarification step, not an automatic service extraction: it reveals what must be decided next rather than solving data ownership or deployment by itself (text lines 2759–3075).
+## Identify and size
 
-Determine Component Dependencies maps direction, shared assets, and cycles. This information identifies extraction constraints and suggests a safe refactoring order. Fitness functions can protect the desired dependency direction while developers change the code. A component that appears cohesive but depends on many unrelated areas may need a contract or ownership decision before it becomes a service (text lines 3076–3217).
+Pip measures reporting instead of guessing from its folder name. In the book’s Sysops Squad case, Reporting occupies roughly one third of the codebase. Size prompts investigation alongside cohesion, coupling, and business change—not an automatic split threshold. Pip separates report families only after confirming responsibilities.
 
-Create Component Domains groups related components around a business capability. In the Sysops example, ticket creation, assignment, notification, and routing form a candidate ticketing domain. The grouping should follow functional cohesion and change drivers, not merely package proximity. The resulting domain is a candidate ownership and deployment boundary whose viability must still be checked against dependencies and data (text lines 3218–3525).
+Source: text lines 1812–2450.
 
-Create Domain Services turns those domains into separately deployed units. This is an incremental path to service-based architecture, and it leaves operational automation, contracts, shared data, and future database decomposition as explicit work. A deployment boundary is useful only when it corresponds to a coherent domain and the organization can operate it (text lines 3526–3574).
+## Gather common domain
 
-Teaching extension: apply all six patterns to one area of a codebase and record one unresolved dependency at each step. The exercise is an application of the supplied patterns, not new source material.
+Pip discovers three copies of customer notification behavior. Common domain processing serves some business workflows; infrastructure such as logging, metrics, and security crosses them all. Pip gathers notifications under an explicit domain responsibility. Removing duplication helps only if the shared component does not become an oversized coupling hub.
 
-Taken together, the patterns create a sequence of increasingly consequential decisions. Measurement identifies where attention is needed; shared-domain analysis clarifies ownership; flattening and dependency mapping expose hidden structure; domain grouping proposes a business boundary; service creation makes that boundary operational. The sequence helps a team explain progress and risk to both developers and sponsors while preserving room for later data and communication decisions.
+Source: text lines 2451–2758.
+
+## Flatten components
+
+Pip cannot see shared queries beneath a deep reporting package tree. Flattening makes logical components and dependencies visible. Pip places report families beside shared query components to inspect their relationships. This clarifies structure; it neither defines service boundaries nor removes dependencies by itself.
+
+Source: text lines 2759–3075.
+
+## Determine dependencies
+
+Pip traces delivery reports into formatting and financial reports into billing. Dependency direction and strength expose cycles and shared extraction risks. Pip isolates contracts and chooses a refactoring order from that evidence. Fitness functions stop new cycles from undoing the migration plan.
+
+Source: text lines 3076–3217.
+
+## Create component domains
+
+Pip groups intake, assignment, notification, and routing as a delivery capability. Functional cohesion and change drivers matter more than neighboring packages. The group becomes a candidate ownership and deployment domain. Pip tests its viability against shared data and communication contracts before drawing a firm boundary.
+
+Source: text lines 3218–3525.
+
+## Create domain services
+
+Pip deploys Delivery and Reporting separately after refining their domains. Service boundaries follow business capabilities, not arbitrary technical layers. The incremental service-based transition still needs contracts, dependency governance, and operational work. Pip makes limits around the existing shared database explicit before deciding on later data separation.
+
+Source: text lines 3526–3574.
+
+## Transfer challenge: Refine reporting
+
+Reporting accounts for a large part of a monolith and includes common formatters, queries, and distribution logic alongside ticket, expert, and financial reports. The team can create a shared reporting component first, or immediately deploy three independent report services.
+
+### Refine then group
+
+Makes responsibilities and dependencies visible before choosing deployable domains. Delays independent deployment while refactoring and measuring the components. The team separates shared domain logic, maps dependencies, groups report families, and then deploys boundaries supported by evidence.
+
+### Deploy immediately
+
+May isolate report load quickly and provide an early operational boundary. Unexamined shared queries and formatters can become cross-service coupling or duplicated logic. Three services launch, but a common change requires coordinated releases; the team later refactors the boundaries under production pressure.
+
+The patterns are a sequence of discovery and refinement. Speed can matter, but a visible dependency map and coherent domain grouping reduce the chance of distributing the monolith’s existing tangles.
+
+## Apply the pattern sequence
+
+Take one monolithic area and walk it through sizing, common-domain review, flattening, dependency mapping, domain grouping, and a proposed service boundary.
+
+- Context
+- Decision
+- Trade-off

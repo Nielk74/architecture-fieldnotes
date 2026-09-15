@@ -1,37 +1,352 @@
 {
   "number": 3,
   "subtitle": "Find costly work before choosing a costly rewrite.",
-  "summary": "Code efficiency avoids unnecessary computation for a defined result, but achieving it consumes developer time and expertise. The authors explain why reusable APIs and higher-level platforms became popular: they exchange some machine efficiency for development speed and maintained functionality. The practical response is to profile expensive behavior, choose efficient libraries and platforms, and question unnecessary work or retained data. Architecture matters because excessive layers and chatty services add processing. Fast execution, low energy use, and low carbon are not interchangeable; parallelism or extra hardware can buy speed. The chapter closes with the rebound problem: efficiency can make a service cheaper and increase demand, so improvements per operation do not guarantee falling totals.",
+  "summary": "The cinema’s thumbnail queue grows, and Pip reaches for a rewrite. A trace interrupts the plan: one request fetches the same metadata ten times. Removing repeated work may help sooner than a specialized engine. Libraries and platforms trade some machine efficiency for developer productivity; service layers, unused features, and retained data also cost work. Pip compares equivalent output and checks whether saved computation permits smaller resources. Faster is not automatically lower energy or carbon. And if cheaper exports multiply, a better per-job result can still accompany rising totals.",
   "concepts": [
     {
       "title": "Machine and developer productivity",
-      "body": "A reusable API may do more work than a custom implementation while saving development and maintenance effort. The book treats this as a trade-off rather than a mistake. Specialized optimization becomes easier to justify when heavily reused code or a high-volume service spreads that investment across many operations and users. Maintaining that specialization remains part of its cost.",
-      "example": "Teaching extension: Improving a common image library can benefit thousands of applications, while hand-tuning a rarely used internal screen has limited reach.",
-      "source": "pp. 31–37"
+      "body": "Pip sketches a custom image engine. A teammate points to the maintained library already doing the job. Reuse can spend extra machine work while saving development and maintenance effort; that is a trade-off, not a failure. Improving a widely shared library spreads specialist effort across many applications. Hand-tuning a rarely used screen does not. Pip checks volume, reuse, and who will maintain the clever new code before committing.",
+      "example": "",
+      "source": "pp. 31–37",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "component",
+            "label": "SHARED LIBRARY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "terminal",
+            "label": "CUSTOM ENGINE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "MAINTENANCE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks where specialist effort will pay back."
+          },
+          {
+            "node": "step-1",
+            "text": "A maintained library shares development effort."
+          },
+          {
+            "node": "step-3",
+            "text": "Volume and reuse must justify ongoing maintenance."
+          }
+        ]
+      }
     },
     {
       "title": "Profile the work that matters",
-      "body": "Profiling locates costly calls, repeated work, and poor algorithms before a rewrite is proposed. Faster execution is a clue rather than proof of lower carbon: more processors can reduce wall time while increasing resource use. Ask whether the improvement permits smaller or more densely shared resources, and preserve equivalent output and service requirements in the comparison.",
-      "example": "Teaching extension: A trace finds repeated metadata retrieval. Reusing the result removes work without changing languages or weakening the response contract.",
-      "source": "pp. 37–40"
+      "body": "Ten identical metadata lookups appear in Pip’s trace. The first experiment is smaller than a rewrite: reuse the result without changing correctness. Profiling finds expensive calls, algorithms, and repeated work. A faster run is only a clue—extra processors can buy speed while using more resources. Pip holds film quality and service requirements constant, then checks whether saved work allows a smaller or more densely shared allocation.",
+      "example": "",
+      "source": "pp. 37–40",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "trace",
+            "label": "TEN LOOKUPS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "cache",
+            "label": "REUSE RESULT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "deployment",
+            "label": "RIGHTSIZE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip profiles the work before proposing a rewrite."
+          },
+          {
+            "node": "step-1",
+            "text": "The trace reveals ten identical lookups."
+          },
+          {
+            "node": "step-3",
+            "text": "Check whether saved work permits fewer allocated resources."
+          }
+        ]
+      }
     },
     {
       "title": "Service boundaries cost work",
-      "body": "Cross-process and network calls introduce serialization, transmission, and platform overhead. Excessive calls or duplicated middleware can dominate processing. Reducing those costs must be balanced against understandable interfaces, independent ownership, and maintainability. Neither a monolith nor microservices is automatically greener; architecture and operations together determine the outcome. Platform guidance can help avoid duplicating work the platform already performs.",
-      "example": "Teaching extension: A pipeline batches metadata requests while retaining a clear service boundary, then checks latency and debugging consequences.",
-      "source": "pp. 41–44"
+      "body": "Every department adds one helpful checkpoint to the thumbnail journey. Soon Pip’s request spends its day crossing services, serializing data, and repeating middleware work. Batching metadata requests may shorten that journey while preserving a clear ownership boundary. But fewer calls must not make interfaces or debugging harder to understand. Neither a monolith nor microservices wins automatically: Pip weighs processing overhead against independent ownership, maintenance, and the platform’s existing capabilities.",
+      "example": "",
+      "source": "pp. 41–44",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "REQUEST",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "queue",
+            "label": "BATCH CALLS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "boundary",
+            "label": "OWNERSHIP",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip traces a thumbnail across service boundaries."
+          },
+          {
+            "node": "step-1",
+            "text": "Serialization and middleware add processing."
+          },
+          {
+            "node": "step-3",
+            "text": "Retain understandable ownership and operational behavior."
+          }
+        ]
+      }
     },
     {
       "title": "Avoid unnecessary features and data",
-      "body": "Lean product decisions eliminate work before optimization is needed. Unused features and rarely queried data still consume maintenance, storage, and processing. Retention and archive policies should follow actual needs. Client-side processing and smaller or reused ML models offer other opportunities, but include transfer costs and client hardware effects when evaluating them. Moving work does not erase it.",
-      "example": "Teaching extension: An unused daily report becomes on-demand. Records that must be retained move to storage suited to their infrequent access.",
-      "source": "pp. 44–47"
+      "body": "Pip discovers a report generated daily that nobody opens. Making it on-demand avoids work before optimization even begins. Rarely accessed records move to storage suited to their required retention. Unused features and data still cost maintenance and processing. Moving work to a client or using a smaller, reused ML model may help too—but Pip counts transfers and client hardware. Sending the bill elsewhere does not erase the work.",
+      "example": "",
+      "source": "pp. 44–47",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "UNREAD REPORT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "ON DEMAND",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "database",
+            "label": "RETENTION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks who actually uses the daily report."
+          },
+          {
+            "node": "step-1",
+            "text": "Unused output still costs work."
+          },
+          {
+            "node": "step-3",
+            "text": "Retain required records in storage suited to access needs."
+          }
+        ]
+      }
     },
     {
       "title": "Efficiency can grow demand",
-      "body": "The Jevons discussion warns that cheaper operations can become more widely used and increase total resource demand. The authors still favor efficiency during the energy transition and reusable platforms that distribute its engineering cost. Their expectations about future energy abundance are an outlook, not a guarantee that every efficiency improvement will reduce absolute emissions today.",
-      "example": "Teaching extension: Exports become half as expensive per job, but volume triples. The team reviews total energy alongside the per-export improvement.",
-      "source": "pp. 47–51"
+      "body": "The cheaper export becomes a hit. In Pip’s fictional example, each job costs half as much, but demand triples. The celebration needs a second chart: total resource use can rise as unit efficiency improves. This is the rebound problem discussed through Jevons. The authors still favor efficiency and reusable platforms during the energy transition. Their outlook for future energy abundance is not a guarantee of falling absolute emissions today.",
+      "example": "",
+      "source": "pp. 47–51",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "PER JOB ↓",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "queue",
+            "label": "MORE JOBS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "leaf",
+            "label": "TOTAL IMPACT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip checks what happened after exports became cheaper."
+          },
+          {
+            "node": "step-1",
+            "text": "The fictional cost per job halves."
+          },
+          {
+            "node": "step-3",
+            "text": "Unit efficiency does not guarantee a lower total footprint."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -46,7 +361,7 @@
   ],
   "scenario": {
     "title": "The expensive thumbnail pipeline",
-    "context": "Teaching extension. A thumbnail service repeatedly queries metadata and uses a familiar image library. Demand is rising, but specialist capacity is limited. The team can remove redundant calls and test a library upgrade, or build a hardware-specific conversion engine. Both options must preserve output quality.",
+    "context": "Pip’s thumbnail service repeats metadata calls while demand grows. A maintained image library is available; specialist time is scarce. Pip can remove duplicate work and test an upgrade or build a hardware-specific converter. Either route must preserve the film’s output quality.",
     "options": [
       {
         "label": "Remove repeated work and test a maintained library",
@@ -116,46 +431,63 @@
   "visual": {
     "nodes": [
       {
-        "id": "request",
-        "label": "REQUEST",
-        "kind": "browser",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "green-software"
+      },
+      {
+        "id": "step-1",
+        "kind": "trace",
+        "label": "TEN LOOKUPS",
         "tone": "sage"
       },
       {
-        "id": "calls",
-        "label": "REPEATED CALLS",
-        "kind": "api",
+        "id": "step-2",
+        "kind": "cache",
+        "label": "REUSE RESULT",
         "tone": "lilac"
       },
       {
-        "id": "library",
-        "label": "SHARED CODE",
-        "kind": "component",
+        "id": "step-3",
+        "kind": "deployment",
+        "label": "RIGHTSIZE",
         "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "request",
-        "to": "calls"
+        "from": "step-0",
+        "to": "step-1",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "calls",
-        "to": "library"
+        "from": "step-1",
+        "to": "step-2",
+        "flow": false,
+        "dashed": true
+      },
+      {
+        "from": "step-2",
+        "to": "step-3",
+        "flow": false,
+        "dashed": true
       }
     ],
     "steps": [
       {
-        "node": "request",
-        "text": "A user requests one thumbnail."
+        "node": "step-0",
+        "text": "Pip profiles the work before proposing a rewrite."
       },
       {
-        "node": "calls",
-        "text": "Repeated lookups add avoidable processing."
+        "node": "step-1",
+        "text": "The trace reveals ten identical lookups."
       },
       {
-        "node": "library",
-        "text": "Remove duplicate work and compare a maintained library."
+        "node": "step-3",
+        "text": "Check whether saved work permits fewer allocated resources."
       }
     ]
   },
@@ -166,5 +498,10 @@
     "endLine": 2385,
     "pages": "31–51",
     "reference": "pp. 31–51; text lines 1601–2385"
+  },
+  "story": {
+    "course": "green-software",
+    "world": "cinema",
+    "title": "The ten trips for one answer"
   }
 }

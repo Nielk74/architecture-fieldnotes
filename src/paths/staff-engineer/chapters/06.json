@@ -3,7 +3,7 @@
   "title": "Why Have We Stopped?",
   "part": "Execution",
   "subtitle": "Diagnose obstacles and restore useful progress",
-  "summary": "Stopping well is part of execution. A project needs a meaningful definition of done, feedback about whether the problem was solved, and a conscious decision to continue, change direction, or stop. Momentum is useful only when it remains connected to the goal.",
+  "summary": "Pip’s dashboard rewrite stalls despite a busy workshop. Stopping well means checking the desired outcome, diagnosing obstacles, and choosing whether to continue, change direction, or stop. A shared definition of done and honest feedback keep momentum connected to a useful destination.",
   "source": {
     "startLine": 6513,
     "endLine": 7679,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Stopping rule",
-      "body": "A stopping rule names evidence that the goal is met, no longer worthwhile, or needs a different approach. When movement stops, diagnose the obstacle before pushing harder. The team may lack a decision, a skill, shared understanding, or confidence that the destination is still useful. Different obstacles need different interventions; more status meetings do not solve all of them.",
-      "example": "Teaching extension: The team stops when adoption evidence misses the agreed goal twice.",
-      "source": "text lines 6513–7679"
+      "body": "Pip asks for more speed; the workshop asks which obstacle to solve. Is a decision missing, a skill unavailable, understanding uneven, or the destination no longer worthwhile? A stopping rule names evidence that the goal is met or needs reconsideration. Pip checks the agreed adoption threshold instead of adding another status meeting. Different reasons for stopping need different interventions—not one louder instruction to move.",
+      "example": "",
+      "source": "text lines 6513–7679",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "STALLED WORK",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "listening",
+            "label": "ACTUAL OBSTACLE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "target",
+            "label": "STOPPING RULE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip diagnoses the stoppage before demanding speed."
+          },
+          {
+            "node": "step-1",
+            "text": "A stalled project may have several causes."
+          },
+          {
+            "node": "step-3",
+            "text": "Compare evidence with the agreed goal and stopping conditions."
+          }
+        ]
+      }
     },
     {
       "title": "Feedback",
-      "body": "Feedback compares the result with the intended outcome and supplies information for the next decision. Talk with the people doing the work and compare their accounts with the plan. A quiet dependency or unresolved disagreement may be invisible in a progress chart. Surface uncomfortable information early enough that it can still change the route.",
-      "example": "Teaching extension: Support tickets and usage data provide feedback on whether the rewrite helped.",
-      "source": "text lines 6513–7679"
+      "body": "The progress chart looks calm. A conversation with the people doing the work reveals an unresolved disagreement and a quiet dependency. Feedback compares the actual result with the intended outcome, supplying evidence for the next choice. Pip listens to those accounts alongside support tickets and usage data. Uncomfortable information matters while it can still change the route; a tidy chart is not a reason to ignore it.",
+      "example": "",
+      "source": "text lines 6513–7679",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "PROGRESS CHART",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "listening",
+            "label": "WORKER ACCOUNTS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "trace",
+            "label": "HIDDEN DEPENDENCY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip checks results against the intended outcome."
+          },
+          {
+            "node": "step-1",
+            "text": "The chart cannot show every disagreement."
+          },
+          {
+            "node": "step-3",
+            "text": "Surface evidence while the route can still change."
+          }
+        ]
+      }
     },
     {
       "title": "Momentum",
-      "body": "Momentum is useful movement toward a goal; activity without a goal can preserve a failing project. Busy people and many completed tasks can coexist with a stalled outcome. Make the next concrete step and its owner visible. If the original goal no longer makes sense, renegotiate it instead of using activity to avoid that conversation.",
-      "example": "Teaching extension: A milestone is removed because it no longer serves the regulatory outcome.",
-      "source": "text lines 6513–7679"
+      "body": "Tickets close all week, but the regulatory fix remains blocked behind Pip’s dashboard rewrite. Momentum means useful movement toward a goal, not visible busyness. Pip names the next concrete step and its owner, then asks whether the old milestone still serves the destination. If the goal has changed, renegotiating it is execution. More activity cannot make an obsolete objective worth reaching.",
+      "example": "",
+      "source": "text lines 6513–7679",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "queue",
+            "label": "CLOSED TICKETS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "target",
+            "label": "SHARED GOAL",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "handoff",
+            "label": "NEXT OWNER",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip distinguishes activity from useful movement."
+          },
+          {
+            "node": "step-1",
+            "text": "Many completed tasks can coexist with a stalled outcome."
+          },
+          {
+            "node": "step-3",
+            "text": "Make the next concrete step and its owner visible."
+          }
+        ]
+      }
     },
     {
       "title": "Finishing",
-      "body": "Finishing includes rollout, follow-through, documentation, and checking that the problem was actually addressed. The last part of a project often contains unglamorous coordination: adoption, cleanup, communication, and operational handoff. Keep ownership clear through that work. A system that is technically ready but nobody can confidently operate has not reached the destination.",
-      "example": "Teaching extension: The final handoff includes documentation, ownership, and a post-launch check.",
-      "source": "text lines 6513–7679"
+      "body": "Pip calls the service ready; the operations team asks who supports it. Finishing includes rollout, adoption, cleanup, documentation, communication, and follow-through. The final handoff needs explicit owners and a check that the original problem was addressed. Pip stays attentive through this unglamorous coordination. A technically complete system that nobody can confidently operate has not reached the workshop’s shared finish line.",
+      "example": "",
+      "source": "text lines 6513–7679",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "TECHNICALLY READY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "RUNBOOK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "handoff",
+            "label": "OPERATING OWNER",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip follows the project beyond merged code."
+          },
+          {
+            "node": "step-1",
+            "text": "Technical readiness does not establish operating readiness."
+          },
+          {
+            "node": "step-3",
+            "text": "Agree support ownership and a post-launch check."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -47,22 +299,22 @@
   ],
   "scenario": {
     "title": "Decide whether to stop",
-    "context": "A dashboard rewrite has missed its adoption goal twice. The team has built useful components, but continuing would delay a regulatory fix.",
+    "context": "Pip’s dashboard rewrite misses its adoption goal twice. Some components are useful, but continuing delays a regulatory fix. Should the workshop keep polishing?",
     "options": [
       {
         "label": "Stop and salvage",
-        "benefit": "Clarifies the decision and creates a workable path through the stated constraint.",
-        "cost": "Stopping requires acknowledging sunk effort and finding a responsible home for partial work.",
-        "consequence": "You compare evidence with the goal, preserve reusable pieces, and redirect capacity to the regulatory outcome."
+        "benefit": "Useful components survive while capacity serves the important fix.",
+        "cost": "The workshop must acknowledge sunk effort and rehome partial work.",
+        "consequence": "Pip compares adoption evidence with the goal, preserves reusable pieces, and redirects the team to the regulatory outcome."
       },
       {
         "label": "Continue for sunk cost",
-        "benefit": "Feels faster or safer in the immediate moment and preserves a familiar habit.",
-        "cost": "Continuing delays a regulatory fix and makes later cancellation more expensive.",
-        "consequence": "The rewrite gains polish while the important fix waits; morale falls when the same gap is rediscovered."
+        "benefit": "The team avoids an uncomfortable stopping conversation today.",
+        "cost": "The regulatory fix waits and later cancellation gets more expensive.",
+        "consequence": "The dashboard gains polish while the same adoption gap persists. Pip’s continued activity has not answered the evidence."
       }
     ],
-    "debrief": "Both options respond to a real constraint. The stronger choice makes ownership and consequences visible, then creates a point to learn and adjust."
+    "debrief": "Past effort cannot choose the next investment. Pip uses outcome evidence to decide what to stop, keep, or redirect."
   },
   "quiz": [
     {
@@ -117,69 +369,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "target",
-        "label": "TARGET",
-        "kind": "document",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
-      },
-      {
-        "id": "colleague",
-        "label": "COLLEAGUE",
-        "kind": "colleague",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
-      },
-      {
-        "id": "experiment",
-        "label": "EXPERIMENT",
-        "kind": "experiment",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
-      },
-      {
-        "id": "handoff",
-        "label": "HANDOFF",
-        "kind": "handoff",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 500,
-        "y": 100
+        "course": "staff-engineer"
+      },
+      {
+        "id": "step-1",
+        "kind": "alert",
+        "label": "STALLED WORK",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "listening",
+        "label": "ACTUAL OBSTACLE",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "target",
+        "label": "STOPPING RULE",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "target",
-        "to": "colleague"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "colleague",
-        "to": "experiment"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "experiment",
-        "to": "handoff"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "target",
-        "text": "Use this target view to make the next decision visible."
+        "node": "step-0",
+        "text": "Pip diagnoses the stoppage before demanding speed."
       },
       {
-        "node": "colleague",
-        "text": "Use this colleague view to make the next decision visible."
+        "node": "step-1",
+        "text": "A stalled project may have several causes."
       },
       {
-        "node": "experiment",
-        "text": "Use this experiment view to make the next decision visible."
-      },
-      {
-        "node": "handoff",
-        "text": "Use this handoff view to make the next decision visible."
+        "node": "step-3",
+        "text": "Compare evidence with the agreed goal and stopping conditions."
       }
     ]
+  },
+  "story": {
+    "course": "staff-engineer",
+    "world": "workshop",
+    "title": "The project that kept polishing the wrong door"
   }
 }

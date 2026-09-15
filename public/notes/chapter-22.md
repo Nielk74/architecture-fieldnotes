@@ -1,15 +1,59 @@
 # Chapter 22: Making Teams Effective
 
-The architect's responsibility continues through implementation. A team that receives a diagram from a distant architect may lack the constraints and context needed to build it correctly. The chapter describes the architect's boundary as a box: too tight and developers lose access to useful tools and the craft of implementation; too loose and they must rediscover architectural decisions, argue over design, and take on work without guidance. An effective architect communicates the box, supplies appropriate tools, removes roadblocks, and stays close enough to learn when the boundary needs to change (source lines 11079–11224; pp. 325–330).
+*Pip’s adventure: Give the team a boundary, not a cage. Fictional teaching story; concepts follow the cited source.*
 
-Three personalities illustrate the extremes. The control freak specifies low-level details such as class design, method length, or an internal cache pattern, often restricting libraries and writing pseudocode. The armchair architect is disconnected from technology, business, and the team, leaving behind diagrams too vague to guide implementation. The effective architect defines components and interactions while respecting developer responsibility for internal design. These are tendencies rather than permanent identities; circumstances can require more or less intervention (lines 11225–11353; pp. 326–330).
+Source: printed pp. 325–346.
 
-Elastic leadership gauges involvement using team familiarity, team size, overall experience, project complexity, and project duration. New, large, junior, complex, or long-lived efforts generally benefit from more presence and mentoring. Small, experienced teams under a short deadline need room to move. A rough plus/minus scale can make the conversation explicit, but the factors should be reassessed as the project evolves. The goal is the right amount of guidance, not a fixed personality label (lines 11354–11443; pp. 330–334).
+Pip tries to specify every class and slows the bookshop team down. Useful architectural guidance makes constraints and reasons clear while leaving implementation judgment local. Leadership adjusts with experience, project risk, and signs that ownership or dissent is disappearing.
 
-Team size has warning signs. Process loss is the gap between collective potential and actual productivity and can show up as overlapping work and frequent merge conflicts. Pluralistic ignorance occurs when everyone publicly accepts a norm that someone privately knows is wrong; a facilitator can invite dissent before the mistake reaches code. Diffusion of responsibility makes ownership less clear as a group grows, so tasks are dropped because everyone assumes someone else is handling them. An architect should observe these dynamics and use parallel work, clear owners, and direct questions to repair them (lines 11444–11551; pp. 335–337).
+## The Right Boundary
 
-Checklists help with independent, error-prone reminders that people skip, such as unusual test cases, overlooked code completion tasks, and release configuration. They should not encode a dependent sequence of procedural steps, and routine work that is reliably automated does not need a list. Keep checklists short, remove automatable items, and update the release checklist when failures reveal a missed concern. A code completion list, a testing list, and a volatile release list are useful examples; too many lists create diminishing returns (lines 11552–11737; pp. 338–342).
+Pip defines the Reference Manager’s interactions, then lets a developer choose its internal cache. Architectural constraints should provide tools, libraries, and principles without stealing implementation judgment. Too-tight boundaries frustrate; too-loose ones abandon teams to unguided architecture work. Pip collaborates inside the box and revises it as evidence changes.
 
-Guidance for third-party libraries can define an effective boundary. Ask whether a proposal overlaps existing capability and what technical and business value it provides. Special-purpose libraries may be chosen by developers, general-purpose libraries may require analysis and approval, and invasive framework choices may remain architecture decisions. The categories are examples; the essential lesson is to state authority and reason clearly. Teaching extension: the growing-team scenario is invented. It is designed to make control factors, warning signs, and library governance concrete without claiming a universal team-size formula.
+Source: pp. 325–330.
 
-Source: supplied 2020 text, chapter 22, lines 11079–11842, printed pages 325–346.
+## Elastic Leadership
+
+Pip coaches a large junior team differently from a small experienced one. Control and availability depend on familiarity, size, experience, complexity, and project duration. A rough scale can make the discussion explicit without prescribing pseudocode for every class. Pip reassesses the balance as the team learns and project conditions change.
+
+Source: pp. 330–334.
+
+## Team Warning Signs
+
+Pip notices merge conflicts, silent disagreement, and tasks with no clear owner. Process loss wastes the team’s potential; pluralistic ignorance hides private objections; diffusion of responsibility spreads ownership thin. A developer privately knows a firewall blocks the plan. Pip invites concerns directly and reshapes overlapping work before silence becomes apparent agreement.
+
+Source: pp. 335–337.
+
+## Useful Checklists
+
+Pip’s release checklist grows until nobody uses it. Small checklists suit independent, error-prone omissions, not dependent procedures or already reliable work. Missing fields, special characters, and boundary cases can become automated tests instead of permanent manual ticks. Pip removes automatable or obsolete items and adds only useful lessons from actual failures.
+
+Source: pp. 338–342.
+
+## Guidance and Justification
+
+Pip’s team wants another third-party library. Guidance asks about existing overlap and technical and business justification, then considers how invasive the choice is. A barcode package may be locally chosen, a general utility recommended, and a persistence framework escalated. Pip explains authority and reasons without making every dependency an architect veto.
+
+Source: pp. 342–346.
+
+## Transfer challenge: Set guidance for a growing team
+
+A new team of twelve developers, mostly junior, is building a complex service over six months. They want to add a new persistence framework and several utility libraries. Merge conflicts are increasing, and meetings rarely surface objections. You need to provide enough guidance to protect the architecture while building the team's ability to decide and deliver.
+
+### Prescribe every detail
+
+The architect can quickly standardize libraries, class patterns, and implementation choices. Developers lose ownership, the architect becomes a bottleneck, and silent disagreement may move into code instead of discussion. Short-term consistency hides longer-term frustration and delays. The team waits for approvals, while the architect owns details they cannot review deeply enough.
+
+### Bounded guidance
+
+The architect defines component boundaries, escalation rules, a short completion checklist, and forums for dissent while mentoring the team. Developers still make choices, so the architect must remain available and revisit guidance as evidence arrives. The framework choice receives structural review, utility additions require overlap and business justification, and small workstreams reduce conflicts. The team gains autonomy inside a visible box.
+
+The effective boundary is contextual and elastic. Junior, large, and complex teams need more involvement, but involvement should guide and remove roadblocks rather than encode every line of implementation.
+
+## Design the team box
+
+Assess a team using the five control factors. Write three boundaries, one short checklist candidate, and one decision rule that gives developers autonomy while protecting an architectural characteristic.
+
+- Context
+- Decision
+- Trade-off

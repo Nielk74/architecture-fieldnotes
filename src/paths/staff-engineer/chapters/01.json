@@ -3,7 +3,7 @@
   "title": "What Would You Say You Do Here?",
   "part": "The Big Picture",
   "subtitle": "Make your role and scope explicit",
-  "summary": "A staff engineer is a senior individual contributor whose leverage comes from technical direction, judgment, and helping several teams succeed. The opening chapter asks the reader to describe the work they actually do, align expectations with managers, and treat communication and organizational context as part of the technical role.",
+  "summary": "Pip’s new staff-engineer badge arrives with conflicting requests. Writing more code will not settle them. The role gains leverage through technical direction, judgment, and helping teams succeed. Pip compares actual work with the manager’s expectations, making communication, scope, and organizational context part of the technical job.",
   "source": {
     "startLine": 470,
     "endLine": 1404,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Scope",
-      "body": "Scope is the boundary of responsibility and influence negotiated with the organization. Agree with your manager on the area you serve, the decisions you are expected to influence, and the gaps you should fill. A title alone does not establish these boundaries, and another company's staff role may be shaped very differently.",
-      "example": "Teaching extension: A manager and staff engineer write a one-sentence focus before a planning meeting.",
-      "source": "text lines 470–1404"
+      "body": "Pip’s badge says “staff,” but three teams read three different promises. Scope is the negotiated boundary of responsibility and influence, not a title’s hidden instruction manual. Pip and the manager write one sentence: which area to serve, which decisions to influence, and which gaps to fill. Another workshop may need a different staff role. The conversation establishes responsibility before the request queue establishes it by accident.",
+      "example": "",
+      "source": "text lines 470–1404",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "STAFF TITLE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "team",
+            "label": "LOCAL NEEDS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "handoff",
+            "label": "AGREED SCOPE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip discovers that the title did not define the job."
+          },
+          {
+            "node": "step-1",
+            "text": "A badge is not an agreement about responsibility."
+          },
+          {
+            "node": "step-3",
+            "text": "Name the area, decisions, and gaps Pip will serve."
+          }
+        ]
+      }
     },
     {
       "title": "Judgment",
-      "body": "Technical judgment means choosing under uncertainty while making constraints and consequences explicit. The role combines seeing a bigger picture, executing important work, and raising the capability of others. Choosing which of these needs your attention is part of the work; doing the hardest coding task yourself is not always the most useful contribution.",
-      "example": "Teaching extension: During an incident review, the engineer explains why a rollback is safer than a rewrite.",
-      "source": "text lines 470–1404"
+      "body": "A difficult bug tempts Pip away from an incident review. But colleagues need a decision under uncertainty: rollback or rewrite, with which constraints and consequences? Technical judgment joins the bigger picture, important execution, and helping others become capable. Pip explains why a rollback fits this situation, then helps the team act. Choosing where to contribute is part of the job; the hardest code is not always the most useful work.",
+      "example": "",
+      "source": "text lines 470–1404",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "INCIDENT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "balance",
+            "label": "ROLLBACK OR REWRITE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "mentor",
+            "label": "ENABLE THE TEAM",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip chooses where judgment is most useful."
+          },
+          {
+            "node": "step-1",
+            "text": "An incident creates uncertainty and constraints."
+          },
+          {
+            "node": "step-3",
+            "text": "Help colleagues act rather than taking every hard task."
+          }
+        ]
+      }
     },
     {
       "title": "Communication",
-      "body": "Communication is part of execution: questions, writing, and explanations move context between people. Your influence extends beyond code you personally change. A clear explanation can help several teams act consistently, while an ambiguous suggestion from a senior person may be mistaken for a decision. Make your intent and the needed action explicit.",
-      "example": "Teaching extension: A colleague receives a concise design note and can proceed without another meeting.",
-      "source": "text lines 470–1404"
+      "body": "“Perhaps change the API,” Pip says. By lunch, three teams think that was an order. Influence travels farther than code. Pip replaces the ambiguous remark with a short note: context, suggestion, and the response needed. Questions, writing, and explanation are execution because they move understanding between people. A colleague can now proceed without another meeting—and can tell a possibility from an actual decision.",
+      "example": "",
+      "source": "text lines 470–1404",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "listening",
+            "label": "HEARD AS AN ORDER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "EXPLICIT INTENT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "handoff",
+            "label": "NEXT ACTION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip notices a suggestion being treated as a decision."
+          },
+          {
+            "node": "step-1",
+            "text": "Different listeners inferred different intent."
+          },
+          {
+            "node": "step-3",
+            "text": "A colleague can proceed with shared understanding."
+          }
+        ]
+      }
     },
     {
       "title": "Role shape",
-      "body": "A staff role is an organizational need, not a universal checklist; its shape depends on local gaps. Investigate your reporting chain, scope, preferred work, and current primary focus. These can point in different directions. Naming the mismatch lets you negotiate a useful role instead of trying to imitate a famous staff engineer's career.",
-      "example": "Teaching extension: A quarterly role check compares stated focus with the requests actually arriving.",
-      "source": "text lines 470–1404"
+      "body": "Pip tries to imitate a celebrated staff engineer and spends the week in the wrong meetings. The workshop needs something different. Reporting chain, scope, preferred work, and primary focus do not always point together. Pip compares the agreed focus with requests arriving this quarter and names the mismatch. A staff role answers local organizational needs; negotiating its shape is more useful than copying someone else’s checklist.",
+      "example": "",
+      "source": "text lines 470–1404",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "target",
+            "label": "STATED FOCUS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "queue",
+            "label": "ACTUAL REQUESTS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "ROLE REVIEW",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip checks whether the role still fits the workshop."
+          },
+          {
+            "node": "step-1",
+            "text": "The written focus names an intended contribution."
+          },
+          {
+            "node": "step-3",
+            "text": "Negotiate the mismatch instead of copying another engineer’s career."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -47,22 +299,22 @@
   ],
   "scenario": {
     "title": "Name the role",
-    "context": "A platform team asks you to own architecture, unblock releases, and mentor three teams, but your manager measures only your own code output.",
+    "context": "Three workshop teams ask Pip for architecture, release help, and mentoring. The manager counts only Pip’s code. Which expectation should guide the work?",
     "options": [
       {
         "label": "Clarify scope first",
-        "benefit": "Clarifies the decision and creates a workable path through the stated constraint.",
-        "cost": "Negotiation consumes scarce attention and may expose an uncomfortable expectation gap.",
-        "consequence": "You negotiate a written primary focus and success signals; teams know when to involve you."
+        "benefit": "A shared focus lets teams know which decisions need Pip.",
+        "cost": "Negotiation takes attention and exposes conflicting expectations.",
+        "consequence": "Pip and the manager agree a primary focus and success signals; the teams know when to ask for help."
       },
       {
         "label": "Accept every request",
-        "benefit": "Feels faster or safer in the immediate moment and preserves a familiar habit.",
-        "cost": "A broad request queue remains tempting until the next planning cycle.",
-        "consequence": "You appear responsive, but conflicting expectations consume credibility and leave no owner for the hardest work."
+        "benefit": "Every requester gets an immediate yes.",
+        "cost": "The queue keeps competing with the manager’s success measure.",
+        "consequence": "Pip appears responsive, but incompatible demands consume credibility and leave the hardest work without clear ownership."
       }
     ],
-    "debrief": "Both options respond to a real constraint. The stronger choice makes ownership and consequences visible, then creates a point to learn and adjust."
+    "debrief": "Pip cannot resolve incompatible expectations through personal effort alone. A negotiated focus connects the workshop’s needs to accountable outcomes."
   },
   "quiz": [
     {
@@ -117,69 +369,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "colleague",
-        "label": "COLLEAGUE",
-        "kind": "colleague",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
-      },
-      {
-        "id": "whiteboard",
-        "label": "WHITEBOARD",
-        "kind": "whiteboard",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
-      },
-      {
-        "id": "listening",
-        "label": "LISTENING",
-        "kind": "listening",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
-      },
-      {
-        "id": "handoff",
-        "label": "HANDOFF",
-        "kind": "handoff",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 500,
-        "y": 100
+        "course": "staff-engineer"
+      },
+      {
+        "id": "step-1",
+        "kind": "document",
+        "label": "STAFF TITLE",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "team",
+        "label": "LOCAL NEEDS",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "handoff",
+        "label": "AGREED SCOPE",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "colleague",
-        "to": "whiteboard"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "whiteboard",
-        "to": "listening"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "listening",
-        "to": "handoff"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "colleague",
-        "text": "Use this colleague view to make the next decision visible."
+        "node": "step-0",
+        "text": "Pip discovers that the title did not define the job."
       },
       {
-        "node": "whiteboard",
-        "text": "Use this whiteboard view to make the next decision visible."
+        "node": "step-1",
+        "text": "A badge is not an agreement about responsibility."
       },
       {
-        "node": "listening",
-        "text": "Use this listening view to make the next decision visible."
-      },
-      {
-        "node": "handoff",
-        "text": "Use this handoff view to make the next decision visible."
+        "node": "step-3",
+        "text": "Name the area, decisions, and gaps Pip will serve."
       }
     ]
+  },
+  "story": {
+    "course": "staff-engineer",
+    "world": "workshop",
+    "title": "The badge with three job descriptions"
   }
 }

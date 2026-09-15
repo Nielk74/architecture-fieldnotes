@@ -1,27 +1,53 @@
 # Chapter 1: Introduction
 
-Use engineering time and error budgets to change how services are run
+*Pip’s adventure: Pip joins the harbor’s pager rotation. Fictional teaching story; concepts follow the cited source.*
 
-SRE changes the economics of operating a service by investing in software that removes recurring human intervention. That investment needs protected time: when operational work consumes the team, the organization must change ownership or staffing so engineering can resume. Reliability also needs a product decision about how much failure users can tolerate. An error budget translates that decision into a shared constraint on release velocity, replacing an argument between stability and features with measurable remaining risk. Monitoring distinguishes urgent intervention from work that can wait and information retained for diagnosis. Incident preparation, capacity planning, and efficient resource use complete the model: engineers own production outcomes while continuously improving the systems that deliver them.
+Source: text lines 785–1146.
+
+Pip joins the crew running harbor bookings and finds engineers repeating yesterday’s repairs. SRE applies software engineering to that operational work. Protected project time, a shared error budget, and distinct responses to pages, tickets, and logs help the service grow sustainably.
 
 ## Software engineering applied to operations
 
-SRE treats running a service as a problem that can be improved through software design. Instead of adding an operator whenever traffic or machine count grows, engineers build mechanisms for deployment, recovery, monitoring, and capacity management. The intended result is a service whose operational staffing grows more slowly than its workload, while engineers retain direct experience of production failures.
+Pip replaces another failed replica by hand. SRE treats service operation as a software design problem, building deployment, recovery, monitoring, and capacity mechanisms. A tested repair controller can make staffing grow more slowly than workload. Pip still works with production failures so engineering stays connected to reality.
+
+Source: text lines 785–1146.
 
 ## Protected engineering capacity
 
-Operational work can consume every available hour because new tickets and incidents arrive continuously. Google therefore caps the aggregate operational share at half of SRE time and protects the remainder for development. Measuring actual time makes overload visible; moving some operational responsibility back to developers creates both breathing room and a reason to improve the service itself.
+Pip’s crew spends 70% of its time on operations. Google’s model caps aggregate operational work at half, protecting the rest for development. Pip measures actual time and shares some responsibility with developers. The breathing room supports fixing recurrent service problems instead of adding an endless stream of operators.
+
+Source: text lines 785–1146.
 
 ## Error budgets align incentives
 
-An availability objective leaves a permitted fraction of unsuccessful service: the error budget. Product owners choose the target according to user needs, and development and SRE share responsibility for staying within it. Remaining budget supports controlled change; exhaustion redirects effort toward reliability. Safer rollouts become valuable because they permit useful innovation with less user disruption.
+Pip and product agree on 99.9% eligible-request success. Among a million requests, the implied error budget permits 1,000 failures. Development and SRE share that user-informed target: remaining budget supports controlled change, exhaustion redirects effort to reliability. Pip makes safer rollouts valuable to both sides.
+
+Source: text lines 785–1146.
 
 ## Operational responsibilities need distinct responses
 
-Monitoring, incident response, change management, and capacity planning are related responsibilities, but they operate on different timescales. An alert calls for immediate human action; a ticket records work that can wait; a log preserves diagnostic information. Capacity forecasts and rehearsed incident procedures move work out of emergencies, while software improvements prevent repeated manual responses from becoming permanent duties.
+Pip receives a capacity forecast and an active outage together. The outage needs immediate human action; the forecast can become a planning ticket. Logs preserve diagnostics, while rehearsals and capacity work address longer timescales. Pip builds preventive software so recurring manual responses do not become permanent duties.
 
-## Apply it
+Source: text lines 785–1146.
+
+## Transfer challenge: Make room to eliminate recurring intervention
+
+A growing service needs manual replica repair every day. SRE spends 70% of its time on operations, and a proposed repair controller keeps being postponed. Product developers want to add another feature this month.
+
+### Share operational duties and fund the controller
+
+Developers see the production burden while SRE gains time to remove it. Feature work slows during the investment. The teams reserve engineering time and track whether recurring repair hours fall.
+
+### Add temporary operational coverage
+
+Immediate response capacity improves while the service is busy. Recurring work remains and will grow unless engineering time is explicitly protected. Coverage relieves today’s pressure, but a dated repair project is still needed.
+
+Headcount can relieve immediate overload, but the SRE model requires a lasting engineering investment. Shared operational responsibility supplies feedback about the cost of the product’s behavior.
+
+## Protect time for engineering
 
 A six-person team spends four days each week on recurring interventions. Propose an ownership change and one engineering investment that reduce this load.
 
-Source: *Site Reliability Engineering*, chapter 1, text lines 785–1146. This note is an original synthesis; the exercise is a teaching extension.
+- Recurring work
+- Shared responsibility
+- Evidence of improvement

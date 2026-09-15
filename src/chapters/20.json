@@ -3,7 +3,7 @@
   "title": "Analyzing Architecture Risk",
   "part": "Techniques & people",
   "subtitle": "Turn hidden failure modes into shared decisions",
-  "summary": "Architecture risk is unavoidable, so architects need a repeatable way to qualify, communicate, and reduce it. The chapter's risk matrix combines impact and likelihood, each rated from one to three, to produce scores from one to nine: one and two are low, three and four medium, and six through nine high. Risk assessments aggregate these ratings by characteristic and domain area, filter for the audience, and show trend direction clearly. Risk storming adds collective knowledge: participants independently mark risk on a shared architecture diagram, then collaborate on consensus and mitigation. The independent phase avoids anchoring; the discussion surfaces disagreement, unfamiliar technology, and implementation experience that one architect may miss. Mitigation can mean refactoring, buffering, isolation, or researching external guarantees, and stakeholders weigh cost against remaining risk. The nurse diagnostics example shows successive sessions uncovering availability, elasticity, and security changes. Risk storming is continuous and can also analyze Agile story risk.",
+  "summary": "Pip’s risk workshop begins with independent notes, not the loudest person’s opinion. Impact and likelihood clarify ratings; context and trends make the assessment useful. Mitigations need owners and costs, and new features can change yesterday’s risk picture.",
   "source": {
     "startLine": 10139,
     "endLine": 10730,
@@ -12,33 +12,348 @@
   "concepts": [
     {
       "title": "Impact and Likelihood",
-      "body": "The risk matrix reduces subjective labels by scoring two dimensions. Rate the overall impact first, then the likelihood that the event will occur, each as low one, medium two, or high three. Multiply them: one and two are low, three and four medium, and six through nine high. A high-impact failure with low likelihood can therefore be medium overall in context.",
-      "example": "A clustered database outage could have high impact but low likelihood. Its product is three, so the team should discuss a medium risk rather than calling it high from impact alone.",
-      "source": "pp. 297–298"
+      "body": "Pip calls a clustered database outage high risk based only on its impact. The chapter scores impact first and likelihood second as 1, 2, or 3, then multiplies them. Products 1–2 are low, 3–4 medium, and 6–9 high. High impact with low likelihood scores 3, so Pip discusses a contextual medium risk.",
+      "example": "",
+      "source": "pp. 297–298",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "OUTAGE IMPACT 3",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "LIKELIHOOD 1",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "RISK SCORE 3",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip calls a clustered database outage high risk based only on its impact."
+          },
+          {
+            "node": "step-1",
+            "text": "The chapter scores impact first and likelihood second as 1, 2, or 3, then multiplies them."
+          },
+          {
+            "node": "step-3",
+            "text": "High impact with low likelihood scores 3, so Pip discusses a contextual medium risk."
+          }
+        ]
+      }
     },
     {
       "title": "Useful Risk Assessments",
-      "body": "A risk assessment summarizes ratings for meaningful criteria such as availability, scalability, or data integrity across services or domain areas. Totals reveal where risk accumulates, but a full table is rarely the best presentation. Filter to the decision's context and show whether risk is improving or worsening. Use a clear key or a trend-to-number arrow so direction cannot be misread.",
-      "example": "A review focused on high security risk can hide low-risk rows and show only the affected domains. A trend marker can show a medium score moving toward high risk after a new dependency is added.",
-      "source": "pp. 298–301"
+      "body": "Pip’s full risk table overwhelms a security review. Assessments compare meaningful characteristics across services or domains; totals reveal accumulation. Pip filters to the decision’s context and shows whether scores improve or worsen. A clear key and unambiguous trend markers prevent a compact presentation from hiding the direction.",
+      "example": "",
+      "source": "pp. 298–301",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "RISK ASSESSMENT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "search",
+            "label": "RELEVANT ROWS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "VISIBLE TREND",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s full risk table overwhelms a security review."
+          },
+          {
+            "node": "step-1",
+            "text": "Assessments compare meaningful characteristics across services or domains; totals reveal accumulation."
+          },
+          {
+            "node": "step-3",
+            "text": "A clear key and unambiguous trend markers prevent a compact presentation from hiding the direction."
+          }
+        ]
+      }
     },
     {
       "title": "Risk Storming",
-      "body": "Risk storming is a collaborative exercise for a specific dimension, such as performance, availability, security, data loss, or unknown technology. Architects, senior developers, and tech leads independently rate areas on an up-to-date diagram, then meet to reach consensus and design mitigations. Independent identification prevents a dominant voice from directing everyone toward the same area and protects quieter observations during review.",
-      "example": "One developer marks an unfamiliar cache as risk nine while others mark nothing. The conversation reveals a knowledge gap and prompts either training, a simpler choice, or a focused proof of concept.",
-      "source": "pp. 301–306"
+      "body": "Pip asks participants to rate the current architecture independently before discussing performance risk. Risk storming focuses on a dimension and includes architects, senior developers, and technical leads. One quiet colleague flags an unfamiliar cache others overlooked. Independent identification protects that evidence from dominant voices before consensus and mitigation design.",
+      "example": "",
+      "source": "pp. 301–306",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "blueprint",
+            "label": "CURRENT DIAGRAM",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "person",
+            "label": "INDEPENDENT RATINGS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "CONSENSUS REVIEW",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks participants to rate the current architecture independently before discussing performance risk."
+          },
+          {
+            "node": "step-1",
+            "text": "Risk storming focuses on a dimension and includes architects, senior developers, and technical leads."
+          },
+          {
+            "node": "step-3",
+            "text": "Independent identification protects that evidence from dominant voices before consensus and mitigation design."
+          }
+        ]
+      }
     },
     {
       "title": "Mitigation and Cost",
-      "body": "Consensus is not the end: the team changes or enhances the architecture to reduce the agreed risk. Queues can add back pressure, separate databases can isolate availability and security concerns, and caches can remove repeated load. Mitigation costs money and effort, so business stakeholders decide whether the reduction is worth it. Unknown technologies receive the highest risk rating until understood.",
-      "example": "A central profile database can be clustered while case notes use a separate instance. If full federation is too expensive, splitting the data may reduce most of the risk within an acceptable budget.",
-      "source": "pp. 306–307"
+      "body": "Pip’s agreed risk needs an actual design response. Queues add back pressure, separated databases isolate concerns, and caches can reduce repeated load. Mitigation costs money and effort; stakeholders decide whether the reduction justifies it, while unknown technology receives the chapter’s highest rating until understood. Pip considers a focused prototype, training, or a simpler choice.",
+      "example": "",
+      "source": "pp. 306–307",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "queue",
+            "label": "BACK PRESSURE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "database",
+            "label": "ISOLATION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "REDUCTION VS COST",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s agreed risk needs an actual design response."
+          },
+          {
+            "node": "step-1",
+            "text": "Queues add back pressure, separated databases isolate concerns, and caches can reduce repeated load."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip considers a focused prototype, training, or a simpler choice."
+          }
+        ]
+      }
     },
     {
       "title": "Continuous Scenarios",
-      "body": "Risk storming can analyze architecture characteristics repeatedly as features, dependencies, and operational conditions change. The nurse diagnostics example identifies a central database and an external engine as availability risks, adds queues and an outbreak cache for elasticity, and separates gateways for security. The same matrix can rank the impact and likelihood of missing an Agile story in an iteration over time.",
-      "example": "After adding self-service demand to a nurse system, a workshop discovers that a provider's 500 requests per second cannot absorb flu-season traffic. Priority queues and cached questions change the topology before the outage.",
-      "source": "pp. 307–314"
+      "body": "Pip revisits risk after demand and dependencies change. The nurse-diagnostics case finds a 500-request-per-second provider inadequate for flu-season demand. Queues, an outbreak cache, data separation, and gateways address different elasticity, availability, and security concerns. Pip repeats scenario-based assessment as architecture evolves; the same impact-likelihood reasoning can also examine iteration delivery risk.",
+      "example": "",
+      "source": "pp. 307–314",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "api",
+            "label": "LIMITED PROVIDER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "queue",
+            "label": "PRIORITIZED DEMAND",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "cache",
+            "label": "OUTBREAK CACHE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip revisits risk after demand and dependencies change."
+          },
+          {
+            "node": "step-1",
+            "text": "The nurse-diagnostics case finds a 500-request-per-second provider inadequate for flu-season demand."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip repeats scenario-based assessment as architecture evolves; the same impact-likelihood reasoning can also examine iteration delivery risk."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -123,75 +438,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "diagram",
-        "label": "ARCHITECTURE",
-        "kind": "blueprint",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "fundamentals"
+      },
+      {
+        "id": "step-1",
+        "kind": "database",
+        "label": "OUTAGE IMPACT 3",
         "tone": "sage"
       },
       {
-        "id": "votes",
-        "label": "RATINGS",
-        "kind": "team",
-        "tone": "peach"
-      },
-      {
-        "id": "consensus",
-        "label": "CONSENSUS",
-        "kind": "balance",
+        "id": "step-2",
+        "kind": "gauge",
+        "label": "LIKELIHOOD 1",
         "tone": "lilac"
       },
       {
-        "id": "change",
-        "label": "MITIGATION",
-        "kind": "component",
-        "tone": "honey"
-      },
-      {
-        "id": "trend",
-        "label": "RISK TREND",
-        "kind": "gauge",
+        "id": "step-3",
+        "kind": "balance",
+        "label": "RISK SCORE 3",
         "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "diagram",
-        "to": "votes"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "votes",
-        "to": "consensus"
+        "from": "step-1",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "consensus",
-        "to": "change"
-      },
-      {
-        "from": "change",
-        "to": "trend"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "diagram",
-        "text": "Choose one risk dimension and provide a current contextual architecture diagram."
+        "node": "step-0",
+        "text": "Pip calls a clustered database outage high risk based only on its impact."
       },
       {
-        "node": "votes",
-        "text": "Each participant rates impact and likelihood independently, marking the affected areas."
+        "node": "step-1",
+        "text": "The chapter scores impact first and likelihood second as 1, 2, or 3, then multiplies them."
       },
       {
-        "node": "consensus",
-        "text": "Compare disagreements and unknown technologies until the group understands the risk."
-      },
-      {
-        "node": "change",
-        "text": "Design a mitigation and negotiate whether its cost is worth the reduction."
-      },
-      {
-        "node": "trend",
-        "text": "Track the score and direction, then repeat after meaningful change or iteration."
+        "node": "step-3",
+        "text": "High impact with low likelihood scores 3, so Pip discusses a contextual medium risk."
       }
     ]
+  },
+  "story": {
+    "course": "fundamentals",
+    "world": "bookshop",
+    "title": "The quiet risk belongs on the map too"
   }
 }

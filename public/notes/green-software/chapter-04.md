@@ -1,44 +1,36 @@
 # Chapter 4: Operational Efficiency
 
+*Pip’s adventure: The room that never slept. Fictional teaching story; concepts follow the cited source.*
+
 Building Green Software — Anne Currie, Sarah Hsu, and Sara Bergman. First edition, March 2024.
 
 Source: printed pp. 53–72; text lines 2386–3083. References count literal newline-delimited lines in the supplied text.
 
 ## Overview
 
-Operational efficiency delivers the required function, performance, and resilience with fewer resources. This chapter centers on utilization: rightsizing, autoscaling, workload sharing, and scheduling reduce idle capacity that consumes electricity without useful output. These practices need workload information and reliable automation. A scheduler cannot place work effectively without knowing resource and availability needs; autoscaling is incomplete if it never scales down. Restartable systems make it possible to switch off unused environments and retire abandoned workloads. Managed platforms can supply some of these capabilities, but the benefits depend on how they are used. Efficiency also introduces failure modes and operational complexity, so recovery and service-level validation belong in the change.
+The cinema has more workers than work, yet nobody dares turn one off. Pip investigates peaks, ownership, restart procedures, and the audience’s deadline. Rightsizing, autoscaling, scheduling, and shared platforms can reduce idle capacity—but only if resources are actually released. A scheduler needs truthful requirements, and scale-up without scale-down leaves the empty room humming. Pip tests recovery before tightening margins or trying interruptible workers. The aim is the required service with fewer resources, not a utilization dial pinned at its maximum.
 
 ## Key ideas
 
 ### Rightsizing realizes savings
 
-A smaller program does not automatically produce a smaller infrastructure footprint. Rightsizing aligns provisioned capacity with observed demand, peaks, and resilience requirements. Reducing repeated idle overhead is the objective, rather than making every utilization graph reach its maximum. Overprovisioning often masks uncertainty about load and failures; investigate that uncertainty before reducing the safety margin. (Source: pp. 55–57.)
-
-Teaching extension: After a memory optimization, a worker is tested on a smaller allocation against peak jobs before production changes.
+Pip makes the converter smaller, but the reserved worker stays the same size. Rightsizing is the missing step: match allocation to observed demand, peaks, and recovery needs. Pip tests the lighter program against the largest film before reducing capacity. A full utilization dial is not the goal. Extra capacity may be hiding uncertainty about failures or demand; Pip investigates that uncertainty before removing the safety margin. (Source: pp. 55–57.)
 
 ### Scale down as well as up
 
-Autoscaling should remove capacity after demand falls. Fear of disruption can leave that direction disabled, preserving waste. Burstable capacity can suit intermittent demand, but sustained load and depleted credits introduce constraints. Infrastructure as code makes configuration repeatable and reviewable, helping allocation improvements become an operational practice rather than a cleanup that soon drifts. (Source: pp. 57–60.)
-
-Teaching extension: A test environment starts during working hours, drains jobs at closing time, and proves it can restart the next morning.
+Ten workers rush in for the premiere; ten remain after everyone leaves. Pip’s autoscaler knows how to grow, not shrink. Draining work and releasing surplus capacity completes the job. A daytime test environment must also prove its next restart. Burstable capacity suits some intermittent work, but sustained demand can exhaust credits. Pip records the policy in infrastructure as code so tomorrow’s deployment does not quietly restore yesterday’s waste. (Source: pp. 57–60.)
 
 ### Schedulers need information
 
-Placement works best when complementary jobs share resources. A scheduler needs encapsulated dependencies, fast startup, and accurate resource and availability requirements. Diverse tenants and flexible work create more opportunities than workloads that all peak simultaneously. Specifying oversized requirements can prevent efficient placement even when the underlying system has sophisticated scheduling capabilities. (Source: pp. 60–66.)
-
-Teaching extension: A batch job declares its memory requirement and deadline so it can fit around interactive traffic on shared capacity.
+The scheduler rejects Pip’s export: its oversized reservation leaves nowhere to fit it. Pip measures memory, packages dependencies, and declares startup behavior and the morning deadline. Accurate resource and availability requirements help flexible jobs share capacity around interactive traffic. Complementary demand is useful; every tenant peaking together is less so. Even a sophisticated scheduler cannot make good placements from requirements that describe fears rather than the actual workload. (Source: pp. 60–66.)
 
 ### Make turning off routine
 
-LightSwitchOps means stopping and restarting with confidence. Unused services often survive because nobody knows whether they are needed or recoverable. Inventory, ownership, reproducible deployment, and recovery checks make retirement practical. Removing abandoned workloads can reduce unmaintained security exposure as well as resource use. A scheduled shutdown needs more than an optimistic assumption that startup will work. (Source: pp. 66–69.)
-
-Teaching extension: An old preview service gets an ownership and traffic check, a restore procedure, and a reversible retirement plan.
+Pip reaches the town cinema after midnight. Nobody is watching, but the preview server still hums. A note reads: “Don’t switch off. Might not come back.” Pip nearly walks away. Instead, Pip finds its owner, checks for hidden users, and tests rebuilding it from a saved configuration. Only then does Pip schedule its rest. That is LightSwitchOps: stopping and restarting with confidence, not hoping the morning shift can fix it. (Source: pp. 66–69.)
 
 ### Efficiency requires resilience
 
-Shared infrastructure, interruptible workers, and tighter margins create failure modes that must be handled. A low spot price does not itself establish low-carbon electricity. The chapter’s expectation of future carbon-aware scheduling is a prediction from the book’s period. Evaluate interruption, repeated work, and service objectives before relying on an efficient-looking operating arrangement. (Source: pp. 63–64, 69–72.)
-
-Teaching extension: An interrupted export resumes from a checkpoint. The trial measures retries and deadline misses along with resource hours.
+A bargain worker vanishes halfway through Pip’s export. A checkpoint lets the replacement resume, but retries still consume resources. Sharing, interruptions, and tighter margins need recovery and deadline checks. A low spot price is not an electricity carbon signal. Pip measures repeated work and misses before accepting the arrangement. The book’s expectation of future carbon-aware scheduling remains a prediction from its publication period, not a promise attached to today’s cheap worker. (Source: pp. 63–64, 69–72.)
 
 ## Misconceptions
 
@@ -52,7 +44,7 @@ A useful improvement preserves service and recovery needs. Saturation can create
 
 ## Decision practice — teaching extension
 
-Teaching extension. A media service reserves several workers for a brief export peak. Jobs must finish by morning and survive losing a worker. The team can consolidate onto shared interruptible workers with checkpoints or first rightsize a dedicated pool. Peak load is understood, but interruptions remain untested.
+Pip reserves several workers for the cinema’s brief export peak. Jobs must finish by morning and survive losing a worker. Shared interruptible workers with checkpoints could reduce idle allocation; rightsizing the dedicated pool is simpler. Peak demand is known, but interruption recovery remains untested.
 
 ### Use shared workers with checkpoints
 

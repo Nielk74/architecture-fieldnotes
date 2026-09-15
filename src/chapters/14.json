@@ -3,7 +3,7 @@
   "title": "Event-Driven Architecture Style",
   "part": "Architecture styles",
   "subtitle": "Let systems react quickly, then design for what happens next",
-  "summary": "Event-driven architecture uses decoupled components that asynchronously receive and process events. A broker topology broadcasts processing events without a central coordinator, allowing high responsiveness, performance, scalability, and extensibility; it gives up clear workflow control, straightforward recovery, and easy error handling. A mediator topology keeps event state, issues commands to dedicated queues, waits for acknowledgements, and can restart a workflow, but the mediator adds coupling and can bottleneck throughput. Asynchronous fire-and-forget improves perceived responsiveness without shortening the work itself, so error handling, ordering, and data loss need deliberate patterns. Workflow delegates repair malformed messages, while persistent queues, synchronous send, client acknowledgement, database commits, and last-participant support protect delivery. Broadcast and request-reply cover different communication needs. Choose event-based flow for dynamic action and scale; use request-based flow when certainty and deterministic control matter.",
+  "summary": "Pip’s bookshop accepts an order quickly, then discovers payment failed downstream. Events can improve responsiveness and extension, but the workflow still needs ownership, status, and recovery. Pip compares a reacting broker network with an explicitly coordinating mediator.",
   "source": {
     "startLine": 6539,
     "endLine": 7521,
@@ -12,39 +12,417 @@
   "concepts": [
     {
       "title": "Request or event",
-      "body": "A request-based model synchronously directs a well-defined data operation through an orchestrator. An event-based model reacts to a situation, such as a bid or a placed order, and allows downstream processors to act asynchronously. Request flow offers certainty and control; event flow suits action-oriented, dynamic work that values responsiveness, scale, and extension. The distinction is about the nature of the interaction, not merely whether a message broker is present.",
-      "example": "Retrieving six months of order history is a deterministic request. Placing an order can emit an event that notification, payment, and inventory processors handle independently.",
-      "source": "pp. 179–180, 206"
+      "body": "Pip asks for six months of order history, then places a new order. The first is a well-defined request; the second announces a situation downstream processors can react to. Synchronous orchestration favors certainty and control, while event-driven work favors responsive, scalable extension. Pip distinguishes the interaction itself, not simply whether a broker exists.",
+      "example": "",
+      "source": "pp. 179–180, 206",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "search",
+            "label": "HISTORY REQUEST",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "message",
+            "label": "ORDER PLACED",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "REACTION PATTERN",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks for six months of order history, then places a new order."
+          },
+          {
+            "node": "step-1",
+            "text": "The first is a well-defined request; the second announces a situation downstream processors can react to."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip distinguishes the interaction itself, not simply whether a broker exists."
+          }
+        ]
+      }
     },
     {
       "title": "Broker topology",
-      "body": "A broker has an initiating event, broker channels, event processors, and processing events. One processor acts, publishes what happened, and becomes free while other processors listen and react. Topics provide publish-and-subscribe broadcast and back pressure, and a new consumer can subscribe to an existing event without changing publishers. The price of this decoupling is that no component owns the entire workflow or knows when it is complete.",
-      "example": "After order-created, notification, payment, and inventory run in parallel. Payment publishes payment-applied or payment-denied; fulfillment listens for success, while a future analytics processor can consume email-sent.",
-      "source": "pp. 180–184"
+      "body": "Pip publishes order-created and notification, payment, and inventory react. Broker channels connect initiating events, processors, and the processing events they publish. Topics support broadcast and back pressure; analytics can subscribe without changing publishers. Pip gains decoupling but no single component knows the whole workflow or when it is complete.",
+      "example": "",
+      "source": "pp. 180–184",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "ORDER-CREATED",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "REACTING PROCESSORS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "search",
+            "label": "NEW SUBSCRIBER",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip publishes order-created and notification, payment, and inventory react."
+          },
+          {
+            "node": "step-1",
+            "text": "Broker channels connect initiating events, processors, and the processing events they publish."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip gains decoupling but no single component knows the whole workflow or when it is complete."
+          }
+        ]
+      }
     },
     {
       "title": "Mediator topology",
-      "body": "A mediator receives an initiating event, tracks its state, and sends commands through dedicated queues to event processors. It can run parallel steps, wait for acknowledgements, stop on failure, persist progress, and resume from the last completed step. Multiple mediators can divide domains. Simple, hard, and complex workflows may be delegated to tools with increasing orchestration capability. The mediator improves control and recovery but couples processors to its workflow and can limit scale and performance.",
-      "example": "A customer mediator creates an order, waits for email, payment, and inventory acknowledgements, then commands fulfillment and shipping. An expired card pauses the workflow until repair, rather than letting later steps proceed blindly.",
-      "source": "pp. 185–195"
+      "body": "Pip’s order mediator pauses when an expired card blocks payment. It tracks state, sends commands through dedicated queues, waits for acknowledgments, and can resume from a completed step. Parallel work, persistence, domain-specific mediators, and appropriate orchestration tools support more complex flows. Pip accepts central workflow coupling and possible scale or performance limits for clearer control and recovery.",
+      "example": "",
+      "source": "pp. 185–195",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "router",
+            "label": "ORDER MEDIATOR",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "queue",
+            "label": "DEDICATED COMMANDS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "PERSISTED PROGRESS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s order mediator pauses when an expired card blocks payment."
+          },
+          {
+            "node": "step-1",
+            "text": "It tracks state, sends commands through dedicated queues, waits for acknowledgments, and can resume from a completed step."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip accepts central workflow coupling and possible scale or performance limits for clearer control and recovery."
+          }
+        ]
+      }
     },
     {
       "title": "Responsiveness is not performance",
-      "body": "Asynchronous messaging can acknowledge acceptance quickly while work continues. The end-to-end processing time may be unchanged; the user simply does not wait for every parser or downstream service. This creates a promise rather than immediate certainty, so rejected work needs a notification or status path. Request-reply messaging provides a response through a reply queue, usually matched by correlation ID; a temporary reply queue is simpler but adds broker overhead.",
-      "example": "A comment post can return after 25 milliseconds while moderation takes 3,000 milliseconds. The system feels responsive, but it still must tell the author if moderation rejects the comment.",
-      "source": "pp. 195–196, 203–206"
+      "body": "Pip’s comment post returns in 25 milliseconds while moderation takes 3,000. Fast acknowledgment improves responsiveness without necessarily shortening end-to-end processing. Rejected work still needs notification or status; acceptance is a promise, not completion. Pip uses correlation IDs for request-reply queues, or accepts the broker overhead of temporary reply queues.",
+      "example": "",
+      "source": "pp. 195–196, 203–206",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "25 ms ACCEPTANCE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "queue",
+            "label": "3,000 ms WORK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "message",
+            "label": "RESULT OR REJECTION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s comment post returns in 25 milliseconds while moderation takes 3,000."
+          },
+          {
+            "node": "step-1",
+            "text": "Fast acknowledgment improves responsiveness without necessarily shortening end-to-end processing."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip uses correlation IDs for request-reply queues, or accepts the broker overhead of temporary reply queues."
+          }
+        ]
+      }
     },
     {
       "title": "Repair, ordering, and delivery",
-      "body": "A workflow event pattern delegates a consumer error to a workflow processor, which repairs and resubmits the message or sends it to a human dashboard. Resubmission can break ordering, so messages for the same account or context may need a temporary FIFO hold. Data loss can happen before enqueue, after dequeue, or before database persistence. Persistent queues with synchronous send, client acknowledgement, an ACID commit, and final queue acknowledgement address those loss windows; duplicate delivery still needs idempotent handling.",
-      "example": "A trade record with 8756 SHARES can be normalized by an error processor and retried. Other trades for that account wait until the repaired message succeeds, preserving account order.",
-      "source": "pp. 197–202"
+      "body": "Pip’s error processor normalizes “8756 SHARES” and resubmits the record. Repair or human escalation can disrupt order, so related account messages may need a temporary FIFO hold. Persistent queues, synchronous send, client acknowledgment, ACID persistence, and final queue acknowledgment address loss windows. Pip still handles duplicates idempotently; durability alone does not guarantee exactly one effect.",
+      "example": "",
+      "source": "pp. 197–202",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "MALFORMED EVENT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "terminal",
+            "label": "REPAIR + RESUBMIT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "queue",
+            "label": "ACCOUNT ORDER",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s error processor normalizes “8756 SHARES” and resubmits the record."
+          },
+          {
+            "node": "step-1",
+            "text": "Repair or human escalation can disrupt order, so related account messages may need a temporary FIFO hold."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip still handles duplicates idempotently; durability alone does not guarantee exactly one effect."
+          }
+        ]
+      }
     },
     {
       "title": "Characteristics and hybrid use",
-      "body": "Event-driven systems can broadcast market data to unknown subscribers and can combine broker and mediator flows. They often score strongly for performance, scalability, fault tolerance, and evolutionary extension, but low for simplicity and testability because dynamic event trees create many possible paths. Shared databases and request-reply dependencies can bind processors into the same quantum even when messages are asynchronous. Add the style where its responsiveness and adaptability repay the operational complexity.",
-      "example": "A price publisher can add analytics, alerts, and audit subscribers without knowing them. A separate mediator can still coordinate a trade that must wait for a confirmation number.",
-      "source": "pp. 203–209"
+      "body": "Pip adds analytics and audit subscribers to price events without changing the publisher. Broker and mediator flows can coexist, often improving scale, performance, fault tolerance, and evolution. Dynamic event trees reduce simplicity and testability, while shared data or request-reply coupling can still bind one quantum. Pip pays that complexity only where responsiveness and adaptability justify it.",
+      "example": "",
+      "source": "pp. 203–209",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "PRICE EVENT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "NEW SUBSCRIBERS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "CONTROLLED MEDIATOR",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip adds analytics and audit subscribers to price events without changing the publisher."
+          },
+          {
+            "node": "step-1",
+            "text": "Broker and mediator flows can coexist, often improving scale, performance, fault tolerance, and evolution."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip pays that complexity only where responsiveness and adaptability justify it."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -129,75 +507,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "event",
-        "label": "START EVENT",
-        "kind": "message",
-        "tone": "peach"
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "fundamentals"
       },
       {
-        "id": "broker",
-        "label": "EVENT HUB",
-        "kind": "router",
+        "id": "step-1",
+        "kind": "search",
+        "label": "HISTORY REQUEST",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "message",
+        "label": "ORDER PLACED",
         "tone": "lilac"
       },
       {
-        "id": "processors",
-        "label": "PROCESSORS",
-        "kind": "service",
-        "tone": "sage"
-      },
-      {
-        "id": "repair",
-        "label": "REPAIR QUEUE",
-        "kind": "queue",
+        "id": "step-3",
+        "kind": "router",
+        "label": "REACTION PATTERN",
         "tone": "peach"
-      },
-      {
-        "id": "store",
-        "label": "OUTCOME DB",
-        "kind": "database",
-        "tone": "sage"
       }
     ],
     "edges": [
       {
-        "from": "event",
-        "to": "broker"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "broker",
-        "to": "processors"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "processors",
-        "to": "repair"
-      },
-      {
-        "from": "processors",
-        "to": "store"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "event",
-        "text": "The action is accepted and an initiating event enters a durable channel."
+        "node": "step-0",
+        "text": "Pip asks for six months of order history, then places a new order."
       },
       {
-        "node": "broker",
-        "text": "A broker broadcasts reactions, or a mediator issues the next command and records workflow state."
+        "node": "step-1",
+        "text": "The first is a well-defined request; the second announces a situation downstream processors can react to."
       },
       {
-        "node": "processors",
-        "text": "Independent processors act asynchronously; the mediator waits for acknowledgements when sequence matters."
-      },
-      {
-        "node": "repair",
-        "text": "A failing consumer delegates repair or manual review and preserves ordering for the affected context."
-      },
-      {
-        "node": "store",
-        "text": "The outcome commits before final acknowledgement, making delivery and recovery observable."
+        "node": "step-3",
+        "text": "Pip distinguishes the interaction itself, not simply whether a broker exists."
       }
     ]
+  },
+  "story": {
+    "course": "fundamentals",
+    "world": "bookshop",
+    "title": "An order is accepted before it is finished"
   }
 }

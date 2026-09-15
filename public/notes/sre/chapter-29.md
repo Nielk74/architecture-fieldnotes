@@ -1,23 +1,53 @@
 # Chapter 29: Dealing with Interrupts
 
-Source: text lines 13942–14247 of the supplied book extract.
+*Pip’s adventure: Every message cannot interrupt the same engineer. Fictional teaching story; concepts follow the cited source.*
 
-Operational work includes urgent pages, slower customer tickets, and ongoing duties such as rollouts. Distributing each arrival across the whole team can make everyone interruptible, sacrificing the sustained attention needed for engineering. The chapter proposes separating periods devoted to interrupts from periods devoted to projects. A designated responder gives urgent work clear ownership; ticket rotations and transferable operational roles keep the rest of the team focused. On-call weeks should not also carry normal project expectations. Handoffs preserve unfinished work and expose recurring ticket causes. Teams should examine and reduce those causes through automation, service changes, and reasonable request policies. Quietly helping the queue outside the rotation can hide understaffing or excessive demand instead of solving it.
+Source: text lines 13942–14247.
+
+Pip tries to finish a design while answering every new request. Different work needs different response windows. Dedicated rotations, real handoffs, and honest demand measurement protect focused time while keeping urgent production work owned.
 
 ## Different interrupts need different response policies
 
-Pages, tickets, and ongoing operational duties differ in urgency, volume, and ownership. A production emergency needs a clear immediate responder, while a request for review may wait within an agreed response window. Choosing coverage requires considering backlog and severity alongside human costs. Treating every arrival as equally urgent unnecessarily interrupts work that needs concentration without necessarily improving service to users.
+Pip receives a configuration review request during a booking outage. Pages, tickets, and ongoing duties differ in urgency, volume, and ownership. The emergency gets an immediate responder; review waits within an agreed window. Pip weighs backlog, severity, and human costs rather than treating every arrival as urgent.
+
+Source: text lines 13942–14247.
 
 ## Polarized time for projects and interrupts
 
-Switching between deep project work and unpredictable operational demands has a cost beyond the minutes spent answering. Assigning substantial blocks to one work mode helps engineers know what success means that day. Primary on-call work should take priority during its block; quiet periods can accommodate interruptible cleanup. A project with an immovable deadline may require moving that engineer’s on-call assignment.
+Pip’s design session fragments into unpredictable operational interruptions. Context switching costs more than the minutes spent answering. Substantial blocks separate primary on-call priorities from protected project work; quiet duty periods suit interruptible cleanup. Pip moves a rotation assignment when an immovable project deadline cannot coexist with it.
+
+Source: text lines 13942–14247.
 
 ## Rotations and transferable responsibility
 
-Concentrate tickets in an explicitly staffed rotation rather than assigning them randomly across the team. If volume exceeds one person’s capacity, add appropriate coverage without making everyone permanently interruptible. Document ongoing work and hand it over so a multiweek rollout does not follow its original owner into every project week. Clear ownership prevents both dropped work and diffuse responsibility.
+Pip’s multiweek rollout follows its original owner into every project week. An explicitly staffed rotation concentrates tickets; more demand may require more coverage, not permanently interrupting everyone. Pip documents rollout state, verification, and next actions for handoff. Transferable ownership prevents both dropped work and diffuse responsibility.
+
+Source: text lines 13942–14247.
 
 ## Reduce demand instead of enduring the queue
 
-Regularly review ticket classes and handoffs to identify repeated causes rather than merely surviving each shift. Automation, clearer interfaces, and reasonable support policies can remove work. Requesters can supply necessary information or perform steps that do not require SRE privileges. Hidden help from off-rotation engineers obscures actual capacity, so the team needs an honest view of demand and sustainable coverage.
+Pip finds that most capacity tickets arrive without essential information. Regular review of ticket classes reveals causes that automation, clearer interfaces, or support policies can remove. Requesters can prepare steps that need no SRE privilege. Pip stops hiding demand through off-rotation help and measures sustainable coverage honestly.
 
-The lesson’s examples, decision scenario, and exercise are original teaching extensions rather than reported incidents.
+Source: text lines 13942–14247.
+
+## Transfer challenge: Protect project time from interrupts
+
+An SRE receives ad hoc requests from five product teams while an outage-prevention project is due this month. Each request sounds urgent but has no impact estimate.
+
+### Triage interrupts against an explicit budget
+
+The team protects planned reliability work while visible urgent work still gets handled. Some requesters must wait or provide evidence. The team routes incidents immediately and batches low-impact questions.
+
+### Answer requests in arrival order
+
+Requesters receive quick acknowledgement without a new process. Arrival order rewards noise and consumes the project’s time. The project slips and the same interruptions continue.
+
+Classify urgency and direct work to the designated interrupt role. Concentrating coverage and handing off ongoing tasks preserves project time; examining recurring request causes reduces future demand instead of merely redistributing it.
+
+## Protect a project week
+
+Design coverage for pages, tickets, and an ongoing rollout while most of the team works on engineering projects.
+
+- Coverage
+- Handoff
+- Demand reduction

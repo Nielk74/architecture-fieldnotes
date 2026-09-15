@@ -3,7 +3,7 @@
   "title": "Introduction",
   "part": "Foundations",
   "subtitle": "Use engineering time and error budgets to change how services are run",
-  "summary": "SRE changes the economics of operating a service by investing in software that removes recurring human intervention. That investment needs protected time: when operational work consumes the team, the organization must change ownership or staffing so engineering can resume. Reliability also needs a product decision about how much failure users can tolerate. An error budget translates that decision into a shared constraint on release velocity, replacing an argument between stability and features with measurable remaining risk. Monitoring distinguishes urgent intervention from work that can wait and information retained for diagnosis. Incident preparation, capacity planning, and efficient resource use complete the model: engineers own production outcomes while continuously improving the systems that deliver them.",
+  "summary": "Pip joins the crew running harbor bookings and finds engineers repeating yesterday’s repairs. SRE applies software engineering to that operational work. Protected project time, a shared error budget, and distinct responses to pages, tickets, and logs help the service grow sustainably.",
   "source": {
     "startLine": 785,
     "endLine": 1146,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Software engineering applied to operations",
-      "body": "SRE treats running a service as a problem that can be improved through software design. Instead of adding an operator whenever traffic or machine count grows, engineers build mechanisms for deployment, recovery, monitoring, and capacity management. The intended result is a service whose operational staffing grows more slowly than its workload, while engineers retain direct experience of production failures.",
-      "example": "Teaching extension: A storage team replaces repeated manual replica replacement with a tested repair controller.",
-      "source": "text lines 785–1146"
+      "body": "Pip replaces another failed replica by hand. SRE treats service operation as a software design problem, building deployment, recovery, monitoring, and capacity mechanisms. A tested repair controller can make staffing grow more slowly than workload. Pip still works with production failures so engineering stays connected to reality.",
+      "example": "",
+      "source": "text lines 785–1146",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "FAILED REPLICA",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "terminal",
+            "label": "REPAIR CONTROLLER",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "OPERATING BURDEN",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip replaces another failed replica by hand."
+          },
+          {
+            "node": "step-1",
+            "text": "SRE treats service operation as a software design problem, building deployment, recovery, monitoring, and capacity mechanisms."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip still works with production failures so engineering stays connected to reality."
+          }
+        ]
+      }
     },
     {
       "title": "Protected engineering capacity",
-      "body": "Operational work can consume every available hour because new tickets and incidents arrive continuously. Google therefore caps the aggregate operational share at half of SRE time and protects the remainder for development. Measuring actual time makes overload visible; moving some operational responsibility back to developers creates both breathing room and a reason to improve the service itself.",
-      "example": "Teaching extension: A team spending 70% of its time on operations shares the pager with developers while removing recurrent failures.",
-      "source": "text lines 785–1146"
+      "body": "Pip’s crew spends 70% of its time on operations. Google’s model caps aggregate operational work at half, protecting the rest for development. Pip measures actual time and shares some responsibility with developers. The breathing room supports fixing recurrent service problems instead of adding an endless stream of operators.",
+      "example": "",
+      "source": "text lines 785–1146",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "70% OPERATIONS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "balance",
+            "label": "PROTECTED ENGINEERING",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "SHARED RESPONSIBILITY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s crew spends 70% of its time on operations."
+          },
+          {
+            "node": "step-1",
+            "text": "Google’s model caps aggregate operational work at half, protecting the rest for development."
+          },
+          {
+            "node": "step-3",
+            "text": "The breathing room supports fixing recurrent service problems instead of adding an endless stream of operators."
+          }
+        ]
+      }
     },
     {
       "title": "Error budgets align incentives",
-      "body": "An availability objective leaves a permitted fraction of unsuccessful service: the error budget. Product owners choose the target according to user needs, and development and SRE share responsibility for staying within it. Remaining budget supports controlled change; exhaustion redirects effort toward reliability. Safer rollouts become valuable because they permit useful innovation with less user disruption.",
-      "example": "Teaching extension: A 99.9% request-success target permits 1,000 failures among a million eligible requests.",
-      "source": "text lines 785–1146"
+      "body": "Pip and product agree on 99.9% eligible-request success. Among a million requests, the implied error budget permits 1,000 failures. Development and SRE share that user-informed target: remaining budget supports controlled change, exhaustion redirects effort to reliability. Pip makes safer rollouts valuable to both sides.",
+      "example": "",
+      "source": "text lines 785–1146",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "target",
+            "label": "99.9% SUCCESS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "1,000 FAILURES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "SHARED BUDGET",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip and product agree on 99.9% eligible-request success."
+          },
+          {
+            "node": "step-1",
+            "text": "Among a million requests, the implied error budget permits 1,000 failures."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip makes safer rollouts valuable to both sides."
+          }
+        ]
+      }
     },
     {
       "title": "Operational responsibilities need distinct responses",
-      "body": "Monitoring, incident response, change management, and capacity planning are related responsibilities, but they operate on different timescales. An alert calls for immediate human action; a ticket records work that can wait; a log preserves diagnostic information. Capacity forecasts and rehearsed incident procedures move work out of emergencies, while software improvements prevent repeated manual responses from becoming permanent duties.",
-      "example": "Teaching extension: An imminent capacity shortfall creates a planning ticket; an ongoing outage pages the responder.",
-      "source": "text lines 785–1146"
+      "body": "Pip receives a capacity forecast and an active outage together. The outage needs immediate human action; the forecast can become a planning ticket. Logs preserve diagnostics, while rehearsals and capacity work address longer timescales. Pip builds preventive software so recurring manual responses do not become permanent duties.",
+      "example": "",
+      "source": "text lines 785–1146",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "PAGE NOW",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "PLAN AHEAD",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "trace",
+            "label": "DIAGNOSTIC LOG",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip receives a capacity forecast and an active outage together."
+          },
+          {
+            "node": "step-1",
+            "text": "The outage needs immediate human action; the forecast can become a planning ticket."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip builds preventive software so recurring manual responses do not become permanent duties."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,81 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Engineering investment reduces recurring operational work",
     "nodes": [
       {
-        "id": "observe",
-        "label": "OPERATIONS",
-        "caption": "measure recurring human work",
-        "kind": "queue",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "ENGINEERING",
-        "caption": "protect time for lasting fixes",
-        "kind": "person",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "CONTROLLER",
-        "caption": "remove repeated intervention",
-        "kind": "agent",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "CAPACITY",
-        "caption": "verify time returned to projects",
-        "kind": "gauge",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "service",
+        "label": "FAILED REPLICA",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "terminal",
+        "label": "REPAIR CONTROLLER",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "gauge",
+        "label": "OPERATING BURDEN",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
-      },
-      {
-        "from": "learn",
-        "to": "observe",
-        "dashed": true
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "measure recurring human work"
+        "node": "step-0",
+        "text": "Pip replaces another failed replica by hand."
       },
       {
-        "node": "decide",
-        "text": "protect time for lasting fixes"
+        "node": "step-1",
+        "text": "SRE treats service operation as a software design problem, building deployment, recovery, monitoring, and capacity mechanisms."
       },
       {
-        "node": "act",
-        "text": "remove repeated intervention"
-      },
-      {
-        "node": "learn",
-        "text": "verify time returned to projects"
+        "node": "step-3",
+        "text": "Pip still works with production failures so engineering stays connected to reality."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "Pip joins the harbor’s pager rotation"
   }
 }

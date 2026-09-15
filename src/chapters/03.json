@@ -3,7 +3,7 @@
   "title": "Modularity",
   "part": "Foundations",
   "subtitle": "Shape code so change stays local",
-  "summary": "Modularity is the logical grouping of related code, independent of whether a platform gives that group a package, namespace, or physical component. Good modularity preserves order in systems that otherwise drift toward disorder. Cohesion asks whether parts belong together; coupling measures incoming and outgoing connections; and connascence explains what must change together to preserve correctness. Metrics such as LCOM, abstractness, instability, and distance from the main sequence provide clues, but they cannot replace architectural interpretation. Connascence adds strength, locality, and degree as ways to judge coupling and suggests keeping stronger relationships inside boundaries while weakening relationships across them. Static forms are usually easier to refactor than dynamic runtime dependencies. The chapter closes by connecting logical modules to physical components, preparing for architecture decisions about deployment and scope.",
+  "summary": "Pip organizes the bookshop code, but tidy folders do not guarantee useful modules. Cohesion, coupling, and connascence reveal what actually changes together. Metrics raise questions; the domain’s meaning decides whether a boundary helps.",
   "source": {
     "startLine": 1768,
     "endLine": 2417,
@@ -12,33 +12,348 @@
   "concepts": [
     {
       "title": "Logical modules",
-      "body": "A module is a logical grouping of related classes, functions, or other code. Packages and namespaces provide language-specific ways to organize and name that grouping, but modularity does not require a separate process or deployable file. Keeping the concept separate from physical packaging lets architects reason about structure before choosing a platform or splitting a monolith. The logical boundary can therefore guide later physical changes without presupposing them.",
-      "example": "A Java customer package can group customer behavior inside one monolith. The team can later extract it, but unnecessary coupling to unrelated packages will make that migration harder.",
-      "source": "pp. 37–40"
+      "body": "Pip groups customer behavior in a package without creating a new service. A module is a logical collection of related classes, functions, or code; packages and namespaces provide language-specific organization. It need not be a separate process or deployable file. Pip lets the logical seam guide future extraction while avoiding unnecessary coupling now.",
+      "example": "",
+      "source": "pp. 37–40",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "component",
+            "label": "CUSTOMER MODULE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "PACKAGE NAME",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "deployment",
+            "label": "ONE APPLICATION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip groups customer behavior in a package without creating a new service."
+          },
+          {
+            "node": "step-1",
+            "text": "A module is a logical collection of related classes, functions, or code; packages and namespaces provide language-specific organization."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip lets the logical seam guide future extraction while avoiding unnecessary coupling now."
+          }
+        ]
+      }
     },
     {
       "title": "Cohesion",
-      "body": "Cohesion measures how strongly a module’s parts belong together. Functional cohesion is strongest; sequential, communicational, procedural, temporal, logical, and coincidental relationships become progressively weaker. The correct boundary depends on change patterns and coupling: splitting a cohesive unit can make the code harder to read and force more cross-module calls. LCOM offers a structural lack-of-cohesion signal, not a final design verdict.",
-      "example": "Customer creation and update may share one boundary, while order cancellation may deserve its own only when it can grow independently without requiring extensive customer knowledge.",
-      "source": "pp. 40–44"
+      "body": "Pip splits customer creation from update and creates more cross-module calls. Cohesion asks how strongly parts belong together: functional is strongest, followed by sequential, communicational, procedural, temporal, logical, and coincidental relationships. Change patterns and coupling determine whether a split helps. Pip uses LCOM as a structural warning, not a final design verdict.",
+      "example": "",
+      "source": "pp. 40–44",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "component",
+            "label": "RELATED BEHAVIOR",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "NEW CROSS-CALLS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "COHESION SIGNAL",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip splits customer creation from update and creates more cross-module calls."
+          },
+          {
+            "node": "step-1",
+            "text": "Cohesion asks how strongly parts belong together: functional is strongest, followed by sequential, communicational, procedural, temporal, logical, and coincidental relationships."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip uses LCOM as a structural warning, not a final design verdict."
+          }
+        ]
+      }
     },
     {
       "title": "Coupling and balance",
-      "body": "Afferent coupling counts incoming connections; efferent coupling counts outgoing connections. Abstractness compares abstract artifacts with concrete ones, and instability is outgoing coupling divided by total coupling. Distance from the main sequence combines abstractness and instability to flag an imbalance: too much implementation can create a zone of pain, while too much abstraction can create a zone of uselessness. These are diagnostic signals requiring context.",
-      "example": "A stable domain contract may intentionally be abstract and receive many dependencies, while a volatile adapter can remain concrete and depend outward; a tool can reveal whether the balance is drifting.",
-      "source": "pp. 44–48"
+      "body": "Pip measures incoming afferent and outgoing efferent dependencies. Abstractness compares abstract with concrete artifacts; instability is outgoing coupling divided by total coupling. Distance from the main sequence combines them, warning of overly concrete pain or overly abstract uselessness. Pip interprets the metrics in context: a stable abstract contract and volatile concrete adapter can be appropriate.",
+      "example": "",
+      "source": "pp. 44–48",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "router",
+            "label": "IN / OUT COUPLING",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "balance",
+            "label": "ABSTRACTNESS + INSTABILITY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "DIAGNOSTIC DISTANCE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip measures incoming afferent and outgoing efferent dependencies."
+          },
+          {
+            "node": "step-1",
+            "text": "Abstractness compares abstract with concrete artifacts; instability is outgoing coupling divided by total coupling."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip interprets the metrics in context: a stable abstract contract and volatile concrete adapter can be appropriate."
+          }
+        ]
+      }
     },
     {
       "title": "Connascence",
-      "body": "Two elements are connascent when a change in one requires a change in the other to preserve correctness. Static forms include agreement on names, types, meanings, positions, or algorithms. Dynamic forms include execution order, timing, related values, and shared identity. The categories describe the nature of a dependency, while strength, locality, and degree help judge whether it is acceptable or should be refactored.",
-      "example": "Replacing a magic status number with a named constant weakens connascence of meaning into connascence of name. A shared transaction state across services is a stronger dynamic dependency.",
-      "source": "pp. 48–52"
+      "body": "Pip changes a magic order-status number and breaks another component. Connascence means one change requires another to preserve correctness. Static forms involve names, types, meanings, positions, or algorithms; dynamic forms involve execution, timing, related values, or identity. Pip replaces the hidden meaning with a named constant, considering strength, locality, and the number affected.",
+      "example": "",
+      "source": "pp. 48–52",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "MAGIC STATUS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "alert",
+            "label": "DEPENDENT BREAKAGE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "NAMED CONTRACT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip changes a magic order-status number and breaks another component."
+          },
+          {
+            "node": "step-1",
+            "text": "Connascence means one change requires another to preserve correctness."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip replaces the hidden meaning with a named constant, considering strength, locality, and the number affected."
+          }
+        ]
+      }
     },
     {
       "title": "Modularity guidance",
-      "body": "Page-Jones’s guidance is to minimize total connascence, minimize what crosses encapsulation boundaries, and maximize what remains inside them. Prefer weaker forms as elements get farther apart, and consider the size of the affected set. Static dependencies are often preferable to dynamic ones because source analysis and refactoring tools can expose them. No metric captures logical intent perfectly, so architects must ask why a dependency exists and whether a boundary is helping the change pattern.",
-      "example": "Two methods in one component can share a convention safely; spreading that same hidden convention across services multiplies coordination and makes independent change risky. A named contract can make that dependency visible.",
-      "source": "pp. 50–53"
+      "body": "Pip finds a harmless local convention copied across distant services. Page-Jones’s guidance minimizes total and cross-boundary connascence while concentrating necessary relationships inside encapsulation. Weaker forms suit greater distance; static dependencies are often easier for tools to expose than dynamic ones. Pip checks intent and affected scope rather than expecting a metric to settle the boundary.",
+      "example": "",
+      "source": "pp. 50–53",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "component",
+            "label": "LOCAL CONVENTION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "DISTANT DEPENDENCIES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "boundary",
+            "label": "ENCAPSULATED RELATIONSHIP",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip finds a harmless local convention copied across distant services."
+          },
+          {
+            "node": "step-1",
+            "text": "Page-Jones’s guidance minimizes total and cross-boundary connascence while concentrating necessary relationships inside encapsulation."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip checks intent and affected scope rather than expecting a metric to settle the boundary."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -123,65 +438,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "module",
-        "label": "RELATED CODE",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "fundamentals"
+      },
+      {
+        "id": "step-1",
         "kind": "component",
+        "label": "CUSTOMER MODULE",
         "tone": "sage"
       },
       {
-        "id": "cohesion",
-        "label": "COHESION",
-        "kind": "component",
-        "tone": "peach"
-      },
-      {
-        "id": "coupling",
-        "label": "COUPLING",
-        "kind": "router",
+        "id": "step-2",
+        "kind": "document",
+        "label": "PACKAGE NAME",
         "tone": "lilac"
       },
       {
-        "id": "refactor",
-        "label": "WEAKER LINK",
-        "kind": "component",
-        "tone": "honey"
+        "id": "step-3",
+        "kind": "deployment",
+        "label": "ONE APPLICATION",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "module",
-        "to": "cohesion"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "cohesion",
-        "to": "coupling"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "coupling",
-        "to": "refactor"
-      },
-      {
-        "from": "refactor",
-        "to": "module"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "module",
-        "text": "Group code by a meaningful responsibility and identify the relationships that make the group useful."
+        "node": "step-0",
+        "text": "Pip groups customer behavior in a package without creating a new service."
       },
       {
-        "node": "cohesion",
-        "text": "Check whether the parts belong together or whether the group is only sharing a file, timing, or convenience."
+        "node": "step-1",
+        "text": "A module is a logical collection of related classes, functions, or code; packages and namespaces provide language-specific organization."
       },
       {
-        "node": "coupling",
-        "text": "Trace incoming, outgoing, and connascent dependencies, including hidden meanings, order, timing, or shared values."
-      },
-      {
-        "node": "refactor",
-        "text": "Keep stronger relationships local and replace distant conventions or shared algorithms with clearer, weaker contracts."
+        "node": "step-3",
+        "text": "Pip lets the logical seam guide future extraction while avoiding unnecessary coupling now."
       }
     ]
+  },
+  "story": {
+    "course": "fundamentals",
+    "world": "bookshop",
+    "title": "Books belong together for a reason"
   }
 }

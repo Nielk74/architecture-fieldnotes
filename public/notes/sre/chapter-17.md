@@ -1,27 +1,53 @@
 # Chapter 17: Testing for Reliability
 
-Use complementary tests to reduce uncertainty before and after deployment
+*Pip’s adventure: A green test is evidence, not a guarantee. Fictional teaching story; concepts follow the cited source.*
 
-Testing provides evidence that selected behavior remains correct after change; passing tests cannot prove that every production condition is safe. Unit, integration, and system tests cover different scopes and have different costs. Production adds configurations, dependencies, traffic, and mixed software versions that isolated tests may never exercise. Stress tests reveal limits, configuration tests detect mismatches, and canaries bound exposure while real traffic supplies additional evidence. Operational and recovery tools need testing too, particularly when they bypass normal interfaces or interact with each other. Fast feedback makes failures easier to associate with a change, while flaky tests weaken that signal. A strong strategy starts with high-value coverage, converts incidents into regressions, and treats configuration and emergency changes as part of the same reliability problem.
+Source: text lines 6433–7220.
+
+Pip’s unit tests pass while the deployed caller cannot read the response. Reliability testing uses complementary scopes, production probes, and controlled canaries. Repair tools and configuration changes deserve the same care as application code.
 
 ## Tests reduce uncertainty rather than prove perfection
 
-A test checks a particular behavior under particular conditions. Passing before and after a change provides evidence of equivalence for that case, while a failure reveals behavior needing explanation. Catching a defect before deployment can prevent any user-visible recovery interval. Coverage should reflect the importance and risk of the behavior, with fast smoke tests and incident-derived regressions offering practical starting points.
+Pip’s smoke test catches broken login before deployment. A test checks particular behavior under particular conditions, reducing uncertainty rather than proving perfection. Passing before and after supports equivalence for that case; failure needs explanation. Pip prioritizes important risks and incident-derived regressions to prevent user-visible recovery intervals.
+
+Source: text lines 6433–7220.
 
 ## Different test scopes reveal different failures
 
-Unit tests isolate small pieces, integration tests exercise component interactions, and system tests assemble larger end-to-end behavior. Production configuration tests compare intended and running state, while stress tests find resource and load limits. These scopes complement one another because mocks and isolated environments cannot represent every production dependency, resource condition, or combination of deployed binaries and configuration.
+Pip’s function passes alone but serializes a response its caller cannot read. Unit, integration, and system tests cover different scopes. Production configuration checks compare intended with running state; stress tests expose resource limits. Pip combines them because mocks cannot represent every dependency, workload, binary, and configuration combination.
+
+Source: text lines 6433–7220.
 
 ## Canaries and probes cover deployment combinations
 
-A canary exposes a limited part of production to a new version and observes real traffic before expanding. It is controlled exposure, not a deterministic proof that all faults are absent. Production probes exercise known behaviors through actual frontends and backends. During rolling updates, old and new callers may meet old and new servers, so compatibility across those combinations matters.
+Pip’s old probe fails against a new booking backend. Canaries expose limited real traffic before expansion; probes exercise known production behaviors. Rolling updates can combine old and new callers with old and new servers. Pip stops the incompatible rollout, treating controlled exposure as evidence rather than proof that every fault is absent.
+
+Source: text lines 6433–7220.
 
 ## Operational tools and test feedback need engineering
 
-Automation, repair tools, and configuration changes can damage reliability even when application code is unchanged. Test their boundaries, restart behavior, and interactions; isolate risky maintenance behind barriers that prevent serving users until validation succeeds. Fast, dependable feedback helps engineers associate faults with changes. Emergency deployment can precede test completion, but tests should continue so a bad emergency change is identified quickly.
+Pip tests a repair tool before it touches a serving replica. Boundaries, restart behavior, interactions, and isolation barriers matter even when application code is unchanged. Independent validation gates return to service, and fast feedback ties faults to changes. If emergency deployment precedes completed tests, Pip keeps those tests running to catch a bad repair quickly.
 
-## Apply it
+Source: text lines 6433–7220.
+
+## Transfer challenge: Expose failure before launch
+
+A storage client has never been tested against a slow disk or partial write. The next release changes retry behavior and has a large customer blast radius.
+
+### Inject faults in a staging environment
+
+The team observes recovery behavior before customers are exposed. Fault experiments need isolation and realistic assumptions. A controlled partial-write test reveals a missing idempotency guard.
+
+### Rely on unit tests and production observation
+
+The release path remains fast and unit tests catch regressions. Unseen interactions may corrupt or delay production traffic. Production monitoring detects the issue only after user impact.
+
+A controlled system-level fault test can reveal behavior that unit tests with simpler dependencies miss. Keep the experiment isolated, make failure observable, and preserve the discovered case as a regression before increasing production exposure.
+
+## Choose tests for a rolling migration
 
 A backend changes its response format while old clients remain deployed. Propose tests and a rollout gate that expose incompatible combinations before broad impact.
 
-Source: *Site Reliability Engineering*, chapter 17, text lines 6433–7220. This note is an original synthesis; the exercise is a teaching extension.
+- Compatibility matrix
+- Production evidence
+- Recovery tooling

@@ -1,18 +1,59 @@
 # Chapter 8: Reuse Patterns
 
-Distribution makes reuse harder because a shared capability can reconnect services that were separated for independent change. The chapter compares four techniques: code replication, shared libraries, shared services, and sidecars or service meshes (text lines 5480–5518).
+*Pip’s adventure: The shared helper becomes everybody’s problem. Fictional teaching story; concepts follow the cited source.*
 
-Replication copies a capability into each service. It preserves deployment and runtime independence, and local teams can adapt it, but fixes must be repeated and behavior can drift (text lines 5528–5588). A shared library centralizes code at compile time. Coarse-grained libraries reduce dependency count but make a broad consumer set rebuild when anything changes. Fine-grained libraries reduce the blast radius while increasing dependency management (text lines 5593–5659). Versioning helps, but the library remains a static coupling point.
+Source: text lines 5480–6002.
 
-A shared service centralizes behavior at runtime. Consumers receive one implementation and can benefit from an isolated update, but every call adds network and security latency. The shared service must scale with its dependents, and its outage or incompatible response can affect many consumers (text lines 5663–5721). This is a meaningful trade when the behavior is genuinely centralized and stable enough to justify a runtime dependency.
+Pip wants every island service to reuse a helpful capability. Copies, libraries, services, and sidecars each move the maintenance and coupling costs somewhere different. Pip asks which behavior is truly shared before creating a platform dependency.
 
-Sidecars and service meshes move common operational concerns beside services and connect those proxies. The hexagonal example separates domain logic from technical coupling, while the mesh supplies a shared operational link (text lines 5759–5789). This can keep domain code focused, but introduces configuration, deployment, policy, and debugging work. A platform should provide a stable capability rather than force every domain into one release cadence.
+## Replicate code
 
-The chapter’s broader warning is that reuse is over-praised. An abstraction becomes useful reuse when it changes more slowly than its consumers; otherwise every consumer inherits its volatility (text lines 5891–5915). A centralized “customer” model can erase legitimate domain meanings, while a shared ticket service may create a new bottleneck (text lines 5897–5987). Analyze semantic sameness, change rate, latency, failure, security, and ownership before choosing.
+Pip copies a tiny stable validation rule into each delivery service. Replication preserves deployment and runtime independence and allows legitimate local tailoring. A security fix now has to reach every copy. Pip accepts duplication only with maintenance checks; rules requiring identical correctness are dangerous candidates for semantic drift.
 
-Teaching extension: take one capability used by three services and compare all four techniques. Record who owns changes, what happens during an outage, and which fitness function detects drift or latency. A deliberate decision to replicate a tiny stable rule can be more autonomous than a theoretically elegant shared platform.
+Source: text lines 5518–5588.
 
-The Sysops Squad reuse discussion applies this reasoning to database access as well as code. A shared ticket data service and a shared library both centralize common behavior, but they create different coupling: one at runtime and one at compile time (text lines 5921–5987). The choice should include connection-pool pressure, service instance counts, deployment geography, and the team’s experience with the technology. A platform is successful when it makes a stable capability easy to consume while preserving domain ownership and a service’s ability to evolve.
+## Share libraries
 
-The same test applies to operational tooling. A mesh may be appropriate when many teams repeatedly need the same traffic and security controls, but its control plane becomes another platform responsibility. Start with the smallest stable capability and make adoption voluntary enough for domains to expose meaningful feedback.
-The platform boundary should remain observable and optional.
+Pip’s broad helper library forces unrelated rebuilds after an authentication change. Coarse libraries reduce dependency count; fine-grained ones narrow change impact but add version management. Versioning can ease synchronized releases without removing static coupling. Pip assigns ownership and compatibility policy to the shared package.
+
+Source: text lines 5593–5659.
+
+## Share services
+
+Pip centralizes currency conversion behind a service. One runtime implementation can change independently, but every caller pays network and security latency. The converter must scale with dependents and can spread outages or incompatible responses. Pip defines timeout, fallback, and version behavior before putting it on the delivery payment path.
+
+Source: text lines 5663–5721.
+
+## Sidecars and mesh
+
+Pip places an operational proxy beside each service. Sidecars and a service mesh can standardize traffic, security, and observability while keeping domain code focused. Mutual TLS and retries still bring policy, deployment, configuration, and debugging complexity. Pip adopts the layer for a repeated platform problem, not decoration.
+
+Source: text lines 5759–5795.
+
+## Reuse via platforms
+
+Pip notices that dispatch and billing mean different things by customer. A stable identity platform can share authentication without centralizing both domain models. Reuse pays when an abstraction changes slowly relative to consumers and represents genuinely common behavior. Pip records the coordination and operational dependencies along with the saved code.
+
+Source: text lines 5891–5987.
+
+## Transfer challenge: Reuse an authorization rule
+
+Six services need authorization checks. The rule is currently stable but regulated changes are expected twice a year. Services deploy independently across regions, and an authorization outage must not take down read-only browsing. Choose a reuse technique that balances consistency, latency, and operational independence.
+
+### Shared service
+
+One implementation receives regulatory fixes and produces consistent decisions. Every request adds network dependency, latency, and an outage mode. Services call a versioned authorization API with cached safe reads and explicit fail-closed rules for protected actions. Platform operations must scale and monitor the service globally.
+
+### Versioned library
+
+Checks run locally with no runtime hop and remain available during network incidents. Six services must adopt releases and may temporarily run different rule versions. A focused library is published with compatibility tests and a rollout deadline. Browsing stays independent, while the platform tracks version drift until all services upgrade.
+
+The slower change rate favors reuse, but runtime and compile-time coupling differ. Security-critical behavior may justify central runtime policy; availability-sensitive paths may prefer local code with disciplined version governance.
+
+## Choose a reuse boundary
+
+Take one capability used by at least three services. Compare replication, library, shared service, and sidecar options against its change rate, latency, failure, security, and ownership needs.
+
+- Context
+- Decision
+- Trade-off

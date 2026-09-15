@@ -1,23 +1,53 @@
 # Chapter 20: Load Balancing in the Datacenter
 
-Source: text lines 8107–8603 of the supplied book extract.
+*Pip’s adventure: The quickest backend is failing immediately. Fictional teaching story; concepts follow the cited source.*
 
-A datacenter can have spare aggregate CPU while its busiest backend limits usable capacity. This chapter explains why distributing equal request counts does not reliably distribute equal work. Client traffic rates, query costs, machine performance, and neighboring workloads all vary. Health management must also distinguish an unavailable server from one that is draining requests before shutdown. Subsetting limits the cost of persistent client connections, but choosing subsets randomly can create substantial imbalance; deterministic assignment improves coverage. Least-loaded routing uses active requests as a proxy and can accidentally favor a server that fails quickly. Weighted round robin instead incorporates backend reports of successful work, errors, and utilization to adjust routing toward demonstrated capability.
+Source: text lines 8107–8603.
+
+Pip’s router favors a backend that returns errors instantly. Datacenter balancing needs more than request counts. Graceful draining, bounded connection subsets, failure-aware selection, and backend feedback help distribute useful work instead of rewarding broken behavior.
 
 ## Lame-duck draining
 
-A server in lame-duck state can still finish requests but asks clients to stop assigning new work. Publishing that state before shutdown gives clients time to redirect traffic while existing requests drain. This is more informative than merely refusing connections or reaching an outstanding-request limit, which may reflect slow legitimate work rather than a failed process.
+Pip marks a booking backend as lame-duck before deployment. It can finish existing requests while asking clients to stop sending new ones. Publishing that state allows redirection and draining before termination. Pip avoids treating a slow legitimate request or full outstanding-request limit as proof of a dead process.
+
+Source: text lines 8107–8603.
 
 ## Deterministic connection subsetting
 
-Connecting every client to every backend consumes memory, health-check work, and connection setup capacity. Subsetting bounds those costs by selecting a smaller backend pool per client. Independent random choices can overpopulate some backends and leave others lightly used. Deterministic subsetting distributes assignments across coordinated rounds, improving coverage while making the connection pool practical to operate at scale.
+Pip’s all-to-all connections consume memory and health-check capacity. Subsetting gives each client a smaller pool; random choices may concentrate load unevenly. Deterministic rounds distribute assignments and improve coverage. Pip can give four clients distinct groups of three across twelve backends while bounding connection costs.
+
+Source: text lines 8107–8603.
 
 ## Limits of counting outstanding requests
 
-Least-loaded routing favors backends with fewer active requests, but each client sees only its own traffic and request count is an imperfect proxy for resource usage. A server that returns errors immediately can appear especially idle and attract more traffic. Accounting for recent failures avoids that sinkhole, although it does not solve differences in request cost or machine capability.
+Pip’s broken backend returns errors in one millisecond and looks idle. Least-outstanding routing sees only the client’s own requests, not their true resource cost. Pip penalizes recent errors so failures do not become a traffic sinkhole. Different request costs and machine capabilities still require more information.
+
+Source: text lines 8107–8603.
 
 ## Weighted round robin from backend feedback
 
-Weighted round robin assigns each backend a capability score and sends traffic in proportion to that score. Backends report observed query rates, error rates, and utilization, giving clients a broader picture than their own outstanding requests. Successful throughput relative to resource consumption raises useful capacity, while errors reduce preference. Periodic updates let the distribution adapt to changing performance and heterogeneous machines.
+Pip receives query rate, error rate, and utilization from each backend. Weighted round robin distributes requests in proportion to capability scores. Useful throughput per resource increases preference while errors reduce it. Periodic feedback adapts routing to heterogeneous machines and changing performance beyond one client’s local view.
 
-The lesson’s examples, decision scenario, and exercise are original teaching extensions rather than reported incidents.
+Source: text lines 8107–8603.
+
+## Transfer challenge: Equal requests, unequal work
+
+Two backend pools receive equal request counts, but one has much higher CPU utilization. Query costs vary and machines have different performance.
+
+### Use backend capability reports
+
+Success, error, and utilization signals reflect actual serving work. Scores require reliable telemetry and periodic updates. Clients adjust weights while separately avoiding unhealthy or draining tasks.
+
+### Keep equal request shares
+
+The policy is simple and requires little feedback. Equal counts cannot account for unequal query cost or machine performance. The busiest backend limits usable capacity while others retain headroom.
+
+Equal request counts can conceal unequal work. Backend-reported success rates, errors, and utilization inform routing better than count alone; health filtering and draining remain separate necessities.
+
+## Compare backend capability
+
+Two backends receive equal request counts but have different CPU utilization and error rates. Design a routing adjustment and a graceful shutdown procedure.
+
+- Evidence
+- Routing
+- Draining

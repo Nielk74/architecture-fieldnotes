@@ -3,7 +3,7 @@
   "title": "Software Engineering in SRE",
   "part": "Engineering",
   "subtitle": "Turn production expertise into reusable software products",
-  "summary": "SRE software development makes service growth sustainable by replacing repeated operational work with durable tools. The chapter develops this argument through Auxon, an internal capacity planning product. Spreadsheet plans become brittle when demand, machine deliveries, or dependency requirements change. Auxon instead captures service intent, combines it with performance measurements and resource supply, and computes allocations while exposing unsatisfied requirements. Its development also illustrates how an SRE team can become an effective product team: start with a useful approximation, preserve replaceable interfaces, recruit suitable early customers, and support adoption. Continued production involvement keeps requirements grounded. Internal software still needs reviews, testing, documentation, ownership, and realistic commitments because successful tools can become essential production dependencies.",
+  "summary": "Pip’s useful local tool attracts other harbor teams. Supporting them requires more than sharing a script: operational experience must shape interfaces, planning, tests, documentation, and adoption. A modest implementation can prove value while leaving room for a stronger model.",
   "source": {
     "startLine": 7221,
     "endLine": 7875,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Production experience as product knowledge",
-      "body": "SRE engineers encounter the operational constraints that internal tooling must handle: failure, scale, maintenance, and integration with existing services. Keeping developers involved in production creates a direct feedback path between a tool and its users. Turning that experience into a supported product can reduce repeated work across teams, but requires product planning and engineering discipline beyond writing a local repair script.",
-      "example": "Teaching extension: A rollout tool is tested during real maintenance and improved when operators identify an unsafe recovery step.",
-      "source": "text lines 7221–7875"
+      "body": "Pip’s rollout tool encounters an unsafe recovery step during real maintenance. Production exposure supplies product knowledge about scale, failure, and integration. Keeping tool developers involved creates a direct user-feedback path. Pip turns the repair into supported cross-team software with planning and engineering discipline, not just a copied script.",
+      "example": "",
+      "source": "text lines 7221–7875",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "LOCAL TOOL",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "listening",
+            "label": "OPERATOR FEEDBACK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "workshop",
+            "label": "SUPPORTED PRODUCT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s rollout tool encounters an unsafe recovery step during real maintenance."
+          },
+          {
+            "node": "step-1",
+            "text": "Production exposure supplies product knowledge about scale, failure, and integration."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip turns the repair into supported cross-team software with planning and engineering discipline, not just a copied script."
+          }
+        ]
+      }
     },
     {
       "title": "Intent-based capacity planning",
-      "body": "Intent describes why capacity is needed rather than fixing the allocation in advance. A service can specify demand, geographic constraints, dependencies, and redundancy instead of requesting particular machines. Performance models translate demand into resource consumption, while priorities make shortages explicit. Auxon uses these inputs to generate an allocation plan that can be recomputed when forecasts or available supply change.",
-      "example": "Teaching extension: A service asks for regional demand coverage with two spare failure domains instead of naming three specific clusters.",
-      "source": "text lines 7221–7875"
+      "body": "Pip asks for regional demand coverage and redundancy instead of three named clusters. Intent expresses demand, geography, dependencies, and spare requirements; performance models translate it into resources. Priorities make shortages explicit. The chapter’s Auxon system recomputes allocation plans when forecasts or available supply change.",
+      "example": "",
+      "source": "text lines 7221–7875",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "target",
+            "label": "CAPACITY INTENT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "PERFORMANCE MODEL",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "deployment",
+            "label": "ALLOCATION PLAN",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks for regional demand coverage and redundancy instead of three named clusters."
+          },
+          {
+            "node": "step-1",
+            "text": "Intent expresses demand, geography, dependencies, and spare requirements; performance models translate it into resources."
+          },
+          {
+            "node": "step-3",
+            "text": "The chapter’s Auxon system recomputes allocation plans when forecasts or available supply change."
+          }
+        ]
+      }
     },
     {
       "title": "Approximation behind stable interfaces",
-      "body": "An early implementation can establish usefulness without solving every difficult component perfectly. Auxon initially used a heuristic solver behind an interface that later accommodated a stronger optimizer. Modular inputs and outputs also allowed different forecasting and deployment tools to integrate. The point is to isolate uncertainty while proving a concrete use case, so improved models do not require rebuilding the whole product.",
-      "example": "Teaching extension: A planner first produces a feasible allocation; a later optimizer improves cost while preserving its configuration format.",
-      "source": "text lines 7221–7875"
+      "body": "Pip’s first planner finds a feasible allocation without the best possible cost. Auxon initially used a heuristic behind an interface later served by a stronger optimizer. Modular inputs and outputs also connect different forecasting and deployment tools. Pip isolates uncertainty while proving usefulness so better models need not rebuild the product.",
+      "example": "",
+      "source": "text lines 7221–7875",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "blueprint",
+            "label": "HEURISTIC PLAN",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "api",
+            "label": "STABLE INTERFACE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "IMPROVED OPTIMIZER",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s first planner finds a feasible allocation without the best possible cost."
+          },
+          {
+            "node": "step-1",
+            "text": "Auxon initially used a heuristic behind an interface later served by a stronger optimizer."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip isolates uncertainty while proving usefulness so better models need not rebuild the product."
+          }
+        ]
+      }
     },
     {
       "title": "Adoption and production standards",
-      "body": "An internal tool succeeds when teams can afford to learn and trust it. Documentation, onboarding help, credible release plans, and early customers with a pressing need all support adoption. The team should demonstrate useful improvements rather than promise universal coverage. As adoption increases, code review, integration testing, and production readiness become especially important because other operators increasingly depend on the tool.",
-      "example": "Teaching extension: Early adopters receive migration support and publish measured planning-time savings that help other teams judge the investment.",
-      "source": "text lines 7221–7875"
+      "body": "Pip invites a crew with an urgent planning problem to try the tool. Documentation, onboarding help, credible releases, and migration support make adoption affordable. Useful measured improvements persuade better than promises of universal coverage. As dependency grows, Pip strengthens review, integration tests, and production readiness.",
+      "example": "",
+      "source": "text lines 7221–7875",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "team",
+            "label": "EARLY CUSTOMER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "ONBOARDING + RELEASES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "shield",
+            "label": "PRODUCTION STANDARDS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip invites a crew with an urgent planning problem to try the tool."
+          },
+          {
+            "node": "step-1",
+            "text": "Documentation, onboarding help, credible releases, and migration support make adoption affordable."
+          },
+          {
+            "node": "step-3",
+            "text": "As dependency grows, Pip strengthens review, integration tests, and production readiness."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,76 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Design an internal product",
     "nodes": [
       {
-        "id": "observe",
-        "label": "Operators",
-        "caption": "Production pain",
-        "kind": "team",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "Intent",
-        "caption": "Service requirements",
-        "kind": "document",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "Tool",
-        "caption": "Useful first release",
-        "kind": "service",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "Feedback",
-        "caption": "Measured adoption",
-        "kind": "gauge",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "terminal",
+        "label": "LOCAL TOOL",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "listening",
+        "label": "OPERATOR FEEDBACK",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "workshop",
+        "label": "SUPPORTED PRODUCT",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "Repeated production work reveals a concrete need."
+        "node": "step-0",
+        "text": "Pip’s rollout tool encounters an unsafe recovery step during real maintenance."
       },
       {
-        "node": "decide",
-        "text": "Describe requirements instead of hardcoding one allocation."
+        "node": "step-1",
+        "text": "Production exposure supplies product knowledge about scale, failure, and integration."
       },
       {
-        "node": "act",
-        "text": "Implement a useful first version behind stable interfaces."
-      },
-      {
-        "node": "learn",
-        "text": "User experience and measured benefit guide the next release."
+        "node": "step-3",
+        "text": "Pip turns the repair into supported cross-team software with planning and engineering discipline, not just a copied script."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "A repair becomes a product other crews trust"
   }
 }

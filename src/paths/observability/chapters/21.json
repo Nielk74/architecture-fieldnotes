@@ -3,7 +3,7 @@
   "title": "An Observability Maturity Model",
   "part": "Spreading Observability Culture",
   "subtitle": "Assess five capabilities, then choose a local priority",
-  "summary": "The Observability Maturity Model assesses capabilities that affect both business outcomes and engineers’ working lives. Its five dimensions are resilient response to failure, delivery of high-quality code, management of complexity and technical debt, predictable releases, and understanding user behavior. They are related but do not form a mandatory sequence: a team may release frequently while still relying on exhausted experts during incidents. The model therefore invites a contextual assessment of strengths, weaknesses, and useful next investments. Tool counts and a single maturity score can obscure those differences. Improvement needs observable outcomes, named owners, and organizational support. The model is a starting framework to revise against local evidence, not a final state that ends learning once every box is checked.",
+  "summary": "Pip’s market recovers quickly, but only because the same senior engineer keeps rescuing it. Observability maturity includes responders, manageable code, predictable delivery, and user understanding. The model helps choose the next worthwhile improvement, not award a universal rank.",
   "source": {
     "startLine": 9493,
     "endLine": 9948,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Resilience includes the responders",
-      "body": "Assess response to system failure through both restoration of service and the human cost of achieving it. Detection, mitigation, and understanding are distinct outcomes. A team that restores service quickly only by repeatedly calling the same exhausted experts has a weakness the uptime figure does not show. Sustainable, distributed response capability is part of maturity.",
-      "example": "Track whether on-call incidents require unscheduled help from the same senior engineer.",
-      "source": "text lines 9493–9948"
+      "body": "Pip’s uptime improves while the same expert loses every evening. Detection, mitigation, and understanding are different outcomes, and restoration has a human cost. Repeated unscheduled specialist help reveals weakness hidden by recovery speed. Pip develops sustainable, distributed response capability instead of judging maturity by uptime alone.",
+      "example": "",
+      "source": "text lines 9493–9948",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "FAST RESTORATION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "person",
+            "label": "EXHAUSTED EXPERT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "DISTRIBUTED CAPABILITY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s uptime improves while the same expert loses every evening."
+          },
+          {
+            "node": "step-1",
+            "text": "Detection, mitigation, and understanding are different outcomes, and restoration has a human cost."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip develops sustainable, distributed response capability instead of judging maturity by uptime alone."
+          }
+        ]
+      }
     },
     {
       "title": "Code quality and technical debt",
-      "body": "Two dimensions ask whether code behaves well for customers and whether complexity remains manageable. Production validation helps engineers confirm fixes and locate changes without causing uncontrolled ripple effects. Technical debt can be a deliberate trade-off; maturity means understanding and managing its consequences rather than assuming every shortcut is bad or judging quality only by passing tests.",
-      "example": "A small change is easy to locate, verify, and release without repeated emergency repairs elsewhere.",
-      "source": "text lines 9493–9948"
+      "body": "Pip makes a small change and checks its customer effects without emergency repairs elsewhere. Code quality and manageable technical debt are separate maturity dimensions. Production validation helps locate and verify changes while limiting ripple effects. Pip treats debt as a sometimes deliberate trade-off whose consequences need management, not a synonym for every shortcut.",
+      "example": "",
+      "source": "text lines 9493–9948",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "SMALL CHANGE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "CUSTOMER VALIDATION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "MANAGED DEBT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip makes a small change and checks its customer effects without emergency repairs elsewhere."
+          },
+          {
+            "node": "step-1",
+            "text": "Code quality and manageable technical debt are separate maturity dimensions."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip treats debt as a sometimes deliberate trade-off whose consequences need management, not a synonym for every shortcut."
+          }
+        ]
+      }
     },
     {
       "title": "Predictable releases and user understanding",
-      "body": "The remaining dimensions concern a reliable delivery cadence and insight into how people actually use the product. Instrumentation can expose CI bottlenecks, compare new and old builds, and connect features with customer outcomes. Frequent deployments alone are insufficient if releases remain disruptive or product teams cannot tell whether users benefit from what was shipped.",
-      "example": "A team releases regularly and evaluates the resulting workflow completion for the intended users.",
-      "source": "text lines 9493–9948"
+      "body": "Pip releases often but cannot tell whether users benefit. Predictable delivery and insight into actual use are distinct dimensions. Instrumentation exposes CI delays, compares builds, and connects features to outcomes. Pip checks workflow completion for intended users rather than treating deployment frequency alone as maturity.",
+      "example": "",
+      "source": "text lines 9493–9948",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "deployment",
+            "label": "RELEASE CADENCE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "trace",
+            "label": "BUILD COMPARISON",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "person",
+            "label": "USER OUTCOME",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip releases often but cannot tell whether users benefit."
+          },
+          {
+            "node": "step-1",
+            "text": "Predictable delivery and insight into actual use are distinct dimensions."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip checks workflow completion for intended users rather than treating deployment frequency alone as maturity."
+          }
+        ]
+      }
     },
     {
       "title": "Use the model to prioritize",
-      "body": "Assess each capability against the organization’s constraints and business needs, then choose an outcome worth improving now. Assign an owner and the time and sponsorship needed to pursue it. Reassess with evidence rather than treating the dimensions as a universal ladder or assuming a strong result in one area establishes strength in all others.",
-      "example": "A team with fast releases prioritizes sustainable incident response because specialist escalations remain common.",
-      "source": "text lines 9493–9948"
+      "body": "Pip’s fast-release team still depends on specialist incident rescues. The model helps assess capabilities against local constraints and business needs. Pip assigns an owner, time, and sponsorship to improve sustainable response. Reassessment uses evidence; strength in one dimension is not a universal ladder or proof of strength in all.",
+      "example": "",
+      "source": "text lines 9493–9948",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "LOCAL ASSESSMENT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "target",
+            "label": "PRIORITIZED OUTCOME",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "colleague",
+            "label": "FUNDED OWNER",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s fast-release team still depends on specialist incident rescues."
+          },
+          {
+            "node": "step-1",
+            "text": "The model helps assess capabilities against local constraints and business needs."
+          },
+          {
+            "node": "step-3",
+            "text": "Reassessment uses evidence; strength in one dimension is not a universal ladder or proof of strength in all."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -118,68 +370,68 @@
     "nodes": [
       {
         "id": "step-0",
-        "label": "RESILIENCE",
-        "kind": "trace",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "observability"
       },
       {
         "id": "step-1",
-        "label": "QUALITY / DEBT",
-        "kind": "experiment",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
+        "kind": "gauge",
+        "label": "FAST RESTORATION",
+        "tone": "sage"
       },
       {
         "id": "step-2",
-        "label": "RELEASE / USERS",
-        "kind": "alert",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
+        "kind": "person",
+        "label": "EXHAUSTED EXPERT",
+        "tone": "lilac"
       },
       {
         "id": "step-3",
-        "label": "PRIORITIZE",
-        "kind": "leaf",
-        "tone": "honey",
-        "x": 500,
-        "y": 100
+        "kind": "team",
+        "label": "DISTRIBUTED CAPABILITY",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
         "from": "step-0",
-        "to": "step-1"
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-1",
-        "to": "step-2"
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-2",
-        "to": "step-3"
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
         "node": "step-0",
-        "text": "Track whether on-call incidents require unscheduled help from the same senior engineer."
+        "text": "Pip’s uptime improves while the same expert loses every evening."
       },
       {
         "node": "step-1",
-        "text": "A small change is easy to locate, verify, and release without repeated emergency repairs elsewhere."
-      },
-      {
-        "node": "step-2",
-        "text": "A team releases regularly and evaluates the resulting workflow completion for the intended users."
+        "text": "Detection, mitigation, and understanding are different outcomes, and restoration has a human cost."
       },
       {
         "node": "step-3",
-        "text": "A team with fast releases prioritizes sustainable incident response because specialist escalations remain common."
+        "text": "Pip develops sustainable, distributed response capability instead of judging maturity by uptime alone."
       }
     ]
+  },
+  "story": {
+    "course": "observability",
+    "world": "market",
+    "title": "A fast recovery can hide an exhausted expert"
   }
 }

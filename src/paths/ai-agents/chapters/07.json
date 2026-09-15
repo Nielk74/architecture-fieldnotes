@@ -3,7 +3,7 @@
   "title": "Learning in Agentic Systems",
   "part": "Learning",
   "subtitle": "Choose between learning through context and changing model parameters",
-  "summary": "Agent learning can improve later behavior without retraining the model. Examples, retrieved experience, and stored reflections alter the context used for subsequent attempts; their usefulness depends on the quality and relevance of the feedback retained. Parametric approaches instead change model weights, using demonstrations, preferences, or task-specific reward signals. These methods offer different forms of specialization and impose different data, training, and evaluation costs. Learning is an optional investment, not a prerequisite for a useful agent. Compare the expected improvement with added latency and maintenance, and check whether a change helps representative tasks rather than merely reproducing a successful remembered case.",
+  "summary": "Pip’s guide repeats a failed route. The team can improve context with reviewed examples and reflections, or invest in changing model weights. Pip tests whether each lesson generalizes: remembering one success is not the same as improving the next visitor’s experience.",
   "source": {
     "startLine": 5525,
     "endLine": 6600,
@@ -12,27 +12,285 @@
   "concepts": [
     {
       "title": "Nonparametric learning",
-      "body": "Nonparametric techniques improve behavior without changing model weights, for example by adding examples, reflections, or retrieved experience. They are easier to revise but consume context and can overfit to remembered cases.",
-      "example": "Teaching extension: After review, a successful example of handling an ambiguous cancellation is added to retrieved task guidance. Later calls use that example without modifying the model’s weights.",
-      "source": "text lines 5525-6600"
+      "body": "Pip saves a reviewed example of an ambiguous ticket cancellation. Nonparametric learning changes behavior through examples, reflections, or retrieved experience without updating weights. The guidance is easy to revise but consumes context. Pip tests unfamiliar cases so remembered successes do not become overfitting.",
+      "example": "",
+      "source": "text lines 5525-6600",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "REVIEWED EXAMPLE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "agent",
+            "label": "UNCHANGED WEIGHTS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "experiment",
+            "label": "NEW CASES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip saves a reviewed example of an ambiguous ticket cancellation."
+          },
+          {
+            "node": "step-1",
+            "text": "Nonparametric learning changes behavior through examples, reflections, or retrieved experience without updating weights."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip tests unfamiliar cases so remembered successes do not become overfitting."
+          }
+        ]
+      }
     },
     {
       "title": "Exemplar learning",
-      "body": "Providing successful examples in a prompt guides behavior through pattern matching. More examples can help, but context limits and example quality constrain the benefit.",
-      "example": "Teaching extension: A support agent receives three reviewed examples of partial refunds rather than twenty unrelated greetings. Evaluation checks whether those examples improve amount and currency selection.",
-      "source": "text lines 5525-6600"
+      "body": "Pip replaces twenty irrelevant greetings with three reviewed partial-refund examples. Exemplars guide behavior through patterns in the prompt. Quality and context limits constrain how much more examples help. Pip evaluates amount and currency selection rather than counting demonstrations.",
+      "example": "",
+      "source": "text lines 5525-6600",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "THREE EXEMPLARS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "boundary",
+            "label": "CONTEXT BUDGET",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "AMOUNT + CURRENCY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip replaces twenty irrelevant greetings with three reviewed partial-refund examples."
+          },
+          {
+            "node": "step-1",
+            "text": "Exemplars guide behavior through patterns in the prompt."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip evaluates amount and currency selection rather than counting demonstrations."
+          }
+        ]
+      }
     },
     {
       "title": "Reflexion",
-      "body": "The Reflexion loop performs an action sequence, logs the trial, generates a self-critique after failure, updates memory, and injects the reflection on a later run. The loop adds latency and can preserve a bad critique.",
-      "example": "Teaching extension: An attempt fails because it requested shipment details before identifying the order. The agent records that lesson and uses it to change the sequence on a later attempt.",
-      "source": "text lines 5525-6600"
+      "body": "Pip’s guide requests shipment details before identifying the order. Reflexion logs the trial, critiques the failure, updates memory, and injects the reflection into a later attempt. Pip checks whether the sequence actually improves. The extra loop adds latency and can preserve a mistaken critique.",
+      "example": "",
+      "source": "text lines 5525-6600",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "trace",
+            "label": "FAILED TRIAL",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "database",
+            "label": "STORED REFLECTION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "agent",
+            "label": "LATER ATTEMPT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-3",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s guide requests shipment details before identifying the order."
+          },
+          {
+            "node": "step-1",
+            "text": "Reflexion logs the trial, critiques the failure, updates memory, and injects the reflection into a later attempt."
+          },
+          {
+            "node": "step-3",
+            "text": "The extra loop adds latency and can preserve a mistaken critique."
+          }
+        ]
+      }
     },
     {
       "title": "Fine-tuning",
-      "body": "Parameter updates adapt weights to a dataset and can make behavior more consistent. Training costs, data quality, regressions, and evaluation burden mean learning is not automatically worth the investment.",
-      "example": "Teaching extension: A team trains a model on reviewed structured tool-call examples, then tests it on held-out requests. The updated weights are promoted only if the desired consistency improves without unacceptable regressions.",
-      "source": "text lines 5525-6600"
+      "body": "Pip trains on reviewed structured tool calls. Fine-tuning updates model weights and can make behavior more consistent. Training costs, data quality, regressions, and evaluation burden may outweigh the benefit. Pip checks held-out requests before promoting the model, not just the examples it learned.",
+      "example": "",
+      "source": "text lines 5525-6600",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "TRAINING DATA",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "agent",
+            "label": "UPDATED WEIGHTS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "experiment",
+            "label": "HELD-OUT TESTS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip trains on reviewed structured tool calls."
+          },
+          {
+            "node": "step-1",
+            "text": "Fine-tuning updates model weights and can make behavior more consistent."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip checks held-out requests before promoting the model, not just the examples it learned."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -117,69 +375,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "n0",
-        "label": "TRIAL",
-        "kind": "experiment",
-        "tone": "sage",
-        "x": 100,
-        "y": 80
-      },
-      {
-        "id": "n1",
-        "label": "REFLECTION",
-        "kind": "whiteboard",
-        "tone": "peach",
-        "x": 270,
-        "y": 80
-      },
-      {
-        "id": "n2",
-        "label": "MEMORY",
-        "kind": "database",
-        "tone": "lilac",
-        "x": 100,
-        "y": 210
-      },
-      {
-        "id": "n3",
-        "label": "TEST",
-        "kind": "gauge",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 270,
-        "y": 210
+        "course": "ai-agents"
+      },
+      {
+        "id": "step-1",
+        "kind": "document",
+        "label": "REVIEWED EXAMPLE",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "agent",
+        "label": "UNCHANGED WEIGHTS",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "experiment",
+        "label": "NEW CASES",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "n0",
-        "to": "n1"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n1",
-        "to": "n2"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n2",
-        "to": "n3"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "n0",
-        "text": "Inspect trial in the chapter workflow."
+        "node": "step-0",
+        "text": "Pip saves a reviewed example of an ambiguous ticket cancellation."
       },
       {
-        "node": "n1",
-        "text": "Inspect reflection in the chapter workflow."
+        "node": "step-1",
+        "text": "Nonparametric learning changes behavior through examples, reflections, or retrieved experience without updating weights."
       },
       {
-        "node": "n2",
-        "text": "Inspect memory in the chapter workflow."
-      },
-      {
-        "node": "n3",
-        "text": "Inspect test in the chapter workflow."
+        "node": "step-3",
+        "text": "Pip tests unfamiliar cases so remembered successes do not become overfitting."
       }
     ]
+  },
+  "story": {
+    "course": "ai-agents",
+    "world": "museum",
+    "title": "A lesson that survives the next visitor"
   }
 }

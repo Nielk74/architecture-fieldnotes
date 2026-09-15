@@ -1,19 +1,65 @@
 # Chapter 16: Orchestration-Driven Service-Oriented Architecture
 
-This service-oriented architecture must be read in its historical setting. It emerged in the late 1990s as enterprises merged, computing and database resources were expensive, and distributed computing was newly available. Reuse became the dominant organizational answer: share services, servers, database connections, and business behavior. The motivation was understandable, but the resulting technical partitioning pushed a good idea beyond the boundaries where it helped (source lines 8316–8354, printed pp. 235–236).
+*Pip’s adventure: The enterprise bus becomes everybody’s crossing. Fictional teaching story; concepts follow the cited source.*
 
-The style organizes services into a taxonomy. Business services are coarse entry points named for domain behavior, such as PlaceOrder. Enterprise services are fine-grained reusable implementations such as CreateCustomer or CalculateQuote. Application services provide one-off behavior for a single application, and infrastructure services handle monitoring, logging, authentication, and authorization. A service can therefore sound neatly separated while the business concept itself is spread across many tiers. The taxonomy is described at lines 8355–8420 (pp. 236–237).
+Source: printed pp. 235–243.
 
-The orchestration engine is the center of the topology. It maps business services to enterprise services, transforms messages, integrates legacy and packaged software, and defines transaction boundaries. Requests travel through the hub even for internal calls. A shared relational database or a few databases commonly support the arrangement, with transaction behavior declared in the orchestration layer rather than distributed across independent stores. As the number of services and boundaries grows, finding the right transaction granularity becomes difficult. The integration team becomes a central political force and a practical bottleneck, a direct organizational consequence of the hub (lines 8421–8449; pp. 237–238).
+Pip studies an older enterprise design before sharing every bookshop capability. Its reuse ambitions made sense under costly infrastructure and mergers. A central orchestration hub and canonical models also spread small domain changes across teams, contracts, and releases.
 
-Reuse makes the coupling problem visible. Several insurance divisions may all have a Customer concept, so a canonical Customer service appears to remove duplicate behavior. Yet auto insurance may need driver-license details while disability insurance does not. A change to the shared model ripples into every consumer and can require coordinated deployments and holistic testing. The broader problem is technical partitioning: a concept such as CatalogCheckout can be distributed across dozens of services, tiers, and one database schema. Adding one address line may become a change in many repositories and transaction definitions. The source covers canonical reuse and its consequences at lines 8450–8502 (pp. 239–241).
+## History shapes the style
 
-The ratings explain why later styles reacted against this approach. Although distributed tooling can provide some scalability and elasticity, the shared hub and database often make the system one quantum. Performance suffers from many remote steps. Deployability and testability are poor by modern standards because even a small change can require broad coordination. The style's historical contribution is a practical lesson about distributed transactions and the limits of technical partitioning, not a claim that every form of service reuse is wrong. These ratings and conclusions appear at lines 8503–8574 (pp. 241–243).
+Pip asks why an earlier company centralized so much infrastructure. Late-1990s mergers, expensive computing and databases, and newly practical distribution favored reusing scarce assets. A service taxonomy and central integration mechanism answered those constraints. Pip judges the historical choice in context while examining its costs against today’s change and deployment needs.
 
-The insurance scenario is a teaching extension. Its teams, fields, and release goals are invented; the tension between canonical reuse and domain-owned models follows the chapter. The visual follows a business service through the orchestration engine to reusable enterprise services and a shared database, showing how the hub can connect every change. The exercise asks learners to audit what is truly shared, who owns it, and whether a narrow adapter costs less than a canonical model.
+Source: pp. 235–236.
 
-## Source map
+## A taxonomy of service layers
 
-- Historical forces and service taxonomy: source lines 8316–8420, printed pp. 235–237.
-- Orchestration, message flow, and reuse coupling: source lines 8421–8502, printed pp. 237–241.
-- Characteristic ratings and historical lesson: source lines 8503–8574, printed pp. 241–243.
+Pip follows PlaceOrder through several kinds of service. Business services name coarse domain entry points; enterprise services provide reusable fine-grained implementations. Application services handle special needs, while infrastructure services provide logging, monitoring, authentication, and authorization. The taxonomy looks orderly, but Pip sees the workflow spread across layers whose granularity must fit together.
+
+Source: pp. 236–237.
+
+## The orchestration engine is the hub
+
+Pip’s CreateQuote request enters the orchestration engine. The hub maps business to implementation, transforms messages, integrates legacy systems, and declares transaction boundaries over commonly shared relational data. More participants make workable distributed transaction boundaries harder to choose. Pip notices the integration team becoming both a central authority and a change bottleneck.
+
+Source: pp. 237–239.
+
+## Reuse creates canonical coupling
+
+Pip tries one canonical Customer for every division. In the chapter’s insurance example, a driver-license addition for auto creates irrelevant complexity for disability and home insurance. Shared models can require coordinated testing and deployment across consumers. Pip counts release-cadence and domain-meaning coupling alongside the code reuse.
+
+Source: pp. 239–240.
+
+## Technical partitioning can shred a domain
+
+Pip adds an address line and discovers a cross-team enterprise project. Technical partitioning can spread one domain across many services, taxonomy layers, and schema artifacts. Wrong transaction granularity may force reshaping a shared service or creating a near-duplicate. Pip compares the neat diagram with the actual cost of incremental change and local understanding.
+
+Source: pp. 240–241.
+
+## The historical trade-off profile
+
+Pip sees many deployed services but one engine and database binding their operation. Orchestration-driven SOA is often one quantum despite distribution. Enterprise tools can support some scale and elasticity, while remote hops and holistic testing constrain performance and deployment. Pip evaluates reuse and mediation against needed qualities rather than repeating the historical style or dismissing its original context.
+
+Source: pp. 241–243.
+
+## Transfer challenge: One Customer model for two insurers
+
+An insurer's auto and disability divisions each have customer data and workflows. An integration team proposes one canonical Customer service and a central orchestration engine to maximize reuse. Auto needs driver's-license details; disability changes its profile independently. Leadership wants lower duplication but also wants teams to release small changes without a company-wide test cycle or centralizing every field across both divisions over time.
+
+### Canonical shared service
+
+One implementation can standardize common customer behavior and avoid duplicate integrations across divisions. The shared model becomes a coupling point; division-specific fields, release timing, and transaction boundaries require coordination. The teams share a Customer contract and central orchestration workflow, but an auto-only field triggers cross-division analysis and a coordinated deployment. Reuse pays off only when the model and change cadence genuinely align.
+
+### Domain-owned customer models
+
+Each division can evolve the customer concept with its own rules, data shape, and release schedule. Common behavior may be implemented twice, and integration requires explicit translation between models. Auto can add license rules without changing disability. The integration team maintains narrow adapters for the few shared facts, accepting duplication to preserve independent change and local ownership for operations.
+
+A canonical service is useful when consumers truly share stable behavior and a compatible change cadence. When domains use different meanings or change independently, local models and explicit translation can cost less than broad coupling. Reuse should be tested against change, ownership, and transaction boundaries.
+
+## Audit a reuse proposal
+
+Take one proposed shared service. List the consumers, the behavior they truly share, the change likely to ripple, and the smallest contract or local model that could preserve independent delivery.
+
+- Context
+- Decision
+- Trade-off

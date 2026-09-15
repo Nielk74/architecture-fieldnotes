@@ -3,7 +3,7 @@
   "title": "Practical Alerting from Time-Series Data",
   "part": "Operations",
   "subtitle": "Turn labeled counters into service-level rates and dependable alerts",
-  "summary": "Time-series monitoring separates data collection from the rules that interpret it. Applications export measurements; labels identify their source, meaning, and location; common rules turn those series into dashboards and alerts. Counters preserve accumulated events between scrapes, and rates should be calculated per series before aggregation so restarts do not corrupt the result. A service-level error ratio combines total error and request rates rather than averaging unrelated percentages. Alert conditions can include a duration to suppress transient changes, while routing and deduplication belong in a separate notification layer. Hierarchical collection supports scale and local diagnosis. The rules themselves need testing with synthetic data, and external probes remain necessary because internal measurements cannot reveal requests that never reached the service.",
+  "summary": "Pip’s request counter resets when a task restarts and the aggregate graph plunges. Time-series labels, reset-aware rates, sound ratios, and tested alert rules turn measurements into reliable signals. Notifications remain a separate decision from whether a condition is mathematically true.",
   "source": {
     "startLine": 4119,
     "endLine": 4664,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Labels identify a time series",
-      "body": "A time series contains timestamped measurements distinguished by a set of labels. Labels can identify the metric, instance, job, response code, or region, allowing one rule to select related data across many tasks. Collection and rule definition are separate concerns: discovery finds changing targets, while reusable computations follow the labels instead of requiring a custom check script for every machine.",
-      "example": "Teaching extension: A region label lets one query compare error rates across sites without maintaining separate per-host rules.",
-      "source": "text lines 4119–4664"
+      "body": "Pip replaces per-machine check scripts with one region-aware query. Timestamped measurements form time series identified by labels such as metric, instance, job, code, and region. Discovery finds changing collection targets while reusable rules select their labels. Pip separates finding machines from computing service behavior.",
+      "example": "",
+      "source": "text lines 4119–4664",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "CHANGING TASKS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "SERIES LABELS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "search",
+            "label": "REUSABLE QUERY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip replaces per-machine check scripts with one region-aware query."
+          },
+          {
+            "node": "step-1",
+            "text": "Timestamped measurements form time series identified by labels such as metric, instance, job, code, and region."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip separates finding machines from computing service behavior."
+          }
+        ]
+      }
     },
     {
       "title": "Compute rates before aggregating counters",
-      "body": "A counter accumulates events and normally increases until a reset, whereas a gauge describes a value that may rise or fall. Rate calculations convert counter changes into activity over time. Compute reset-aware rates for individual series before summing them; summing raw counters first can mix a restarted process with other processes and distort the resulting service-level rate.",
-      "example": "Teaching extension: A restarted task resets its request counter, but its local rate calculation prevents a false fleet-wide drop.",
-      "source": "text lines 4119–4664"
+      "body": "Pip’s restarted task resets its accumulated request counter. Counters normally increase until reset; gauges may rise or fall. Pip calculates reset-aware rates per series before summing them. Summing raw counters first would mix the reset with other tasks and distort the service rate.",
+      "example": "",
+      "source": "text lines 4119–4664",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "RESTARTED TASK",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "RATE PER SERIES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "SUM RATES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s restarted task resets its accumulated request counter."
+          },
+          {
+            "node": "step-1",
+            "text": "Counters normally increase until reset; gauges may rise or fall."
+          },
+          {
+            "node": "step-3",
+            "text": "Summing raw counters first would mix the reset with other tasks and distort the service rate."
+          }
+        ]
+      }
     },
     {
       "title": "Ratios, persistence, and notification routing",
-      "body": "A useful service error ratio divides the sum of error rates by the sum of request rates. Additional conditions can reduce low-volume noise, and a minimum true duration prevents transient threshold crossings from immediately paging. The notification layer then routes and deduplicates alerts. These are distinct steps: a mathematically true condition is not yet necessarily a notification to a human.",
-      "example": "Teaching extension: A sustained error ratio triggers one team notification even when two monitoring replicas evaluate the same rule.",
-      "source": "text lines 4119–4664"
+      "body": "Pip computes service errors as summed error rates divided by summed request rates. Volume conditions and a minimum true duration reduce noise and transient crossings. Routing and deduplication then decide who receives the notification. Pip keeps a true condition separate from an immediate human interruption.",
+      "example": "",
+      "source": "text lines 4119–4664",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "ERROR RATIO",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "SUSTAINED CONDITION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "alert",
+            "label": "ROUTED NOTIFICATION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip computes service errors as summed error rates divided by summed request rates."
+          },
+          {
+            "node": "step-1",
+            "text": "Volume conditions and a minimum true duration reduce noise and transient crossings."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip keeps a true condition separate from an immediate human interruption."
+          }
+        ]
+      }
     },
     {
       "title": "Monitor and test the monitoring system",
-      "body": "Collection failure is itself useful evidence, and monitoring needs enough redundancy and capacity to survive faults in the environment it observes. Hierarchical collectors can aggregate locally while retaining detailed series for diagnosis. Synthetic input series allow rules to be tested before deployment. External probes complement these internal measurements by detecting routing, name-resolution, or response-content failures invisible to application counters.",
-      "example": "Teaching extension: Feed a counter reset and a missed scrape into an alert test to confirm they do not imitate an outage.",
-      "source": "text lines 4119–4664"
+      "body": "Pip feeds a counter reset and missed scrape into an alert test. Monitoring needs capacity, redundancy, and visibility into its own collection failures. Hierarchical collectors can aggregate locally while keeping diagnostic detail. Pip adds external probes for routing, naming, and content failures invisible to internal application counters.",
+      "example": "",
+      "source": "text lines 4119–4664",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "experiment",
+            "label": "SYNTHETIC SERIES",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "REDUNDANT COLLECTORS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "search",
+            "label": "EXTERNAL PROBE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip feeds a counter reset and missed scrape into an alert test."
+          },
+          {
+            "node": "step-1",
+            "text": "Monitoring needs capacity, redundancy, and visibility into its own collection failures."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip adds external probes for routing, naming, and content failures invisible to internal application counters."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,81 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Labeled counters become a tested service alert",
     "nodes": [
       {
-        "id": "observe",
-        "label": "COUNTERS",
-        "caption": "collect task-level measurements",
-        "kind": "gauge",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "RATES",
-        "caption": "handle resets before summing",
-        "kind": "gauge",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "RATIO",
-        "caption": "divide total errors by requests",
-        "kind": "gauge",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "ALERT",
-        "caption": "test persistence and routing",
-        "kind": "alert",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "service",
+        "label": "CHANGING TASKS",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "document",
+        "label": "SERIES LABELS",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "search",
+        "label": "REUSABLE QUERY",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
-      },
-      {
-        "from": "learn",
-        "to": "observe",
-        "dashed": true
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "collect task-level measurements"
+        "node": "step-0",
+        "text": "Pip replaces per-machine check scripts with one region-aware query."
       },
       {
-        "node": "decide",
-        "text": "handle resets before summing"
+        "node": "step-1",
+        "text": "Timestamped measurements form time series identified by labels such as metric, instance, job, code, and region."
       },
       {
-        "node": "act",
-        "text": "divide total errors by requests"
-      },
-      {
-        "node": "learn",
-        "text": "test persistence and routing"
+        "node": "step-3",
+        "text": "Pip separates finding machines from computing service behavior."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "One reset should not look like a fleet outage"
   }
 }

@@ -3,7 +3,7 @@
   "title": "Eliminating Toil",
   "part": "Foundations",
   "subtitle": "Distinguish recurring service work from improvements that last",
-  "summary": "Toil is recurring work that keeps a production service in its present state and tends to grow with that service. Manual execution, repetition, automation potential, interrupt-driven timing, and lack of lasting value help identify it. The category does not mean unpleasant work: a difficult cleanup may be engineering, while a satisfying daily repair can still be toil. Administrative overhead is a separate category. Measure human effort, including time spent invoking scripts, and look at individual workloads because team averages hide overload. The chapter protects at least half of SRE time for engineering over a meaningful period. Some toil remains unavoidable, but unchecked repetition consumes the capacity needed to improve reliability, damages careers, and makes staffing rise alongside service growth.",
+  "summary": "Pip restarts the same harbor worker each day. Finishing the task restores service but never reduces tomorrow’s burden. The crew distinguishes toil, lasting engineering, and organizational overhead, then measures human effort and protects time to remove recurring work.",
   "source": {
     "startLine": 2266,
     "endLine": 2451,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Recognizing toil",
-      "body": "Toil is production work that tends to be repetitive, manual, tactical, automatable, and without enduring improvement. Its volume often increases with users, traffic, or service size. These characteristics are guides rather than a rigid checklist. The key question is whether completing the task changes the future operating burden or merely restores the same state until the next occurrence.",
-      "example": "Teaching extension: Approving the same routine quota increase every morning is toil even when each approval is easy.",
-      "source": "text lines 2266–2451"
+      "body": "Pip approves the same routine quota increase every morning. Repetitive, manual, tactical, automatable work without enduring improvement tends to be toil. Its volume often grows with traffic or service size, though these traits are guides rather than a rigid checklist. Pip asks whether today’s task reduces tomorrow’s operating burden.",
+      "example": "",
+      "source": "text lines 2266–2451",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "DAILY APPROVAL",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "SAME REQUEST",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "target",
+            "label": "LASTING IMPROVEMENT?",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip approves the same routine quota increase every morning."
+          },
+          {
+            "node": "step-1",
+            "text": "Repetitive, manual, tactical, automatable work without enduring improvement tends to be toil."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip asks whether today’s task reduces tomorrow’s operating burden."
+          }
+        ]
+      }
     },
     {
       "title": "Engineering and overhead are different categories",
-      "body": "Engineering creates a lasting improvement through design and judgment; it may involve code, configuration, documentation, or a difficult cleanup. Overhead covers organizational work such as meetings and hiring that is not directly operating a production service. Classifying work by whether it is enjoyable or whether it contains code misses these distinctions and produces misleading estimates of engineering capacity.",
-      "example": "Teaching extension: A one-time alert cleanup removes recurring noise; a weekly staffing meeting is overhead; repeated manual restarts are toil.",
-      "source": "text lines 2266–2451"
+      "body": "Pip labels every coded task engineering and every meeting toil. Engineering creates enduring improvement through design and judgment, including configuration, documentation, or cleanup. A staffing meeting is overhead; repeated restarts are production toil. Pip classifies the effect of work, not whether it is enjoyable or contains code.",
+      "example": "",
+      "source": "text lines 2266–2451",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "LASTING CLEANUP",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "team",
+            "label": "ORGANIZATIONAL OVERHEAD",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "service",
+            "label": "REPEATED RESTARTS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip labels every coded task engineering and every meeting toil."
+          },
+          {
+            "node": "step-1",
+            "text": "Engineering creates enduring improvement through design and judgment, including configuration, documentation, or cleanup."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip classifies the effect of work, not whether it is enjoyable or contains code."
+          }
+        ]
+      }
     },
     {
       "title": "Measure the operator’s effort",
-      "body": "A script does not eliminate toil if a person must repeatedly start it and inspect its result. Count hands-on effort rather than the script’s unattended runtime. On-call coverage creates a baseline commitment, and interruptions create additional work. Examine distributions across engineers and over time: a healthy team average can conceal one person spending nearly every day on repetitive service work.",
-      "example": "Teaching extension: A 40-minute script that requires five minutes of human handling contributes those five minutes each time it runs.",
-      "source": "text lines 2266–2451"
+      "body": "Pip calls a 40-minute repair script fully automated. A person still spends five minutes starting and checking each run: those minutes are hands-on toil. Coverage and interruptions create additional commitments. Pip examines individual distributions over time because a healthy average can hide one exhausted operator.",
+      "example": "",
+      "source": "text lines 2266–2451",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "40-MINUTE SCRIPT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "5 HUMAN MINUTES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "person",
+            "label": "UNEQUAL BURDEN",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip calls a 40-minute repair script fully automated."
+          },
+          {
+            "node": "step-1",
+            "text": "A person still spends five minutes starting and checking each run: those minutes are hands-on toil."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip examines individual distributions over time because a healthy average can hide one exhausted operator."
+          }
+        ]
+      }
     },
     {
       "title": "Protect the capacity to reduce future work",
-      "body": "Google’s target reserves at least half of SRE time for engineering when assessed over a substantial period. This prevents reactive work from crowding out the improvements that would reduce it. Brief spikes can happen, but persistent overload needs changes in work allocation and priorities. Eliminating recurring work lets the service grow without adding equivalent operational effort or exhausting its engineers.",
-      "example": "Teaching extension: Reducing daily account-repair work frees a recurring block of time to improve the provisioning system itself.",
-      "source": "text lines 2266–2451"
+      "body": "Pip’s daily account repairs consume the time needed to fix provisioning. Google’s model reserves at least half of SRE time for engineering over a substantial period. Brief spikes differ from persistent overload, which needs changed allocation and priorities. Pip removes recurring work so growth does not require equivalent manual effort.",
+      "example": "",
+      "source": "text lines 2266–2451",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "RECURRING REPAIRS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "balance",
+            "label": "PROTECTED HALF",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "terminal",
+            "label": "PROVISIONING FIX",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s daily account repairs consume the time needed to fix provisioning."
+          },
+          {
+            "node": "step-1",
+            "text": "Google’s model reserves at least half of SRE time for engineering over a substantial period."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip removes recurring work so growth does not require equivalent manual effort."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,81 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Eliminating Toil: OPERATOR to QUEUE to AUTOMATION to GUARDRAIL",
     "nodes": [
       {
-        "id": "observe",
-        "label": "OPERATOR",
-        "caption": "inputs and constraints",
-        "kind": "colleague",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "QUEUE",
-        "caption": "choose the operating rule",
-        "kind": "queue",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "AUTOMATION",
-        "caption": "observe the effect",
-        "kind": "agent",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "GUARDRAIL",
-        "caption": "feed learning back",
-        "kind": "shield",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "clock",
+        "label": "DAILY APPROVAL",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "document",
+        "label": "SAME REQUEST",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "target",
+        "label": "LASTING IMPROVEMENT?",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
-      },
-      {
-        "from": "learn",
-        "to": "observe",
-        "dashed": true
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "inputs and constraints"
+        "node": "step-0",
+        "text": "Pip approves the same routine quota increase every morning."
       },
       {
-        "node": "decide",
-        "text": "choose the operating rule"
+        "node": "step-1",
+        "text": "Repetitive, manual, tactical, automatable work without enduring improvement tends to be toil."
       },
       {
-        "node": "act",
-        "text": "observe the effect"
-      },
-      {
-        "node": "learn",
-        "text": "feed learning back"
+        "node": "step-3",
+        "text": "Pip asks whether today’s task reduces tomorrow’s operating burden."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "The same restart, every morning"
   }
 }

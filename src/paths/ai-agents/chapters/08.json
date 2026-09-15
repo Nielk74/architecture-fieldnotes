@@ -3,7 +3,7 @@
   "title": "From One Agent to Many",
   "part": "Multiagent design",
   "subtitle": "Add specialists when their boundaries solve a demonstrated limitation",
-  "summary": "One agent is often the simplest starting point, but a growing collection of tools and responsibilities can make a single context difficult to manage. Splitting work among specialists can clarify roles and permit independent testing and reuse. The split also creates a distributed system: information must move between agents, partial results must be combined, and failures must be contained. Sequential handoffs, parallel work, coordinators, shared state, and messaging infrastructure offer different latency and consistency trade-offs. Select the organization around the task and its dependencies. More agents are useful when specialization outweighs the additional calls, coordination, and operational complexity.",
+  "summary": "Pip adds four specialist agents to the museum desk and visitors wait longer. Splitting work can improve focus, but creates interfaces, messages, and partial failures. Pip keeps specialists only where their boundaries justify the extra calls and coordination.",
   "source": {
     "startLine": 6601,
     "endLine": 8457,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Single-agent fit",
-      "body": "One agent is often suitable when tasks are modest, tools are manageable, and one context can hold the work. It minimizes latency, resource use, and coordination overhead.",
-      "example": "Teaching extension: A meeting assistant has three tools and a short task history that fit one context. Keeping one agent avoids extra handoffs while the team measures whether any actual limitation remains.",
-      "source": "text lines 6601-8457"
+      "body": "Pip’s meeting guide has three tools and a short history. One context holds the task comfortably. A single agent minimizes latency, resource use, and coordination overhead when responsibilities remain manageable. Pip measures a real limitation before recruiting another agent.",
+      "example": "",
+      "source": "text lines 6601-8457",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "agent",
+            "label": "ONE GUIDE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "api",
+            "label": "THREE TOOLS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "boundary",
+            "label": "ONE CONTEXT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s meeting guide has three tools and a short history."
+          },
+          {
+            "node": "step-1",
+            "text": "One context holds the task comfortably."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip measures a real limitation before recruiting another agent."
+          }
+        ]
+      }
     },
     {
       "title": "Specialization",
-      "body": "Multiple agents divide work by role or capability, such as forecasting, procurement, or exception handling. Specialization can improve focus but creates interfaces and handoffs between agents.",
-      "example": "Teaching extension: A procurement workflow assigns inventory analysis and supplier comparison to different specialists. Each returns a structured result that a coordinator can combine into a purchasing recommendation.",
-      "source": "text lines 6601-8457"
+      "body": "Pip separates exhibition stock analysis from supplier comparison. Specialists focus on different roles or capabilities. Their structured results need interfaces and handoffs before a coordinator can combine a recommendation. Pip tests those boundaries as carefully as each specialist.",
+      "example": "",
+      "source": "text lines 6601-8457",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "agent",
+            "label": "STOCK SPECIALIST",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "agent",
+            "label": "SUPPLIER SPECIALIST",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "COORDINATOR",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip separates exhibition stock analysis from supplier comparison."
+          },
+          {
+            "node": "step-1",
+            "text": "Specialists focus on different roles or capabilities."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip tests those boundaries as carefully as each specialist."
+          }
+        ]
+      }
     },
     {
       "title": "Communication patterns",
-      "body": "Agents may pass messages sequentially, work in parallel, or use a coordinator and shared state. The pattern determines latency, consistency, failure propagation, and how much context each agent sees.",
-      "example": "Teaching extension: Two specialists check independent suppliers in parallel, then report to a coordinator. A delivery estimate that depends on the chosen supplier waits until that choice is resolved.",
-      "source": "text lines 6601-8457"
+      "body": "Pip lets two specialists check independent suppliers in parallel. Delivery estimates wait for the supplier choice they depend on. Sequential messages, parallel work, coordinators, and shared state distribute context differently. Pip weighs latency, consistency, and failure propagation before choosing the communication pattern.",
+      "example": "",
+      "source": "text lines 6601-8457",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "agent",
+            "label": "PARALLEL CHECKS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "SUPPLIER CHOICE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "DEPENDENT ESTIMATE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip lets two specialists check independent suppliers in parallel."
+          },
+          {
+            "node": "step-1",
+            "text": "Delivery estimates wait for the supplier choice they depend on."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip weighs latency, consistency, and failure propagation before choosing the communication pattern."
+          }
+        ]
+      }
     },
     {
       "title": "Coordination cost",
-      "body": "More agents add model calls, routing, synchronization, debugging, and operational expense. The chapter applies software architecture lessons: split when boundaries clarify work, not merely because multiagent systems are fashionable.",
-      "example": "Teaching extension: A four-agent design gives the same quality as a single agent but requires twice as many model calls and misses the response-time target. The team removes the unnecessary split.",
-      "source": "text lines 6601-8457"
+      "body": "Pip’s four-agent desk matches one agent’s quality but misses the response target. Extra agents add model calls, routing, synchronization, debugging, and operational expense. Pip removes the split that clarifies no useful boundary. Specialization must pay for its coordination, not merely look sophisticated.",
+      "example": "",
+      "source": "text lines 6601-8457",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "team",
+            "label": "FOUR AGENTS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "SAME QUALITY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "MISSED DEADLINE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s four-agent desk matches one agent’s quality but misses the response target."
+          },
+          {
+            "node": "step-1",
+            "text": "Extra agents add model calls, routing, synchronization, debugging, and operational expense."
+          },
+          {
+            "node": "step-3",
+            "text": "Specialization must pay for its coordination, not merely look sophisticated."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -117,69 +369,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "n0",
-        "label": "SPECIALISTS",
-        "kind": "agent",
-        "tone": "sage",
-        "x": 100,
-        "y": 80
-      },
-      {
-        "id": "n1",
-        "label": "MESSAGES",
-        "kind": "document",
-        "tone": "peach",
-        "x": 270,
-        "y": 80
-      },
-      {
-        "id": "n2",
-        "label": "COORDINATOR",
-        "kind": "agent",
-        "tone": "lilac",
-        "x": 100,
-        "y": 210
-      },
-      {
-        "id": "n3",
-        "label": "OUTCOME",
-        "kind": "trace",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 270,
-        "y": 210
+        "course": "ai-agents"
+      },
+      {
+        "id": "step-1",
+        "kind": "agent",
+        "label": "ONE GUIDE",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "api",
+        "label": "THREE TOOLS",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "boundary",
+        "label": "ONE CONTEXT",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "n0",
-        "to": "n1"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n1",
-        "to": "n2"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n2",
-        "to": "n3"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "n0",
-        "text": "Inspect specialists in the chapter workflow."
+        "node": "step-0",
+        "text": "Pip’s meeting guide has three tools and a short history."
       },
       {
-        "node": "n1",
-        "text": "Inspect messages in the chapter workflow."
+        "node": "step-1",
+        "text": "One context holds the task comfortably."
       },
       {
-        "node": "n2",
-        "text": "Inspect coordinator in the chapter workflow."
-      },
-      {
-        "node": "n3",
-        "text": "Inspect outcome in the chapter workflow."
+        "node": "step-3",
+        "text": "Pip measures a real limitation before recruiting another agent."
       }
     ]
+  },
+  "story": {
+    "course": "ai-agents",
+    "world": "museum",
+    "title": "Too many guides at one desk"
   }
 }

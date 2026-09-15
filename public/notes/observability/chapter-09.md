@@ -1,27 +1,53 @@
-# 9. How Observability and Monitoring Come Together
+# Chapter 9: How Observability and Monitoring Come Together
 
-Use aggregates to notice, events to investigate
+*Pip’s adventure: The counter rings the bell; the event explains why. Fictional teaching story; concepts follow the cited source.*
 
-Monitoring remains useful in an observable system. Compact measurements can track expected conditions, trends, and service health without retaining every contributing detail. Their limitation appears when an investigation asks a question that the aggregation did not preserve. Events and traces provide the finer context needed to examine a specific request or unexpected cohort. The chapter brings these approaches together through their purposes rather than treating one data type as a universal replacement for another. Teams should understand which information a summary discards and preserve a route from a concerning aggregate to relevant examples. This combination supports efficient detection while reducing the guesswork involved in explaining partial failures and unfamiliar behavior.
+Source: text lines 3797–4158.
+
+Pip’s error counter signals trouble but cannot identify the affected stalls. Metrics and events serve complementary jobs. Preserving the alert’s time and scope into detailed investigation connects economical summaries with the context needed to explain a specific failure.
 
 ## Metrics trade detail for efficiency
 
-A metric compresses observations into a measurement with a chosen set of labels and an interval. Reusing those combinations can make collection and querying economical. That efficiency comes from deciding what to retain; if an omitted attribute later matters, the aggregate cannot reconstruct the individual requests that contributed to it.
+Pip’s fleet error counter rises without naming a customer. Metrics compress observations using chosen labels and intervals, making repeated collection and queries economical. That efficiency depends on deciding which details survive. Pip cannot reconstruct omitted request identities from the aggregate later.
+
+Source: text lines 3797–4158.
 
 ## Events retain the investigation unit
 
-An event keeps attributes together at the request or operation level. It can support new groupings when an unexpected question appears, provided the relevant fields were recorded. This costs more than keeping only a total, but preserves a path to discovering whether a broad symptom comes from one cohort or many unrelated situations.
+Pip returns to individual request events and groups errors by build and tenant. Events retain operation-level attributes together for unanticipated questions, if the relevant fields were recorded. They cost more than totals but preserve cohort relationships. Pip can distinguish one concentrated failure from several unrelated situations.
+
+Source: text lines 3797–4158.
 
 ## Different signals serve different questions
 
-Monitoring can answer whether a known condition needs attention, while exploration asks what is happening inside the affected population. Both can coexist around the same service. Choosing a signal should begin with its job: a capacity trend, an actionable reliability alert, and a specific customer investigation need different levels of detail.
+Pip uses utilization trends for capacity, an SLO alert for attention, and a trace for one slow checkout. Monitoring checks known conditions; exploration examines the affected population. Both can serve the same system. Pip chooses detail according to the question instead of demanding one signal do every job.
+
+Source: text lines 3797–4158.
 
 ## Connect summaries to retained context
 
-An alert or graph is a stronger starting point when the responder can inspect relevant events with its time range and scope preserved. Without that connection, responders may search unrelated logs or trace samples and infer a relationship from timing alone. The handoff should retain enough context to keep the investigation focused on the actual symptom.
+Pip opens an error graph directly into its failing endpoint requests. The handoff preserves time range and scope. Otherwise unrelated logs or samples can look connected merely because their timestamps resemble the graph. Pip links summaries to retained context so the next question stays about the actual symptom.
 
-## Apply it
+Source: text lines 3797–4158.
+
+## Transfer challenge: The aggregate has no tenant field
+
+An error graph spikes, but its labels contain only service and status.
+
+### Investigate matching request events
+
+Can identify which tenants and builds contribute to the spike. Requires a retained event source and aligned time range. The team can estimate impact and locate the affected customer population.
+
+### Add tenant labels to the metric for future traffic
+
+May support a specific recurring tenant-level measurement. Cannot recover past context and may greatly expand time-series cardinality. Future metrics change, but the current incident still requires another evidence source.
+
+Use the retained event evidence for this incident and choose future metric labels for their intended measurement.
+
+## Connect detection to explanation
 
 Pair one useful aggregate with the event evidence needed to explain a change.
 
-Source: *Observability Engineering*, chapter 9; supplied text lines 3797–4158. These notes are an original synthesis; examples and activities are illustrative.
+- Metric and its retained labels
+- Question the aggregate cannot answer
+- Context-preserving investigation link

@@ -3,7 +3,7 @@
   "title": "Diagramming and Presenting Architecture",
   "part": "Techniques & people",
   "subtitle": "Help each audience see the architecture's shape and story",
-  "summary": "An architect's ideas only matter when managers can fund them and teams can build them, so diagramming and presenting are core architecture skills. Both are visual representations, and both depend on representational consistency: show how a detailed view fits the whole before changing scope. Low-fidelity sketches encourage revision and collaboration before investment in polished artifacts. Diagram tools are most useful when they support layers, reusable stencils, and reliable line connections. UML, C4, and ArchiMate offer different standards and scopes, but no language expresses every architecture. Clear titles, labels, directional lines, colors, and keys prevent misinterpretation. Presentations add a time dimension that documents do not control. Transitions, animation, and incremental builds reveal an argument as it unfolds, while infodecks need to stand alone and presentations deliberately divide the story between slides and speaker. A blank slide can return attention to the speaker. Good visuals carry structure and timing without becoming decoration or a wall of text.",
+  "summary": "Pip’s polished diagram loses the audience when it jumps into one plug-in. Clear architecture communication preserves scope, labels relationships, and reveals the argument at a useful pace. Early sketches remain easy to discard until the structure earns polish.",
   "source": {
     "startLine": 10731,
     "endLine": 11078,
@@ -12,33 +12,348 @@
   "concepts": [
     {
       "title": "Representational Consistency",
-      "body": "When moving from an architecture overview to a detailed view, first show the relationship between the part and the whole. This practice preserves scope and prevents viewers from losing their place. The same principle works across diagrams and presentation slides: every zoom, crop, or new medium should make the relationship legible before asking the audience to reason about detail and meaning.",
-      "example": "A plug-in diagram can begin with the entire microkernel and highlight the plug-in area before opening its internals. The audience sees where the detail belongs instead of treating it as a separate system.",
-      "source": "pp. 315–316"
+      "body": "Pip zooms into a plug-in and the bookshop audience loses its place. Representational consistency first shows how the detail belongs to the whole. Pip highlights the plug-in inside the full microkernel before opening its internals. The same scope-preserving move helps across crops, diagrams, slides, and media.",
+      "example": "",
+      "source": "pp. 315–316",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "blueprint",
+            "label": "WHOLE SYSTEM",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "boundary",
+            "label": "HIGHLIGHTED PART",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "plugin",
+            "label": "DETAIL VIEW",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip zooms into a plug-in and the bookshop audience loses its place."
+          },
+          {
+            "node": "step-1",
+            "text": "Representational consistency first shows how the detail belongs to the whole."
+          },
+          {
+            "node": "step-3",
+            "text": "The same scope-preserving move helps across crops, diagrams, slides, and media."
+          }
+        ]
+      }
     },
     {
       "title": "Iterate at Low Fidelity",
-      "body": "Early sketches, sticky notes, or a tablet canvas reduce the attachment that grows with time invested in a polished artifact. Low ritual lets a team discard weak ideas, try alternatives, and discover the real design through discussion. A polished tool becomes valuable after the structure has been tested. Layers, stencils, and magnets then improve reuse, consistency, and editing speed for the settled view.",
-      "example": "A team rearranges paper cards for a service boundary in minutes. Once the topology settles, a reusable service stencil and layers produce an overview and detail view from the same design.",
-      "source": "pp. 316–318"
+      "body": "Pip spends hours polishing a boundary the team later rejects. Low-fidelity sketches, sticky notes, and canvases reduce attachment and make alternatives cheap. Pip rearranges cards until discussion tests the structure. Only then do reusable stencils, layers, and connection magnets earn their role in consistent, maintainable diagrams.",
+      "example": "",
+      "source": "pp. 316–318",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "ROUGH CARDS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "team",
+            "label": "TEST ALTERNATIVES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "blueprint",
+            "label": "POLISHED VIEW",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip spends hours polishing a boundary the team later rejects."
+          },
+          {
+            "node": "step-1",
+            "text": "Low-fidelity sketches, sticky notes, and canvases reduce attachment and make alternatives cheap."
+          },
+          {
+            "node": "step-3",
+            "text": "Only then do reusable stencils, layers, and connection magnets earn their role in consistent, maintainable diagrams."
+          }
+        ]
+      }
     },
     {
       "title": "Choose a Diagram Language",
-      "body": "UML remains useful for class and sequence diagrams, while C4 organizes Context, Container, Component, and Class views. C4 can be a good organizational standard but fits monoliths better than some distributed topologies. ArchiMate is a lightweight enterprise modeling language for visualizing architecture across business domains. Standards help consistency but cannot remove the need for practical judgment about audience and scope.",
-      "example": "An architect can use a C4 context view for users and external systems, a container view for deployment boundaries, and a sequence diagram for one interaction. The combination communicates more than forcing every concern into one notation.",
-      "source": "pp. 318–319"
+      "body": "Pip needs both an overview and the order of calls. UML can serve class and sequence views; C4 organizes Context, Container, Component, and Class, with fit varying by topology. ArchiMate offers enterprise views across business domains. Pip chooses notation for audience and scope instead of forcing every concern into one standard.",
+      "example": "",
+      "source": "pp. 318–319",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "blueprint",
+            "label": "CONTEXT VIEW",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "trace",
+            "label": "SEQUENCE VIEW",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "AUDIENCE + SCOPE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip needs both an overview and the order of calls."
+          },
+          {
+            "node": "step-1",
+            "text": "UML can serve class and sequence views; C4 organizes Context, Container, Component, and Class, with fit varying by topology."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip chooses notation for audience and scope instead of forcing every concern into one standard."
+          }
+        ]
+      }
     },
     {
       "title": "Make Meaning Visible",
-      "body": "Every diagram element should have a clear title or familiar meaning. Lines need visible weight, direction, and consistent synchronous or asynchronous semantics; shapes need labels; colors should distinguish artifacts only when useful. Add a key whenever shapes could be ambiguous. These small conventions protect the audience from guessing and turn a picture into a shared architecture language for important decisions.",
-      "example": "A solid arrow means a waiting call and a dotted arrow means an event throughout a deck. A legend and labels clarify that a three-dimensional box is deployable while a rectangle is a container.",
-      "source": "pp. 319–320"
+      "body": "Pip’s audience cannot tell whether an arrow means waiting or an event. Shapes need labels and familiar meaning; lines need clear direction, weight, and consistent semantics. Colors should distinguish useful differences, with a key for ambiguity. Pip makes every element interpretable so the diagram supports decisions instead of guessing.",
+      "example": "",
+      "source": "pp. 319–320",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "LABELLED SHAPES",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "DEFINED RELATIONSHIPS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "blueprint",
+            "label": "VISIBLE KEY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s audience cannot tell whether an arrow means waiting or an event."
+          },
+          {
+            "node": "step-1",
+            "text": "Shapes need labels and familiar meaning; lines need clear direction, weight, and consistent semantics."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip makes every element interpretable so the diagram supports decisions instead of guessing."
+          }
+        ]
+      }
     },
     {
       "title": "Present in Time",
-      "body": "A document reader controls their pace; a presenter controls the pace of a live story. Transitions can hide boundaries between slides, and animations can reveal a process or consequence when it becomes relevant. Incremental builds avoid exposing the entire argument at once, while a visually blank slide can shift attention to the speaker. An infodeck is self-contained; a presentation intentionally shares the story between visual and verbal channels.",
-      "example": "To explain a long-lived feature branch, reveal the branch, then the merge delay, then the resulting conflict. A slide full of bullets shown at once would let the audience read the conclusion before the reasoning.",
-      "source": "pp. 321–324"
+      "body": "Pip reveals a feature branch, then its long delay, then the merge conflict. A document reader controls pace; a presenter shares the story through spoken and visual channels. Incremental animation can reveal process and consequence, while a blank slide redirects attention. Pip distinguishes a self-contained infodeck from a live presentation rather than showing the whole argument at once.",
+      "example": "",
+      "source": "pp. 321–324",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "FEATURE BRANCH",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "MERGE DELAY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "alert",
+            "label": "REVEALED CONFLICT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip reveals a feature branch, then its long delay, then the merge conflict."
+          },
+          {
+            "node": "step-1",
+            "text": "A document reader controls pace; a presenter shares the story through spoken and visual channels."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip distinguishes a self-contained infodeck from a live presentation rather than showing the whole argument at once."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -123,75 +438,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "overview",
-        "label": "CONTEXT VIEW",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "fundamentals"
+      },
+      {
+        "id": "step-1",
         "kind": "blueprint",
+        "label": "WHOLE SYSTEM",
         "tone": "sage"
       },
       {
-        "id": "zoom",
-        "label": "RELATIONSHIP",
-        "kind": "router",
+        "id": "step-2",
+        "kind": "boundary",
+        "label": "HIGHLIGHTED PART",
         "tone": "lilac"
       },
       {
-        "id": "detail",
+        "id": "step-3",
+        "kind": "plugin",
         "label": "DETAIL VIEW",
-        "kind": "blueprint",
-        "tone": "peach"
-      },
-      {
-        "id": "build",
-        "label": "BUILD",
-        "kind": "component",
-        "tone": "honey"
-      },
-      {
-        "id": "audience",
-        "label": "AUDIENCE",
-        "kind": "team",
         "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "overview",
-        "to": "zoom"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "zoom",
-        "to": "detail"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "detail",
-        "to": "build"
-      },
-      {
-        "from": "build",
-        "to": "audience"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "overview",
-        "text": "Start with the architecture's scope, users, and major boundaries."
+        "node": "step-0",
+        "text": "Pip zooms into a plug-in and the bookshop audience loses its place."
       },
       {
-        "node": "zoom",
-        "text": "Highlight where the next detail sits so the audience can retain context."
+        "node": "step-1",
+        "text": "Representational consistency first shows how the detail belongs to the whole."
       },
       {
-        "node": "detail",
-        "text": "Show the focused structure with labels, directional lines, and a clear key."
-      },
-      {
-        "node": "build",
-        "text": "Reveal relationships and consequences in the order needed for the argument."
-      },
-      {
-        "node": "audience",
-        "text": "Use the visual and spoken channels together to support the audience's decision."
+        "node": "step-3",
+        "text": "The same scope-preserving move helps across crops, diagrams, slides, and media."
       }
     ]
+  },
+  "story": {
+    "course": "fundamentals",
+    "world": "bookshop",
+    "title": "Show where Pip is before zooming in"
   }
 }

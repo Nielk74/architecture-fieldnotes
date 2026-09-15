@@ -3,7 +3,7 @@
   "title": "What Is Observability?",
   "part": "The Path to Observability",
   "subtitle": "Ask questions you did not know to prepare",
-  "summary": "Observability describes what engineers can learn from a running system, rather than a collection of installed products. Modern applications produce failures through interactions among users, versions, dependencies, and infrastructure; those combinations cannot all be predicted before deployment. The chapter therefore makes exploratory analysis a requirement. Request-level records must retain enough dimensions and distinct values to let investigators narrow an unfamiliar symptom into a specific population. Metrics, logs, and traces may contribute evidence, but their presence alone says little about which questions remain answerable. The practical test is whether an engineer can explain an unexpected state using existing telemetry, without first modifying the application to capture the missing clue.",
+  "summary": "Pip’s night-market dashboard is green while one stall cannot take payments. Observability means being able to explain unexpected behavior from existing telemetry. Pip follows request identities and combined context instead of accepting a reassuring fleet average.",
   "source": {
     "startLine": 653,
     "endLine": 1279,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Observable state",
-      "body": "The control-theory origin concerns inferring internal state from external outputs. Applied to software, the useful question is whether existing telemetry lets you explain unexpected behavior. A green status page cannot establish this ability. Try investigating an unfamiliar customer complaint and notice whether you must deploy additional logging before you can distinguish competing explanations.",
-      "example": "A checkout failure appears only when a particular promotion and payment provider coincide.",
-      "source": "text lines 653–1279"
+      "body": "Pip receives a checkout complaint only involving one promotion and payment provider. Observability’s control-theory origin concerns inferring internal state from external outputs. For software, Pip asks whether existing telemetry can distinguish explanations without deploying new logging. A green status page cannot prove that ability.",
+      "example": "",
+      "source": "text lines 653–1279",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "market",
+            "label": "FAILED CHECKOUT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "trace",
+            "label": "EXISTING EVIDENCE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "search",
+            "label": "UNEXPECTED QUESTION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip receives a checkout complaint only involving one promotion and payment provider."
+          },
+          {
+            "node": "step-1",
+            "text": "Observability’s control-theory origin concerns inferring internal state from external outputs."
+          },
+          {
+            "node": "step-3",
+            "text": "A green status page cannot prove that ability."
+          }
+        ]
+      }
     },
     {
       "title": "Cardinality preserves identity",
-      "body": "Cardinality counts the distinct values a field can hold. A request identifier has many more possible values than an HTTP method. Those identifying values can be exactly what separates one broken customer experience from millions of healthy ones. Removing them to fit an aggregation scheme can make the interesting population impossible to recover later.",
-      "example": "Grouping by tenant reveals one completely unavailable account behind healthy fleet averages.",
-      "source": "text lines 653–1279"
+      "body": "Pip groups requests by tenant and finds one completely unavailable stall. Cardinality counts distinct values: request IDs have many more than HTTP methods. Those identities can separate a broken experience from millions of healthy ones. Pip avoids discarding the very field needed to recover the interesting population.",
+      "example": "",
+      "source": "text lines 653–1279",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "REQUEST ID",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "DISTINCT VALUES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "market",
+            "label": "ONE FAILED TENANT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip groups requests by tenant and finds one completely unavailable stall."
+          },
+          {
+            "node": "step-1",
+            "text": "Cardinality counts distinct values: request IDs have many more than HTTP methods."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip avoids discarding the very field needed to recover the interesting population."
+          }
+        ]
+      }
     },
     {
       "title": "Dimensionality preserves context",
-      "body": "Dimensionality concerns how many attributes describe an event, not how many values one attribute takes. A request might record its build, route, tenant, region, duration, and feature flags. Keeping these together permits questions about their combinations. Separate totals for each attribute cannot reliably reconstruct which conditions occurred on the same request.",
-      "example": "A build is healthy overall but slow only for one region and feature flag combination.",
-      "source": "text lines 653–1279"
+      "body": "Pip’s new build is slow only in one region with one feature flag. Dimensionality counts attributes, not the distinct values of one field. Recording build, route, tenant, region, duration, and flags together preserves their combinations. Separate totals cannot reconstruct which conditions shared the same request.",
+      "example": "",
+      "source": "text lines 653–1279",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "WIDE EVENT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "REGION + FLAG",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "SLOW COMBINATION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s new build is slow only in one region with one feature flag."
+          },
+          {
+            "node": "step-1",
+            "text": "Dimensionality counts attributes, not the distinct values of one field."
+          },
+          {
+            "node": "step-3",
+            "text": "Separate totals cannot reconstruct which conditions shared the same request."
+          }
+        ]
+      }
     },
     {
       "title": "Explorability is a capability",
-      "body": "Useful investigation moves through questions that change as evidence arrives. The system must support new filters, groupings, and comparisons quickly enough to maintain that reasoning loop. A large dashboard library covers prepared questions; explorability lets the investigator follow a clue beyond that library without changing the deployed application first.",
-      "example": "Filter slow requests, group by build, then compare their dependency calls.",
-      "source": "text lines 653–1279"
+      "body": "Pip filters slow requests, groups by build, then compares dependency calls. Each clue changes the next question. Explorability supports new filters, groupings, and comparisons quickly enough to sustain that reasoning loop. Prepared dashboards remain useful, but Pip must be able to move beyond them without first changing the application.",
+      "example": "",
+      "source": "text lines 653–1279",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "search",
+            "label": "FILTER SLOW",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "deployment",
+            "label": "GROUP BY BUILD",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "trace",
+            "label": "COMPARE DEPENDENCIES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip filters slow requests, groups by build, then compares dependency calls."
+          },
+          {
+            "node": "step-1",
+            "text": "Each clue changes the next question."
+          },
+          {
+            "node": "step-3",
+            "text": "Prepared dashboards remain useful, but Pip must be able to move beyond them without first changing the application."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -118,68 +370,68 @@
     "nodes": [
       {
         "id": "step-0",
-        "label": "STATE",
-        "kind": "trace",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "observability"
       },
       {
         "id": "step-1",
-        "label": "CARDINALITY",
-        "kind": "experiment",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
+        "kind": "market",
+        "label": "FAILED CHECKOUT",
+        "tone": "sage"
       },
       {
         "id": "step-2",
-        "label": "DIMENSIONS",
-        "kind": "alert",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
+        "kind": "trace",
+        "label": "EXISTING EVIDENCE",
+        "tone": "lilac"
       },
       {
         "id": "step-3",
-        "label": "EXPLORE",
-        "kind": "leaf",
-        "tone": "honey",
-        "x": 500,
-        "y": 100
+        "kind": "search",
+        "label": "UNEXPECTED QUESTION",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
         "from": "step-0",
-        "to": "step-1"
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-1",
-        "to": "step-2"
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-2",
-        "to": "step-3"
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
         "node": "step-0",
-        "text": "A checkout failure appears only when a particular promotion and payment provider coincide."
+        "text": "Pip receives a checkout complaint only involving one promotion and payment provider."
       },
       {
         "node": "step-1",
-        "text": "Grouping by tenant reveals one completely unavailable account behind healthy fleet averages."
-      },
-      {
-        "node": "step-2",
-        "text": "A build is healthy overall but slow only for one region and feature flag combination."
+        "text": "Observability’s control-theory origin concerns inferring internal state from external outputs."
       },
       {
         "node": "step-3",
-        "text": "Filter slow requests, group by build, then compare their dependency calls."
+        "text": "A green status page cannot prove that ability."
       }
     ]
+  },
+  "story": {
+    "course": "observability",
+    "world": "market",
+    "title": "The market is green, one stall is broken"
   }
 }

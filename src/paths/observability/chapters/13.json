@@ -3,7 +3,7 @@
   "title": "Acting on and Debugging SLO-Based Alerts",
   "part": "Observability for Teams",
   "subtitle": "Alert while there is still time to protect the budget",
-  "summary": "An exhausted error budget is a late signal for action. The chapter examines alerts that estimate whether present behavior threatens the objective soon enough for responders to intervene. Such forecasts depend on the recent baseline, the lookahead horizon, traffic patterns, and the way older events leave a rolling window. They are conditional projections, not knowledge of future failures. Event-level evaluation also avoids treating every request in a partly degraded interval as bad merely because an aggregate threshold failed. Once alerted, responders need the failing events and their context to investigate impact and causes. Combining budget-aware detection with exploratory diagnosis makes the alert a starting point for protecting user experience rather than another isolated warning about a component.",
+  "summary": "Pip’s remaining budget looks comfortable while failures are arriving fast. Acting on burn requires context about rate, baseline, and window history. Event-level evaluation reveals partial impact and connects the warning to the requests worth investigating.",
   "source": {
     "startLine": 5232,
     "endLine": 5811,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Budget consumption needs context",
-      "body": "Burn describes how quickly failures consume the permitted unreliability. A short period of elevated errors may threaten the objective even while substantial budget remains. Alerting should leave enough time for a useful response, considering current consumption and the objective’s window rather than waiting for the remaining budget to reach zero.",
-      "example": "A rapid partial outage can justify paging before the monthly target is breached.",
-      "source": "text lines 5232–5811"
+      "body": "Pip sees rapid failures consuming a still-substantial allowance. Burn describes the pace of error-budget consumption. A short surge can threaten the objective before the budget reaches zero. Pip alerts early enough for useful response, considering current consumption and the objective’s window.",
+      "example": "",
+      "source": "text lines 5232–5811",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "REMAINING BUDGET",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "alert",
+            "label": "RAPID BURN",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "TIME TO RESPOND",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip sees rapid failures consuming a still-substantial allowance."
+          },
+          {
+            "node": "step-1",
+            "text": "Burn describes the pace of error-budget consumption."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip alerts early enough for useful response, considering current consumption and the objective’s window."
+          }
+        ]
+      }
     },
     {
       "title": "A forecast depends on its baseline",
-      "body": "A lookahead projection extends recent behavior into a future horizon. A very short baseline reacts quickly but may overreact to a brief burst; a long baseline smooths noise but can dilute a new failure. The responder should understand which behavior was extrapolated and recognize that changing traffic or remediation can invalidate the projection.",
-      "example": "A five-minute burst and a sustained two-hour failure support different confidence in continued burn.",
-      "source": "text lines 5232–5811"
+      "body": "Pip projects a five-minute burst across the coming hours. A short baseline reacts quickly but can exaggerate brief noise; a long baseline can dilute a new failure. Lookahead extends recent behavior, not certainty. Pip checks what was extrapolated and whether traffic changes or mitigation invalidate it.",
+      "example": "",
+      "source": "text lines 5232–5811",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "BASELINE WINDOW",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "PROJECTED BURN",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "REACTIVITY VS NOISE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip projects a five-minute burst across the coming hours."
+          },
+          {
+            "node": "step-1",
+            "text": "A short baseline reacts quickly but can exaggerate brief noise; a long baseline can dilute a new failure."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip checks what was extrapolated and whether traffic changes or mitigation invalidate it."
+          }
+        ]
+      }
     },
     {
       "title": "Rolling windows can recover",
-      "body": "In a sliding-window objective, older events eventually leave the evaluated population. Forecasts that consider the window’s history can account for failures aging out, rather than assuming every old error remains forever. This matters when estimating future compliance or interpreting a recovering budget; improvement in the displayed budget is not necessarily proof of a new technical fix.",
-      "example": "Yesterday’s concentrated failures leave the window while today’s behavior stays unchanged.",
-      "source": "text lines 5232–5811"
+      "body": "Pip’s sliding-window budget improves without a new deployment. Older failures have aged out of the evaluated population. History-aware forecasts can account for that expiration rather than keeping old errors forever. Pip distinguishes window mechanics from evidence that a technical fix improved current behavior.",
+      "example": "",
+      "source": "text lines 5232–5811",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "trace",
+            "label": "OLDER FAILURES",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "SLIDING WINDOW",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "APPARENT RECOVERY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s sliding-window budget improves without a new deployment."
+          },
+          {
+            "node": "step-1",
+            "text": "Older failures have aged out of the evaluated population."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip distinguishes window mechanics from evidence that a technical fix improved current behavior."
+          }
+        ]
+      }
     },
     {
       "title": "Count failing events accurately",
-      "body": "A good-minute/bad-minute measure can classify an entire interval as bad when only some requests violated the condition. Event-based evaluation counts the individual failures instead and retains their attributes. This gives a more precise account of partial outages and a direct path from the budget alert to the requests a responder should investigate.",
-      "example": "If 6% of requests exceed the threshold, those events count as bad rather than all requests in the minute.",
-      "source": "text lines 5232–5811"
+      "body": "Pip finds 6% of requests violating the latency condition. Marking the whole minute bad would count more than those affected events. Event-based evaluation preserves individual failures and their attributes. Pip follows the budget alert directly to the requests behind this partial outage.",
+      "example": "",
+      "source": "text lines 5232–5811",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "6% BAD EVENTS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "NOT ALL THE MINUTE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "trace",
+            "label": "INVESTIGABLE FAILURES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip finds 6% of requests violating the latency condition."
+          },
+          {
+            "node": "step-1",
+            "text": "Marking the whole minute bad would count more than those affected events."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip follows the budget alert directly to the requests behind this partial outage."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -118,68 +370,68 @@
     "nodes": [
       {
         "id": "step-0",
-        "label": "BURN",
-        "kind": "trace",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "observability"
       },
       {
         "id": "step-1",
-        "label": "FORECAST",
-        "kind": "experiment",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
+        "kind": "gauge",
+        "label": "REMAINING BUDGET",
+        "tone": "sage"
       },
       {
         "id": "step-2",
-        "label": "WINDOW",
         "kind": "alert",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
+        "label": "RAPID BURN",
+        "tone": "lilac"
       },
       {
         "id": "step-3",
-        "label": "EVENT IMPACT",
-        "kind": "leaf",
-        "tone": "honey",
-        "x": 500,
-        "y": 100
+        "kind": "clock",
+        "label": "TIME TO RESPOND",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
         "from": "step-0",
-        "to": "step-1"
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-1",
-        "to": "step-2"
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-2",
-        "to": "step-3"
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
         "node": "step-0",
-        "text": "A rapid partial outage can justify paging before the monthly target is breached."
+        "text": "Pip sees rapid failures consuming a still-substantial allowance."
       },
       {
         "node": "step-1",
-        "text": "A five-minute burst and a sustained two-hour failure support different confidence in continued burn."
-      },
-      {
-        "node": "step-2",
-        "text": "Yesterday’s concentrated failures leave the window while today’s behavior stays unchanged."
+        "text": "Burn describes the pace of error-budget consumption."
       },
       {
         "node": "step-3",
-        "text": "If 6% of requests exceed the threshold, those events count as bad rather than all requests in the minute."
+        "text": "Pip alerts early enough for useful response, considering current consumption and the objective’s window."
       }
     ]
+  },
+  "story": {
+    "course": "observability",
+    "world": "market",
+    "title": "The budget alarm rings before the allowance is gone"
   }
 }

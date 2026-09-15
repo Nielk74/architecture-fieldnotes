@@ -1,4 +1,5 @@
 import {catalog as fundamentals} from '../chapters/catalog.js';
+import {adventures} from './adventures.js';
 import index0 from '../../docs/hard-parts/source-index.json' with {type:'json'};
 import index1 from '../../docs/staff-engineer/source-index.json' with {type:'json'};
 import index2 from '../../docs/responsible-engineering/source-index.json' with {type:'json'};
@@ -20,7 +21,10 @@ const definitions=[
 export const paths=Object.fromEntries(definitions.map(def=>{
  const catalog=def.catalog||indexes[`../../docs/${def.id}/source-index.json`]||[];
  const key=def.id==='fundamentals'?'fieldnotes-book-v1':`fieldnotes-${def.id}-v1`;
- return [def.id,{...def,key,catalog,count:catalog.length,totalXP:catalog.length*100,parts:[...new Set(catalog.map(ch=>ch.part))],entry:def.entry||`/learn.html?path=${def.id}`,notes:def.notes||`/notes/${def.id}`,sourceNote:`Based on ${def.title}, ${def.authors} (${def.edition}). Covers the numbered chapters in the supplied text.`}];
+ return [def.id,{...def,...adventures[def.id],key,catalog,count:catalog.length,totalXP:catalog.length*100,parts:[...new Set(catalog.map(ch=>ch.part))],entry:def.entry||`/learn.html?path=${def.id}`,notes:def.notes||`/notes/${def.id}`,sourceNote:`Based on ${def.title}, ${def.authors} (${def.edition}). Covers the numbered chapters in the supplied text.`}];
 }));
 export const progressConfigs=Object.fromEntries(Object.values(paths).map(p=>[p.id,{key:p.key,count:p.count,total:p.totalXP}]));
-export function pathScene(path){return {title:`${path.title}: ${path.labels.join(', then ')}.`,nodes:path.kinds.map((kind,i)=>({id:`role-${i}`,kind,label:path.labels[i],x:[235,105,365][i],y:[80,225,235][i],tone:['sage','lilac','peach'][i]})),edges:[{from:'role-0',to:'role-1'},{from:'role-1',to:'role-2'}],sequence:path.labels.map((text,i)=>({node:`role-${i}`,text}))}}
+export function pathScene(path){
+ const props=[['pip','PIP'],...path.props];
+ return {title:`${path.hook} ${path.description}`,nodes:props.map(([kind,label],i)=>({id:`role-${i}`,kind,label,course:path.id,xp:path.earned||0,x:[130,350,130,350][i],y:[95,95,235,235][i],tone:['honey','sage','lilac','peach'][i]})),edges:[[0,1],[1,2],[2,3]].map(([a,b])=>({from:`role-${a}`,to:`role-${b}`,dashed:true,flow:false})),sequence:props.map(([,text],i)=>({node:`role-${i}`,text}))};
+}

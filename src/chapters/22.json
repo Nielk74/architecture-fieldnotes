@@ -3,7 +3,7 @@
   "title": "Making Teams Effective",
   "part": "Techniques & people",
   "subtitle": "Set the boundary where teams can build with confidence",
-  "summary": "An architect guides implementation as well as designing the technical architecture. Teams need a useful box of constraints: too tight and the architect removes developer judgment, too loose and the team must rediscover architecture without guidance. The control-freak, armchair, and effective architect personalities illustrate these boundary failures and the balanced role. The right level of involvement changes with team familiarity, team size, experience, project complexity, and duration. Large teams can suffer process loss, pluralistic ignorance, and diffusion of responsibility, all of which an architect should observe and address. Checklists help with error-prone, nonprocedural work such as code completion, edge-case testing, and releases, but they should stay short and automate what tools can verify. Guidance about libraries and frameworks can define who decides, who needs approval, and what justification is required. Effective architects collaborate with teams, remove roadblocks, and adjust constraints as the system and team evolve.",
+  "summary": "Pip tries to specify every class and slows the bookshop team down. Useful architectural guidance makes constraints and reasons clear while leaving implementation judgment local. Leadership adjusts with experience, project risk, and signs that ownership or dissent is disappearing.",
   "source": {
     "startLine": 11079,
     "endLine": 11842,
@@ -12,33 +12,348 @@
   "concepts": [
     {
       "title": "The Right Boundary",
-      "body": "An architect's constraints should give developers the tools, libraries, and principles needed to implement the architecture while preserving room for implementation judgment. Tight boundaries frustrate teams and suppress useful choices; loose boundaries leave teams to perform architecture work without guidance. The effective architect communicates the box, collaborates inside it, and changes it as evidence about the team and project changes.",
-      "example": "The architect defines a Reference Manager component and its interactions, while the developer chooses the internal cache structure. That boundary guides architecture without stealing the design work of implementation.",
-      "source": "pp. 325–330"
+      "body": "Pip defines the Reference Manager’s interactions, then lets a developer choose its internal cache. Architectural constraints should provide tools, libraries, and principles without stealing implementation judgment. Too-tight boundaries frustrate; too-loose ones abandon teams to unguided architecture work. Pip collaborates inside the box and revises it as evidence changes.",
+      "example": "",
+      "source": "pp. 325–330",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "boundary",
+            "label": "ARCHITECTURAL BOX",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "component",
+            "label": "DEFINED INTERACTIONS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "cache",
+            "label": "LOCAL DESIGN CHOICE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip defines the Reference Manager’s interactions, then lets a developer choose its internal cache."
+          },
+          {
+            "node": "step-1",
+            "text": "Architectural constraints should provide tools, libraries, and principles without stealing implementation judgment."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip collaborates inside the box and revises it as evidence changes."
+          }
+        ]
+      }
     },
     {
       "title": "Elastic Leadership",
-      "body": "The amount of architect control depends on team familiarity, team size, overall experience, project complexity, and project duration. New or junior teams and complex or long projects generally need more mentoring and availability; experienced small teams on short urgent work need less day-to-day control. A rough scale can make the conversation explicit, but the factors should be reassessed throughout the project.",
-      "example": "A small, experienced team delivering a simple two-month site may need a facilitator. A large, mostly junior team on a complex six-month system needs active coaching without detailed pseudocode for every class.",
-      "source": "pp. 330–334"
+      "body": "Pip coaches a large junior team differently from a small experienced one. Control and availability depend on familiarity, size, experience, complexity, and project duration. A rough scale can make the discussion explicit without prescribing pseudocode for every class. Pip reassesses the balance as the team learns and project conditions change.",
+      "example": "",
+      "source": "pp. 330–334",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "team",
+            "label": "TEAM EXPERIENCE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "blueprint",
+            "label": "PROJECT COMPLEXITY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "ADAPTIVE GUIDANCE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip coaches a large junior team differently from a small experienced one."
+          },
+          {
+            "node": "step-1",
+            "text": "Control and availability depend on familiarity, size, experience, complexity, and project duration."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip reassesses the balance as the team learns and project conditions change."
+          }
+        ]
+      }
     },
     {
       "title": "Team Warning Signs",
-      "body": "Process loss means actual productivity falls below the team's theoretical total, often visible in repeated merge conflicts and overlapping work. Pluralistic ignorance occurs when people privately reject a norm but stay silent because they assume they are missing something. Diffusion of responsibility makes ownership and communication less clear as the group grows. Architects should notice these signals and reshape work or invite dissent.",
-      "example": "If one developer knows a firewall blocks messaging but agrees in a large meeting, a facilitator can ask for concerns directly. Splitting parallel work and clarifying owners may also reduce merge conflicts and dropped tasks.",
-      "source": "pp. 335–337"
+      "body": "Pip notices merge conflicts, silent disagreement, and tasks with no clear owner. Process loss wastes the team’s potential; pluralistic ignorance hides private objections; diffusion of responsibility spreads ownership thin. A developer privately knows a firewall blocks the plan. Pip invites concerns directly and reshapes overlapping work before silence becomes apparent agreement.",
+      "example": "",
+      "source": "pp. 335–337",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "OVERLAPPING WORK",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "listening",
+            "label": "UNSPOKEN CONCERN",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "handoff",
+            "label": "CLEAR OWNER",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip notices merge conflicts, silent disagreement, and tasks with no clear owner."
+          },
+          {
+            "node": "step-1",
+            "text": "Process loss wastes the team’s potential; pluralistic ignorance hides private objections; diffusion of responsibility spreads ownership thin."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip invites concerns directly and reshapes overlapping work before silence becomes apparent agreement."
+          }
+        ]
+      }
     },
     {
       "title": "Useful Checklists",
-      "body": "Checklists are valuable for independent, error-prone items that are often skipped, such as overlooked edge cases or release configuration. They should not encode dependent procedural steps, and simple reliable work needs no checklist. Keep lists small, remove automatable checks, and update the release list when failures reveal a missed item. Too many lists reduce use through diminishing returns for teams.",
-      "example": "A test checklist can remind a team to cover missing fields, special characters, and boundary values. A pipeline should automate these tests rather than ask developers to tick them off manually.",
-      "source": "pp. 338–342"
+      "body": "Pip’s release checklist grows until nobody uses it. Small checklists suit independent, error-prone omissions, not dependent procedures or already reliable work. Missing fields, special characters, and boundary cases can become automated tests instead of permanent manual ticks. Pip removes automatable or obsolete items and adds only useful lessons from actual failures.",
+      "example": "",
+      "source": "pp. 338–342",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "SMALL CHECKLIST",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "experiment",
+            "label": "AUTOMATED CASES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "target",
+            "label": "REAL OMISSIONS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s release checklist grows until nobody uses it."
+          },
+          {
+            "node": "step-1",
+            "text": "Small checklists suit independent, error-prone omissions, not dependent procedures or already reliable work."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip removes automatable or obsolete items and adds only useful lessons from actual failures."
+          }
+        ]
+      }
     },
     {
       "title": "Guidance and Justification",
-      "body": "Design principles create a workable boundary for choices such as third-party libraries. Ask whether proposed functionality overlaps existing capability and require technical and business justification. Classify choices by how invasive they are, for example special-purpose, general-purpose, or framework libraries, then state which the team can choose, recommend, or must escalate. Guidance should be clear enough to prevent duplication without making every choice an architect veto.",
-      "example": "A team can select a barcode library independently, recommend a general utility after overlap analysis, and escalate a persistence framework because it shapes the application structure. The rule explains both authority and reason.",
-      "source": "pp. 342–346"
+      "body": "Pip’s team wants another third-party library. Guidance asks about existing overlap and technical and business justification, then considers how invasive the choice is. A barcode package may be locally chosen, a general utility recommended, and a persistence framework escalated. Pip explains authority and reasons without making every dependency an architect veto.",
+      "example": "",
+      "source": "pp. 342–346",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "plugin",
+            "label": "SPECIAL-PURPOSE LIBRARY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "component",
+            "label": "GENERAL UTILITY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "boundary",
+            "label": "STRUCTURAL FRAMEWORK",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s team wants another third-party library."
+          },
+          {
+            "node": "step-1",
+            "text": "Guidance asks about existing overlap and technical and business justification, then considers how invasive the choice is."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip explains authority and reasons without making every dependency an architect veto."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -123,79 +438,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "architect",
-        "label": "ARCHITECT",
-        "kind": "person",
-        "tone": "peach"
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "fundamentals"
       },
       {
-        "id": "boundary",
-        "label": "TEAM BOX",
+        "id": "step-1",
         "kind": "boundary",
-        "tone": "lilac"
-      },
-      {
-        "id": "team",
-        "label": "TEAM",
-        "kind": "team",
+        "label": "ARCHITECTURAL BOX",
         "tone": "sage"
       },
       {
-        "id": "checklist",
-        "label": "CHECKLIST",
-        "kind": "document",
-        "tone": "honey"
+        "id": "step-2",
+        "kind": "component",
+        "label": "DEFINED INTERACTIONS",
+        "tone": "lilac"
       },
       {
-        "id": "feedback",
-        "label": "FEEDBACK",
-        "kind": "message",
+        "id": "step-3",
+        "kind": "cache",
+        "label": "LOCAL DESIGN CHOICE",
         "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "architect",
-        "to": "boundary"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "boundary",
-        "to": "team"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "team",
-        "to": "checklist"
-      },
-      {
-        "from": "team",
-        "to": "feedback"
-      },
-      {
-        "from": "feedback",
-        "to": "architect"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "architect",
-        "text": "Assess familiarity, size, experience, complexity, and duration before setting involvement."
+        "node": "step-0",
+        "text": "Pip defines the Reference Manager’s interactions, then lets a developer choose its internal cache."
       },
       {
-        "node": "boundary",
-        "text": "State the architecture constraints and which decisions belong to the team or architect."
+        "node": "step-1",
+        "text": "Architectural constraints should provide tools, libraries, and principles without stealing implementation judgment."
       },
       {
-        "node": "team",
-        "text": "Let developers implement within the box while watching ownership, conflict, and dissent signals."
-      },
-      {
-        "node": "checklist",
-        "text": "Capture small, independent, error-prone reminders and automate what can be verified."
-      },
-      {
-        "node": "feedback",
-        "text": "Use failures and team observations to adjust guidance and control over the project's life."
+        "node": "step-3",
+        "text": "Pip collaborates inside the box and revises it as evidence changes."
       }
     ]
+  },
+  "story": {
+    "course": "fundamentals",
+    "world": "bookshop",
+    "title": "Give the team a boundary, not a cage"
   }
 }

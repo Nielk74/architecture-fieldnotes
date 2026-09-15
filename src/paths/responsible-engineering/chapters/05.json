@@ -3,7 +3,7 @@
   "title": "Securing and Respecting Users’ Privacy",
   "part": "Privacy",
   "subtitle": "Design collection, consent, retention, and deletion around user expectations",
-  "summary": "Privacy is experienced through understandable collection, meaningful consent, transparency, and control. The internal-search example demonstrates that removing names does not make sensitive queries harmless to share. Minimization reduces the amount of information exposed, while retention and deletion decisions determine how long that exposure persists. Anonymization techniques have limits when other data can reconnect records to people; stronger methods also require careful design and trade-offs. The exposure-notification case shows how architecture can reduce centralized access to sensitive information. Privacy choices must be made together with stakeholders and relevant expertise, treating protection as part of the product rather than an afterthought once data has accumulated.",
+  "summary": "Pip opens the town’s search logs and finds private worries, not harmless keywords. Removing names will not make the records safe. Residents help define collection, consent, retention, and deletion; Pip learns that privacy is a promise people experience, with limits that the architecture must make clear.",
   "source": {
     "startLine": 3087,
     "endLine": 3947,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Privacy pillars",
-      "body": "From a user perspective privacy means no surprises, transparency, meaningful consent, and control. These are promises about what a person experiences, not merely properties of a database.",
-      "example": "Teaching extension: An employee-search page explains what query information is retained before collection begins and provides meaningful choices. Employees can inspect the applicable retention period without reading an internal engineering document.",
-      "source": "text lines 3087-3947"
+      "body": "Pip proudly opens the search dashboard. A resident asks, “You kept that?” Privacy means no surprises, transparency, meaningful consent, and control—not merely a protected database. Pip explains collection before it starts, offers meaningful choices, and makes the retention period visible. The experience must match the promise.",
+      "example": "",
+      "source": "text lines 3087-3947",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP OPENS LOGS",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "PRIVATE QUERIES",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "person",
+            "label": "SURPRISED USER",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "VISIBLE CHOICES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip finds sensitive search records."
+          },
+          {
+            "node": "step-1",
+            "text": "Protection is not only a database property."
+          },
+          {
+            "node": "step-3",
+            "text": "Explain collection and offer meaningful control."
+          }
+        ]
+      }
     },
     {
       "title": "Data minimization",
-      "body": "Minimization collects only data needed for a stated purpose. Less collection reduces exposure and breach impact, but may limit personalization or future analysis; the team should resist collecting “just in case.”",
-      "example": "Teaching extension: A delivery service asks for the address needed to fulfill the order but does not collect an unrelated birth date merely because it might be useful for future marketing.",
-      "source": "text lines 3087-3947"
+      "body": "Pip adds a birth-date field to the town’s delivery form for possible future marketing. A resident asks why delivering a parcel requires it. Data minimization collects only what the stated purpose needs. Pip removes the field: less exposure and breach impact, but fewer personalization and analysis possibilities. “Just in case” is not a purpose.",
+      "example": "",
+      "source": "text lines 3087-3947",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP EDITS FORM",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "parcel",
+            "label": "DELIVERY PURPOSE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "BIRTH DATE?",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "shield",
+            "label": "LESS COLLECTION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks what delivery actually needs."
+          },
+          {
+            "node": "step-1",
+            "text": "An address serves the stated purpose."
+          },
+          {
+            "node": "step-3",
+            "text": "Collect less, accepting the analytics trade-off."
+          }
+        ]
+      }
     },
     {
       "title": "Retention and deletion",
-      "body": "Retention keeps data only as long as necessary and communicates that period. Control includes deletion features and, where applicable, rights such as erasure; old copies, backups, and derived data complicate the promise.",
-      "example": "Teaching extension: A user deletes a saved search history. The team tracks deletion through replicas and documents how backup retention affects the timing of complete removal.",
-      "source": "text lines 3087-3947"
+      "body": "A resident deletes a search history; Pip finds a replica still holding it. Retention means keeping data only as long as necessary and communicating that period. Control includes deletion and applicable erasure rights. Pip follows copies, backups, and derived data, documenting removal timing instead of promising an instant disappearance the system cannot deliver.",
+      "example": "",
+      "source": "text lines 3087-3947",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP FOLLOWS DATA",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "LIVE HISTORY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "database",
+            "label": "BACKUP COPY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "REMOVAL TIMING",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip follows a deletion request."
+          },
+          {
+            "node": "step-1",
+            "text": "The live record is only one copy."
+          },
+          {
+            "node": "step-3",
+            "text": "Explain the actual deletion timetable."
+          }
+        ]
+      }
     },
     {
       "title": "Anonymization limits",
-      "body": "Generalization and k-anonymity reduce identifiability by making records less unique, but auxiliary information can re-identify people, as the Netflix example illustrates. Differential privacy adds carefully calibrated noise and protects against broader attacks.",
-      "example": "Teaching extension: A dataset removes names but retains unusually precise locations and timestamps. Reviewers test whether publicly available information could reconnect those records to individuals before treating the dataset as anonymous.",
-      "source": "text lines 3087-3947"
+      "body": "Pip removes names from a town dataset, then recognizes a resident through precise times and locations. Generalization and k-anonymity reduce uniqueness, not every re-identification risk; the book’s Netflix case illustrates auxiliary information’s power. Differential privacy uses carefully calibrated noise for broader protection. Pip reviews the release rather than declaring unnamed records anonymous.",
+      "example": "",
+      "source": "text lines 3087-3947",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP REMOVES NAMES",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "PRECISE RECORDS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "OTHER DATA",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "person",
+            "label": "IDENTIFIED AGAIN",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip removes direct identifiers."
+          },
+          {
+            "node": "step-1",
+            "text": "Detailed records can remain distinctive."
+          },
+          {
+            "node": "step-3",
+            "text": "Unnamed does not mean anonymous."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -47,22 +299,22 @@
   ],
   "scenario": {
     "title": "Retention for workplace search",
-    "context": "An internal search feature stores employee queries to improve ranking. Convenience is valuable, but queries can reveal health, organizing, or personal concerns.",
+    "context": "Pip’s town-services search retains queries to improve ranking. Searches reveal health and personal concerns; residents never expected a lasting record.",
     "options": [
       {
-        "label": "Minimize and expire query data with transparency",
-        "benefit": "Reduces exposure and gives employees a clear expectation and control.",
-        "cost": "Ranking may improve more slowly and analytics lose historical detail.",
-        "consequence": "The team keeps short-lived aggregate signals, explains retention, and deletes raw queries."
+        "label": "Minimize and expire queries transparently",
+        "benefit": "Residents understand collection and control; less retained data limits exposure.",
+        "cost": "Ranking experiments lose historical detail.",
+        "consequence": "Pip explains retention and removes raw queries on schedule."
       },
       {
         "label": "Keep indefinite raw history",
-        "benefit": "Enables richer ranking experiments and easy forensic analysis.",
-        "cost": "A broad internal audience can infer sensitive matters from searches.",
-        "consequence": "Employees discover the feature and trust falls, forcing deletion and a difficult explanation."
+        "benefit": "Detailed history supports ranking experiments.",
+        "cost": "Sensitive concerns become visible to a broad internal audience.",
+        "consequence": "Residents discover the unexpected record; the team must explain and remove it."
       }
     ],
-    "debrief": "Both choices are defensible under different constraints; the responsible decision states the accepted consequence and the evidence that could change it."
+    "debrief": "Pip must justify collection and retention to the people affected. Convenience does not erase privacy obligations or re-identification risk."
   },
   "quiz": [
     {
@@ -117,69 +369,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "n0",
-        "label": "CONSENT",
-        "kind": "listening",
-        "tone": "sage",
-        "x": 100,
-        "y": 80
-      },
-      {
-        "id": "n1",
-        "label": "MINIMIZE",
-        "kind": "database",
-        "tone": "peach",
-        "x": 270,
-        "y": 80
-      },
-      {
-        "id": "n2",
-        "label": "RETAIN",
-        "kind": "alert",
-        "tone": "lilac",
-        "x": 100,
-        "y": 210
-      },
-      {
-        "id": "n3",
-        "label": "CONTROL",
-        "kind": "shield",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP OPENS LOGS",
         "tone": "honey",
-        "x": 270,
-        "y": 210
+        "course": "responsible-engineering"
+      },
+      {
+        "id": "step-1",
+        "kind": "database",
+        "label": "PRIVATE QUERIES",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "person",
+        "label": "SURPRISED USER",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "document",
+        "label": "VISIBLE CHOICES",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "n0",
-        "to": "n1"
+        "from": "step-0",
+        "to": "step-1",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "n1",
-        "to": "n2"
+        "from": "step-1",
+        "to": "step-2",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "n2",
-        "to": "n3"
+        "from": "step-2",
+        "to": "step-3",
+        "flow": false,
+        "dashed": true
       }
     ],
     "steps": [
       {
-        "node": "n0",
-        "text": "Examine consent using the chapter evidence."
+        "node": "step-0",
+        "text": "Pip finds sensitive search records."
       },
       {
-        "node": "n1",
-        "text": "Examine minimize using the chapter evidence."
+        "node": "step-1",
+        "text": "Protection is not only a database property."
       },
       {
-        "node": "n2",
-        "text": "Examine retain using the chapter evidence."
-      },
-      {
-        "node": "n3",
-        "text": "Examine control using the chapter evidence."
+        "node": "step-3",
+        "text": "Explain collection and offer meaningful control."
       }
     ]
+  },
+  "story": {
+    "course": "responsible-engineering",
+    "world": "civic",
+    "title": "The search history nobody expected"
   }
 }

@@ -3,7 +3,7 @@
   "title": "Service Level Objectives",
   "part": "Foundations",
   "subtitle": "Define what users experience, the target, and any contractual consequence",
-  "summary": "Service level indicators describe measured behavior; objectives specify acceptable values; agreements attach consequences to commitments. Keeping these meanings distinct prevents an internal target from being mistaken for a customer contract. The useful starting point is what users need, even when measurement requires an imperfect proxy. A latency average can hide a slow tail, and server measurements can miss delays in the browser or network. Define the population, collection point, aggregation, and interval so the target can guide a real decision. Different workloads may need different objectives. Targets should be few, understandable, and strong enough to change priorities. Publishing them also shapes dependencies: consistently exceeding a promise can teach clients to rely on behavior the service never intended to guarantee.",
+  "summary": "Pip’s backend is fast, yet the booking page remains unusable. Indicators need a defined population and measurement point; objectives need user-relevant targets. The crew separates engineering goals from contractual consequences and checks latency tails as well as averages.",
   "source": {
     "startLine": 1905,
     "endLine": 2265,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Service level indicators",
-      "body": "An SLI is a quantitative description of a service property, such as the fraction of eligible requests that succeed or the distribution of completion times. Its definition includes what is measured, where, and over which population and interval. Measurement should approximate user experience; a backend-only timer cannot capture a page that arrives quickly but remains unusable in the browser.",
-      "example": "Teaching extension: Measure successful checkout completion at the client and document which abandoned or invalid attempts are excluded.",
-      "source": "text lines 1905–2265"
+      "body": "Pip’s backend timer says fast while the passenger cannot complete a booking. An SLI quantitatively describes success, latency, or another service property. Its definition states what, where, which population, and which interval are measured. Pip documents exclusions and measures close enough to the user to capture the actual experience.",
+      "example": "",
+      "source": "text lines 1905–2265",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "BACKEND TIMER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "phone",
+            "label": "UNUSABLE PAGE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "USER-RELEVANT SLI",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s backend timer says fast while the passenger cannot complete a booking."
+          },
+          {
+            "node": "step-1",
+            "text": "An SLI quantitatively describes success, latency, or another service property."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip documents exclusions and measures close enough to the user to capture the actual experience."
+          }
+        ]
+      }
     },
     {
       "title": "Service level objectives",
-      "body": "An SLO sets a target or acceptable range for a defined SLI. It turns observations into priorities: a latency distribution only tells a team to act when compared with user needs and an agreed objective. Select a small number of meaningful targets, distinguish workloads when necessary, and refine them as understanding improves rather than automatically promising today’s best observed performance.",
-      "example": "Teaching extension: Require 99% of eligible search responses to complete within 400 milliseconds over the specified measurement window.",
-      "source": "text lines 1905–2265"
+      "body": "Pip stares at a latency histogram without knowing whether to act. An SLO sets a target or acceptable range for a defined SLI. A goal might require 99% of eligible responses within 400 milliseconds over a specified window. Pip chooses a few meaningful workload-sensitive objectives, refining them instead of promising the best performance ever observed.",
+      "example": "",
+      "source": "text lines 1905–2265",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "LATENCY DISTRIBUTION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "target",
+            "label": "DEFINED OBJECTIVE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "person",
+            "label": "USER EXPECTATIONS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip stares at a latency histogram without knowing whether to act."
+          },
+          {
+            "node": "step-1",
+            "text": "An SLO sets a target or acceptable range for a defined SLI."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip chooses a few meaningful workload-sensitive objectives, refining them instead of promising the best performance ever observed."
+          }
+        ]
+      }
     },
     {
       "title": "Agreements and consequences",
-      "body": "An SLA is an agreement that includes consequences for meeting or missing service commitments. An internal SLO can guide engineering even when no such agreement exists. SRE helps make commitments measurable and evaluates their feasibility; business and legal participants determine the contractual consequences. The presence of reputational harm alone does not turn every internal performance target into a formal customer agreement.",
-      "example": "Teaching extension: A customer contract grants a service credit after an availability commitment is missed; an internal alert target alone does not.",
-      "source": "text lines 1905–2265"
+      "body": "Pip calls an internal response target a customer contract. An SLA includes agreed consequences for service commitments; an SLO can guide engineering without one. SRE helps make commitments measurable and feasible, while business and legal participants decide contractual consequences. Pip distinguishes a service-credit agreement from an internal goal or reputational concern.",
+      "example": "",
+      "source": "text lines 1905–2265",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "target",
+            "label": "INTERNAL SLO",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "CONTRACTUAL SLA",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "AGREEMENT OWNERS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip calls an internal response target a customer contract."
+          },
+          {
+            "node": "step-1",
+            "text": "An SLA includes agreed consequences for service commitments; an SLO can guide engineering without one."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip distinguishes a service-credit agreement from an internal goal or reputational concern."
+          }
+        ]
+      }
     },
     {
       "title": "Distributions and expectations",
-      "body": "Averages compress behavior and can conceal poor experiences for a minority of requests. Percentiles expose different parts of a latency distribution, while explicit sampling and aggregation windows prevent misleading comparisons. Published objectives also establish dependency expectations. If clients rely on much better observed behavior, a service can meet its stated target yet still break those clients when performance returns to the promised level.",
-      "example": "Teaching extension: A stable median with a sharply worse 99th percentile means a minority of users has become much slower.",
-      "source": "text lines 1905–2265"
+      "body": "Pip celebrates a stable median while the 99th percentile worsens. Averages hide minority experiences; percentiles expose parts of the distribution. Pip checks sampling and aggregation windows before comparing results. Clients can still break while a service meets its objective if they relied on better observed behavior than the promise.",
+      "example": "",
+      "source": "text lines 1905–2265",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "STABLE MEDIAN",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "SLOW TAIL",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "PROMISED LEVEL",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip celebrates a stable median while the 99th percentile worsens."
+          },
+          {
+            "node": "step-1",
+            "text": "Averages hide minority experiences; percentiles expose parts of the distribution."
+          },
+          {
+            "node": "step-3",
+            "text": "Clients can still break while a service meets its objective if they relied on better observed behavior than the promise."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,81 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Service Level Objectives: USER to SLI to SLO to CONTRACT",
     "nodes": [
       {
-        "id": "observe",
-        "label": "USER",
-        "caption": "inputs and constraints",
-        "kind": "person",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "SLI",
-        "caption": "choose the operating rule",
-        "kind": "gauge",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "SLO",
-        "caption": "observe the effect",
-        "kind": "document",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "SLA",
-        "caption": "agreement and consequences",
-        "kind": "document",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "service",
+        "label": "BACKEND TIMER",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "phone",
+        "label": "UNUSABLE PAGE",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "gauge",
+        "label": "USER-RELEVANT SLI",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
-      },
-      {
-        "from": "learn",
-        "to": "observe",
-        "dashed": true
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "inputs and constraints"
+        "node": "step-0",
+        "text": "Pip’s backend timer says fast while the passenger cannot complete a booking."
       },
       {
-        "node": "decide",
-        "text": "choose the operating rule"
+        "node": "step-1",
+        "text": "An SLI quantitatively describes success, latency, or another service property."
       },
       {
-        "node": "act",
-        "text": "observe the effect"
-      },
-      {
-        "node": "learn",
-        "text": "agreement and consequences"
+        "node": "step-3",
+        "text": "Pip documents exclusions and measures close enough to the user to capture the actual experience."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "What did the passenger actually experience?"
   }
 }

@@ -3,7 +3,7 @@
   "title": "Testing for Reliability",
   "part": "Operations",
   "subtitle": "Use complementary tests to reduce uncertainty before and after deployment",
-  "summary": "Testing provides evidence that selected behavior remains correct after change; passing tests cannot prove that every production condition is safe. Unit, integration, and system tests cover different scopes and have different costs. Production adds configurations, dependencies, traffic, and mixed software versions that isolated tests may never exercise. Stress tests reveal limits, configuration tests detect mismatches, and canaries bound exposure while real traffic supplies additional evidence. Operational and recovery tools need testing too, particularly when they bypass normal interfaces or interact with each other. Fast feedback makes failures easier to associate with a change, while flaky tests weaken that signal. A strong strategy starts with high-value coverage, converts incidents into regressions, and treats configuration and emergency changes as part of the same reliability problem.",
+  "summary": "Pip’s unit tests pass while the deployed caller cannot read the response. Reliability testing uses complementary scopes, production probes, and controlled canaries. Repair tools and configuration changes deserve the same care as application code.",
   "source": {
     "startLine": 6433,
     "endLine": 7220,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Tests reduce uncertainty rather than prove perfection",
-      "body": "A test checks a particular behavior under particular conditions. Passing before and after a change provides evidence of equivalence for that case, while a failure reveals behavior needing explanation. Catching a defect before deployment can prevent any user-visible recovery interval. Coverage should reflect the importance and risk of the behavior, with fast smoke tests and incident-derived regressions offering practical starting points.",
-      "example": "Teaching extension: A release test catches a broken login path and blocks deployment before users encounter it.",
-      "source": "text lines 6433–7220"
+      "body": "Pip’s smoke test catches broken login before deployment. A test checks particular behavior under particular conditions, reducing uncertainty rather than proving perfection. Passing before and after supports equivalence for that case; failure needs explanation. Pip prioritizes important risks and incident-derived regressions to prevent user-visible recovery intervals.",
+      "example": "",
+      "source": "text lines 6433–7220",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "experiment",
+            "label": "SMOKE TEST",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gateway",
+            "label": "BLOCKED RELEASE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "person",
+            "label": "USERS PROTECTED",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s smoke test catches broken login before deployment."
+          },
+          {
+            "node": "step-1",
+            "text": "A test checks particular behavior under particular conditions, reducing uncertainty rather than proving perfection."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip prioritizes important risks and incident-derived regressions to prevent user-visible recovery intervals."
+          }
+        ]
+      }
     },
     {
       "title": "Different test scopes reveal different failures",
-      "body": "Unit tests isolate small pieces, integration tests exercise component interactions, and system tests assemble larger end-to-end behavior. Production configuration tests compare intended and running state, while stress tests find resource and load limits. These scopes complement one another because mocks and isolated environments cannot represent every production dependency, resource condition, or combination of deployed binaries and configuration.",
-      "example": "Teaching extension: A function passes its unit test but a system test reveals that its serialized response is incompatible with the caller.",
-      "source": "text lines 6433–7220"
+      "body": "Pip’s function passes alone but serializes a response its caller cannot read. Unit, integration, and system tests cover different scopes. Production configuration checks compare intended with running state; stress tests expose resource limits. Pip combines them because mocks cannot represent every dependency, workload, binary, and configuration combination.",
+      "example": "",
+      "source": "text lines 6433–7220",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "component",
+            "label": "UNIT TEST",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "api",
+            "label": "INTEGRATION BOUNDARY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "deployment",
+            "label": "RUNNING SYSTEM",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s function passes alone but serializes a response its caller cannot read."
+          },
+          {
+            "node": "step-1",
+            "text": "Unit, integration, and system tests cover different scopes."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip combines them because mocks cannot represent every dependency, workload, binary, and configuration combination."
+          }
+        ]
+      }
     },
     {
       "title": "Canaries and probes cover deployment combinations",
-      "body": "A canary exposes a limited part of production to a new version and observes real traffic before expanding. It is controlled exposure, not a deterministic proof that all faults are absent. Production probes exercise known behaviors through actual frontends and backends. During rolling updates, old and new callers may meet old and new servers, so compatibility across those combinations matters.",
-      "example": "Teaching extension: An old probe fails against a new backend, so rollout stops before all callers encounter the incompatible behavior.",
-      "source": "text lines 6433–7220"
+      "body": "Pip’s old probe fails against a new booking backend. Canaries expose limited real traffic before expansion; probes exercise known production behaviors. Rolling updates can combine old and new callers with old and new servers. Pip stops the incompatible rollout, treating controlled exposure as evidence rather than proof that every fault is absent.",
+      "example": "",
+      "source": "text lines 6433–7220",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "search",
+            "label": "OLD PROBE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "NEW BACKEND",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gateway",
+            "label": "STOP CANARY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s old probe fails against a new booking backend."
+          },
+          {
+            "node": "step-1",
+            "text": "Canaries expose limited real traffic before expansion; probes exercise known production behaviors."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip stops the incompatible rollout, treating controlled exposure as evidence rather than proof that every fault is absent."
+          }
+        ]
+      }
     },
     {
       "title": "Operational tools and test feedback need engineering",
-      "body": "Automation, repair tools, and configuration changes can damage reliability even when application code is unchanged. Test their boundaries, restart behavior, and interactions; isolate risky maintenance behind barriers that prevent serving users until validation succeeds. Fast, dependable feedback helps engineers associate faults with changes. Emergency deployment can precede test completion, but tests should continue so a bad emergency change is identified quickly.",
-      "example": "Teaching extension: A repair tool refuses to modify a replica until it is isolated, and independent validation gates its return to serving.",
-      "source": "text lines 6433–7220"
+      "body": "Pip tests a repair tool before it touches a serving replica. Boundaries, restart behavior, interactions, and isolation barriers matter even when application code is unchanged. Independent validation gates return to service, and fast feedback ties faults to changes. If emergency deployment precedes completed tests, Pip keeps those tests running to catch a bad repair quickly.",
+      "example": "",
+      "source": "text lines 6433–7220",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "REPAIR TOOL",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "boundary",
+            "label": "ISOLATED REPLICA",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "RETURN-TO-SERVE CHECK",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip tests a repair tool before it touches a serving replica."
+          },
+          {
+            "node": "step-1",
+            "text": "Boundaries, restart behavior, interactions, and isolation barriers matter even when application code is unchanged."
+          },
+          {
+            "node": "step-3",
+            "text": "If emergency deployment precedes completed tests, Pip keeps those tests running to catch a bad repair quickly."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,81 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Testing for Reliability: Fault -> Test -> Guard -> Release",
     "nodes": [
       {
-        "id": "observe",
-        "label": "Fault",
-        "caption": "name the condition",
-        "kind": "experiment",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "Test",
-        "caption": "choose the bounded action",
-        "kind": "shield",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "Guard",
-        "caption": "observe the consequence",
-        "kind": "gauge",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "Release",
-        "caption": "record the recovery lesson",
-        "kind": "deployment",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "experiment",
+        "label": "SMOKE TEST",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "gateway",
+        "label": "BLOCKED RELEASE",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "person",
+        "label": "USERS PROTECTED",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
-      },
-      {
-        "from": "learn",
-        "to": "observe",
-        "dashed": true
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "name the condition"
+        "node": "step-0",
+        "text": "Pip’s smoke test catches broken login before deployment."
       },
       {
-        "node": "decide",
-        "text": "choose the bounded action"
+        "node": "step-1",
+        "text": "A test checks particular behavior under particular conditions, reducing uncertainty rather than proving perfection."
       },
       {
-        "node": "act",
-        "text": "observe the consequence"
-      },
-      {
-        "node": "learn",
-        "text": "record the recovery lesson"
+        "node": "step-3",
+        "text": "Pip prioritizes important risks and incident-derived regressions to prevent user-visible recovery intervals."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "A green test is evidence, not a guarantee"
   }
 }

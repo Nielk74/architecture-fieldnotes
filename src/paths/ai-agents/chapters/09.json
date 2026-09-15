@@ -3,7 +3,7 @@
   "title": "Validation and Measurement",
   "part": "Evaluation",
   "subtitle": "Evaluate both the result and the path taken to produce it",
-  "summary": "Agent evaluation needs an explicit definition of success that covers the intended outcome and the constraints on obtaining it. Component tests reveal local failures, while complete conversations and tool trajectories expose mistakes that a plausible final answer can hide. The support-agent examples show why simple refunds, ambiguous requests, and multistep changes belong in a representative evaluation set. Error analysis turns failures into targeted improvements and regression cases. Cost and latency remain relevant alongside quality and safety. Integrating these checks into development and release gates gives teams evidence for promotion, with human review where automated judgments cannot resolve important ambiguity.",
+  "summary": "Pip’s demo delivers a lovely confirmation, but no ticket refund occurs. Evaluation must examine outcomes and the route used to reach them. Pip gathers ordinary, ambiguous, adversarial, and edge cases so a persuasive answer cannot hide a wrong action.",
   "source": {
     "startLine": 8458,
     "endLine": 9144,
@@ -12,27 +12,285 @@
   "concepts": [
     {
       "title": "Measurement goals",
-      "body": "Evaluation starts with explicit metrics tied to the task. For language agents, exact-match answers often fail to capture usefulness, so teams measure quality, safety, cost, latency, and successful completion.",
-      "example": "Teaching extension: A refund evaluation separately scores the authorized amount, successful transaction, response time, and cost. A polite confirmation does not earn task success when no refund occurred.",
-      "source": "text lines 8458-9144"
+      "body": "Pip’s guide politely confirms a refund that never happened. Evaluation starts with task-specific success, not merely exact-match wording. Pip separately scores authorized amount, completed transaction, quality, safety, latency, and cost. Fluency cannot earn completion credit for an unsuccessful action.",
+      "example": "",
+      "source": "text lines 8458-9144",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "POLITE CONFIRMATION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "api",
+            "label": "NO TRANSACTION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "TASK SUCCESS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s guide politely confirms a refund that never happened."
+          },
+          {
+            "node": "step-1",
+            "text": "Evaluation starts with task-specific success, not merely exact-match wording."
+          },
+          {
+            "node": "step-3",
+            "text": "Fluency cannot earn completion credit for an unsuccessful action."
+          }
+        ]
+      }
     },
     {
       "title": "Trajectory metrics",
-      "body": "A trajectory includes model decisions, tool calls, observations, and final outcome. Inspecting the path can reveal a wrong tool, unnecessary loop, or unsupported step hidden by a plausible final answer.",
-      "example": "Teaching extension: An agent returns the right delivery date after calling the same paid lookup seven times. Trajectory review catches waste that an answer-only score would miss.",
-      "source": "text lines 8458-9144"
+      "body": "Pip gets the right arrival time after seven paid lookups. The final answer hides waste. A trajectory includes decisions, tool calls, observations, and outcome, exposing wrong tools, loops, and unsupported steps. Pip reviews the path as well as the destination.",
+      "example": "",
+      "source": "text lines 8458-9144",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "trace",
+            "label": "SEVEN LOOKUPS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "RIGHT ANSWER",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "TRAJECTORY COST",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip gets the right arrival time after seven paid lookups."
+          },
+          {
+            "node": "step-1",
+            "text": "The final answer hides waste."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip reviews the path as well as the destination."
+          }
+        ]
+      }
     },
     {
       "title": "Evaluation sets",
-      "body": "A living set contains ordinary, ambiguous, adversarial, and edge cases. Model-generated cases can expand coverage, but humans review and refine them so the set remains a trustworthy specification.",
-      "example": "Teaching extension: The evaluation set includes straightforward refunds, ambiguous order references, canceled orders, and attempts to request another customer’s records. Reviewers check expected behavior for each category.",
-      "source": "text lines 8458-9144"
+      "body": "Pip’s test set begins with easy refunds. Reviewers add ambiguous ticket references, canceled bookings, adversarial requests, and edge cases. Model-generated cases expand coverage only when humans check and refine expected behavior. Pip keeps the living set a trustworthy specification.",
+      "example": "",
+      "source": "text lines 8458-9144",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "ORDINARY CASES",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "alert",
+            "label": "AMBIGUOUS + HOSTILE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "colleague",
+            "label": "REVIEW EXPECTATIONS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s test set begins with easy refunds."
+          },
+          {
+            "node": "step-1",
+            "text": "Reviewers add ambiguous ticket references, canceled bookings, adversarial requests, and edge cases."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip keeps the living set a trustworthy specification."
+          }
+        ]
+      }
     },
     {
       "title": "Lifecycle integration",
-      "body": "Evaluation belongs in development and release workflows. Baselines, regression checks, and targeted generation let teams compare changes and learn whether an improvement generalizes.",
-      "example": "Teaching extension: A new orchestration version must pass the stored multistep cancellation cases before release. A recently diagnosed production failure is added so later changes cannot silently reintroduce it.",
-      "source": "text lines 8458-9144"
+      "body": "Pip fixes a production cancellation failure. The case joins the baseline and regression suite before the next orchestration release. Development and promotion checks compare changes and targeted new cases. Pip tests general improvement rather than retiring evaluation after a good demo.",
+      "example": "",
+      "source": "text lines 8458-9144",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "PRODUCTION FAILURE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "experiment",
+            "label": "REGRESSION SUITE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gateway",
+            "label": "RELEASE GATE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-3",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip fixes a production cancellation failure."
+          },
+          {
+            "node": "step-1",
+            "text": "The case joins the baseline and regression suite before the next orchestration release."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip tests general improvement rather than retiring evaluation after a good demo."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -117,69 +375,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "n0",
-        "label": "TASKS",
-        "kind": "whiteboard",
-        "tone": "sage",
-        "x": 100,
-        "y": 80
-      },
-      {
-        "id": "n1",
-        "label": "TRAJECTORY",
-        "kind": "trace",
-        "tone": "peach",
-        "x": 270,
-        "y": 80
-      },
-      {
-        "id": "n2",
-        "label": "CASES",
-        "kind": "document",
-        "tone": "lilac",
-        "x": 100,
-        "y": 210
-      },
-      {
-        "id": "n3",
-        "label": "METRIC",
-        "kind": "gauge",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 270,
-        "y": 210
+        "course": "ai-agents"
+      },
+      {
+        "id": "step-1",
+        "kind": "message",
+        "label": "POLITE CONFIRMATION",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "api",
+        "label": "NO TRANSACTION",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "gauge",
+        "label": "TASK SUCCESS",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "n0",
-        "to": "n1"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n1",
-        "to": "n2"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n2",
-        "to": "n3"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "n0",
-        "text": "Inspect tasks in the chapter workflow."
+        "node": "step-0",
+        "text": "Pip’s guide politely confirms a refund that never happened."
       },
       {
-        "node": "n1",
-        "text": "Inspect trajectory in the chapter workflow."
+        "node": "step-1",
+        "text": "Evaluation starts with task-specific success, not merely exact-match wording."
       },
       {
-        "node": "n2",
-        "text": "Inspect cases in the chapter workflow."
-      },
-      {
-        "node": "n3",
-        "text": "Inspect metric in the chapter workflow."
+        "node": "step-3",
+        "text": "Fluency cannot earn completion credit for an unsuccessful action."
       }
     ]
+  },
+  "story": {
+    "course": "ai-agents",
+    "world": "museum",
+    "title": "The refund that only sounded successful"
   }
 }

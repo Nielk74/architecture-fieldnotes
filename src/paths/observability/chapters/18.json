@@ -3,7 +3,7 @@
   "title": "Telemetry Management with Pipelines",
   "part": "Observability at Scale",
   "subtitle": "Treat the telemetry pipeline as a service",
-  "summary": "A telemetry pipeline mediates between applications that emit data and backends that store or analyze it. This creates a place to buffer bursts, route records, normalize formats, enrich context, and apply filtering or sampling policies. Slack’s case shows why those responsibilities become operationally significant at scale. A backend outage need not immediately erase application evidence if buffers can hold and replay it, but queues cannot absorb sustained overload forever. Processing mistakes can silently corrupt the very data used to diagnose incidents. Pipelines therefore need their own checks for correctness, capacity, freshness, and availability. Their purpose is to keep useful evidence flowing under changing conditions, with explicit trade-offs about what is delayed, transformed, or dropped.",
+  "summary": "Pip’s telemetry exports successfully but describes old conditions. Pipeline stages control reception, buffering, transformation, and delivery. Each stage can alter the evidence; visible backlog, age, and loss policies help the crew tell recovery from delayed ingestion.",
   "source": {
     "startLine": 8054,
     "endLine": 8666,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Components separate responsibilities",
-      "body": "A receiver accepts data, a buffer temporarily holds it, a processor transforms it, and an exporter sends it onward. These roles can be chained or combined depending on the workload. Separating responsibilities creates places to control flow and routing without requiring every application to implement each backend’s format and delivery behavior itself.",
-      "example": "One receiver accepts traces, then a processor enriches them before export.",
-      "source": "text lines 8054–8666"
+      "body": "Pip separates the telemetry path into receiver, buffer, processor, and exporter. One accepts, one holds, one transforms, and one sends. Chaining or combining those responsibilities creates explicit flow and routing controls. Pip avoids making every market application implement every destination’s format and delivery behavior.",
+      "example": "",
+      "source": "text lines 8054–8666",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "queue",
+            "label": "RECEIVE + BUFFER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "terminal",
+            "label": "PROCESS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "EXPORT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip separates the telemetry path into receiver, buffer, processor, and exporter."
+          },
+          {
+            "node": "step-1",
+            "text": "One accepts, one holds, one transforms, and one sends."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip avoids making every market application implement every destination’s format and delivery behavior."
+          }
+        ]
+      }
     },
     {
       "title": "Buffers absorb temporary disruption",
-      "body": "A queue or local disk buffer can preserve telemetry when a backend is briefly unavailable or traffic spikes. Replay then catches up after recovery. Capacity is finite: if input persistently exceeds output, the backlog grows until something must change. Buffering buys time; it does not remove the need for throughput and overload policies.",
-      "example": "After a backend outage, retained telemetry is replayed while fresh events continue arriving.",
-      "source": "text lines 8054–8666"
+      "body": "Pip’s backend outage fills a local telemetry buffer. The queue or disk can preserve data temporarily and replay after recovery. If input persistently exceeds output, finite capacity eventually runs out. Pip treats buffering as time to act, not a replacement for throughput and overload policies.",
+      "example": "",
+      "source": "text lines 8054–8666",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "TEMPORARY BUFFER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "BACKEND OUTAGE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "FINITE CAPACITY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s backend outage fills a local telemetry buffer."
+          },
+          {
+            "node": "step-1",
+            "text": "The queue or disk can preserve data temporarily and replay after recovery."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip treats buffering as time to act, not a replacement for throughput and overload policies."
+          }
+        ]
+      }
     },
     {
       "title": "Transformation changes evidence",
-      "body": "Pipelines may normalize formats, redact sensitive values, add infrastructure metadata, or filter low-value data. Each transformation affects what downstream users can ask and trust. Validate schemas, timestamps, and retained context, because an apparently healthy delivery rate can conceal incorrect values or records dropped by an overly broad rule.",
-      "example": "A faulty timestamp filter removes valid recent spans even though export remains available.",
-      "source": "text lines 8054–8666"
+      "body": "Pip’s timestamp filter silently removes valid recent spans. Normalization, redaction, enrichment, and filtering change what downstream investigators can ask and trust. A healthy delivery rate does not establish correct evidence. Pip validates schemas, timestamps, and retained context alongside export availability.",
+      "example": "",
+      "source": "text lines 8054–8666",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "TRANSFORM RULE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "alert",
+            "label": "DROPPED VALID SPANS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "shield",
+            "label": "EVIDENCE VALIDATION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s timestamp filter silently removes valid recent spans."
+          },
+          {
+            "node": "step-1",
+            "text": "Normalization, redaction, enrichment, and filtering change what downstream investigators can ask and trust."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip validates schemas, timestamps, and retained context alongside export availability."
+          }
+        ]
+      }
     },
     {
       "title": "Freshness and history can compete",
-      "body": "During a log storm, processing the entire backlog first may leave responders looking at stale conditions. Prioritizing fresh evidence can help current diagnosis, with historical backfill handled later if capacity permits. Make this policy visible and monitor age, loss, and backlog so users understand whether a quiet graph means recovery or delayed ingestion.",
-      "example": "Fresh failure events receive priority while older buffered logs await backfill.",
-      "source": "text lines 8054–8666"
+      "body": "Pip’s log storm leaves the dashboard hours behind. Processing all history first can hide current failure or recovery. Pip prioritizes fresh evidence when useful and handles backfill later if capacity permits. Visible policies and monitoring of age, loss, and backlog explain what a quiet graph actually means.",
+      "example": "",
+      "source": "text lines 8054–8666",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "queue",
+            "label": "OLD BACKLOG",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "message",
+            "label": "FRESH FAILURES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "AGE + LOSS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s log storm leaves the dashboard hours behind."
+          },
+          {
+            "node": "step-1",
+            "text": "Processing all history first can hide current failure or recovery."
+          },
+          {
+            "node": "step-3",
+            "text": "Visible policies and monitoring of age, loss, and backlog explain what a quiet graph actually means."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -118,68 +370,68 @@
     "nodes": [
       {
         "id": "step-0",
-        "label": "PIPELINE",
-        "kind": "trace",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "observability"
       },
       {
         "id": "step-1",
-        "label": "BUFFER",
-        "kind": "experiment",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
+        "kind": "queue",
+        "label": "RECEIVE + BUFFER",
+        "tone": "sage"
       },
       {
         "id": "step-2",
-        "label": "TRANSFORM",
-        "kind": "alert",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
+        "kind": "terminal",
+        "label": "PROCESS",
+        "tone": "lilac"
       },
       {
         "id": "step-3",
-        "label": "FRESHNESS",
-        "kind": "leaf",
-        "tone": "honey",
-        "x": 500,
-        "y": 100
+        "kind": "router",
+        "label": "EXPORT",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
         "from": "step-0",
-        "to": "step-1"
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-1",
-        "to": "step-2"
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-2",
-        "to": "step-3"
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
         "node": "step-0",
-        "text": "One receiver accepts traces, then a processor enriches them before export."
+        "text": "Pip separates the telemetry path into receiver, buffer, processor, and exporter."
       },
       {
         "node": "step-1",
-        "text": "After a backend outage, retained telemetry is replayed while fresh events continue arriving."
-      },
-      {
-        "node": "step-2",
-        "text": "A faulty timestamp filter removes valid recent spans even though export remains available."
+        "text": "One accepts, one holds, one transforms, and one sends."
       },
       {
         "node": "step-3",
-        "text": "Fresh failure events receive priority while older buffered logs await backfill."
+        "text": "Pip avoids making every market application implement every destination’s format and delivery behavior."
       }
     ]
+  },
+  "story": {
+    "course": "observability",
+    "world": "market",
+    "title": "Fresh clues are stuck behind yesterday’s log storm"
   }
 }

@@ -3,7 +3,7 @@
   "title": "Anticipating and Planning for Downstream Consequences",
   "part": "Safety",
   "subtitle": "Explore harmful consequences and rehearse how affected people can recover",
-  "summary": "Safety requires looking beyond whether individual functions return the expected result. A protective feature can itself create harm when its assumptions fail, as the crash-cart authentication example demonstrates. Teams need varied perspectives and several forms of investigation: adversarial testing explores misuse, survivor testing examines the experience of harmed people, and stress or change testing reveals unexpected interactions. Future-regret and tabletop exercises make possible consequences and response gaps discussable before launch. These activities should produce concrete adjustments with owners, rather than end as speculative workshops. The objective is to reduce foreseeable harm while understanding the costs and limitations of the chosen safeguards.",
+  "summary": "Pip adds a filter to the town’s help desk. Abuse falls; an ordinary request vanishes too. Residents help trace harms beyond functional correctness, test both misuse and recovery, and rehearse a crisis. Every safeguard needs an owner, evidence, and a way to revise it.",
   "source": {
     "startLine": 2318,
     "endLine": 3086,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Safety and harm",
-      "body": "Safety concerns whether software can cause physical, psychological, financial, interpersonal, allocative, representational, quality-of-service, or social-system harm. A conventional functional test cannot enumerate all these pathways.",
-      "example": "Teaching extension: A workplace dashboard reveals individual activity patterns to colleagues. Reviewers examine interpersonal and reputational harm even though every chart displays the underlying data accurately.",
-      "source": "text lines 2318-3086"
+      "body": "Pip’s town dashboard displays every number correctly. A resident points out that it exposes a colleague’s private activity. Safety includes physical, psychological, financial, interpersonal, allocative, representational, service-quality, and social-system harms—not just failing functions. Pip adds the overlooked interpersonal risk to the review; a green test suite cannot close it.",
+      "example": "",
+      "source": "text lines 2318-3086",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP REVIEWS",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "browser",
+            "label": "ACCURATE CHART",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "person",
+            "label": "EXPOSED RESIDENT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "alert",
+            "label": "HIDDEN HARM",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip checks the town dashboard."
+          },
+          {
+            "node": "step-1",
+            "text": "Correct charts can still expose people."
+          },
+          {
+            "node": "step-3",
+            "text": "Safety review goes beyond functional correctness."
+          }
+        ]
+      }
     },
     {
       "title": "Breadth and red teams",
-      "body": "Testing with varied people and adversarial “abuser” behavior exposes failures ordinary happy-path tests miss. The chapter contrasts abuser testing, which probes malicious misuse, with survivor testing, which asks whether an innocent harmed user has recovery and support.",
-      "example": "Teaching extension: A messaging team tests whether an abuser can evade blocking and whether a targeted user can preserve evidence, report contact, and obtain help. Those are complementary misuse and recovery questions.",
-      "source": "text lines 2318-3086"
+      "body": "Pip tries to evade the town messenger’s block button; a resident tests recovering after unwanted contact. Abuser testing probes malicious misuse. Survivor testing checks whether harmed people can preserve evidence, report trouble, and obtain support. Varied participants reveal different failures. Closing an attack path does not automatically help someone already harmed.",
+      "example": "",
+      "source": "text lines 2318-3086",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP TESTS",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "shield",
+            "label": "BLOCK CONTACT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "person",
+            "label": "HARMED USER",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "listening",
+            "label": "RECOVERY HELP",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip probes malicious misuse."
+          },
+          {
+            "node": "step-1",
+            "text": "Blocking an attacker is one safety question."
+          },
+          {
+            "node": "step-3",
+            "text": "Test evidence, reporting, and support."
+          }
+        ]
+      }
     },
     {
       "title": "Future regret and tabletop",
-      "body": "Future-regret exercises imagine a decision becoming publicly regrettable; tabletop exercises have a group walk through a crisis and response. Both surface ethical consequences before an incident, though imagination cannot replace real evidence.",
-      "example": "Teaching extension: A tabletop exercise asks what happens when a public appointment service sends the wrong location to thousands of people. Participants assign correction, notification, and support responsibilities before a real incident.",
-      "source": "text lines 2318-3086"
+      "body": "Pip imagines tomorrow’s headline: thousands sent to the wrong appointment address. A future-regret exercise questions the decision; a tabletop walks the team through the crisis. Who corrects the address, alerts residents, and answers calls? The group assigns owners and changes the launch plan. Imagination surfaces gaps; it cannot replace evidence.",
+      "example": "",
+      "source": "text lines 2318-3086",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "TOMORROW'S NEWS",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "WRONG ADDRESS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "colleague",
+            "label": "RESPONSE OWNERS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "REVISED PLAN",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip imagines a regrettable launch."
+          },
+          {
+            "node": "step-1",
+            "text": "The tabletop starts with a wrong address."
+          },
+          {
+            "node": "step-3",
+            "text": "Turn the rehearsal into concrete changes."
+          }
+        ]
+      }
     },
     {
       "title": "Change and stress",
-      "body": "Complex systems produce unexpected interactions after changes. Stress tests, chaos experiments, and careful rollout reveal behavior under extreme load, weather, outages, or altered dependencies; safety controls also carry costs such as friction and false alarms.",
-      "example": "Teaching extension: A transit application is tested during a simulated network outage and stale timetable update. The team checks whether its fallback clearly distinguishes old information from confirmed live departures.",
-      "source": "text lines 2318-3086"
+      "body": "Pip disconnects the transit app during a simulated timetable change. The fallback still looks live, although its information is stale. Stress tests, chaos experiments, and careful rollouts expose interactions under load, outages, weather, or changed dependencies. Pip labels stale departures clearly, then checks the safeguard’s friction and false alarms.",
+      "example": "",
+      "source": "text lines 2318-3086",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP DISCONNECTS",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "router",
+            "label": "OUTAGE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "phone",
+            "label": "STALE TIMETABLE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "alert",
+            "label": "CLEAR WARNING",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip tests a changed dependency."
+          },
+          {
+            "node": "step-1",
+            "text": "The network fails during an update."
+          },
+          {
+            "node": "step-3",
+            "text": "Check the safeguard’s costs too."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -47,7 +299,7 @@
   ],
   "scenario": {
     "title": "Safety case before a feature change",
-    "context": "A voice assistant change intended to block abusive content causes a benign phrase to disappear from answers. The team must protect against misuse while avoiding broad quality regressions.",
+    "context": "Pip’s new help-desk filter blocks abuse but also removes an ordinary phrase. Residents need protection without losing useful answers.",
     "options": [
       {
         "label": "Run broad red-team and regression testing",
@@ -62,7 +314,7 @@
         "consequence": "Support reports accumulate, requiring rollback and a more careful harm taxonomy."
       }
     ],
-    "debrief": "Both choices are defensible under different constraints; the responsible decision states the accepted consequence and the evidence that could change it."
+    "debrief": "Pip records the harm, safeguard, owner, and evidence needed to change course. Fast protection still needs regression checks and recovery."
   },
   "quiz": [
     {
@@ -117,69 +369,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "n0",
-        "label": "HARMS",
-        "kind": "alert",
-        "tone": "sage",
-        "x": 100,
-        "y": 80
-      },
-      {
-        "id": "n1",
-        "label": "RED TEAM",
-        "kind": "shield",
-        "tone": "peach",
-        "x": 270,
-        "y": 80
-      },
-      {
-        "id": "n2",
-        "label": "SURVIVOR",
-        "kind": "person",
-        "tone": "lilac",
-        "x": 100,
-        "y": 210
-      },
-      {
-        "id": "n3",
-        "label": "STRESS",
-        "kind": "experiment",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP REVIEWS",
         "tone": "honey",
-        "x": 270,
-        "y": 210
+        "course": "responsible-engineering"
+      },
+      {
+        "id": "step-1",
+        "kind": "browser",
+        "label": "ACCURATE CHART",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "person",
+        "label": "EXPOSED RESIDENT",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "alert",
+        "label": "HIDDEN HARM",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "n0",
-        "to": "n1"
+        "from": "step-0",
+        "to": "step-1",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "n1",
-        "to": "n2"
+        "from": "step-1",
+        "to": "step-2",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "n2",
-        "to": "n3"
+        "from": "step-2",
+        "to": "step-3",
+        "flow": false,
+        "dashed": true
       }
     ],
     "steps": [
       {
-        "node": "n0",
-        "text": "Examine harms using the chapter evidence."
+        "node": "step-0",
+        "text": "Pip checks the town dashboard."
       },
       {
-        "node": "n1",
-        "text": "Examine red team using the chapter evidence."
+        "node": "step-1",
+        "text": "Correct charts can still expose people."
       },
       {
-        "node": "n2",
-        "text": "Examine survivor using the chapter evidence."
-      },
-      {
-        "node": "n3",
-        "text": "Examine stress using the chapter evidence."
+        "node": "step-3",
+        "text": "Safety review goes beyond functional correctness."
       }
     ]
+  },
+  "story": {
+    "course": "responsible-engineering",
+    "world": "civic",
+    "title": "The safeguard that locked someone out"
   }
 }

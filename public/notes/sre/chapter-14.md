@@ -1,27 +1,53 @@
 # Chapter 14: Managing Incidents
 
-Separate command, operations, communication, and planning during an incident
+*Pip’s adventure: Too many rescuers, conflicting fixes. Fictional teaching story; concepts follow the cited source.*
 
-A technically capable team can prolong an outage when everyone changes production independently and nobody maintains the overall picture. Incident management makes responsibilities explicit so technical response and coordination can proceed together. The commander assigns roles and tracks priorities; operations controls production changes; communication keeps stakeholders informed; planning handles continuity and longer-term needs. A recognized coordination channel and a live incident document let new participants understand what has happened without interrupting the responder repeatedly. Command transfers require explicit acknowledgment, particularly across time zones. Declare an incident early when impact, duration, or cross-team work justifies coordination. Practicing these roles during exercises and substantial operational changes makes the process familiar before an emergency, reducing confusion without requiring the commander to solve every technical problem.
+Source: text lines 5838–6052.
+
+Pip’s booking outage attracts three teams and several promising fixes. Clear incident roles keep those interventions coordinated. A common record, early declaration, and an acknowledged handoff let responders work independently without losing the overall recovery picture.
 
 ## The commander holds the overall picture
 
-The incident commander coordinates the response, assigns responsibilities, tracks priorities, and removes obstacles. They initially hold any role not yet delegated, but should delegate as workload grows. Separating command from detailed troubleshooting protects attention for the incident’s overall state, needed help, and recovery direction. Authority becomes clear enough that each participant can work independently within an assigned scope.
+Pip coordinates the outage while a specialist investigates the database. The incident commander initially holds undelegated roles, then assigns responsibilities as work grows. Tracking priorities, obstacles, help, and recovery direction requires attention separate from detailed troubleshooting. Pip delegates technical work while retaining the overall picture.
+
+Source: text lines 5838–6052.
 
 ## Only coordinated operations change production
 
-The operations lead directs technical work and is the focal point for changes to the affected system. Other participants provide expertise through that structure rather than independently deploying promising fixes. This prevents conflicting interventions and preserves understanding of the system’s state. Communication and planning roles remove status requests and continuity tasks from the people making operational changes.
+Pip sees a developer about to apply a second configuration fix. The operations lead coordinates production changes so interventions do not conflict or obscure state. Specialists propose work through that structure. Communication and planning roles absorb status and continuity needs, freeing operators to focus.
+
+Source: text lines 5838–6052.
 
 ## Maintain a common operational record
 
-A recognized communication channel and live incident document expose the current impact, roles, actions, and unresolved questions. The record lets arriving responders catch up and preserves failed attempts so they are not repeated blindly. Keep essential information easy to find and choose tools that remain available during the incident; relying exclusively on the service being repaired creates a circular dependency.
+Pip’s replacement asks whether the old binary was tried. A live record and recognized channel show impact, roles, actions, failed attempts, and open questions. Pip highlights the unsuccessful rollback so nobody repeats it blindly. The record must stay reachable without depending exclusively on the broken service.
+
+Source: text lines 5838–6052.
 
 ## Declare early and hand off explicitly
 
-An incident process is easier to start before coordination becomes chaotic. The chapter suggests triggers including customer visibility, a second team’s involvement, or a prolonged unresolved investigation. At handoff, the outgoing commander briefs the replacement, obtains explicit acceptance, and informs participants. Practicing the process during drills or cross-team work keeps these habits available when pressure is high.
+Pip declares an incident before cross-team work becomes chaotic. Customer visibility, another team’s involvement, or prolonged investigation can justify early coordination. The outgoing commander briefs a replacement, receives explicit acceptance, and tells participants. Pip practices that handoff during drills rather than discovering the process under pressure.
 
-## Apply it
+Source: text lines 5838–6052.
+
+## Transfer challenge: Coordinate experts during a regional outage
+
+Two teams are diagnosing a growing outage. One developer wants to change retry settings while another prepares a database restart. Stakeholders are repeatedly asking the on-call engineer for updates.
+
+### Assign command, operations, and communication roles
+
+Technical changes can be coordinated while stakeholders receive regular updates. Participants must briefly establish ownership and a shared record. The operations lead evaluates proposed changes; the commander obtains help and keeps the overall picture.
+
+### Let each expert pursue their proposed fix independently
+
+Several hypotheses can be investigated in parallel. Independent production changes can interact and make results uninterpretable. Parallel diagnosis may help, but production interventions need an agreed operations owner.
+
+Role separation permits parallel work without conflicting changes. The commander coordinates; operations changes production; communication handles updates; planning maintains continuity.
+
+## Assign roles before changing production
 
 A two-region outage needs application and database teams. Assign command, operations, communication, and planning, then describe a shift handoff.
 
-Source: *Site Reliability Engineering*, chapter 14, text lines 5838–6052. This note is an original synthesis; the exercise is a teaching extension.
+- Role ownership
+- Live state
+- Handoff

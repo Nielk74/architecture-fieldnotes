@@ -3,7 +3,7 @@
   "title": "Responsible Software Engineering: A Quick Introduction",
   "part": "Foundations",
   "subtitle": "Treat social benefit and foreseeable harm as engineering requirements",
-  "summary": "Software can work according to its specification and still harm the people using it. The opening voicemail example shows how an apparently ordinary transcription feature interacts with a person’s history and circumstances. Responsible engineering therefore expands success beyond correctness to include social benefit, fairness, privacy, safety, and environmental effects. Bringing these concerns into early product and architectural decisions creates more room to change the design. Engineers also need expertise and lived experience beyond their own. Feedback after release remains essential because prediction is incomplete. Responsibility is continuing work on consequences, with time and priorities allocated to it alongside other architectural requirements.",
+  "summary": "Pip helps a town service transcribe voicemail. The code returns words, but one wrong transcript frightens a caller: correctness against a specification is not the whole measure of success. The book’s opening case makes that gap visible. Responsible engineering also asks about social benefit, fairness, privacy, safety, and environmental effects. Pip invites perspectives beyond engineering while product and architecture can still change, and keeps a route for reports after release. Prediction is incomplete; responsibility needs continuing time, priorities, and attention to consequences.",
   "source": {
     "startLine": 419,
     "endLine": 745,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Social benefit",
-      "body": "Responsible software is intended to benefit society, avoid harm to people and avoid needless environmental damage. This expands engineering success beyond function and reliability: teams ask who gains, who bears risk, and what happens after release.",
-      "example": "Teaching extension: A transit-planning service measures whether residents can reach essential destinations, not merely whether routes are calculated quickly. It checks whose journeys become worse when an optimization changes transfers.",
-      "source": "text lines 419-745"
+      "body": "The route planner answers quickly, but a resident can no longer reach an essential appointment. Pip asks who benefited from the optimization and whose journey got worse. Responsible software should benefit society, avoid harm to people, and avoid needless environmental damage. Function and reliability remain important, but the team also investigates risks and consequences after release. A successful calculation is not automatically a successful service.",
+      "example": "",
+      "source": "text lines 419-745",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "router",
+            "label": "FAST ROUTE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "colleague",
+            "label": "MISSED DESTINATION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "stakeholders",
+            "label": "WHO BENEFITS?",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks whether the route actually helps people."
+          },
+          {
+            "node": "step-1",
+            "text": "A quick calculation meets one technical goal."
+          },
+          {
+            "node": "step-3",
+            "text": "Investigate who gains, who carries risk, and environmental effects."
+          }
+        ]
+      }
     },
     {
       "title": "Proactivity",
-      "body": "The chapter asks engineers to foresee potential harm early, when product goals and architecture can still change. Early investigation is cheaper than repairing public harm after launch, and it makes responsibility part of ordinary planning.",
-      "example": "Teaching extension: Before building a public-service form, the team tests whether its identity requirements exclude residents without the assumed documents, while the enrollment design can still change.",
-      "source": "text lines 419-745"
+      "body": "Pip sketches an enrollment form, then a resident asks, “What if I don’t have that document?” The identity requirement could exclude people before a line of code fails. Proactivity means investigating possible harm while goals and architecture can still change. Pip tests the assumption with residents during planning. Changing the enrollment design now creates more room than repairing public harm after launch.",
+      "example": "",
+      "source": "text lines 419-745",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "REQUIRED ID",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gateway",
+            "label": "EXCLUDED RESIDENT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "listening",
+            "label": "REVISE EARLY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip tests an assumption before implementation locks it in."
+          },
+          {
+            "node": "step-1",
+            "text": "The form requires a particular document."
+          },
+          {
+            "node": "step-3",
+            "text": "Involve residents while product and architecture can still change."
+          }
+        ]
+      }
     },
     {
       "title": "Specialists",
-      "body": "Responsible work needs perspectives engineers may not possess. Sociologists, lawyers, teachers, ethicists, health experts, accessibility practitioners, and affected communities can reveal assumptions hidden by an engineering-only review.",
-      "example": "Teaching extension: A school communication tool is reviewed with teachers, accessibility practitioners, and families using different languages. They identify assumptions that a developer-only usability session missed.",
-      "source": "text lines 419-745"
+      "body": "The school tool passes engineering review; families using other languages disagree. Pip invites teachers, accessibility practitioners, and affected families. Responsible work may also need sociological, legal, ethical, or health expertise beyond engineers’ knowledge. These perspectives reveal hidden assumptions, not guaranteed answers. A developer-only session was only one view.",
+      "example": "",
+      "source": "text lines 419-745",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "ENGINEERING VIEW",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "listening",
+            "label": "LIVED EXPERIENCE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "SPECIALISTS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip invites perspectives the engineering review lacked."
+          },
+          {
+            "node": "step-1",
+            "text": "Technical tests reveal only some assumptions."
+          },
+          {
+            "node": "step-3",
+            "text": "Specialists broaden the review without guaranteeing every outcome."
+          }
+        ]
+      }
     },
     {
       "title": "Feedback and humility",
-      "body": "Users need ways to report harm, while teams need humility about what they cannot predict. Equal opportunity, curiosity, and attention to complexity turn feedback into a design input rather than a queue of defects.",
-      "example": "Teaching extension: After residents report confusing eligibility wording, a civic portal opens a feedback route and revises the explanation with affected users rather than dismissing the reports because the rules executed correctly.",
-      "source": "text lines 419-745"
+      "body": "The eligibility rules execute correctly, yet residents keep reporting confusing wording. Pip opens a feedback route and works with affected users on the explanation. Humility means admitting what the team could not predict. Curiosity, equal opportunity, and attention to complexity make those reports design input rather than defects to dismiss. The service’s consequences keep unfolding after release, so its listening cannot end at launch.",
+      "example": "",
+      "source": "text lines 419-745",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "responsible-engineering"
+          },
+          {
+            "id": "step-1",
+            "kind": "browser",
+            "label": "CONFUSING WORDING",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "message",
+            "label": "HARM REPORT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "listening",
+            "label": "REVISE TOGETHER",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip keeps responsibility active after launch."
+          },
+          {
+            "node": "step-1",
+            "text": "Correct rules can still produce confusing consequences."
+          },
+          {
+            "node": "step-3",
+            "text": "Investigate and revise with the people affected."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -46,23 +298,23 @@
     }
   ],
   "scenario": {
-    "title": "Google Voice voicemail transcription",
-    "context": "A voicemail product mistranscribes disconnected beeps as threatening words. The team must reduce distress for users while preserving useful transcription and a workable escalation path.",
+    "title": "The transcript nobody meant to send",
+    "context": "Pip’s town voicemail tool turns disconnected beeps into threatening words. Callers need useful transcription, less distress, and a workable way to report mistakes.",
     "options": [
       {
         "label": "Add uncertainty cues and an easy correction/reporting path",
-        "benefit": "Users can recognize doubtful transcripts and the team receives evidence about harmful errors.",
-        "cost": "Extra interface friction and review volume may slow routine use.",
-        "consequence": "The team pilots confidence wording and triages reports, finding a recurring accent and audio-quality failure to fix."
+        "benefit": "Callers can recognize uncertainty and report harmful errors.",
+        "cost": "Extra cues and review add friction and workload.",
+        "consequence": "Pip and the service team pilot confidence wording and triage reports. Recurring audio-quality failures become evidence for correction."
       },
       {
         "label": "Keep the simple transcript",
-        "benefit": "Preserves speed and familiar interaction for ordinary calls.",
-        "cost": "Users may treat an incorrect transcript as authoritative and bear the emotional cost.",
-        "consequence": "A public complaint reveals the pattern; the team must retrofit reporting and explain why the original output was wrong."
+        "benefit": "Routine calls keep a familiar, fast interaction.",
+        "cost": "Callers may trust wrong words and bear the distress.",
+        "consequence": "A public complaint exposes the pattern. Pip’s team must add reporting later and explain the incorrect output."
       }
     ],
-    "debrief": "Both choices are defensible under different constraints; the responsible decision states the accepted consequence and the evidence that could change it."
+    "debrief": "The choice must account for the caller’s consequences, not only interface speed. Pip records the accepted risk and the evidence that would trigger revision."
   },
   "quiz": [
     {
@@ -117,69 +369,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "n0",
-        "label": "VALUES",
-        "kind": "whiteboard",
-        "tone": "sage",
-        "x": 100,
-        "y": 80
-      },
-      {
-        "id": "n1",
-        "label": "PEOPLE",
-        "kind": "person",
-        "tone": "peach",
-        "x": 270,
-        "y": 80
-      },
-      {
-        "id": "n2",
-        "label": "FEEDBACK",
-        "kind": "listening",
-        "tone": "lilac",
-        "x": 100,
-        "y": 210
-      },
-      {
-        "id": "n3",
-        "label": "PRACTICE",
-        "kind": "colleague",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 270,
-        "y": 210
+        "course": "responsible-engineering"
+      },
+      {
+        "id": "step-1",
+        "kind": "router",
+        "label": "FAST ROUTE",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "colleague",
+        "label": "MISSED DESTINATION",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "stakeholders",
+        "label": "WHO BENEFITS?",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "n0",
-        "to": "n1"
+        "from": "step-0",
+        "to": "step-1",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "n1",
-        "to": "n2"
+        "from": "step-1",
+        "to": "step-2",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "n2",
-        "to": "n3"
+        "from": "step-2",
+        "to": "step-3",
+        "flow": false,
+        "dashed": true
       }
     ],
     "steps": [
       {
-        "node": "n0",
-        "text": "Examine values using the chapter evidence."
+        "node": "step-0",
+        "text": "Pip asks whether the route actually helps people."
       },
       {
-        "node": "n1",
-        "text": "Examine people using the chapter evidence."
+        "node": "step-1",
+        "text": "A quick calculation meets one technical goal."
       },
       {
-        "node": "n2",
-        "text": "Examine feedback using the chapter evidence."
-      },
-      {
-        "node": "n3",
-        "text": "Examine practice using the chapter evidence."
+        "node": "step-3",
+        "text": "Investigate who gains, who carries risk, and environmental effects."
       }
     ]
+  },
+  "story": {
+    "course": "responsible-engineering",
+    "world": "civic",
+    "title": "The transcript that frightened the caller"
   }
 }

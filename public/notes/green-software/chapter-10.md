@@ -1,44 +1,36 @@
 # Chapter 10: Monitoring
 
+*Pip’s adventure: The promise on the cinema door. Fictional teaching story; concepts follow the cited source.*
+
 Building Green Software — Anne Currie, Sarah Hsu, and Sara Bergman. First edition, March 2024.
 
 Source: printed pp. 157–165; text lines 5851–6150. References count literal newline-delimited lines in the supplied text.
 
 ## Overview
 
-Monitoring helps teams decide whether a system is meeting the needs it promises to serve. This chapter introduces availability, the four golden signals, and the distinction between an indicator, an objective, and an agreement. It uses the Chubby example to show how accidental overdelivery can encourage fragile dependencies. The authors then imagine carbon metrics joining existing production monitoring, with explicit objectives and budgets alongside reliability. Observability adds the ability to investigate unfamiliar behavior in complex systems rather than relying only on predefined alerts. The chapter’s vision of standardized real-time carbon telemetry is aspirational in the supplied edition. Its practical lesson is to connect credible measurements to decisions, ownership, and service constraints.
+Pip’s carbon chart rises just as the cinema’s deadline approaches. Which promise takes priority? Monitoring connects measurements to service decisions: availability, latency, traffic, errors, and saturation give context, while an indicator, objective, and agreement do different jobs. The book’s Chubby story warns that exceptional uptime can create fragile expectations. Its proposed real-time carbon telemetry is aspirational in this edition, not universally available. Pip combines credible signals with explicit budgets, ownership, and service rules, then uses observability to investigate unfamiliar behavior instead of collecting charts without explanations.
 
 ## Key ideas
 
 ### Availability needs an explicit promise
 
-A service’s observed availability and its promised service level are different. The Chubby story shows how exceptional uptime can teach consumers to rely on behavior beyond that promise. Higher reliability targets can require more resources and engineering. Choose service levels around user needs and ensure consumers can cope with the failures that remain within the stated contract. (Source: pp. 157–159.)
-
-Teaching extension: A batch consumer retries safely instead of assuming its upstream service will never be unavailable.
+The cinema’s export service has never missed a beat. A client quietly stops handling failures. Pip recognizes the trap in the book’s Chubby story: observed uptime can exceed the actual promise and teach consumers a fragile dependency. Higher reliability targets also cost engineering and resources. Pip agrees on service levels around user needs and restores safe retry behavior. Exceptional performance yesterday does not remove failures allowed by today’s contract. (Source: pp. 157–159.)
 
 ### Use the four golden signals
 
-Latency, traffic, errors, and saturation describe different aspects of service behavior. Together they help distinguish high demand, resource pressure, failed work, and slow responses. Carbon measurements gain context from these signals: an increase may reflect growth, retries, or altered allocation. Looking at a single utilization or emissions chart cannot reliably explain why a service changed. (Source: pp. 159–160.)
-
-Teaching extension: An emissions increase accompanied by flat traffic and more errors prompts an investigation into repeated processing.
+Carbon rises, but ticket traffic stays flat. Pip puts four signals beside the chart: latency, traffic, errors, and saturation. More errors suggest repeated processing worth investigating; they do not prove the cause. These signals separate demand, slowness, failed work, and resource pressure. Pip follows the evidence instead of trusting a single emissions or utilization graph. The context is what turns a changing number into a useful operational question. (Source: pp. 159–160.)
 
 ### Separate indicator, objective, and agreement
 
-An SLI is a measured characteristic. An SLO sets a target for that characteristic over a defined period. An SLA is an agreement with service users. Error budgets describe the allowed deviation from an objective. These distinctions matter when sustainability objectives are proposed because a measurement alone does not define a threshold, response, or acceptable effect on customers. (Source: pp. 160–162.)
-
-Teaching extension: The team distinguishes measured export completion time from the target that eligible exports finish before their deadline.
+Pip hangs a latency graph beside a promise and realizes they are not the same object. An SLI measures a characteristic; an SLO sets a target over a defined period; an SLA is an agreement with users. An error budget expresses allowed deviation from an objective. The cinema must distinguish measured export time from its completion target. A carbon measurement alone likewise supplies no threshold, response, or acceptable customer impact. (Source: pp. 160–162.)
 
 ### Carbon budgets need operational rules
 
-The authors propose adding credible carbon data to existing monitoring practices. Carbon and availability objectives can conflict, so decisions need an agreed policy and knowledge of remaining budgets. A high-carbon period is not permission to break a service promise. Their imagined real-time metric is a future-facing teaching device in the book, not proof that all necessary telemetry already exists. (Source: pp. 161–162.)
-
-Teaching extension: A delayed export runs before its deadline when no cleaner slot remains, and the team records the carbon-policy exception.
+The last cleaner forecast window disappears. Pip cannot use a carbon target as permission to miss the screening. Carbon and availability objectives need an agreed policy, remaining budgets, and an owner for exceptions. Pip runs the promised export and records why shifting failed. The authors imagine credible carbon data joining production monitoring, but their standardized real-time metric is a future-facing teaching device—not evidence that all the required telemetry already exists. (Source: pp. 161–162.)
 
 ### Observability explains unfamiliar behavior
 
-Monitoring watches known signals and conditions. Observability supports asking new questions about internal behavior using external evidence. Merely collecting logs, metrics, and traces is insufficient if they cannot explain an incident. For sustainability, connecting a costly operation to request context can help locate waste that a preselected aggregate dashboard would hide. (Source: pp. 162–165.)
-
-Teaching extension: A trace reveals that only one export format triggers repeated conversion calls, explaining an otherwise mysterious increase in compute.
+The dashboard says compute rose; it cannot explain why. Pip follows request context and finds repeated conversions only for one film format. Monitoring watches known signals and conditions; observability supports new questions about internal behavior using external evidence. Logs, metrics, and traces are not enough merely because they were collected. They must help explain an unfamiliar incident. Pip’s trace locates work that the aggregate chart concealed. (Source: pp. 162–165.)
 
 ## Misconceptions
 
@@ -52,7 +44,7 @@ The evidence must support useful questions about behavior; storage alone does no
 
 ## Decision practice — teaching extension
 
-Teaching extension. An export service has a promised completion deadline and a proposed carbon target. Electricity is forecast to remain carbon intensive through the remaining window. The team can complete the full result now or offer a lighter alternative if the customer has accepted that option. It cannot silently change the promised result.
+Pip’s export faces a fixed deadline and a proposed carbon target. Electricity stays carbon intensive through the remaining window. Pip can deliver the promised film now or use a lighter result only where the customer already accepted it. Silently changing the promise is not an option.
 
 ### Complete the promised result and record the exception
 

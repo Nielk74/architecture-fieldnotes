@@ -1,37 +1,352 @@
 {
   "number": 7,
   "subtitle": "Manage application demand across wires, compute, and storage.",
-  "summary": "Networking offers lessons in adapting to a variable resource. The chapter describes the internet as wires, compute, and storage connected through independently operated networks. Lower layers have strong efficiency incentives, while applications still control how much data they request, process, cache, and send. Compression and caching trade computation or storage for reduced transfer, so they require a whole-system comparison. The authors caution against treating changes to internet routing as an easy sustainability project. Their pandemic examples show existing application techniques handling demand: assets were staged near users, and optional quality was reduced while core service continued. These mechanisms suggest how software can adapt to changing electricity conditions without assuming unlimited resources.",
+  "summary": "Pip’s film travels through more than wires. Origin servers, caches, access networks, and viewers’ devices all do work. Compression and caching can reduce transfers while adding compute or storage, so Pip follows the whole delivery path. Changing global internet routing is not a quick local fix; applications can reduce unnecessary traffic and use established delivery controls. The book’s pandemic examples show preparation ahead of demand and lighter optional quality. Pip borrows that flexibility without assuming a cache or a smaller download is automatically carbon aware.",
   "concepts": [
     {
       "title": "The internet includes more than wires",
-      "body": "Backbone, metro, and last-mile connections carry traffic at different scales. Compute and storage also support networking through caching, compression, and content delivery. The best fit depends on the job and access conditions. The chapter’s discussion of satellites adds a reminder that access benefits, equipment lifetime, infrastructure, and wider consequences cannot be reduced to a single transmission statistic.",
-      "example": "Teaching extension: A delivery assessment includes the origin, cache, access network, and user device rather than counting only downloaded bytes.",
-      "source": "pp. 107–115"
+      "body": "Pip follows a film from the origin to a viewer: backbone, metro, and last-mile links carry it through independently operated networks. Caches, compression, compute, and storage help along the way. Counting downloaded bytes alone misses much of the system. Even a satellite connection brings access benefits, equipment lifetime, infrastructure, and wider consequences. Pip draws the whole delivery path before deciding which resource to change.",
+      "example": "",
+      "source": "pp. 107–115",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "ORIGIN",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "ACCESS NETWORK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "phone",
+            "label": "VIEWER",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip follows the entire delivery boundary."
+          },
+          {
+            "node": "step-1",
+            "text": "The origin stores and processes the film."
+          },
+          {
+            "node": "step-3",
+            "text": "The viewer’s device also consumes resources."
+          }
+        ]
+      }
     },
     {
       "title": "Compression trades one resource for another",
-      "body": "Compressing a payload can reduce traffic while consuming processor work to encode and decode it. Whether that helps depends on compressibility, workload, network conditions, and hardware support. An already compressed asset may offer little further reduction. The application should compare the complete delivery path and user need, not assume that every smaller payload is a lower-carbon one.",
-      "example": "Teaching extension: A service compares recompressing video with sending an existing rendition, including encoder work and actual transfer savings.",
-      "source": "pp. 110–111"
+      "body": "“Make the file smaller,” says Pip, reaching for the encoder again. But this video is already compressed. Extra encoding and decoding could consume more work for little transfer reduction. Pip compares actual compressibility, processor costs, network conditions, and hardware support across the full delivery path. A smaller payload is useful evidence about bytes—not proof of lower carbon. The chosen rendition must still meet the viewer’s need.",
+      "example": "",
+      "source": "pp. 110–111",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "ENCODE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "message",
+            "label": "FEWER BYTES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "phone",
+            "label": "DECODE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks whether another compression pass is worthwhile."
+          },
+          {
+            "node": "step-1",
+            "text": "Encoding adds processor work."
+          },
+          {
+            "node": "step-3",
+            "text": "Include decoding and the viewer’s required quality."
+          }
+        ]
+      }
     },
     {
       "title": "Application decisions are a practical lever",
-      "body": "The internet connects autonomous systems whose routing reflects policy and commercial relationships. The authors argue that introducing carbon-based behavior into BGP is complex and risky. Applications can act more directly by reducing unnecessary transfers and adjusting delivery. This preserves the distinction between moving a workload at the application level and changing how the public internet routes packets.",
-      "example": "Teaching extension: A product team reduces repeated full downloads using conditional updates rather than proposing a new global routing policy.",
-      "source": "pp. 115–118"
+      "body": "Pip sees a long network route and imagines rewriting the internet’s directions. Those directions cross autonomous systems and reflect commercial relationships and routing policy; the book warns that carbon-aware changes to BGP are complex and risky. Pip controls the cinema app more directly. Conditional updates can replace repeated full downloads, and established delivery controls can reduce unnecessary traffic. Moving application work is different from changing public-internet routing.",
+      "example": "",
+      "source": "pp. 115–118",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "router",
+            "label": "BGP POLICY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "browser",
+            "label": "APP REQUEST",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "message",
+            "label": "ONLY CHANGES",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip distinguishes two different intervention points."
+          },
+          {
+            "node": "step-1",
+            "text": "Public routing spans autonomous systems and commercial policy."
+          },
+          {
+            "node": "step-3",
+            "text": "Send required changes instead of repeatedly downloading everything."
+          }
+        ]
+      }
     },
     {
       "title": "Caching can shift work ahead of demand",
-      "body": "A content delivery network stores assets near users and can move them before peak demand. This decouples preparation from the request itself and reduces repeated long-distance transfers. Cached copies require storage, and unused prefetches can waste work. The book uses this mechanism as an example of flexibility, not proof that all caching automatically responds to carbon intensity.",
-      "example": "Teaching extension: A scheduled release stages the expected popular assets near its audience while monitoring how many prefetched copies are actually used.",
-      "source": "pp. 118–120"
+      "body": "The premiere crowd has not arrived, but Pip can place likely popular film versions in nearby caches. Preparation happens before demand while viewers still choose when to watch. That flexibility reduces repeated long-distance transfers, yet stored copies and unused prefetches cost resources. Pip measures which copies actually serve viewers. A CDN creates room to shift work; it needs an electricity signal influencing that work before Pip can call it carbon aware.",
+      "example": "",
+      "source": "pp. 118–120",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "PREPARE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "cache",
+            "label": "NEARBY COPY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "phone",
+            "label": "WATCH LATER",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip predicts a popular release, with uncertainty."
+          },
+          {
+            "node": "step-1",
+            "text": "Prepare selected renditions before requests arrive."
+          },
+          {
+            "node": "step-3",
+            "text": "Viewers keep their chosen watching time; unused copies still count."
+          }
+        ]
+      }
     },
     {
       "title": "Graceful degradation preserves essentials",
-      "body": "A service can reduce optional quality when resources are constrained, as video calls preserve audio while reducing video detail. The pandemic examples show the value of having such controls already designed and understood. Applying that flexibility to electricity requires a relevant carbon or power signal and agreed minimum functionality; merely degrading randomly does not establish a sustainability benefit.",
-      "example": "Teaching extension: A learning video lowers optional resolution under a constrained delivery mode while captions and clear audio remain available.",
-      "source": "pp. 120–123"
+      "body": "A visitor’s connection falters. Pip lowers optional video detail while keeping clear audio and captions. Graceful degradation preserves the essential experience under constraint, as the book’s pandemic examples illustrate. The controls must already be designed and understood. To use this flexibility for electricity, Pip needs a relevant carbon or power signal and an agreed minimum service. Randomly making the picture worse does not establish a sustainability benefit.",
+      "example": "",
+      "source": "pp. 120–123",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "green-software"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "CONSTRAINT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "browser",
+            "label": "LESS DETAIL",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "phone",
+            "label": "AUDIO & CAPTIONS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "flow": false,
+            "dashed": true
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "flow": false,
+            "dashed": true
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip identifies the essential experience."
+          },
+          {
+            "node": "step-1",
+            "text": "A relevant resource or electricity signal informs the response."
+          },
+          {
+            "node": "step-3",
+            "text": "Keep the audio, captions, and functionality users need."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -46,7 +361,7 @@
   ],
   "scenario": {
     "title": "Prepare a popular video release",
-    "context": "Teaching extension. A service expects many viewers for a new video. It can stage selected renditions in regional caches or fetch and transform them on demand. Viewers use a mix of small screens and large displays. The popularity forecast is imperfect, so precomputing every format everywhere may waste work.",
+    "context": "Pip expects a crowd for a new film. Popular renditions could wait in regional caches or be transformed on demand. Small screens and large displays need different versions. The popularity forecast may be wrong; preparing every format everywhere could leave unused copies and wasted work.",
     "options": [
       {
         "label": "Precompute and stage likely renditions",
@@ -116,46 +431,63 @@
   "visual": {
     "nodes": [
       {
-        "id": "origin",
-        "label": "ORIGIN",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "green-software"
+      },
+      {
+        "id": "step-1",
         "kind": "service",
+        "label": "PREPARE",
         "tone": "sage"
       },
       {
-        "id": "cache",
-        "label": "NEARBY CACHE",
+        "id": "step-2",
         "kind": "cache",
+        "label": "NEARBY COPY",
         "tone": "lilac"
       },
       {
-        "id": "viewer",
-        "label": "VIEWER",
-        "kind": "browser",
+        "id": "step-3",
+        "kind": "phone",
+        "label": "WATCH LATER",
         "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "origin",
-        "to": "cache"
+        "from": "step-0",
+        "to": "step-1",
+        "flow": false,
+        "dashed": true
       },
       {
-        "from": "cache",
-        "to": "viewer"
+        "from": "step-1",
+        "to": "step-2",
+        "flow": false,
+        "dashed": true
+      },
+      {
+        "from": "step-2",
+        "to": "step-3",
+        "flow": false,
+        "dashed": true
       }
     ],
     "steps": [
       {
-        "node": "origin",
-        "text": "Prepare a rendition that viewers are likely to request."
+        "node": "step-0",
+        "text": "Pip predicts a popular release, with uncertainty."
       },
       {
-        "node": "cache",
-        "text": "Stage a copy before the peak, accepting storage and forecast costs."
+        "node": "step-1",
+        "text": "Prepare selected renditions before requests arrive."
       },
       {
-        "node": "viewer",
-        "text": "Serve the appropriate rendition from nearby when requested."
+        "node": "step-3",
+        "text": "Viewers keep their chosen watching time; unused copies still count."
       }
     ]
   },
@@ -166,5 +498,10 @@
     "endLine": 4742,
     "pages": "107–123",
     "reference": "pp. 107–123; text lines 4144–4742"
+  },
+  "story": {
+    "course": "green-software",
+    "world": "cinema",
+    "title": "The film takes the long way round"
   }
 }

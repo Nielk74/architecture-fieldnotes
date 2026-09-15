@@ -1,23 +1,53 @@
 # Chapter 30: Embedding an SRE to Recover from Operational Overload
 
-Source: text lines 14248–14493 of the supplied book extract.
+*Pip’s adventure: Pip joins the tired crew without taking over. Fictional teaching story; concepts follow the cited source.*
 
-An embedded SRE helps an overloaded team change how it works rather than becoming another permanent ticket handler. The engagement starts with learning the service, observing daily work, and identifying both current stress and future trouble such as knowledge gaps, weak capacity planning, and unexplained alerts. Sharing context includes writing a strong blameless postmortem and distinguishing removable toil from necessary operational work. SLOs supply a quantitative basis for choosing changes and defending engineering time. The embedded engineer guides team members through a few durable fixes, reviews their work, and explains the reasoning behind decisions. An after-action report and continued follow-up help the team sustain progress after the temporary assignment ends.
+Source: text lines 14248–14493.
+
+Pip arrives to help an overloaded harbor team. First Pip shadows the work and listens. Shared SLO reasoning, blameless reviews, and a few team-owned improvements build lasting capacity; personally fixing everything would only create a new dependency.
 
 ## Observe before prescribing
 
-An outsider first needs enough service and team context to understand why operational habits developed. Shadowing on-call reveals where time and stress accumulate, including small issues with disproportionate emotional impact. The goal is to identify how recurring work scales with service growth and what prevents reliability improvements. Simply increasing ticket-handling capacity leaves those underlying mechanisms intact.
+Pip watches a shift before proposing automation. A supposedly rare repair happens several times daily and causes disproportionate stress. Shadowing reveals service context, habits, growth-related work, and obstacles to improvement. Pip targets those mechanisms rather than merely increasing ticket-handling capacity.
+
+Source: text lines 14248–14493.
 
 ## Find latent sources of overload
 
-The chapter calls future operational trouble kindling: neglected knowledge, growing internal tools, unexamined alerts, and capacity plans based only on yesterday’s emergency. Waiting for a promised replacement can also postpone useful fixes indefinitely. Identifying these conditions makes prevention concrete. A component’s developer ownership does not excuse an on-call team from understanding the impact and urgency of its failure.
+Pip finds a critical component understood by only one developer. Neglected knowledge, growing tools, unexamined alerts, and reactive capacity plans are kindling for future overload. Waiting forever for a promised replacement can postpone useful fixes. Pip helps on-call engineers understand impact and urgency even when developers own the component.
+
+Source: text lines 14248–14493.
 
 ## Use SLOs and postmortems to share reasoning
 
-A service objective connects operational decisions to measured user impact and helps distinguish necessary response from distracting noise. A well-written blameless postmortem shows how system conditions and available information shaped decisions, then identifies durable improvements. Demonstrating this process collaboratively is more useful than criticizing old documents, especially when the team has experienced postmortems as punishment.
+Pip reviews a recurring alert with the responder against measured user impact. An SLO separates necessary response from distracting noise. A collaborative blameless postmortem traces conditions and available information into durable improvements. Pip demonstrates the reasoning instead of criticizing documents from a team that may have experienced reviews as punishment.
+
+Source: text lines 14248–14493.
 
 ## Coach changes the team can sustain
 
-The embedded engineer should help team members implement a few manageable, lasting fixes, acting as a reviewer and explaining the underlying principles. Doing all the repairs personally teaches dependence rather than ownership. Clear explanations let the team apply the same reasoning to later choices. An after-action report records successful decisions and remaining work, followed by availability for reviews as improvement continues.
+Pip reviews a teammate’s repair automation instead of writing every fix personally. A few manageable improvements and clear explanations build local ownership. The teammate can apply the principles to the next toil problem. Pip records outcomes and remaining work in an after-action report and remains available for review.
 
-The lesson’s examples, decision scenario, and exercise are original teaching extensions rather than reported incidents.
+Source: text lines 14248–14493.
+
+## Transfer challenge: Recover a team from operational overload
+
+A service team spends 80% of its week on manual repairs and pages. Leadership can embed an SRE temporarily or ask the team to continue while hiring later.
+
+### Embed an SRE with a time-boxed recovery plan
+
+The embedded engineer can measure overload and leave behind automation. Embedding displaces another project and needs explicit exit criteria. The pair removes the top repair source, measures load, and exits after agreed criteria.
+
+### Add more permanent on-call shifts
+
+More shifts distribute immediate duty. Shifts spread fatigue without removing the causes. The rota grows while repair volume remains unchanged.
+
+The embedded engineer should learn the team’s pressures, connect decisions to an SLO, and coach local engineers through lasting improvements. Success means the team can continue reducing overload after the visitor leaves.
+
+## Plan a team recovery engagement
+
+Outline a temporary embedding for a team dominated by manual repairs. Focus on capability and habits that remain after the engagement.
+
+- Diagnosis
+- Local ownership
+- Follow-through

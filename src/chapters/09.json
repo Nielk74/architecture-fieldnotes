@@ -3,7 +3,7 @@
   "title": "Foundations",
   "part": "Architecture styles",
   "subtitle": "Name the shape, then price the distance between its parts",
-  "summary": "Architecture styles are shared names for a topology and the characteristics it tends to support or weaken. This chapter introduces the contrast between an unstructured Big Ball of Mud, a single unitary system, and progressively partitioned client/server and three-tier arrangements. It then separates monolithic deployments from distributed ones. Distribution can improve performance, scale, and availability, but it exposes every design to eight network fallacies: connectivity, latency, bandwidth, security, changing topology, many administrators, transport cost, and heterogeneous equipment. Distributed logging, transactions, and contract versioning add operational work. The useful habit is to treat a style name as a starting hypothesis, inspect its assumptions, and measure the environment before choosing it.",
+  "summary": "Pip gives the bookshop an architecture label, but the label cannot answer where data lives or what happens when a call fails. Styles provide shorthand for topology and trade-offs. Distribution adds real operational work and assumptions worth questioning early.",
   "source": {
     "startLine": 4693,
     "endLine": 5184,
@@ -12,39 +12,417 @@
   "concepts": [
     {
       "title": "A style is a compact design vocabulary",
-      "body": "An architecture style names a relationship among components and carries default assumptions about topology, deployment, data, and architecture characteristics. Saying layered monolith or client/server lets an experienced team discuss likely strengths and weaknesses without redrawing every connection. The name is a useful hypothesis, not a guarantee: a style can be implemented in variants, and a local decision can change its actual behavior. Learn the topology and the trade-offs that the shorthand implies.",
-      "example": "When a team calls a system browser plus web server, ask where the database runs, which calls are remote, and which characteristics are priorities. The label narrows the questions; it does not answer them.",
-      "source": "pp. 119–121"
+      "body": "Pip calls the bookshop client/server and a teammate asks where the database runs. A style names component relationships and default topology, deployment, data, and quality assumptions. Variants and local decisions can change the behavior. Pip uses the vocabulary to narrow questions, not to guarantee strengths from a label.",
+      "example": "",
+      "source": "pp. 119–121",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "STYLE NAME",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "blueprint",
+            "label": "ACTUAL TOPOLOGY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "search",
+            "label": "LOCAL ASSUMPTIONS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip calls the bookshop client/server and a teammate asks where the database runs."
+          },
+          {
+            "node": "step-1",
+            "text": "A style names component relationships and default topology, deployment, data, and quality assumptions."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip uses the vocabulary to narrow questions, not to guarantee strengths from a label."
+          }
+        ]
+      }
     },
     {
       "title": "From mud to partitioning",
-      "body": "A Big Ball of Mud has no discernible structure: dependencies spread promiscuously, quick repairs accumulate, and the effect of a change is hard to predict. A unitary architecture keeps software on one computer and can suit constrained embedded systems, but growing functionality usually creates pressure to separate concerns. Client/server divides front end from back end; desktop plus database, browser plus web server, and three-tier systems are historical variants of that separation.",
-      "example": "A small kiosk may keep its interface, rules, and local store together. A growing retail site can move presentation to a browser, application work to a server, and durable data to a database tier, gaining separation while adding network assumptions.",
-      "source": "pp. 120–122"
+      "body": "Pip’s kiosk can keep interface, rules, and storage on one computer. A unitary design can fit constraints; a Big Ball of Mud instead lacks discernible internal structure. Growing retail can separate browser, application, and database tiers through client/server variants. Pip gains separation while explicitly adding network assumptions, not merely escaping one machine.",
+      "example": "",
+      "source": "pp. 120–122",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "storefront",
+            "label": "SMALL KIOSK",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "component",
+            "label": "INTERNAL STRUCTURE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "CLIENT / SERVER",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s kiosk can keep interface, rules, and storage on one computer."
+          },
+          {
+            "node": "step-1",
+            "text": "A unitary design can fit constraints; a Big Ball of Mud instead lacks discernible internal structure."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip gains separation while explicitly adding network assumptions, not merely escaping one machine."
+          }
+        ]
+      }
     },
     {
       "title": "Monolith or distributed deployment",
-      "body": "A monolith is one deployment unit containing all code; a distributed architecture has multiple deployment units connected through remote protocols. Distribution can provide more performance, scalability, and availability, but every remote boundary adds failure modes and coordination. The classification is imperfect, yet it is useful because distributed systems share problems that a monolith usually avoids. Choose distribution for a needed characteristic and budget for the resulting operational complexity.",
-      "example": "Splitting checkout and inventory into separate services may let inventory scale independently. It also means a checkout now depends on a network call, endpoint security, compatible contracts, and an answer to partial failure.",
-      "source": "pp. 123–124"
+      "body": "Pip splits checkout and inventory so inventory can scale independently. A monolith is one deployment unit; distributed architectures connect multiple units through remote protocols. Distribution may improve needed performance, scale, or availability but introduces failures and coordination. Pip budgets network calls, security, compatible contracts, and partial-result handling before claiming independence.",
+      "example": "",
+      "source": "pp. 123–124",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "CHECKOUT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "api",
+            "label": "REMOTE BOUNDARY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "service",
+            "label": "INVENTORY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip splits checkout and inventory so inventory can scale independently."
+          },
+          {
+            "node": "step-1",
+            "text": "A monolith is one deployment unit; distributed architectures connect multiple units through remote protocols."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip budgets network calls, security, compatible contracts, and partial-result handling before claiming independence."
+          }
+        ]
+      }
     },
     {
       "title": "The network fallacies are coupled",
-      "body": "The eight fallacies are a checklist for rejecting comfortable assumptions. Networks fail; remote latency is measured in milliseconds and has a long tail; bandwidth is finite; every endpoint needs security; topology changes; several administrators own pieces of the path; remote calls consume money and infrastructure; and equipment is heterogeneous. These assumptions reinforce one another: excess payload raises bandwidth use, which raises latency, while topology or equipment changes can alter reliability. Measure averages and high percentiles, and pass only necessary data.",
-      "example": "If a wishlist call fetches a 500-kilobyte customer record to use a 200-byte name, high request volume burns bandwidth and increases latency. A smaller contract or field selector reduces the boundary cost.",
-      "source": "pp. 124–130"
+      "body": "Pip fetches a 500-kilobyte customer record for a 200-byte name. Networks fail, have latency tails, finite bandwidth, security needs, changing topology, multiple administrators, cost, and heterogeneous equipment. These eight fallacies interact: payload, congestion, topology, and equipment affect other qualities. Pip sends necessary data and measures typical and high-percentile behavior.",
+      "example": "",
+      "source": "pp. 124–130",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "500 kB PAYLOAD",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "REAL NETWORK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "message",
+            "label": "200-BYTE NEED",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip fetches a 500-kilobyte customer record for a 200-byte name."
+          },
+          {
+            "node": "step-1",
+            "text": "Networks fail, have latency tails, finite bandwidth, security needs, changing topology, multiple administrators, cost, and heterogeneous equipment."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip sends necessary data and measures typical and high-percentile behavior."
+          }
+        ]
+      }
     },
     {
       "title": "Distributed work needs operational design",
-      "body": "Once an application is spread across deployment units, one log is no longer enough to explain a request. Transactions that were simple ACID commits in a monolith become eventual-consistency problems across services; sagas and BASE techniques can coordinate progress and compensation. Teams must also create, maintain, version, and eventually retire contracts between separately owned components. These are architecture concerns, not afterthoughts added when the first incident arrives.",
-      "example": "An order may be stored before payment is accepted. A saga can record the state and compensate the order when payment fails, while a correlation identifier lets operators trace the path across service logs.",
-      "source": "pp. 131–132"
+      "body": "Pip stores an order before remote payment fails. Distributed work needs correlated telemetry, maintained and versioned contracts, and explicit eventual-consistency design instead of one easy ACID commit. A saga can record progress and compensation using BASE-style approaches. Pip includes recovery and contract retirement in architecture, not as additions after the first incident.",
+      "example": "",
+      "source": "pp. 131–132",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "ORDER COMMITTED",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "alert",
+            "label": "PAYMENT FAILURE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "trace",
+            "label": "SAGA + CORRELATION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip stores an order before remote payment fails."
+          },
+          {
+            "node": "step-1",
+            "text": "Distributed work needs correlated telemetry, maintained and versioned contracts, and explicit eventual-consistency design instead of one easy ACID commit."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip includes recovery and contract retirement in architecture, not as additions after the first incident."
+          }
+        ]
+      }
     },
     {
       "title": "Simple decisions have long shadows",
-      "body": "The chapter uses Java serialization as a warning about decisions made for a fashionable architecture. Three-tier computing influenced language design, and a mechanism intended to make networked objects convenient remained for compatibility after the style lost its dominance. Favoring a simple design and questioning assumptions about the future limits the cost of an architectural bet. A named style should help a team reason today without pretending that tomorrow's topology is known.",
-      "example": "Before introducing a universal shared protocol because a current platform favors it, write down who needs it, for how long, and what removing it would cost. A narrow contract is easier to replace than a permanent assumption.",
-      "source": "pp. 122–123"
+      "body": "Pip considers a universal protocol because today’s platform makes it convenient. The chapter’s Java-serialization warning shows how fashionable topology choices can remain through compatibility obligations. Simple designs and explicit assumptions reduce the long shadow of architectural bets. Pip records users, expected lifetime, and removal cost before turning a temporary preference into permanent coupling.",
+      "example": "",
+      "source": "pp. 122–123",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "plugin",
+            "label": "FASHIONABLE MECHANISM",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "COMPATIBILITY LIFETIME",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "EXIT ASSUMPTIONS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip considers a universal protocol because today’s platform makes it convenient."
+          },
+          {
+            "node": "step-1",
+            "text": "The chapter’s Java-serialization warning shows how fashionable topology choices can remain through compatibility obligations."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip records users, expected lifetime, and removal cost before turning a temporary preference into permanent coupling."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -129,61 +507,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "client",
-        "label": "CLIENT",
-        "kind": "browser",
-        "tone": "peach"
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "fundamentals"
       },
       {
-        "id": "edge",
-        "label": "NETWORK EDGE",
-        "kind": "router",
-        "tone": "lilac"
-      },
-      {
-        "id": "service",
-        "label": "REMOTE SVC",
-        "kind": "service",
+        "id": "step-1",
+        "kind": "document",
+        "label": "STYLE NAME",
         "tone": "sage"
       },
       {
-        "id": "store",
-        "label": "RECORD DB",
-        "kind": "database",
+        "id": "step-2",
+        "kind": "blueprint",
+        "label": "ACTUAL TOPOLOGY",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "search",
+        "label": "LOCAL ASSUMPTIONS",
         "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "client",
-        "to": "edge"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "edge",
-        "to": "service"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "service",
-        "to": "store"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "client",
-        "text": "A user action begins as a local request and crosses a deployment boundary."
+        "node": "step-0",
+        "text": "Pip calls the bookshop client/server and a teammate asks where the database runs."
       },
       {
-        "node": "edge",
-        "text": "The network path adds measurable latency, finite bandwidth, security checks, and changing infrastructure."
+        "node": "step-1",
+        "text": "A style names component relationships and default topology, deployment, data, and quality assumptions."
       },
       {
-        "node": "service",
-        "text": "The remote unit must handle timeouts and a versioned contract even when it is healthy."
-      },
-      {
-        "node": "store",
-        "text": "Data may commit locally while other units converge later, requiring tracing and reconciliation."
+        "node": "step-3",
+        "text": "Pip uses the vocabulary to narrow questions, not to guarantee strengths from a label."
       }
     ]
+  },
+  "story": {
+    "course": "fundamentals",
+    "world": "bookshop",
+    "title": "The network joins the design meeting"
   }
 }

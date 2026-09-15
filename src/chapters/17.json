@@ -3,7 +3,7 @@
   "title": "Microservices Architecture",
   "part": "Architecture styles",
   "subtitle": "Draw boundaries that let domains move independently",
-  "summary": "Microservices is a distributed, domain-centered style whose services physically express bounded contexts. Each service runs in its own process and normally owns the code and data it needs, favoring decoupling over reuse when the two conflict. The hard design work is choosing a useful granularity: services should be cohesive, respect transaction boundaries, and avoid forcing a chatty workflow across the network. Data isolation permits teams to choose different technologies, while sidecars and a service mesh provide shared operational capabilities without sharing domain implementation. Communication may be synchronous or asynchronous, and choreography preserves independence while localized orchestration can contain complex workflows. Cross-service transactions are a warning sign; sagas and compensating actions are expensive exceptions. The style strongly supports scalability, elasticity, and evolutionary change, but network overhead, reliability, and coordination remain real trade-offs.",
+  "summary": "Pip separates bookshop domains for independent change, then finds a shared schema tying them back together. Microservices need cohesive bounded contexts and deliberate communication. Smaller is not automatically better when transactions and everyday workflows become a maze of remote calls.",
   "source": {
     "startLine": 8575,
     "endLine": 9198,
@@ -12,33 +12,348 @@
   "concepts": [
     {
       "title": "Bounded Contexts",
-      "body": "A microservice models a domain or workflow as a bounded context. Its code, subcomponents, and data schemas are coupled inside that boundary but do not depend on another service's internals. This makes the service independently changeable. Reuse is not automatically better: shared classes or schemas reduce duplication while increasing coupling, so a highly decoupled design may deliberately duplicate a small value object.",
-      "example": "A catalog service owns product descriptions and a checkout service keeps the fields it needs for an order. Checkout asks the catalog for authoritative changes instead of importing the catalog's database schema.",
-      "source": "pp. 245–248"
+      "body": "Pip’s checkout imports Catalog’s schema and breaks when descriptions change. A microservice keeps code, subcomponents, and data coupled inside its bounded context, not to another service’s internals. Catalog owns authoritative product changes; checkout keeps the fields its orders need. Pip may duplicate a small value object to avoid stronger shared-model coupling.",
+      "example": "",
+      "source": "pp. 245–248",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "CATALOG OWNER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "api",
+            "label": "PUBLIC CONTRACT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "service",
+            "label": "CHECKOUT CONTEXT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s checkout imports Catalog’s schema and breaks when descriptions change."
+          },
+          {
+            "node": "step-1",
+            "text": "A microservice keeps code, subcomponents, and data coupled inside its bounded context, not to another service’s internals."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip may duplicate a small value object to avoid stronger shared-model coupling."
+          }
+        ]
+      }
     },
     {
       "title": "Granularity and Data",
-      "body": "Service boundaries should follow cohesive purpose, business transaction needs, and the communication pattern of a workflow. Making every entity a service creates excessive links and network cost. Data isolation removes a shared database as an easy integration point, so a design must name a source of truth or use replication and caching. The benefit is that each service can select an appropriate persistence technology.",
-      "example": "If address validation, shipping, and checkout must coordinate on nearly every request, separating them may create a chatty system. A larger workflow boundary can reduce calls while still keeping unrelated domains independent.",
-      "source": "pp. 247–249"
+      "body": "Pip turns address validation, shipping, and checkout into tiny services that call constantly. Cohesive purpose, transaction needs, and workflow communication should determine granularity, not every database entity. Isolated data needs a source of truth or deliberate replication and caching. Pip considers a larger workflow boundary while preserving independent storage choices for unrelated domains.",
+      "example": "",
+      "source": "pp. 247–249",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "router",
+            "label": "CHATTY WORKFLOW",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "boundary",
+            "label": "COHESIVE PURPOSE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "database",
+            "label": "OWNED DATA",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip turns address validation, shipping, and checkout into tiny services that call constantly."
+          },
+          {
+            "node": "step-1",
+            "text": "Cohesive purpose, transaction needs, and workflow communication should determine granularity, not every database entity."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip considers a larger workflow boundary while preserving independent storage choices for unrelated domains."
+          }
+        ]
+      }
     },
     {
       "title": "Operational Reuse",
-      "body": "Microservices avoid coupling domain logic, but operational concerns such as monitoring, logging, circuit breaking, and discovery benefit from consistency. A sidecar places those concerns beside each service, and connected sidecars form a service mesh with a shared operational plane across instances. Service discovery can route requests and create instances as demand changes without requiring callers to know one fixed instance.",
-      "example": "Every payment service instance runs a small telemetry sidecar. An infrastructure team upgrades the sidecar once, while the service teams keep ownership of payment behavior and data.",
-      "source": "pp. 249–252"
+      "body": "Pip gives each payment instance consistent telemetry without sharing its business rules. Sidecars can supply monitoring, logging, circuit breaking, and discovery; connected proxies form a service mesh. A shared operational plane can evolve while domain teams retain behavior and data ownership. Discovery routes to changing instances instead of one fixed address.",
+      "example": "",
+      "source": "pp. 249–252",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "PAYMENT DOMAIN",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gateway",
+            "label": "OPERATIONAL SIDECAR",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "SERVICE DISCOVERY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip gives each payment instance consistent telemetry without sharing its business rules."
+          },
+          {
+            "node": "step-1",
+            "text": "Sidecars can supply monitoring, logging, circuit breaking, and discovery; connected proxies form a service mesh."
+          },
+          {
+            "node": "step-3",
+            "text": "Discovery routes to changing instances instead of one fixed address."
+          }
+        ]
+      }
     },
     {
       "title": "Communication Choices",
-      "body": "Services communicate through known protocols in a heterogeneous environment: different services may use different languages and platforms while still interoperating over a network. Synchronous calls are simple but make callers wait; asynchronous events and messages buffer work and support scale. Choreography has no central coordinator and preserves decoupling, whereas a localized orchestrator can contain a complex business workflow at the price of coupling.",
-      "example": "A wish-list service can call demographics directly for a small read. A multi-step account report may use a dedicated reporting service to coordinate several calls rather than turning one domain service into a hidden front controller.",
-      "source": "pp. 254–259"
+      "body": "Pip chooses a simple synchronous lookup but queues work that must absorb bursts. Known protocols connect heterogeneous languages and platforms; waiting calls and asynchronous messages have different operational costs. Choreography avoids a central coordinator, while a localized orchestrator can contain complex workflow knowledge. Pip does not quietly turn one domain service into everybody’s front controller.",
+      "example": "",
+      "source": "pp. 254–259",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "api",
+            "label": "SYNCHRONOUS LOOKUP",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "queue",
+            "label": "ASYNC WORK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "LOCAL ORCHESTRATION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip chooses a simple synchronous lookup but queues work that must absorb bursts."
+          },
+          {
+            "node": "step-1",
+            "text": "Known protocols connect heterogeneous languages and platforms; waiting calls and asynchronous messages have different operational costs."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip does not quietly turn one domain service into everybody’s front controller."
+          }
+        ]
+      }
     },
     {
       "title": "Transactions and Sagas",
-      "body": "A transaction spanning independently owned service databases undermines the decoupling that motivated microservices and often signals overly fine granularity. The preferred response is to revisit the boundary. When distinct architecture needs make coordination unavoidable, a saga mediator records progress and asks completed participants to compensate when a later step fails. Pending states, undo operations, and coordination traffic make this a costly pattern to use sparingly.",
-      "example": "An auction completion workflow may reserve payment and inventory separately. If payment fails after a reservation, the saga issues a release action, and the system exposes the intermediate state rather than pretending the distributed operation was atomic.",
-      "source": "pp. 259–262"
+      "body": "Pip’s auction reserves stock before payment fails. A cross-service transaction can undermine independence and signal an overly fine boundary, so Pip revisits the split first. If different architectural needs justify separation, a saga records progress and requests compensating actions. Pending states, undo, and coordination traffic remain real costs, not an invisible distributed ACID transaction.",
+      "example": "",
+      "source": "pp. 259–262",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "STOCK RESERVED",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "alert",
+            "label": "PAYMENT FAILURE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "message",
+            "label": "COMPENSATING RELEASE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s auction reserves stock before payment fails."
+          },
+          {
+            "node": "step-1",
+            "text": "A cross-service transaction can undermine independence and signal an overly fine boundary, so Pip revisits the split first."
+          },
+          {
+            "node": "step-3",
+            "text": "Pending states, undo, and coordination traffic remain real costs, not an invisible distributed ACID transaction."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -123,75 +438,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "client",
-        "label": "CLIENT",
-        "kind": "browser",
-        "tone": "peach"
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "fundamentals"
       },
       {
-        "id": "gateway",
-        "label": "API LAYER",
-        "kind": "router",
-        "tone": "lilac"
-      },
-      {
-        "id": "domain",
-        "label": "SERVICE",
+        "id": "step-1",
         "kind": "service",
+        "label": "CATALOG OWNER",
         "tone": "sage"
       },
       {
-        "id": "sidecar",
-        "label": "SIDECAR",
-        "kind": "service",
-        "tone": "honey"
+        "id": "step-2",
+        "kind": "api",
+        "label": "PUBLIC CONTRACT",
+        "tone": "lilac"
       },
       {
-        "id": "data",
-        "label": "PRIVATE DATA",
-        "kind": "database",
+        "id": "step-3",
+        "kind": "service",
+        "label": "CHECKOUT CONTEXT",
         "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "client",
-        "to": "gateway"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "gateway",
-        "to": "domain"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "domain",
-        "to": "data"
-      },
-      {
-        "from": "domain",
-        "to": "sidecar"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "client",
-        "text": "A user starts a domain workflow through the service entry point."
+        "node": "step-0",
+        "text": "Pip’s checkout imports Catalog’s schema and breaks when descriptions change."
       },
       {
-        "node": "gateway",
-        "text": "The optional API layer routes or discovers a suitable service without owning domain rules."
+        "node": "step-1",
+        "text": "A microservice keeps code, subcomponents, and data coupled inside its bounded context, not to another service’s internals."
       },
       {
-        "node": "domain",
-        "text": "The bounded context performs cohesive work and communicates with another service when needed."
-      },
-      {
-        "node": "sidecar",
-        "text": "Operational concerns travel through the sidecar so monitoring and logging stay consistent."
-      },
-      {
-        "node": "data",
-        "text": "The service reads and writes its isolated data, preserving an explicit source of truth."
+        "node": "step-3",
+        "text": "Pip may duplicate a small value object to avoid stronger shared-model coupling."
       }
     ]
+  },
+  "story": {
+    "course": "fundamentals",
+    "world": "bookshop",
+    "title": "The catalog owns its own meaning"
   }
 }

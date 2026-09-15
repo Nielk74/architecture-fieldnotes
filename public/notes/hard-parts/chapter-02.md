@@ -1,17 +1,53 @@
 # Chapter 2: Discerning Coupling in Software Architecture
 
-Chapter 2 argues that distributed architecture becomes difficult when several concerns are tangled together. Coupling is defined simply: two parts are coupled if a change in one might require a change in the other. The practical method is to find the entangled parts, analyze how they are coupled, and assess the impact of change on the systems that depend on one another. This replaces generic advice such as “decouple as much as possible,” which would eventually make communication impossible (text lines 800–846).
+*Pip’s adventure: Separate boats, one tether. Fictional teaching story; concepts follow the cited source.*
 
-The chapter explains why microservices make these questions harder. Bounded contexts move data concerns inside service boundaries, making transactionality an architectural concern. Earlier distributed systems often relied on a shared relational database to handle integrity and transactions. Once data moves with a service, architects must reason about both structure and data behavior when choosing service size and communication (text lines 822–846).
+Source: text lines 800–1200.
 
-The architecture quantum provides a useful scope. It is an independently deployable artifact with high functional cohesion, high static coupling, and synchronous dynamic coupling. Independent deployment establishes a deployable boundary; functional cohesion keeps related behavior and data together. Static coupling covers everything required to bootstrap the unit: operating system, libraries, frameworks, data store, broker, container environment, and other operational dependencies. A monolith is one quantum. A distributed system can also be one quantum when services share a database or another indispensable coupling point (text lines 847–977).
+Pip draws independent services for island deliveries, but one database and a chain of waiting calls still bind them together. The crew distinguishes deployment dependencies from runtime interactions, then examines communication, consistency, and coordination separately.
 
-Static and dynamic coupling answer different questions. Static coupling is how the architecture is wired. Dynamic coupling is how quanta communicate at runtime. A message broker may be static coupling when it must exist for startup, while a message published through it is dynamic coupling. Static diagrams help reveal what must be tested when a dependency changes. Runtime call graphs reveal temporary entanglement and operational effects (text lines 978–1000).
+## Coupling and change
 
-Dynamic coupling has three interacting dimensions. Communication is synchronous when the caller waits for a response and asynchronous when it posts work and continues after acknowledgment. Consistency ranges from atomic, all-or-nothing processing to eventual consistency. Coordination is orchestrated when a central service directs the workflow and choreographed when services share coordination responsibilities. The chapter emphasizes that these choices cannot be made independently. Synchronous mediated workflows make transactionality easier; asynchronous, eventual, choreographed workflows can improve scale and elasticity while increasing recovery and intermediate-state concerns (text lines 1001–1085).
+Pip changes parcel assignment and three other services need edits. Coupling means a change in one part might require another to preserve functionality. Pip finds the entangled parts and traces their change impact. Useful systems must communicate; the aim is a deliberate amount of coupling, not none.
 
-The eight combinations form a vocabulary ranging from very high to very low coupling. The names are mnemonic labels, not universal prescriptions. Their value is to make a decision’s position in the three-dimensional space explicit, so an architect can compare consequences rather than argue about tools (text lines 1086–1200).
+Source: text lines 800–846.
 
-Teaching extension: map one workflow as a quantum diagram. Mark bootstrap dependencies in one color and runtime calls in another. For each call, record whether waiting, atomicity, and central coordination are truly required. The artifact applies the chapter’s framework; it is not additional source content.
+## Architecture quantum
 
-The chapter’s vocabulary is useful because it keeps topology and behavior visible at the same time. A service can look independent on a deployment diagram yet share a database that makes it one static quantum. Conversely, two quanta can become temporarily entangled during a synchronous workflow. Naming both facts gives the architect a more accurate basis for change and reliability analysis.
+Pip celebrates two service processes sharing one essential database. Separate processes do not necessarily create separate architecture quanta. A quantum is independently deployable, with high functional cohesion, high static coupling, and synchronous dynamic coupling. Pip checks the actual deployment and dependency boundary; a distributed topology can still form one quantum.
+
+Source: text lines 847–977.
+
+## Static versus dynamic
+
+Pip lists what the delivery service needs before it can start. Libraries, runtime infrastructure, database, and broker are static coupling. The request sent through that broker is dynamic interaction between quanta. Pip traces both wiring and runtime calls to understand operational blast radius.
+
+Source: text lines 978–1000.
+
+## Three dynamic dimensions
+
+Pip lets parcel intake continue while assignment is pending. Communication asks wait or message; consistency asks atomic agreement or eventual convergence. Coordination asks central orchestration or participant choreography. The dimensions interact: synchronous mediation eases atomicity, while asynchronous eventual choreography can improve scale and elasticity.
+
+Source: text lines 1001–1085.
+
+## Transfer challenge: Assign a ticket
+
+Ticket intake must remain available during spikes. Assignment uses skills and location, and the customer eventually needs an expert confirmation. The team can make intake synchronously call assignment, or publish an asynchronous request and model a pending state.
+
+### Synchronous call
+
+The caller gets an immediate assignment result and a straightforward atomic flow. Assignment latency or failure directly affects intake responsiveness and availability. The customer receives an answer in one request when both services are healthy, but spikes or assignment outages can stall ticket creation.
+
+### Async request
+
+A queue buffers spikes and lets intake continue while assignment processes independently. The workflow needs eventual consistency, status handling, retries, and a response path. The ticket is accepted quickly and later receives an assignment event; operators must explain and monitor pending tickets.
+
+The choice occupies a point in the communication, consistency, and coordination space. The right point depends on latency, availability, transactionality, and operational ability to handle intermediate states.
+
+## Map a quantum
+
+Draw one deployable unit and map its bootstrap dependencies and one runtime workflow, then classify each dynamic choice.
+
+- Context
+- Decision
+- Trade-off

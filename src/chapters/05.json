@@ -3,7 +3,7 @@
   "title": "Identifying Architectural Characteristics",
   "part": "Foundations",
   "subtitle": "Turn stakeholder language into design forces",
-  "summary": "Identifying architectural characteristics starts with domain understanding and collaboration. Architects translate business concerns into a short set of structural qualities, rather than designing a generic system that tries to support every “-ility.” Stakeholders may say growth, satisfaction, time to market, or competitive advantage; architects must connect those goals to scalability, elasticity, availability, testability, deployability, security, and related concerns. Requirements provide explicit clues such as user counts, but domain knowledge exposes implicit realities such as registration surges, bursty meal traffic, or the need to recover an interrupted calculation. Architecture katas practice this translation under a timebox by adding users, requirements, and additional context. The Silicon Sandwiches example shows that each requirement needs interpretation and that trade-offs, feasibility, and collaboration with developers matter more than discovering a perfect list. Prioritize a few characteristics and test which one could be removed.",
+  "summary": "Pip translates the bookshop’s growth plans into engineering concerns, then checks what the words really mean. Requirements are clues, domain knowledge supplies questions, and collaboration establishes priorities. A timeboxed design exercise exposes assumptions before implementation makes them costly.",
   "source": {
     "startLine": 2806,
     "endLine": 3228,
@@ -12,33 +12,348 @@
   "concepts": [
     {
       "title": "Translate domain concerns",
-      "body": "Architects listen for business goals and translate them into structural characteristics. Mergers may imply interoperability and adaptability; time to market may require agility, testability, and deployability; user satisfaction may involve performance, availability, fault tolerance, security, and testability. The mapping is contextual, and a short list keeps the architecture understandable. Stakeholders and architects need a shared language to avoid translation loss.",
-      "example": "‘Finish pricing by end of day’ implies more than speed: the system may need scale, availability, reliability, recoverability, auditability, and correctness when a calculation is interrupted.",
-      "source": "pp. 65–67"
+      "body": "Pip hears that pricing must finish by closing time. Business goals may imply scale, availability, reliability, recovery, auditability, and correctness—not merely speed. Mergers can suggest interoperability; faster delivery can suggest testability and deployability. Pip uses shared domain language and a short contextual list to avoid losing meaning in translation.",
+      "example": "",
+      "source": "pp. 65–67",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "storefront",
+            "label": "BUSINESS GOAL",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "listening",
+            "label": "SHARED LANGUAGE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "target",
+            "label": "SHORT PRIORITY LIST",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip hears that pricing must finish by closing time."
+          },
+          {
+            "node": "step-1",
+            "text": "Business goals may imply scale, availability, reliability, recovery, auditability, and correctness—not merely speed."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip uses shared domain language and a short contextual list to avoid losing meaning in translation."
+          }
+        ]
+      }
     },
     {
       "title": "Read explicit requirements",
-      "body": "Requirements often encode architecture characteristics indirectly. User counts point toward scalability, but the architect must ask whether traffic is steady or bursty. External services raise reliability and fallback questions; mobile access can shape performance and delivery design; online payment raises security hygiene. Each requirement is a clue to inspect, not a command to add every possible capability. The architect tests the clue against domain behavior and constraints.",
-      "example": "A registration system for 1,000 students should plan for last-minute concentration in the final ten minutes, even if the document only says registration lasts ten hours.",
-      "source": "pp. 66–72"
+      "body": "Pip reads “1,000 registrations over ten hours” and assumes even traffic. The chapter’s example concentrates registrations in the final ten minutes. User counts, external services, mobile access, and payments are clues to scale, fallback, performance, and security questions. Pip validates workload and constraints rather than automatically adding every possible capability.",
+      "example": "",
+      "source": "pp. 66–72",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "EXPLICIT REQUIREMENT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "LAST-MINUTE BURST",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "REAL WORKLOAD",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip reads “1,000 registrations over ten hours” and assumes even traffic."
+          },
+          {
+            "node": "step-1",
+            "text": "The chapter’s example concentrates registrations in the final ten minutes."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip validates workload and constraints rather than automatically adding every possible capability."
+          }
+        ]
+      }
     },
     {
       "title": "Use implicit domain knowledge",
-      "body": "Important characteristics may never appear in a requirements document. Architects use familiarity with user habits, failure impact, market conditions, and operational context to surface availability, elasticity, recoverability, or reliability. They then validate assumptions with domain stakeholders. Implicit does not mean universal: a concern still needs importance and structural consequences before it earns architectural treatment. Asking focused questions prevents intuition from becoming accidental overengineering.",
-      "example": "Meal ordering likely peaks around lunch and dinner. A sound analysis asks for burst handling and a graceful mapping-service fallback instead of assuming an even flow or a total outage on dependency failure.",
-      "source": "pp. 70–74"
+      "body": "Pip expects lunch-order demand to peak around meals, then asks stakeholders to confirm. User habits, failure impact, and operational context reveal implicit availability, elasticity, recovery, or reliability needs. A mapping dependency also prompts a graceful-fallback question. Pip requires importance and structural consequences before turning domain intuition into architecture.",
+      "example": "",
+      "source": "pp. 70–74",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "person",
+            "label": "USER HABITS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "EXTERNAL DEPENDENCY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "listening",
+            "label": "VALIDATE ASSUMPTIONS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip expects lunch-order demand to peak around meals, then asks stakeholders to confirm."
+          },
+          {
+            "node": "step-1",
+            "text": "User habits, failure impact, and operational context reveal implicit availability, elasticity, recovery, or reliability needs."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip requires importance and structural consequences before turning domain intuition into architecture."
+          }
+        ]
+      }
     },
     {
       "title": "Practice with architecture katas",
-      "body": "An architecture kata gives a compact domain description, users, requirements, and additional context. Teams design under a timebox, present their choices, and receive feedback about missed trade-offs and alternatives. The exercise trains architects to derive characteristics before implementation and to reason from domain language. Its value is disciplined practice and critique, not a single winning diagram. Timeboxing also exposes which assumptions deserve more investigation.",
-      "example": "A team gets a sandwich ordering brief, notices franchises and overseas plans, and proposes scalability, elasticity, customizability, internationalization, and mobile performance before debating implementation. Reviewers then question the assumptions behind those priorities.",
-      "source": "pp. 67–69"
+      "body": "Pip practices with the chapter’s sandwich-ordering kata before redesigning the shop. A compact brief, users, requirements, and context support a timeboxed design and presentation. Franchises and overseas plans raise scale, customization, internationalization, and mobile questions. Feedback trains domain reasoning and trade-off analysis; the point is not one winning diagram.",
+      "example": "",
+      "source": "pp. 67–69",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "KATA BRIEF",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "TIMEBOX",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "CRITIQUE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip practices with the chapter’s sandwich-ordering kata before redesigning the shop."
+          },
+          {
+            "node": "step-1",
+            "text": "A compact brief, users, requirements, and context support a timeboxed design and presentation."
+          },
+          {
+            "node": "step-3",
+            "text": "Feedback trains domain reasoning and trade-off analysis; the point is not one winning diagram."
+          }
+        ]
+      }
     },
     {
       "title": "Prioritize and collaborate",
-      "body": "The chapter recommends asking stakeholders for their top three characteristics rather than forcing a complete ranking. Architects should test the least important candidate and ask whether it can move into ordinary design. Feasibility, budget, staff skills, and timing constrain the answer. No architect should decide structural customization or similar concerns in isolation from developers, operations, analysts, and other co-constructors. Collaboration makes the trade-off visible to the people who must carry it.",
-      "example": "Silicon Sandwiches may keep scalability, elasticity, and availability as structural priorities while implementing local promotions through design patterns if a plug-in architecture costs too much.",
-      "source": "pp. 65–75"
+      "body": "Pip asks stakeholders for their top three characteristics instead of a forced full ranking. The least important candidate may belong in ordinary design rather than special structure. Budget, feasibility, skills, and timing constrain the answer. Pip includes developers, operations, analysts, and domain partners in deciding whether promotions need plug-ins or simpler design patterns.",
+      "example": "",
+      "source": "pp. 65–75",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "target",
+            "label": "TOP THREE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "balance",
+            "label": "FEASIBILITY + COST",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "CO-CONSTRUCTED CHOICE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks stakeholders for their top three characteristics instead of a forced full ranking."
+          },
+          {
+            "node": "step-1",
+            "text": "The least important candidate may belong in ordinary design rather than special structure."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip includes developers, operations, analysts, and domain partners in deciding whether promotions need plug-ins or simpler design patterns."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -123,65 +438,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "domain",
-        "label": "DOMAIN STORY",
-        "kind": "person",
-        "tone": "peach"
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "fundamentals"
       },
       {
-        "id": "clues",
-        "label": "CLUES",
-        "kind": "document",
-        "tone": "honey"
+        "id": "step-1",
+        "kind": "storefront",
+        "label": "BUSINESS GOAL",
+        "tone": "sage"
       },
       {
-        "id": "ilities",
-        "label": "QUALITIES",
-        "kind": "target",
+        "id": "step-2",
+        "kind": "listening",
+        "label": "SHARED LANGUAGE",
         "tone": "lilac"
       },
       {
-        "id": "design",
-        "label": "DESIGN",
-        "kind": "blueprint",
-        "tone": "sage"
+        "id": "step-3",
+        "kind": "target",
+        "label": "SHORT PRIORITY LIST",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "domain",
-        "to": "clues"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "clues",
-        "to": "ilities"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "ilities",
-        "to": "design"
-      },
-      {
-        "from": "design",
-        "to": "domain"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "domain",
-        "text": "Listen to stakeholders and learn the domain habits, risks, deadlines, and business goals behind the request."
+        "node": "step-0",
+        "text": "Pip hears that pricing must finish by closing time."
       },
       {
-        "node": "clues",
-        "text": "Mark explicit user counts and requirements, then add implicit traffic, dependency, recovery, and feasibility clues."
+        "node": "step-1",
+        "text": "Business goals may imply scale, availability, reliability, recovery, auditability, and correctness—not merely speed."
       },
       {
-        "node": "ilities",
-        "text": "Translate clues into a short candidate set and ask stakeholders to choose the few characteristics that matter most."
-      },
-      {
-        "node": "design",
-        "text": "Test structural consequences, collaborate on trade-offs, and remove a candidate if it is not worth its complexity."
+        "node": "step-3",
+        "text": "Pip uses shared domain language and a short contextual list to avoid losing meaning in translation."
       }
     ]
+  },
+  "story": {
+    "course": "fundamentals",
+    "world": "bookshop",
+    "title": "Listen before choosing the architecture"
   }
 }

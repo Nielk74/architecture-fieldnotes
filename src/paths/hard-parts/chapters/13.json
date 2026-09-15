@@ -3,7 +3,7 @@
   "title": "Contracts",
   "part": "Contracts & analysis",
   "subtitle": "Connect services with only the agreement they need",
-  "summary": "A contract is the format used by parts of an architecture to convey information or dependencies. Contracts span integration protocols, libraries, caches, and other connections, and range from strict remote calls to loose name/value messages. Strict contracts provide fidelity, versioning, build-time verification, and documentation, but changes couple participants and version sprawl becomes costly. Loose contracts evolve more freely and decouple implementation, while requiring application validation and governance. Consumer-driven contracts address that tension by letting each consumer specify its needs and making the provider test those expectations. Stamp coupling passes a large structure when a participant uses only a small part; it is useful for genuine industry documents but often an accidental source of bandwidth and change coupling. Design contracts at need-to-know scope and use fitness functions to keep loose agreements reliable.",
+  "summary": "Pip sends a whole customer dossier when the next service needs only a name. Contracts can be strict or loose, but both need intentional scope. Consumer expectations and build checks help the delivery network evolve without making every internal change everybody’s problem.",
   "source": {
     "startLine": 8357,
     "endLine": 8721,
@@ -12,33 +12,348 @@
   "concepts": [
     {
       "title": "Contract spectrum",
-      "body": "Contracts define how architecture parts connect. Strict forms govern names, types, ordering, and required details, often resembling remote method calls. Loose forms carry flexible values or resources. The choice affects static coupling, evolution, verification, documentation, and application logic, so implementation technology should follow the contract decision.",
-      "example": "A typed RPC call requires exact parameters. A resource representation can add airplane engine details without breaking a client that only queries seats.",
-      "source": "text lines 8370–8432"
+      "body": "Pip must agree what a delivery message means before choosing its transport. Strict contracts govern names, types, ordering, and required details; loose forms allow flexible values or resources. The choice affects coupling, evolution, verification, documentation, and application logic. Pip chooses technology after the contract, not the other way around.",
+      "example": "",
+      "source": "text lines 8370–8432",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "INFORMATION CONTRACT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gateway",
+            "label": "STRICT FORM",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "message",
+            "label": "LOOSE FORM",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip must agree what a delivery message means before choosing its transport."
+          },
+          {
+            "node": "step-1",
+            "text": "Strict contracts govern names, types, ordering, and required details; loose forms allow flexible values or resources."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip chooses technology after the contract, not the other way around."
+          }
+        ]
+      }
     },
     {
       "title": "Strict contracts",
-      "body": "Strict contracts provide fidelity and clear documentation, can be versioned, and are easier to verify during builds. Their cost is tight coupling: a shared contract change may require coordinated changes in both services. Supporting too many versions can also create an integration maintenance burden.",
-      "example": "A schema requires account, security identifier, and share count with types and minimum values; CI rejects a provider response that violates those rules.",
-      "source": "text lines 8388–8408; 8460–8508"
+      "body": "Pip’s typed shipment contract catches an invalid quantity during CI. Strict agreements provide fidelity, documentation, versioning, and build-time verification. A shared contract change can still force coordinated consumer and provider changes. Pip limits version sprawl before compatibility support becomes its own integration burden.",
+      "example": "",
+      "source": "text lines 8388–8408; 8460–8508",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "TYPED SCHEMA",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "experiment",
+            "label": "BUILD CHECK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "VERSION LIFECYCLE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s typed shipment contract catches an invalid quantity during CI."
+          },
+          {
+            "node": "step-1",
+            "text": "Strict agreements provide fidelity, documentation, versioning, and build-time verification."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip limits version sprawl before compatibility support becomes its own integration burden."
+          }
+        ]
+      }
     },
     {
       "title": "Loose contracts",
-      "body": "Name/value contracts allow services to evolve internal models and even technology stacks independently. Their flexibility does not remove semantic coupling: consumers still need particular information. Without schema certainty, teams must handle missing names, misspellings, types, and validation through application logic and governance.",
-      "example": "Two services exchange only customer name and status as JSON, so one can redesign its full Customer model without forcing the other to adopt it.",
-      "source": "text lines 8441–8457; 8515–8554"
+      "body": "Pip sends customer name and status without exposing the full internal model. Loose name/value contracts let services and technology evolve independently. Consumers still depend on meaning and required information. Pip handles missing fields, spelling, types, validation, and governance rather than confusing flexibility with no coupling.",
+      "example": "",
+      "source": "text lines 8441–8457; 8515–8554",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "NAME + STATUS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "INTERNAL EVOLUTION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "shield",
+            "label": "APPLICATION VALIDATION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip sends customer name and status without exposing the full internal model."
+          },
+          {
+            "node": "step-1",
+            "text": "Loose name/value contracts let services and technology evolve independently."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip handles missing fields, spelling, types, validation, and governance rather than confusing flexibility with no coupling."
+          }
+        ]
+      }
     },
     {
       "title": "Consumer-driven checks",
-      "body": "A consumer-driven contract reverses the usual provider-push model. A consumer states the fields and behavior it needs; the provider runs that contract as part of its build or deployment checks. This preserves loose service coupling while adding fidelity, but depends on engineering discipline and introduces two cooperating mechanisms.",
-      "example": "Wishlist asks Profile for name by identifier. Profile CI runs Wishlist’s contract test even while other consumers request different fields.",
-      "source": "text lines 8557–8648"
+      "body": "Pip’s wishlist needs only a display name from Profile. The consumer specifies required fields and behavior instead of accepting a provider-pushed universal contract. Profile runs that expectation in its build or deployment checks alongside other consumers’ needs. Pip gains fidelity with looser coupling, paying for two cooperating mechanisms and engineering discipline.",
+      "example": "",
+      "source": "text lines 8557–8648",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "CONSUMER NEED",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "CONTRACT TEST",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "terminal",
+            "label": "PROVIDER CI",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s wishlist needs only a display name from Profile."
+          },
+          {
+            "node": "step-1",
+            "text": "The consumer specifies required fields and behavior instead of accepting a provider-pushed universal contract."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip gains fidelity with looser coupling, paying for two cooperating mechanisms and engineering discipline."
+          }
+        ]
+      }
     },
     {
       "title": "Stamp coupling",
-      "body": "Stamp coupling passes a large data structure even though each participant uses a small portion. It can be appropriate for a real standard document whose whole shape must travel, but accidental over-specification makes unrelated changes breaking and wastes bandwidth. Need-to-know contracts reduce this fragility.",
-      "example": "A travel itinerary standard may be passed intact among industry systems. A Wishlist should not receive every Profile field merely because it might someday need them.",
-      "source": "text lines 8649–8721"
+      "body": "Pip sends an entire profile for one name and breaks a consumer after an unrelated field change. Stamp coupling passes large structures whose recipients use small portions. A genuine standard itinerary may justify carrying the whole document. Pip otherwise uses need-to-know contracts to reduce bandwidth and accidental change coupling.",
+      "example": "",
+      "source": "text lines 8649–8721",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "WHOLE PROFILE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "ONE FIELD NEEDED",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "message",
+            "label": "SCOPED CONTRACT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip sends an entire profile for one name and breaks a consumer after an unrelated field change."
+          },
+          {
+            "node": "step-1",
+            "text": "Stamp coupling passes large structures whose recipients use small portions."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip otherwise uses need-to-know contracts to reduce bandwidth and accidental change coupling."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -123,61 +438,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "provider",
-        "label": "PROVIDER",
-        "kind": "service",
-        "tone": "peach"
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "hard-parts"
       },
       {
-        "id": "contract",
-        "label": "CONTRACT",
+        "id": "step-1",
         "kind": "document",
-        "tone": "lilac"
-      },
-      {
-        "id": "consumer",
-        "label": "CONSUMER",
-        "kind": "service",
+        "label": "INFORMATION CONTRACT",
         "tone": "sage"
       },
       {
-        "id": "check",
-        "label": "FITNESS",
-        "kind": "gauge",
+        "id": "step-2",
+        "kind": "gateway",
+        "label": "STRICT FORM",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "message",
+        "label": "LOOSE FORM",
         "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "consumer",
-        "to": "contract"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "contract",
-        "to": "provider"
+        "from": "step-0",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "provider",
-        "to": "check"
+        "from": "step-0",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "consumer",
-        "text": "State the smallest information and behavior a consumer needs."
+        "node": "step-0",
+        "text": "Pip must agree what a delivery message means before choosing its transport."
       },
       {
-        "node": "contract",
-        "text": "Choose strict rules or loose values and record the semantic agreement."
+        "node": "step-1",
+        "text": "Strict contracts govern names, types, ordering, and required details; loose forms allow flexible values or resources."
       },
       {
-        "node": "provider",
-        "text": "Implement the provider without exporting unrelated internal details."
-      },
-      {
-        "node": "check",
-        "text": "Run the consumer expectation in provider build or deployment checks."
+        "node": "step-3",
+        "text": "Pip chooses technology after the contract, not the other way around."
       }
     ]
+  },
+  "story": {
+    "course": "hard-parts",
+    "world": "islands",
+    "title": "The manifest carries too much"
   }
 }

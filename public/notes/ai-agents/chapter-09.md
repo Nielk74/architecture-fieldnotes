@@ -1,24 +1,26 @@
 # Chapter 9: Validation and Measurement
 
+*Pip’s adventure: The refund that only sounded successful. Fictional teaching story; concepts follow the cited source.*
+
 Original learning notes. Source: text lines 8458–9144 in the supplied book.
 
-Agent evaluation needs an explicit definition of success that covers the intended outcome and the constraints on obtaining it. Component tests reveal local failures, while complete conversations and tool trajectories expose mistakes that a plausible final answer can hide. The support-agent examples show why simple refunds, ambiguous requests, and multistep changes belong in a representative evaluation set. Error analysis turns failures into targeted improvements and regression cases. Cost and latency remain relevant alongside quality and safety. Integrating these checks into development and release gates gives teams evidence for promotion, with human review where automated judgments cannot resolve important ambiguity.
+Pip’s demo delivers a lovely confirmation, but no ticket refund occurs. Evaluation must examine outcomes and the route used to reach them. Pip gathers ordinary, ambiguous, adversarial, and edge cases so a persuasive answer cannot hide a wrong action.
 
 ## Measurement goals
 
-Evaluation starts with explicit metrics tied to the task. For language agents, exact-match answers often fail to capture usefulness, so teams measure quality, safety, cost, latency, and successful completion.
+Pip’s guide politely confirms a refund that never happened. Evaluation starts with task-specific success, not merely exact-match wording. Pip separately scores authorized amount, completed transaction, quality, safety, latency, and cost. Fluency cannot earn completion credit for an unsuccessful action.
 
 ## Trajectory metrics
 
-A trajectory includes model decisions, tool calls, observations, and final outcome. Inspecting the path can reveal a wrong tool, unnecessary loop, or unsupported step hidden by a plausible final answer.
+Pip gets the right arrival time after seven paid lookups. The final answer hides waste. A trajectory includes decisions, tool calls, observations, and outcome, exposing wrong tools, loops, and unsupported steps. Pip reviews the path as well as the destination.
 
 ## Evaluation sets
 
-A living set contains ordinary, ambiguous, adversarial, and edge cases. Model-generated cases can expand coverage, but humans review and refine them so the set remains a trustworthy specification.
+Pip’s test set begins with easy refunds. Reviewers add ambiguous ticket references, canceled bookings, adversarial requests, and edge cases. Model-generated cases expand coverage only when humans check and refine expected behavior. Pip keeps the living set a trustworthy specification.
 
 ## Lifecycle integration
 
-Evaluation belongs in development and release workflows. Baselines, regression checks, and targeted generation let teams compare changes and learn whether an improvement generalizes.
+Pip fixes a production cancellation failure. The case joins the baseline and regression suite before the next orchestration release. Development and promotion checks compare changes and targeted new cases. Pip tests general improvement rather than retiring evaluation after a good demo.
 
 ## Teaching extension
 

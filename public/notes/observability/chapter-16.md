@@ -1,27 +1,53 @@
-# 16. Efficient Data Storage
+# Chapter 16: Efficient Data Storage
 
-Store for unpredictable questions and fresh answers
+*Pip’s adventure: Store evidence for the question Pip has not asked yet. Fictional teaching story; concepts follow the cited source.*
 
-Observability storage must support an unusual combination: high-volume event ingestion, arbitrary filtering and grouping, rapid queries, fresh data, and resilience during incidents. Pre-aggregating into fixed time series sacrifices the context needed for unfamiliar questions, while indexing every possible field can become prohibitively expensive. The chapter uses Honeycomb’s Retriever to illustrate a different trade-off. Time-bounded segments reduce the search space, and column-oriented data within them limits reads to fields a query actually uses. Append-only ingestion accommodates out-of-order events through segment timestamp ranges rather than constant rewriting. This is a reference design, not a universal prescription. Its value lies in connecting physical storage choices to the speed, fidelity, and availability required by an engineer’s investigation loop.
+Source: text lines 6676–7402.
+
+Pip needs a new tenant-build comparison during an incident. Storage tuned only for prepared queries cannot help. Event-level attributes, bounded time scans, and selective column reads preserve investigative flexibility while controlling cost.
 
 ## The workload determines the design
 
-Investigators do not know every useful field or grouping in advance. Storage must therefore retain event-level attributes and answer new combinations quickly, including newly arrived data. Optimizing only prepared queries can leave unfamiliar investigations slow or impossible. Freshness and fault tolerance matter too, because responders need to verify changes while production is already under stress.
+Pip asks about a tenant-build combination nobody previously queried. Investigation needs new groupings over retained event attributes, including fresh arrivals. Prepared-query optimization alone may make unfamiliar questions slow or impossible. Pip also checks fault tolerance because the store must help verify changes while production is under stress.
+
+Source: text lines 6676–7402.
 
 ## Time segments bound the scan
 
-Retriever groups incoming data into append-only segments and records their oldest and newest event timestamps. Queries select segments whose ranges overlap the requested interval. Events need not arrive in exact timestamp order, but mixing very old backfill with fresh data can widen many segment ranges and increase the amount a later query must scan.
+Pip queries a narrow incident window in Retriever. Append-only segments record their oldest and newest event timestamps so nonoverlapping segments can be skipped. Events need not arrive in exact timestamp order. Pip avoids mixing very old backfill broadly with fresh events, which widens ranges and increases later scans.
+
+Source: text lines 6676–7402.
 
 ## Columns reduce unnecessary reads
 
-Within relevant segments, column-oriented storage lets a query read the fields it filters, groups, or returns instead of every attribute in every event. Sparse and repeated values can also compress efficiently. Reconstructing full rows requires additional work, so the design balances analytical scans with the need to inspect individual events and traces.
+Pip groups latency by build without reading every request header. Column storage reads filtered, grouped, and returned fields within relevant segments. Sparse and repeated values can compress efficiently. Pip balances fast analytical scans against the extra work needed to reconstruct full events and traces.
+
+Source: text lines 6676–7402.
 
 ## Avoid preselecting every future question
 
-A traditional metric series gains efficiency when the same label combinations repeat. Unique request-like attributes undermine that assumption by generating many distinct combinations. The chapter instead emphasizes retained events and efficient reads without requiring every interesting dimension to be predicted and specially indexed, preserving flexibility for the next unfamiliar investigation.
+Pip considers making every request ID a metric label. Unique request-like values create new series instead of reusable aggregate combinations. The chapter favors retained events and efficient reads without preselecting or specially indexing every future dimension. Pip preserves flexibility for the next unfamiliar question.
 
-## Apply it
+Source: text lines 6676–7402.
+
+## Transfer challenge: Backfill slows live investigation
+
+A pipeline mixes week-old spans with current events, and narrow recent-time queries now scan many segments.
+
+### Examine segment ranges and separate backfill handling
+
+Can restore useful time pruning while retaining historical data. Adds ingestion or partition-management complexity. Recent queries may scan fewer irrelevant segments once backfill is organized appropriately.
+
+### Increase query workers immediately
+
+May reduce latency by adding capacity. Can mask widening scan ranges and raise operating cost. The same poorly pruned queries consume a larger worker fleet.
+
+Understand whether the scan is large because of data organization before treating it only as a capacity problem.
+
+## Connect query needs to storage
 
 Design a recent-event query and identify which storage work it should avoid.
 
-Source: *Observability Engineering*, chapter 16; supplied text lines 6676–7402. These notes are an original synthesis; examples and activities are illustrative.
+- Time window and relevant fields
+- Segments or columns to skip
+- Effect of late-arriving events

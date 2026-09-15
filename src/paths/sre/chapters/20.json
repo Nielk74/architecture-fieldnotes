@@ -3,7 +3,7 @@
   "title": "Load Balancing in the Datacenter",
   "part": "Distributed systems",
   "subtitle": "Balance actual backend capability within a datacenter",
-  "summary": "A datacenter can have spare aggregate CPU while its busiest backend limits usable capacity. This chapter explains why distributing equal request counts does not reliably distribute equal work. Client traffic rates, query costs, machine performance, and neighboring workloads all vary. Health management must also distinguish an unavailable server from one that is draining requests before shutdown. Subsetting limits the cost of persistent client connections, but choosing subsets randomly can create substantial imbalance; deterministic assignment improves coverage. Least-loaded routing uses active requests as a proxy and can accidentally favor a server that fails quickly. Weighted round robin instead incorporates backend reports of successful work, errors, and utilization to adjust routing toward demonstrated capability.",
+  "summary": "Pip’s router favors a backend that returns errors instantly. Datacenter balancing needs more than request counts. Graceful draining, bounded connection subsets, failure-aware selection, and backend feedback help distribute useful work instead of rewarding broken behavior.",
   "source": {
     "startLine": 8107,
     "endLine": 8603,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Lame-duck draining",
-      "body": "A server in lame-duck state can still finish requests but asks clients to stop assigning new work. Publishing that state before shutdown gives clients time to redirect traffic while existing requests drain. This is more informative than merely refusing connections or reaching an outstanding-request limit, which may reflect slow legitimate work rather than a failed process.",
-      "example": "Teaching extension: A deployment marks a backend as draining, lets its current requests finish, and only then terminates it.",
-      "source": "text lines 8107–8603"
+      "body": "Pip marks a booking backend as lame-duck before deployment. It can finish existing requests while asking clients to stop sending new ones. Publishing that state allows redirection and draining before termination. Pip avoids treating a slow legitimate request or full outstanding-request limit as proof of a dead process.",
+      "example": "",
+      "source": "text lines 8107–8603",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "DRAINING BACKEND",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "REDIRECT NEW WORK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "FINISH EXISTING WORK",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip marks a booking backend as lame-duck before deployment."
+          },
+          {
+            "node": "step-1",
+            "text": "It can finish existing requests while asking clients to stop sending new ones."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip avoids treating a slow legitimate request or full outstanding-request limit as proof of a dead process."
+          }
+        ]
+      }
     },
     {
       "title": "Deterministic connection subsetting",
-      "body": "Connecting every client to every backend consumes memory, health-check work, and connection setup capacity. Subsetting bounds those costs by selecting a smaller backend pool per client. Independent random choices can overpopulate some backends and leave others lightly used. Deterministic subsetting distributes assignments across coordinated rounds, improving coverage while making the connection pool practical to operate at scale.",
-      "example": "Teaching extension: Twelve backends are divided into groups of three so each client in a four-client round receives a distinct group.",
-      "source": "text lines 8107–8603"
+      "body": "Pip’s all-to-all connections consume memory and health-check capacity. Subsetting gives each client a smaller pool; random choices may concentrate load unevenly. Deterministic rounds distribute assignments and improve coverage. Pip can give four clients distinct groups of three across twelve backends while bounding connection costs.",
+      "example": "",
+      "source": "text lines 8107–8603",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "team",
+            "label": "FOUR CLIENTS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "DETERMINISTIC SUBSETS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "service",
+            "label": "TWELVE BACKENDS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s all-to-all connections consume memory and health-check capacity."
+          },
+          {
+            "node": "step-1",
+            "text": "Subsetting gives each client a smaller pool; random choices may concentrate load unevenly."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip can give four clients distinct groups of three across twelve backends while bounding connection costs."
+          }
+        ]
+      }
     },
     {
       "title": "Limits of counting outstanding requests",
-      "body": "Least-loaded routing favors backends with fewer active requests, but each client sees only its own traffic and request count is an imperfect proxy for resource usage. A server that returns errors immediately can appear especially idle and attract more traffic. Accounting for recent failures avoids that sinkhole, although it does not solve differences in request cost or machine capability.",
-      "example": "Teaching extension: A broken backend returns errors in one millisecond; the client penalizes those errors instead of interpreting speed as spare capacity.",
-      "source": "text lines 8107–8603"
+      "body": "Pip’s broken backend returns errors in one millisecond and looks idle. Least-outstanding routing sees only the client’s own requests, not their true resource cost. Pip penalizes recent errors so failures do not become a traffic sinkhole. Different request costs and machine capabilities still require more information.",
+      "example": "",
+      "source": "text lines 8107–8603",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "INSTANT ERRORS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "FEW OUTSTANDING",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "FAILURE-AWARE ROUTING",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s broken backend returns errors in one millisecond and looks idle."
+          },
+          {
+            "node": "step-1",
+            "text": "Least-outstanding routing sees only the client’s own requests, not their true resource cost."
+          },
+          {
+            "node": "step-3",
+            "text": "Different request costs and machine capabilities still require more information."
+          }
+        ]
+      }
     },
     {
       "title": "Weighted round robin from backend feedback",
-      "body": "Weighted round robin assigns each backend a capability score and sends traffic in proportion to that score. Backends report observed query rates, error rates, and utilization, giving clients a broader picture than their own outstanding requests. Successful throughput relative to resource consumption raises useful capacity, while errors reduce preference. Periodic updates let the distribution adapt to changing performance and heterogeneous machines.",
-      "example": "Teaching extension: A backend completing twice the useful work at comparable utilization receives a larger share of subsequent requests.",
-      "source": "text lines 8107–8603"
+      "body": "Pip receives query rate, error rate, and utilization from each backend. Weighted round robin distributes requests in proportion to capability scores. Useful throughput per resource increases preference while errors reduce it. Periodic feedback adapts routing to heterogeneous machines and changing performance beyond one client’s local view.",
+      "example": "",
+      "source": "text lines 8107–8603",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "BACKEND FEEDBACK",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "CAPABILITY SCORE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "WEIGHTED TRAFFIC",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip receives query rate, error rate, and utilization from each backend."
+          },
+          {
+            "node": "step-1",
+            "text": "Weighted round robin distributes requests in proportion to capability scores."
+          },
+          {
+            "node": "step-3",
+            "text": "Periodic feedback adapts routing to heterogeneous machines and changing performance beyond one client’s local view."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,76 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Compare backend capability",
     "nodes": [
       {
-        "id": "observe",
-        "label": "Clients",
-        "caption": "Bounded subsets",
-        "kind": "team",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "Reports",
-        "caption": "Observed capability",
-        "kind": "gauge",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "Weights",
-        "caption": "Adaptive routing",
-        "kind": "router",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "Backends",
-        "caption": "Healthy capacity",
-        "kind": "service",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "service",
+        "label": "DRAINING BACKEND",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "router",
+        "label": "REDIRECT NEW WORK",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "clock",
+        "label": "FINISH EXISTING WORK",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "Clients maintain bounded subsets of backend connections."
+        "node": "step-0",
+        "text": "Pip marks a booking backend as lame-duck before deployment."
       },
       {
-        "node": "decide",
-        "text": "Backends report successes, errors, and utilization."
+        "node": "step-1",
+        "text": "It can finish existing requests while asking clients to stop sending new ones."
       },
       {
-        "node": "act",
-        "text": "Clients update capability scores and request shares."
-      },
-      {
-        "node": "learn",
-        "text": "Healthy backends process work; draining ones finish existing requests."
+        "node": "step-3",
+        "text": "Pip avoids treating a slow legitimate request or full outstanding-request limit as proof of a dead process."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "The quickest backend is failing immediately"
   }
 }

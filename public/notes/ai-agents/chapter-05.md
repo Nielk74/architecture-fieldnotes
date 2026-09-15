@@ -1,24 +1,26 @@
 # Chapter 5: Orchestration
 
+*Pip’s adventure: The plan meets a missing exhibit. Fictional teaching story; concepts follow the cited source.*
+
 Original learning notes. Source: text lines 3834–4797 in the supplied book.
 
-Orchestration determines how an agent selects tools, manages state, and uses each result to continue its work. A direct reflex can suit a simple predictable task; ReAct incorporates observations into successive actions; a planner-executor design separates task decomposition from execution. Research and reflection patterns add opportunities to explore or revise, but also add calls, delay, and failure paths. Context engineering connects these patterns to execution by assembling the relevant instructions, evidence, and workflow state for each invocation. Compare approaches on representative tasks, including how often plans must adapt, and use the simplest pattern that meets the required quality and latency.
+Pip plans a perfect museum tour; one exhibit has moved. A direct rule, an observation-driven loop, or a planner and executor may each fit different work. Pip compares useful adaptation with the calls, delay, and failure paths each pattern introduces.
 
 ## Reflex and ReAct
 
-A reflex agent maps an input directly to an action. ReAct interleaves reasoning-like planning with actions and observations, allowing the next step to use tool results but potentially producing long or hard-to-control trajectories.
+Pip routes a known opening-hours request directly to its tool. That reflex maps input to action. For a blocked booking, ReAct interleaves planning, actions, and observations so later steps use returned facts. Pip bounds the loop: adaptive trajectories can become long and difficult to control.
 
 ## Planner-executor
 
-A planner first decomposes a task and an executor carries out steps. Separation can improve clarity, debugging, and cost control, but stale plans and coordination between phases must be handled.
+Pip’s planner divides a tour into rooms, timing, and access. An executor discovers that one exhibit has closed. Planner-executor separation aids clarity, debugging, and cost control, but plans can become stale. Pip reports the blocked step so planning and execution reconnect.
 
 ## Query decomposition
 
-A complex question is broken into subquestions, retrieved or researched iteratively, then synthesized. This improves coverage when knowledge is external, while increasing calls and opportunities for unsupported joins.
+Pip researches a new exhibition’s staffing, transport, and insurance. Query decomposition breaks the question into subquestions for iterative retrieval and synthesis. Pip reconciles dates and locations before combining the findings. More coverage brings more calls and opportunities for unsupported joins.
 
 ## Reflection and research
 
-Reflection agents critique an attempt and revise it; deep-research patterns coordinate planning, tool use, and synthesis. Both need explicit state and evaluation because a critique can repeat the same error.
+Pip’s draft compares ticket prices from different years. A reflection step critiques the attempt and requests comparable sources. Deep research coordinates planning, tools, and synthesis; both patterns need explicit state and evaluation. Pip checks the revision against evidence because a critique can repeat an error.
 
 ## Teaching extension
 

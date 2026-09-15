@@ -1,27 +1,53 @@
 # Chapter 12: Effective Troubleshooting
 
-Stabilize the service, then distinguish competing explanations with evidence
+*Pip’s adventure: The familiar outage has a different cause. Fictional teaching story; concepts follow the cited source.*
 
-Troubleshooting combines a reusable method with knowledge of how a particular system should behave. Begin with an actionable problem report and assess its impact. During a serious outage, restore as much useful service as possible before pursuing a complete causal explanation, while preserving evidence when feasible. Metrics, logs, traces, and exposed state help locate where observed behavior diverges from expectations. Form several plausible hypotheses and choose tests that distinguish them, accounting for side effects and differences between the test environment and the failing path. Negative evidence is useful because it removes explanations. The application-latency case shows why correlation is insufficient: a suspected datastore problem failed to explain slow static responses, and later instrumentation revealed expensive local processing caused by accumulated data.
+Source: text lines 4944–5519.
+
+Pip sees a familiar failure but resists repeating the old fix blindly. The crew mitigates user impact, preserves evidence, and tests competing explanations at observable boundaries. Every experiment records what changed and what remains uncertain.
 
 ## Triage precedes complete diagnosis
 
-The initial response should match the severity and scope of user impact. During a major outage, mitigation may mean shifting traffic, reducing functionality, or stopping an operation that corrupts data. A complete explanation is valuable but must not delay a useful recovery unnecessarily. Preserve logs and relevant state when practical so that mitigation does not erase every clue needed for later investigation.
+Pip’s harbor bookings are failing across a region. Mitigation—shifting traffic, reducing features, or stopping corrupting work—may precede a complete explanation. Pip matches urgency to impact and preserves logs and state where practical. Recovery should not wait unnecessarily for diagnosis, nor erase every clue for later investigation.
+
+Source: text lines 4944–5519.
 
 ## Build and discriminate hypotheses
 
-A troubleshooting hypothesis predicts observations that should occur if a proposed cause is true. Start from system knowledge and likely failure modes, then look for evidence that separates competing explanations. Prefer tests that eliminate a meaningful group of possibilities. A correlation or a past incident suggests a hypothesis; it does not establish that the same cause explains the current failure.
+Pip suspects either slow database work or delay on the network path. A useful hypothesis predicts observations that distinguish it from alternatives. Pip compares caller and server timing to eliminate possibilities. System knowledge and past incidents guide tests, but correlation does not prove today’s cause.
+
+Source: text lines 4944–5519.
 
 ## Reduce the problem at observable interfaces
 
-Known inputs and well-understood component boundaries make it possible to find where behavior first becomes wrong. Follow the request path or bisect a large pipeline, checking inputs and outputs at each boundary. Traces and shared request identifiers connect observations across processes. A reproducible minimal case can then move investigation into a safer environment where more invasive experiments are possible.
+Pip’s request succeeds directly at the backend but fails through the proxy. Known inputs and component interfaces locate where behavior first becomes wrong. Traces and shared IDs connect observations; bisection narrows a long pipeline. Pip builds a minimal reproducible case for safer, more invasive testing outside production.
+
+Source: text lines 4944–5519.
 
 ## Control experiments and record uncertainty
 
-An experiment can mislead if its credentials, network path, or workload differ from the failing request. Active changes can also alter later observations: extra logging consumes resources, and more CPU can change race timing. Record hypotheses, actions, results, and temporary configuration changes. Some production failures cannot safely be reproduced, so conclusions may remain probable contributing causes rather than a proven single cause.
+Pip connects successfully from a laptop and nearly rules out access trouble. The failing application may use different credentials, paths, or workload. Extra logging or CPU can also alter later evidence, so Pip records hypotheses, actions, results, and temporary configuration. Unsafe-to-reproduce failures may leave probable contributing causes rather than one proven explanation.
 
-## Apply it
+Source: text lines 4944–5519.
+
+## Transfer challenge: Mitigate checkout failures while preserving clues
+
+A recent checkout deployment coincides with rising errors. A known-compatible previous version is available, and logs can be retained. Database saturation and a changed request path are both plausible explanations.
+
+### Restore the prior version and preserve evidence
+
+A reversible mitigation can reduce current user harm quickly. Rollback may not help if the deployment is only coincidental. The responder checks recovery, retains traces, and continues a focused comparison of hypotheses.
+
+### Run a bounded diagnostic check first
+
+A quick discriminating observation may prevent an ineffective change. Users remain exposed while the check runs. This is appropriate only if the check is short and its value justifies delaying an available mitigation.
+
+Triage prioritizes restoring service. Diagnosis still matters, but it should not indefinitely postpone a useful mitigation; preserve evidence and test whether the recovery action actually helped.
+
+## Write a discriminating experiment
 
 An application has higher latency without higher request volume. Propose two explanations and a safe observation that would separate them.
 
-Source: *Site Reliability Engineering*, chapter 12, text lines 4944–5519. This note is an original synthesis; the exercise is a teaching extension.
+- Competing hypotheses
+- Predicted observations
+- Experiment controls

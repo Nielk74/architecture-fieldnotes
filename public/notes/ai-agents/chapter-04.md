@@ -1,24 +1,26 @@
 # Chapter 4: Tool Use
 
+*Pip’s adventure: A tool is not a blank cheque. Fictional teaching story; concepts follow the cited source.*
+
 Original learning notes. Source: text lines 3119–3833 in the supplied book.
 
-Tools connect a model’s decisions to information and actions outside its learned parameters. A useful tool contract explains its purpose, arguments, results, and errors so selection and execution are both understandable. Local functions simplify initial integration but introduce packaging and maintenance work across deployments. Remote services and shared protocols can centralize capabilities, while adding authentication, network latency, and partial-failure handling. Choosing between them is an architectural trade-off rather than a capability contest. Validation and access controls must enforce the actual boundary, particularly for tools that change external state. Reliable tool design makes later orchestration easier to inspect, test, and repair.
+Pip gives the museum guide a stock lookup and nearly gives it purchasing power too. Reading availability, drafting a reorder, and committing money are different actions. Explicit contracts and enforced permissions make those differences real even when a model chooses badly.
 
 ## Tool contract
 
-A tool is a bounded capability with an input and output contract. Good descriptions help the model select it, while validation and clear errors keep malformed arguments or unexpected results from silently propagating.
+Pip’s refund tool returns a policy rejection. Its contract requires ticket ID, amount, and currency, then returns a transaction ID or named error. Descriptions guide selection; validation checks arguments and results. Pip prevents a rejected refund from becoming a cheerful success message.
 
 ## Local tools
 
-Libraries or local functions are simple to call and can be fast, but every deployment must package, scale, secure, and maintain them. Duplication and version drift become costs as agent deployments multiply.
+Pip installs a fast local document parser. Local functions avoid network calls but still need packaging, scaling, security, and maintenance in every deployment. A parser fix now needs distributing across museum agents. Pip tracks versions so convenience does not hide drift.
 
 ## Remote protocols
 
-A shared protocol exposes tools through a service boundary, improving reuse and centralized maintenance. It also adds network failure, authentication, latency, and a larger trust boundary.
+Pip replaces three catalog copies with one remote service. A shared protocol centralizes reuse and maintenance across a service boundary. Authentication, network failures, latency, and a wider trust boundary come with it. Pip handles unavailable replies without inventing exhibit records.
 
 ## Selection and safety
 
-Tool choice should consider capability, reliability, cost, and risk. Read operations and external side effects deserve different permissions, confirmation rules, logging, and failure handling.
+Pip lets the guide read ticket availability. Sending invitations or committing purchases needs different authority, confirmation, logging, and failure handling. The service rejects writes from the read-only identity. Tool selection must weigh reliability, cost, capability, and risk—not merely whether a tool exists.
 
 ## Teaching extension
 

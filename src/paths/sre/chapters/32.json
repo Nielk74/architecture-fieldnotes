@@ -3,7 +3,7 @@
   "title": "The Evolving SRE Engagement Model",
   "part": "People and practice",
   "subtitle": "Move from late service reviews toward reusable reliability",
-  "summary": "SRE engagement begins with deciding where limited expertise can make a meaningful contribution. A production readiness review assesses a service, negotiates improvements, trains the receiving team, and transfers responsibilities gradually with developer support. Late engagement can require expensive redesign of a system already serving users. Early collaboration brings production concerns into design, implementation, and launch, though not every consulted service ultimately needs full SRE ownership. The chapter then extends engagement through frameworks and a shared production platform. Standard instrumentation, traffic controls, and operational interfaces let many services benefit from the same improvements and reduce repeated review work. This enables shared responsibility: SRE can maintain the platform while developers retain responsibility for application behavior.",
+  "summary": "Pip’s crew is asked to accept a service with unresolved production risks. Readiness is a negotiated engineering transition. Early collaboration and shared frameworks may even let developers operate the service themselves, with clear boundaries for platform support.",
   "source": {
     "startLine": 15053,
     "endLine": 15595,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Production readiness as a negotiated transition",
-      "body": "A production readiness review examines architecture, dependencies, monitoring, capacity, emergency response, and change management before SRE accepts production responsibility. Findings become prioritized improvements agreed with developers. Training and progressive handover follow, with developers remaining available for support. The review is therefore a collaborative engineering process whose outcome is operational readiness, rather than a document that transfers an unchanged service to another team.",
-      "example": "Teaching extension: Before handover, the reviewers and developers fix missing SLO coverage and rehearse recovery with the whole receiving team.",
-      "source": "text lines 15053–15595"
+      "body": "Pip’s readiness review finds missing SLO coverage and unpracticed recovery. Architecture, dependencies, monitoring, capacity, emergency response, and change management need examination before SRE takes responsibility. Developers and SRE prioritize improvements, train, and hand over progressively with continuing support. Pip accepts readiness, not an unchanged service wrapped in documentation.",
+      "example": "",
+      "source": "text lines 15053–15595",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "READINESS FINDINGS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "team",
+            "label": "AGREED IMPROVEMENTS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "handoff",
+            "label": "PROGRESSIVE TRANSFER",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s readiness review finds missing SLO coverage and unpracticed recovery."
+          },
+          {
+            "node": "step-1",
+            "text": "Architecture, dependencies, monitoring, capacity, emergency response, and change management need examination before SRE takes responsibility."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip accepts readiness, not an unchanged service wrapped in documentation."
+          }
+        ]
+      }
     },
     {
       "title": "Early engagement changes the cost of reliability",
-      "body": "SRE involvement during design can identify operational problems before they become expensive architectural commitments. During implementation, the team can add instrumentation, controls, and established infrastructure; at launch, it can help validate behavior under real traffic. Early work may also make a service simple enough for developers to keep operating themselves. That can be a successful outcome rather than a failed handover.",
-      "example": "Teaching extension: An early design review adds a safe traffic-control interface before downstream clients depend on the initial API.",
-      "source": "text lines 15053–15595"
+      "body": "Pip joins design early and adds safe traffic controls before clients depend on the API. Implementation can then include instrumentation, controls, and established infrastructure before launch validation. Earlier reliability work avoids expensive architectural commitments. If the resulting service is simple enough for developers to operate, Pip counts that as success too.",
+      "example": "",
+      "source": "text lines 15053–15595",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "blueprint",
+            "label": "EARLY DESIGN",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gateway",
+            "label": "SAFE CONTROLS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "DEVELOPER OPERATION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip joins design early and adds safe traffic controls before clients depend on the API."
+          },
+          {
+            "node": "step-1",
+            "text": "Implementation can then include instrumentation, controls, and established infrastructure before launch validation."
+          },
+          {
+            "node": "step-3",
+            "text": "If the resulting service is simple enough for developers to operate, Pip counts that as success too."
+          }
+        ]
+      }
     },
     {
       "title": "Frameworks codify production experience",
-      "body": "Service-specific reviews repeat effort when every team independently implements logging, monitoring, overload protection, and configuration. Frameworks encode tested production patterns and expose common behavior across supported environments. Developers then build business logic on a standard foundation, and framework improvements can benefit many services. Consistent control surfaces also make automation and incident diagnosis easier than integrating many slightly incompatible implementations.",
-      "example": "Teaching extension: A common overload module gives several services the same utilization signal, shedding controls, and diagnostic metrics.",
-      "source": "text lines 15053–15595"
+      "body": "Pip sees teams repeatedly build incompatible overload controls. Frameworks encode tested logging, monitoring, configuration, and protection patterns beneath business logic. Shared control surfaces help automation and incident diagnosis, and improvements can reach many services. Pip replaces repeated bespoke integration with supported production experience.",
+      "example": "",
+      "source": "text lines 15053–15595",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "component",
+            "label": "COMMON FRAMEWORK",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "MANY SERVICES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "CONSISTENT CONTROLS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip sees teams repeatedly build incompatible overload controls."
+          },
+          {
+            "node": "step-1",
+            "text": "Frameworks encode tested logging, monitoring, configuration, and protection patterns beneath business logic."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip replaces repeated bespoke integration with supported production experience."
+          }
+        ]
+      }
     },
     {
       "title": "Platform and application responsibility",
-      "body": "A common platform allows SRE support to extend beyond services with a dedicated SRE team. SRE can own shared production infrastructure and its controls while development teams support application-specific failures. This changes staffing from repeatedly supporting each bespoke service toward maintaining reusable capabilities. Boundaries still need to be understood so an application defect and a platform incident reach the people able to resolve them.",
-      "example": "Teaching extension: A developer handles an incorrect pricing calculation while the platform team investigates failures in shared traffic admission.",
-      "source": "text lines 15053–15595"
+      "body": "Pip separates a wrong pricing calculation from a shared admission failure. Developers support application-specific defects while SRE can own the common production platform. Reusable capabilities extend support beyond dedicated per-service SRE staffing. Pip documents the responsibility boundary so each incident reaches people able to resolve it.",
+      "example": "",
+      "source": "text lines 15053–15595",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "APPLICATION LOGIC",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gateway",
+            "label": "PLATFORM ADMISSION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "CLEAR OWNERS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip separates a wrong pricing calculation from a shared admission failure."
+          },
+          {
+            "node": "step-1",
+            "text": "Developers support application-specific defects while SRE can own the common production platform."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip documents the responsibility boundary so each incident reaches people able to resolve it."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,76 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Choose an engagement model",
     "nodes": [
       {
-        "id": "observe",
-        "label": "Assess",
-        "caption": "Service readiness",
-        "kind": "gauge",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "Improve",
-        "caption": "Prioritized repairs",
-        "kind": "service",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "Prepare",
-        "caption": "Team training",
-        "kind": "mentor",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "Partner",
-        "caption": "Shared responsibility",
-        "kind": "team",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "document",
+        "label": "READINESS FINDINGS",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "team",
+        "label": "AGREED IMPROVEMENTS",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "handoff",
+        "label": "PROGRESSIVE TRANSFER",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "Agree on service needs and identify production gaps."
+        "node": "step-0",
+        "text": "Pip’s readiness review finds missing SLO coverage and unpracticed recovery."
       },
       {
-        "node": "decide",
-        "text": "Prioritize fixes and introduce reusable controls where appropriate."
+        "node": "step-1",
+        "text": "Architecture, dependencies, monitoring, capacity, emergency response, and change management need examination before SRE takes responsibility."
       },
       {
-        "node": "act",
-        "text": "Train responders and transfer responsibilities progressively."
-      },
-      {
-        "node": "learn",
-        "text": "Maintain explicit platform and application ownership as the service evolves."
+        "node": "step-3",
+        "text": "Pip accepts readiness, not an unchanged service wrapped in documentation."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "The handover is not a pile of documents"
   }
 }

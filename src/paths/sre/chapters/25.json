@@ -3,7 +3,7 @@
   "title": "Data Processing Pipelines",
   "part": "Data systems",
   "subtitle": "Replace fragile batch timing with explicit work state",
-  "summary": "Periodic pipelines become fragile when growth makes execution time approach the scheduling interval. Uneven chunks hold up downstream stages, restarts discard work, and overlapping runs or synchronized workers overload shared infrastructure. Making the schedule more frequent can even reduce progress. The chapter presents Workflow as an alternative for workloads that are fundamentally continuous. A Task Master journals work state, while stateless workers claim leased tasks and publish results transactionally. Unique output names, valid leases, configuration versions, and server identity checks prevent obsolete or misdirected workers from corrupting committed results. Local processing can be coordinated through global reference tasks for failover. The lesson is to design processing semantics, observability, and recovery around the workload’s real continuity requirements.",
+  "summary": "Pip shortens the harbor report schedule and creates overlapping work instead of fresher results. Pip investigates startup delays, stragglers, and shared-resource peaks, then uses explicit task state and leases so late workers cannot overwrite valid results.",
   "source": {
     "startLine": 11199,
     "endLine": 11531,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "The periodicity limit",
-      "body": "A scheduled pipeline needs time for resource acquisition and processing before its next run. As data grows, a shorter interval can create overlapping jobs or repeatedly terminate nearly completed work. Increasing frequency does not remove startup delays or stragglers. When results must be updated continuously, explicit continuous processing can fit the requirement better than a batch design pushed beyond its timing assumptions.",
-      "example": "Teaching extension: A twenty-minute computation with substantial scheduling delay cannot reliably produce a fresh complete result every ten minutes.",
-      "source": "text lines 11199–11531"
+      "body": "Pip schedules a twenty-minute computation every ten minutes. Resource acquisition, startup delay, processing, and stragglers must fit the interval. More frequent runs can overlap or repeatedly terminate nearly finished work. Pip considers continuous processing when the requirement is continuous freshness rather than pushing batch timing beyond its assumptions.",
+      "example": "",
+      "source": "text lines 11199–11531",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "10-MINUTE INTERVAL",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "terminal",
+            "label": "20-MINUTE WORK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "queue",
+            "label": "OVERLAPPING RUNS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip schedules a twenty-minute computation every ten minutes."
+          },
+          {
+            "node": "step-1",
+            "text": "Resource acquisition, startup delay, processing, and stragglers must fit the interval."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip considers continuous processing when the requirement is continuous freshness rather than pushing batch timing beyond its assumptions."
+          }
+        ]
+      }
     },
     {
       "title": "Stragglers and synchronized resource demand",
-      "body": "Partitioning work does not guarantee equal execution time: one customer’s large shard may determine the completion of a whole stage. Starting thousands of workers together can overload dependencies, while periodic jobs with different schedules occasionally align into large combined peaks. More workers or naive retries can worsen these problems. Inspect shared-resource usage and expose progress during execution, including runs that never finish.",
-      "example": "Teaching extension: Two individually manageable pipelines overlap every few cycles and exhaust the same storage service.",
-      "source": "text lines 11199–11531"
+      "body": "Pip’s report stage waits for one customer’s oversized shard. Partitioning does not guarantee equal runtime, and simultaneous workers can overwhelm dependencies. Different periodic jobs can align into larger shared-resource peaks. Pip measures progress even in unfinished runs before adding workers or retries that might worsen contention.",
+      "example": "",
+      "source": "text lines 11199–11531",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "OVERSIZED SHARD",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "SYNCHRONIZED WORKERS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "SHARED-RESOURCE PEAK",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s report stage waits for one customer’s oversized shard."
+          },
+          {
+            "node": "step-1",
+            "text": "Partitioning does not guarantee equal runtime, and simultaneous workers can overwhelm dependencies."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip measures progress even in unfinished runs before adding workers or retries that might worsen contention."
+          }
+        ]
+      }
     },
     {
       "title": "Leases and immutable task identity",
-      "body": "Workflow records authoritative task state in a Task Master and gives workers temporary leases. A worker may commit only while its lease and referenced configuration remain valid. Unique output filenames prevent an obsolete worker from overwriting a successor’s work, while a server token detects communication with the wrong Task Master. These controls protect committed results even when redundant computation happens during failures.",
-      "example": "Teaching extension: A stalled worker resumes after its lease expires; its private output file survives, but the master refuses its obsolete commit.",
-      "source": "text lines 11199–11531"
+      "body": "Pip’s stalled worker resumes after its lease expires. The Task Master permits commits only with a valid lease and referenced configuration. Unique output names prevent overwriting a successor, while a server token detects the wrong master. Pip may tolerate duplicate computation without accepting obsolete results.",
+      "example": "",
+      "source": "text lines 11199–11531",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "EXPIRED LEASE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "UNIQUE OUTPUT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "shield",
+            "label": "VALID COMMIT ONLY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s stalled worker resumes after its lease expires."
+          },
+          {
+            "node": "step-1",
+            "text": "The Task Master permits commits only with a valid lease and referenced configuration."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip may tolerate duplicate computation without accepting obsolete results."
+          }
+        ]
+      }
     },
     {
       "title": "Durable coordination and continuity",
-      "body": "The Task Master keeps working state in memory and journals changes durably; workers remain replaceable. Keeping pointers rather than full datasets in the master limits its memory burden. For cross-site continuity, local pipelines coordinate reference tasks through a global workflow, recording unfinished work that another site can claim. Correctness can require blocking when global coordination is unavailable rather than acknowledging an unrecorded completion.",
-      "example": "Teaching extension: A remote pipeline recovers outstanding reference tasks after the original site stops reporting progress.",
-      "source": "text lines 11199–11531"
+      "body": "Pip restores task coordination after a site stops reporting. The Task Master keeps in-memory state, journals changes durably, and stores pointers rather than whole datasets. A global workflow records reference tasks another local pipeline can claim. Pip may block without global coordination rather than acknowledge an unrecorded completion.",
+      "example": "",
+      "source": "text lines 11199–11531",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "DURABLE JOURNAL",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "REFERENCE TASKS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "CROSS-SITE RECOVERY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip restores task coordination after a site stops reporting."
+          },
+          {
+            "node": "step-1",
+            "text": "The Task Master keeps in-memory state, journals changes durably, and stores pointers rather than whole datasets."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip may block without global coordination rather than acknowledge an unrecorded completion."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,76 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Design a recoverable pipeline",
     "nodes": [
       {
-        "id": "observe",
-        "label": "Tasks",
-        "caption": "Journaled work",
-        "kind": "database",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "Lease",
-        "caption": "Temporary ownership",
-        "kind": "clock",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "Worker",
-        "caption": "Isolated output",
-        "kind": "service",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "Commit",
-        "caption": "Validated result",
-        "kind": "shield",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "clock",
+        "label": "10-MINUTE INTERVAL",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "terminal",
+        "label": "20-MINUTE WORK",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "queue",
+        "label": "OVERLAPPING RUNS",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "The Task Master journals authoritative work state."
+        "node": "step-0",
+        "text": "Pip schedules a twenty-minute computation every ten minutes."
       },
       {
-        "node": "decide",
-        "text": "A worker claims a task for a bounded period."
+        "node": "step-1",
+        "text": "Resource acquisition, startup delay, processing, and stragglers must fit the interval."
       },
       {
-        "node": "act",
-        "text": "Compute into uniquely named output without overwriting other attempts."
-      },
-      {
-        "node": "learn",
-        "text": "Accept output only with current lease, configuration, and server identity."
+        "node": "step-3",
+        "text": "Pip considers continuous processing when the requirement is continuous freshness rather than pushing batch timing beyond its assumptions."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "The next batch starts before the last one ends"
   }
 }

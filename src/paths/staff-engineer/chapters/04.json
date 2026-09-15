@@ -3,7 +3,7 @@
   "title": "Finite Time",
   "part": "Execution",
   "subtitle": "Spend finite attention deliberately",
-  "summary": "Finite time makes prioritization unavoidable. The chapter treats energy, credibility, quality of life, skills, and social capital as resources that projects consume. Deliberate scope, protected thinking time, and explicit trade-offs let an engineer sustain influence instead of spending themselves into ineffectiveness.",
+  "summary": "Pip’s calendar fills while energy, credibility, and relationships run down. Time is only one finite resource. The workshop needs priorities, thinking time, and negotiated scope. Sustainable influence means preserving the capacity to help after this week’s emergency, not promising unlimited effort.",
   "source": {
     "startLine": 4071,
     "endLine": 5121,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Resource budget",
-      "body": "Projects consume finite energy, credibility, quality of life, skills, and social capital, not just calendar hours. Some work costs more than its scheduled hours: it can consume relationships, credibility, or the energy needed for another difficult task. Notice what a commitment will draw down and whether there is a realistic way to replenish that resource.",
-      "example": "Teaching extension: An engineer declines a low-value presentation during recovery from an incident.",
-      "source": "text lines 4071–5121"
+      "body": "Pip accepts a presentation after an exhausting incident. The calendar has a gap; the energy budget does not. Projects consume credibility, relationships, quality of life, skills, and social capital as well as hours. A commitment can draw down the resource needed for the next difficult task. Pip asks what this request will cost and how that resource can recover before treating an empty slot as available capacity.",
+      "example": "",
+      "source": "text lines 4071–5121",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "CALENDAR HOURS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "balance",
+            "label": "ENERGY & TRUST",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "target",
+            "label": "RECOVERY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip checks more than the empty calendar slot."
+          },
+          {
+            "node": "step-1",
+            "text": "A scheduled hour is only one cost."
+          },
+          {
+            "node": "step-3",
+            "text": "Ask how the consumed resource can be replenished."
+          }
+        ]
+      }
     },
     {
       "title": "Prioritization",
-      "body": "Prioritization spends resources on work that matters, fits constraints, and has a plausible path to completion. Evaluate the significance of a problem alongside your ability to help and the opportunity cost. Being capable of doing something does not make it the best use of your time. Make deferred work visible instead of silently accepting an impossible queue.",
-      "example": "Teaching extension: A migration is split into a safe slice that fits the quarter.",
-      "source": "text lines 4071–5121"
+      "body": "Pip can do the extra migration work, but should it displace the workshop’s crucial project? Prioritization compares significance, ability to help, constraints, and opportunity cost. A safe slice may fit the quarter where the whole migration does not. Being capable is not enough reason to accept. Pip makes deferred work visible so the team can choose deliberately rather than inherit an impossible queue.",
+      "example": "",
+      "source": "text lines 4071–5121",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "queue",
+            "label": "EXTRA REQUEST",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "balance",
+            "label": "OPPORTUNITY COST",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "target",
+            "label": "PRIORITY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip makes the competing commitments visible."
+          },
+          {
+            "node": "step-1",
+            "text": "Another useful request arrives."
+          },
+          {
+            "node": "step-3",
+            "text": "Choose a feasible slice aligned with the important goal."
+          }
+        ]
+      }
     },
     {
       "title": "Thinking time",
-      "body": "Protected thinking time enables better technical choices; filling every hour with meetings creates hidden execution risk. Deep analysis is work even when it produces no immediate code or meeting artifact. Reserve uninterrupted time and protect it from automatic fragmentation. Otherwise the difficult decisions tend to get made in the leftover minutes when judgment is most constrained.",
-      "example": "Teaching extension: Two hours without meetings reveal the dependency causing the design dispute.",
-      "source": "text lines 4071–5121"
+      "body": "Pip tries to settle a design dispute in the five minutes between meetings. Nothing clicks. Two protected hours reveal the dependency everyone missed. Deep analysis is work even without an immediate code change or meeting artifact. Fragmenting every hour creates hidden execution risk. Pip reserves uninterrupted attention for difficult choices instead of leaving judgment to whatever scraps the calendar happens to spare.",
+      "example": "",
+      "source": "text lines 4071–5121",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "FRAGMENTED DAY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "blueprint",
+            "label": "DEEP ANALYSIS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gateway",
+            "label": "DEPENDENCY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip cannot solve the dispute between meetings."
+          },
+          {
+            "node": "step-1",
+            "text": "Fragmentation leaves little sustained attention."
+          },
+          {
+            "node": "step-3",
+            "text": "The uninterrupted review reveals the hidden dependency."
+          }
+        ]
+      }
     },
     {
       "title": "Sustainability",
-      "body": "Sustainable influence preserves the capacity to help later, including the ability to say no or renegotiate scope. Declining a request can preserve an important commitment. Explain the trade-off, suggest another owner or a smaller scope, and negotiate rather than relying on unbounded personal effort. A reliable pace makes your help available after this week's emergency.",
-      "example": "Teaching extension: The engineer renegotiates scope before credibility is spent on a missed promise.",
-      "source": "text lines 4071–5121"
+      "body": "The workshop asks for one more emergency favor. Pip explains which existing promise would suffer and offers a smaller scope or another owner. Saying no can protect an important commitment. Sustainable influence means help remains available next month, not just tonight. Pip negotiates the trade-off before credibility is spent on a missed promise; a reliable pace serves the team better than unbounded effort.",
+      "example": "",
+      "source": "text lines 4071–5121",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "staff-engineer"
+          },
+          {
+            "id": "step-1",
+            "kind": "queue",
+            "label": "ONE MORE FAVOR",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "handoff",
+            "label": "SMALLER SCOPE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "SUSTAINABLE PACE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip explains what another yes would displace."
+          },
+          {
+            "node": "step-1",
+            "text": "The request competes with existing commitments."
+          },
+          {
+            "node": "step-3",
+            "text": "Preserve capacity to help beyond the immediate emergency."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -47,22 +299,22 @@
   ],
   "scenario": {
     "title": "Protect finite resources",
-    "context": "You are asked to lead a migration while recovering from an incident and onboarding a new teammate. The date is fixed, but scope is negotiable.",
+    "context": "Pip faces a migration, incident recovery, and a new teammate to onboard. The workshop’s date is fixed, but the migration scope can change.",
     "options": [
       {
         "label": "Reduce scope",
-        "benefit": "Clarifies the decision and creates a workable path through the stated constraint.",
-        "cost": "Reducing scope means deferring attractive work and explaining the trade-off to sponsors.",
-        "consequence": "You protect energy and credibility, delegate a bounded slice, and deliver the highest-value migration safely."
+        "benefit": "Pip can protect recovery and deliver the most valuable slice.",
+        "cost": "Sponsors must accept deferred features.",
+        "consequence": "The workshop agrees a bounded migration and clear delegation. Energy and credibility remain available for the handoff."
       },
       {
         "label": "Work nights to keep scope",
-        "benefit": "Feels faster or safer in the immediate moment and preserves a familiar habit.",
-        "cost": "Overwork consumes recovery time and increases the chance of a fragile migration.",
-        "consequence": "The date may hold, but quality of life and future capacity collapse, making the next decision worse."
+        "benefit": "The original scope stays on the calendar.",
+        "cost": "Night work consumes recovery and raises delivery risk.",
+        "consequence": "Pip may hold the date, but quality of life and future capacity suffer. The next hard decision gets less attention."
       }
     ],
-    "debrief": "Both options respond to a real constraint. The stronger choice makes ownership and consequences visible, then creates a point to learn and adjust."
+    "debrief": "A fixed date does not create infinite capacity. Pip makes the scope trade-off explicit before the team pays for an impossible promise."
   },
   "quiz": [
     {
@@ -117,69 +369,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "leaf",
-        "label": "LEAF",
-        "kind": "leaf",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
-      },
-      {
-        "id": "clock",
-        "label": "CLOCK",
-        "kind": "document",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
-      },
-      {
-        "id": "colleague",
-        "label": "COLLEAGUE",
-        "kind": "colleague",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
-      },
-      {
-        "id": "shield",
-        "label": "SHIELD",
-        "kind": "shield",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 500,
-        "y": 100
+        "course": "staff-engineer"
+      },
+      {
+        "id": "step-1",
+        "kind": "clock",
+        "label": "CALENDAR HOURS",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "balance",
+        "label": "ENERGY & TRUST",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "target",
+        "label": "RECOVERY",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "leaf",
-        "to": "clock"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "clock",
-        "to": "colleague"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "colleague",
-        "to": "shield"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "leaf",
-        "text": "Use this leaf view to make the next decision visible."
+        "node": "step-0",
+        "text": "Pip checks more than the empty calendar slot."
       },
       {
-        "node": "clock",
-        "text": "Use this clock view to make the next decision visible."
+        "node": "step-1",
+        "text": "A scheduled hour is only one cost."
       },
       {
-        "node": "colleague",
-        "text": "Use this colleague view to make the next decision visible."
-      },
-      {
-        "node": "shield",
-        "text": "Use this shield view to make the next decision visible."
+        "node": "step-3",
+        "text": "Ask how the consumed resource can be replenished."
       }
     ]
+  },
+  "story": {
+    "course": "staff-engineer",
+    "world": "workshop",
+    "title": "Pip's calendar has no spare battery"
   }
 }

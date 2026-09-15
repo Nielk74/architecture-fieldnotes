@@ -3,7 +3,7 @@
   "title": "The Business Case for Observability",
   "part": "Spreading Observability Culture",
   "subtitle": "Make the investment case with local outcomes",
-  "summary": "A business case for observability should explain which recurring costs and limitations the organization intends to change. Waiting for a catastrophe can produce a rushed tool purchase without the practices needed to benefit from it. A proactive case instead connects difficult diagnosis, repeated rework, on-call strain, or uncertain delivery with a bounded improvement effort. Baseline measures help evaluate the result, but incident timings alone do not capture every benefit or establish causality. The chapter also emphasizes permission and support: engineers need time, usable tools, and a culture that encourages investigation. Sufficient observability is a practical checkpoint where teams can deliver and operate predictably, with instrumentation and exploration embedded in routine work rather than sustained by exceptional outside intervention.",
+  "summary": "Pip’s crew treats days of unexplained debugging as normal. A bounded observability pilot can test whether that burden falls. Investment needs instrumentation and infrastructure, but also time and permission to investigate—and a practical checkpoint for enough progress.",
   "source": {
     "startLine": 8667,
     "endLine": 9084,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Recognize costs before a crisis",
-      "body": "Recurring unexplained failures, prolonged debugging, and repeated rework can indicate that the team lacks an effective way to understand production. These costs may be normalized long before a catastrophic outage makes them visible to executives. Build the case around those existing constraints so the initiative addresses a durable problem rather than only the latest dramatic incident.",
-      "example": "Engineers repeatedly spend days reproducing customer failures that existing telemetry cannot explain.",
-      "source": "text lines 8667–9084"
+      "body": "Pip notices engineers repeatedly spending days reproducing customer failures. Unexplained incidents, long debugging, and rework can reveal a missing production-understanding capability. These costs may be normalized before executives see a catastrophe. Pip builds the case around durable constraints instead of only the latest dramatic outage.",
+      "example": "",
+      "source": "text lines 8667–9084",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "REPEATED DEBUGGING",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "alert",
+            "label": "UNEXPLAINED FAILURES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "BUSINESS CASE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip notices engineers repeatedly spending days reproducing customer failures."
+          },
+          {
+            "node": "step-1",
+            "text": "Unexplained incidents, long debugging, and rework can reveal a missing production-understanding capability."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip builds the case around durable constraints instead of only the latest dramatic outage."
+          }
+        ]
+      }
     },
     {
       "title": "Measure a bounded change",
-      "body": "Choose a team or service, record relevant baseline outcomes, and define what an observability pilot should improve. Detection and resolution times are understandable starting measures, but include context such as incident severity, rework, and responder burden. A change in averages alone is weak evidence when the incidents or workload also changed.",
-      "example": "Track time spent locating failures alongside whether more responders can investigate independently.",
-      "source": "text lines 8667–9084"
+      "body": "Pip records one service’s baseline before starting a pilot. Detection and resolution time are useful, alongside severity, rework, responder burden, and independent investigation. Changing averages alone are weak evidence if workload or incidents change too. Pip defines the intended outcome and measures the bounded intervention with context.",
+      "example": "",
+      "source": "text lines 8667–9084",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "gauge",
+            "label": "BASELINE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "experiment",
+            "label": "BOUNDED PILOT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "person",
+            "label": "RESPONDER BURDEN",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip records one service’s baseline before starting a pilot."
+          },
+          {
+            "node": "step-1",
+            "text": "Detection and resolution time are useful, alongside severity, rework, responder burden, and independent investigation."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip defines the intended outcome and measures the bounded intervention with context."
+          }
+        ]
+      }
     },
     {
       "title": "Fund practice as well as infrastructure",
-      "body": "A technically observable system can remain poorly understood if engineers lack time, confidence, or permission to explore it. Budget instrumentation and platform work, support curious investigation, and reduce incentives that punish asking questions. Adoption requires the organization to use its capability, not simply collect records or purchase an analytics interface.",
-      "example": "A team receives protected time to investigate an unclear production behavior and share the result.",
-      "source": "text lines 8667–9084"
+      "body": "Pip buys telemetry storage but the crew has no time to explore it. Observability needs confidence, access, and permission as well as technical capability. Pip funds instrumentation and platform work while protecting curious investigation and reducing punishment for questions. Collecting records is not the same as using them.",
+      "example": "",
+      "source": "text lines 8667–9084",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "COLLECTED RECORDS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "clock",
+            "label": "PROTECTED TIME",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "SAFE CURIOSITY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip buys telemetry storage but the crew has no time to explore it."
+          },
+          {
+            "node": "step-1",
+            "text": "Observability needs confidence, access, and permission as well as technical capability."
+          },
+          {
+            "node": "step-3",
+            "text": "Collecting records is not the same as using them."
+          }
+        ]
+      }
     },
     {
       "title": "Define a useful enough checkpoint",
-      "body": "Observability is never finished in an absolute sense, but investment competes with other needs. A useful checkpoint is predictable delivery and sufficient reliability, with instrumentation and investigation becoming ordinary team habits. Look for reduced dependence on outside experts and the ability to answer important questions, then prioritize the next constraint rather than chase complete coverage as an end itself.",
-      "example": "New features routinely include telemetry and their owners verify behavior after deployment.",
-      "source": "text lines 8667–9084"
+      "body": "Pip asks when the observability work is useful enough to reassess. Predictable delivery, sufficient reliability, routine instrumentation, and ordinary investigation habits form a practical checkpoint. Reduced dependence on outside experts and answers to important questions show progress. Pip then targets the next constraint instead of chasing complete coverage for its own sake.",
+      "example": "",
+      "source": "text lines 8667–9084",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "target",
+            "label": "USEFUL CHECKPOINT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "team",
+            "label": "LOCAL CAPABILITY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "NEXT CONSTRAINT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks when the observability work is useful enough to reassess."
+          },
+          {
+            "node": "step-1",
+            "text": "Predictable delivery, sufficient reliability, routine instrumentation, and ordinary investigation habits form a practical checkpoint."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip then targets the next constraint instead of chasing complete coverage for its own sake."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -118,68 +370,68 @@
     "nodes": [
       {
         "id": "step-0",
-        "label": "COST OF PAIN",
-        "kind": "trace",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "observability"
       },
       {
         "id": "step-1",
-        "label": "BASELINE",
-        "kind": "experiment",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
+        "kind": "clock",
+        "label": "REPEATED DEBUGGING",
+        "tone": "sage"
       },
       {
         "id": "step-2",
-        "label": "FUND PRACTICE",
         "kind": "alert",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
+        "label": "UNEXPLAINED FAILURES",
+        "tone": "lilac"
       },
       {
         "id": "step-3",
-        "label": "CHECKPOINT",
-        "kind": "leaf",
-        "tone": "honey",
-        "x": 500,
-        "y": 100
+        "kind": "document",
+        "label": "BUSINESS CASE",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
         "from": "step-0",
-        "to": "step-1"
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-1",
-        "to": "step-2"
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-2",
-        "to": "step-3"
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
         "node": "step-0",
-        "text": "Engineers repeatedly spend days reproducing customer failures that existing telemetry cannot explain."
+        "text": "Pip notices engineers repeatedly spending days reproducing customer failures."
       },
       {
         "node": "step-1",
-        "text": "Track time spent locating failures alongside whether more responders can investigate independently."
-      },
-      {
-        "node": "step-2",
-        "text": "A team receives protected time to investigate an unclear production behavior and share the result."
+        "text": "Unexplained incidents, long debugging, and rework can reveal a missing production-understanding capability."
       },
       {
         "node": "step-3",
-        "text": "New features routinely include telemetry and their owners verify behavior after deployment."
+        "text": "Pip builds the case around durable constraints instead of only the latest dramatic outage."
       }
     ]
+  },
+  "story": {
+    "course": "observability",
+    "world": "market",
+    "title": "Make the case before the spectacular outage"
   }
 }

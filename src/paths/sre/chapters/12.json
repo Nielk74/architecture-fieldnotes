@@ -3,7 +3,7 @@
   "title": "Effective Troubleshooting",
   "part": "Operations",
   "subtitle": "Stabilize the service, then distinguish competing explanations with evidence",
-  "summary": "Troubleshooting combines a reusable method with knowledge of how a particular system should behave. Begin with an actionable problem report and assess its impact. During a serious outage, restore as much useful service as possible before pursuing a complete causal explanation, while preserving evidence when feasible. Metrics, logs, traces, and exposed state help locate where observed behavior diverges from expectations. Form several plausible hypotheses and choose tests that distinguish them, accounting for side effects and differences between the test environment and the failing path. Negative evidence is useful because it removes explanations. The application-latency case shows why correlation is insufficient: a suspected datastore problem failed to explain slow static responses, and later instrumentation revealed expensive local processing caused by accumulated data.",
+  "summary": "Pip sees a familiar failure but resists repeating the old fix blindly. The crew mitigates user impact, preserves evidence, and tests competing explanations at observable boundaries. Every experiment records what changed and what remains uncertain.",
   "source": {
     "startLine": 4944,
     "endLine": 5519,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Triage precedes complete diagnosis",
-      "body": "The initial response should match the severity and scope of user impact. During a major outage, mitigation may mean shifting traffic, reducing functionality, or stopping an operation that corrupts data. A complete explanation is valuable but must not delay a useful recovery unnecessarily. Preserve logs and relevant state when practical so that mitigation does not erase every clue needed for later investigation.",
-      "example": "Teaching extension: Move traffic off a failing region while retaining its error logs for causal analysis.",
-      "source": "text lines 4944–5519"
+      "body": "Pip’s harbor bookings are failing across a region. Mitigation—shifting traffic, reducing features, or stopping corrupting work—may precede a complete explanation. Pip matches urgency to impact and preserves logs and state where practical. Recovery should not wait unnecessarily for diagnosis, nor erase every clue for later investigation.",
+      "example": "",
+      "source": "text lines 4944–5519",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "alert",
+            "label": "USER IMPACT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "MITIGATE NOW",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "trace",
+            "label": "PRESERVE EVIDENCE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s harbor bookings are failing across a region."
+          },
+          {
+            "node": "step-1",
+            "text": "Mitigation—shifting traffic, reducing features, or stopping corrupting work—may precede a complete explanation."
+          },
+          {
+            "node": "step-3",
+            "text": "Recovery should not wait unnecessarily for diagnosis, nor erase every clue for later investigation."
+          }
+        ]
+      }
     },
     {
       "title": "Build and discriminate hypotheses",
-      "body": "A troubleshooting hypothesis predicts observations that should occur if a proposed cause is true. Start from system knowledge and likely failure modes, then look for evidence that separates competing explanations. Prefer tests that eliminate a meaningful group of possibilities. A correlation or a past incident suggests a hypothesis; it does not establish that the same cause explains the current failure.",
-      "example": "Teaching extension: Compare database timing at both caller and server to distinguish database work from delay between them.",
-      "source": "text lines 4944–5519"
+      "body": "Pip suspects either slow database work or delay on the network path. A useful hypothesis predicts observations that distinguish it from alternatives. Pip compares caller and server timing to eliminate possibilities. System knowledge and past incidents guide tests, but correlation does not prove today’s cause.",
+      "example": "",
+      "source": "text lines 4944–5519",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "database",
+            "label": "DATABASE HYPOTHESIS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "NETWORK HYPOTHESIS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "DISCRIMINATING TEST",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip suspects either slow database work or delay on the network path."
+          },
+          {
+            "node": "step-1",
+            "text": "A useful hypothesis predicts observations that distinguish it from alternatives."
+          },
+          {
+            "node": "step-3",
+            "text": "System knowledge and past incidents guide tests, but correlation does not prove today’s cause."
+          }
+        ]
+      }
     },
     {
       "title": "Reduce the problem at observable interfaces",
-      "body": "Known inputs and well-understood component boundaries make it possible to find where behavior first becomes wrong. Follow the request path or bisect a large pipeline, checking inputs and outputs at each boundary. Traces and shared request identifiers connect observations across processes. A reproducible minimal case can then move investigation into a safer environment where more invasive experiments are possible.",
-      "example": "Teaching extension: A request succeeds when sent directly to the backend but fails through the proxy, narrowing the search to that boundary.",
-      "source": "text lines 4944–5519"
+      "body": "Pip’s request succeeds directly at the backend but fails through the proxy. Known inputs and component interfaces locate where behavior first becomes wrong. Traces and shared IDs connect observations; bisection narrows a long pipeline. Pip builds a minimal reproducible case for safer, more invasive testing outside production.",
+      "example": "",
+      "source": "text lines 4944–5519",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "KNOWN REQUEST",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gateway",
+            "label": "PROXY BOUNDARY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "service",
+            "label": "DIRECT BACKEND",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s request succeeds directly at the backend but fails through the proxy."
+          },
+          {
+            "node": "step-1",
+            "text": "Known inputs and component interfaces locate where behavior first becomes wrong."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip builds a minimal reproducible case for safer, more invasive testing outside production."
+          }
+        ]
+      }
     },
     {
       "title": "Control experiments and record uncertainty",
-      "body": "An experiment can mislead if its credentials, network path, or workload differ from the failing request. Active changes can also alter later observations: extra logging consumes resources, and more CPU can change race timing. Record hypotheses, actions, results, and temporary configuration changes. Some production failures cannot safely be reproduced, so conclusions may remain probable contributing causes rather than a proven single cause.",
-      "example": "Teaching extension: A successful database connection from a laptop does not establish that the application host has the same access.",
-      "source": "text lines 4944–5519"
+      "body": "Pip connects successfully from a laptop and nearly rules out access trouble. The failing application may use different credentials, paths, or workload. Extra logging or CPU can also alter later evidence, so Pip records hypotheses, actions, results, and temporary configuration. Unsafe-to-reproduce failures may leave probable contributing causes rather than one proven explanation.",
+      "example": "",
+      "source": "text lines 4944–5519",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "terminal",
+            "label": "LAPTOP TEST",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "REAL APP CONTEXT",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "RECORDED UNCERTAINTY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip connects successfully from a laptop and nearly rules out access trouble."
+          },
+          {
+            "node": "step-1",
+            "text": "The failing application may use different credentials, paths, or workload."
+          },
+          {
+            "node": "step-3",
+            "text": "Unsafe-to-reproduce failures may leave probable contributing causes rather than one proven explanation."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,81 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Effective Troubleshooting: HYPOTHESES to TRACE to DATABASE to TEST",
     "nodes": [
       {
-        "id": "observe",
-        "label": "HYPOTHESES",
-        "caption": "inputs and constraints",
-        "kind": "document",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "TRACE",
-        "caption": "choose the operating rule",
-        "kind": "trace",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "DATABASE",
-        "caption": "observe the effect",
-        "kind": "database",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "TEST",
-        "caption": "feed learning back",
-        "kind": "terminal",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "alert",
+        "label": "USER IMPACT",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "router",
+        "label": "MITIGATE NOW",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "trace",
+        "label": "PRESERVE EVIDENCE",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
-      },
-      {
-        "from": "learn",
-        "to": "observe",
-        "dashed": true
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "inputs and constraints"
+        "node": "step-0",
+        "text": "Pip’s harbor bookings are failing across a region."
       },
       {
-        "node": "decide",
-        "text": "choose the operating rule"
+        "node": "step-1",
+        "text": "Mitigation—shifting traffic, reducing features, or stopping corrupting work—may precede a complete explanation."
       },
       {
-        "node": "act",
-        "text": "observe the effect"
-      },
-      {
-        "node": "learn",
-        "text": "feed learning back"
+        "node": "step-3",
+        "text": "Recovery should not wait unnecessarily for diagnosis, nor erase every clue for later investigation."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "The familiar outage has a different cause"
   }
 }

@@ -1,19 +1,65 @@
 # Chapter 15: Space-Based Architecture Style
 
-Space-based architecture targets applications whose concurrent load is very high, highly variable, or difficult to predict. Traditional web topology can scale its web servers, but pressure eventually reaches the application server and then the database, the narrowest part of the triangle. Space-based architecture removes the database from synchronous transactional processing by keeping active data in memory inside parallel processing units. Updates reach the database asynchronously, and units can start or stop as demand changes (source lines 7522–7607, printed pp. 211–213).
+*Pip’s adventure: The signed-book sale outruns the database. Fictional teaching story; concepts follow the cited source.*
 
-A processing unit contains application logic and one or more in-memory data grids. Virtualized middleware surrounds the units. Its messaging grid routes requests and session state; its data grid synchronizes cache contents; an optional processing grid coordinates a request that spans units; and the deployment manager adds or removes units based on load. The result is a topology in which any active unit can handle a request against its local data rather than synchronously querying the central database. These components are described at lines 7608–7835 (pp. 213–218).
+Source: printed pp. 211–234.
 
-Data pumps keep the database as the durable system of record without putting it on the hot path. The unit that owns an update sends a durable asynchronous message containing an action and new values. A data writer consumes the pump and applies the change. If every unit for a cache has crashed or been redeployed, a data reader loads data from the database through a reverse data pump: one temporary cache owner acquires a lock, loads the data, then releases it for the other units to synchronize. Readers and writers can hide table details behind a data abstraction contract, buffering a database schema change while caches evolve (lines 7836–8010; pp. 219–223).
+Pip prepares for thousands of simultaneous book orders and finds the database limits concurrency. Space-based architecture moves hot transactions into memory with dynamic processing units. The apparent speed depends on explicit consistency, durable updates, and recovery design.
 
-Replicated caches introduce a consistency hazard. If two active units update the same row before replication arrives, each can overwrite the other with an old value. The book's inventory example changes 500 units to 490 and 495 concurrently, even though the correct result is 485. Collision probability rises with instance count, update rate, and replication latency, and falls with cache size. The chapter provides a planning formula but stresses that replication latency should be measured in production (lines 8011–8126; pp. 223–226).
+## Remove the database bottleneck
 
-Replicated caching is fast and avoids a central cache dependency, making it suitable for smaller, relatively static data with low update rates. Distributed caching keeps one external cache and therefore favors consistency for large or highly dynamic data, but remote access and a cache outage weaken performance and fault tolerance. Both models may be used in one application. A near-cache combines them, yet differing front caches make performance and responsiveness uneven, which is why the chapter discourages it (lines 8127–8214; pp. 226–230).
+Pip’s web capacity grows while the database remains the sale’s bottleneck. Space-based processing units keep transactional data in replicated memory, avoiding synchronous database access for hot requests. Units start and stop with load for elasticity. Pip retains the database as system of record, updated asynchronously through durable pumps rather than every transaction.
 
-Ticket sales and auctions illustrate the intended fit: demand spikes sharply, units can be added ahead of the surge, and asynchronous pumps keep the durable store from blocking every transaction. The final ratings describe five-star performance, scalability, and elasticity but low simplicity and testability, plus higher resource and licensing cost (lines 8215–8315; pp. 231–234). The lesson's ticketing scenario and all workload figures are teaching extensions. Its visual shows request routing, in-memory processing, cache choice, durable pump, and system of record. The learner should leave able to assign a cache model by data need rather than by speed alone.
+Source: pp. 211–213, 231–232.
 
-## Source map
+## Processing units and middleware
 
-- Motivation, processing units, middleware, and deployment manager: source lines 7522–7835, printed pp. 211–218.
-- Pumps, readers/writers, abstraction, and collisions: source lines 7836–8126, printed pp. 219–226.
-- Cache choices, examples, and ratings: source lines 8127–8315, printed pp. 226–234.
+Pip’s auction request reaches an available processing unit. Each unit contains application logic, web components, and caches. Virtualized middleware supplies messaging and data grids, optional cross-unit processing coordination, and a deployment manager. Pip uses those distinct responsibilities to route work, synchronize memory, and add capacity rather than treating the system as one magic cache.
+
+Source: pp. 213–219.
+
+## Pumps, writers, and readers
+
+Pip changes a customer phone number and sends its ID, action, and values through a data pump. A writer applies the asynchronous update; normal processing units avoid direct database reads and writes. After complete cache loss, a reader and reverse pump load one temporary owner under a lock before synchronization. Pip keeps schema changes behind those data-layer contracts.
+
+Source: pp. 219–223.
+
+## Collision is a consistency cost
+
+Pip’s two units decrement inventory from 500 to 490 and 495 before replication arrives. The correct combined result is 485, but conflicting updates can leave incorrect copies. Collision probability grows with instance count, update rate, and replication latency, and falls with cache size. Pip measures latency and considers partitioning or another cache model for high-conflict data.
+
+Source: pp. 223–226.
+
+## Choose a cache model
+
+Pip keeps stable product codes replicated in every unit for fast independent reads. Large or rapidly changing inventory may instead use one external distributed cache for consistency, accepting latency and an availability dependency. The application can combine models by data need. The chapter discourages near-cache hybrids whose differing front copies create uneven behavior.
+
+Source: pp. 226–230.
+
+## Power with operational weight
+
+Pip adds sale capacity and then rehearses losing every cache. Strong performance, scale, and elasticity bring memory, licensing, and peak-concurrency testing costs. Partitioning may be technical or domain-based, and synchronous relationships still determine quanta. Pip designs durable pumps, collision checks, recovery, and pending-database semantics before relying on seemingly limitless scale.
+
+Source: pp. 231–234.
+
+## Transfer challenge: Release-night ticket sale
+
+A concert ticketing site normally has a few hundred concurrent users but expects tens of thousands when sales open. Seat availability must be accurate enough to prevent double selling, while reference data such as venue descriptions changes rarely. The team can pay for cache infrastructure but has limited ability to test peak load safely outside production before and during the sale.
+
+### Replicated cache
+
+Every processing unit can serve hot reads from memory with excellent speed and no single cache server dependency. Concurrent seat updates can collide across copies, and each new unit consumes memory; collision and restart behavior are difficult to test. Venue metadata and other stable reference data respond quickly from each unit. Seat reservations need partitioning, collision monitoring, and a durable ordered pump so a stale copy cannot sell the same seat twice.
+
+### Distributed cache
+
+One cache authority avoids conflicting replicated seat copies and provides stronger consistency for highly dynamic inventory. Every access crosses a remote cache boundary, and a cache outage can make all processing units nonoperational unless mirrored carefully. Seat counts are easier to reason about during the sale, but remote cache latency and failover must be measured. Stable venue data can still use replicated caches in the same system.
+
+The workload points to space-based architecture, but different data has different needs. Use replicated caching where performance and fault tolerance dominate, distributed caching where consistency dominates, and make collision and outage behavior part of the design.
+
+## Give each cache a reason
+
+Choose two data sets in a high-volume system. Select replicated, distributed, or both, and state the update rate, size, consistency need, and failure behavior that support each choice.
+
+- Context
+- Decision
+- Trade-off

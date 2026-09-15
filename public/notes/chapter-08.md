@@ -1,19 +1,65 @@
-# Chapter 8 — Component-Based Thinking
+# Chapter 8: Component-Based Thinking
 
-Chapter 8 treats components as the physical manifestation of modules and the fundamental building blocks of architecture. A component can be a library, layer, subsystem, event-processing unit, or service. Libraries typically run in the caller’s process and communicate through language calls; services run in their own address space and communicate through network protocols, REST, or queues. The right level depends on the system: a small service may contain too little code to justify another component hierarchy (source pp. 99–100, lines 4045–4142).
+*Pip’s adventure: A component is more than a table with a manager. Fictional teaching story; concepts follow the cited source.*
 
-Architects usually define, refine, manage, and govern components with business analysts, subject-matter experts, developers, QA, operations, and enterprise architects. Components are often the lowest level at which the architect interacts directly, while developers and tech leads design most classes and functions. This division avoids micromanagement and empowers other roles. An architect’s first component diagram is a draft; implementation should feed back into boundaries and responsibilities (pp. 100–102, lines 4143–4214).
+Source: printed pp. 99–116.
 
-Top-level partitioning is a major architectural decision. Technical partitioning organizes presentation, business rules, services, persistence, or other capabilities. It makes categories easy to find and can constrain dependencies, but realistic workflows cross every layer, so a domain such as CatalogCheckout becomes smeared throughout the system. Domain partitioning organizes top-level components around workflows or domains. Internal subcomponents can still use layers, but the top-level unit follows business change. This better supports cross-functional teams and migration toward modular monoliths or microservices. Its cost is that customization can appear in multiple domains. Technical partitioning keeps customization centralized, but it increases global and data coupling and may make later distribution harder (pp. 102–107, lines 4215–4382).
+Pip sketches CustomerManager and OrderManager for the bookshop, then realizes the diagram mirrors storage rather than work. Component-based thinking uses responsibilities, workflows, and iterative feedback. Deployment choices follow quality and coupling needs after those boundaries become clearer.
 
-Conway’s law explains part of this outcome: organizations tend to produce designs that copy their communication structures. Teams organized by technical departments may reproduce technical layers and create collaboration barriers. The Inverse Conway Maneuver suggests evolving team structures to encourage the desired architecture. Neither partitioning style is universally correct; the choice follows domain change, coupling, team structure, and operational goals.
+## Component scope
 
-Component identification should be iterative. Start with coarse candidates, assign requirements or user stories, analyze roles and responsibilities, analyze architecture characteristics, and restructure. Fine-grained components create excessive communication; coarse-grained ones hide internal coupling and harm deployability, testability, and modularity (pp. 107–109, lines 4383–4450). The entity trap is a common failure: turning every database entity into a Manager component copies an object-relational mapping rather than modeling application workflows. It may be adequate for simple CRUD, but it offers little architectural guidance for complex behavior (pp. 109–111, lines 4451–4527).
+Pip packages validation as a library but runs payment as a service. A component physically packages related code above individual classes or functions. Libraries may share a process; services use separate address spaces and network or message contracts. Layers, subsystems, and event processors can also be components; Pip avoids an unnecessary hierarchy inside a tiny service.
 
-The chapter presents several discovery techniques. Actor/actions maps distinct roles to activities and works as a general approach. Event storming identifies domain events and message handlers, fitting event-driven and DDD settings. Workflow analysis models role activities without requiring messages. The Going, Going, Gone case begins with bidder, auctioneer, and system actions, then proposes VideoStreamer, BidStreamer, BidCapture, BidTracker, AuctionSession, and Payment. Architecture characteristics reveal that auctioneer capture needs stronger reliability and availability than bidder capture, so BidCapture is split and the tracker becomes the unifying record (pp. 111–114, lines 4528–4619).
+Source: pp. 99–100.
 
-Finally, differing quanta inform monolithic versus distributed deployment. One coherent set of characteristics can favor a simple monolith. Distinct profiles, such as scalable read streams and highly reliable authoritative capture, can justify separate deployments. This is a consequence of coupling and quality needs, not a default service-count target (pp. 114–116, lines 4620–4692).
+## Architect and developer roles
 
-The JSON auction scenario and visual are teaching extensions. Their component names and outcomes are illustrative; they are not a measured architecture or universal prescription. The exercise asks the learner to draft coarse boundaries, analyze a quality difference, and define feedback that would cause a merge or split.
+Pip proposes an inventory boundary and quality goals with the team. Architects define and govern components with business, development, QA, operations, and domain partners; developers own most class and function design. Tests later reveal a reservation subcomponent worth separating. Pip revises the draft collaboratively instead of micromanaging implementation.
 
-Source boundary: this lesson covers Chapter 8, printed pages 99–116 and supplied text lines 4045–4692. Part II begins at line 4693; architecture styles beyond the chapter’s introductory comparison are intentionally excluded.
+Source: pp. 100–102, 107–109.
+
+## Technical versus domain partitioning
+
+Pip traces one purchase through presentation, rules, and persistence folders. Technical partitioning makes technical categories visible but spreads business change across them. Domain partitioning groups workflows, keeping change and ownership closer while potentially repeating customization. Pip compares those costs before choosing top-level bookshop components.
+
+Source: pp. 102–107.
+
+## Iterative identification
+
+Pip’s first bid-capture component serves both bidders and auctioneers. Requirements, responsibilities, and quality analysis reveal different reliability and scale needs. Component discovery iterates from candidates through assignment and restructuring as implementation teaches more. Pip balances excessive fine-grained communication against coarse boundaries that hide coupling and harm testing or deployment.
+
+Source: pp. 107–109, 113–114.
+
+## Discovery techniques and traps
+
+Pip’s Manager-per-table diagram misses auctioneer actions and system events. The entity trap confuses storage relationships with workflow responsibilities. Actor/actions, event storming, and workflow analysis reveal different useful views; none is universally superior. Pip selects a domain-appropriate technique and iterates toward capture, tracking, streaming, session, and payment responsibilities.
+
+Source: pp. 109–113.
+
+## Quantum and deployment choice
+
+Pip compares authoritative auction tracking with high-volume read streams. One coherent quality profile may fit a simple monolith and database; distinct profiles can justify several quanta. Distribution follows real coupling and operational needs, not enthusiasm for many services. Pip budgets deployment complexity before separating the bookshop’s workloads.
+
+Source: pp. 114–116.
+
+## Transfer challenge: Partition a live auction platform
+
+A live auction platform has bidders viewing video and bids, an auctioneer entering authoritative live bids, and system tasks that start auctions, track activity, and charge winners. Bidder traffic can surge; the auctioneer path must remain reliable and ordered. A first diagram contains one BidCapture component and a set of entity managers. Choose a restructuring approach that matches workflows and quality differences.
+
+### Domain components
+
+Groups capture, tracking, streaming, session, and payment around workflows and roles, making business change and quality differences visible. Some concerns or customization can repeat, and boundaries require explicit contracts and data ownership. Auctioneer Capture separates from bidder capture, while BidTracker unifies ordered streams. VideoStreamer and BidStreamer can scale independently when evidence supports distribution.
+
+### Entity managers
+
+Maps quickly to existing tables and makes basic CRUD operations straightforward for a simple data-centric application. Workflows become scattered or hidden behind generic managers; different load and reliability needs remain mixed, and future migration is harder. The team can ship simple CRUD screens quickly, but live ordering and auctioneer reliability need cross-manager coordination. The diagram must be revisited once real workflows and failure modes appear.
+
+Domain partitioning is not always superior, and CRUD scaffolding can fit a genuinely simple problem. The architectural test is whether components represent cohesive behavior and support the required quality profiles; the initial partition should evolve with evidence.
+
+## Draft and revise components
+
+Take one feature with at least two user roles. Propose three coarse components, assign behaviors, identify one quality difference, and describe the feedback that would cause a split or merge.
+
+- Context
+- Decision
+- Trade-off

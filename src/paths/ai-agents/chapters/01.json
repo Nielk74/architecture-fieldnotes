@@ -3,7 +3,7 @@
   "title": "Introduction to Agents",
   "part": "Foundations",
   "subtitle": "Distinguish adaptive action from a fixed workflow",
-  "summary": "Agency concerns the ability to choose and revise actions using observations, rather than merely execute a predetermined script. Foundation models make this practical by interpreting varied requests and generating structured tool calls, but the complete agent also needs orchestration, memory, tools, and supporting infrastructure. Different applications require different degrees of initiative and human involvement. A conversational assistant, a bounded business task, and a more autonomous workflow therefore need different expectations. Frameworks can supply useful building blocks, but do not determine whether a design actually needs autonomy. Begin by identifying the adaptation the task requires and the limits within which actions should occur.",
+  "summary": "Pip’s museum guide sends visitors toward a closed gallery. A script would keep going; an agent can observe the closure and revise its plan. Pip gives the guide current information, bounded tools, and a clear limit on what it may decide.",
   "source": {
     "startLine": 620,
     "endLine": 1194,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Agent",
-      "body": "An autonomous agent interprets inputs, reasons over context, chooses actions, and interacts with an environment toward a goal. Unlike a fixed script, it can adapt to ambiguous situations, but its autonomy makes boundaries and evaluation necessary.",
-      "example": "Teaching extension: A travel assistant checks a delayed train, sees that the connection is no longer possible, and searches for a different route instead of continuing its original booking plan.",
-      "source": "text lines 620-1194"
+      "body": "Pip’s museum guide finds the next gallery closed. An agent interprets inputs, reasons over context, and chooses actions toward a goal. Unlike a fixed script, it can use that observation to revise the route. Pip tests the adaptation and limits its authority before letting visitors rely on it.",
+      "example": "",
+      "source": "text lines 620-1194",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "museum",
+            "label": "CLOSED GALLERY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "agent",
+            "label": "REVISE ROUTE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "shield",
+            "label": "BOUNDED ACTION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s museum guide finds the next gallery closed."
+          },
+          {
+            "node": "step-1",
+            "text": "An agent interprets inputs, reasons over context, and chooses actions toward a goal."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip tests the adaptation and limits its authority before letting visitors rely on it."
+          }
+        ]
+      }
     },
     {
       "title": "Pretraining",
-      "body": "Large pretrained generative models learn broad language and world patterns before being adapted to tasks. Their capabilities include natural-language understanding, structured generation, context use, and multimodal synthesis; pretraining does not guarantee current or correct answers.",
-      "example": "Teaching extension: A pretrained model recognizes that a customer wants a refund, but it retrieves the order record before stating whether that purchase is refundable.",
-      "source": "text lines 620-1194"
+      "body": "Pip’s guide recognizes a visitor’s refund request. Pretraining supplies broad language and world patterns, structured generation, context use, and multimodal capabilities. It does not establish this ticket’s current eligibility. Pip retrieves the purchase record before the guide answers.",
+      "example": "",
+      "source": "text lines 620-1194",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "agent",
+            "label": "PRETRAINED MODEL",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "REFUND REQUEST",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "database",
+            "label": "CURRENT TICKET",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s guide recognizes a visitor’s refund request."
+          },
+          {
+            "node": "step-1",
+            "text": "Pretraining supplies broad language and world patterns, structured generation, context use, and multimodal capabilities."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip retrieves the purchase record before the guide answers."
+          }
+        ]
+      }
     },
     {
       "title": "Tool use",
-      "body": "Tools let an agent retrieve information or perform actions outside model weights. Tool calls extend capability but introduce permissions, failures, latency, and data contracts that the surrounding system must manage.",
-      "example": "Teaching extension: An inventory assistant calls a stock lookup for the requested warehouse and bases its answer on the returned quantity rather than a remembered product description.",
-      "source": "text lines 620-1194"
+      "body": "Pip asks how many exhibition tickets remain. The guide calls a stock tool instead of trusting remembered information. Tools reach outside model weights, but bring permissions, failures, latency, and data contracts. Pip checks the returned quantity and handles unavailable results explicitly.",
+      "example": "",
+      "source": "text lines 620-1194",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "museum",
+            "label": "EXHIBITION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "api",
+            "label": "STOCK LOOKUP",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "RETURNED QUANTITY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks how many exhibition tickets remain."
+          },
+          {
+            "node": "step-1",
+            "text": "The guide calls a stock tool instead of trusting remembered information."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip checks the returned quantity and handles unavailable results explicitly."
+          }
+        ]
+      }
     },
     {
       "title": "Agent types",
-      "body": "Business-task, conversational, and autonomous agents differ in workflow and degree of initiative. The type helps set expectations about human involvement, context, and acceptable failure.",
-      "example": "Teaching extension: A support chatbot explains a return policy; a bounded returns agent also prepares the authorized return label. The second workflow needs permission and result handling beyond conversational accuracy.",
-      "source": "text lines 620-1194"
+      "body": "Pip first lets the guide explain museum policy. A bounded business-task agent can also prepare an authorized return label; conversational and autonomous agents have different initiative. That extra action needs permissions and result handling. Pip sets human involvement, context, and acceptable failure for the actual role.",
+      "example": "",
+      "source": "text lines 620-1194",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "ai-agents"
+          },
+          {
+            "id": "step-1",
+            "kind": "listening",
+            "label": "CONVERSATION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "agent",
+            "label": "BOUNDED TASK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "shield",
+            "label": "ACTION PERMISSION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip first lets the guide explain museum policy."
+          },
+          {
+            "node": "step-1",
+            "text": "A bounded business-task agent can also prepare an authorized return label; conversational and autonomous agents have different initiative."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip sets human involvement, context, and acceptable failure for the actual role."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -117,69 +369,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "n0",
-        "label": "ENVIRONMENT",
-        "kind": "agent",
-        "tone": "sage",
-        "x": 100,
-        "y": 80
-      },
-      {
-        "id": "n1",
-        "label": "MODEL",
-        "kind": "database",
-        "tone": "peach",
-        "x": 270,
-        "y": 80
-      },
-      {
-        "id": "n2",
-        "label": "TOOLS",
-        "kind": "api",
-        "tone": "lilac",
-        "x": 100,
-        "y": 210
-      },
-      {
-        "id": "n3",
-        "label": "GOAL",
-        "kind": "whiteboard",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 270,
-        "y": 210
+        "course": "ai-agents"
+      },
+      {
+        "id": "step-1",
+        "kind": "museum",
+        "label": "CLOSED GALLERY",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "agent",
+        "label": "REVISE ROUTE",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "shield",
+        "label": "BOUNDED ACTION",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "n0",
-        "to": "n1"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n1",
-        "to": "n2"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "n2",
-        "to": "n3"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "n0",
-        "text": "Inspect environment in the chapter workflow."
+        "node": "step-0",
+        "text": "Pip’s museum guide finds the next gallery closed."
       },
       {
-        "node": "n1",
-        "text": "Inspect model in the chapter workflow."
+        "node": "step-1",
+        "text": "An agent interprets inputs, reasons over context, and chooses actions toward a goal."
       },
       {
-        "node": "n2",
-        "text": "Inspect tools in the chapter workflow."
-      },
-      {
-        "node": "n3",
-        "text": "Inspect goal in the chapter workflow."
+        "node": "step-3",
+        "text": "Pip tests the adaptation and limits its authority before letting visitors rely on it."
       }
     ]
+  },
+  "story": {
+    "course": "ai-agents",
+    "world": "museum",
+    "title": "The museum guide meets a closed gallery"
   }
 }

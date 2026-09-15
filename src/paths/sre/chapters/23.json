@@ -3,7 +3,7 @@
   "title": "Managing Critical State: Distributed Consensus for Reliability",
   "part": "Distributed systems",
   "subtitle": "Use proven agreement protocols to preserve critical state",
-  "summary": "Critical shared state needs agreement despite crashes, delayed messages, and partitions. Heartbeats alone cannot distinguish a failed peer from an unreachable one, so informal failover can create competing leaders and corrupt data. Consensus protocols preserve safety while progress depends on enough communicating replicas. Replicated state machines turn agreement into useful services by executing deterministic operations in the same order. Paxos establishes agreement; Multi-Paxos uses a stable leader to reduce repeated coordination. Replicated stores, leases, queues, and leader election build on these foundations. Deployment then becomes a trade-off among quorum survival, geographical latency, resource cost, and client requirements. Monitor leadership, replica lag, committed progress, and durable-write latency, and retain independent backups because replication also reproduces operator mistakes.",
+  "summary": "Pip’s booking coordinator splits across a network partition. Preserving one agreed critical state may require some nodes to stop accepting work. Consensus, ordered operations, stable leadership, and carefully placed quorums make that trade-off explicit.",
   "source": {
     "startLine": 9889,
     "endLine": 10801,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "CAP, safety, and availability",
-      "body": "During a network partition, a distributed system cannot both serve every node’s requests and guarantee one consistent view of critical state. Consensus chooses to preserve agreement, potentially pausing operations where a quorum is unavailable. Safety means conflicting decisions are not committed; liveness means decisions eventually advance. An asynchronous network cannot guarantee bounded progress, so operational redundancy and eventual communication are essential alongside protocol correctness.",
-      "example": "Teaching extension: The minority side of a partition stops changing lock ownership instead of declaring its own independent owner.",
-      "source": "text lines 9889–10801"
+      "body": "Pip’s minority partition wants to assign its own lock owner. During a partition, serving every node conflicts with one consistent view of critical state. Consensus preserves safety by refusing conflicting commits, potentially pausing without a quorum; liveness concerns eventual progress. Pip still needs eventual communication and redundancy because an asynchronous network cannot guarantee bounded progress.",
+      "example": "",
+      "source": "text lines 9889–10801",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "router",
+            "label": "NETWORK PARTITION",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "shield",
+            "label": "ONE AGREED OWNER",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "PAUSED MINORITY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s minority partition wants to assign its own lock owner."
+          },
+          {
+            "node": "step-1",
+            "text": "During a partition, serving every node conflicts with one consistent view of critical state."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip still needs eventual communication and redundancy because an asynchronous network cannot guarantee bounded progress."
+          }
+        ]
+      }
     },
     {
       "title": "Replicated state machines and ordered operations",
-      "body": "A replicated state machine applies the same deterministic operations in the same order at multiple replicas. Consensus establishes that order; execution turns it into a datastore, queue, configuration service, or coordination primitive. Replicas that missed decisions must catch up. Read semantics still matter: reading any replica may return stale state, while a strongly consistent read requires a mechanism establishing that its view is current.",
-      "example": "Teaching extension: Two replicas processing the same ordered sequence of balance updates reach the same balance; merely receiving the same unordered set is insufficient.",
-      "source": "text lines 9889–10801"
+      "body": "Pip gives replicas the same balance updates in different orders and gets different outcomes. A replicated state machine needs deterministic operations applied in the same agreed order. Consensus establishes that order; missed decisions need catch-up. Pip also defines reads: any replica may be stale, while strong reads need a mechanism establishing currentness.",
+      "example": "",
+      "source": "text lines 9889–10801",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "ORDERED OPERATIONS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "database",
+            "label": "REPLICATED STATE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "search",
+            "label": "READ SEMANTICS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip gives replicas the same balance updates in different orders and gets different outcomes."
+          },
+          {
+            "node": "step-1",
+            "text": "A replicated state machine needs deterministic operations applied in the same agreed order."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip also defines reads: any replica may be stale, while strong reads need a mechanism establishing currentness."
+          }
+        ]
+      }
     },
     {
       "title": "Paxos and stable-leader Multi-Paxos",
-      "body": "Paxos reaches agreement through numbered proposals, persistent acceptor commitments, and overlapping majorities. Its protocol rules preserve previously accepted decisions as proposals advance. A single agreement becomes an ordered sequence through a higher-level replicated log. Multi-Paxos lets an established leader reuse its prepared leadership across operations, reducing normal coordination. Competing proposers can delay progress, so election timing, randomized backoff, and leadership stability affect availability.",
-      "example": "Teaching extension: A stable leader proposes the next operation without repeating leadership establishment; after failure, a successor must safely establish a new term.",
-      "source": "text lines 9889–10801"
+      "body": "Pip’s coordinator uses numbered proposals, persistent acceptor commitments, and overlapping majorities. Paxos preserves prior accepted decisions as proposals advance; a higher-level log orders repeated agreements. Stable-leader Multi-Paxos reuses established leadership for normal operations. Pip monitors elections, randomized backoff, and competing proposers because safe decisions alone do not ensure timely progress.",
+      "example": "",
+      "source": "text lines 9889–10801",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "NUMBERED PROPOSALS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "team",
+            "label": "OVERLAPPING MAJORITIES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "STABLE LEADER",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s coordinator uses numbered proposals, persistent acceptor commitments, and overlapping majorities."
+          },
+          {
+            "node": "step-1",
+            "text": "Paxos preserves prior accepted decisions as proposals advance; a higher-level log orders repeated agreements."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip monitors elections, randomized backoff, and competing proposers because safe decisions alone do not ensure timely progress."
+          }
+        ]
+      }
     },
     {
       "title": "Quorum placement and operational trade-offs",
-      "body": "A majority system with five replicas can proceed with three, tolerating two unavailable replicas if the survivors communicate and have sufficient capacity. Placing replicas in independent failure domains improves resilience but increases coordination latency. Stable leaders can bottleneck bandwidth, and losing a fast quorum member can increase latency even without losing availability. Track replica health, lag, leadership changes, and committed progress rather than assuming running processes imply a functioning service.",
-      "example": "Teaching extension: A five-replica deployment spread across sites survives two failures, but its remaining quorum may require a slower intercontinental round trip.",
-      "source": "text lines 9889–10801"
+      "body": "Pip places five replicas across independent sites. Three communicating survivors can tolerate two unavailable replicas if they have capacity. Distance and losing a fast quorum member can increase latency; a leader may bottleneck bandwidth. Pip tracks health, lag, leadership changes, and committed progress instead of equating running processes with a functioning consensus service.",
+      "example": "",
+      "source": "text lines 9889–10801",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "deployment",
+            "label": "FIVE REPLICAS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "team",
+            "label": "THREE-NODE QUORUM",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gauge",
+            "label": "COMMITTED PROGRESS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip places five replicas across independent sites."
+          },
+          {
+            "node": "step-1",
+            "text": "Three communicating survivors can tolerate two unavailable replicas if they have capacity."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip tracks health, lag, leadership changes, and committed progress instead of equating running processes with a functioning consensus service."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,76 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Place a consensus quorum",
     "nodes": [
       {
-        "id": "observe",
-        "label": "Operation",
-        "caption": "Requested change",
-        "kind": "document",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "Leader",
-        "caption": "Stable proposer",
-        "kind": "service",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "Quorum",
-        "caption": "Durable agreement",
-        "kind": "team",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "State",
-        "caption": "Ordered execution",
-        "kind": "database",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "router",
+        "label": "NETWORK PARTITION",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "shield",
+        "label": "ONE AGREED OWNER",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "clock",
+        "label": "PAUSED MINORITY",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "A client requests a change to critical shared state."
+        "node": "step-0",
+        "text": "Pip’s minority partition wants to assign its own lock owner."
       },
       {
-        "node": "decide",
-        "text": "An established leader proposes the operation."
+        "node": "step-1",
+        "text": "During a partition, serving every node conflicts with one consistent view of critical state."
       },
       {
-        "node": "act",
-        "text": "Overlapping majorities preserve agreement through durable commitments."
-      },
-      {
-        "node": "learn",
-        "text": "Replicas apply agreed deterministic operations in order."
+        "node": "step-3",
+        "text": "Pip still needs eventual communication and redundancy because an asynchronous network cannot guarantee bounded progress."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "Two sides cannot both own the same lock"
   }
 }

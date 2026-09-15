@@ -1,15 +1,77 @@
-# Chapter 12 — Transactional Sagas
+# Chapter 12: Transactional Sagas
 
-A saga coordinates local transactions across services. The chapter recalls the familiar definition: each local update publishes an event that triggers the next update, and failures lead to compensating updates (text lines 7312–7330). Because distributed transactions lack ordinary atomicity, failure and recovery are the real design problem. The chapter frames the space as three intersecting dimensions: synchronous or asynchronous communication, atomic or eventual consistency, and orchestrated or choreographed coordination (text lines 7332–7418).
+*Pip’s adventure: The parcel saga needs a recovery path. Fictional teaching story; concepts follow the cited source.*
 
-The eight combinations are named Epic, Phone Tag, Fairy Tale, Time Travel, Fantasy Fiction, Horror Story, Parallel, and Anthology. The names are indexing aids; the superscript records the three dimensions. Epic is synchronous, atomic, and orchestrated. It resembles a monolith and gives a mediator clear ownership, but a failed participant requires compensating writes, timing coordination, database restrictions, and poor elasticity (text lines 7420–7506). Phone Tag changes only coordination to choreography. It can reduce happy-path bottlenecks, but every service must understand compensation, so it fits simple workflows (text lines 7508–7586).
+Source: text lines 7312–8356.
 
-Fairy Tale relaxes atomicity while retaining synchronous orchestration. Each domain service owns its local transaction and the mediator coordinates eventual progress, making this a comparatively attractive combination (text lines 7588–7658). Time Travel combines eventual consistency with synchronous choreography. It suits one-way, high-throughput chains, but workflow complexity moves into the services and error handling (text lines 7660–7732). These patterns demonstrate that removing holistic transactionality often removes the hardest restrictions.
+Pip’s delivery spans stock, payment, and notification without one local transaction. The crew compares communication, consistency, and coordination rather than choosing a saga by its name. Explicit states keep retries and compensation visible when part of the journey fails.
 
-The chapter warns against treating asynchrony as a free performance switch. Fantasy Fiction keeps atomicity and orchestration while making communication asynchronous. Overlapping workflows require pending state, ordering rules, and protection from races and deadlocks (text lines 7734–7806). Horror Story combines atomicity, asynchrony, and choreography. Services must track undo information for potentially out-of-order transactions and coordinate without a mediator, making complexity especially severe (text lines 7808–7876). This is a useful lesson in entangled dimensions: a local improvement can produce a poor global combination.
+## Eight combinations
 
-Parallel Saga uses asynchronous communication, eventual consistency, and orchestration. A mediator remains useful for complex workflows while local transactions and parallel calls improve responsiveness, scale, and independent domain scaling (text lines 7878–7950). Anthology removes the mediator as well. Its asynchronous, eventual, choreographed shape offers high throughput and low coupling, but each service carries more workflow context and correction logic; it fits simple flows or infrequent errors (text lines 7952–8024). Saga state machines record progress, retries, and corrective states so eventual workflows can converge (text lines 8026–8356).
+Pip lays out eight saga combinations before choosing one. Communication is synchronous or asynchronous, consistency atomic or eventual, coordination orchestrated or choreographed. Epic selects synchronous, atomic orchestration; Anthology selects asynchronous, eventual choreography. Changing one dimension changes downstream trade-offs; the names summarize choices rather than replace analysis.
 
-Modern teaching extension: score one real workflow across all three dimensions before discussing technologies. Write one failure state and one recovery action for the selected combination. This prevents “asynchronous” or “atomic” from being evaluated in isolation and exposes the operational work hidden in the choice. References: supplied early-release text lines 7312–8356.
+Source: text lines 7328–7418.
 
-The matrix is especially useful during design reviews because it makes a proposed change legible. Moving from synchronous to asynchronous communication changes timing assumptions; moving from atomic to eventual consistency changes what “success” means; moving from orchestration to choreography changes where knowledge and state reside. Reviewers can therefore ask which dimension is being relaxed and what new responsibility follows. That question is more productive than debating pattern names.
+## Epic Saga
+
+Pip’s Epic mediator updates stock and payment, then shipping fails. Synchronous calls and atomic consistency require compensating earlier updates. The orchestrator gives familiar semantics and a clear owner. Pip also accepts timing bottlenecks, database restrictions, failure modes, and low elasticity: distributed atomicity is expensive.
+
+Source: text lines 7420–7506.
+
+## Phone Tag
+
+Pip removes the mediator but keeps synchronous calls and atomic consistency. In Phone Tag, a front controller starts the chain and participants carry compensation logic. A failure sends synchronous corrective requests back through services. Pip limits this pattern to simple workflows because semantic and failure-path complexity grows quickly.
+
+Source: text lines 7508–7586.
+
+## Eventual consistency
+
+Pip relaxes global atomicity while keeping local transactions. Fairy Tale uses synchronous orchestration and can defer a change while a participant recovers. Time Travel uses synchronous choreography for one-way flows, leaving state and errors to services. Pip trades immediate global agreement for design freedom, not freedom from recovery.
+
+Source: text lines 7588–7732.
+
+## Asynchronous atomicity
+
+Pip overlaps workflows Alpha, Beta, and Gamma while demanding atomic results. Asynchronous Fantasy Fiction requires the orchestrator to track undo, races, dependencies, and out-of-order responses. Horror Story adds choreography and distributes those difficulties. Pip checks entangled workflows: isolated performance gains can disappear under atomic coordination.
+
+Source: text lines 7734–7876.
+
+## Parallel Saga
+
+Pip’s Parallel Saga sends independent enrichment requests without waiting synchronously. Asynchronous communication, eventual consistency, and orchestration permit parallel execution and local scaling. The mediator remains the visible owner of a complex workflow. Pip still designs retries, synchronization, and asynchronous error handling without a global transaction.
+
+Source: text lines 7878–7950.
+
+## Anthology Saga
+
+Pip streams independent delivery records through local consumers. Anthology combines asynchronous communication, eventual consistency, and choreography for low coupling and high throughput. Participants own context, errors, retries, and eventual correction. Pip favors simple or infrequently failing flows because complex recovery can make distributed logic difficult to operate.
+
+Source: text lines 7952–8024.
+
+## State machines
+
+Pip resumes a delivery from FULFILLMENT_PENDING instead of starting over. A saga state machine records progress and drives retries or manual correction toward a valid outcome. NEW, PAYMENT_DONE, and COMPENSATING distinguish different recovery actions. Pip assigns state ownership as a coordination decision while local transactions commit separately.
+
+Source: text lines 8026–8356.
+
+## Transfer challenge: Process a high-volume order
+
+A retailer must accept orders, reserve stock, authorize payment, and notify customers. Order volume is spiky, payment and stock services have different response times, and operators need to resume failed workflows. The business accepts a short period of eventual consistency if customers receive clear status. Choose a saga shape that matches complexity and throughput.
+
+### Parallel saga
+
+Orchestration gives one workflow owner while asynchronous local transactions allow parallelism and independent scaling. The mediator and state machine must handle retries, timing, and corrective actions. Stock and payment requests run concurrently. A payment timeout leaves a visible pending state and a retry path rather than blocking every other order in a global transaction.
+
+### Epic saga
+
+Synchronous atomic behavior resembles the business’s familiar all-or-nothing transaction. A slow or unavailable participant blocks the mediator and compensation can be difficult and expensive. The team gets immediate success or failure semantics, but peak traffic queues behind the coordinator and a shipping failure requires undoing earlier distributed writes.
+
+The stated tolerance for eventual consistency and need for scale favor Parallel Saga. If legal or domain requirements truly demand atomic outcomes, the team must accept the corresponding coupling and test compensation boundaries.
+
+## Score a saga matrix
+
+For one workflow, write the communication, consistency, and coordination choice. Rate coupling, complexity, responsiveness, and scale, then describe one failure and its recovery state.
+
+- Context
+- Decision
+- Trade-off

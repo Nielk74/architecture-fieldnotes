@@ -3,7 +3,7 @@
   "title": "Space-Based Architecture Style",
   "part": "Architecture styles",
   "subtitle": "Move hot transactions into memory and let capacity follow demand",
-  "summary": "Space-based architecture targets extreme or unpredictable concurrent load by removing the central database from synchronous transaction processing. Processing units contain application logic and replicated in-memory data; virtualized middleware routes requests, manages cache membership, coordinates optional multi-unit work, and starts or stops units as demand changes. Asynchronous data pumps eventually update the database through data writers, while data readers refill caches after a full restart or for archive data. Replicated caches maximize performance and fault tolerance for smaller, slower-changing data; distributed caches favor consistency for larger, highly dynamic data but add a central dependency. Replication latency, instance count, update rate, and cache size determine collision risk. The style suits ticketing and auctions with sharp spikes, but its cache, consistency, testing, operational, and cost complexity is substantial.",
+  "summary": "Pip prepares for thousands of simultaneous book orders and finds the database limits concurrency. Space-based architecture moves hot transactions into memory with dynamic processing units. The apparent speed depends on explicit consistency, durable updates, and recovery design.",
   "source": {
     "startLine": 7522,
     "endLine": 8315,
@@ -12,39 +12,417 @@
   "concepts": [
     {
       "title": "Remove the database bottleneck",
-      "body": "Traditional web topology widens at the web tier and narrows at the database, which becomes the concurrency limit under extreme load. Space-based architecture keeps transactional data in replicated in-memory grids inside processing units, so requests do not synchronously wait on the database. Processing units can start and stop with load, providing elasticity. The database remains the system of record, updated asynchronously rather than serving every hot transaction directly.",
-      "example": "When concert tickets go on sale, standby processing units can absorb thousands of concurrent requests while the database receives ordered updates through durable data pumps.",
-      "source": "pp. 211–213, 231–232"
+      "body": "Pip’s web capacity grows while the database remains the sale’s bottleneck. Space-based processing units keep transactional data in replicated memory, avoiding synchronous database access for hot requests. Units start and stop with load for elasticity. Pip retains the database as system of record, updated asynchronously through durable pumps rather than every transaction.",
+      "example": "",
+      "source": "pp. 211–213, 231–232",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "storefront",
+            "label": "SALE SURGE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "cache",
+            "label": "IN-MEMORY WORK",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "database",
+            "label": "ASYNC SYSTEM OF RECORD",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s web capacity grows while the database remains the sale’s bottleneck."
+          },
+          {
+            "node": "step-1",
+            "text": "Space-based processing units keep transactional data in replicated memory, avoiding synchronous database access for hot requests."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip retains the database as system of record, updated asynchronously through durable pumps rather than every transaction."
+          }
+        ]
+      }
     },
     {
       "title": "Processing units and middleware",
-      "body": "A processing unit contains application logic, web components, and one or more in-memory caches. Virtualized middleware includes a messaging grid for routing requests and session state, a data grid for cache synchronization, an optional processing grid for coordinating multiple units, and a deployment manager for dynamic capacity. Together these components make the system act like a shared space of parallel processors rather than a single request path.",
-      "example": "A messaging grid sends a bid to an available auction unit. The deployment manager adds units as load rises, while a processing grid coordinates a request that needs both order and payment units.",
-      "source": "pp. 213–219"
+      "body": "Pip’s auction request reaches an available processing unit. Each unit contains application logic, web components, and caches. Virtualized middleware supplies messaging and data grids, optional cross-unit processing coordination, and a deployment manager. Pip uses those distinct responsibilities to route work, synchronize memory, and add capacity rather than treating the system as one magic cache.",
+      "example": "",
+      "source": "pp. 213–219",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "service",
+            "label": "PROCESSING UNIT",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "GRIDS + COORDINATION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "deployment",
+            "label": "DYNAMIC CAPACITY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s auction request reaches an available processing unit."
+          },
+          {
+            "node": "step-1",
+            "text": "Each unit contains application logic, web components, and caches."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip uses those distinct responsibilities to route work, synchronize memory, and add capacity rather than treating the system as one magic cache."
+          }
+        ]
+      }
     },
     {
       "title": "Pumps, writers, and readers",
-      "body": "Processing units do not directly read or write the database for normal transactions. An update owner sends an asynchronous data-pump message containing an action and new values; a data writer applies it. After all cache instances are lost or when archive data is needed, a data reader loads data through a reverse data pump, using a temporary cache owner and lock before other units synchronize. Writers and readers form a data abstraction layer that buffers schema changes behind contracts.",
-      "example": "A changed phone number is sent with customer ID and update action. If every customer-profile unit restarts, one unit loads the cache from the database and releases the lock after the reverse pump completes.",
-      "source": "pp. 219–223"
+      "body": "Pip changes a customer phone number and sends its ID, action, and values through a data pump. A writer applies the asynchronous update; normal processing units avoid direct database reads and writes. After complete cache loss, a reader and reverse pump load one temporary owner under a lock before synchronization. Pip keeps schema changes behind those data-layer contracts.",
+      "example": "",
+      "source": "pp. 219–223",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "UPDATE PUMP",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "database",
+            "label": "DATA WRITER",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "cache",
+            "label": "LOCKED RELOAD",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip changes a customer phone number and sends its ID, action, and values through a data pump."
+          },
+          {
+            "node": "step-1",
+            "text": "A writer applies the asynchronous update; normal processing units avoid direct database reads and writes."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip keeps schema changes behind those data-layer contracts."
+          }
+        ]
+      }
     },
     {
       "title": "Collision is a consistency cost",
-      "body": "With active/active replicated caches, two units can update the same row before replication arrives. Each old update can overwrite the other's local update, producing a wrong value. Collision probability rises with instance count, update rate, and replication latency, and falls with cache size. The chapter provides a probabilistic formula and emphasizes measuring replication latency in production. High-conflict data may need a different cache model or partitioning strategy.",
-      "example": "Two units decrement inventory from 500 to 490 and 495 during a replication window. The replicated values settle at 490 and 495 instead of the correct 485, demonstrating why inventory needs careful consistency design.",
-      "source": "pp. 223–226"
+      "body": "Pip’s two units decrement inventory from 500 to 490 and 495 before replication arrives. The correct combined result is 485, but conflicting updates can leave incorrect copies. Collision probability grows with instance count, update rate, and replication latency, and falls with cache size. Pip measures latency and considers partitioning or another cache model for high-conflict data.",
+      "example": "",
+      "source": "pp. 223–226",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "cache",
+            "label": "LOCAL 490",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "cache",
+            "label": "LOCAL 495",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "alert",
+            "label": "NOT THE REQUIRED 485",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s two units decrement inventory from 500 to 490 and 495 before replication arrives."
+          },
+          {
+            "node": "step-1",
+            "text": "The correct combined result is 485, but conflicting updates can leave incorrect copies."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip measures latency and considers partitioning or another cache model for high-conflict data."
+          }
+        ]
+      }
     },
     {
       "title": "Choose a cache model",
-      "body": "Replicated caching keeps a copy in every processing unit, maximizing speed and avoiding a central cache failure. It fits small, relatively static data with low update rates. Distributed caching keeps data in one external cache, improving consistency for large or highly dynamic data at the cost of remote latency and a central availability dependency. A single application can use both. Near-cache hybrids are discouraged because front caches differ between units, causing uneven behavior.",
-      "example": "Reference product codes can use replicated cache for fast lookup. Current inventory counts can use distributed cache to avoid conflicting copies, even though cache access is slower.",
-      "source": "pp. 226–230"
+      "body": "Pip keeps stable product codes replicated in every unit for fast independent reads. Large or rapidly changing inventory may instead use one external distributed cache for consistency, accepting latency and an availability dependency. The application can combine models by data need. The chapter discourages near-cache hybrids whose differing front copies create uneven behavior.",
+      "example": "",
+      "source": "pp. 226–230",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "cache",
+            "label": "REPLICATED REFERENCE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "database",
+            "label": "DISTRIBUTED INVENTORY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "CONSISTENCY VS LATENCY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip keeps stable product codes replicated in every unit for fast independent reads."
+          },
+          {
+            "node": "step-1",
+            "text": "Large or rapidly changing inventory may instead use one external distributed cache for consistency, accepting latency and an availability dependency."
+          },
+          {
+            "node": "step-3",
+            "text": "The chapter discourages near-cache hybrids whose differing front copies create uneven behavior."
+          }
+        ]
+      }
     },
     {
       "title": "Power with operational weight",
-      "body": "Space-based architecture earns strong performance, scalability, and elasticity by using memory and dynamic units, but it is difficult to test at peak concurrency and expensive in resources and cache licensing. It can be both domain and technical partitioned, and its quanta depend on synchronous relationships among units and interfaces. Data-loss protection, collision measurement, recovery, and eventual-consistency behavior must be designed before relying on the apparent near-infinite scale.",
-      "example": "A ticketing system may add units minutes before a sale, but the team still needs collision tests, durable pumps, restart drills, and a plan for reservations that are not yet in the database.",
-      "source": "pp. 231–234"
+      "body": "Pip adds sale capacity and then rehearses losing every cache. Strong performance, scale, and elasticity bring memory, licensing, and peak-concurrency testing costs. Partitioning may be technical or domain-based, and synchronous relationships still determine quanta. Pip designs durable pumps, collision checks, recovery, and pending-database semantics before relying on seemingly limitless scale.",
+      "example": "",
+      "source": "pp. 231–234",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "deployment",
+            "label": "EXTRA UNITS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "experiment",
+            "label": "PEAK + RECOVERY TESTS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "shield",
+            "label": "DURABLE STATE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip adds sale capacity and then rehearses losing every cache."
+          },
+          {
+            "node": "step-1",
+            "text": "Strong performance, scale, and elasticity bring memory, licensing, and peak-concurrency testing costs."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip designs durable pumps, collision checks, recovery, and pending-database semantics before relying on seemingly limitless scale."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -129,75 +507,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "request",
-        "label": "REQUEST",
-        "kind": "message",
-        "tone": "peach"
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "fundamentals"
       },
       {
-        "id": "units",
-        "label": "UNITS",
-        "kind": "service",
+        "id": "step-1",
+        "kind": "storefront",
+        "label": "SALE SURGE",
         "tone": "sage"
       },
       {
-        "id": "cache",
-        "label": "CACHE GRID",
+        "id": "step-2",
         "kind": "cache",
+        "label": "IN-MEMORY WORK",
         "tone": "lilac"
       },
       {
-        "id": "pump",
-        "label": "DATA PUMP",
-        "kind": "router",
-        "tone": "peach"
-      },
-      {
-        "id": "record",
-        "label": "RECORD DB",
+        "id": "step-3",
         "kind": "database",
-        "tone": "sage"
+        "label": "ASYNC SYSTEM OF RECORD",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "request",
-        "to": "units"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "units",
-        "to": "cache"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "cache",
-        "to": "pump"
-      },
-      {
-        "from": "pump",
-        "to": "record"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "request",
-        "text": "A spike is routed to an available processing unit without waiting for the database."
+        "node": "step-0",
+        "text": "Pip’s web capacity grows while the database remains the sale’s bottleneck."
       },
       {
-        "node": "units",
-        "text": "The unit executes the transaction in memory and becomes the owner of its update."
+        "node": "step-1",
+        "text": "Space-based processing units keep transactional data in replicated memory, avoiding synchronous database access for hot requests."
       },
       {
-        "node": "cache",
-        "text": "The data grid replicates or centrally serves the latest cache data according to its consistency need."
-      },
-      {
-        "node": "pump",
-        "text": "A durable asynchronous pump carries the change and action to a writer."
-      },
-      {
-        "node": "record",
-        "text": "The database is eventually updated; readers refill caches after a full restart or archive request."
+        "node": "step-3",
+        "text": "Pip retains the database as system of record, updated asynchronously through durable pumps rather than every transaction."
       }
     ]
+  },
+  "story": {
+    "course": "fundamentals",
+    "world": "bookshop",
+    "title": "The signed-book sale outruns the database"
   }
 }

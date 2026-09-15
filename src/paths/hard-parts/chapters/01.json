@@ -3,7 +3,7 @@
   "title": "What Happens When There Are No Best Practices?",
   "part": "Boundaries & decomposition",
   "subtitle": "Make consequential choices by weighing trade-offs",
-  "summary": "Software architecture rarely offers a universal best answer because each decision combines a particular organization, system, technology environment, and set of constraints. The architect’s job is to find the least-worst balance among competing qualities, then make that reasoning visible. The chapter introduces architecture decision records as concise records of context, decision, and consequences, and fitness functions as executable checks for architectural characteristics. Fitness functions should measure objective properties such as cycles, layer rules, scalability, or security; they may be atomic or holistic, automated or necessarily manual. Continuous execution turns important architectural principles into feedback rather than relying on late reviews. The Sysops Squad illustrates why data, operational concerns, and change pressure make architecture decisions durable and difficult.",
+  "summary": "Pip’s island delivery system freezes while reports run. Splitting it might help, but the team cannot maximize speed, safety, and migration simplicity together. Pip records the least-worst decision and gives its important promises executable checks.",
   "source": {
     "startLine": 196,
     "endLine": 799,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Least-worst trade-offs",
-      "body": "Novel architecture problems combine constraints that no single design can maximize simultaneously. The chapter therefore frames architecture as objective trade-off analysis: identify the forces, compare consequences, and choose the least-worst balance for the situation. “Best” is misleading because it suggests every competing quality can be optimized at once. This approach also explains why advice that worked in another environment may fail when the surrounding ecosystem, business, or data constraints differ.",
-      "example": "Teaching extension: a support system may accept lower peak throughput to gain safer deployment and clearer recovery boundaries when ticket availability matters most.",
-      "source": "text lines 196–255"
+      "body": "Pip wants faster deliveries, safer releases, and a migration finished tomorrow. The constraints pull in different directions; no design maximizes them all. Pip compares consequences and chooses the least-worst balance for this network. Advice from another organization may fail when business, data, or technology constraints change.",
+      "example": "",
+      "source": "text lines 196–255",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "parcel",
+            "label": "DELIVERY NEEDS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "balance",
+            "label": "COMPETING FORCES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "LOCAL DECISION",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip wants faster deliveries, safer releases, and a migration finished tomorrow."
+          },
+          {
+            "node": "step-1",
+            "text": "The constraints pull in different directions; no design maximizes them all."
+          },
+          {
+            "node": "step-3",
+            "text": "Advice from another organization may fail when business, data, or technology constraints change."
+          }
+        ]
+      }
     },
     {
       "title": "ADRs preserve reasoning",
-      "body": "An Architecture Decision Record captures a short decision in three useful pieces: context and alternatives, the chosen decision with justification, and consequences including trade-offs. Recording the reasoning helps later teams understand why a structural choice was made, rather than treating the resulting topology as a timeless rule. The chapter uses ADRs throughout its examples and assumes each listed decision has been approved.",
-      "example": "Teaching extension: an ADR for separating reporting states the operational freeze problem, compares alternatives, and records migration cost and temporary release complexity as consequences.",
-      "source": "text lines 337–379"
+      "body": "Pip finds a service boundary nobody can explain. An ADR records context and alternatives, the decision with justification, and consequences including trade-offs. Pip documents why reporting moved and what migration and release complexity it introduced. Later crews inherit reasoning, not a topology mistaken for a timeless rule.",
+      "example": "",
+      "source": "text lines 337–379",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "blueprint",
+            "label": "UNEXPLAINED BOUNDARY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "CONTEXT + DECISION",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "clock",
+            "label": "FUTURE CREW",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip finds a service boundary nobody can explain."
+          },
+          {
+            "node": "step-1",
+            "text": "An ADR records context and alternatives, the decision with justification, and consequences including trade-offs."
+          },
+          {
+            "node": "step-3",
+            "text": "Later crews inherit reasoning, not a topology mistaken for a timeless rule."
+          }
+        ]
+      }
     },
     {
       "title": "Fitness functions",
-      "body": "A fitness function is any mechanism that objectively assesses one architectural characteristic or a combination of them. Atomic checks can detect component cycles; holistic checks can exercise interacting qualities such as security and performance. The architect must turn vague goals such as agility into measurable contributors like deployability, testability, or cycle time. Fitness functions govern architecture characteristics, while domain tests validate domain criteria.",
-      "example": "Teaching extension: a build can fail when a persistence package directly reaches a controller package, providing immediate feedback about a layer rule.",
-      "source": "text lines 380–506"
+      "body": "Pip promises an agile network, then asks what can be measured. Fitness functions objectively assess architectural characteristics: atomic checks catch cycles; holistic checks examine interacting qualities such as security and performance. Pip measures deployability, testability, or cycle time rather than a vague aspiration. Domain tests still check business behavior, not those architectural properties.",
+      "example": "",
+      "source": "text lines 380–506",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "target",
+            "label": "VAGUE AGILITY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "OBJECTIVE CHECKS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "terminal",
+            "label": "DOMAIN TESTS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip promises an agile network, then asks what can be measured."
+          },
+          {
+            "node": "step-1",
+            "text": "Fitness functions objectively assess architectural characteristics: atomic checks catch cycles; holistic checks examine interacting qualities such as security and performance."
+          },
+          {
+            "node": "step-3",
+            "text": "Domain tests still check business behavior, not those architectural properties."
+          }
+        ]
+      }
     },
     {
       "title": "Feedback and governance",
-      "body": "Automated fitness functions are most valuable when run continually in the delivery flow, because a check that runs only during an occasional review allows erosion in between. Some checks, such as legal review, remain manual, but they should still run as often as practical. The chapter connects this approach to continuous integration and DevOps: automation supplies rapid feedback and makes important safeguards harder to postpone under delivery pressure.",
-      "example": "Teaching extension: a security team can add a dependency-version fitness check to every pipeline when a framework vulnerability appears, allowing a failing build to expose affected projects.",
-      "source": "text lines 507–590"
+      "body": "Pip’s quarterly review finds months of new dependency violations. Continuous automated fitness checks would expose erosion during delivery. Pip adds the layer and dependency rules to CI, while scheduling necessary manual reviews as often as practical. Rapid feedback makes safeguards harder to postpone under release pressure.",
+      "example": "",
+      "source": "text lines 507–590",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "hard-parts"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "LATE REVIEW",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "terminal",
+            "label": "CONTINUOUS CHECKS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "colleague",
+            "label": "MANUAL REVIEW",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-0",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s quarterly review finds months of new dependency violations."
+          },
+          {
+            "node": "step-1",
+            "text": "Continuous automated fitness checks would expose erosion during delivery."
+          },
+          {
+            "node": "step-3",
+            "text": "Rapid feedback makes safeguards harder to postpone under release pressure."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -117,61 +369,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "forces",
-        "label": "FORCES",
-        "kind": "balance",
-        "tone": "peach"
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "hard-parts"
       },
       {
-        "id": "adr",
-        "label": "ADR",
-        "kind": "document",
+        "id": "step-1",
+        "kind": "parcel",
+        "label": "DELIVERY NEEDS",
         "tone": "sage"
       },
       {
-        "id": "check",
-        "label": "FITNESS",
-        "kind": "gauge",
+        "id": "step-2",
+        "kind": "balance",
+        "label": "COMPETING FORCES",
         "tone": "lilac"
       },
       {
-        "id": "build",
-        "label": "BUILD",
-        "kind": "terminal",
-        "tone": "sage"
+        "id": "step-3",
+        "kind": "document",
+        "label": "LOCAL DECISION",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "forces",
-        "to": "adr"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "adr",
-        "to": "check"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "check",
-        "to": "build"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "forces",
-        "text": "Name the competing qualities and constraints in the decision."
+        "node": "step-0",
+        "text": "Pip wants faster deliveries, safer releases, and a migration finished tomorrow."
       },
       {
-        "node": "adr",
-        "text": "Record the context, choice, justification, and consequences."
+        "node": "step-1",
+        "text": "The constraints pull in different directions; no design maximizes them all."
       },
       {
-        "node": "check",
-        "text": "Translate an architectural principle into an objective check."
-      },
-      {
-        "node": "build",
-        "text": "Run the check continuously so feedback exposes drift."
+        "node": "step-3",
+        "text": "Advice from another organization may fail when business, data, or technology constraints change."
       }
     ]
+  },
+  "story": {
+    "course": "hard-parts",
+    "world": "islands",
+    "title": "The least-worst crossing"
   }
 }

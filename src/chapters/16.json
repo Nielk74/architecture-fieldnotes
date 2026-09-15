@@ -3,7 +3,7 @@
   "title": "Orchestration-Driven Service-Oriented Architecture",
   "part": "Architecture styles",
   "subtitle": "See how reuse can become the coupling it was meant to avoid",
-  "summary": "This historical service-oriented architecture grew in an era of scarce, licensed computing and enterprise mergers, so technical partitioning and reuse became dominant goals. Business services described coarse domain entry points, enterprise services supplied fine-grained reusable behavior, application services handled one-off needs, and infrastructure services provided operational concerns. An orchestration engine stitched them together, transformed messages, and defined transaction boundaries around shared databases and legacy systems. The same hub became a bottleneck and political center. Canonical shared services such as Customer reduced duplication but forced unrelated divisions to depend on one model, turning a small change into coordinated deployment and broad testing. The style supported some scale but performed poorly for modern deployability, testability, simplicity, and cost. Its lesson is that reuse is valuable only when the coupling and change boundaries remain healthy.",
+  "summary": "Pip studies an older enterprise design before sharing every bookshop capability. Its reuse ambitions made sense under costly infrastructure and mergers. A central orchestration hub and canonical models also spread small domain changes across teams, contracts, and releases.",
   "source": {
     "startLine": 8316,
     "endLine": 8574,
@@ -12,39 +12,417 @@
   "concepts": [
     {
       "title": "History shapes the style",
-      "body": "Orchestration-driven SOA emerged in the late 1990s as enterprises merged, computing and databases were expensive, and distributed computing was newly practical. Organizations were urged to reuse scarce infrastructure and software assets. That context made a taxonomy of services and a central integration mechanism appear rational. Understanding the era explains why the architecture emphasized enterprise reuse even though later engineering priorities valued independent deployment and fast change more highly.",
-      "example": "A company with many divisions may have chosen shared application servers and licensed database connections to avoid duplication. The resulting architecture cannot be judged fairly without understanding those constraints, but it can still teach durable trade-offs.",
-      "source": "pp. 235–236"
+      "body": "Pip asks why an earlier company centralized so much infrastructure. Late-1990s mergers, expensive computing and databases, and newly practical distribution favored reusing scarce assets. A service taxonomy and central integration mechanism answered those constraints. Pip judges the historical choice in context while examining its costs against today’s change and deployment needs.",
+      "example": "",
+      "source": "pp. 235–236",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "clock",
+            "label": "HISTORICAL CONSTRAINTS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "database",
+            "label": "SCARCE INFRASTRUCTURE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "router",
+            "label": "CENTRAL REUSE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip asks why an earlier company centralized so much infrastructure."
+          },
+          {
+            "node": "step-1",
+            "text": "Late-1990s mergers, expensive computing and databases, and newly practical distribution favored reusing scarce assets."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip judges the historical choice in context while examining its costs against today’s change and deployment needs."
+          }
+        ]
+      }
     },
     {
       "title": "A taxonomy of service layers",
-      "body": "Business services are coarse entry points named for domain behavior, such as PlaceOrder. Enterprise services provide fine-grained, reusable implementations such as CreateCustomer or CalculateQuote. Application services solve one application's special need, while infrastructure services handle monitoring, logging, authentication, and authorization. The taxonomy separates responsibilities and promises reuse, but a business workflow becomes spread across many layers and depends on their exact granularity.",
-      "example": "PlaceOrder can be defined by business users, assembled from CreateCustomer and CalculateQuote enterprise services, and supported by an authentication infrastructure service. A one-off geolocation need can remain an application service.",
-      "source": "pp. 236–237"
+      "body": "Pip follows PlaceOrder through several kinds of service. Business services name coarse domain entry points; enterprise services provide reusable fine-grained implementations. Application services handle special needs, while infrastructure services provide logging, monitoring, authentication, and authorization. The taxonomy looks orderly, but Pip sees the workflow spread across layers whose granularity must fit together.",
+      "example": "",
+      "source": "pp. 236–237",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "parcel",
+            "label": "BUSINESS ENTRY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "component",
+            "label": "ENTERPRISE + APP SERVICES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "shield",
+            "label": "INFRASTRUCTURE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip follows PlaceOrder through several kinds of service."
+          },
+          {
+            "node": "step-1",
+            "text": "Business services name coarse domain entry points; enterprise services provide reusable fine-grained implementations."
+          },
+          {
+            "node": "step-3",
+            "text": "The taxonomy looks orderly, but Pip sees the workflow spread across layers whose granularity must fit together."
+          }
+        ]
+      }
     },
     {
       "title": "The orchestration engine is the hub",
-      "body": "Every request flows through the orchestration engine, which maps business services to enterprise implementations, transforms messages, integrates legacy or packaged software, and declares transaction boundaries. A shared relational database or a few databases commonly support the style. Distributed transaction behavior is moved into the engine, but choosing a workable transaction boundary becomes harder as the workflow spans more services. The integration team consequently becomes a central organizational force and bottleneck.",
-      "example": "CreateQuote enters the service bus, which calls CreateCustomer and CalculateQuote and then their application services. A new boundary or transformation requires changing the hub through which all internal calls travel.",
-      "source": "pp. 237–239"
+      "body": "Pip’s CreateQuote request enters the orchestration engine. The hub maps business to implementation, transforms messages, integrates legacy systems, and declares transaction boundaries over commonly shared relational data. More participants make workable distributed transaction boundaries harder to choose. Pip notices the integration team becoming both a central authority and a change bottleneck.",
+      "example": "",
+      "source": "pp. 237–239",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "router",
+            "label": "ORCHESTRATION ENGINE",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "service",
+            "label": "PARTICIPATING SERVICES",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "database",
+            "label": "SHARED TRANSACTIONS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s CreateQuote request enters the orchestration engine."
+          },
+          {
+            "node": "step-1",
+            "text": "The hub maps business to implementation, transforms messages, integrates legacy systems, and declares transaction boundaries over commonly shared relational data."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip notices the integration team becoming both a central authority and a change bottleneck."
+          }
+        ]
+      }
     },
     {
       "title": "Reuse creates canonical coupling",
-      "body": "Extracting a concept such as Customer into one reusable service appears to eliminate duplicated behavior across divisions. It also creates a dependency on one canonical model. A change made for auto insurance, such as a driver's license field, becomes extra complexity for disability insurance, while every consumer may need coordinated testing and deployment. Reuse is not free: the shared component's release cadence and model become everyone else's constraint.",
-      "example": "A canonical Customer service serves auto, disability, and home insurance. Adding driver-license details may force all three divisions to understand and deploy a model change, even when only auto insurance uses it.",
-      "source": "pp. 239–240"
+      "body": "Pip tries one canonical Customer for every division. In the chapter’s insurance example, a driver-license addition for auto creates irrelevant complexity for disability and home insurance. Shared models can require coordinated testing and deployment across consumers. Pip counts release-cadence and domain-meaning coupling alongside the code reuse.",
+      "example": "",
+      "source": "pp. 239–240",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "person",
+            "label": "CANONICAL CUSTOMER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "AUTO-ONLY FIELD",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "team",
+            "label": "ALL CONSUMERS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip tries one canonical Customer for every division."
+          },
+          {
+            "node": "step-1",
+            "text": "In the chapter’s insurance example, a driver-license addition for auto creates irrelevant complexity for disability and home insurance."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip counts release-cadence and domain-meaning coupling alongside the code reuse."
+          }
+        ]
+      }
     },
     {
       "title": "Technical partitioning can shred a domain",
-      "body": "A concept such as CatalogCheckout may be distributed across dozens of services, several taxonomy tiers, and one database schema. A small change, such as adding an address line, then becomes a cross-team coordination task. If an enterprise service has the wrong transactional granularity, developers must either reshape it or create a near-duplicate. The architecture's separation looks orderly in a diagram but makes incremental change and local understanding difficult in practice.",
-      "example": "An address field change crosses business, enterprise, application, infrastructure, and database artifacts. The team spends more effort coordinating contracts and releases than implementing the domain behavior itself.",
-      "source": "pp. 240–241"
+      "body": "Pip adds an address line and discovers a cross-team enterprise project. Technical partitioning can spread one domain across many services, taxonomy layers, and schema artifacts. Wrong transaction granularity may force reshaping a shared service or creating a near-duplicate. Pip compares the neat diagram with the actual cost of incremental change and local understanding.",
+      "example": "",
+      "source": "pp. 240–241",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "document",
+            "label": "ONE ADDRESS FIELD",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "component",
+            "label": "MANY TECHNICAL LAYERS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "handoff",
+            "label": "CROSS-TEAM CHANGE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip adds an address line and discovers a cross-team enterprise project."
+          },
+          {
+            "node": "step-1",
+            "text": "Technical partitioning can spread one domain across many services, taxonomy layers, and schema artifacts."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip compares the neat diagram with the actual cost of incremental change and local understanding."
+          }
+        ]
+      }
     },
     {
       "title": "The historical trade-off profile",
-      "body": "SOA is distributed but often one quantum because the orchestration engine and shared database couple its parts. It can support some elasticity and scalability through enterprise tooling, but performance suffers from many remote hops and deployment depends on the whole arrangement. Deployability and testability score especially poorly by modern standards. The backlash against these costs influenced newer styles. The lasting lesson is to evaluate reuse, mediation, and technical layers against the characteristics a team values now.",
-      "example": "A service bus can coordinate a large enterprise workflow, yet a three-line shared contract change may require holistic regression testing and a coordinated release across every dependent service.",
-      "source": "pp. 241–243"
+      "body": "Pip sees many deployed services but one engine and database binding their operation. Orchestration-driven SOA is often one quantum despite distribution. Enterprise tools can support some scale and elasticity, while remote hops and holistic testing constrain performance and deployment. Pip evaluates reuse and mediation against needed qualities rather than repeating the historical style or dismissing its original context.",
+      "example": "",
+      "source": "pp. 241–243",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "fundamentals"
+          },
+          {
+            "id": "step-1",
+            "kind": "deployment",
+            "label": "MANY SERVICES",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "router",
+            "label": "SHARED ENGINE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "balance",
+            "label": "COUPLED RELEASE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip sees many deployed services but one engine and database binding their operation."
+          },
+          {
+            "node": "step-1",
+            "text": "Orchestration-driven SOA is often one quantum despite distribution."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip evaluates reuse and mediation against needed qualities rather than repeating the historical style or dismissing its original context."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -129,65 +507,69 @@
   "visual": {
     "nodes": [
       {
-        "id": "business",
-        "label": "BUSINESS API",
-        "kind": "browser",
-        "tone": "peach"
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "fundamentals"
       },
       {
-        "id": "engine",
-        "label": "ORCHESTRATOR",
-        "kind": "router",
-        "tone": "lilac"
-      },
-      {
-        "id": "enterprise",
-        "label": "ENTERPRISE",
-        "kind": "service",
+        "id": "step-1",
+        "kind": "clock",
+        "label": "HISTORICAL CONSTRAINTS",
         "tone": "sage"
       },
       {
-        "id": "shared",
-        "label": "SHARED DB",
+        "id": "step-2",
         "kind": "database",
+        "label": "SCARCE INFRASTRUCTURE",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "router",
+        "label": "CENTRAL REUSE",
         "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "business",
-        "to": "engine"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "engine",
-        "to": "enterprise"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "enterprise",
-        "to": "shared"
-      },
-      {
-        "from": "engine",
-        "to": "shared"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "business",
-        "text": "A coarse business service states the domain outcome the organization wants."
+        "node": "step-0",
+        "text": "Pip asks why an earlier company centralized so much infrastructure."
       },
       {
-        "node": "engine",
-        "text": "The orchestration hub maps the outcome to workflow steps, transformations, and transaction boundaries."
+        "node": "step-1",
+        "text": "Late-1990s mergers, expensive computing and databases, and newly practical distribution favored reusing scarce assets."
       },
       {
-        "node": "enterprise",
-        "text": "Fine-grained reusable services execute the shared business fragments through the hub."
-      },
-      {
-        "node": "shared",
-        "text": "A shared database and canonical contracts connect divisions, making reuse a potential ripple path for change."
+        "node": "step-3",
+        "text": "Pip judges the historical choice in context while examining its costs against today’s change and deployment needs."
       }
     ]
+  },
+  "story": {
+    "course": "fundamentals",
+    "world": "bookshop",
+    "title": "The enterprise bus becomes everybody’s crossing"
   }
 }

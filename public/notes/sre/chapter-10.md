@@ -1,27 +1,53 @@
 # Chapter 10: Practical Alerting from Time-Series Data
 
-Turn labeled counters into service-level rates and dependable alerts
+*Pip’s adventure: One reset should not look like a fleet outage. Fictional teaching story; concepts follow the cited source.*
 
-Time-series monitoring separates data collection from the rules that interpret it. Applications export measurements; labels identify their source, meaning, and location; common rules turn those series into dashboards and alerts. Counters preserve accumulated events between scrapes, and rates should be calculated per series before aggregation so restarts do not corrupt the result. A service-level error ratio combines total error and request rates rather than averaging unrelated percentages. Alert conditions can include a duration to suppress transient changes, while routing and deduplication belong in a separate notification layer. Hierarchical collection supports scale and local diagnosis. The rules themselves need testing with synthetic data, and external probes remain necessary because internal measurements cannot reveal requests that never reached the service.
+Source: text lines 4119–4664.
+
+Pip’s request counter resets when a task restarts and the aggregate graph plunges. Time-series labels, reset-aware rates, sound ratios, and tested alert rules turn measurements into reliable signals. Notifications remain a separate decision from whether a condition is mathematically true.
 
 ## Labels identify a time series
 
-A time series contains timestamped measurements distinguished by a set of labels. Labels can identify the metric, instance, job, response code, or region, allowing one rule to select related data across many tasks. Collection and rule definition are separate concerns: discovery finds changing targets, while reusable computations follow the labels instead of requiring a custom check script for every machine.
+Pip replaces per-machine check scripts with one region-aware query. Timestamped measurements form time series identified by labels such as metric, instance, job, code, and region. Discovery finds changing collection targets while reusable rules select their labels. Pip separates finding machines from computing service behavior.
+
+Source: text lines 4119–4664.
 
 ## Compute rates before aggregating counters
 
-A counter accumulates events and normally increases until a reset, whereas a gauge describes a value that may rise or fall. Rate calculations convert counter changes into activity over time. Compute reset-aware rates for individual series before summing them; summing raw counters first can mix a restarted process with other processes and distort the resulting service-level rate.
+Pip’s restarted task resets its accumulated request counter. Counters normally increase until reset; gauges may rise or fall. Pip calculates reset-aware rates per series before summing them. Summing raw counters first would mix the reset with other tasks and distort the service rate.
+
+Source: text lines 4119–4664.
 
 ## Ratios, persistence, and notification routing
 
-A useful service error ratio divides the sum of error rates by the sum of request rates. Additional conditions can reduce low-volume noise, and a minimum true duration prevents transient threshold crossings from immediately paging. The notification layer then routes and deduplicates alerts. These are distinct steps: a mathematically true condition is not yet necessarily a notification to a human.
+Pip computes service errors as summed error rates divided by summed request rates. Volume conditions and a minimum true duration reduce noise and transient crossings. Routing and deduplication then decide who receives the notification. Pip keeps a true condition separate from an immediate human interruption.
+
+Source: text lines 4119–4664.
 
 ## Monitor and test the monitoring system
 
-Collection failure is itself useful evidence, and monitoring needs enough redundancy and capacity to survive faults in the environment it observes. Hierarchical collectors can aggregate locally while retaining detailed series for diagnosis. Synthetic input series allow rules to be tested before deployment. External probes complement these internal measurements by detecting routing, name-resolution, or response-content failures invisible to application counters.
+Pip feeds a counter reset and missed scrape into an alert test. Monitoring needs capacity, redundancy, and visibility into its own collection failures. Hierarchical collectors can aggregate locally while keeping diagnostic detail. Pip adds external probes for routing, naming, and content failures invisible to internal application counters.
 
-## Apply it
+Source: text lines 4119–4664.
+
+## Transfer challenge: Calculate one service-level error alert
+
+Two tasks serve very different traffic volumes. The current alert averages their error percentages, so the quiet task dominates some pages. Restarts also create misleading counter changes.
+
+### Sum per-task rates before calculating the service ratio
+
+Traffic receives the correct weighting and individual counter resets remain visible to rate handling. The team must verify rate windows, missing data, and low-traffic behavior. Synthetic tests cover resets and uneven traffic before the alert is deployed.
+
+### Raise the threshold on the existing average
+
+The team can quickly reduce the number of pages. The incorrect weighting remains and some genuine high-volume failures may be missed. A quieter pager does not establish that the rule measures service impact correctly.
+
+Fix the meaning of the measurement before tuning its threshold. Compute reset-aware rates for each task, aggregate numerator and denominator, then test persistence and routing.
+
+## Check an alert’s arithmetic
 
 Design an error-ratio alert for tasks with unequal traffic. Specify rate aggregation, its persistence condition, and synthetic cases that should not page.
 
-Source: *Site Reliability Engineering*, chapter 10, text lines 4119–4664. This note is an original synthesis; the exercise is a teaching extension.
+- Numerator and denominator
+- Persistence and traffic
+- Rule tests

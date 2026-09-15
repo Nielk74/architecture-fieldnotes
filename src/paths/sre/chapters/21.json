@@ -3,7 +3,7 @@
   "title": "Handling Overload",
   "part": "Distributed systems",
   "subtitle": "Keep useful work flowing when demand exceeds resources",
-  "summary": "Overload handling must protect individual tasks even when global load balancing works imperfectly. Resource measurements are more dependable than a fixed queries-per-second ceiling because request costs change. Per-customer quotas limit the damage one client can impose, while adaptive client throttling avoids spending backend capacity merely rejecting requests. Request criticality tells successive dependencies which work may be shed first; it is separate from latency sensitivity. Backends use local utilization to reject work before exhaustion, preserving throughput for requests they can serve. Retries may help when only a few tasks are busy, but request and client budgets prevent them from magnifying widespread overload. Connection maintenance and sudden connection bursts also consume resources and may need separate protection.",
+  "summary": "Pip’s service has the same request rate as yesterday but a new query exhausts CPU. Overload protection must follow resources, customer limits, and request criticality. Local throttling and bounded retries prevent rejection itself from becoming more load.",
   "source": {
     "startLine": 8604,
     "endLine": 9019,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Resource-based admission and customer quotas",
-      "body": "A request count is not a stable measure of load when requests vary in cost or software changes their resource needs. Model capacity using the limiting resources, such as CPU and memory, and assign customers negotiated usage limits. This helps contain a customer’s excess demand, although oversubscribed quotas still require attention when several customers approach their limits together.",
-      "example": "Teaching extension: A new expensive query type exhausts CPU even though the request rate remains below yesterday’s safe limit.",
-      "source": "text lines 8604–9019"
+      "body": "Pip’s new query type exhausts CPU below yesterday’s safe request rate. Request counts do not capture variable cost or changing software. Pip models limiting CPU and memory resources and negotiates customer usage quotas. Oversubscribed quotas still need planning when customers approach their limits together.",
+      "example": "",
+      "source": "text lines 8604–9019",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "EXPENSIVE QUERIES",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "CPU + MEMORY",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "CUSTOMER QUOTAS",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s new query type exhausts CPU below yesterday’s safe request rate."
+          },
+          {
+            "node": "step-1",
+            "text": "Request counts do not capture variable cost or changing software."
+          },
+          {
+            "node": "step-3",
+            "text": "Oversubscribed quotas still need planning when customers approach their limits together."
+          }
+        ]
+      }
     },
     {
       "title": "Adaptive client-side throttling",
-      "body": "Rejecting a request still consumes backend resources. A client can reduce that cost by tracking attempted requests and backend acceptances over a recent window, then dropping some attempts locally as rejection increases. The acceptance multiplier trades faster detection of recovery against more rejected traffic reaching the server. Sparse clients have weaker observations, so the mechanism’s usefulness depends on their request history.",
-      "example": "Teaching extension: During quota exhaustion, the client fails excess calls locally instead of sending every call to receive another rejection.",
-      "source": "text lines 8604–9019"
+      "body": "Pip’s client keeps sending requests only to receive quota rejections. Rejections cost backend resources too. Adaptive client throttling uses recent attempts and acceptances to drop some calls locally; the multiplier balances recovery detection against extra rejected traffic. Pip checks sparse-client history before trusting weak observations.",
+      "example": "",
+      "source": "text lines 8604–9019",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "phone",
+            "label": "CLIENT ATTEMPTS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "gauge",
+            "label": "ACCEPTANCE WINDOW",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "shield",
+            "label": "LOCAL THROTTLE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip’s client keeps sending requests only to receive quota rejections."
+          },
+          {
+            "node": "step-1",
+            "text": "Rejections cost backend resources too."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip checks sparse-client history before trusting weak observations."
+          }
+        ]
+      }
     },
     {
       "title": "Criticality-aware overload protection",
-      "body": "Criticality identifies the user impact of losing a request. Propagating it through RPC dependencies lets each overloaded task discard lower-value work first using local CPU, memory, or executor-load signals. Latency sensitivity is a different dimension: an optional suggestion can need a very fast response while remaining safe to omit. Protection should preserve useful throughput rather than make an overloaded task refuse everything.",
-      "example": "Teaching extension: A search service omits optional suggestions under pressure while retaining resources for the main search results.",
-      "source": "text lines 8604–9019"
+      "body": "Pip drops optional booking suggestions while preserving the main transaction. Criticality describes user impact and travels through RPC dependencies; tasks shed lower-value work using local pressure signals. Latency sensitivity is separate: optional suggestions may need speed without being essential. Pip protects useful throughput rather than making every overloaded task reject everything.",
+      "example": "",
+      "source": "text lines 8604–9019",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "PROPAGATED CRITICALITY",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "plugin",
+            "label": "OPTIONAL SUGGESTIONS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "parcel",
+            "label": "CORE BOOKING",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip drops optional booking suggestions while preserving the main transaction."
+          },
+          {
+            "node": "step-1",
+            "text": "Criticality describes user impact and travels through RPC dependencies; tasks shed lower-value work using local pressure signals."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip protects useful throughput rather than making every overloaded task reject everything."
+          }
+        ]
+      }
     },
     {
       "title": "Bounded retries and connection costs",
-      "body": "An isolated busy backend may justify retrying elsewhere, but widespread overload makes additional attempts harmful. Per-request limits, aggregate client retry budgets, and explicit nonretryable overload responses constrain amplification. Only the layer directly above the rejecting dependency should retry. Resource accounting must also include connection setup and health checks; a burst of idle clients can overload a service without a large query rate.",
-      "example": "Teaching extension: A batch proxy absorbs thousands of new client connections while forwarding a controlled stream of work to serving backends.",
-      "source": "text lines 8604–9019"
+      "body": "Pip retries a busy backend and then notices the whole fleet is overloaded. Per-request limits, aggregate retry budgets, and explicit nonretryable responses constrain amplification; only the immediate caller should retry. Connections and health checks also consume resources, even with few queries. Pip can use a proxy to absorb connection bursts while controlling forwarded work.",
+      "example": "",
+      "source": "text lines 8604–9019",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "sre"
+          },
+          {
+            "id": "step-1",
+            "kind": "router",
+            "label": "RETRY OWNER",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "shield",
+            "label": "RETRY BUDGET",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "gateway",
+            "label": "CONNECTION PROXY",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip retries a busy backend and then notices the whole fleet is overloaded."
+          },
+          {
+            "node": "step-1",
+            "text": "Per-request limits, aggregate retry budgets, and explicit nonretryable responses constrain amplification; only the immediate caller should retry."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip can use a proxy to absorb connection bursts while controlling forwarded work."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -115,76 +367,71 @@
     ]
   },
   "visual": {
-    "title": "Define overload admission",
     "nodes": [
       {
-        "id": "observe",
-        "label": "Requests",
-        "caption": "Request criticality",
-        "kind": "queue",
-        "tone": "sage",
-        "x": 90,
-        "y": 130
-      },
-      {
-        "id": "decide",
-        "label": "Utilization",
-        "caption": "Resource pressure",
-        "kind": "gauge",
-        "tone": "lilac",
-        "x": 205,
-        "y": 85
-      },
-      {
-        "id": "act",
-        "label": "Admission",
-        "caption": "Early rejection",
-        "kind": "gateway",
-        "tone": "peach",
-        "x": 320,
-        "y": 130
-      },
-      {
-        "id": "learn",
-        "label": "Results",
-        "caption": "Useful throughput",
-        "kind": "service",
+        "id": "step-0",
+        "kind": "pip",
+        "label": "PIP",
         "tone": "honey",
-        "x": 205,
-        "y": 210
+        "course": "sre"
+      },
+      {
+        "id": "step-1",
+        "kind": "message",
+        "label": "EXPENSIVE QUERIES",
+        "tone": "sage"
+      },
+      {
+        "id": "step-2",
+        "kind": "gauge",
+        "label": "CPU + MEMORY",
+        "tone": "lilac"
+      },
+      {
+        "id": "step-3",
+        "kind": "document",
+        "label": "CUSTOMER QUOTAS",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
-        "from": "observe",
-        "to": "decide"
+        "from": "step-0",
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "decide",
-        "to": "act"
+        "from": "step-1",
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
-        "from": "act",
-        "to": "learn"
+        "from": "step-2",
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
-        "node": "observe",
-        "text": "Incoming work carries its criticality across RPC calls."
+        "node": "step-0",
+        "text": "Pip’s new query type exhausts CPU below yesterday’s safe request rate."
       },
       {
-        "node": "decide",
-        "text": "Local resource pressure determines admission thresholds."
+        "node": "step-1",
+        "text": "Request counts do not capture variable cost or changing software."
       },
       {
-        "node": "act",
-        "text": "Reject lower-criticality work early and cheaply."
-      },
-      {
-        "node": "learn",
-        "text": "Keep completing the useful work that fits available capacity."
+        "node": "step-3",
+        "text": "Oversubscribed quotas still need planning when customers approach their limits together."
       }
     ]
+  },
+  "story": {
+    "course": "sre",
+    "world": "harbor",
+    "title": "Keep the important bookings moving"
   }
 }

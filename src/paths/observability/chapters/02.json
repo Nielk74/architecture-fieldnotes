@@ -3,7 +3,7 @@
   "title": "How Debugging Practices Differ Between Observability and Monitoring",
   "part": "The Path to Observability",
   "subtitle": "Follow evidence beyond the familiar dashboard",
-  "summary": "Monitoring and exploratory debugging answer different questions. A threshold efficiently recognizes a condition chosen in advance, while an investigation must discover which combination of circumstances produced the current symptom. The chapter challenges a familiar workflow: recognize a graph shape, recall an earlier incident, and apply its fix. That shortcut can mistake a downstream effect for its cause. Moving between unrelated tools also forces responders to reconstruct context mentally. Retained event dimensions support a more explicit sequence of comparisons in which each result guides the next question. Shared query paths make reasoning inspectable by colleagues, so diagnostic skill depends less on being the person with the longest memory of previous outages.",
+  "summary": "The market’s latency graph looks familiar, so Pip nearly applies last week’s fix. Instead, Pip compares affected and unaffected requests, preserves context across tools, and shares the reasoning. A repeatable investigation is more useful than another private hunch.",
   "source": {
     "startLine": 1280,
     "endLine": 1658,
@@ -12,27 +12,279 @@
   "concepts": [
     {
       "title": "Recognition has limits",
-      "body": "A dashboard compresses selected measurements into a recognizable picture. That makes it valuable for checking known conditions, but encourages matching today’s graph to yesterday’s failure. Similar symptoms can originate from different mechanisms. Treat the familiar pattern as a hypothesis to test, especially before applying a repair that changes the system and obscures the original evidence.",
-      "example": "Database latency can reflect resource contention rather than an inefficient read query.",
-      "source": "text lines 1280–1658"
+      "body": "Pip recognizes last week’s database graph and reaches for the same repair. Dashboards compress known measurements into useful patterns, but similar symptoms can have different mechanisms. Today’s delay might be resource contention rather than an inefficient query. Pip tests the hypothesis before a change obscures the original evidence.",
+      "example": "",
+      "source": "text lines 1280–1658",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "browser",
+            "label": "FAMILIAR GRAPH",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "database",
+            "label": "COMPETING CAUSE",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "experiment",
+            "label": "TEST BEFORE REPAIR",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip recognizes last week’s database graph and reaches for the same repair."
+          },
+          {
+            "node": "step-1",
+            "text": "Dashboards compress known measurements into useful patterns, but similar symptoms can have different mechanisms."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip tests the hypothesis before a change obscures the original evidence."
+          }
+        ]
+      }
     },
     {
       "title": "Comparative investigation",
-      "body": "Start with an observed symptom and identify the requests that exhibit it. Compare that population with requests that do not, then narrow along dimensions that distinguish them. Each comparison should reduce uncertainty or challenge an explanation. This makes the investigation repeatable even for a responder who has never encountered the failure before.",
-      "example": "Compare failed and successful requests by deployment, then inspect the affected deployment by endpoint.",
-      "source": "text lines 1280–1658"
+      "body": "Pip selects the market requests that actually fail. Comparing them with successful requests reveals whether deployment or endpoint distinguishes the populations. Each narrowing should reduce uncertainty or challenge an explanation. Pip follows a method a first-time responder can repeat without remembering a past outage.",
+      "example": "",
+      "source": "text lines 1280–1658",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "message",
+            "label": "FAILED REQUESTS",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "message",
+            "label": "SUCCESSFUL REQUESTS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "search",
+            "label": "DISTINGUISHING FIELD",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip selects the market requests that actually fail."
+          },
+          {
+            "node": "step-1",
+            "text": "Comparing them with successful requests reveals whether deployment or endpoint distinguishes the populations."
+          },
+          {
+            "node": "step-3",
+            "text": "Pip follows a method a first-time responder can repeat without remembering a past outage."
+          }
+        ]
+      }
     },
     {
       "title": "Context continuity",
-      "body": "Switching tools is costly when identifiers, time windows, and populations do not align. The responder then performs an implicit join in memory and may correlate measurements from different requests. Carrying request context through the investigation makes these relationships explicit and lets other engineers check the evidence behind a proposed explanation.",
-      "example": "A trace link should preserve the failing request, not merely open a general tracing dashboard.",
-      "source": "text lines 1280–1658"
+      "body": "Pip clicks a trace link and lands on an unrelated dashboard. Mismatched IDs, windows, and populations force a risky join in the responder’s memory. Pip carries the actual request context across tools. Explicit relationships let colleagues check evidence instead of accepting a correlation between different requests.",
+      "example": "",
+      "source": "text lines 1280–1658",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "browser",
+            "label": "SYMPTOM GRAPH",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "trace",
+            "label": "SAME REQUEST",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "document",
+            "label": "PRESERVED CONTEXT",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip clicks a trace link and lands on an unrelated dashboard."
+          },
+          {
+            "node": "step-1",
+            "text": "Mismatched IDs, windows, and populations force a risky join in the responder’s memory."
+          },
+          {
+            "node": "step-3",
+            "text": "Explicit relationships let colleagues check evidence instead of accepting a correlation between different requests."
+          }
+        ]
+      }
     },
     {
       "title": "Expertise becomes shareable",
-      "body": "Experienced engineers remain valuable, but intuition should not be the only route to a diagnosis. Saved investigation paths reveal which questions were asked and why a hypothesis changed. Colleagues can retrace those steps and learn a method rather than memorize a conclusion, reducing dependence on the same escalation expert during every unfamiliar incident.",
-      "example": "An on-call handoff includes the failing cohort and ruled-out hypotheses.",
-      "source": "text lines 1280–1658"
+      "body": "Pip hands over the failing cohort and ruled-out hypotheses. Saved investigation paths show which questions changed the explanation. Experienced intuition remains useful without being the only route to diagnosis. Colleagues learn a method they can retrace, reducing dependence on one escalation expert.",
+      "example": "",
+      "source": "text lines 1280–1658",
+      "visual": {
+        "nodes": [
+          {
+            "id": "step-0",
+            "kind": "pip",
+            "label": "PIP",
+            "tone": "honey",
+            "course": "observability"
+          },
+          {
+            "id": "step-1",
+            "kind": "search",
+            "label": "INVESTIGATION PATH",
+            "tone": "sage"
+          },
+          {
+            "id": "step-2",
+            "kind": "document",
+            "label": "RULED-OUT IDEAS",
+            "tone": "lilac"
+          },
+          {
+            "id": "step-3",
+            "kind": "handoff",
+            "label": "SHAREABLE EXPERTISE",
+            "tone": "peach"
+          }
+        ],
+        "edges": [
+          {
+            "from": "step-0",
+            "to": "step-1",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-1",
+            "to": "step-2",
+            "dashed": true,
+            "flow": false
+          },
+          {
+            "from": "step-2",
+            "to": "step-3",
+            "dashed": true,
+            "flow": false
+          }
+        ],
+        "steps": [
+          {
+            "node": "step-0",
+            "text": "Pip hands over the failing cohort and ruled-out hypotheses."
+          },
+          {
+            "node": "step-1",
+            "text": "Saved investigation paths show which questions changed the explanation."
+          },
+          {
+            "node": "step-3",
+            "text": "Colleagues learn a method they can retrace, reducing dependence on one escalation expert."
+          }
+        ]
+      }
     }
   ],
   "misconceptions": [
@@ -118,68 +370,68 @@
     "nodes": [
       {
         "id": "step-0",
-        "label": "RECOGNIZE",
-        "kind": "trace",
-        "tone": "sage",
-        "x": 80,
-        "y": 180
+        "kind": "pip",
+        "label": "PIP",
+        "tone": "honey",
+        "course": "observability"
       },
       {
         "id": "step-1",
-        "label": "COMPARE",
-        "kind": "experiment",
-        "tone": "peach",
-        "x": 220,
-        "y": 100
+        "kind": "browser",
+        "label": "FAMILIAR GRAPH",
+        "tone": "sage"
       },
       {
         "id": "step-2",
-        "label": "KEEP CONTEXT",
-        "kind": "alert",
-        "tone": "lilac",
-        "x": 360,
-        "y": 180
+        "kind": "database",
+        "label": "COMPETING CAUSE",
+        "tone": "lilac"
       },
       {
         "id": "step-3",
-        "label": "SHARE",
-        "kind": "leaf",
-        "tone": "honey",
-        "x": 500,
-        "y": 100
+        "kind": "experiment",
+        "label": "TEST BEFORE REPAIR",
+        "tone": "peach"
       }
     ],
     "edges": [
       {
         "from": "step-0",
-        "to": "step-1"
+        "to": "step-1",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-1",
-        "to": "step-2"
+        "to": "step-2",
+        "dashed": true,
+        "flow": false
       },
       {
         "from": "step-2",
-        "to": "step-3"
+        "to": "step-3",
+        "dashed": true,
+        "flow": false
       }
     ],
     "steps": [
       {
         "node": "step-0",
-        "text": "Database latency can reflect resource contention rather than an inefficient read query."
+        "text": "Pip recognizes last week’s database graph and reaches for the same repair."
       },
       {
         "node": "step-1",
-        "text": "Compare failed and successful requests by deployment, then inspect the affected deployment by endpoint."
-      },
-      {
-        "node": "step-2",
-        "text": "A trace link should preserve the failing request, not merely open a general tracing dashboard."
+        "text": "Dashboards compress known measurements into useful patterns, but similar symptoms can have different mechanisms."
       },
       {
         "node": "step-3",
-        "text": "An on-call handoff includes the failing cohort and ruled-out hypotheses."
+        "text": "Pip tests the hypothesis before a change obscures the original evidence."
       }
     ]
+  },
+  "story": {
+    "course": "observability",
+    "world": "market",
+    "title": "Pip resists yesterday’s explanation"
   }
 }

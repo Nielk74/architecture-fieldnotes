@@ -1,23 +1,53 @@
 # Chapter 19: Load Balancing at the Frontend
 
-Source: text lines 7876–8106 of the supplied book extract.
+*Pip’s adventure: The nearest harbor is not the fastest route. Fictional teaching story; concepts follow the cited source.*
 
-Frontend load balancing operates at several levels because location choice and packet forwarding solve different problems. A latency-sensitive request usually benefits from a nearby healthy datacenter, while a large upload may benefit more from available bandwidth. DNS can steer traffic before a connection begins, but recursive resolvers hide user locations, aggregate many users, and cache answers. Capacity and network health therefore matter alongside distance. A virtual IP then distributes connections among backends while presenting one stable address. Connection tracking or consistent hashing preserves affinity as packets arrive and backend membership changes. Direct server response and packet encapsulation reduce forwarding constraints, with encapsulation adding packet overhead that must fit the network’s MTU.
+Source: text lines 7876–8106.
+
+Pip routes every request to the nearest region and overloads it. Global balancing needs demand, capacity, network conditions, and connection continuity. DNS caching and packet-forwarding choices add constraints that a simple geographic map cannot show.
 
 ## Global routing objectives
 
-The best destination depends on the request and the layer making the decision. Low round-trip latency matters for interactive queries, whereas throughput can dominate a large upload. Global routing must also account for available serving capacity, link congestion, and infrastructure health. Choosing the geographically nearest site alone can therefore send traffic to a destination that cannot serve it well.
+Pip sends a large upload to the geographically nearest site. Interactive queries favor round-trip latency, while uploads may favor throughput. Capacity, link congestion, and infrastructure health can outweigh distance. Pip chooses a less congested route when it serves the actual request better.
+
+Source: text lines 7876–8106.
 
 ## DNS steering and resolver uncertainty
 
-Authoritative DNS responses can select a destination before the client opens a connection. Usually the query comes through a recursive resolver, so the observed address may represent many geographically dispersed users. Cached answers delay routing changes and make each response’s traffic impact uncertain. Resolver population estimates, client-subnet information where available, and capacity signals improve decisions without removing these limitations.
+Pip changes a DNS answer, but old traffic keeps arriving. Recursive resolvers can represent dispersed users, and cached answers delay steering changes. Resolver populations, available client-subnet information, and capacity signals improve destination estimates. Pip accounts for uncertainty in how much traffic each authoritative answer will move.
+
+Source: text lines 7876–8106.
 
 ## VIP affinity and consistent hashing
 
-A virtual IP hides a backend pool behind one client-visible destination. Stateful connections need their packets to reach the same backend. A simple hash modulo the backend count remaps many connections when membership changes. Consistent hashing limits this remapping, while connection tracking can retain existing assignments. These mechanisms address connection continuity; they do not themselves prove that every backend has equal load.
+Pip removes one backend and nearly every connection changes destination. A virtual IP hides the pool, but stateful packets still need backend affinity. Hash-modulo membership changes remap broadly; consistent hashing limits disruption, and connection tracking can retain assignments. Pip distinguishes continuity from proof that backend load is equal.
+
+Source: text lines 7876–8106.
 
 ## Direct replies and encapsulation
 
-Direct server response lets a backend reply to the client without sending the response through the load balancer, reducing forwarding work for response-heavy traffic. Forwarding by changing a destination MAC address restricts the backend pool to a shared layer-two domain. IP encapsulation removes that locality constraint by tunneling the packet to its backend, but the additional headers consume MTU space and can cause fragmentation.
+Pip sends backend replies directly to clients to reduce load-balancer forwarding work. MAC rewriting confines backends to a shared layer-two domain. IP encapsulation permits remote backends by tunneling packets. Pip budgets outer-header MTU space because a public-link-sized packet may fragment on the internal path.
 
-The lesson’s examples, decision scenario, and exercise are original teaching extensions rather than reported incidents.
+Source: text lines 7876–8106.
+
+## Transfer challenge: Distribute requests across frontends
+
+A global service has users near three points of presence, but one point is at capacity. DNS answers can steer new clients while existing connections remain local.
+
+### Advertise capacity-aware frontend routes
+
+Routing reflects saturation and protects the overloaded point. Capacity signals can lag and make routing less stable. The team withdraws capacity gradually and measures user latency by region.
+
+### Send all users to the nearest point
+
+Nearest routing usually lowers network latency. Proximity alone sends too much work to the saturated point. The nearest point fails during peak while another point has headroom.
+
+Distance is only one routing input. Steer new clients toward healthy capacity, then measure the regional user experience while cached DNS answers and existing connections delay the traffic shift.
+
+## Plan a frontend traffic shift
+
+A nearby region is saturated. Describe how DNS steering and VIP connection handling affect a move to another region.
+
+- Destination
+- Propagation
+- Verification
