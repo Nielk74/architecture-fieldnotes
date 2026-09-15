@@ -1,9 +1,9 @@
-v0.4.0 turns all eight courses and 137 chapters into concise Pip adventures. Each course has its own world, from a growing bookshop and island deliveries to a night market, museum guide, and town cinema. The rewritten reading is approximately 22% shorter, with technical distinctions, source references, and quiz answer identities preserved.
+v0.5.0 brings Pip’s level-up celebration into the app. Earn a new course or overall form and Pip leaps, transforms, and lands in a burst of stars. The screen keeps just the new level, form name, and “Let’s go!” button.
 
-174 concrete teaching diagrams span every chapter: cardinality tables with distinct-value counts, overlapping trace timelines, unit-correct energy equations, proportional bars, decision maps, and practical comparisons. Pip presents the evidence alongside adapted isometric story scenes. Explanatory illustrations have no more than three frames and retain manual stepping and motion controls.
+All eight courses use the same celebration, including the original Fundamentals Chapter 1. When a mission levels up both companions, their celebrations appear one at a time. Reloading, restoring progress, revisiting a completed mission, reading, and saving drafts do not replay rewards.
 
-The illustration studio now lets you inspect individual chapter concepts and export their diagrams as standalone SVGs. Course cards and downloadable notes follow the new stories. Fictional scenarios and numbers remain labeled teaching examples; source books are excluded from the application.
+Animations follow the shared motion setting, including explicit enable on devices using reduced motion. Paused learners see the final form immediately. Android Back dismisses the celebration without leaving the lesson. The Illustration Studio retains a no-XP preview for every form.
 
-Existing progress, reflections, backup and restore, XP awards, and all 90 companion appearances are retained. Install the signed APK over your existing app to keep your progress.
+Existing progress, reflections, course content, backup and restore, XP thresholds, and all 90 companion appearances are preserved. Install the signed APK over your existing app to keep your progress.
 
-The release workflow checks the production web build, learning journeys, phone layouts, diagram accuracy and readability, source-file exclusion, and native restart/update persistence before publishing the APK and SHA-256 checksum.
+Release checks cover the production web build, all learning journeys, earned celebrations, phone layouts, native save/restart/update persistence, and real level-up animation plus Back dismissal inside the signed Android app. The release includes the APK and its SHA-256 checksum.

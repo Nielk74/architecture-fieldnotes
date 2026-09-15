@@ -171,6 +171,18 @@ All local animations are CSS and respect the existing `.motion-paused` and `.iso
 
 ## Course companions
 
+### Earned level-up celebrations
+
+Pip’s level-up celebration appears after a genuine mission reward crosses a course or overall evolution threshold. The frameless celebration has three visual beats—Pip crouches and leaps, transforms in expanding rings, then bounces into a burst of stars. Pip is the focus: the only visible copy is the new level, form name, and one “Let’s go!” button. Motion settles after 4.2 seconds; it does not loop or close on a timer. Open `/illustrations.html#level-up` and select **Play celebration** to preview any of the nine tracks and any of its nine level transitions without earning XP. Dismiss and preview again to replay; **Still preview** lives outside the popup.
+
+`level-up-model.js` compares real before/after XP against existing overall or course thresholds. Same-level changes, decreases, and already-maxed progress produce no transition. `level-up.js` renders the actual before/after avatars and level, while `level-up.css` owns the finite motion. Previewing does not award XP or edit ledgers or drafts. **Play celebration** explicitly enables the shared motion preference if paused, matching the scene player’s Play action. **Still preview** does not change that preference.
+
+The popup uses a native modal dialog with explicit Tab/Shift+Tab containment, Escape/button/backdrop dismissal, and focus restoration. The still option reveals the final form immediately, including when motion is turned off during the reveal. The popup uses the same motion policy as the rest of the studio: **System** respects device reduction; explicit **On** takes precedence. Neither JavaScript nor CSS may silently override **On** with a second device check. Regression tests emulate device reduction with saved on/off/system settings and measure Pip’s rendered movement after Play. Backgrounding the document settles the preview rather than replaying a surprise on return.
+
+Live integration ships in v0.5.0. `progress.js` emits `book:reward` only after a new mission award, carrying course and combined XP before and after that award. `level-ups.js`, initialized once by the shared bootstrap, queues course-first and overall-second celebrations without overlap. Reading, draft saves, reloads, restores, and repeated missions do not trigger celebrations. No additional progress or “last celebrated level” is persisted. Route changes clear stale queued celebrations; background tabs defer queued ones until visible. Android Back dismisses the active popup without leaving the lesson, while flushing native saves. Automatic celebrations honor the current motion preference and never enable motion themselves. The studio and the live app use the same renderer.
+
+`tests/earned-level-up.spec.js` exercises actual reward interactions in every course, simultaneous course/overall transitions, once-only rewards, reloads, drafts, phone motion and the legacy Chapter 1 flow. The Android release audit also earns a course level in the installed signed APK, checks moving artwork, presses hardware Back, and confirms the lesson and saved XP survive.
+
 `src/illustrations/course-sidekicks.js` defines eight themed families with ten forms each. Every family has its own head shape, colors, themed headgear, and ten distinct pieces of equipment. Keep the original ten overall forms in `sidekick.js`; they still use combined XP. Total collection: 90 appearances.
 
 Course thresholds derive from that book’s total XP at 0, 5, 12, 22, 34, 48, 64, 78, 90, and 100 percent, rounded to reachable 20-XP increments. The last form requires all course XP. Derive state from the existing ledgers; never store another mutable level or reset progress.

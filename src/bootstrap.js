@@ -2,10 +2,12 @@ import './navigation-icons.css';
 import {initializeStorage,flushStorage,native} from './storage.js';
 async function boot(){
  await initializeStorage();
+ const {initializeLevelUps,dismissLevelUp}=await import('./level-ups.js');
+ initializeLevelUps();
  if(native){
   document.documentElement.classList.add('native-app');
   const {App}=await import('@capacitor/app');
-  await App.addListener('backButton',async({canGoBack})=>{await flushStorage();if(canGoBack)history.back();else if(location.pathname!=='/')location.href='/';else App.exitApp()});
+  await App.addListener('backButton',async({canGoBack})=>{const dismissed=dismissLevelUp();await flushStorage();if(dismissed)return;if(canGoBack)history.back();else if(location.pathname!=='/')location.href='/';else App.exitApp()});
   // Full-page navigation must wait for queued native writes.
   document.addEventListener('click',async event=>{const link=event.target.closest('a[href]');if(!link||link.download||event.defaultPrevented)return;const url=new URL(link.href,location.href);if(url.origin!==location.origin||(url.pathname===location.pathname&&url.search===location.search))return;event.preventDefault();try{await flushStorage();location.href=url.href}catch{showFailure()}},true);
  }

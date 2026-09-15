@@ -34,6 +34,8 @@ for(const ch of chapters)test(`Green Software ${ch.number}: complete, export, pe
   await page.locator('#book-next').click();
  }
  await expect(page.locator('.quiz-finish')).toContainText('3 of 3');
+ await expect(page.getByRole('dialog')).toHaveAttribute('data-track','green-software');
+ await page.getByRole('dialog').getByRole('button',{name:'Let’s go!'}).click();
  await page.locator('#book-next').click();
  const draft=`Chapter ${ch.number}: compare total resource use for equivalent completed work and preserve the deadline.`;
  await expect(page.locator('[data-work]')).toHaveCount(3);
@@ -43,6 +45,8 @@ for(const ch of chapters)test(`Green Software ${ch.number}: complete, export, pe
  expect(download.suggestedFilename()).toBe(`green-software-chapter-${String(ch.number).padStart(2,'0')}-reflection.md`);
  expect(fs.readFileSync(await download.path(),'utf8')).toContain(draft);
  await expect(page.locator('#book-chapter-score')).toHaveText('100 / 100 chapter XP');
+ await expect(page.getByRole('dialog')).toHaveAttribute('data-track','overall');
+ await page.getByRole('dialog').getByRole('button',{name:'Let’s go!'}).click();
  await page.reload();await expect(page.locator('[data-work="0"]')).toHaveValue(draft);
  await page.locator('[data-go="scenario"]').click();await page.locator('[data-choice="0"]').click();await page.locator('[data-choice="1"]').click();
  await expect(page.locator('#book-chapter-score')).toHaveText('100 / 100 chapter XP');

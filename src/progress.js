@@ -14,7 +14,14 @@ export function progressFor(path='fundamentals'){
  function chapterXP(id){const c=chapterState(id);return Object.entries(rewardsFor(id)).reduce((sum,[key,points])=>sum+(c.missions[key]===true?points:0),0)}
  function totalXP(){return Array.from({length:config.count},(_,i)=>chapterXP(i+1)).reduce((a,b)=>a+b,0)}
  function saveProgress(){try{appStorage.setItem(config.key,JSON.stringify(state));persistent=true}catch{persistent=false}window.dispatchEvent(new CustomEvent('book:progress',{detail:{path,xp:totalXP(),total:config.total,persistent}}))}
- function awardMission(id,key){const c=chapterState(id),value=rewardsFor(id)[key];if(!value||c.missions[key])return 0;c.missions[key]=true;saveProgress();return value}
+ function awardMission(id,key){
+  const c=chapterState(id),value=rewardsFor(id)[key];if(!value||c.missions[key])return 0;
+  const beforeXP=totalXP(),beforeOverallXP=companionXP();
+  c.missions[key]=true;saveProgress();
+  // Saves, reading, reloads and restores never emit an earned reward.
+  window.dispatchEvent(new CustomEvent('book:reward',{detail:{path,chapter:+id,mission:key,amount:value,beforeXP,afterXP:totalXP(),beforeOverallXP,afterOverallXP:companionXP()}}));
+  return value;
+ }
  function completeReading(id,key){const c=chapterState(id);if(!c.read.includes(key)){c.read.push(key);saveProgress()}}
  const store={chapterState,rewardsFor,chapterXP,totalXP,saveProgress,awardMission,completeReading,storageAvailable:()=>persistent};stores.set(path,store);return store;
 }

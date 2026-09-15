@@ -2,6 +2,7 @@ package io.github.nielk74.fieldnotes;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.view.KeyEvent;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -102,6 +103,36 @@ public class ProgressPersistenceTest {
                 waitFor(scenario,"document.querySelector('[data-companion-track=overall] .pip-avatar')?.dataset.pipLevel === '1'");
                 waitFor(scenario,"document.querySelector('[data-companion-track=\""+path+"\"] .course-pip-avatar')?.dataset.pipLevel === '0'");
             }
+        }
+    }
+    @Test public void verifyEarnedLevelUpAndBack() throws Exception {
+        // Runs on the installed release APK, after the update/persistence audit.
+        try(ActivityScenario<MainActivity> scenario=ActivityScenario.launch(MainActivity.class)) {
+            waitFor(scenario,"document.querySelector('.path-card') !== null");
+            open(scenario,"/learn.html?path=staff-engineer#chapter/1/scenario");
+            waitFor(scenario,"document.querySelectorAll('[data-choice]').length === 2 && document.querySelector('.companion-status') !== null");
+            assertEquals("Reload must not celebrate existing XP","true",js(scenario,"document.querySelector('.level-up-dialog') === null"));
+            // Enable actual motion through the same control the learner uses.
+            js(scenario,"document.querySelector('.motion-toggle').click()");
+            waitFor(scenario,"document.body.classList.contains('motion-on')");
+            String route=js(scenario,"location.href");
+            js(scenario,"document.querySelectorAll('[data-choice]').forEach(b=>b.click())");
+            waitFor(scenario,"document.querySelector('.level-up-dialog')?.dataset.track === 'staff-engineer'");
+            assertEquals("Earned popup must animate","\"animated\"",js(scenario,"document.querySelector('.level-up-dialog').dataset.mode"));
+            assertEquals("Native CSS must animate Pip","\"level-up-arrive\"",js(scenario,"getComputedStyle(document.querySelector('.level-up-after')).animationName"));
+            String first=js(scenario,"getComputedStyle(document.querySelector('.level-up-orbits')).transform");
+            Thread.sleep(200);
+            String second=js(scenario,"getComputedStyle(document.querySelector('.level-up-orbits')).transform");
+            assertNotEquals("Native celebration must visibly move",first,second);
+            InstrumentationRegistry.getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
+            waitFor(scenario,"document.querySelector('.level-up-dialog') === null");
+            assertEquals("Android Back should dismiss without leaving the lesson",route,js(scenario,"location.href"));
+            awaitSaved("fieldnotes-staff-engineer-v1","\"scenario\":true");
+            assertEquals("Course XP must be preserved","true",js(scenario,"document.querySelector('#book-chapter-score').textContent === '40 / 100 chapter XP'"));
+            js(scenario,"document.querySelectorAll('[data-choice]').forEach(b=>b.click())");
+            assertEquals("Repeating a mission must not replay the celebration","true",js(scenario,"document.querySelector('.level-up-dialog') === null"));
+            // Keep subsequent storage checks inexpensive on hosted emulators.
+            js(scenario,"document.querySelector('.motion-toggle').click()");
         }
     }
 }

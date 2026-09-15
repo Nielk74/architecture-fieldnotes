@@ -14,3 +14,4 @@ adb shell am force-stop "$pkg"
 # Install the actual release APK over the existing app: same identity and signing key.
 adb install -r android/app/build/outputs/apk/release/app-release.apk
 run_test verifyProgressAfterUpdate
+run_test verifyEarnedLevelUpAndBack
