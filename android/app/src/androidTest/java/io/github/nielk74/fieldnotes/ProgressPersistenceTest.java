@@ -30,6 +30,9 @@ public class ProgressPersistenceTest {
         fail("Page condition not reached: " + expression + " | " + js(scenario,"location.href + ' | ' + document.body.innerText.slice(0,300)"));
     }
     private void open(ActivityScenario<MainActivity> scenario,String path) throws Exception {
+        android.os.Bundle status = new android.os.Bundle();
+        status.putString("stream", "Checking course page: " + path + "\n");
+        InstrumentationRegistry.getInstrumentation().sendStatus(2, status);
         String previous=js(scenario,"performance.timeOrigin");
         js(scenario,"(()=>{const link=document.createElement('a');link.href='https://localhost"+path+"';document.body.append(link);link.click();link.remove();})()");
         waitFor(scenario,"performance.timeOrigin !== "+previous);
