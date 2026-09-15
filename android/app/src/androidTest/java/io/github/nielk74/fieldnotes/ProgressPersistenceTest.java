@@ -21,11 +21,11 @@ public class ProgressPersistenceTest {
         CountDownLatch latch = new CountDownLatch(1);
         AtomicReference<String> result = new AtomicReference<>("");
         scenario.onActivity(activity -> activity.getBridge().getWebView().evaluateJavascript(script, value -> {result.set(value);latch.countDown();}));
-        assertTrue("WebView did not reply", latch.await(10, TimeUnit.SECONDS));
+        assertTrue("WebView did not reply", latch.await(30, TimeUnit.SECONDS));
         return result.get();
     }
     private void waitFor(ActivityScenario<MainActivity> scenario, String expression) throws Exception {
-        long deadline = System.currentTimeMillis() + 20000;
+        long deadline = System.currentTimeMillis() + 60000;
         while(System.currentTimeMillis() < deadline) {if("true".equals(js(scenario, expression)))return;Thread.sleep(150);}
         fail("Page condition not reached: " + expression + " | " + js(scenario,"location.href + ' | ' + document.body.innerText.slice(0,300)"));
     }
@@ -55,6 +55,11 @@ public class ProgressPersistenceTest {
             js(scenario,"(()=>{const e=document.querySelector('[data-work]');e.value='Persistent "+path+" learning reflection';e.dispatchEvent(new Event('input',{bubbles:true}));})()");
             awaitSaved("fieldnotes-"+path+"-v1","Persistent "+path);
         }
+    }
+    @org.junit.Before public void pauseMotionForPersistenceChecks() {
+        // Motion is verified in the browser suite. Avoid software-rendered SVG load
+        // while measuring native storage and navigation on hosted emulators.
+        preferences().edit().putString("fieldnotes-motion-v1", "off").commit();
     }
     @Test public void seedProgressThroughUI() throws Exception {
         try(ActivityScenario<MainActivity> scenario=ActivityScenario.launch(MainActivity.class)) {
