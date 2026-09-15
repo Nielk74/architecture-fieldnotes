@@ -22,11 +22,15 @@ test('pressing Play in a reduced-motion scene explicitly enables real playback',
 for(const path of ['/#chapter/11/intro','/chapter-one.html#lesson/foundations','/illustrations.html']){
  test(`motion defaults on despite device reduction: ${path}`,async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});await page.goto(path);
+  await page.locator('.companion-status').waitFor({state:'visible'});
+  if(path.includes('chapter-one'))await page.locator('#foundations.lesson-panel').waitFor({state:'visible'});
   await expect(page.getByRole('button',{name:'Pause animations',exact:true})).toBeVisible();
   await expect(page.locator('body')).toHaveClass(/motion-on/);
   const object=page.locator('.iso-scene:visible .iso-object').first();
   expect(await positions(object)).toBeGreaterThan(1);
   await page.getByRole('button',{name:'Pause animations',exact:true}).click();await page.reload();
+  await page.locator('.companion-status').waitFor({state:'visible'});
+  if(path.includes('chapter-one'))await page.locator('#foundations.lesson-panel').waitFor({state:'visible'});
   await expect(page.getByRole('button',{name:'Enable animations',exact:true})).toBeVisible();
   expect(await positions(page.locator('.iso-scene:visible .iso-object').first())).toBeLessThan(.1);
  });
