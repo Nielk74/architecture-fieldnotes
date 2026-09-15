@@ -1,3 +1,4 @@
+import './navigation-icons.css';
 import {initializeStorage,flushStorage,native} from './storage.js';
 async function boot(){
  await initializeStorage();
