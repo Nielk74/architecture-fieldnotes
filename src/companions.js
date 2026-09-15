@@ -1,0 +1,16 @@
+import './style.css';
+import './course.css';
+import './illustrations/illustrations.css';
+import './companions.css';
+import {paths} from './paths/registry.js';
+import {companionXP,progressFor} from './progress.js';
+import {renderBot,evolutions,evolutionFor} from './illustrations/sidekick.js';
+import {renderCourseBot,courseEvolutions,courseEvolutionFor} from './illustrations/course-sidekicks.js';
+import {startSceneMotion} from './illustrations/motion.js';
+const tracks=[{id:'overall',title:'Overall Pip',xp:companionXP(),stages:evolutions},...Object.values(paths).map(p=>({id:p.id,title:p.shortTitle,xp:progressFor(p.id).totalXP(),stages:courseEvolutions(p.id)}))];
+document.body.classList.add('course-mode','pip-atlas-mode');
+document.querySelector('#app').innerHTML=`<header><nav class="nav shell" aria-label="Main navigation"><a class="brand" href="/">◇ fieldnotes.</a><div class="atlas-tools"><a href="/">Learning paths</a><button class="motion-toggle" type="button" aria-label="Pause animations">Pause</button></div></nav></header><main class="pip-atlas"><div class="eyebrow">Your companion collection</div><h1>One Pip. <em>Many ways to grow.</em></h1><p>Ten overall evolutions, plus ten unique forms for each course. Overall XP comes from every book; course XP changes only that course’s companion. Preview any form—only earned XP unlocks it.</p><label class="atlas-filter">Explore a companion <select id="pip-track"><option value="all">All 80 appearances</option>${tracks.map(t=>`<option value="${t.id}">${t.title}</option>`).join('')}</select></label>${tracks.map(t=>{const current=t.id==='overall'?evolutionFor(t.xp):courseEvolutionFor(t.id,t.xp);return `<section class="pip-family" data-pip-family="${t.id}"><div class="pip-family-heading"><h2>${t.title}</h2><span>${t.xp.toLocaleString()} ${t.id==='overall'?'combined':'course'} XP</span></div><div class="pip-forms">${t.stages.map((s,i)=>`<article class="pip-form ${t.xp>=s.xp?'unlocked':'locked'} ${s.xp===current.xp?'current':''}" data-form-level="${i}" aria-label="${t.title}, level ${i+1}, ${s.name}"><div class="pip-form-art">${t.id==='overall'?renderBot({xp:s.xp}):renderCourseBot({course:t.id,level:i})}</div><span class="pip-form-level">Level ${i+1} · ${s.xp===current.xp?'Current form':t.xp>=s.xp?'Unlocked':'Preview'}</span><h3>${s.name.replace(/^Pip the |^Pip · /,'')}</h3><p>${s.xp.toLocaleString()} XP${t.id==='overall'?' across all courses':' in this course'}</p></article>`).join('')}</div></section>`}).join('')}</main>`;
+const select=document.querySelector('#pip-track'),requested=new URLSearchParams(location.search).get('track');if(tracks.some(t=>t.id===requested))select.value=requested;
+function filter(){document.querySelectorAll('[data-pip-family]').forEach(e=>e.hidden=select.value!=='all'&&e.dataset.pipFamily!==select.value);const url=new URL(location.href);url.searchParams.set('track',select.value);history.replaceState(null,'',url);window.dispatchEvent(new CustomEvent('companion:context'))}select.onchange=filter;filter();startSceneMotion();
+
+const visibility=new IntersectionObserver(entries=>entries.forEach(e=>e.target.classList.toggle('pip-in-view',e.isIntersecting)),{rootMargin:'100px'});document.querySelectorAll('.pip-form').forEach(e=>visibility.observe(e));

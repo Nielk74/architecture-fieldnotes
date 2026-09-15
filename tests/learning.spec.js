@@ -37,7 +37,7 @@ test('Chapter one contributes earned XP to book progression without repeat rewar
  await expect(page.locator('.quest-emblem svg')).toHaveAttribute('data-pip-level','0');await jump(page,'tradeoffs');await page.getByRole('slider').fill('4');await page.getByRole('button',{name:'Growing platform'}).click();await expect(page.locator('.quest-emblem svg')).toHaveAttribute('data-pip-level','0');
  await jump(page,'checkpoint');for(let i=0;i<3;i++){await page.locator(`[data-answer="${[1,2,0][i]}"]`).click();await page.getByRole('button',{name:i===2?'See your takeaway':'Next question'}).click()}
  await expect(page.locator('.quest-emblem svg')).toHaveAttribute('data-pip-level','0');await jump(page,'rationale');const download=page.waitForEvent('download');await page.getByRole('button',{name:'Download your decision'}).click();await download;await expect(page.locator('#xp')).toHaveText('100');await expect(page.locator('.quest-emblem svg')).toHaveAttribute('data-pip-level','1');await expect(page.locator('.quest-emblem svg')).toHaveAttribute('aria-label','Pip the apprentice');
- await expect(page.locator('#course-count')).toHaveText('5 of 8 complete');await page.locator('#show-map').click();await expect(page.locator('#pip-next')).toHaveText('Next evolution at 400 XP');
+ await expect(page.locator('#course-count')).toHaveText('5 of 8 complete');await page.locator('#show-map').click();await expect(page.locator('#pip-next')).toHaveText('Next course evolution at 120 XP');
 });
 
 test('mobile order walkthrough, pause and reduced motion remain usable',async({page})=>{

@@ -1,3 +1,5 @@
+Pip now has 80 appearances: ten overall forms and ten distinct forms for each of seven courses. Overall evolution follows combined XP; each course companion evolves only through XP earned in that book. Both remain visible during lessons with separate progress indicators. Tap either portrait to explore its evolution atlas. Existing XP and reflections are preserved.
+
 Main navigation now uses consistent SVG icons with distinct library, chapter, map, and motion controls, plus larger mobile tap targets.
 
 Pip now stays visible on every screen, with an evolution progress ring, XP countdown, and immediate updates as you earn rewards. The compact strip remains visible on phones without covering lesson controls.

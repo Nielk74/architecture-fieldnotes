@@ -19,3 +19,4 @@
 @media(max-width:360px){.book-mode .book-avatar{display:none}.book-mode .nav{gap:5px;padding:0 9px}.book-mode .brand{font-size:14px}.guided-chapter .book-nav-button{font-size:8px}.guided-chapter .brand{font-size:12px}}
 /* Let the explanation start with its animated model on a phone. */
 @media(max-width:680px){.book-intro .book-split>.chapter-scene{grid-row:1}.book-intro .book-split>.chapter-prose{grid-row:2}}
+.pip-collection-link{display:inline-block;color:#795991;font-size:11px;margin-top:10px;text-underline-offset:3px}

@@ -156,3 +156,11 @@ A chapter's `visual` has `nodes`, `edges`, and `steps`. `chapterScene()` supplie
 All local animations are CSS and respect the existing `.motion-paused` and `.iso-sleep` rules. A still export remains a meaningful diagram; website and APK scenes animate when motion is on.
 
 `src/companion.js` mounts a persistent Pip strip through the shared bootstrap. It derives evolution progress from combined earned XP within the current stage interval, listens for `book:progress`, and reserves header space on phones. The final stage displays a full ring.
+
+## Course companions
+
+`src/illustrations/course-sidekicks.js` defines seven themed families with ten forms each. Every family has its own head shape, colors, themed headgear, and ten distinct pieces of equipment. Keep the original ten overall forms in `sidekick.js`; they still use combined XP. Total collection: 80 appearances.
+
+Course thresholds derive from that book’s total XP at 0, 5, 12, 22, 34, 48, 64, 78, 90, and 100 percent, rounded to reachable 20-XP increments. The last form requires all course XP. Derive state from the existing ledgers; never store another mutable level or reset progress.
+
+To extend a family, edit its stage names and gear recipes, then its themed headgear. Keep each stage visually distinct beyond color, preserve the 180×175 viewBox, and check it at both atlas size and 50 pixels in the persistent header. `companions.html` previews all forms without granting rewards. The header shows overall and current-course tracks side by side; portrait links open the relevant atlas. Offscreen atlas artwork pauses.

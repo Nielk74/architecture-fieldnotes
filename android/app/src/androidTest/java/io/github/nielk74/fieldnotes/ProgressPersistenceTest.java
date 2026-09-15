@@ -99,6 +99,8 @@ public class ProgressPersistenceTest {
                 open(scenario,"/learn.html?path="+path+"#chapter/1/apply");
                 waitFor(scenario,"document.querySelector('[data-work]')?.value === 'Persistent "+path+" learning reflection'");
                 waitFor(scenario,"document.querySelector('#book-chapter-score').textContent === '20 / 100 chapter XP'");
+                waitFor(scenario,"document.querySelector('[data-companion-track=overall] .pip-avatar')?.dataset.pipLevel === '1'");
+                waitFor(scenario,"document.querySelector('[data-companion-track=\""+path+"\"] .course-pip-avatar')?.dataset.pipLevel === '0'");
             }
         }
     }

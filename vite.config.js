@@ -9,6 +9,7 @@ export default defineConfig({
         hardParts: fileURLToPath(new URL('./hard-parts.html', import.meta.url)),
         learning: fileURLToPath(new URL('./learn.html', import.meta.url)),
         main: fileURLToPath(new URL('./index.html', import.meta.url)),
+        companions: fileURLToPath(new URL('./companions.html', import.meta.url)),
         illustrations: fileURLToPath(new URL('./illustrations.html', import.meta.url)),
       },
     },

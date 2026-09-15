@@ -78,3 +78,5 @@ Keep the signing key permanently backed up outside the repository. Never regener
 See [the illustration framework](docs/illustrations.md) and [learning paths](docs/paths.md). Book metadata lives in `src/paths/registry.js`; shared screens live in `src/book.js`. The Hard Parts content is in `src/paths/hard-parts/chapters/` and its notes in `public/notes/hard-parts/`.
 
 Independent learning companion; not affiliated with O’Reilly or the authors. Book titles and source content remain the property of their respective owners. The software license does not grant rights to redistribute purchased books.
+
+Pip has **80 appearances**: ten overall forms and ten themed forms per course. Course and overall evolution remain visible together during lessons, using existing earned XP. Open `/companions.html` or tap a portrait to preview the collection; browsing never awards XP.

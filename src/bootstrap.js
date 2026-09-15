@@ -11,7 +11,7 @@ async function boot(){
  }
  window.addEventListener('storage:failure',showFailure);
  const page=document.body.dataset.page;
- if(page==='home')await import('./home.js');else if(page==='chapter-one')await import('./main.js');else if(page==='studio')await import('./illustrations/studio.js');else await import('./book.js');
+ if(page==='home')await import('./home.js');else if(page==='chapter-one')await import('./main.js');else if(page==='companions')await import('./companions.js');else if(page==='studio')await import('./illustrations/studio.js');else await import('./book.js');
  const {mountCompanion}=await import('./companion.js');mountCompanion();
 }
 function showFailure(){if(document.querySelector('#storage-failure'))return;const message=document.createElement('div');message.id='storage-failure';message.setAttribute('role','alert');message.textContent='Progress could not be saved. Keep this screen open and export a backup from the home page.';message.style.cssText='position:fixed;bottom:0;left:0;right:0;padding:16px;background:#fff0d6;color:#754620;z-index:9999';document.body.append(message)}
