@@ -1,0 +1,566 @@
+/* Shared reading treatment: keep the playful palette while making copy comfortable. */
+:root {
+  --text-secondary: #51564d;
+  --text-tertiary: #625d53;
+  --text-purple: #624d70;
+  --text-green: #48583d;
+  --text-warm: #5f5548;
+  --muted: var(--text-secondary);
+}
+
+body {
+  color: var(--ink);
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+.chapter-card strong,
+.stop-copy strong,
+.course-title-row h2 {
+  text-wrap: balance;
+}
+
+p,
+li,
+small,
+.scene-caption,
+.quiz-feedback,
+.lab-trace {
+  overflow-wrap: anywhere;
+}
+
+/* Justify sustained reading copy, while leaving labels and controls easy to scan. */
+.intro,
+.section-sub,
+.concept-description,
+.scenario-description,
+.connections p,
+.checkpoint-intro,
+.rationale p,
+.map-intro > p:not(.map-source),
+.library-hero > div > p,
+.chapter-prose > p,
+.chapter-promise li,
+.concept-page > p,
+.misconceptions p,
+.scenario-context,
+.outcome,
+.lab-brief,
+.lab-tools fieldset p,
+.lab-tools details p,
+.pip-atlas > p {
+  text-align: justify;
+  text-align-last: left;
+  hyphens: auto;
+  hyphenate-limit-chars: 10 4 4;
+  hyphenate-limit-lines: 2;
+}
+
+/* General lesson copy. */
+.intro,
+.section-sub,
+.concept-description,
+.scenario-description,
+.checkpoint-intro,
+.rationale p,
+.connections p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.source-note,
+.teaching-note,
+.scene-note,
+.map-source,
+.library-source,
+.concept-page .concept-source,
+.workbook-hint {
+  color: var(--text-tertiary);
+  font-size: 11px;
+  line-height: 1.75;
+}
+
+.example,
+.concept-page .example {
+  color: #3f493b;
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.example b {
+  color: #4e5c45;
+  font-size: 10px;
+}
+
+.quiz-question {
+  color: #2f332d;
+}
+
+.quiz-option,
+.book-quiz .quiz-option,
+.quiz-feedback {
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.quiz-feedback,
+.verdict {
+  color: var(--text-green);
+}
+
+.section .eyebrow,
+.book-mode .section-heading .eyebrow,
+.pipeline-lab > .eyebrow,
+.map-intro .eyebrow {
+  color: #765022;
+}
+
+h1 em,
+.library-welcome h1 em {
+  color: #c95330;
+}
+
+/* Learning-path library. */
+.library-welcome > div > p {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.home-companion span,
+.home-companion small,
+.continue-learning p,
+.course-result-count {
+  color: var(--text-warm);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.continue-learning small,
+.continue-learning strong span {
+  color: var(--text-purple);
+}
+
+.course-author {
+  color: #665e52;
+  font-size: 10px;
+}
+
+.course-focus {
+  color: #4f4b42;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.course-facts,
+.path-progress > div > span,
+.path-progress small,
+.paths-footer,
+.backup-panel p {
+  color: var(--text-warm);
+  font-size: 10px;
+}
+
+.course-pip-preview small,
+.course-pip-preview strong {
+  color: var(--text-purple);
+  font-size: 10px;
+}
+
+.course-status-filters button,
+.course-result-count,
+.path-search input,
+#path-category,
+.path-browse {
+  color: var(--text-warm);
+}
+
+.course-status-filters button span {
+  color: #554f45;
+}
+
+.course-number {
+  color: #5e5a50;
+}
+
+.course-category {
+  color: #5e5a50;
+  font-size: 9px;
+}
+
+.paths-footer a {
+  color: var(--text-purple);
+}
+
+/* Course colors also carry white button labels, so each one meets AA contrast. */
+.path-card {
+  --course-color: #607746;
+}
+
+.path-hard-parts {
+  --course-color: #795087;
+}
+
+.path-staff-engineer {
+  --course-color: #806039;
+}
+
+.path-responsible-engineering {
+  --course-color: #4f7254;
+}
+
+.path-sre {
+  --course-color: #4c6c82;
+}
+
+.path-observability {
+  --course-color: #865640;
+}
+
+.path-ai-agents {
+  --course-color: #675886;
+}
+
+.path-actions .primary {
+  font-size: 11px;
+  font-weight: 650;
+}
+
+/* Chapter map and library cards. */
+.map-intro > p:not(.map-source) {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.map-source,
+.map-footnote,
+.library-source {
+  color: var(--text-tertiary);
+  font-size: 11px;
+}
+
+.stop-copy strong,
+.chapter-card strong {
+  font-size: 13px;
+}
+
+.stop-copy small,
+.chapter-card small,
+.stop-meta {
+  color: var(--text-tertiary);
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.pip-status p,
+.pip-status #pip-next,
+.library-pip-caption p,
+.library-toolbar p {
+  color: var(--text-purple);
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.map-intro > .primary,
+.library-hero .primary,
+.hero .primary {
+  background: #b94a2a;
+  box-shadow: 0 4px 0 #7f321d;
+}
+
+.map-intro > .primary:hover,
+.library-hero .primary:hover,
+.hero .primary:hover {
+  background: #a54025;
+}
+
+.library-hero > div > p {
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* Chapter reading and activity screens. */
+.chapter-prose > p,
+.concept-page > p,
+.scenario-context {
+  color: #454a43;
+  font-size: 16px;
+  line-height: 1.85;
+  letter-spacing: 0.005em;
+}
+
+.chapter-promise b,
+.chapter-promise ul {
+  color: #4f5547;
+}
+
+.chapter-promise b {
+  font-size: 12px;
+}
+
+.chapter-promise ul {
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.scene-caption {
+  color: var(--text-purple);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.chapter-scene .iso-kicker,
+.scene-controls > [data-scene-play] {
+  color: var(--text-purple);
+  font-size: 10px;
+}
+
+.scene-step-buttons button {
+  color: #654575;
+}
+
+.scene-step-buttons button.active {
+  background: #725589;
+  border-color: #725589;
+}
+
+.book-concepts-nav button {
+  color: var(--text-warm);
+  font-size: 12px;
+}
+
+.book-concepts-nav button.active {
+  color: #654174;
+}
+
+.concept-page-number {
+  color: var(--text-warm);
+}
+
+.concept-page .concept-source,
+.concept-arrows span,
+.concept-arrows button {
+  color: var(--text-tertiary);
+  font-size: 10px;
+}
+
+.misconceptions details,
+.misconceptions p,
+.outcome,
+.empty-consequence {
+  color: var(--text-warm);
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.misconceptions summary {
+  color: #684f32;
+}
+
+.outcome-benefit {
+  color: #40552f;
+}
+
+.outcome-cost {
+  color: #70452f;
+}
+
+.outcome small {
+  color: var(--text-warm);
+}
+
+.book-quiz .quiz-feedback,
+.quiz-pip-tip p,
+.quiz-finish p {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.chapter-workbook label {
+  color: #624d31;
+  font-size: 12px;
+}
+
+.chapter-workbook textarea {
+  color: #3f433d;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.chapter-workbook textarea::placeholder {
+  color: #716756;
+  opacity: 1;
+}
+
+/* Guided labs use dense layouts, so retain their scale and strengthen their ink. */
+.lab-brief,
+.lab-tools fieldset p,
+.lab-tools details p,
+.lab-trace,
+.lab-pip p,
+.guided-chapter .scene-note,
+.guided-chapter .teaching-note {
+  color: var(--text-secondary);
+}
+
+.lab-brief {
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.lab-tools fieldset p,
+.lab-tools details p {
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.lab-trace,
+.lab-pip p {
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.lab-evidence {
+  color: #3f5132;
+  font-size: 13px;
+}
+
+.pip-atlas > p,
+.pip-form p,
+.pip-family-heading > span {
+  color: var(--text-warm);
+}
+
+.pip-atlas > p {
+  font-size: 15px;
+}
+
+.pip-form p {
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+/* Persistent navigation and progress remain compact, but no longer faint. */
+.course-progress-label,
+.course-progress-label span:first-child,
+.course-steps button > span,
+.course-bottom #lesson-position,
+.book-mode #book-position,
+.book-xp small,
+.library-stats,
+.chapter-group-label > span,
+.chapter-map-links button {
+  color: var(--text-tertiary);
+}
+
+.book-logo {
+  color: #735c82;
+}
+
+.companion-identity > span,
+.companion-growth small {
+  color: var(--text-purple);
+  font-size: 10px;
+}
+
+.companion-growth > div,
+.companion-growth strong {
+  font-size: 10px;
+}
+
+@media (max-width: 680px) {
+  .intro,
+  .section-sub,
+  .concept-description,
+  .scenario-description,
+  .checkpoint-intro,
+  .rationale p,
+  .connections p,
+  .library-welcome > div > p,
+  .map-intro > p:not(.map-source),
+  .library-hero > div > p,
+  .chapter-prose > p,
+  .concept-page > p,
+  .scenario-context,
+  .outcome,
+  .misconceptions details,
+  .misconceptions p {
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .intro,
+  .section-sub,
+  .concept-description,
+  .scenario-description,
+  .connections p,
+  .checkpoint-intro,
+  .rationale p,
+  .map-intro > p:not(.map-source),
+  .library-hero > div > p,
+  .chapter-prose > p,
+  .chapter-promise li,
+  .concept-page > p,
+  .misconceptions p,
+  .scenario-context,
+  .outcome,
+  .lab-brief,
+  .lab-tools fieldset p,
+  .lab-tools details p,
+  .pip-atlas > p {
+    text-align: left;
+    hyphens: none;
+  }
+
+  .course-focus {
+    font-size: 12px;
+  }
+
+  .course-author,
+  .course-facts,
+  .path-progress > div > span,
+  .path-progress small,
+  .course-pip-preview small,
+  .course-pip-preview strong,
+  .paths-footer,
+  .backup-panel p {
+    font-size: 10px;
+  }
+
+  .course-category {
+    font-size: 9px;
+  }
+
+  .companion-dual .companion-identity > span,
+  .companion-dual .companion-growth > div,
+  .companion-dual .companion-identity strong {
+    font-size: 9px;
+  }
+
+  .stop-copy small,
+  .stop-meta,
+  .map-source,
+  .map-footnote,
+  .source-note,
+  .teaching-note,
+  .scene-note,
+  .library-source,
+  .concept-page .concept-source {
+    font-size: 10px;
+  }
+
+  .book-quiz .quiz-option,
+  .book-quiz .quiz-feedback,
+  .quiz-pip-tip p,
+  .quiz-finish p,
+  .chapter-workbook textarea {
+    font-size: 14px;
+  }
+}
