@@ -8,13 +8,13 @@ import {levelUpStages as stagesFor,levelUpTransition} from './level-up-model.js'
 const esc=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const duration=4200;
 const avatar=(track,xp)=>track==='overall'?renderBot({xp}):renderCourseBot({course:track,xp});
-const theme=track=>track==='overall'?{color:'#c7b2df',dark:'#655184',accent:'#efc574'}:courseThemes[track];
+const theme=track=>track==='overall'?{color:'#d8c2fc',dark:'#6425d0',accent:'#ffc52e'}:courseThemes[track];
 const themeStyle=track=>{const t=theme(track);return `--evolution-color:${t.color};--evolution-ink:${t.dark};--evolution-gold:${t.accent}`};
 const star='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 1 3.1 7.9L23 12l-7.9 3.1L12 23l-3.1-7.9L1 12l7.9-3.1Z" fill="currentColor"/></svg>';
 function particles(){
  return Array.from({length:36},(_,i)=>{
   const angle=(i/36)*Math.PI*2,radius=160+(i%4)*25;
-  return `<i class="level-up-particle ${i%2===0?'is-star':''}" style="--scatter-x:${Math.cos(angle)*radius}px;--scatter-y:${Math.sin(angle)*radius*.85-45}px;--twist:${i*47}deg;--delay:${1100+(i%6)*95}ms;--particle-color:${['var(--evolution-color)','var(--evolution-gold)','#c8d7b3','#d1bfdf'][i%4]}" aria-hidden="true">${i%2===0?star:''}</i>`;
+  return `<i class="level-up-particle ${i%2===0?'is-star':''}" style="--scatter-x:${Math.cos(angle)*radius}px;--scatter-y:${Math.sin(angle)*radius*.85-45}px;--twist:${i*47}deg;--delay:${1100+(i%6)*95}ms;--particle-color:${['var(--evolution-color)','var(--evolution-gold)','#a2eddb','#d8c2fc'][i%4]}" aria-hidden="true">${i%2===0?star:''}</i>`;
  }).join('');
 }
 function stageMarkup(model){

@@ -239,7 +239,7 @@
           },
           {
             "id": "step-2",
-            "kind": "trace",
+            "kind": "log",
             "label": "LATER LOG ENTRIES",
             "tone": "lilac"
           },

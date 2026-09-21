@@ -1,7 +1,7 @@
 .navigation-icon{width:20px;height:20px;flex:0 0 20px;vertical-align:middle}
 .nav .book-nav-button,.nav .all-chapters-link,.nav #show-map,.nav .motion-toggle{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px}
 .nav .book-nav-button[hidden]{display:none}
-.nav .book-nav-button:hover .navigation-icon,.nav .all-chapters-link:hover .navigation-icon,.nav #show-map:hover .navigation-icon{color:#805c9a}
-.nav .book-nav-button:focus-visible,.nav .all-chapters-link:focus-visible,.nav #show-map:focus-visible,.nav .motion-toggle:focus-visible{outline:2px solid #9773b0;outline-offset:3px}
-@media(max-width:540px){body .nav .book-nav-button,body .nav .all-chapters-link,body .nav #show-map,body .nav .motion-toggle{width:44px;min-width:44px;height:44px;padding:10px;gap:0;border:1px solid #d8cdbd;border-radius:8px;background:#f2ede4}body .nav .book-nav-button>span,body .nav .all-chapters-link>span,body .nav #show-map>span,body .nav .motion-state-label{display:none}body .nav .navigation-icon{width:21px;height:21px;flex-basis:21px}}
+.nav .book-nav-button:hover .navigation-icon,.nav .all-chapters-link:hover .navigation-icon,.nav #show-map:hover .navigation-icon{color:#42128a}
+.nav .book-nav-button:focus-visible,.nav .all-chapters-link:focus-visible,.nav #show-map:focus-visible,.nav .motion-toggle:focus-visible{outline:2px solid #6425d0;outline-offset:3px}
+@media(max-width:540px){body .nav .book-nav-button,body .nav .all-chapters-link,body .nav #show-map,body .nav .motion-toggle{width:44px;min-width:44px;height:44px;padding:10px;gap:0;border:1px solid #dcd8e8;border-radius:8px;background:#f3f1f8}body .nav .book-nav-button>span,body .nav .all-chapters-link>span,body .nav #show-map>span,body .nav .motion-state-label{display:none}body .nav .navigation-icon{width:21px;height:21px;flex-basis:21px}}
 @media(max-width:380px){.course-mode .nav .brand>svg{display:none}}

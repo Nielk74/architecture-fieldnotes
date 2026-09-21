@@ -157,10 +157,9 @@
         "nodes": [
           {
             "id": "step-0",
-            "kind": "pip",
-            "label": "PIP",
-            "tone": "honey",
-            "course": "observability"
+            "kind": "beaver",
+            "label": "INSPECTOR",
+            "tone": "honey"
           },
           {
             "id": "step-1",
@@ -226,10 +225,9 @@
         "nodes": [
           {
             "id": "step-0",
-            "kind": "pip",
-            "label": "PIP",
-            "tone": "honey",
-            "course": "observability"
+            "kind": "beaver",
+            "label": "INSPECTOR",
+            "tone": "honey"
           },
           {
             "id": "step-1",
@@ -239,8 +237,8 @@
           },
           {
             "id": "step-2",
-            "kind": "message",
-            "label": "FRESH FAILURES",
+            "kind": "log",
+            "label": "FRESH LOG EVENTS",
             "tone": "lilac"
           },
           {

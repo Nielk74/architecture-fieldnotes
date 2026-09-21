@@ -157,10 +157,9 @@
         "nodes": [
           {
             "id": "step-0",
-            "kind": "pip",
-            "label": "PIP RAISES RISK",
-            "tone": "honey",
-            "course": "responsible-engineering"
+            "kind": "beaver",
+            "label": "INSPECTOR",
+            "tone": "honey"
           },
           {
             "id": "step-1",

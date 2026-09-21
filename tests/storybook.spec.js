@@ -11,7 +11,7 @@ test('every course and legacy chapter retains source, answer, length and notes c
  for(const path of Object.values(paths)){
   worlds.add(path.world);const scene=pathScene({...path,earned:100});
   expect(scene.nodes.find(n=>n.kind==='pip')).toMatchObject({course:path.id,xp:100});
-  expect(renderScene(scene)).toContain('data-story-course');
+  expect(renderScene(scene)).toContain(`data-world="${path.world}"`);
  }
  expect(worlds.size).toBe(Object.keys(paths).length);
  expect(()=>renderScene({title:'Bad state',nodes:[{id:'pip',kind:'pip',x:100,y:100}],sequence:[{node:'pip',states:{missing:'off'}}]})).toThrow('Invalid illustration state');

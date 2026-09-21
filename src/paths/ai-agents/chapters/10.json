@@ -95,8 +95,8 @@
           },
           {
             "id": "step-1",
-            "kind": "message",
-            "label": "REQUEST ID",
+            "kind": "log",
+            "label": "REQUEST LOG",
             "tone": "sage"
           },
           {

@@ -164,8 +164,8 @@
           },
           {
             "id": "step-1",
-            "kind": "trace",
-            "label": "FAILED TRIAL",
+            "kind": "log",
+            "label": "TRIAL LOG",
             "tone": "sage"
           },
           {

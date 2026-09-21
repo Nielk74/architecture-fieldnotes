@@ -170,8 +170,8 @@
           },
           {
             "id": "step-2",
-            "kind": "trace",
-            "label": "INTERNAL EVIDENCE",
+            "kind": "log",
+            "label": "INTERNAL LOGS",
             "tone": "lilac"
           },
           {

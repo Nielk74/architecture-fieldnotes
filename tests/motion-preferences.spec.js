@@ -3,7 +3,7 @@ async function positions(locator){await expect(locator).toBeVisible();const ys=[
 for(const [name,path,ready,scene] of [
  ['book','/#chapter/11/intro','.book-intro','.book-intro .iso-object'],
  ['chapter one','/chapter-one.html#lesson/foundations','#foundations.lesson-panel','.dimension-art .iso-object'],
- ['studio','/illustrations.html','#scene-preview','#scene-preview .iso-object'],
+ ['studio','/illustrations.html#log-workshop','#scene-preview','#scene-preview .iso-object'],
 ]){
  test(`${name}: system reduction is truthful and explicit enable moves actual SVG pixels`,async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});await page.goto(path.replace('/#','/?motion=system#').replace('.html','.html?motion=system'));await page.locator(ready).waitFor({state:'visible'});const object=page.locator(scene).first();await expect.poll(()=>object.evaluate(e=>getComputedStyle(e).animationName)).toBe('none');await page.waitForTimeout(400);expect(await positions(object)).toBeLessThan(.1);
@@ -19,7 +19,7 @@ test('pressing Play in a reduced-motion scene explicitly enables real playback',
  await page.emulateMedia({reducedMotion:'reduce'});await page.goto('/?motion=system#chapter/11/intro');await page.locator('[data-scene-play]').click();await expect(page.locator('body')).toHaveClass(/motion-on/);await expect(page.locator('.book-intro svg.iso-scene')).toHaveAttribute('data-step','1',{timeout:5000});
 });
 
-for(const path of ['/#chapter/11/intro','/chapter-one.html#lesson/foundations','/illustrations.html']){
+for(const path of ['/#chapter/11/intro','/chapter-one.html#lesson/foundations','/illustrations.html#log-workshop']){
  test(`motion defaults on despite device reduction: ${path}`,async({page})=>{
   await page.emulateMedia({reducedMotion:'reduce'});await page.goto(path);
   await page.locator('.companion-status').waitFor({state:'visible'});

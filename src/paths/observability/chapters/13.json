@@ -226,10 +226,9 @@
         "nodes": [
           {
             "id": "step-0",
-            "kind": "pip",
-            "label": "PIP",
-            "tone": "honey",
-            "course": "observability"
+            "kind": "beaver",
+            "label": "INSPECTOR",
+            "tone": "honey"
           },
           {
             "id": "step-1",
@@ -245,8 +244,8 @@
           },
           {
             "id": "step-3",
-            "kind": "trace",
-            "label": "INVESTIGABLE FAILURES",
+            "kind": "log",
+            "label": "FAILING REQUEST EVENTS",
             "tone": "peach"
           }
         ],

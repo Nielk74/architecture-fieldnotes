@@ -34,3 +34,19 @@ export function firstStoryScene(scene,name,xp=0){
  return {...scene,title:`Pip’s bookshop: ${scene.title}`,nodes,edges:[{from:'pip',to:scene.nodes[0].id,dashed:true,flow:false},...scene.edges.map(edge=>({...edge,flow:false,dashed:true}))],sequence:nodes.map((node,i)=>({node:node.id,text:storyCaptions[name][i]}))};
 }
 export const sceneLibrary = { bookshop, structure:dimensions[0], characteristics:dimensions[1], decisions:dimensions[2], principles:dimensions[3],...Object.fromEntries(Object.entries({engineering,operations,feedback,data,rationale,checkpoint}).map(([name,scene])=>[name,firstStoryScene(scene,name)])),deployments:deployments(4) };
+
+
+// Literal characters make the logging metaphor readable before its labels.
+sceneLibrary['log-workshop']={
+ title:'Two beavers record and check evidence from a wooden log. Wood is a visual metaphor for recorded software events.',
+ platform:true,
+ nodes:[node('inspector',100,140,'INSPECT',{kind:'beaver'}),node('record',240,190,'RETAIN CONTEXT',{kind:'log',tone:'honey'}),node('check',375,135,'CHECK',{kind:'beaver',tone:'lilac'})],
+ edges:[edge('inspector','record'),edge('record','check')],
+ sequence:[{node:'inspector',text:'An inspector asks a concrete question.'},{node:'record',text:'The wooden log is a metaphor: keep the event and its useful context together.'},{node:'check',text:'Check the evidence before choosing an explanation.'}],
+};
+sceneLibrary['robot-lab']={
+ title:'A rounded robot tests a service and compares its measured result with a target.',
+ nodes:[node('robot',110,130,'RUN THE CHECK',{kind:'agent',tone:'lilac'}),node('service',270,135,'SERVICE',{kind:'service',tone:'lilac'}),node('result',350,255,'MEASURE',{kind:'gauge',tone:'honey'})],
+ edges:[edge('robot','service'),edge('service','result')],
+ sequence:[{node:'robot',text:'Give the robot one bounded task.'},{node:'service',text:'Run the task against the service.'},{node:'result',text:'Compare the observed result with the intended outcome.'}],
+};

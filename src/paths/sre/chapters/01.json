@@ -245,7 +245,7 @@
           },
           {
             "id": "step-3",
-            "kind": "trace",
+            "kind": "log",
             "label": "DIAGNOSTIC LOG",
             "tone": "peach"
           }

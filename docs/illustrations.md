@@ -1,5 +1,71 @@
 # Fieldnotes illustration framework
 
+## Color and art direction
+
+The course covers are inhabited narrative scenes: expressive orange beavers,
+rounded white robots with articulated arms, wooden logs with bark and sawn growth
+rings, and full landscapes or interiors. The palette has a clear hierarchy:
+violet and indigo environments, warm wood and characters, ivory highlights, and
+small cool lights. Backgrounds use overlapping hills, trees, buildings,
+reflections and directional light. Simplicity means readable silhouettes and a
+coherent composition; it does not mean removing the setting or material detail.
+
+`editorial.js` defines eight scenic covers, served from `public/artwork/*-v3.webp`.
+Each 1536 × 1024 image is an original generated illustration. The bookshop, island
+crossing, workshop, civic square, harbor, night market, museum, and forest cinema
+share a visual treatment, with distinct actions and surroundings. Each scene has
+exactly one cast: beavers in the bookshop, workshop, civic square and market;
+robots on the ferry, at the harbor, in the museum and at the cinema. The cinema
+uses one technician to keep the projector beam unobstructed; other covers use
+two characters. These
+paintings establish the fictional story worlds; the chapter diagrams still
+explain specific mechanisms and preserve concrete teaching evidence.
+
+The renderer frames static covers at 480 × 320 without character badges or
+companion insets. Earned Pip progression remains in the surrounding course UI.
+Backgrounds fill the cover without pale strips. The studio opens on the
+log-inspection market and offers all eight worlds, plus `log-workshop` (beavers)
+and `robot-lab` animated vector demonstrations. A scene name in the URL hash
+opens that scene directly, for example `/illustrations.html#world-harbor`.
+
+Review each new image at full size before use: count and trace each arm from
+shoulder to hand, check hand/tool contacts, inspect the distant cast, then follow
+straight structural edges, wheel planes and cylinder ends. Keep poses simple.
+Parallel edges belonging to the same object must share a consistent vanishing
+point; verticals stay upright. Metadata tests cannot verify drawn anatomy or
+perspective, so a successful build is not visual acceptance.
+
+The paintings are local assets bundled for web and Android. `export.js` embeds
+image bytes as data URIs when downloading an SVG, so exports remain useful
+offline. Do not claim the paintings are editable vector paths or that downloaded
+SVGs animate. See [artwork-v3.md](artwork-v3.md) for the saved asset paths and exact
+image-generation prompts.
+
+`characters.js` adds reusable beaver and wooden-log geometry, and redraws the
+shared automated agent as a rounded white robot with a curved visor, articulated
+arms and purple joints. Select `kind: 'log'` deliberately for a recorded-event
+metaphor, never for application logic or a product catalog. Real diagnostic-log
+examples in the reliability course use it. The log-workshop demonstration labels
+the wood metaphor explicitly. Beavers have paddle tails, teeth, ears, paws and
+inspection tools; they do not replace human stakeholders in technical diagrams.
+Selected investigation and review views use the beaver inspector as their scene
+presenter, with the earned Pip companion kept in the surrounding UI. See the
+[casting audit](illustration-casting.md) for reviewed placements and log semantics.
+The log uses a regular cylinder, two concentric elliptical rings, and short
+parallel grain marks with three raised white accents. It follows the scene palette, including the studio's blue, violet,
+rose and gold variants; the log-workshop recipe defaults to gold. Its construction
+stays identical across colors. The beaver has a narrow tilted oval eye, small
+paired teeth and a plain face without muzzle outlines or mouth curves, so its
+profile remains clear at lesson size.
+
+`machinery.js` supplies the equipment vocabulary. Other lesson objects retain
+restrained main/accent palettes; beaver fur retains its warm paint.
+Teaching boards keep neutral/violet fills with warning colors only where
+meaningful. Keep labels outside objects and maintain the three-frame limit,
+semantic node IDs, independent placement/motion groups and shared pause policy.
+Legacy palette IDs `sage`, `lilac`, `peach`, and `honey` remain Blue, Violet, Rose,
+and Gold in the studio.
+
 ## Current teaching standard
 
 An illustration should explain the concept even before its paragraph is read. Pip presents the evidence rather than standing beside three renamed icons. Keep each explanatory sequence to **one, two, or three frames maximum**; a single useful view is preferable to unnecessary steps. Use short captions and leave important evidence visible while highlighting the relevant part. Real exercise states, such as a pipeline record’s journey, are not slideshow frames.
@@ -14,7 +80,7 @@ Each teaching recipe declares `kind`, a short `title`, the concrete data, an exa
 
 This is a small SVG composition system, extracted from the chapter’s original isometric hero. It has no runtime dependencies. The hero, dimension explorer, live deployment sketch, organizational scenes, checkpoint, and decision-record illustration all use the same geometry and motion.
 
-Open `/illustrations.html` for the live studio: preview 148 chapter/preset recipes and their concept illustrations, change palettes, copy scene data, and download self-contained static SVGs. It is included in production builds.
+Open `/illustrations.html` for the live studio: preview 158 chapter, preset, and course-world recipes and their concept illustrations, change object palettes, copy scene data, and download self-contained static SVGs. Course covers have authored color compositions. It is included in production builds.
 
 ## Add a scene
 
@@ -44,9 +110,9 @@ Use `renderScene(scene)` for a bare SVG inside an existing panel. Add reusable r
 
 - `title`: required accessible description of what the illustration communicates.
 - `nodes`: each needs a unique `id`, finite `x` and `y`, and a short `label`.
-- `edges`: connections using `from` and `to` node IDs; `dashed: true` denotes a softer boundary, `flow: false` disables its moving packet, and `color: 'lilac'` changes the packet color.
+- `edges`: connections using `from` and `to` node IDs; `dashed: true` denotes a softer boundary, `flow: false` disables its moving packet, and moving packets follow the scene's main palette.
 - `platform`: defaults to true; set false for a floating object vignette.
-- `theme`: default object palette when a node has no explicit `tone`.
+- `theme`: main object palette, default `lilac`; one other recipe tone provides emphasis.
 - `className`: optional additional SVG class.
 
 Node options:

@@ -1,10 +1,10 @@
 /* Shared reading treatment: keep the playful palette while making copy comfortable. */
 :root {
-  --text-secondary: #51564d;
-  --text-tertiary: #625d53;
-  --text-purple: #624d70;
-  --text-green: #48583d;
-  --text-warm: #5f5548;
+  --text-secondary: #352e54;
+  --text-tertiary: #352e54;
+  --text-purple: #6425d0;
+  --text-green: #00605d;
+  --text-warm: #352e54;
   --muted: var(--text-secondary);
 }
 
@@ -88,18 +88,18 @@ small,
 
 .example,
 .concept-page .example {
-  color: #3f493b;
+  color: #59516f;
   font-size: 13px;
   line-height: 1.75;
 }
 
 .example b {
-  color: #4e5c45;
+  color: #008579;
   font-size: 10px;
 }
 
 .quiz-question {
-  color: #2f332d;
+  color: #171334;
 }
 
 .quiz-option,
@@ -118,12 +118,12 @@ small,
 .book-mode .section-heading .eyebrow,
 .pipeline-lab > .eyebrow,
 .map-intro .eyebrow {
-  color: #765022;
+  color: #825000;
 }
 
 h1 em,
 .library-welcome h1 em {
-  color: #c95330;
+  color: #922040;
 }
 
 /* Learning-path library. */
@@ -148,12 +148,12 @@ h1 em,
 }
 
 .course-author {
-  color: #665e52;
+  color: #59516f;
   font-size: 10px;
 }
 
 .course-focus {
-  color: #4f4b42;
+  color: #59516f;
   font-size: 13px;
   line-height: 1.7;
 }
@@ -182,15 +182,15 @@ h1 em,
 }
 
 .course-status-filters button span {
-  color: #554f45;
+  color: #59516f;
 }
 
 .course-number {
-  color: #5e5a50;
+  color: #59516f;
 }
 
 .course-category {
-  color: #5e5a50;
+  color: #59516f;
   font-size: 9px;
 }
 
@@ -200,31 +200,31 @@ h1 em,
 
 /* Course colors also carry white button labels, so each one meets AA contrast. */
 .path-card {
-  --course-color: #607746;
+  --course-color: #008579;
 }
 
 .path-hard-parts {
-  --course-color: #795087;
+  --course-color: #6425d0;
 }
 
 .path-staff-engineer {
-  --course-color: #806039;
+  --course-color: #825000;
 }
 
 .path-responsible-engineering {
-  --course-color: #4f7254;
+  --course-color: #008579;
 }
 
 .path-sre {
-  --course-color: #4c6c82;
+  --course-color: #0875df;
 }
 
 .path-observability {
-  --course-color: #865640;
+  --course-color: #d3355a;
 }
 
 .path-ai-agents {
-  --course-color: #675886;
+  --course-color: #6425d0;
 }
 
 .path-actions .primary {
@@ -271,14 +271,14 @@ h1 em,
 .map-intro > .primary,
 .library-hero .primary,
 .hero .primary {
-  background: #b94a2a;
-  box-shadow: 0 4px 0 #7f321d;
+  background: #d3355a;
+  box-shadow: 0 4px 0 #922040;
 }
 
 .map-intro > .primary:hover,
 .library-hero .primary:hover,
 .hero .primary:hover {
-  background: #a54025;
+  background: #d3355a;
 }
 
 .library-hero > div > p {
@@ -291,7 +291,7 @@ h1 em,
 .chapter-prose > p,
 .concept-page > p,
 .scenario-context {
-  color: #454a43;
+  color: #59516f;
   font-size: 16px;
   line-height: 1.85;
   letter-spacing: 0.005em;
@@ -299,7 +299,7 @@ h1 em,
 
 .chapter-promise b,
 .chapter-promise ul {
-  color: #4f5547;
+  color: #59516f;
 }
 
 .chapter-promise b {
@@ -324,12 +324,12 @@ h1 em,
 }
 
 .scene-step-buttons button {
-  color: #654575;
+  color: #42128a;
 }
 
 .scene-step-buttons button.active {
-  background: #725589;
-  border-color: #725589;
+  background: #6425d0;
+  border-color: #6425d0;
 }
 
 .book-concepts-nav button {
@@ -338,7 +338,7 @@ h1 em,
 }
 
 .book-concepts-nav button.active {
-  color: #654174;
+  color: #42128a;
 }
 
 .concept-page-number {
@@ -362,15 +362,15 @@ h1 em,
 }
 
 .misconceptions summary {
-  color: #684f32;
+  color: #825000;
 }
 
 .outcome-benefit {
-  color: #40552f;
+  color: #00605d;
 }
 
 .outcome-cost {
-  color: #70452f;
+  color: #922040;
 }
 
 .outcome small {
@@ -385,18 +385,18 @@ h1 em,
 }
 
 .chapter-workbook label {
-  color: #624d31;
+  color: #825000;
   font-size: 12px;
 }
 
 .chapter-workbook textarea {
-  color: #3f433d;
+  color: #59516f;
   font-size: 14px;
   line-height: 1.7;
 }
 
 .chapter-workbook textarea::placeholder {
-  color: #716756;
+  color: #59516f;
   opacity: 1;
 }
 
@@ -429,7 +429,7 @@ h1 em,
 }
 
 .lab-evidence {
-  color: #3f5132;
+  color: #008579;
   font-size: 13px;
 }
 
@@ -462,7 +462,7 @@ h1 em,
 }
 
 .book-logo {
-  color: #735c82;
+  color: #6425d0;
 }
 
 .companion-identity > span,

@@ -1,11 +1,11 @@
-v0.5.1 brings Pip’s level-up celebration into the app. Earn a new course or overall form and Pip leaps, transforms, and lands in a burst of stars. The screen keeps just the new level, form name, and “Let’s go!” button.
+v0.6.0 refreshes Fieldnotes with clearer colors, richer course worlds, and more expressive lesson illustrations.
 
-This release fixes the Android test timing race that blocked v0.5.0. The native test now records animation frames inside the WebView before checking them, so a busy emulator can verify real movement even after the celebration has finished.
+- Eight scenic course covers feature distinct beaver or robot casts, detailed backgrounds, and recognizable wooden logs. Simpler poses and corrected anatomy keep each scene readable.
+- The shared beaver SVG has a clean face, a narrow oval eye, and smaller teeth. Wooden logs use regular cylinders, two growth rings, raised grain highlights, and coordinated color variants.
+- Beaver inspectors now appear in 56 lesson views across 33 chapters. Sixteen additional views use wooden logs for recorded events, diagnostics, audit records, and trial logs. Beavers and robots remain separate within each scene.
+- Course companions sit outside the scenic artwork. Earned XP, companion evolutions, learning content, reflections, and saved progress retain their existing behavior.
+- The Illustration Studio supports direct scene links and self-contained SVG downloads. Scenic exports embed their images; lesson diagrams remain native vectors.
 
-All eight courses use the same celebration, including the original Fundamentals Chapter 1. When a mission levels up both companions, their celebrations appear one at a time. Reloading, restoring progress, revisiting a completed mission, reading, and saving drafts do not replay rewards.
+Local verification passed the production build, all 154 browser tests, the complete lesson/source contract check, visual review of all 60 adapted views, six phone routes, and SVG export checks. The release workflow additionally checks signed Android installation, restart and update persistence, celebrations, and Back behavior before publication.
 
-Animations follow the shared motion setting, including explicit enable on devices using reduced motion. Paused learners see the final form immediately. Android Back dismisses the celebration without leaving the lesson. The Illustration Studio retains a no-XP preview for every form.
-
-Existing progress, reflections, course content, backup and restore, XP thresholds, and all 90 companion appearances are preserved. Install the signed APK over your existing app to keep your progress.
-
-Release checks cover the production web build, all learning journeys, earned celebrations, phone layouts, native save/restart/update persistence, and real level-up animation plus Back dismissal inside the signed Android app. The release includes the APK and its SHA-256 checksum.
+Install the signed APK over your existing app to keep your progress. The release includes `ArchitectureFieldnotes.apk` and `SHA256SUMS`.

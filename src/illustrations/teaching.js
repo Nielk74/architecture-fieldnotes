@@ -1,8 +1,8 @@
 // Front-facing teaching surfaces: data and relationships, not decorative props.
 // All typography is embedded for standalone SVG export. Recipes own domain facts.
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const ink='#394738',muted='#626c60',line='#dce2d6',paper='#fffdf6',purple='#775d96',green='#658554',orange='#ba5f38';
-const tones=['#e8eddd','#ede4f4','#fbe4d5','#fff0c5'];
+const ink='#352e54',muted='#59516f',line='#dcd8e8',paper='#ffffff',purple='#6425d0',green='#7546d9',orange='#d3355a';
+const tones=['#f5f2fb','#e4dcf5','#f5f2fb','#e4dcf5'];
 const text=(x,y,value,{size=18,fill=ink,weight=500,anchor='start'}={})=>`<text x="${x}" y="${y}" fill="${fill}" stroke="none" text-anchor="${anchor}" font-family="sans-serif" font-size="${size}" font-weight="${weight}">${esc(value)}</text>`;
 const rect=(x,y,w,h,fill,stroke='none',r=8)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${fill}" stroke="${stroke}"/>`;
 const check=(ok,message)=>{if(!ok)throw new Error(`Invalid teaching illustration: ${message}`)};
@@ -41,7 +41,8 @@ function table(t,f){
  let s=rect(36,y,408,(t.rows.length+1)*h,paper,line,10);
  if(f.column!==undefined)s+=rect(36+w*f.column,y,w,(t.rows.length+1)*h,tones[1]);
  if(f.row!==undefined)s+=rect(36,y+h*(f.row+1),408,h,tones[2]);
- t.columns.forEach((c,i)=>s+=text(36+w*(i+.5),y+24,c,{size:t.columns.length===4?17:19,weight:700,anchor:'middle',fill:purple}));
+ s+=rect(36,y,408,h,'#6425d0',undefined,6);
+ t.columns.forEach((c,i)=>s+=text(36+w*(i+.5),y+24,c,{size:t.columns.length===4?17:19,weight:700,anchor:'middle',fill:'#ffffff'}));
  t.rows.forEach((r,i)=>{s+=`<path d="M36 ${y+h*(i+1)}H444" stroke="${line}"/>`;r.forEach((c,j)=>s+=text(36+w*(j+.5),y+h*(i+1)+25,c,{size:20,anchor:'middle'}));});
  const badges=t.distinct?t.columns.map((_,i)=>new Set(t.rows.map(r=>r[i])).size+' distinct'):t.footer;
  if(badges)badges.forEach((c,i)=>s+=text(36+w*(i+.5),y+h*(t.rows.length+1)+26,c,{size:18,weight:700,anchor:'middle',fill:i===f.column?purple:muted}));
@@ -49,13 +50,13 @@ function table(t,f){
 }
 function bars(t,f){
  const h=196/t.items.length;let s='';
- t.items.forEach((v,i)=>{const y=134+i*h; s+=text(40,y,v.label,{size:17,weight:600});s+=text(436,y,`${v.value}${t.unit||''}`,{size:17,weight:700,anchor:'end',fill:i===f.item?purple:ink});s+=rect(40,y+12,396,18,'#eceee6',undefined,6)+rect(40,y+12,396*v.value/t.max,18,i===f.item?'#ad91c4':i===t.warn?'#eaa07a':'#9eb78a',undefined,6);});
+ t.items.forEach((v,i)=>{const y=134+i*h; s+=text(40,y,v.label,{size:17,weight:600});s+=text(436,y,`${v.value}${t.unit||''}`,{size:17,weight:700,anchor:'end',fill:i===f.item?purple:ink});s+=rect(40,y+12,396,18,'#f5f2fb',undefined,6)+rect(40,y+12,396*v.value/t.max,18,i===f.item?'#6425d0':i===t.warn?'#d3355a':'#b79ae8',undefined,6);});
  return s+text(40,351,`Scale: 0–${t.max}${t.unit||''}`,{size:15,fill:muted});
 }
 function timeline(t,f){
  let s='';const x=146,w=290,h=176/t.items.length;
  [0,.5,1].forEach(n=>{s+=`<path d="M${x+w*n} 146V324" stroke="${line}" stroke-dasharray="3 5"/>`+text(x+w*n,137,`${t.max*n}${t.unit||''}`,{size:15,anchor:'middle',fill:muted});});
- t.items.forEach((v,i)=>{const y=163+i*h,start=x+w*v.start/t.max,end=x+w*v.end/t.max,short=end-start<58;s+=text(40,y+17,v.label,{size:16,weight:600});s+=rect(start,y,end-start,29,i===f.item?'#ae95c3':tones[i%4],line,5);s+=text(short?(end<385?end+8:start-8):(start+end)/2,y+20,`${v.end-v.start}${t.unit||''}`,{size:15,weight:600,anchor:short?(end<385?'start':'end'):'middle'});});return s;
+ t.items.forEach((v,i)=>{const y=163+i*h,start=x+w*v.start/t.max,end=x+w*v.end/t.max,short=end-start<58;s+=text(40,y+17,v.label,{size:16,weight:600});s+=rect(start,y,end-start,29,i===f.item?'#d8c2fc':tones[i%4],line,5);s+=text(short?(end<385?end+8:start-8):(start+end)/2,y+20,`${v.end-v.start}${t.unit||''}`,{size:15,weight:600,anchor:short?(end<385?'start':'end'):'middle'});});return s;
 }
 function compare(t,f){
  return t.sides.map((v,i)=>{const x=36+210*i;let s=rect(x,130,198,202,i===f.item?tones[1]:tones[i*2],line,12)+text(x+16,159,v.title,{size:18,weight:700,fill:purple});v.lines.forEach((l,j)=>s+=text(x+16,199+j*31,l,{size:17}));return s;}).join('');
@@ -81,5 +82,5 @@ export function renderTeachingScene(scene,pipGeometry){
  const count=Math.max(1,scene.sequence.length),frames=Array.from({length:count},(_,i)=>t.frames?.[i]||{});
  const description=[scene.title,t.title,t.note,JSON.stringify(t.kind==='table'?{columns:t.columns,rows:t.rows,distinct:t.distinct}:t.items||t.sides||t.terms)].join('. ');
  const pip=scene.nodes[0];
- return `<svg class="iso-scene teaching-scene" data-teaching="${t.kind}" data-sequence="${esc(JSON.stringify(scene.sequence))}" viewBox="0 0 480 420" role="img" aria-label="${esc(description)}" xmlns="http://www.w3.org/2000/svg"><title>${esc(t.title)}</title>${rect(8,10,464,402,paper,line,20)}<path d="M88 73Q102 91 126 95" fill="none" stroke="${purple}" stroke-width="2" stroke-linecap="round"/><circle cx="126" cy="95" r="3" fill="${purple}"/><g class="iso-node teaching-pip" data-iso-node="${esc(pip.id)}" data-kind="pip" transform="translate(63 58)"><g class="iso-object float-block">${pipGeometry}</g></g>${text(121,39,'PIP’S FIELD DEMO',{size:13,weight:700,fill:purple})}${text(121,68,t.title,{size:t.title.length>26?17:20,weight:700})}<path d="M36 103H444" stroke="${line}"/>${frames.map((f,i)=>`<g class="teaching-board" data-teaching-frame="${i}" style="display:${i===0?'inline':'none'}">${render(t,f)}${f.callout?text(240,375,f.callout,{size:17,weight:600,anchor:'middle',fill:purple}):''}</g>`).join('')}${text(240,398,t.note,{size:13,anchor:'middle',fill:muted})}</svg>`;
+ return `<svg class="iso-scene teaching-scene" data-teaching="${t.kind}" data-sequence="${esc(JSON.stringify(scene.sequence))}" viewBox="0 0 480 420" role="img" aria-label="${esc(description)}" xmlns="http://www.w3.org/2000/svg"><title>${esc(t.title)}</title>${rect(8,10,464,402,paper,line,20)}${rect(8,10,464,89,'#21104d',undefined,20)}<path d="M88 73Q102 91 126 95" fill="none" stroke="${purple}" stroke-width="2" stroke-linecap="round"/><circle cx="126" cy="95" r="3" fill="${purple}"/><g class="iso-node teaching-pip" data-iso-node="${esc(pip.id)}" data-kind="pip" transform="translate(63 58)"><g class="iso-object float-block">${pipGeometry}</g></g>${text(121,39,'PIP’S FIELD DEMO',{size:13,weight:700,fill:'#e4dcf5'})}${text(121,68,t.title,{size:t.title.length>26?17:20,weight:700,fill:'#ffffff'})}<path d="M36 103H444" stroke="${line}"/>${frames.map((f,i)=>`<g class="teaching-board" data-teaching-frame="${i}" style="display:${i===0?'inline':'none'}">${render(t,f)}${f.callout?text(240,375,f.callout,{size:17,weight:600,anchor:'middle',fill:purple}):''}</g>`).join('')}${text(240,398,t.note,{size:13,anchor:'middle',fill:muted})}</svg>`;
 }

@@ -2,13 +2,15 @@ import {roleGeometry, primitiveDescriptions} from './primitives.js';
 import {renderCourseBot,courseThemes} from './course-sidekicks.js';
 import {renderTeachingScene} from './teaching.js';
 import {threeBeatSequence} from './sequence.js';
+import {renderEditorialScene} from './editorial.js';
+import {editorialPalette, recolorArtwork} from './art-direction.js';
 export {primitiveDescriptions} from './primitives.js';
 /** Small, dependency-free SVG scene renderer. Scene data is separate from geometry. */
 export const palettes = {
-  sage: { top: '#f7faef', left: '#d6e2c8', right: '#e7eedc', stroke: '#8d9e7b', ink: '#526442' },
-  lilac: { top: '#f3ecfc', left: '#c8b6df', right: '#e2d4ef', stroke: '#a08ab8', ink: '#715a8b' },
-  peach: { top: '#ffb68f', left: '#eb8a60', right: '#f49c74', stroke: '#cc7957', ink: '#80472f' },
-  honey: { top: '#fff1bb', left: '#e5c773', right: '#f3dfa0', stroke: '#bba15b', ink: '#79652f' },
+  sage: { top: '#e8edfb', left: '#3553a5', right: '#7191e3', stroke: '#3553a5', ink: '#251442' },
+  lilac: { top: '#e4dcf5', left: '#4a2685', right: '#7546d9', stroke: '#4a2685', ink: '#251442' },
+  peach: { top: '#f9e5ec', left: '#a43d68', right: '#d8779c', stroke: '#a43d68', ink: '#251442' },
+  honey: { top: '#fff3cc', left: '#ab8226', right: '#f6ce55', stroke: '#82621e', ink: '#251442' },
 };
 let sceneSerial=0;
 const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -31,7 +33,7 @@ function geometry(node, p) {
 }
 
 /** Returns an accessible SVG string. IDs are local data attributes, so scenes can repeat. */
-export function renderScene({ title, nodes = [], edges = [], platform = true, className = '', theme = 'sage', sequence = [], teaching }) {
+export function renderScene({ title, nodes = [], edges = [], platform = true, className = '', theme = 'lilac', sequence = [], teaching, editorial }) {
   const effectId=`iso-light-${++sceneSerial}`;
   sequence=sequence.length?sequence:nodes.map(n=>({node:n.id,text:n.caption||n.label}));
   if (!title) throw new Error('An illustration needs an accessible title.');
@@ -49,27 +51,38 @@ export function renderScene({ title, nodes = [], edges = [], platform = true, cl
     }
   });
   sequence=threeBeatSequence(sequence);
+  if(editorial) return renderEditorialScene({title,world:editorial});
+
   if(teaching){
     if(nodes.length!==1||nodes[0].kind!=='pip')throw new Error('Teaching scenes need their course Pip presenter.');
-    return renderTeachingScene({title,nodes,sequence,teaching},geometry(nodes[0],palettes[theme]||palettes.sage));
+    return renderTeachingScene({title,nodes,sequence,teaching},recolorArtwork(geometry(nodes[0],palettes.lilac)));
   }
+  // A recipe may retain legacy tone IDs, but one scene uses only two families.
+  // Keep one distinct tone for emphasis; extra tones fall back to the main one.
+  const tones = [...new Set(nodes.filter(n=>n.kind!=='pip'&&palettes[n.tone]).map(n=>n.tone))];
+  const uniform = tones.length===1 && nodes.filter(n=>n.kind!=='pip').every(n=>n.tone===tones[0]);
+  const primaryTone = uniform ? tones[0] : theme;
+  const accentTone = tones.find(t=>t!==primaryTone&&['peach','honey'].includes(t)) || tones.find(t=>t!==primaryTone);
+  const primary = palettes[primaryTone] || palettes.lilac;
+  const accent = palettes[accentTone] || primary;
+  const companionPalette = {...editorialPalette,light:primary.top,mid:primary.right,primary:primary.right,shade:primary.left,accent:accent.right};
   const connections = edges.map((edge, i) => {
     const from = byId.get(edge.from), to = byId.get(edge.to);
     if (!from || !to) throw new Error('An illustration edge references a missing node.');
     const path = `M${from.x} ${from.y+24} L${to.x} ${to.y+24}`;
-    return `<g class="iso-edge" data-from="${escape(edge.from)}" data-to="${escape(edge.to)}"><path d="${path}" fill="none" stroke="#9eac92" stroke-width="1.6" ${edge.dashed?'stroke-dasharray="5 5"':''}/>${edge.flow===false?'':`<path class="iso-packet packet" d="${path}" pathLength="100" fill="none" stroke="${edge.color==='lilac'?'#9a77b6':'#ec865d'}" stroke-width="3" style="animation-delay:${i*-.8}s"/><circle class="iso-traveler" cx="${from.x}" cy="${from.y+24}" r="4" fill="#ed895d" style="--travel-x:${to.x-from.x}px;--travel-y:${to.y-from.y}px;animation-delay:${i*-.8}s"/>`}</g>`;
+    return `<g class="iso-edge" data-from="${escape(edge.from)}" data-to="${escape(edge.to)}" style="color:${primary.left}"><path d="${path}" fill="none" stroke="#b9b1c9" stroke-width="1.6" ${edge.dashed?'stroke-dasharray="5 5"':''}/>${edge.flow===false?'':`<path class="iso-packet packet" d="${path}" pathLength="100" fill="none" stroke="${primary.left}" stroke-width="3" style="animation-delay:${i*-.8}s"/><circle class="iso-traveler" cx="${from.x}" cy="${from.y+24}" r="4" fill="${primary.left}" style="--travel-x:${to.x-from.x}px;--travel-y:${to.y-from.y}px;animation-delay:${i*-.8}s"/>`}</g>`;
   }).join('');
   // Painter order follows depth; stable IDs let callers highlight objects independently.
   const objects = [...nodes].sort((a,b)=>a.y-b.y).map((n,i) => {
-    const p = palettes[n.tone] || palettes[theme] || palettes.sage;
-    const shape=geometry(n,p);
+    const p = n.tone===accentTone ? accent : primary;
+    const shape=n.kind==='pip'?recolorArtwork(geometry(n,p),companionPalette):geometry(n,p);
     const silhouette=shape.replace(/<text\b[^>]*>[\s\S]*?<\/text>/g,'').replace(/class="[^"]*"/g,'');
     const clipId=`${effectId}-${i}`;
     const role=!!primitiveDescriptions[n.kind];
     const subtitleY = role?78:n.kind==='document'||n.kind==='gateway'||n.kind==='person' ? 73 : (n.kind==='database'?number(n.height,37)+32:number(n.width,100)/4+number(n.height,37)+20);
-    return `<g class="iso-node" data-kind="${escape(n.kind||'block')}" data-iso-node="${escape(n.id)}" transform="translate(${n.x} ${n.y})"><g class="iso-work-ring" aria-hidden="true"><ellipse class="iso-work-bloom" cy="${subtitleY-17}" rx="${number(n.width,100)/2+7}" ry="16" fill="${p.stroke}"/><ellipse cy="${subtitleY-17}" rx="${number(n.width,100)/2-4}" ry="9" fill="${p.stroke}" opacity=".22"/></g><ellipse class="iso-shadow" style="animation-delay:${i*-.7}s" cy="${subtitleY-17}" rx="${number(n.width,100)/2}" ry="10" fill="${p.stroke}" opacity=".1"/><g class="iso-object float-block" style="animation-delay:${i*-.7}s" stroke="${p.stroke}" stroke-width="1.2" stroke-linejoin="round"><defs><clipPath id="${clipId}" clipPathUnits="userSpaceOnUse">${silhouette}</clipPath></defs>${shape}<g clip-path="url(#${clipId})" aria-hidden="true" stroke="none" pointer-events="none"><rect class="iso-scan" x="-110" y="-16" width="220" height="32" fill="url(#${effectId})"/></g></g><text y="${subtitleY}" class="iso-subtitle" fill="${p.ink}">${escape(role?n.label:n.caption || (['document','gateway','person'].includes(n.kind)?n.label:''))}</text>${role&&n.caption?`<text y="${subtitleY+14}" class="iso-role-caption" fill="${p.ink}">${escape(n.caption)}</text>`:''}${n.badge?`<g class="iso-badge" transform="translate(30 -37)"><rect x="-26" y="-10" width="72" height="22" rx="5" fill="#fffbed" stroke="${p.stroke}"/><text x="10" y="4" fill="${p.ink}">${escape(n.badge)}</text></g>`:''}</g>`;
+    return `<g class="iso-node" data-kind="${escape(n.kind||'block')}" data-iso-node="${escape(n.id)}" transform="translate(${n.x} ${n.y})"><g class="iso-work-ring" aria-hidden="true"><ellipse class="iso-work-bloom" cy="${subtitleY-17}" rx="${number(n.width,100)/2+7}" ry="16" fill="${p.stroke}"/><ellipse cy="${subtitleY-17}" rx="${number(n.width,100)/2-4}" ry="9" fill="${p.stroke}" opacity=".22"/></g><ellipse class="iso-shadow" style="animation-delay:${i*-.7}s" cy="${subtitleY-17}" rx="${number(n.width,100)/2}" ry="10" fill="${p.stroke}" opacity=".1"/><g class="iso-object float-block" style="animation-delay:${i*-.7}s" stroke="${p.stroke}" stroke-width="1.2" stroke-linejoin="round"><defs><clipPath id="${clipId}" clipPathUnits="userSpaceOnUse">${silhouette}</clipPath></defs>${shape}<g clip-path="url(#${clipId})" aria-hidden="true" stroke="none" pointer-events="none"><rect class="iso-scan" x="-110" y="-16" width="220" height="32" fill="url(#${effectId})"/></g></g><text y="${subtitleY}" class="iso-subtitle" fill="${p.ink}">${escape(role?n.label:n.caption || (['document','gateway','person'].includes(n.kind)?n.label:''))}</text>${role&&n.caption?`<text y="${subtitleY+14}" class="iso-role-caption" fill="${p.ink}">${escape(n.caption)}</text>`:''}${n.badge?`<g class="iso-badge" transform="translate(30 -37)"><rect x="-26" y="-10" width="72" height="22" rx="5" fill="#fffbee" stroke="${p.stroke}"/><text x="10" y="4" fill="${p.ink}">${escape(n.badge)}</text></g>`:''}</g>`;
   }).join('');
-  return `<svg class="iso-scene ${escape(className)}" data-sequence="${escape(JSON.stringify(sequence.length?sequence:nodes.map(n=>({node:n.id,text:n.caption||n.label}))))}" viewBox="0 0 480 375" role="img" aria-label="${escape(title)}" xmlns="http://www.w3.org/2000/svg">${`<defs><linearGradient id="${effectId}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffdf4" stop-opacity="0"/><stop offset=".5" stop-color="#fffdf4" stop-opacity="1"/><stop offset="1" stop-color="#fffdf4" stop-opacity="0"/></linearGradient></defs>`}${platform?'<g class="iso-platform"><path d="m30 250 210-107 210 107-210 108Z" fill="#e4e9dc" fill-opacity=".7" stroke="#bac8ac"/><path d="m30 250v9l210 108 210-108v-9M240 358v9" fill="none" stroke="#bac8ac"/></g>':''}${connections}${objects}</svg>`;
+  return `<svg class="iso-scene ${escape(className)}" data-sequence="${escape(JSON.stringify(sequence.length?sequence:nodes.map(n=>({node:n.id,text:n.caption||n.label}))))}" viewBox="0 0 480 375" role="img" aria-label="${escape(title)}" xmlns="http://www.w3.org/2000/svg">${`<defs><linearGradient id="${effectId}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffbee" stop-opacity="0"/><stop offset=".5" stop-color="#fffbee" stop-opacity="1"/><stop offset="1" stop-color="#fffbee" stop-opacity="0"/></linearGradient></defs>`}${platform?'<g class="iso-platform"><path d="m30 250 210-107 210 107-210 108Z" fill="#e4dcf5" fill-opacity=".45" stroke="none"/><path d="m30 250v9l210 108 210-108v-9M240 358v9" fill="none" stroke="#d1c7e2"/></g>':''}${connections}${objects}</svg>`;
 }
 
 export function renderFigure(scene, { label = 'A visual fieldnote', caption = '', theme = 'sage', className = '' } = {}) {

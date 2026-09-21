@@ -26,5 +26,5 @@ export const paths=Object.fromEntries(definitions.map(def=>{
 export const progressConfigs=Object.fromEntries(Object.values(paths).map(p=>[p.id,{key:p.key,count:p.count,total:p.totalXP}]));
 export function pathScene(path){
  const props=[['pip','PIP'],...path.props];
- return {title:`${path.hook} ${path.description}`,nodes:props.map(([kind,label],i)=>({id:`role-${i}`,kind,label,course:path.id,xp:path.earned||0,x:[130,350,130,350][i],y:[95,95,235,235][i],tone:['honey','sage','lilac','peach'][i]})),edges:[[0,1],[1,2],[2,3]].map(([a,b])=>({from:`role-${a}`,to:`role-${b}`,dashed:true,flow:false})),sequence:props.map(([,text],i)=>({node:`role-${i}`,text}))};
+ return {editorial:path.world,title:`${path.hook} ${path.description}`,nodes:props.map(([kind,label],i)=>({id:`role-${i}`,kind,label,course:path.id,xp:path.earned||0,x:[130,350,130,350][i],y:[95,95,235,235][i],tone:['honey','sage','lilac','peach'][i]})),edges:[[0,1],[1,2],[2,3]].map(([a,b])=>({from:`role-${a}`,to:`role-${b}`,dashed:true,flow:false})),sequence:props.map(([,text],i)=>({node:`role-${i}`,text}))};
 }

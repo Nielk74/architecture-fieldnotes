@@ -88,10 +88,9 @@
         "nodes": [
           {
             "id": "step-0",
-            "kind": "pip",
-            "label": "PIP",
-            "tone": "honey",
-            "course": "fundamentals"
+            "kind": "beaver",
+            "label": "INSPECTOR",
+            "tone": "honey"
           },
           {
             "id": "step-1",
@@ -157,10 +156,9 @@
         "nodes": [
           {
             "id": "step-0",
-            "kind": "pip",
-            "label": "PIP",
-            "tone": "honey",
-            "course": "fundamentals"
+            "kind": "beaver",
+            "label": "INSPECTOR",
+            "tone": "honey"
           },
           {
             "id": "step-1",

@@ -40,7 +40,21 @@ test('cross-chapter progress persists, skipping stays free, and mobile screens f
  for(const width of [320,360,390,768]){await page.setViewportSize({width,height:700});for(const step of ['intro','explore','scenario','quiz','apply']){await gotoStep(page,step);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);expect(await page.locator('.course-stage').evaluate(el=>el.scrollWidth<=el.clientWidth)).toBe(true);await expect(page.locator('#book-next')).toBeInViewport()}}
 });
 
-test('every registered reusable scene visibly moves across actual frames',async({page})=>{
- test.setTimeout(180000);await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('/illustrations.html');await expect(page.locator('#scene-choice option')).toHaveCount(148);const values=await page.locator('#scene-choice option').evaluateAll(options=>options.map(o=>o.value));expect(values).toHaveLength(148);
- for(const value of values){await page.locator('#scene-choice').selectOption(value);const object=page.locator('#scene-preview .iso-object').first();await expect.poll(()=>object.evaluate(e=>getComputedStyle(e).animationPlayState)).toBe('running');const positions=[];for(let frame=0;frame<3;frame++){positions.push((await object.boundingBox()).y);await page.waitForTimeout(150)}expect(Math.max(...positions)-Math.min(...positions),`${value} must visibly float`).toBeGreaterThan(.1);const recipe=JSON.parse(await page.locator('#recipe').textContent());await expect(page.locator('#scene-preview .iso-edge')).toHaveCount(recipe.edges.length);await expect(page.locator('#scene-preview .iso-traveler')).toHaveCount(recipe.edges.filter(e=>e.flow!==false).length)}
+test('animated recipes move across actual frames while scenic covers remain static',async({page})=>{
+ test.setTimeout(180000);await page.emulateMedia({reducedMotion:'no-preference'});await page.goto('/illustrations.html');await expect(page.locator('#scene-choice option')).toHaveCount(158);const values=await page.locator('#scene-choice option').evaluateAll(options=>options.map(o=>o.value));expect(values).toHaveLength(158);
+ for(const value of values){
+  await page.locator('#scene-choice').selectOption(value);
+  const recipe=JSON.parse(await page.locator('#recipe').textContent());
+  if(recipe.editorial){
+   await expect(page.locator('#scene-preview [data-editorial-art]')).toHaveCount(1);
+   await expect(page.locator('#scene-preview .iso-object,#scene-preview .iso-edge,#scene-preview .iso-traveler')).toHaveCount(0);
+   continue;
+  }
+  const object=page.locator('#scene-preview .iso-object').first();
+  await expect.poll(()=>object.evaluate(e=>getComputedStyle(e).animationPlayState)).toBe('running');
+  const positions=[];for(let frame=0;frame<3;frame++){positions.push((await object.boundingBox()).y);await page.waitForTimeout(150)}
+  expect(Math.max(...positions)-Math.min(...positions),`${value} must visibly float`).toBeGreaterThan(.1);
+  await expect(page.locator('#scene-preview .iso-edge')).toHaveCount(recipe.edges.length);
+  await expect(page.locator('#scene-preview .iso-traveler')).toHaveCount(recipe.edges.filter(e=>e.flow!==false).length);
+ }
 });

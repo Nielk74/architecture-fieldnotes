@@ -88,21 +88,20 @@
         "nodes": [
           {
             "id": "step-0",
-            "kind": "pip",
-            "label": "PIP",
-            "tone": "honey",
-            "course": "observability"
+            "kind": "beaver",
+            "label": "INSPECTOR",
+            "tone": "honey"
           },
           {
             "id": "step-1",
-            "kind": "message",
-            "label": "FAILED REQUESTS",
+            "kind": "log",
+            "label": "FAILED REQUEST EVENTS",
             "tone": "sage"
           },
           {
             "id": "step-2",
-            "kind": "message",
-            "label": "SUCCESSFUL REQUESTS",
+            "kind": "log",
+            "label": "SUCCESSFUL EVENTS",
             "tone": "lilac"
           },
           {
@@ -157,10 +156,9 @@
         "nodes": [
           {
             "id": "step-0",
-            "kind": "pip",
-            "label": "PIP",
-            "tone": "honey",
-            "course": "observability"
+            "kind": "beaver",
+            "label": "INSPECTOR",
+            "tone": "honey"
           },
           {
             "id": "step-1",
@@ -226,10 +224,9 @@
         "nodes": [
           {
             "id": "step-0",
-            "kind": "pip",
-            "label": "PIP",
-            "tone": "honey",
-            "course": "observability"
+            "kind": "beaver",
+            "label": "INSPECTOR",
+            "tone": "honey"
           },
           {
             "id": "step-1",
