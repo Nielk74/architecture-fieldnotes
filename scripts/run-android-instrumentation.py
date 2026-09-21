@@ -26,6 +26,13 @@ except subprocess.TimeoutExpired:
     reader.join(timeout=5)
     success = False
 if not success:
-    subprocess.run(['adb', 'logcat', '-d', '-t', '1200', 'TestRunner:I', 'AndroidRuntime:E', 'Capacitor/Console:E', '*:S'])
-    subprocess.run(['adb', 'shell', 'am', 'force-stop', 'io.github.nielk74.fieldnotes'])
+    # A disconnected emulator can leave even diagnostic adb calls waiting forever.
+    for command in [
+        ['adb', 'logcat', '-d', '-t', '1200', 'TestRunner:I', 'AndroidRuntime:E', 'Capacitor/Console:E', '*:S'],
+        ['adb', 'shell', 'am', 'force-stop', 'io.github.nielk74.fieldnotes'],
+    ]:
+        try:
+            subprocess.run(command, timeout=10)
+        except subprocess.TimeoutExpired:
+            print('Device unavailable during diagnostics:', ' '.join(command), flush=True)
     sys.exit(1)

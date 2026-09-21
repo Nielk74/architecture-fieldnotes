@@ -60,7 +60,10 @@ jobs:
           echo "ANDROID_KEYSTORE_PATH=$RUNNER_TEMP/fieldnotes-release.jks" >> "$GITHUB_ENV"
       - name: Build release and persistence test APKs
         working-directory: android
-        run: ./gradlew :app:assembleRelease :app:assembleDebug :app:assembleDebugAndroidTest
+        run: |
+          ./gradlew :app:assembleRelease :app:assembleDebug :app:assembleDebugAndroidTest
+          # Release the build heap before starting the emulator on the same runner.
+          ./gradlew --stop
       - name: Enable emulator acceleration
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -76,6 +79,11 @@ jobs:
           profile: pixel_6
           disable-animations: true
           script: scripts/android-progress-test.sh
+      - name: Diagnose native runner failure
+        if: failure()
+        run: |
+          free -m
+          sudo dmesg --ctime | tail -80
       - name: Prepare signed APK
         run: |
           mkdir -p artifacts
